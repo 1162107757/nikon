@@ -74,8 +74,11 @@ $javacLines += $sources | ForEach-Object { '"' + $_.FullName.Replace('\', '/') +
 [IO.File]::WriteAllLines($javacArgs, $javacLines, [Text.UTF8Encoding]::new($false))
 Invoke-Checked (Join-Path $JdkRoot 'bin\javac.exe') @('@' + $javacArgs)
 
-$d8Args = @('--debug', '--min-api', '26', '--lib', $androidJar, '--output', $dexRoot)
-$d8Args += Get-ChildItem -LiteralPath $classesRoot -Filter '*.class' -Recurse | ForEach-Object { $_.FullName }
+# Keep the Windows batch invocation below cmd.exe's command-line length limit.
+# A single class archive also prevents a growing UI from silently omitting class files.
+$classArchive = Join-Path $outputRoot 'classes.jar'
+Invoke-Checked (Join-Path $JdkRoot 'bin\jar.exe') @('--create', '--file', $classArchive, '-C', $classesRoot, '.')
+$d8Args = @('--debug', '--min-api', '26', '--lib', $androidJar, '--output', $dexRoot, $classArchive)
 Invoke-Checked (Join-Path $toolsRoot 'd8.bat') $d8Args
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 $apkArchive = [IO.Compression.ZipFile]::Open($unsignedApk, [IO.Compression.ZipArchiveMode]::Update)

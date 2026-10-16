@@ -7,3 +7,4 @@ local.properties
 *.keystore
 .idea/
 tests/.build/
+tests/.build-ptpip/

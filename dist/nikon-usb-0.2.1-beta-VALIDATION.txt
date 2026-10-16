@@ -1,0 +1,72 @@
+Version: 0.2.1-beta / versionCode 11
+Build and phone review: 2026-10-16 (Asia/Shanghai)
+APK: nikon-usb-0.2.1-beta-debug.apk
+Size: 205346 bytes
+SHA-256: 05708a99dcf4ed4fa095cd195edd035fb9d5b71eb90facbcf9d230b01d99c3ed
+Package: com.nikonpreset.usbprobe
+Launcher: com.nikonpreset.usbprobe.MainActivity
+Minimum API: 26; target/compile API: 35; JDK 17
+Final source compilation, resource packaging and D8 succeeded.
+APK v2/v3 signatures verified.
+Signer SHA-256: 726258b1cefd78057b526cd9dd42dcdd99e8b8e5539c686b3ffa40ff8004c403
+Signer unchanged from 0.2.0-beta and 0.1.8-lab.
+Permissions unchanged: INTERNET and ACCESS_NETWORK_STATE; USB host required.
+
+Actual phone installation:
+OnePlus PKG110 / Android 16, authorized ADB device 286f0dba.
+adb install -r succeeded; no uninstall, data reset or app-storage deletion.
+am start -W cold launch succeeded; package reports versionCode 11 / 0.2.1-beta.
+Installed base.apk SHA-256 was read on the phone and matches the final APK above.
+Existing local Agfa Optima record remains present after the upgrade.
+Final app is left on My Presets, in the original portrait/light display state.
+
+Visual changes based on actual 0.2.0-beta screenshots and approved references:
+- White source tabs with red underline, replacing large pink selected backgrounds.
+- Flat white bottom navigation, centered icons/labels and a thin top divider.
+- Clear native Button state animator/elevation/tint; flat red and outlined controls.
+- Hide global navigation on details, confirmation, results and wireless guide.
+- 16dp catalog gutters; image ratios 1.68:1 list and 1.25:1 detail.
+- Compact grey USB state with a red phone-file action.
+- Remove duplicated unconfigured-catalog messages and prefer existing local content.
+- Group detail/confirmation information and center the success composition.
+- Link outcome photos to the actual source hash, not just a possibly duplicate name.
+- Add neutral device diagrams and three grey wireless guide step areas.
+- Compact landscape album empty state; retain scrolling for limited height/font scaling.
+
+Final APK screenshots captured directly by adb screencap and reviewed:
+docs/device-review/after-local.png
+docs/device-review/after-detail.png
+docs/device-review/after-online.png
+docs/device-review/after-album.png
+docs/device-review/after-guide.png
+docs/device-review/after-downloaded.png
+docs/device-review/after-album-landscape.png
+The landscape connection action is visible without decorative imagery consuming the viewport.
+Root/detailed Back navigation and tab switching were exercised on the phone.
+
+Additional checks during this 0.2.1 correction:
+My Presets at font_scale 1.3, in light and dark modes; no clipped controls observed.
+Wireless guide at font_scale 1.3; scrolling reaches the connect/settings actions.
+Wireless guide in dark mode reviewed.
+These font/theme captures came from an intermediate 0.2.1 build, before the final
+landscape compact state and hash-based outcome-photo association were added.
+Do not equate those intermediate screenshot files with the final APK's byte hash.
+Original phone settings were read, then restored:
+font_scale=1.0; accelerometer_rotation=0; user_rotation=0;
+night mode=custom_schedule; computed night=false, matching original light display.
+No Wi-Fi networks, pairing records, camera settings or presets were changed.
+
+Regression scope:
+USB/PTP backend, NCP converter, library persistence and wireless protocol are unchanged.
+Previous 0.2.0-beta host/synthetic checks: 8515 passed; not rerun for this UI-only fix.
+See nikon-usb-0.2.0-beta-VALIDATION.txt for commands, counts and coverage boundaries.
+No user recipe, private SDK material or concept sample photo was bundled.
+
+Not verified by this phone UI review:
+- No Nikon camera was connected to the development phone/computer during this correction.
+- Confirmation/success layouts were source-reviewed, not reached through a real camera import.
+- No real USB write, wireless connection, image browsing or photo download was executed.
+- No actual online catalog URL or assets are configured; no real online download was tested.
+- Existing NCP has no associated real sample photo; placeholder is not an effect preview.
+- No RAW/video support, universal Nikon compatibility or native color equivalence claim.
+- No full accessibility, tablet or complete Android-version compatibility certification.

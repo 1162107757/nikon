@@ -1,0 +1,9 @@
+{
+  "prompt": "Use case: ui-mockup. Make a high-resolution wide design-review sheet with THREE complete tall native Android screens side by side, equally sized, each around 390 by 844 logical dp, no handset shells. These are supporting screens for the attached design A; the reference supplies only the typography, deep red controls and pale grey/white surfaces, not its home-page layout. Clear, polished simplified Chinese text. Small sheet footer “设计示意 · 概念配图，正式样片待替换”. Do not use Nikon logos or marketing claims.\n\nScreen 1 is preset detail: top back arrow and “预设详情”, a large concept photo of a sunlit coastal street labeled “概念样片”, title “晴日胶片”, brief quiet description, “在线预设 · 已下载到手机”. A compatibility line reads “兼容导入 · Nikon Z6II”. One full-width red bottom button “导入相机”. Explain briefly “示例效果以实际拍摄为准”. No favorite, shop, ratings or community.\n\nScreen 2 is import confirmation: top “确认导入”, selected preset “晴日胶片” with a small thumbnail, connected camera “Nikon Z6II”, a native slot selector showing “C8 · 空闲”. A modest expandable settings row “兼容适配” has an action “查看并调整”, and a readable summary “中等范围锐化 1 / 清晰度 0”. Short supporting note “兼容适配，效果可能与原生载入不同”. Bottom single dominant red button “导入到 C8”. No occupied-slot overwrite, no automatic apply action, no diagnostic codes.\n\nScreen 3 is completed import: clean checkmark, title “已保存到 C8”, preset name “晴日胶片”, statement “已读回核对”, concise guidance “请在相机中选择 C8，并试拍确认效果”. One bottom button “完成”, secondary help text “不会自动切换当前预设”. Respect readable type, 48dp controls and bottom system insets. All screens are still design examples, not evidence of a real current camera connection.",
+  "reference": ".impeccable/mocks/decision/clean-catalog.png",
+  "tool": "image_gen.imagegen",
+  "approved": true,
+  "designProposal": true,
+  "syntheticPhotography": true,
+  "approvalEvidence": "用户：开始按照设计图实现；按最近展示的红白稿继续"
+}

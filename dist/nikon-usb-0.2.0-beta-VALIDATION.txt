@@ -1,0 +1,77 @@
+Version: 0.2.0-beta / versionCode 10
+Build date: 2026-10-16 (Asia/Shanghai)
+APK: nikon-usb-0.2.0-beta-debug.apk
+Size: 201250 bytes
+SHA-256: 82618d5f3ca4d51758c736ac61996d7e7d5c4771f71fb8f839477c9db020e958
+Package: com.nikonpreset.usbprobe
+Launcher: com.nikonpreset.usbprobe.MainActivity
+Label: 相机预设
+Build: Android SDK 35 / JDK 17; minimum API 26; target API 35
+APK v2/v3 signatures verified.
+Signer SHA-256: 726258b1cefd78057b526cd9dd42dcdd99e8b8e5539c686b3ffa40ff8004c403
+Signer matches the existing 0.1.8-lab APK; versionCode increases from 9 to 10.
+Normal network permissions: INTERNET and ACCESS_NETWORK_STATE.
+No broad storage or location permission. USB host support remains required.
+Archive contains manifest, resources, dex and signing metadata only.
+No user NCP, concept photos, research documents or private SDK files are bundled.
+
+Implemented:
+- Native Java / Views consumer interface based on the approved red/white design.
+- Presets and Album destinations, light/dark color roles and bounded wide layouts.
+- Multiple local NCP files, exact-byte persistence, content deduplication and legacy migration.
+- User-associated real sample images; clear missing-image states.
+- Configurable HTTPS online manifest, integrity-checked NCP and real preview downloads.
+- No default service URL, built-in curated presets or bundled sample photos.
+- Existing limited NCP compatibility adapter and USB backend preserved.
+- Current slot inspection, frozen confirmation inputs, one registration and exact readback.
+- Pending-operation journal, read-only recovery and atomic report readback checks.
+- Old laboratory tools isolated in the non-exported Advanced Diagnostics activity.
+- Original, read-only standard PTP/IP client, JPEG paging/thumbnails and streaming download.
+- Single/multiple download tasks, actual progress and partial/cancelled/uncertain results.
+- Offline app-local photos and optional Storage Access Framework save-as.
+- Connection guide with collapsed address settings and current Wi-Fi gateway suggestion.
+
+Checks executed during this implementation:
+tests/run.ps1 -JdkHome .tooling/jdk/jdk-17.0.20.1+1
+  PTP core: 186
+  NCP structural validation: 68
+  Transfer simulation: 2577
+  Storage assessment: 148
+  Directory survey: 955
+  Picture Control codec: 50
+  Limited NCP converter: 77
+  Standard PTP/IP protocol/socket tests: 2185
+  Subtotal: 6246 passed
+tests/run-probe.ps1 -JdkHome .tooling/jdk/jdk-17.0.20.1+1
+  Ordinary production probe: 685
+  Read-only Picture Control: 453
+  Copy and NCP registration: 1004
+  Subtotal: 2142 passed
+tests/run-library.ps1
+  Persistence/migration, strict catalog and synthetic HTTPS transport: 127 passed
+Total: 8515 checks passed.
+
+These are host/synthetic protocol and persistence checks, not physical camera tests.
+UI-only revisions followed the suite runs; all final Android sources were compiled and
+packaged with aapt2, javac and D8. Final APK signature, package, permissions and archive
+contents were verified after the final build. Test commands use local tooling paths.
+
+Source review and revisions covered pending-write recovery, diagnostic-entry guards,
+atomic report verification, immutable confirmation inputs, callback navigation,
+save-as lifecycle state, download/disconnect accounting and Wi-Fi-switch addressing.
+Static palette contrast checks pass for the documented main text/button roles.
+This is source/value review, not an Android visual/accessibility runtime test.
+
+Physical verification and scope limits:
+- User requested APK first and is not currently connecting the phone.
+- No ADB device was available. No functional emulator was available.
+- This APK was not installed or launched on a physical phone during this build.
+- No actual UI screenshots, rotation/font-scale/night-mode checks or SAF runtime test.
+- Existing Z6II copy/import success is user-reported prior feedback, not a new test.
+- Standard PTP/IP wireless has not been tested with the user's Z6II.
+- Nikon proprietary pairing/authentication is not implemented; compatibility may fail.
+- JPEG only; no RAW/video or size conversion support.
+- No real online endpoint/assets are available; network checks used synthetic fixtures.
+- App-local downloaded photos are removed on uninstall; save-as allows retained copies.
+- Registration/readback does not prove native-import or photographic-effect equivalence.
+- Other camera models and iOS are outside this APK's validated scope.

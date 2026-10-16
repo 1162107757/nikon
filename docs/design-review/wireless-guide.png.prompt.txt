@@ -1,0 +1,10 @@
+Use case: ui-mockup. Render a complete single native Android phone screen, portrait 9:20, edge to edge, no phone shell. This is a design proposal for an unimplemented camera photo album connection flow, not proof of functioning Wi-Fi. Match the attached reference only in crisp Chinese typography, white/pale-grey stable surfaces, deep-red primary button and clean native spacing.
+
+Title with back arrow: “无线连接相机”. Subtitle: “连接后可浏览相机照片，并下载到手机”. A small simple camera-and-phone outline icon may support the task, not dominate. Three clear numbered steps in everyday Chinese:
+“1  在相机中开启 Wi-Fi”
+“连接至智能设备 → Wi-Fi连接 → 建立Wi-Fi连接”
+“2  手机连接相机的 Wi-Fi”
+“按照相机屏幕显示的网络名称和密码连接”
+“3  返回 App 读取照片”
+“连接成功后，即可选择和下载照片”
+After the steps, a tonal supporting line “已有下载照片？无需连接也能查看” with a text link “查看已下载”. Two controls in sensible hierarchy: secondary “打开 Wi-Fi 设置”, dominant bottom “我已连接，读取照片”. Distinguish connection types with concise quiet text “USB 用于导入预设；无线用于读取照片”. Maintain large native targets and system gesture clearance. Small unobtrusive footer outside the task says “功能设计示意 · 无线读取待验证”. No fake discovered SSID, password, Bluetooth auto-pairing claim, login, QR code, search, remote shutter, Nikon logo, or technical protocol fields. Keep all Chinese legible and exact.

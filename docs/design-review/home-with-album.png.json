@@ -1,0 +1,10 @@
+{
+  "prompt": "Use case: precise-object-edit of this Chinese Android preset app design proposal. Preserve the existing pale white/grey and red visual style, header, two top source tabs, connection row, phone-file action, photographs, preset names and download statuses. Add a simple standard native bottom destination bar with ONLY TWO equal items: “预设” with a picture/library outline icon, selected in deep red, and “相册” with a photo-stack outline icon, inactive charcoal. These are the app's two global destinations, not three or more items. Keep “在线预设 / 我的预设” as source tabs within the preset destination. Make space for the bar above the system gesture area so no caption or list item is obscured; a partial next photo may be cut naturally by the scroll viewport. In the connection row, clarify status as “USB 未连接” and retain “浏览与下载不受影响”. Keep “从手机添加 NCP” with document icon. Retain “概念样片” labels and the small “界面设计示意 · 非预设实拍” note. No new logos, features, accounts, favorites, search or decorative illustration. This is the updated proposed home after an album destination was requested, not a running Android app.",
+  "reference": ".impeccable/mocks/decision/clean-catalog-v2.png",
+  "tool": "image_gen.imagegen",
+  "approved": true,
+  "designProposal": true,
+  "syntheticPhotography": true,
+  "wirelessImplementationVerified": false,
+  "approvalEvidence": "用户：开始按照设计图实现；按最近展示的红白稿继续"
+}

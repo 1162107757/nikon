@@ -21,6 +21,7 @@ $sourcePaths += @(Get-ChildItem -LiteralPath (Join-Path $projectRoot 'app\src\ma
 $sourcePaths += Join-Path $projectRoot 'app\src\main\java\com\nikonpreset\usbprobe\usb\NcpTransferSession.java'
 $sourcePaths += Join-Path $projectRoot 'app\src\main\java\com\nikonpreset\usbprobe\usb\StorageAssessment.java'
 $sourcePaths += Join-Path $projectRoot 'app\src\main\java\com\nikonpreset\usbprobe\usb\PtpDirectorySurvey.java'
+$sourcePaths += Join-Path $projectRoot 'app\src\main\java\com\nikonpreset\usbprobe\album\PtpIpClient.java'
 $sourcePaths += @(Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot 'java') -Recurse -Filter '*.java' | ForEach-Object FullName)
 $sourcePaths += Join-Path $PSScriptRoot 'stubs\com\nikonpreset\usbprobe\usb\UsbNcpTransfer.java'
 & $compilerPath --release 17 -encoding UTF-8 -d $classesDirectory @sourcePaths
@@ -39,3 +40,5 @@ if ($LASTEXITCODE -ne 0) { throw 'Read-only directory survey tests failed' }
 if ($LASTEXITCODE -ne 0) { throw 'Picture Control read-dataset tests failed' }
 & $runtimePath -cp $classesDirectory com.nikonpreset.usbprobe.ncp.NcpPictureControlConverterTest
 if ($LASTEXITCODE -ne 0) { throw 'NCP compatibility adaptation tests failed' }
+& $runtimePath -cp $classesDirectory com.nikonpreset.usbprobe.album.PtpIpClientTest
+if ($LASTEXITCODE -ne 0) { throw 'Read-only PTP/IP protocol tests failed' }
