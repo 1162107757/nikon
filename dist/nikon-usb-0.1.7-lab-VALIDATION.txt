@@ -1,0 +1,45 @@
+Version: 0.1.7-lab / versionCode 8
+Build date: 2026-10-16 (Asia/Shanghai)
+APK: nikon-usb-0.1.7-lab-debug.apk
+SHA-256: 0dbd5f48cb1048f85892388e8f2eb2015d389d653155dc38106028fe9461711d
+Build: Android SDK 35 / JDK 17; minimum Android API 26; target API 35
+APK v2/v3 signatures verified; certificate matches 0.1.6.
+Package: com.nikonpreset.usbprobe; activity: .MainActivity
+No Android permissions requested, including no INTERNET permission.
+
+Evidence received:
+User's 0.1.6 report confirms complete Z6II V1.62 read-only Picture Control snapshot.
+Standard=36 bytes; occupied C1-C6=614 each; empty C7-C9=36 all-zero bytes each.
+All reported raw lengths and SHA-256 values independently match the decoded bytes.
+Read sequence and owned CloseSession complete, without write commands or protocol uncertainty.
+This proves the reported read path, not direct registration or NCP conversion.
+Source report is retained only in ignored .research/device-reports; user presets are not embedded in tests.
+
+Change:
+Explicit UI source slot, empty target slot and confirmation for camera-preset copy.
+Fresh session reads all nine slots, checks exact source snapshot and twice-observed empty target.
+Only one SetPicCtrlData(target,new=0) request is allowed by the dedicated transport mode.
+Readback must parse and match all requested bytes for readbackVerified.
+No preset selection, deletion, mode change, automatic retry or rollback request.
+No atomic empty-slot protection exists; another actor could change a slot after the final check.
+The user must not modify slots from the camera or another app during the operation.
+Results retain before/recheck/readback data, hashes, differences and original error context.
+Cancellation after confirmed readback retains that evidence but returns a partial error if session close is unconfirmed.
+The previous read-only and standard file-transfer modes do not acquire vendor-write permission.
+NCP files are not converted or passed into this copy flow.
+
+Testing:
+tests/run-probe.ps1 -JdkHome .tooling/jdk/jdk-17.0.20.1+1
+Ordinary production UsbProbe: 685 passed.
+Production Picture Control read-only: 453 passed.
+Final production empty-slot copy: 788 passed.
+After the final copy-only cleanup fix, tests/run-probe.ps1 -OnlyCopy was used for the necessary targeted rerun.
+The unchanged prior 3984 pure-Java checks were not rerun this iteration.
+Tests exercise actual production wrapper/session/transport via synthetic USB DATA/RESPONSE frames.
+Synthetic payload fixtures contain no user recipe and do not establish NCP mapping or real-camera write support.
+JSON serialization, Android permission/lifecycle/kernel/OTG behavior and actual camera writes remain outside host coverage.
+
+Hardware status:
+ADB device list was empty. No phone installation was performed for 0.1.7.
+No physical camera was connected to the development computer and no hardware preset write was performed.
+Next test: refresh read-only snapshot, select source and empty target, confirm copy, save report and inspect camera menu.

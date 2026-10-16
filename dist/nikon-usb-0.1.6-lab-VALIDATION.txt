@@ -1,0 +1,35 @@
+Version: 0.1.6-lab / versionCode 7
+Build date: 2026-10-16 (Asia/Shanghai)
+APK: nikon-usb-0.1.6-lab-debug.apk
+SHA-256: d636e61a24aa846eebf571d71fd429b0a7feb228f280937dac7191743bddbb37
+Build: Android SDK 35 / JDK 17; minimum Android API 26; target API 35
+APK v2/v3 signatures verified; certificate matches installed 0.1.5.
+Package: com.nikonpreset.usbprobe; launch activity: .MainActivity
+APK permission inventory: no requested Android permissions, including no INTERNET.
+
+Change: separate read-only in-camera Picture Control snapshot for Nikon Z6II.
+No NCP file is needed. Existing file-transfer and directory-diagnostic flows remain available.
+Read-only transport rejects upload, delete, property/mode changes and unsupported query parameters before USB I/O.
+The snapshot retains received capability/profile bytes, SHA-256, item/name/base fields and partial failures.
+NCP file contents are not sent as an in-camera dataset. No Picture Control writer or converter is implemented.
+MainActivity uses an explicit action route for USB permission callbacks and closes the matching probe on detachment.
+
+Tests, executed against synthetic fixtures/endpoints:
+tests/run.ps1 -JdkHome .tooling/jdk/jdk-17.0.20.1+1
+3984 checks passed: prior PTP/NCP/transfer/storage/directory suites plus 50 Picture Control codec checks.
+tests/run-probe.ps1 -JdkHome .tooling/jdk/jdk-17.0.20.1+1
+Final host run: 685 ordinary UsbProbe + 453 Picture Control checks = 1138 passed.
+Actual production Picture Control session/wrapper/transport run through synthetic USB command/data/response frames.
+Checks include read-only dispatch rejection with no USB output, exact query parameters, fragmentation,
+empty custom slots, optional extension query, partial results, session ownership and independent cleanup errors.
+Semantic dataset failures after a complete matching DATA/OK response stop reading but close the owned session.
+Framing, wrong transaction/data operation, missing response and partial command writes abort USB with no subsequent command.
+The unchanged pure 3984 suite was not repeated after the final cleanup and error-message correction.
+The 0.1.4 generated-source reproduction was not run for this build.
+
+Hardware status:
+No ADB device was detected during this iteration. User chose to connect later and generate APK first.
+0.1.6 has not been installed or launched on the phone yet.
+No physical camera was connected to the development environment.
+Host tests do not validate Android permission dialogs, JSON export on Android, kernel/OTG behavior,
+real Z6II Picture Control responses, NCP conversion or successful preset import.

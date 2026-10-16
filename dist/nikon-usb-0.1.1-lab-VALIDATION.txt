@@ -1,0 +1,12 @@
+Version: 0.1.1-lab / versionCode 2
+Build date: 2026-10-16 (Asia/Shanghai)
+Build: Android SDK 35 + JDK 17 + aapt2 / D8 / apksigner
+APK signature: v2 and v3 verified; same signer as 0.1.0-lab
+PTP core: 186 checks passed
+NCP structural validation: 68 checks passed
+Transfer simulation: 995 checks passed; total 1249 checks
+Regression: skip unmounted physical IDs and only per-slot matched GetStorageInfo StoreNotAvailable
+Regression: do not suppress global enumeration errors, other PTP errors, mismatched transactions or write failures
+Probe detection logic compiled and reviewed; no real camera runtime retest of this version
+User feedback on 0.1.0-lab: Z6II with SD only returned 0x2013 while detecting camera
+NCP upload, readback and in-camera loading on Z6II remain unverified

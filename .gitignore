@@ -1,0 +1,9 @@
+.gradle/
+.tooling/
+.research/
+local.properties
+**/build/
+*.jks
+*.keystore
+.idea/
+tests/.build/

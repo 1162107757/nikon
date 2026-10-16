@@ -1,0 +1,11 @@
+Build: Android SDK 35 + JDK 17 + aapt2 / D8 / apksigner
+APK signature: v2 and v3 verified
+Package: com.nikonpreset.usbprobe / 0.1.0-lab
+Minimum Android: 8.0 (API 26)
+PTP core: 186 checks passed
+NCP structural validation: 68 checks passed (synthetic fixtures)
+PTP transfer simulation: 536 checks passed (production plan with JVM facade)
+No physical Android UI, USB driver, or Nikon Z6II test has been performed.
+PTP opcode availability does not prove NCP upload or in-camera preset loading.
+SHA-256: 
+272e1846c15122c097e1a3a441edba3cad52fd0c3870b4b9e47826d91183ac74

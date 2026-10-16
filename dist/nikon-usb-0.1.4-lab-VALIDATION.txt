@@ -1,0 +1,35 @@
+Version: 0.1.4-lab / versionCode 5
+Build date: 2026-10-16 (Asia/Shanghai)
+APK: nikon-usb-0.1.4-lab-debug.apk
+SHA-256: e55bcd445900ff39380e988a87cbe3fa1f176e2b07660f094229945bc0cf4c25
+Build: Android SDK 35 / JDK 17; min Android 26; target 35
+APK v2/v3 signatures verified; signing certificate matches 0.1.3
+APK is newer than all production source/resources
+
+JVM tests/run.ps1 results, one full suite run:
+PTP core: 186 checks passed
+NCP structure: 68 checks passed
+Production transfer session simulation: 2577 checks passed
+Production StorageAssessment: 148 checks passed
+Production read-only directory survey: 955 checks passed
+Total: 3934 checks passed
+
+Read-only survey compares root and all-association selectors.
+Confirmed parameter/format unsupported response 0x2006/0x2014 for the association query permits a bounded all-object fallback.
+Only GetObjectHandles/GetObjectInfo are exposed by the survey operations interface.
+No GetObject content read, object upload, deletion, vendor operation or camera property write is added to the probe.
+128 metadata requests per survey across selectors; maximum two available storages surveyed.
+Counts above 4096 handles are validated and recorded as truncated without allocating a handle array or reading metadata.
+Queries above the metadata limit are explicitly incomplete, not treated as empty directories.
+60-second monotonic budget checked at operation boundaries; in-flight I/O still uses the transport timeout/cancellation.
+Partial results, selector mismatches, original error codes and query parameters are preserved.
+Unsupported or truncated queries cause top-level directoryInspectionStatus=partial.
+The original upload logic is unchanged and is never automatically invoked by a survey.
+
+Real-device evidence received from user:
+0.1.3 upload experiment cannot find root NIKON through USB; no object writes attempted.
+User confirms exported preset is visible in the camera's Copy to camera list.
+This establishes an accessible preset on the SD card, not arbitrary USB file access.
+0.1.4 is a diagnostic build, not a confirmed fix for uploading NCP or registering presets.
+No physical Z6II run of 0.1.4 has been performed in the development environment.
+JVM simulations do not test Android USB packets, permissions, lifecycle or JSON integration on a real phone.

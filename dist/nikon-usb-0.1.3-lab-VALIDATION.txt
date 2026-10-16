@@ -1,0 +1,32 @@
+Version: 0.1.3-lab / versionCode 4
+Build date: 2026-10-16 (Asia/Shanghai)
+APK: nikon-usb-0.1.3-lab-debug.apk
+SHA-256: 8d3a67bb94b05c3fc86cb4afea6296c9a9d2a7b095f68c31d6b54cc599edcff9
+Build: Android SDK 35 / JDK 17; min Android 26; target 35
+APK v2/v3 signatures verified; signing certificate matches 0.1.2
+APK is newer than all production source/resources
+
+JVM tests/run.ps1 results:
+PTP core: 186 checks passed
+NCP structure: 68 checks passed
+Production transfer session simulation: 2577 checks passed
+Production StorageAssessment: 148 checks passed
+Total: 2979 checks passed
+
+Normal transfer continues to reject access 1/2/unknown without writes.
+Explicit existing-directory experiment may select access 2 only after all other guards pass.
+Experiment mode never creates directories, including when selecting a read-write card.
+Only visible, exact standard NIKON/CUSTOMPC associations are used.
+Missing/invisible/conflicting paths stop locally without object-write requests.
+Metadata refusal 0x200f/0x2020 is retained with operation/transaction/storage and no content request follows.
+Content refusal retains accepted metadata, handle and incomplete-object evidence.
+Occupied filenames, ambiguous cards, model/operation/storage/filesystem/space guards covered.
+No vendor write commands, automatic deletion, overwrite request or retry added.
+
+User 0.1.2 screenshot confirms SD storage 0x00020001:
+StorageType=0x0004, FileSystemType=0x0003, AccessCapability=0x0002, sufficient free space.
+That version stopped at local preflight; it did not actually attempt the special-directory upload.
+Directory existence is not evidence of USB write permission.
+USB object lists may omit card objects; absent names are assessed only through that view.
+No physical Z6II run of 0.1.3 has been performed in the development environment.
+Simulation/build/signature checks do not verify Android USB behavior, camera upload acceptance or menu import.

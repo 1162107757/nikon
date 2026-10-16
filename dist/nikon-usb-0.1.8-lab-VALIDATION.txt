@@ -1,0 +1,51 @@
+Version: 0.1.8-lab / versionCode 9
+Build date: 2026-10-16 (Asia/Shanghai)
+APK: nikon-usb-0.1.8-lab-debug.apk
+SHA-256: 89be671ee7972247f3467adff2c4614a5ecb8b8ad9281d0df25ea9ab323dd8ad
+Build: Android SDK 35 / JDK 17; minimum API 26; target API 35
+APK v2/v3 signatures verified; certificate matches 0.1.7.
+Package: com.nikonpreset.usbprobe; activity: .MainActivity
+No Android permissions requested, including no INTERNET permission.
+
+New behavior:
+Limited legacy NCP compatibility adaptation, with user-reviewed choices and final confirmation.
+Canonical 638-byte NCP0100, supported color bases, numeric old settings and a 578-byte custom curve only.
+Unknown records/versions/metadata/sentinels, Auto and monochrome are rejected before USB opens.
+The original curve bytes are preserved without an endian swap.
+Middle-range sharpening and clarity are user choices; UI defaults to 1 and 0 respectively.
+Individual sharpening/quick=0 and curve-mode contrast=0/brightness=0 are explicitly displayed adaptation values.
+These values are not claimed to match Nikon firmware's legacy-import completion rules.
+Preview freezes original bytes, checksum, target and choices; backend independently reconverts those same inputs.
+The same fresh-nine-slot, twice-observed-empty target, single registration, exact readback and cleanup guards apply.
+The NCP registration entry point accepts original NCP plus explicit choices; it does not accept arbitrary wire data.
+Copy behavior remains source-verified and is never labeled as an NCP registration.
+Metadata and choices survive converter, USB/PTP, readback and cleanup errors.
+ncpRegistrationVerified means adapted payload registration and exact readback plus confirmed cleanup.
+ncpImportVerified, conversionEquivalentToNative and photoEffectVerified remain false.
+No automatic retry, rollback, deletion, preset selection or mode-change request.
+Double empty observations are not an atomic camera guard; avoid editing slots from another actor during import.
+
+Testing, one necessary full run:
+tests/run.ps1 -JdkHome .tooling/jdk/jdk-17.0.20.1+1
+4061 passed, including 77 new independent synthetic NCP adaptation checks.
+tests/run-probe.ps1 -JdkHome .tooling/jdk/jdk-17.0.20.1+1
+Ordinary production probe 685; read-only Picture Control 453; copy and NCP registration 1004 passed.
+Total: 6203 checks passed.
+Checks include literal expected data, base mapping, quarter units, curve byte preservation, defensive copies,
+strict input rejection, no USB output for unsupported conversion, occupied target zero writes,
+backend recomputation from original NCP, partial-error metadata and copy/NCP result separation.
+Actual production sessions/wrappers/transport run through synthetic USB frames.
+No user recipe was embedded in tests or the APK.
+
+Private input verification:
+The user-provided source matches the report-selected file SHA256 3fa0c1d8...c1b692.
+With explicit middle=1/clarity=0, conversion yields 614 bytes and preserves all 578 curve bytes.
+This is an offline encoding check, not evidence of camera registration or native-effect equivalence.
+
+Hardware status:
+User reports 0.1.7 C1-to-C7 copy succeeded; that write's JSON has not been supplied.
+ADB currently reports no device. 0.1.8 was not installed or launched on a phone during this build.
+No camera was connected to the development computer and no actual NCP registration was performed here.
+Next test: refresh read-only slots, select original NCP, choose a currently empty slot and adaptation values,
+review/confirm, save the result report and check the registered preset and shooting effect on the camera.
+JSON export on Android, permission/lifecycle/kernel/OTG behavior and real NCP effects remain outside host coverage.

@@ -1,0 +1,13 @@
+Version: 0.1.2-lab / versionCode 3
+Build date: 2026-10-16 (Asia/Shanghai)
+APK: v2/v3 signatures verified, same signer as 0.1.1
+Build: Android SDK 35 / JDK 17
+PTP core: 186 checks passed
+NCP structure: 68 checks passed
+Production transfer session simulation: 1432 checks passed
+Production StorageAssessment: 111 checks passed
+Total: 1797 checks passed
+DCF3 read-write cards accepted; Access1/2 and unknown access remain rejected with zero writes
+All raw storage fields and rejection reasons reported; local eligibility failure separated from PTP failure
+No physical Z6II run of 0.1.2 has been performed; actual user accessCapability still unknown
+User confirms camera can normally take and save photos to the SD card; this does not establish host USB write access

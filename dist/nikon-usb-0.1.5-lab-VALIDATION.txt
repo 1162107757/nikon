@@ -1,0 +1,27 @@
+Version: 0.1.5-lab / versionCode 6
+Build date: 2026-10-16 (Asia/Shanghai)
+APK: nikon-usb-0.1.5-lab-debug.apk
+SHA-256: e6f57c7391f0f20f16a3dc7c2f644670572ace6cc058f7bebbf4e83c323d1b3f
+Build: Android SDK 35 / JDK 17; min Android 26; target 35
+APK v2/v3 signatures verified; signing certificate matches 0.1.4
+
+Fix: replace nullable Long/primitive long mixed conditional in UsbProbe.Transport.exchange with explicit boxed branches.
+Old expression unboxed null before GetDeviceInfo could send its first USB command.
+This was an application bug, not a camera PTP refusal.
+
+Targeted production UsbProbe host regression:
+Command: tests/run-probe.ps1 -JdkHome .tooling/jdk/jdk-17.0.20.1+1 -Reproduce014
+Old-expression temporary source copy: 7 reproduction checks passed; NullPointerException reproduced with zero outbound USB commands.
+Current production UsbProbe: 685 integration checks passed.
+Actual production probe code performs ordinary/directory sessions through simulated bulk DATA/RESPONSE frames and fragmented reads.
+Storage/no-storage context, metadata context, recoverable responses, original error evidence and cleanup audited.
+Eight Android USB/clock/thread stubs supply a host environment; JSON methods and real USB hardware are not tested by this suite.
+The previous 3934 pure-protocol checks were not rerun; their production sources are unchanged by this hotfix.
+
+Installation, explicitly requested by user:
+ADB target identified as OnePlus PKG110, existing version 0.1.4-lab / code 5.
+adb install -r returned Success; no uninstall or data-clear requested.
+Post-install package reports versionName=0.1.5-lab, versionCode=6.
+MainActivity launched with Status: ok, LaunchState: COLD; process present.
+No camera was connected to the app during this installation verification.
+Camera directory visibility, NCP upload and in-camera preset loading remain unverified.
