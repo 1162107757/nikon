@@ -1,25 +1,29 @@
 package com.nikonpreset.usbprobe.ui;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.graphics.Color;
 
-/** Semantic roles shared by all consumer screens; brand stays fixed across wallpaper changes. */
+/** Stable semantic colors for the cloud-white and graphite application surfaces. */
 public final class UiPalette {
     public final int surface, container, text, secondary, primary, onPrimary, primaryContainer, outline, success, error;
+    public final int card, glass, rim;
     public final boolean dark;
     public UiPalette(Context context) {
-        dark = (context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
-        surface = color(dark ? "#151618" : "#FFFFFF");
-        container = color(dark ? "#242629" : "#F5F6F7");
-        text = color(dark ? "#F1F2EC" : "#202124");
-        secondary = color(dark ? "#BDC2BC" : "#686D75");
-        primary = color(dark ? "#FFB3BF" : "#D9001B");
-        onPrimary = color(dark ? "#4D0011" : "#FFFFFF");
-        primaryContainer = color(dark ? "#48252C" : "#FFE8EB");
-        outline = color(dark ? "#8B938B" : "#D9DCE1");
-        success = color(dark ? "#99DBB0" : "#21633C");
-        error = color(dark ? "#FFB4AB" : "#B3261E");
+        dark = AppAppearance.isDark(context);
+        surface = color(dark ? "#22252A" : "#F7F8FA");
+        container = color(dark ? "#30353D" : "#EEF0F4");
+        card = color(dark ? "#2A2E34" : "#FFFFFF");
+        text = color(dark ? "#F4F5F7" : "#20242B");
+        secondary = color(dark ? "#ADB6C3" : "#626B78");
+        primary = color(dark ? "#8DBBFF" : "#0065DC");
+        onPrimary = color(dark ? "#07244A" : "#FFFFFF");
+        primaryContainer = color(dark ? "#263D5A" : "#E9F1FF");
+        outline = color(dark ? "#474E58" : "#D9DEE6");
+        success = color(dark ? "#7ED9A1" : "#258449");
+        error = color(dark ? "#FFB4AB" : "#BA302A");
+        // The substantial tint keeps navigation labels readable over photographs.
+        glass = color(dark ? "#E6282C32" : "#ECFFFFFF");
+        rim = color(dark ? "#30FFFFFF" : "#CFFFFFFF");
     }
     private static int color(String hex) { return Color.parseColor(hex); }
 }

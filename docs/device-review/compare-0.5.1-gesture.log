@@ -1,0 +1,15 @@
+ready-effect PASS 模板模拟
+touch-down PASS 模板原图
+touch-up PASS 模板模拟
+image-region-changed-on-down-and-exactly-restored-on-up PASS
+second-down PASS 模板原图
+slide-out PASS 模板模拟
+slide-back-does-not-reenter PASS 模板模拟
+down-before-cancel PASS 模板原图
+touch-cancel PASS 模板模拟
+down-before-pause PASS 模板原图
+pause-and-resume PASS 模板模拟
+keyboard-show-original PASS 模板原图
+keyboard-restore-effect PASS 模板模拟
+dark-large-font-effect PASS 模板模拟
+restore-system-settings PASS 模板模拟

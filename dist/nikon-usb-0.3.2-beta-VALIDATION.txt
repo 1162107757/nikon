@@ -1,0 +1,45 @@
+Version: 0.3.2-beta / versionCode 14
+Date: 2026-10-16 (Asia/Shanghai)
+APK: nikon-usb-0.3.2-beta-debug.apk
+Size: 229922 bytes
+SHA-256: 0942197af2bb4b1ba7035d9b086da32e130dd778faf798e76055846516b03242
+Package: com.nikonpreset.usbprobe
+Signer SHA-256: 04db0f9d3d76c9831a0778cfabc1a0aaab984e05398da16eb644950ccfa0ae31
+Minimum API 26; compile/target API 35; JDK 17.
+Manual Android packaging, javac, D8, zipalign and APK v2/v3 verification passed.
+
+Fix:
+Physical-phone installation of 0.3.1 revealed an initial-render crash on PKG110:
+PhoneWindow.getInsetsController() dereferenced an uncreated DecorView. A null check
+on the returned controller could not prevent the platform method's internal NPE.
+MainActivity.render now creates/caches DecorView before either system-bar branch,
+and obtains each API 30+ controller once with a null check. Legacy flags remain.
+No protocol, preview-cache, photo-gesture or automatic-pagination logic changed.
+
+Physical-phone installation:
+OnePlus PKG110, Android 16, adb serial 286f0dba, owner user 0.
+The user manually uninstalled the old version. Owner package state confirmed
+installed=false, but the OEM system_clone user 10 retained the old signed package
+(zero data inodes, notLaunched=true). Removed that residual per-user installation
+with pm uninstall --user 10, then installed the new development-signed APK.
+The intermediate 0.3.1 APK installed but crashed on launch; it was replaced by
+0.3.2 using adb install --user 0 -r, which returned Success without uninstalling.
+Verified versionName=0.3.2-beta, versionCode=14 and installed owner state=true.
+SHA-256 of installed base.apk matches the delivered APK hash above.
+
+Cold-start verification:
+Force-stopped only this app and launched MainActivity as owner user 0.
+am start -W returned Status: ok / LaunchState: COLD, TotalTime: 404 ms.
+App PID 22469 remained alive, and MainActivity was topResumedActivity.
+PID-filtered AndroidRuntime error log was empty on the follow-up check.
+Captured and visually inspected .impeccable/review/phone-install-0.3.2-home.png
+(1080x2376) from this installed APK; the preset-library empty state rendered.
+The app was left open for the user. No camera import or camera network was used.
+
+Scope:
+The 7052 pure JVM checks and 49-photo synthetic emulator album review belong to
+0.3.1 as recorded in its validation file; those suites/screenshots were not rerun
+or relabeled as 0.3.2 evidence. This patch was verified by Android compilation,
+APK signature/hash verification and the physical-phone cold-start check above.
+Real-camera Wi-Fi compatibility, phone photo paging/viewing and camera writes
+remain unverified. The original pre-0.3.0 signing key remains unavailable.

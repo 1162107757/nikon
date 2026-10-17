@@ -1,0 +1,86 @@
+Version: 0.3.3-beta / versionCode 15
+Date: 2026-10-16 (Asia/Shanghai)
+APK: nikon-usb-0.3.3-beta-debug.apk
+Size: 229922 bytes
+SHA-256: ef40bd9af287d16546958517fd6d8ddf9619b3eeb371705f2451c560ae82a0c3
+Package: com.nikonpreset.usbprobe
+Signer SHA-256: 04db0f9d3d76c9831a0778cfabc1a0aaab984e05398da16eb644950ccfa0ae31
+Minimum API 26; compile/target API 35; JDK 17.
+Manual Android packaging, javac, D8, zipalign and APK v2/v3 verification passed.
+
+Behavior:
+- Full-screen camera viewing reads only GetThumb (0x100A), at most 4 MiB.
+- Preview errors, absent support, malformed or oversized data never fall back to GetObject.
+- Two pinned preview files / 8 MiB; their actual thumbnail lengths are validated
+  independently of the original JPEG byte size. Original size does not limit preview.
+- Cached grid bitmap is shown immediately. The viewer may request one additional
+  GetThumb to retain the camera-supplied thumbnail's available resolution.
+- Preview status labels displayed pixel dimensions. No 2 MP or medium-preview claim.
+- Download original is explicit GetObject (0x1009), independently validated/saved;
+  thumbnail cache is never copied as an original, including after disconnecting.
+- The downloaded local original replaces the preview while preserving the same
+  photo's relative zoom and normalized center. New photo opens reset the transform.
+- Offline previews cannot enable downloading. Old batch results are not shown on
+  the next photo's preview. Immersive controls, fit/zoom and grid return remain.
+
+Automated checks:
+tests/run.ps1 -JdkHome D:\dev\Java\jdk-17.0.19
+7104 checks passed: 186 PTP, 68 NCP structure, 2577 simulated NCP transfer,
+148 storage, 955 read-only directory, 50 Picture Control codec, 77 adaptation,
+2845 PTP/IP, 50 thumbnail-cache, 101 pagination, 47 production album flow checks.
+The production album suite compiles real AlbumController and PtpIpClient, stubbing
+only Android Context/Handler and Wi-Fi routing. It verifies zero GetObject during
+preview; explicit download requests and stores original bytes; large originals can
+be previewed; missing/rejected/malformed/oversized thumbnails have no original
+fallback; disconnected thumbnail data cannot be saved as an original.
+tests/run-album.ps1 also passed independently (the same 47, not added twice).
+The last UI-only status fix does not alter these tested classes.
+Independent correctness review found no required fixes. git diff --check passed.
+
+Final-APK emulator verification:
+Pixel 9 read-only emulator, Android 17 / API 37, 1080x2424 portrait and 2424x1080
+landscape. The installed base.apk hash matches the final APK above.
+Used the existing 49 explicitly marked synthetic geometric JPEG fixtures and
+loopback-only read-only PTP/IP server at emulator gateway 10.0.2.2:15741.
+The final APK uses fixture session 2. Opened TEST_0006.JPG as 320x200 / 8121-byte
+thumbnail, double-tapped to zoom: session 2 GetObject count was zero at the
+before-download log checkpoint. Explicit Download original then made exactly
+one GetObject for handle 6, receiving 90772 bytes. Zoom and image center remained
+unchanged as the fitted source upgraded to the local 1600x1000 original.
+Downloaded-file SHA-256 matches the fixture original:
+a611b9159a1ea6d2145183ef530cb5c45c8618fea95c90e2f027c8897f2e1062
+Returned to the grid, opened TEST_0004.JPG, hid/showed controls and checked landscape;
+the session 2 original-request count remained one.
+
+Final-APK screenshot files in .impeccable/review/:
+phone-light-preview.png, phone-light-zoom.png, phone-light-saved.png,
+phone-light-return.png, phone-light-clean.png, phone-light-landscape.png.
+These are synthetic test images, not camera samples or bundled app assets.
+Protocol checkpoints: docs/device-review/album-0.3.3-before-download.log and
+docs/device-review/album-0.3.3-after-download.log.
+Important scope: both log files include earlier session 1 from the intermediate
+build. Across sessions 1 and 2 there are two original transfers; only the final
+session 2 is the zero-before-download / one-after-download evidence above.
+
+Physical-phone installation:
+OnePlus PKG110 / Android 16, serial 286f0dba, owner user 0.
+adb install --user 0 -r succeeded, preserving the 0.3.2 installation's data.
+Verified versionName=0.3.3-beta, code 15 and installed base.apk hash matching above.
+After force-stop, MainActivity cold-started with Status ok / COLD, TotalTime 237 ms.
+PID 24993 remained alive, MainActivity was topResumedActivity and the PID-filtered
+AndroidRuntime error log was empty. App left open for the user.
+No fixture photos or test connection settings were added to the physical phone.
+The test emulator and local fixture service were stopped after verification.
+
+Limits:
+No physical-camera wireless session or actual camera photo corpus was used.
+Preview quality depends on what the camera returns to GetThumb; no Nikon-specific
+medium-resolution API, 2 MP preview, RAW/video support or SnapBridge-equivalence
+is claimed. Physical-phone album gestures, hardware pinch, TalkBack, tablets and
+weak-network performance were not verified. Earlier version evidence retains its
+original scope, and prior USB/library checks are not counted as newly run here.
+
+Independent UI finish review:
+SHIP, limited to the reviewed phone album light-preview UI. The reviewer inspected
+all six final-APK screenshots, AlbumPanel/PhotoImageView and both checkpoint logs,
+and found no material blockers. No real-camera or untested-device certification.

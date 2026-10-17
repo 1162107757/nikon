@@ -1,0 +1,485 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-16T23:55:48Z",
+  "title": "Design System: 相机预设",
+  "extensions": {
+    "colorMeta": {
+      "surface": {
+        "role": "neutral",
+        "displayName": "云白背景",
+        "tonalRamp": [
+          "#0B0B0C",
+          "#242526",
+          "#414243",
+          "#606163",
+          "#818284",
+          "#A4A5A7",
+          "#C8C9CB",
+          "#EDEEF0"
+        ]
+      },
+      "container": {
+        "role": "neutral",
+        "displayName": "浅灰容器",
+        "tonalRamp": [
+          "#0A0B0E",
+          "#242528",
+          "#404245",
+          "#5F6165",
+          "#808286",
+          "#A3A5A9",
+          "#C7C9CD",
+          "#ECEEF2"
+        ]
+      },
+      "card": {
+        "role": "neutral",
+        "displayName": "白色卡片",
+        "tonalRamp": [
+          "#0B0B0B",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#A5A5A5",
+          "#C9C9C9",
+          "#EEEEEE"
+        ]
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "石墨正文",
+        "tonalRamp": [
+          "#080B11",
+          "#21252C",
+          "#3E424A",
+          "#5D616A",
+          "#7E838B",
+          "#A0A5AE",
+          "#C4C9D3",
+          "#E9EFF9"
+        ]
+      },
+      "secondary-text": {
+        "role": "neutral",
+        "displayName": "次要文字",
+        "tonalRamp": [
+          "#060B15",
+          "#1E2630",
+          "#3A434F",
+          "#59626F",
+          "#7A8391",
+          "#9CA6B4",
+          "#C0CAD9",
+          "#E5EFFF"
+        ]
+      },
+      "primary": {
+        "role": "primary",
+        "displayName": "操作蓝",
+        "tonalRamp": [
+          "#0A005D",
+          "#000082",
+          "#0033A8",
+          "#0058CE",
+          "#267DF6",
+          "#4DA2FF",
+          "#72C8FF",
+          "#97EFFF"
+        ]
+      },
+      "on-primary": {
+        "role": "neutral",
+        "displayName": "主操作文字",
+        "tonalRamp": [
+          "#0B0B0B",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#A5A5A5",
+          "#C9C9C9",
+          "#EEEEEE"
+        ]
+      },
+      "primary-container": {
+        "role": "primary",
+        "displayName": "浅蓝选中容器",
+        "tonalRamp": [
+          "#070B14",
+          "#20252F",
+          "#3C424D",
+          "#5B626D",
+          "#7C838F",
+          "#9EA5B2",
+          "#C2CAD7",
+          "#E7EFFD"
+        ]
+      },
+      "outline": {
+        "role": "neutral",
+        "displayName": "细分隔",
+        "tonalRamp": [
+          "#080B10",
+          "#22252B",
+          "#3E4249",
+          "#5D6168",
+          "#7E838A",
+          "#A1A5AD",
+          "#C5C9D1",
+          "#EAEFF7"
+        ]
+      },
+      "success": {
+        "role": "semantic",
+        "displayName": "连接成功",
+        "tonalRamp": [
+          "#001600",
+          "#003400",
+          "#00531B",
+          "#0B753B",
+          "#3C975B",
+          "#62BB7D",
+          "#87E1A0",
+          "#ACFFC4"
+        ]
+      },
+      "error": {
+        "role": "semantic",
+        "displayName": "错误",
+        "tonalRamp": [
+          "#3A0000",
+          "#610000",
+          "#880000",
+          "#AF2420",
+          "#D74D43",
+          "#FF7265",
+          "#FF9788",
+          "#FFBDAC"
+        ]
+      },
+      "dark-surface": {
+        "role": "neutral",
+        "displayName": "深色背景",
+        "tonalRamp": [
+          "#090B10",
+          "#22252A",
+          "#3F4248",
+          "#5E6167",
+          "#7F8289",
+          "#A1A5AC",
+          "#C5C9D0",
+          "#EBEFF6"
+        ]
+      },
+      "dark-container": {
+        "role": "neutral",
+        "displayName": "深色容器",
+        "tonalRamp": [
+          "#070B12",
+          "#21252D",
+          "#3D424B",
+          "#5C626A",
+          "#7D838C",
+          "#9FA5AF",
+          "#C3CAD4",
+          "#E8EFF9"
+        ]
+      },
+      "dark-card": {
+        "role": "neutral",
+        "displayName": "深色卡片",
+        "tonalRamp": [
+          "#080B10",
+          "#21252B",
+          "#3E4249",
+          "#5D6268",
+          "#7E838A",
+          "#A0A5AD",
+          "#C4C9D1",
+          "#EAEFF7"
+        ]
+      },
+      "dark-text": {
+        "role": "neutral",
+        "displayName": "深色正文",
+        "tonalRamp": [
+          "#0B0B0C",
+          "#242526",
+          "#414243",
+          "#606163",
+          "#818284",
+          "#A4A5A7",
+          "#C8C9CB",
+          "#EDEEF0"
+        ]
+      },
+      "dark-secondary-text": {
+        "role": "neutral",
+        "displayName": "深色次要文字",
+        "tonalRamp": [
+          "#060B14",
+          "#1F252F",
+          "#3B434D",
+          "#5A626D",
+          "#7B838F",
+          "#9DA6B3",
+          "#C1CAD7",
+          "#E6EFFD"
+        ]
+      },
+      "dark-primary": {
+        "role": "primary",
+        "displayName": "深色操作蓝",
+        "tonalRamp": [
+          "#000038",
+          "#002158",
+          "#18407B",
+          "#37619E",
+          "#5883C3",
+          "#79A7E9",
+          "#9DCBFF",
+          "#C1F1FF"
+        ]
+      },
+      "dark-on-primary": {
+        "role": "neutral",
+        "displayName": "深色主操作文字",
+        "tonalRamp": [
+          "#00072B",
+          "#07244A",
+          "#25426B",
+          "#43628D",
+          "#6484B1",
+          "#85A7D6",
+          "#A9CCFC",
+          "#CDF1FF"
+        ]
+      },
+      "dark-primary-container": {
+        "role": "primary",
+        "displayName": "深色选中容器",
+        "tonalRamp": [
+          "#000A23",
+          "#0F2641",
+          "#2C4361",
+          "#4A6382",
+          "#6B84A5",
+          "#8DA7CA",
+          "#B0CCEF",
+          "#D5F1FF"
+        ]
+      },
+      "dark-outline": {
+        "role": "neutral",
+        "displayName": "深色分隔",
+        "tonalRamp": [
+          "#060B13",
+          "#1F252E",
+          "#3C434C",
+          "#5B626C",
+          "#7B838E",
+          "#9EA6B1",
+          "#C2CAD6",
+          "#E7EFFC"
+        ]
+      },
+      "dark-success": {
+        "role": "semantic",
+        "displayName": "深色连接成功",
+        "tonalRamp": [
+          "#001600",
+          "#003405",
+          "#005324",
+          "#057443",
+          "#3A9763",
+          "#60BB85",
+          "#85E0A8",
+          "#ABFFCD"
+        ]
+      },
+      "dark-error": {
+        "role": "semantic",
+        "displayName": "深色错误",
+        "tonalRamp": [
+          "#260000",
+          "#470C0B",
+          "#692C27",
+          "#8D4C45",
+          "#B26D65",
+          "#D78F87",
+          "#FEB3AA",
+          "#FFD8CF"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "page-title": {
+        "displayName": "根页面标题",
+        "purpose": "三个根目的地的32sp原生标题。"
+      },
+      "secondary-page-title": {
+        "displayName": "二级标题",
+        "purpose": "带返回的20sp标题。"
+      },
+      "detail-title": {
+        "displayName": "详情标题",
+        "purpose": "详情与结果24sp标题。"
+      },
+      "preset-name": {
+        "displayName": "预设名称",
+        "purpose": "列表18sp名称。"
+      },
+      "body": {
+        "displayName": "正文",
+        "purpose": "15sp正文与主要按钮。"
+      },
+      "source-label": {
+        "displayName": "来源标签",
+        "purpose": "13sp来源切换。"
+      },
+      "navigation-label": {
+        "displayName": "导航标签",
+        "purpose": "10sp目的地文字，选中加粗。"
+      }
+    },
+    "shadows": [
+      {
+        "name": "navigation-elevation",
+        "value": "8dp (Android View.elevation)",
+        "purpose": "GlassBar的原生阴影；HTML预览不把CSS阴影冒充设备实际阴影。"
+      },
+      {
+        "name": "selected-source-elevation",
+        "value": "1dp (Android View.elevation)",
+        "purpose": "MainActivity选中来源标签的轻微抬升。"
+      }
+    ],
+    "motion": [
+      {
+        "name": "native-press-feedback",
+        "value": "RippleDrawable",
+        "purpose": "原生按钮和行动行的按下反馈，与内容页面过渡独立。"
+      },
+      {
+        "name": "page-entrance",
+        "value": "220ms; translateX <= 20dp; alpha .82→1; cubic-bezier(.22,1,.36,1)",
+        "purpose": "PageTransitions仅在目的地变化时动画内容层，底栏稳定；中断后复位，系统禁用动画时直接呈现。此处为源码规则，未认证时序或流畅度。"
+      },
+      {
+        "name": "photo-entrance",
+        "value": "180ms; alpha .65→1; cubic-bezier(.22,1,.36,1)",
+        "purpose": "照片查看的较轻淡入；尊重系统动画开关，不将列表异步更新当作页面切换。此处为源码规则，未认证时序或流畅度。"
+      },
+      {
+        "name": "detail-comparison",
+        "value": "Immediate bitmap switch; no transition",
+        "purpose": "HoldToCompare在已准备的效果与原图间直接切换，保持同一CENTER_CROP视图；DOWN无图片I/O，UP、移出、取消或失焦等释放路径恢复效果。"
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "bounded-native-content",
+        "value": "600dp",
+        "purpose": "MainActivity从该宽度起将内容限制在720dp。"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "primary-button",
+      "description": "HTML specimen of the native 52dp-minimum primary action; Android source remains normative.",
+      "html": "<button class=\"ds-button ds-primary\">连接相机</button>",
+      "css": ".ds-button{font:700 15px system-ui,sans-serif;min-height:52px;padding:10px 16px;border:0;border-radius:26px;cursor:pointer}.ds-button:hover{filter:brightness(.97)}.ds-button:focus-visible{outline:2px solid #0065DC;outline-offset:3px}.ds-button:active{background:#E9F1FF;color:#0065DC}.ds-button:disabled{opacity:.5;cursor:default}.ds-primary{background:#0065DC;color:#FFFFFF}@media(prefers-color-scheme:dark){.ds-primary{background:#8DBBFF;color:#07244A}}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "secondary-button",
+      "description": "Quiet white-card action with blue text; full native component uses RippleDrawable.",
+      "html": "<button class=\"ds-button ds-secondary\">打开系统 Wi-Fi 设置</button>",
+      "css": ".ds-button{font:700 15px system-ui,sans-serif;min-height:52px;padding:10px 16px;border:0;border-radius:26px;cursor:pointer}.ds-button:hover{filter:brightness(.97)}.ds-button:focus-visible{outline:2px solid #0065DC;outline-offset:3px}.ds-button:active{background:#E9F1FF;color:#0065DC}.ds-button:disabled{opacity:.5;cursor:default}.ds-secondary{background:#FFFFFF;color:#0065DC}@media(prefers-color-scheme:dark){.ds-secondary{background:#2A2E34;color:#8DBBFF}}"
+    },
+    {
+      "name": "Connection Field",
+      "kind": "input",
+      "refersTo": "input-field",
+      "description": "Static HTML translation of the native 16sp address field and 14dp corners.",
+      "html": "<label class=\"ds-field-label\">IP 地址<input class=\"ds-field\" value=\"192.168.1.1\" aria-label=\"相机 IPv4 地址\"></label>",
+      "css": ".ds-field-label{display:grid;gap:8px;color:#626B78;font:13px system-ui,sans-serif}.ds-field{font:16px system-ui,sans-serif;color:#20242B;background:#EEF0F4;border:1px solid #D9DEE6;border-radius:14px;padding:12px 14px;min-height:24px}.ds-field:hover{border-color:#626B78}.ds-field:focus-visible{outline:2px solid #0065DC;outline-offset:2px}.ds-field:disabled{opacity:.5}@media(prefers-color-scheme:dark){.ds-field-label{color:#ADB6C3}.ds-field{color:#F4F5F7;background:#30353D;border-color:#474E58}}"
+    },
+    {
+      "name": "Source Selection",
+      "kind": "chip",
+      "refersTo": "source-pill",
+      "description": "216dp-wide native source selection: 48dp hit area around a 34dp visible pill.",
+      "html": "<div class=\"ds-sources\" role=\"tablist\" aria-label=\"预设来源\"><button class=\"ds-source ds-selected\" role=\"tab\" aria-selected=\"true\">我的预设</button><button class=\"ds-source\" role=\"tab\" aria-selected=\"false\">在线预设</button></div>",
+      "css": ".ds-sources{display:flex;width:216px;height:48px;align-items:center;gap:4px}.ds-source{position:relative;isolation:isolate;flex:1;height:48px;border:0;background:transparent;color:#626B78;font:13px system-ui,sans-serif;cursor:pointer}.ds-source:before{content:'';position:absolute;inset:7px 0;z-index:-1;border-radius:19px}.ds-selected{color:#20242B;font-weight:700}.ds-selected:before{background:#FFFFFF;box-shadow:0 1px 2px #20242B10}.ds-source:hover:before,.ds-source:active:before{background:#E9F1FF}.ds-source:focus-visible{outline:2px solid #0065DC;border-radius:19px;outline-offset:2px}@media(prefers-color-scheme:dark){.ds-source{color:#ADB6C3}.ds-selected{color:#F4F5F7}.ds-selected:before{background:#2A2E34}.ds-source:hover:before,.ds-source:active:before{background:#263D5A}}"
+    },
+    {
+      "name": "Floating Navigation",
+      "kind": "nav",
+      "refersTo": "navigation",
+      "description": "Native three-destination navigation specimen. This HTML preview uses its opaque fallback; actual API31+ sampling is documented in DESIGN.md.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"主导航\"><button class=\"ds-nav-item ds-current\" aria-current=\"page\"><svg viewBox=\"0 0 24 24\" width=\"23\" height=\"23\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"2\"/><circle cx=\"8\" cy=\"8\" r=\"1.6\"/><path d=\"m4 18 6-6 4 4 3-4 4 5\"/></svg><span>预设</span></button><button class=\"ds-nav-item\"><svg viewBox=\"0 0 24 24\" width=\"23\" height=\"23\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"6\" y=\"6\" width=\"16\" height=\"16\" rx=\"2\"/><path d=\"M3 17H2V2h15v1m-10 15 5-5 4 4 3-3 3 4\"/></svg><span>相册</span></button><button class=\"ds-nav-item\"><svg viewBox=\"0 0 24 24\" width=\"23\" height=\"23\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"3.2\"/><path d=\"m9 3-1 3-3 1-2 2 2 3-2 3 2 2 3 1 1 3h6l1-3 3-1 2-2-2-3 2-3-2-2-3-1-1-3Z\"/></svg><span>设置</span></button></nav>",
+      "css": ".ds-nav{display:flex;gap:2px;box-sizing:border-box;width:360px;max-width:100%;min-height:68px;padding:5px;border-radius:34px;background:#FFFFFF;border:1px solid #D9DEE6}.ds-nav-item{flex:1;min-height:58px;display:grid;place-content:center;justify-items:center;gap:3px;padding:7px 8px;border:0;border-radius:30px;color:#626B78;background:transparent;font:10px system-ui,sans-serif;cursor:pointer}.ds-current{background:#E9F1FF;color:#0065DC;font-weight:700}.ds-nav-item:hover,.ds-nav-item:active{background:#E9F1FF}.ds-nav-item:focus-visible{outline:2px solid #0065DC;outline-offset:1px}@media(prefers-color-scheme:dark){.ds-nav{background:#2A2E34;border-color:#474E58}.ds-nav-item{color:#ADB6C3}.ds-current,.ds-nav-item:hover,.ds-nav-item:active{background:#263D5A;color:#8DBBFF}}"
+    },
+    {
+      "name": "Settings Group",
+      "kind": "card",
+      "refersTo": "settings-group",
+      "description": "Continuous native settings group with inset dividers and minimum 66dp action rows.",
+      "html": "<div class=\"ds-group\"><button class=\"ds-row\"><span>Wi-Fi 无线连接<small>浏览照片、导入预设</small></span><span aria-hidden=\"true\">›</span></button><button class=\"ds-row\"><span>USB 数据线连接<small>导入预设</small></span><span aria-hidden=\"true\">›</span></button></div>",
+      "css": ".ds-group{overflow:hidden;border-radius:22px;background:#FFFFFF;min-width:260px}.ds-row{box-sizing:border-box;width:100%;min-height:66px;border:0;padding:11px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left;color:#20242B;background:transparent;font:14px system-ui,sans-serif;cursor:pointer}.ds-row+ .ds-row{border-top:1px solid #D9DEE6}.ds-row small{display:block;margin-top:3px;color:#626B78;font-size:11px}.ds-row:hover,.ds-row:active{background:#E9F1FF}.ds-row:focus-visible{outline:2px solid #0065DC;outline-offset:-3px}@media(prefers-color-scheme:dark){.ds-group{background:#2A2E34}.ds-row{color:#F4F5F7}.ds-row small{color:#ADB6C3}.ds-row+ .ds-row{border-color:#474E58}.ds-row:hover,.ds-row:active{background:#263D5A}}"
+    },
+    {
+      "name": "Hold to Compare",
+      "kind": "button",
+      "refersTo": "hold-to-compare",
+      "description": "Static HTML specimen of the native detail's shortened 原图 capsule: 48dp high with 12dp bottom/end margins. Native HoldToCompare retains full hold/release and keyboard/accessibility explanations; this specimen does not implement gestures.",
+      "html": "<button class=\"ds-compare\" aria-label=\"按住看原图，松开恢复预设效果。使用辅助功能或键盘时，点击可切换原图，再次点击恢复\" aria-pressed=\"false\">原图</button>",
+      "css": ".ds-compare{box-sizing:border-box;height:48px;margin:12px;padding:0 16px;border:1px solid rgba(255,255,255,.2156862745);border-radius:24px;background:rgba(26,29,35,.8431372549);color:#FFFFFF;font:500 13px system-ui,sans-serif;cursor:pointer}.ds-compare:hover{background:rgba(26,29,35,.8431372549)}.ds-compare:focus-visible{border:2px solid #FFFFFF;outline:0}.ds-compare:active,.ds-compare[aria-pressed=true]{background:rgba(26,29,35,.9333333333)}.ds-compare:disabled{color:#D6DAE1;cursor:default}"
+    },
+    {
+      "name": "Current Camera Card",
+      "kind": "card",
+      "refersTo": "camera-card",
+      "description": "Truthful disconnected camera-card specimen; its presence does not assert a connected camera.",
+      "html": "<section class=\"ds-camera\"><div class=\"ds-camera-title\"><svg viewBox=\"0 0 24 24\" width=\"23\" height=\"23\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 7h4l2-3h6l2 3h4v14H3Z\"/><circle cx=\"12\" cy=\"13\" r=\"4\"/></svg><div><small>相机</small><strong>尚未连接相机</strong></div></div><p><span class=\"ds-dot\"></span>未连接</p><footer>选择下方连接方式</footer></section>",
+      "css": ".ds-camera{min-width:260px;box-sizing:border-box;padding:18px 18px 8px;border-radius:26px;background:#FFFFFF;color:#20242B;font:11px system-ui,sans-serif}.ds-camera-title{display:flex;gap:12px;align-items:center}.ds-camera-title>svg{box-sizing:content-box;padding:10px;background:#F7F8FA;border-radius:15px;color:#626B78}.ds-camera small{display:block;color:#626B78}.ds-camera strong{display:block;margin-top:4px;font-size:19px}.ds-camera p{display:flex;align-items:center;gap:6px;padding:10px 0 8px;color:#626B78}.ds-dot{width:6px;height:6px;border-radius:50%;background:#626B78}.ds-camera footer{border-top:1px solid #D9DEE6;padding:12px 0;color:#626B78}@media(prefers-color-scheme:dark){.ds-camera{background:#2A2E34;color:#F4F5F7}.ds-camera-title>svg{background:#22252A;color:#ADB6C3}.ds-camera small,.ds-camera p,.ds-camera footer{color:#ADB6C3}.ds-camera footer{border-color:#474E58}.ds-dot{background:#ADB6C3}}"
+    },
+    {
+      "name": "Read-only Tone Curve",
+      "kind": "custom",
+      "refersTo": "tone-curve",
+      "description": "Static visual specimen using all 257 actual samples from the hand-authored PreviewTone NCP fixture (tests/tools/SyntheticPresetPreview.java), never bundled as a preset. Native ToneCurveView reads the selected hash-verified NCP, grows from 188dp with font scale and has real loading/retry states; this fixed-size HTML specimen does not implement parsing or state behavior. Both dashed reference strokes match native alpha 200.",
+      "html": "<figure class=\"ds-tone\"><svg viewBox=\"0 0 300 188\" role=\"img\" aria-label=\"合成 PreviewTone NCP 的257个实际采样点，输入0、128、255的代表输出为10、172、240。蓝色实线为预设曲线，虚线为线性参考。\"><text class=\"ds-tone-title\" x=\"16\" y=\"27\">色调曲线</text><text class=\"ds-tone-sub\" x=\"284\" y=\"28\" text-anchor=\"end\">NCP</text><g class=\"ds-tone-grid\" fill=\"none\"><path d=\"M45 47V139M45 47H283\"/><path d=\"M104.5 47V139M45 70H283\"/><path d=\"M164 47V139M45 93H283\"/><path d=\"M223.5 47V139M45 116H283\"/><path d=\"M283 47V139M45 139H283\"/></g><path class=\"ds-tone-reference\" d=\"M45 139L283 47\" fill=\"none\"/><polyline class=\"ds-tone-line\" points=\"45.000,135.319 45.930,130.145 46.859,128.002 47.789,126.357 48.719,124.970 49.648,123.749 50.578,122.645 51.508,121.629 52.438,120.683 53.367,119.795 54.297,118.956 55.227,118.156 56.156,117.392 57.086,116.662 58.016,115.957 58.945,115.278 59.875,114.621 60.805,113.983 61.734,113.366 62.664,112.762 63.594,112.178 64.523,111.605 65.453,111.047 66.383,110.502 67.312,109.968 68.242,109.446 69.172,108.932 70.102,108.430 71.031,107.936 71.961,107.453 72.891,106.975 73.820,106.506 74.750,106.046 75.680,105.591 76.609,105.145 77.539,104.704 78.469,104.269 79.398,103.842 80.328,103.418 81.258,103.002 82.188,102.590 83.117,102.183 84.047,101.781 84.977,101.385 85.906,100.992 86.836,100.605 87.766,100.223 88.695,99.841 89.625,99.468 90.555,99.094 91.484,98.726 92.414,98.364 93.344,98.002 94.273,97.645 95.203,97.292 96.133,96.941 97.062,96.592 97.992,96.250 98.922,95.907 99.852,95.570 100.781,95.234 101.711,94.902 102.641,94.571 103.570,94.245 104.500,93.920 105.430,93.597 106.359,93.279 107.289,92.962 108.219,92.645 109.148,92.333 110.078,92.022 111.008,91.715 111.938,91.409 112.867,91.103 113.797,90.803 114.727,90.503 115.656,90.205 116.586,89.910 117.516,89.615 118.445,89.323 119.375,89.034 120.305,88.745 121.234,88.459 122.164,88.172 123.094,87.891 124.023,87.608 124.953,87.330 125.883,87.052 126.812,86.774 127.742,86.499 128.672,86.226 129.602,85.954 130.531,85.685 131.461,85.415 132.391,85.145 133.320,84.882 134.250,84.615 135.180,84.351 136.109,84.090 137.039,83.829 137.969,83.570 138.898,83.312 139.828,83.054 140.758,82.798 141.688,82.546 142.617,82.293 143.547,82.040 144.477,81.790 145.406,81.540 146.336,81.290 147.266,81.043 148.195,80.799 149.125,80.552 150.055,80.308 150.984,80.066 151.914,79.825 152.844,79.583 153.773,79.345 154.703,79.106 155.633,78.867 156.562,78.632 157.492,78.396 158.422,78.160 159.352,77.927 160.281,77.694 161.211,77.461 162.141,77.231 163.070,77.000 164.000,76.773 164.930,76.543 165.859,76.315 166.789,76.091 167.719,75.863 168.648,75.639 169.578,75.414 170.508,75.192 171.438,74.970 172.367,74.749 173.297,74.527 174.227,74.308 175.156,74.089 176.086,73.870 177.016,73.654 177.945,73.437 178.875,73.221 179.805,73.005 180.734,72.792 181.664,72.575 182.594,72.365 183.523,72.151 184.453,71.941 185.383,71.727 186.312,71.520 187.242,71.309 188.172,71.101 189.102,70.891 190.031,70.683 190.961,70.478 191.891,70.270 192.820,70.065 193.750,69.860 194.680,69.655 195.609,69.453 196.539,69.251 197.469,69.049 198.398,68.847 199.328,68.645 200.258,68.445 201.188,68.243 202.117,68.044 203.047,67.847 203.977,67.648 204.906,67.451 205.836,67.255 206.766,67.058 207.695,66.862 208.625,66.665 209.555,66.471 210.484,66.278 211.414,66.084 212.344,65.890 213.273,65.696 214.203,65.506 215.133,65.315 216.062,65.124 216.992,64.933 217.922,64.742 218.852,64.554 219.781,64.363 220.711,64.175 221.641,63.987 222.570,63.801 223.500,63.613 224.430,63.428 225.359,63.240 226.289,63.054 227.219,62.869 228.148,62.687 229.078,62.501 230.008,62.319 230.938,62.134 231.867,61.951 232.797,61.769 233.727,61.589 234.656,61.406 235.586,61.227 236.516,61.044 237.445,60.864 238.375,60.685 239.305,60.505 240.234,60.328 241.164,60.148 242.094,59.972 243.023,59.795 243.953,59.615 244.883,59.441 245.812,59.264 246.742,59.087 247.672,58.913 248.602,58.736 249.531,58.562 250.461,58.388 251.391,58.214 252.320,58.040 253.250,57.869 254.180,57.695 255.109,57.523 256.039,57.352 256.969,57.178 257.898,57.007 258.828,56.838 259.758,56.667 260.688,56.496 261.617,56.327 262.547,56.159 263.477,55.987 264.406,55.819 265.336,55.651 266.266,55.485 267.195,55.316 268.125,55.148 269.055,54.982 269.984,54.817 270.914,54.651 271.844,54.483 272.773,54.320 273.703,54.154 274.633,53.988 275.562,53.823 276.492,53.660 277.422,53.497 278.352,53.331 279.281,53.169 280.211,53.006 281.141,52.843 282.070,52.683 283.000,52.520\" fill=\"none\"/><g class=\"ds-tone-axis\"><text x=\"37\" y=\"50\" text-anchor=\"end\">255</text><text x=\"37\" y=\"142\" text-anchor=\"end\">0</text><text x=\"16\" y=\"96\">输出</text><text x=\"45\" y=\"156\" text-anchor=\"middle\">0</text><text x=\"283\" y=\"156\" text-anchor=\"middle\">255</text><text x=\"164\" y=\"156\" text-anchor=\"middle\">输入</text></g><path class=\"ds-tone-line\" d=\"M59 174H73\"/><text class=\"ds-tone-legend\" x=\"79\" y=\"178\">预设曲线</text><path class=\"ds-tone-reference\" d=\"M163 174H177\"/><text class=\"ds-tone-legend\" x=\"183\" y=\"178\">线性参考</text></svg></figure>",
+      "css": ".ds-tone{width:300px;max-width:100%;margin:0;border-radius:16px;background:#FFFFFF;color:#20242B;font-family:system-ui,sans-serif}.ds-tone svg{display:block;width:100%;height:auto}.ds-tone-title{fill:currentColor;font-size:13px;font-weight:500}.ds-tone-sub{fill:#626B78;font-size:11px}.ds-tone-axis{fill:#626B78;font-size:9px}.ds-tone-legend{fill:#626B78;font-size:10px}.ds-tone-grid{stroke:#D9DEE6;stroke-opacity:.6274509804;stroke-width:.7}.ds-tone-reference{stroke:#626B78;stroke-opacity:.7843137255;stroke-width:1;stroke-dasharray:4 4}.ds-tone-line{stroke:#0065DC;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}@media(prefers-color-scheme:dark){.ds-tone{background:#2A2E34;color:#F4F5F7}.ds-tone-sub,.ds-tone-axis,.ds-tone-legend{fill:#ADB6C3}.ds-tone-grid{stroke:#474E58;stroke-opacity:.5882352941}.ds-tone-reference{stroke:#ADB6C3}.ds-tone-line{stroke:#8DBBFF}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "云白与石墨",
+    "overview": "0.4.0-beta 已实现用户批准的 Apple 风格方案：云白背景、白色分组、石墨文字、蓝色操作和悬浮毛玻璃导航。视觉参考为 [已确认的设置页](docs/design-review/apple-glass/preview-settings-light.jpg)；用户在三目的地设置架构确认后说“开始实现”。这里记录实际原生 Android Java / Views 的实现，代码来源是 `UiPalette`、`MainActivity`、`AlbumPanel`、`GlassBar` 和 `AppIcon`。\n\n界面以安静的内容层次和原生文字为基础。照片承担内容展示，连接操作集中在设置，预设库与相册只显示简短连接状态。深色使用独立石墨配色；按钮、系统返回、对话框和文件选择仍遵循 Android 行为。\n\n0.5.0-beta（versionCode 17）沿用这一世界，扩展持久化外观选择、独立无线预设检测、模板模拟主图和轻量页面过渡。已下载主图（含在线卡片）明确标注手机近似，未下载在线项保留发布者样片，配套实拍独立展示。扩展继续由原生代码和既有语义角色主导。\n\n0.5.1-beta（versionCode 18）仅扩展详情主图的原图对比：右下角安静的深色胶囊在按住时显示模板原图，松开恢复模拟效果；裁切与图像位置固定，角标明确当前状态。它延续既有摄影内容层次，不改变视觉世界与导航。\n\n0.5.2-beta（versionCode 19）沿用同一世界，在已下载详情的照片下方加入紧凑的只读色调曲线卡；蓝色实际曲线与次要色虚线参考共享明确的输入、输出与图例。照片上的对比按钮缩短为“原图”，保持原有命中区域和交互说明。",
+    "keyCharacteristics": [
+      "云白背景、石墨文字和白色分组。",
+      "蓝色操作、小胶囊来源切换与悬浮导航。",
+      "原生字号、安全区、返回和触摸反馈。",
+      "持久外观选择、轻量页面过渡与有标签的模板近似。"
+    ],
+    "rules": [],
+    "dos": [
+      "Do 从 `UiPalette` 和原生组件提取当前规则，保持浅色与深色的完整角色对应。",
+      "Do 为连接、加载、错误、结果待核对提供文字，状态点只是辅助。",
+      "Do 让普通用户先理解预设、连接和目标槽位；协议调查留在辅助诊断中。",
+      "Do 保留系统返回、字号缩放、安全区、48dp 命中区域及真实缺图状态。"
+    ],
+    "donts": [
+      "Don't 将旧红白 tokens、浏览器原型或旧截图作为 0.4.0 的实现来源。",
+      "Don't 将概念照片、合成测试照片或用户私有配方作为可分发预设或实拍证据；内置 AI 模板仅用于明确标注的近似模拟，并保留来源。",
+      "Don't 将下载、登记读回一致、原生载入等效和实际拍摄效果混称为同一种成功。",
+      "Don't 将模拟器 UI 的 SHIP 结论扩大为真实相机、TalkBack、平板、物理手势或性能认证。"
+    ]
+  }
+}

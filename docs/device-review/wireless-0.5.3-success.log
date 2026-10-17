@@ -1,0 +1,68 @@
+2026-10-17T01:24:13.113Z 0001 READY loopback=127.0.0.1:15743 emulator=10.0.2.2:15743 photos=0 ttl=1200s log=D:\dev\ai-project\nikon\app\build\v053-success-ui-fixtures\server.log
+2026-10-17T01:24:13.116Z 0002 SYNTHETIC_TEST mode=picture-control-import-synthetic model=Z6II registrationAdvertised=true memoryOnly=true expectedNcpDatasetBytes=614 maxVirtualWrites=1 rejectInitAfterClose=true
+2026-10-17T01:24:26.335Z 0003 INIT_COMMAND session=1
+2026-10-17T01:24:27.363Z 0004 INIT_EVENT session=1
+2026-10-17T01:24:27.871Z 0005 CMD session=1 tx=0 op=0x1001 phase=1 params=[]
+2026-10-17T01:24:27.878Z 0006 CMD session=1 tx=0 op=0x1002 phase=1 params=[1]
+2026-10-17T01:24:27.879Z 0007 OPEN_SESSION session=1 tx=0 opens=1
+2026-10-17T01:24:27.881Z 0008 CMD session=1 tx=1 op=0x90cf phase=1 params=[1]
+2026-10-17T01:24:27.886Z 0009 CMD session=1 tx=2 op=0x90cc phase=1 params=[1,0]
+2026-10-17T01:24:27.887Z 0010 STANDARD_READ session=1 tx=2 count=1 heartbeats=0
+2026-10-17T01:24:27.890Z 0011 CMD session=1 tx=3 op=0x90cc phase=1 params=[201,0]
+2026-10-17T01:24:27.893Z 0012 CMD session=1 tx=4 op=0x90cc phase=1 params=[202,0]
+2026-10-17T01:24:27.898Z 0013 CMD session=1 tx=5 op=0x90cc phase=1 params=[203,0]
+2026-10-17T01:24:27.903Z 0014 CMD session=1 tx=6 op=0x90cc phase=1 params=[204,0]
+2026-10-17T01:24:27.906Z 0015 CMD session=1 tx=7 op=0x90cc phase=1 params=[205,0]
+2026-10-17T01:24:27.908Z 0016 CMD session=1 tx=8 op=0x90cc phase=1 params=[206,0]
+2026-10-17T01:24:27.912Z 0017 CMD session=1 tx=9 op=0x90cc phase=1 params=[207,0]
+2026-10-17T01:24:27.916Z 0018 CMD session=1 tx=10 op=0x90cc phase=1 params=[208,0]
+2026-10-17T01:24:27.919Z 0019 CMD session=1 tx=11 op=0x90cc phase=1 params=[209,0]
+2026-10-17T01:24:37.972Z 0020 CMD session=1 tx=12 op=0x90cc phase=1 params=[1,0]
+2026-10-17T01:24:37.973Z 0021 STANDARD_READ session=1 tx=12 count=2 heartbeats=1
+2026-10-17T01:24:47.988Z 0022 CMD session=1 tx=13 op=0x90cc phase=1 params=[1,0]
+2026-10-17T01:24:47.989Z 0023 STANDARD_READ session=1 tx=13 count=3 heartbeats=2
+2026-10-17T01:24:58.004Z 0024 CMD session=1 tx=14 op=0x90cc phase=1 params=[1,0]
+2026-10-17T01:24:58.005Z 0025 STANDARD_READ session=1 tx=14 count=4 heartbeats=3
+2026-10-17T01:25:08.019Z 0026 CMD session=1 tx=15 op=0x90cc phase=1 params=[1,0]
+2026-10-17T01:25:08.020Z 0027 STANDARD_READ session=1 tx=15 count=5 heartbeats=4
+2026-10-17T01:25:18.038Z 0028 CMD session=1 tx=16 op=0x90cc phase=1 params=[1,0]
+2026-10-17T01:25:18.038Z 0029 STANDARD_READ session=1 tx=16 count=6 heartbeats=5
+2026-10-17T01:25:28.053Z 0030 CMD session=1 tx=17 op=0x90cc phase=1 params=[1,0]
+2026-10-17T01:25:28.053Z 0031 STANDARD_READ session=1 tx=17 count=7 heartbeats=6
+2026-10-17T01:25:38.068Z 0032 CMD session=1 tx=18 op=0x90cc phase=1 params=[1,0]
+2026-10-17T01:25:38.069Z 0033 STANDARD_READ session=1 tx=18 count=8 heartbeats=7
+2026-10-17T01:25:48.076Z 0034 CMD session=1 tx=19 op=0x90cc phase=1 params=[1,0]
+2026-10-17T01:25:48.076Z 0035 STANDARD_READ session=1 tx=19 count=9 heartbeats=8
+2026-10-17T01:25:58.091Z 0036 CMD session=1 tx=20 op=0x90cc phase=1 params=[1,0]
+2026-10-17T01:25:58.092Z 0037 STANDARD_READ session=1 tx=20 count=10 heartbeats=9
+2026-10-17T01:26:08.108Z 0038 CMD session=1 tx=21 op=0x90cc phase=1 params=[1,0]
+2026-10-17T01:26:08.109Z 0039 STANDARD_READ session=1 tx=21 count=11 heartbeats=10
+2026-10-17T01:26:18.123Z 0040 CMD session=1 tx=22 op=0x90cc phase=1 params=[1,0]
+2026-10-17T01:26:18.123Z 0041 STANDARD_READ session=1 tx=22 count=12 heartbeats=11
+2026-10-17T01:26:28.135Z 0042 CMD session=1 tx=23 op=0x90cc phase=1 params=[1,0]
+2026-10-17T01:26:28.136Z 0043 STANDARD_READ session=1 tx=23 count=13 heartbeats=12
+2026-10-17T01:26:38.151Z 0044 CMD session=1 tx=24 op=0x90cc phase=1 params=[1,0]
+2026-10-17T01:26:38.152Z 0045 STANDARD_READ session=1 tx=24 count=14 heartbeats=13
+2026-10-17T01:26:40.255Z 0046 CMD session=1 tx=25 op=0x1001 phase=1 params=[]
+2026-10-17T01:26:40.256Z 0047 DEVICE_INFO_RECHECK session=1 tx=25
+2026-10-17T01:26:40.260Z 0048 CMD session=1 tx=26 op=0x90cf phase=1 params=[1]
+2026-10-17T01:26:40.265Z 0049 CMD session=1 tx=27 op=0x90cc phase=1 params=[201,0]
+2026-10-17T01:26:40.267Z 0050 CMD session=1 tx=28 op=0x90cc phase=1 params=[202,0]
+2026-10-17T01:26:40.273Z 0051 CMD session=1 tx=29 op=0x90cc phase=1 params=[203,0]
+2026-10-17T01:26:40.277Z 0052 CMD session=1 tx=30 op=0x90cc phase=1 params=[204,0]
+2026-10-17T01:26:40.280Z 0053 CMD session=1 tx=31 op=0x90cc phase=1 params=[205,0]
+2026-10-17T01:26:40.285Z 0054 CMD session=1 tx=32 op=0x90cc phase=1 params=[206,0]
+2026-10-17T01:26:40.289Z 0055 CMD session=1 tx=33 op=0x90cc phase=1 params=[207,0]
+2026-10-17T01:26:40.296Z 0056 CMD session=1 tx=34 op=0x90cc phase=1 params=[208,0]
+2026-10-17T01:26:40.299Z 0057 CMD session=1 tx=35 op=0x90cc phase=1 params=[209,0]
+2026-10-17T01:26:40.303Z 0058 CMD session=1 tx=36 op=0x90cc phase=1 params=[201,0]
+2026-10-17T01:26:40.305Z 0059 CMD session=1 tx=37 op=0x90cd phase=2 params=[201,0]
+2026-10-17T01:26:40.305Z 0060 DATA_OUT_START session=1 tx=37 expected=614
+2026-10-17T01:26:40.316Z 0061 VIRTUAL_WRITE session=1 tx=37 target=201 bytes=614 sha256=07434caabeee4bc79727b3cbfd105e037659933866e5aada76419db8745bb199 virtualWrites=1 hardwareAccess=false
+2026-10-17T01:26:40.318Z 0062 CMD session=1 tx=38 op=0x90cc phase=1 params=[201,0]
+2026-10-17T01:26:40.319Z 0063 VIRTUAL_READBACK session=1 tx=38 target=201 bytes=614 sha256=07434caabeee4bc79727b3cbfd105e037659933866e5aada76419db8745bb199
+2026-10-17T01:26:40.322Z 0064 CMD session=1 tx=39 op=0x1003 phase=1 params=[]
+2026-10-17T01:26:40.323Z 0065 PC_IMPORT_SYNTHETIC_SUMMARY session=1 state=closed connections=1 opens=1 closes=1 heartbeats=13 standardReads=14 virtualWrites=1 commands=41
+2026-10-17T01:26:40.323Z 0066 SIMULATED_AP_CLOSED rejectNewInit=true loopbackListenerRetained=true
+2026-10-17T01:26:40.329Z 0067 PC_IMPORT_SYNTHETIC_SUMMARY session=1 state=closed connections=1 opens=1 closes=1 heartbeats=13 standardReads=14 virtualWrites=1 commands=41
+2026-10-17T01:26:40.330Z 0068 CLOSED session=1

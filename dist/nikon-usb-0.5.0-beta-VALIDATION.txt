@@ -1,0 +1,81 @@
+0.5.0-beta / versionCode 17 — appearance, wireless preset entry, transitions, template previews
+Date: 2026-10-16
+
+Delivery
+  APK: nikon-usb-0.5.0-beta-debug.apk
+  Size: 2703993 bytes
+  SHA-256: 48507b4136aba51194da8715d79ad2374c759ddd6cb2bbb522aa50daacb46369
+  Build: scripts/build-apk.ps1 -SdkRoot D:/dev/android-sdk -JdkRoot D:/dev/Java/jdk-17.0.19
+  APK Signature Scheme v2/v3 verification passed.
+
+Implemented
+  Settings persists app-only System / Light / Dark appearance. Explicit native themes
+  cover subsequently created dialogs and inputs; real system configuration is preserved.
+  Default USB / Wi-Fi preset transport is persistent and independent of actual status.
+  Settings can configure and probe wireless Picture Control without a selected preset
+  or an album connection. Imports retain fresh capability/slot checks, confirmation,
+  one registration attempt, exact readback and uncertain-result journal recovery.
+  Root/detail entrances use 220ms alpha/translation; photo navigation uses 180ms fade.
+  Transitions interrupt safely and respect disabled system animators.
+  Downloaded NCPs, including downloaded online cards, render over a shared template.
+  Preview badges and detail copy explicitly identify the result as a phone approximation.
+  Built-in AI template can be replaced/reset; original and real references remain separate.
+  Unsupported NCPs do not receive fabricated effects; failures allow reason/retry.
+  Capped image requests expose a load action rather than leaving an unretryable placeholder.
+  Custom JPEG is content addressed, fully published and verified before committing its
+  preference reference. Failed saves retain a usable old reference. Source NCP is unchanged.
+
+Automated checks
+  tests/run.ps1 passed 8212 checks:
+  186 PTP core, 68 NCP structure, 2577 transfer, 148 storage, 955 directory survey,
+  50 Picture Control codec, 77 NCP conversion, 1108 phone-template model,
+  2845 PTP/IP, 50 preview cache, 101 album pagination, 47 album controller.
+  tests/run-probe.ps1 passed 3487 checks: 685 probe, 453 read-only Picture Control,
+  1004 NCP/copy entry, 1345 USB/wireless host flow.
+  Core/probe checks ran once during implementation; later UI/image-persistence fixes
+  were compiled and exercised below. Counts are not multiplied by subsequent builds.
+  git diff --check passed. Source raster provenance scan: 1 raster, 0 missing prompts.
+
+Emulator integration
+  Pixel 9, Android17/API37, 1080x2424, temporary read-only AVD.
+  Two hand-written 638-byte synthetic NCPs were imported through Android's file picker.
+  Identity and tone/HSV fixtures render visibly different main images from the same
+  template. Original comparison is labelled unapplied; both preset cards use simulations.
+  A synthetic JPEG was selected as custom template through the image picker. Both
+  cached main images changed; force-stop/cold-start retained it; reset restored built-in.
+  Five appearance assertions checked actual #F7F8FA / #22252A surface pixels:
+  manual light over system dark, follow-system dark, live follow-system light,
+  manual dark cold start over system light, restore-follow-system light. All passed.
+  USB default survived cold start and the detail action read USB. Restored Wi-Fi.
+  With system animator scale zero, nine consecutive root switches ended in usable
+  Settings. Restored prior global animator setting and system light/follow-system mode.
+  This is a functional disabled-animation check, not a motion smoothness certification.
+  Synthetic independent wireless detection completed without selecting an import preset.
+  Exact log: commands=14 expected=14 planMatched=true uploads=0, then session closed.
+  No album enumeration or registration opcode was sent. Nine empty slots and unavailable
+  registration are shown truthfully. A configured address does not make status connected.
+  Evidence: docs/device-review/preview-0.5.0-functional.log and
+  docs/device-review/preview-0.5.0-wireless-readonly.log.
+
+Actual phone
+  OnePlus PKG110 / Android16, serial286f0dba, owner user0: adb install -r succeeded,
+  preserving the existing Agfa Optima preset. Cold launch succeeded and preset main
+  image was generated. Installed base.apk SHA-256 equals delivery above, code17/name0.5.
+  No synthetic preset/template was added to this phone; existing system appearance stayed.
+  AndroidRuntime checks showed no crash. Physical-phone evidence covers installation,
+  retained existing data and home only; feature flows above used the emulator.
+
+Design review
+  Fresh independent finish reviewer: disposition ship, no material fixes.
+  All11 required phone captures were valid and reviewed; paths and exact five-section
+  verdict: docs/design-review/apple-glass/finish-review-0.5.0.md.
+  Native implementation skips the HTML/CSS detector. Source and screenshots were reviewed.
+
+Limits
+  Preview supports the strict researched 638-byte NCP0100 color subset. Encoded-RGB
+  per-channel LUT and HSV mappings are explicit app approximations, not Nikon's pipeline.
+  Base TRC/color transforms, sharpening, clarity, RAW and photographic effects are not
+  reproduced. File registration/readback cannot establish visual equivalence.
+  No real-camera wireless registration, proprietary Nikon pairing, photographic effect
+  comparison, tablet, enlarged-font, TalkBack, physical gestures or performance certification.
+  See docs/preset-template-preview.md and docs/wireless-import.md for implementation limits.

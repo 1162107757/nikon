@@ -1,0 +1,22 @@
+2026-10-17T02:48:59.333Z 0001 READY loopback=127.0.0.1:15745 emulator=10.0.2.2:15745 photos=0 ttl=600s log=D:\dev\ai-project\nikon\app\build\v055-loss-ui-fixtures\server.log
+2026-10-17T02:48:59.336Z 0002 SYNTHETIC_TEST mode=picture-control-readonly model=Z6II registrationAdvertised=false expectedCommands=14
+2026-10-17T02:50:02.650Z 0003 INIT_COMMAND session=1
+2026-10-17T02:50:03.659Z 0004 INIT_EVENT session=1
+2026-10-17T02:50:04.159Z 0005 CMD session=1 tx=0 op=0x1001 phase=1 params=[]
+2026-10-17T02:50:04.170Z 0006 CMD session=1 tx=0 op=0x1002 phase=1 params=[1]
+2026-10-17T02:50:04.172Z 0007 CMD session=1 tx=1 op=0x90cf phase=1 params=[1]
+2026-10-17T02:50:04.175Z 0008 CMD session=1 tx=2 op=0x90cc phase=1 params=[1,0]
+2026-10-17T02:50:04.183Z 0009 CMD session=1 tx=3 op=0x90cc phase=1 params=[201,0]
+2026-10-17T02:50:04.187Z 0010 CMD session=1 tx=4 op=0x90cc phase=1 params=[202,0]
+2026-10-17T02:50:04.191Z 0011 CMD session=1 tx=5 op=0x90cc phase=1 params=[203,0]
+2026-10-17T02:50:04.198Z 0012 CMD session=1 tx=6 op=0x90cc phase=1 params=[204,0]
+2026-10-17T02:50:04.203Z 0013 CMD session=1 tx=7 op=0x90cc phase=1 params=[205,0]
+2026-10-17T02:50:04.208Z 0014 CMD session=1 tx=8 op=0x90cc phase=1 params=[206,0]
+2026-10-17T02:50:04.210Z 0015 CMD session=1 tx=9 op=0x90cc phase=1 params=[207,0]
+2026-10-17T02:50:04.214Z 0016 CMD session=1 tx=10 op=0x90cc phase=1 params=[208,0]
+2026-10-17T02:50:04.217Z 0017 CMD session=1 tx=11 op=0x90cc phase=1 params=[209,0]
+2026-10-17T02:50:12.684Z 0018 CMD session=1 tx=12 op=0x90cc phase=1 params=[1,0]
+2026-10-17T02:50:22.695Z 0019 CMD session=1 tx=13 op=0x90cc phase=1 params=[1,0]
+2026-10-17T02:50:32.706Z 0020 CMD session=1 tx=14 op=0x90cc phase=1 params=[1,0]
+2026-10-17T02:50:42.709Z 0021 CMD session=1 tx=15 op=0x90cc phase=1 params=[1,0]
+2026-10-17T02:50:52.720Z 0022 CMD session=1 tx=16 op=0x90cc phase=1 params=[1,0]

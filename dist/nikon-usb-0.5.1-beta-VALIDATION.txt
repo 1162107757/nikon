@@ -1,0 +1,53 @@
+0.5.1-beta / versionCode18 — hold original-template comparison
+Date: 2026-10-17
+
+Delivery
+  APK: nikon-usb-0.5.1-beta-debug.apk
+  Size: 2708089 bytes
+  SHA-256: 01941168d2b2e40f0aa9900fc93dab2fe19c8577fdb1dd86eb3560904becb015
+  scripts/build-apk.ps1 completed; v2/v3 APK signatures verified.
+
+Change
+  Downloaded-preset detail main image has a bottom-end 48dp compare control, inset12dp.
+  DOWN shows the unapplied current template; UP restores the preset simulation.
+  Original/effect share the same CENTER_CROP and dimensions, with truthful state badge.
+  Both bitmaps preload off-thread and remain referenced by the control. Version+epoch
+  checks reject stale template/page callbacks. Comparison is enabled only when ready.
+  Slide-out, cancel, additional pointers, focus loss, pause and detach restore effect.
+  Moving back inside an already cancelled gesture does not re-enter original mode.
+  Keyboard/accessibility click uses a separate toggle; touch does not double-toggle.
+  Detail's external original-dialog link is removed; Settings original viewer remains.
+
+Validation
+  Pixel9 Android17/API37 temporary read-only emulator, 1080x2424 portrait.
+  Imported hand-written PreviewTone.NCP through Android's document picker.
+  15 functional assertions passed: ready-effect, DOWN, UP, image-region change and
+  exact restoration, secondDOWN, slideout, no-reentry, preCANCEL-DOWN, CANCEL,
+  prePAUSE-DOWN, HOME/resume, keyboard original, keyboard effect, dark+font1.3,
+  restored emulator settings. Evidence: docs/device-review/compare-0.5.1-gesture.log.
+  Original and effect visibly differ, without crop or layout movement. ROI(120,470,
+  480,400) PNG hash differs on DOWN and matches the initial effect exactly on UP.
+  Dark theme/fontScale1.3 control label fits; test emulator restored light/font1.0.
+  Multi-pointer release, loading failure, stale callback and detach were inspected
+  in source, not injected as physical multi-touch tests. Independent source review
+  found no confirmed P1/P2 in the helper and MainActivity integration.
+  Native UI patch compiled; no full core/probe suite rerun. Older8212/3487 counts
+  remain 0.5 evidence, not new checks for this release. git diff --check passed.
+
+Review
+  Fresh independent native finish reviewer: disposition ship, no material fixes.
+  Required files .impeccable/review/phone-apple-v051-{effect,held-original,
+  released-effect,dark-large-effect}.png were opened and validated by root/reviewer.
+  Exact scoped record: docs/design-review/apple-glass/finish-review-0.5.1.md.
+  No HTML/CSS detector for native Views. Scope is the captured emulator phone UI.
+
+Phone installation
+  OnePlus PKG110 Android16 serial286f0dba owner0: install-r succeeded, code18/name0.5.1.
+  Existing app data was preserved. Installed base.apk checksum matches delivery.
+  App process alive; no AndroidRuntime crash observed in checked log.
+  Further foreground interaction was stopped while user used another app.
+  Actual phone touch/TalkBack/performance results are not claimed.
+
+Limits
+  Existing phone-only template approximation and supported NCP scope are unchanged.
+  No new real-camera, camera-effect equivalence, tablet or physical-gesture claims.

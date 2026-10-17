@@ -1,0 +1,91 @@
+Version: 0.3.1-beta / versionCode 13
+Date: 2026-10-16 (Asia/Shanghai)
+APK: nikon-usb-0.3.1-beta-debug.apk
+Size: 229922 bytes
+SHA-256: ad29969323f7989f5142f8f8f56711fecedc5adf1f45d239d9478b39a8077da6
+Package: com.nikonpreset.usbprobe
+Minimum API 26; compile/target API 35; JDK 17.
+Manual Android resource packaging, javac, D8, zipalign and APK v2/v3 verification passed.
+Signer SHA-256: 04db0f9d3d76c9831a0778cfabc1a0aaab984e05398da16eb644950ccfa0ae31
+Same development key as this checkout's 0.3.0-beta, different from the older 0.2.1-beta.
+Upgrading a 0.2.1 installation while preserving data still requires its original key.
+No physical-phone installation or uninstall was performed.
+
+Changes:
+- Camera JPEG grid automatically requests the next 24 items when scrolled to its end.
+- Single pending request, old-request identity guard, failure pause with explicit retry,
+  advancing empty filtered pages and nonadvancing-cursor rejection.
+- Appends update the current GridView; native saved view state preserves the camera
+  handle and scroll offset through viewer/navigation/layout changes.
+- Black full-screen fitted photo, hidden system/app bars, overlay Back/name/save actions.
+- Single tap toggles controls; double tap/pinch zoom and bounded drag use native detectors.
+- Explicit save retains the displayed bitmap and zoom.
+- Full JPEG previews are temporary and pinned while viewed; two entries / 128 MB total,
+  64 MB per automatic preview. No preview is added to the downloaded-photo list.
+- Explicit download copies a complete matching preview rather than transferring it twice.
+- Partial, mismatched or malformed receives are not published as complete cache/downloads.
+
+Automated checks:
+tests/run.ps1 -JdkHome D:\dev\Java\jdk-17.0.19
+7052 passed:
+186 PTP core, 68 NCP structure, 2577 simulated NCP transfer, 148 storage,
+955 read-only directory, 50 Picture Control codec, 77 NCP adaptation,
+2845 PTP/IP, 45 preview-cache, 101 automatic-pagination checks.
+UI-only changes after this run do not alter the tested pure Java classes.
+Previous USB host/library totals are not included as newly executed checks.
+git diff --check passed.
+
+Production-client loopback smoke:
+tests/tools/SyntheticAlbumPhotos.java generates explicitly marked geometric JPEG fixtures.
+tests/tools/album-camera-server.js is loopback-only and advertises only standard reads.
+Production PtpIpClient completed handshake, 49 ObjectInfo reads, thumbnail reception and
+streamed JPEG decoding against it. No real camera or third-party service was accessed.
+
+Final APK emulator verification:
+Pixel 9 read-only AVD, Android 17 / API 37, portrait 1080x2424 and landscape 2424x1080.
+Installed final base.apk SHA-256 matches the delivered APK hash above.
+Connected AlbumController to local fixture service via emulator gateway 10.0.2.2:15740.
+Observed 24 -> 48 -> 49 from scrolling alone, with no normal Load More button.
+At the last page the footer reports all photos and no further page is requested.
+Append remained around photo 28; end-of-list/open/return remained around photo 40.
+Opened remote photo 40, fitted original JPEG, single-tap hidden/restored overlay, double-tap
+zoom, explicit save and retained enlarged view, then system Back restored the grid and bars.
+For final-package fixture session 2, exactly one GetObject(0x1009) occurred for handle 40:
+preview and subsequent explicit save reused the same completed data.
+Opened the saved photo from Downloaded and checked landscape fitted viewing.
+No application-process crash log was recorded during these checks.
+
+All these screenshots in .impeccable/review/ are from the final APK hash above:
+phone-album-grid24.png, phone-album-grid48.png, phone-album-grid49.png,
+phone-album-viewer.png, phone-album-clean.png, phone-album-zoom.png,
+phone-album-saved.png, phone-album-return.png, phone-album-downloaded.png,
+phone-album-local-viewer.png, phone-album-landscape.png.
+Fixtures are synthetic test images, not bundled app content or real preset effect samples.
+
+Limits:
+No physical-camera Wi-Fi, actual photo corpus, weak-network, tablet, TalkBack or hardware
+pinch/gesture test was performed. Automated cache/pagination checks do not certify those.
+No NP2/NP3, RAW/video, Nikon pairing or new camera-compatibility claim was introduced.
+
+Independent album review:
+Disposition: SHIP, limited to the reviewed phone album UI scope.
+The independent reviewer examined all 11 final-APK phone-album screenshots listed above
+and AlbumPanel, PhotoImageView, AlbumPaging and MainActivity; no material issues were found.
+This conclusion does not extend the emulator evidence to physical-camera Wi-Fi,
+camera compatibility or any untested scene identified in Limits.
+
+Subsequent physical-phone installation and startup finding:
+After the emulator/UI review above, the user explicitly requested phone installation
+and had removed the old package from the main user. User 0 reported installed=false,
+but an old package remained under system_clone user 10. That residual package was
+removed for user 10; 0.3.1-beta then installed on PKG110 / Android 16 with an APK hash
+matching this record. This later installation supersedes the earlier no-phone-install
+statement, which describes the original emulator review only.
+The first launch crashed: MainActivity.render called PhoneWindow.getInsetsController
+before DecorView existed, producing a null pointer exception inside PhoneWindow.
+Final delivery therefore moves to 0.3.2-beta / versionCode 14, which initializes DecorView
+before obtaining and checking the system-bar controller. The fix does not change the UI
+design. Version 0.3.2 build/install/phone-launch verification is still pending; see
+nikon-usb-0.3.2-beta-VALIDATION.txt for its final hash and results when recorded.
+All JVM, screenshot, emulator and independent-review evidence above remains scoped to
+0.3.1-beta and is not a claim that 0.3.2-beta has been fully retested or passed on phone.

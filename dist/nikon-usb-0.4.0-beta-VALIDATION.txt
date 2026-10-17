@@ -1,0 +1,99 @@
+0.4.0-beta / versionCode 16 — native Apple-style UI and Settings connection management
+Date: 2026-10-16
+
+Delivery
+  APK: nikon-usb-0.4.0-beta-debug.apk
+  Size: 238114 bytes
+  SHA-256: e3583acbf09df858b10bdac675eacccdfec1559690a834200e5a42591ccbceff
+  Build: scripts/build-apk.ps1 -SdkRoot D:/dev/android-sdk -JdkRoot D:/dev/Java/jdk-17.0.19
+  APK Signature Scheme v2/v3 verification passed.
+
+Implemented scope
+  Native Java Views, cloud-white/graphite themes, blue actions, rounded grouped lists,
+  compact source tabs and floating three-destination navigation: presets/album/settings.
+  Settings owns Wi-Fi, USB, disconnect, catalog configuration, help and about.
+  Content roots display a small status dot and text. A configured address or merely
+  enumerated USB device is not considered a verified connection.
+  Wi-Fi status follows the verified read-only AlbumController session; USB status
+  requires a successful read-only slot probe with a closed session, permission and
+  a still-attached device. USB album browsing remains unavailable.
+  Imports use the selected verified connection, close the album session first and
+  retain the existing fresh capability/empty-slot/confirmation/write/readback guards.
+  Pending-result recovery retains the journal's original transport and address.
+  Photo transfer prevents connection changes; download cancellation stays reachable.
+  GlassBar samples a small local backdrop at most 10fps and uses RenderEffect on
+  API31+ only. Older API, low-RAM, power-save, disabled animations and unavailable
+  sampling use a solid fallback. Foreground labels are not blurred.
+
+Automated checks
+  tests/run.ps1 -JdkHome D:/dev/Java/jdk-17.0.19 passed 7104 checks:
+  186 PTP core, 68 NCP structure, 2577 transfer, 148 storage, 955 directory survey,
+  50 Picture Control codec, 77 NCP conversion, 2845 PTP/IP, 50 preview cache,
+  101 album pagination, 47 production album-controller flow checks.
+  These ran during this implementation before the later UI-only layout/list-state
+  corrections. The final UI source was compiled and checked on the emulator below;
+  this count is not presented as new UI tests or repeated per build.
+  git diff --check passed. New GlassBar was also compiled in the final APK.
+
+Final-APK emulator evidence
+  Pixel 9 read-only emulator, Android17/API37, 1080x2424 portrait, 2424x1080 landscape.
+  Installed APK hash matches delivery. Final app process: PID13162; its filtered
+  AndroidRuntime error log was empty after the completed flow.
+  Light theme font scale1.0; dark theme scale1.3; emulator settings restored.
+  Root navigation, truthful empty library, Settings, address/port editing, invalid
+  port0 validation, system Back, connection status, disconnect and offline viewing
+  were exercised. No real camera was involved.
+
+  Final test endpoint: loopback-only 127.0.0.1:15742 (emulator10.0.2.2:15742),
+  tests/tools/album-camera-server.js, 49 explicitly SYNTHETIC JPEG fixtures.
+  The final run showed 24 initial items and automatic paging through the remaining
+  metadata to49; terminal status stopped further paging. No manual load-more action.
+  TEST_0003.JPG opened at320x200 via GetThumb; before explicit download, GetObject=0.
+  Clicking download made exactly one GetObject. Saved original matches1600x1000
+  fixture SHA-256 014f6890d669e4f41477f37e9b89cc35b233b0d4712caf48f0567dc6f28ce17f.
+  Navigating near photo40, opening Settings and disconnecting no longer crashes;
+  downloaded TEST_0003 remained viewable offline, without another original request.
+  Final checkpoint logs:
+    docs/device-review/apple-0.4.0-before-download.log
+    docs/device-review/apple-0.4.0-after-download.log
+    docs/device-review/apple-0.4.0-final-session.log
+  They refer to the final15742 service session, not the earlier15741 development run.
+
+  All final screenshots are in .impeccable/review/ with prefix phone-apple-:
+    home.png, album-empty.png, settings.png, wifi.png, connected-home.png,
+    connected-settings.png, grid24.png, paging49.png, viewer.png, saved.png,
+    disconnected-settings.png, offline.png, dark130-settings.png,
+    dark130-settings-bottom.png, dark130-wifi.png, invalid.png, landscape.png.
+  Each is captured from the final hash above. Two initially misnamed captures were
+  replaced after adding a UI-idle barrier; the independent reviewer inspected the
+  corrected files. The early layout build and stale-grid crash are not delivery
+  evidence. Fixes: bounded floating-bar height; retire stale grid before replacing
+  backing data and validate saved-position indices.
+
+Physical phone installation
+  PKG110 / Android16, serial286f0dba, owner user0.
+  adb install -r upgraded0.3.3-beta/code15 without uninstalling or clearing data.
+  Installed base.apk SHA-256 matches delivery. Force-stop followed by cold launch:
+  Status ok, LaunchState COLD, TotalTime314ms, MainActivity foreground.
+  PID27694 remained alive; PID-filtered AndroidRuntime errors were empty.
+  Preset, album and Settings root pages were opened. Existing system dark theme and
+  font preference were kept. Captures1080x2376:
+    .impeccable/review/phone-apple-device-home.png
+    .impeccable/review/phone-apple-device-album.png
+    .impeccable/review/phone-apple-device-settings.png
+  No test photos were added to the phone, and no camera was connected.
+
+Independent review
+  Correctness review checked connection purposes, session exclusivity, busy guards,
+  recovery routing and stale-grid retirement. No outstanding material issue found.
+  A fresh native finish reviewer inspected the17 emulator captures and source,
+  returning SHIP only for this reviewed phone UI scope. It subsequently checked
+  the3 real-phone root captures and found no new visible material defect.
+  No web detector ran on native Views; source and actual device captures were used.
+
+Limits
+  No new real-camera USB or wireless validation, camera write, pairing compatibility,
+  TalkBack, tablet, physical pinch gesture or hardware blur-performance certification.
+  The tests and screenshots do not establish wireless preset registration support.
+  Synthetic photos and the web proposal's AI atlas are not bundled as preset samples.
+  Earlier releases' checks, hashes and screenshots retain their original scope.

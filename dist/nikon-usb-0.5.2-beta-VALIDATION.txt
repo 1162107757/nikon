@@ -1,0 +1,50 @@
+0.5.2-beta / versionCode19 — preset tone curve and concise comparison label
+Date: 2026-10-17
+
+Delivery
+  APK: nikon-usb-0.5.2-beta-debug.apk
+  Size: 2712185 bytes
+  SHA-256: 7fedfaf59fc3b2f6256fce1fbae9f08969ba4e364de91bdb957329e6ecaa503e
+  scripts/build-apk.ps1 completed, v2/v3 signatures verified.
+
+Implemented
+  Downloaded-preset detail shows a compact tone-curve plot below the image/name.
+  ToneCurveView draws all257 NCP tone LUT samples via profile.mapTone(i/256.0),
+  with a primary solid curve, dashed identity reference, 4x4 grid, input/output axes
+  and0/255 labels. No fitting or invented per-channel curves are added.
+  Unsupported/read failures show a retry state, never fabricated graph data.
+  Curve parsing/read is off-thread, profiles use an8-entry SHA LRU. Pending requests
+  bind the latest target, and epoch checks reject abandoned-page updates.
+  Template changes do not alter the preset's curve. The chart is read-only.
+  Image compare control visible label is now Original (Chinese: 原图); minimum48dp
+  target and full hold/release accessibility instructions remain. Loading/failure
+  labels are shortened. Existing hold/release implementation is otherwise unchanged.
+
+Verification
+  Pixel9 Android17/API37 temporary read-only emulator,1080x2424.
+  Imported two hand-written synthetic638-byte NCPs through the document picker.
+  Eight native assertions passed: tone outputs10/172/240 at input0/128/255;
+  identity0/128/255; switching back to tone retains its own data; short enabled
+  original label; DOWN switches to template original; UP restores simulation;
+  dark+fontScale1.3 curve data; restored system light/font1.0.
+  Log: docs/device-review/curve-0.5.2-functional.log.
+  Required captures under .impeccable/review/:
+  phone-apple-v052-{curve-tone,original-held,curve-identity,curve-dark-large}.png.
+  Root opened all4 and confirmed actual chart states, short control, readable
+  legend/axes and enlarged dark text. Independent source review found noP1/P2.
+  Full core/probe suites were not rerun for this UI-only addition; historical
+  0.5.0 counts and0.5.1 gesture results retain their original scope.
+  Native Views skip the HTML/CSS detector. git diff --check passed.
+  The first UI review requested one contrast correction: both dashed reference
+  strokes now use secondary alpha200, compositing to3.438:1 on the light card
+  and4.742:1 on the dark card. Grid lines retain their subtle appearance.
+  The same four final-APK captures were recaptured. The reviewer scored this
+  single material fix resolved; final disposition ship, limited to captured
+  Pixel9/Android17 phone UI, including dark/fontScale1.3.
+  Verdict: docs/design-review/apple-glass/finish-review-0.5.2.md.
+
+Limits
+  Existing strict NCP0100 subset and phone-template approximation remain unchanged.
+  Curve shows stored tone data, not a recovered Nikon base transform or full pipeline.
+  No new real-camera effects, TalkBack, tablet, physical-gesture or performance claims.
+  No physical phone was connected at final delivery;0.5.2 was not installed there.

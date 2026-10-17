@@ -1,0 +1,54 @@
+0.5.5 synthetic Android lifecycle verification
+APK 3b2b7235f5e89b9c27f919b6aac39b99d534452bd27a571fae3ca7317a5688a0
+2026-10-17T02:35:49.8665268Z battery optimization exemption granted via system Allow in emulator
+2026-10-17T02:35:49.9238916Z HOME; always_finish_activities=1; album connection active
+  * ServiceRecord{7ad2fce u0 com.nikonpreset.usbprobe/.connection.CameraConnectionService c:com.nikonpreset.usbprobe}
+    isForeground=true foregroundId=41 types=0x00000010 foregroundNoti=Notification(channel=camera-connection shortcut=null contentView=null vibrate=null sound=null defaults=0 flags=ONGOING_EVENT|ONLY_ALERT_ONCE|NO_CLEAR|FOREGROUND_SERVICE color=0x00000000 category=service actions=1 vis=PRIVATE template=null)
+    startRequested=true delayedStop=false stopIfKilled=true callStart=true lastStartId=1
+2026-10-17T02:38:01.0372011Z album HOME interval completed; clear-task NEW_TASK Activity rebuild in same app process
+    * Hist  #0: ActivityRecord{107312643 u0 com.nikonpreset.usbprobe/.MainActivity t9}
+2026-10-17T02:38:42.2655712Z preset confirmation reached; HOME + screen off
+  mWakefulness=Dozing
+  PARTIAL_WAKE_LOCK                 'nikon:camera-connection' ACQ=-4m50s400ms LONG (uid=10230 isFrozen=false isAttributedUidCached=false pid=19406 powerGroupId=0)
+mWakefulness=3
+  10-17 02:33:52.016 - 10230 (com.nikonpreset.usbprobe) - ACQ nikon:camera-connection (partial)
+user,com.nikonpreset.usbprobe,10230
+2026-10-17T02:39:34.7444713Z force deep Doze with explicit user-granted optimization exemption
+Now forced in to deep idle mode
+  mForceIdle=true
+  mState=IDLE mLightState=OVERRIDE
+2026-10-17T02:41:34.9750841Z force-idle interval completed; unforce/reset battery/wake and return
+Light state: OVERRIDE, deep state: IDLE
+mForceModeManagerQuickDozeRequest: false
+mForceModeManagerOffBodyState: false
+2026-10-17T02:42:08.4156455Z first import C1 verified; success page shows connection kept; HOME screen off
+2026-10-17T02:45:17.1626536Z post-import background/screen-off interval complete; wake then rebuild Activity in same process
+2026-10-17T02:46:24.5403376Z restored success after Activity recreation; explicit second confirmation C2 on same held connection
+2026-10-17T02:47:59.4410072Z second success completed, returned through detail/root to Settings; explicit idle Disconnect tapped
+ACTIVITY MANAGER SERVICES (dumpsys activity services)
+  (nothing)
+  mWakefulness=Awake
+Wake Locks: size=1
+mWakefulness=1
+  10-17 02:33:52.016 - 10230 (com.nikonpreset.usbprobe) - ACQ nikon:camera-connection (partial)
+  10-17 02:48:01.733 - 10230 (com.nikonpreset.usbprobe) - REL nikon:camera-connection
+2026-10-17T02:49:10.0725116Z separate read-only loss test; no active connection; revoke emulator notification permission then reopen
+2026-10-17T02:50:41.7759068Z Android notification prompt explicitly denied; read-only connection held
+  * ServiceRecord{698a38 u0 com.nikonpreset.usbprobe/.connection.CameraConnectionService c:com.nikonpreset.usbprobe}
+    isForeground=true foregroundId=41 types=0x00000010 foregroundNoti=Notification(channel=camera-connection shortcut=null contentView=null vibrate=null sound=null defaults=0 flags=ONGOING_EVENT|ONLY_ALERT_ONCE|FOREGROUND_SERVICE color=0x00000000 category=service actions=1 vis=PRIVATE template=null)
+    startRequested=true delayedStop=false stopIfKilled=true callStart=true lastStartId=1
+      android.permission.POST_NOTIFICATIONS
+        android.permission.POST_NOTIFICATIONS: granted=false, flags=[ USER_SET|USER_SENSITIVE_WHEN_GRANTED|USER_SENSITIVE_WHEN_DENIED]
+2026-10-17T02:50:54.1399578Z notification-denied read-only connection: HOME before injected server transport loss
+2026-10-17T02:51:23.5420041Z loss cleanup checked before returning to foreground
+ACTIVITY MANAGER SERVICES (dumpsys activity services)
+  (nothing)
+  mWakefulness=Awake
+Wake Locks: size=0
+mWakefulness=1
+  10-17 02:33:52.016 - 10230 (com.nikonpreset.usbprobe) - ACQ nikon:camera-connection (partial)
+  10-17 02:48:01.733 - 10230 (com.nikonpreset.usbprobe) - REL nikon:camera-connection
+  10-17 02:50:02.539 - 10230 (com.nikonpreset.usbprobe) - ACQ nikon:camera-connection (partial)
+  10-17 02:51:02.640 - 10230 (com.nikonpreset.usbprobe) - REL nikon:camera-connection
+2026-10-17T02:51:56.5190059Z test cleanup: restored always_finish_activities; unforced idle, reset battery, restored prior emulator notification grant; readonly emulator scheduled for shutdown
+2026-10-17T02:54:14.7006314Z cleanup complete; adb devices lists only physical device 286f0dba; final APK hash unchanged and all app/src/main files predate APK

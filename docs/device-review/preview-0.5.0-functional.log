@@ -1,0 +1,7 @@
+manual-light-over-system-dark PASS F7F8FA
+follow-system-dark PASS 22252A
+follow-system-light-live PASS F7F8FA
+manual-dark-cold-start-system-light PASS 22252A
+restore-follow-system-light PASS F7F8FA
+import-mode-usb-cold-start PASS
+system-animation-disabled-nine-root-switches PASS

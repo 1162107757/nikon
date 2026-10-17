@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>相机预设 · Apple 风格设计预览</title>
+  <link rel="stylesheet" href="assets/apple-tokens.css">
+  <link rel="stylesheet" href="preview.css">
+</head>
+<body>
+<!--
+THESIS: Photography leads; translucent controls float above an uncluttered personal photo library.
+OWN-WORLD: Cloud-white and graphite, restrained system blue, 24–30px continuous corners, optical system type, lit glass rims.
+STORY: Collect a preset, browse lightweight previews, explicitly download an original, and manage camera connections in Settings.
+FIRST VIEWPORT: One coherent direction across library, album and settings; photos occupy the visual center and glass navigation floats below. The immersive viewer opens from an album photo.
+NAVIGATION CONTRACT: Three primary destinations — library, album, settings. Camera connection actions belong to settings; library and album show connection status only.
+FORM: User-pinned Apple Photos/library material language; code-led design preview, seed b120d374. Other random worlds declined as outside the explicit brief.
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+-->
+<svg class="icon-defs" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
+  <symbol id="i-camera" viewBox="0 0 24 24"><path d="M8 5.5 9.6 3h4.8L16 5.5h3.2A2.8 2.8 0 0 1 22 8.3v10A2.8 2.8 0 0 1 19.2 21H4.8A2.8 2.8 0 0 1 2 18.3v-10a2.8 2.8 0 0 1 2.8-2.8Z"/><circle cx="12" cy="13" r="4.3"/></symbol>
+  <symbol id="i-library" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 2h10M3 15l4.5-4.5 4 4 3-3L21 18"/><circle cx="16.5" cy="9.5" r="1.2"/></symbol>
+  <symbol id="i-album" viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="3"/><path d="M7 6h10M7 10h10M7 14l3-2.5 7 6M7 18h3"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><path d="m9.7 3-.5 2.5a7.3 7.3 0 0 0-1.5.9l-2.4-.8L3 9.4l1.9 1.7a7.6 7.6 0 0 0 0 1.8L3 14.6l2.3 3.8 2.4-.8a7.3 7.3 0 0 0 1.5.9l.5 2.5h4.6l.5-2.5a7.3 7.3 0 0 0 1.5-.9l2.4.8 2.3-3.8-1.9-1.7a7.6 7.6 0 0 0 0-1.8L21 9.4l-2.3-3.8-2.4.8a7.3 7.3 0 0 0-1.5-.9L14.3 3Z"/><circle cx="12" cy="12" r="3.2"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="m9 15 6-6m-7.8 3.6-2 2a4.3 4.3 0 0 0 6.1 6.1l3.4-3.4a4.3 4.3 0 0 0 0-6.1m2.1.2 2-2a4.3 4.3 0 0 0-6.1-6.1L9.3 6.7a4.3 4.3 0 0 0 0 6.1"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 6h7m5 0h4M4 18h3m5 0h8M4 12h3m5 0h8"/><circle cx="13.5" cy="6" r="2.5"/><circle cx="9.5" cy="18" r="2.5"/><circle cx="9.5" cy="12" r="2.5"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="m14 5-7 7 7 7"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15m-5-6 6 6-6 6"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 16v4h16v-4"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v.1"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M2.5 8.5a15 15 0 0 1 19 0M6 12.2a9.5 9.5 0 0 1 12 0M9.5 16a4 4 0 0 1 5 0"/><circle cx="12" cy="20" r=".7"/></symbol>
+  <symbol id="i-usb" viewBox="0 0 24 24"><path d="M12 21V3m-3 3 3-3 3 3M12 16l-5-4V8m5 5 5-4V6"/><circle cx="7" cy="6" r="2"/><path d="M15 3h4v4h-4"/></symbol>
+  <symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.5 14A9 9 0 0 1 10 3.5 9 9 0 1 0 20.5 14Z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M2 7V5a2 2 0 0 1 2-2h5l3 3h8a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2Z"/></symbol>
+</defs></svg>
+<main class="design-board">
+  <header class="board-header">
+    <div class="board-intro"><div class="brand-line"><span class="brand-icon"><svg><use href="#i-camera"/></svg></span><h1>相机预设</h1><span class="design-tag">Apple 风格预览</span></div><p>更轻的界面，更专注的照片。</p></div>
+    <div class="board-tools"><button id="empty-toggle" class="board-button">查看空状态</button><button id="theme-toggle" class="board-button" aria-label="切换为深色外观"><svg><use href="#i-moon"/></svg><span>深色外观</span></button></div>
+  </header>
+  <nav class="mobile-screens" aria-label="切换设计页面"><button class="active" data-phone="library">预设库</button><button data-phone="album">相册</button><button data-phone="settings">设置</button></nav>
+  <section class="screens" aria-label="同一设计方案的三个页面">
+    <article class="device-card mobile-active" data-phone="library"><div class="device-label"><h2>预设库</h2><span>收藏喜欢的色彩</span></div><div class="device"><div class="app" data-start="library"></div></div></article>
+    <article class="device-card" data-phone="album"><div class="device-label"><h2>相册</h2><span>照片优先，操作轻盈</span></div><div class="device"><div class="app" data-start="album"></div></div></article>
+    <article class="device-card" data-phone="settings"><div class="device-label"><h2>设置</h2><span>连接集中管理</span></div><div class="device"><div class="app" data-start="settings"></div></div></article>
+  </section>
+  <footer class="board-footer"><p><span class="demo-dot"></span>交互设计稿 · 照片、预设与连接状态均为示例，不代表实际预设效果。</p><button id="reset" class="reset-button">重置预览 <span aria-hidden="true">↻</span></button></footer>
+</main>
+<script src="preview.js"></script>
+</body></html>

@@ -10,7 +10,8 @@ import android.graphics.drawable.Drawable;
 
 /** One family of compact vector pictograms, no font/emoji-dependent navigation. */
 public final class AppIcon extends Drawable {
-    public enum Kind { PRESETS, ALBUM, CAMERA, FILE, DOWNLOAD, BACK, HELP, CHECK, WIFI, ADJUST, REFRESH }
+    public enum Kind { PRESETS, ALBUM, CAMERA, FILE, DOWNLOAD, BACK, HELP, CHECK, WIFI, ADJUST, REFRESH,
+        SETTINGS, PLUS, USB, CHEVRON, INFO, LINK }
     private final Kind kind;
     private final Paint ink = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final int size;
@@ -47,11 +48,41 @@ public final class AppIcon extends Drawable {
                 canvas.drawCircle(8,6,2,ink); canvas.drawCircle(16,12,2,ink); canvas.drawCircle(9,18,2,ink); break;
             case REFRESH:
                 canvas.drawArc(new RectF(4,4,20,20),35,285,false,ink); line(canvas,14,3,20,4,19,10); break;
+            case SETTINGS:
+                gear(canvas); canvas.drawCircle(12,12,3.2f,ink); break;
+            case PLUS: line(canvas,12,5,12,19); line(canvas,5,12,19,12); break;
+            case USB:
+                line(canvas,12,21,12,3); line(canvas,9,6,12,3,15,6);
+                line(canvas,12,16,7,12,7,8); line(canvas,12,12,17,9,17,6);
+                canvas.drawCircle(7,6.5f,1.5f,ink); canvas.drawRect(15.5f,3,18.5f,6,ink);
+                canvas.drawCircle(12,21,1.2f,ink); break;
+            case CHEVRON: line(canvas,9,5,16,12,9,19); break;
+            case INFO:
+                canvas.drawCircle(12,12,9,ink); canvas.drawPoint(12,7,ink); line(canvas,12,11,12,17); break;
+            case LINK:
+                canvas.save(); canvas.rotate(-45,12,12);
+                canvas.drawArc(new RectF(8,2,16,14),180,270,false,ink);
+                canvas.drawArc(new RectF(8,10,16,22),0,270,false,ink);
+                line(canvas,12,8,12,16); canvas.restore(); break;
         }
         canvas.restoreToCount(save);
     }
     private void line(Canvas canvas,float... xy) {
         Path path=new Path(); path.moveTo(xy[0],xy[1]); for(int i=2;i<xy.length;i+=2) path.lineTo(xy[i],xy[i+1]); canvas.drawPath(path,ink);
+    }
+    private void gear(Canvas canvas) {
+        Path path = new Path();
+        // Four vertices per tooth retain a quiet, mechanical outline at 24 dp.
+        for (int tooth = 0; tooth < 8; tooth++) {
+            for (int vertex = 0; vertex < 4; vertex++) {
+                double angle = Math.toRadians(-101.25 + tooth * 45 + vertex * 11.25);
+                float radius = vertex < 2 ? 10 : 8;
+                float x = 12 + (float) Math.cos(angle) * radius;
+                float y = 12 + (float) Math.sin(angle) * radius;
+                if (tooth == 0 && vertex == 0) path.moveTo(x,y); else path.lineTo(x,y);
+            }
+        }
+        path.close(); canvas.drawPath(path,ink);
     }
     @Override public int getIntrinsicWidth() { return size; }
     @Override public int getIntrinsicHeight() { return size; }

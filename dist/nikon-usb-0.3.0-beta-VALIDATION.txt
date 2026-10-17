@@ -1,0 +1,73 @@
+Version: 0.3.0-beta / versionCode 12
+Date: 2026-10-16 (Asia/Shanghai)
+APK: nikon-usb-0.3.0-beta-debug.apk
+Size: 217634 bytes
+SHA-256: 98ba923e455b1052b130ceddfca39a59cfde4f0300349ac742daa935a2617795
+Package: com.nikonpreset.usbprobe
+Minimum API: 26; compile/target API: 35; JDK 17
+
+Build:
+scripts/build-apk.ps1 -SdkRoot D:\dev\android-sdk -JdkRoot D:\dev\Java\jdk-17.0.19
+Resource packaging, source compilation, D8 and zipalign completed.
+Final APK v2/v3 signature verification passed.
+Signer SHA-256: 04db0f9d3d76c9831a0778cfabc1a0aaab984e05398da16eb644950ccfa0ae31
+The old development key was absent in this checkout; the script created a new debug key.
+This signer differs from 0.2.1-beta (726258b1cefd78057b526cd9dd42dcdd99e8b8e5539c686b3ffa40ff8004c403).
+The new APK cannot replace the old signed installation. Original-key signing is required
+for an upgrade that preserves data. Do not uninstall the old app to work around this:
+uninstallation removes its presets, pending import evidence and app-directory photos.
+
+Implementation:
+- Native Wi-Fi / USB connection chooser and wireless preset-import guide.
+- Shared Wi-Fi-bound sockets and persistent initiator identity with the album.
+- Separate PTP/IP Picture Control mode; default album instances remain read-only.
+- Reuse of existing read/import sessions, fresh C1-C9 reads, two empty-target checks,
+  a single registration attempt, byte-exact readback, and confirmed CloseSession.
+- Source NCP is cloned and converted again in the backend.
+- Durable schema-2 journal includes transport and endpoint; unknown outcomes require
+  read-only recovery through the recorded route. Old records default to USB.
+- No automatic retry, overwrite, deletion, rollback or current-preset selection.
+
+Automated verification (synthetic data and simulated camera endpoints):
+tests/run.ps1 -JdkHome D:\dev\Java\jdk-17.0.19
+  PTP core 186; NCP structure 68; NCP transfer 2577; storage 148;
+  directory survey 955; Picture Control codec 50; NCP adaptation 77;
+  PTP/IP 2845. Total: 6906.
+tests/run-probe.ps1 -JdkHome D:\dev\Java\jdk-17.0.19 -AndroidJar D:\dev\android-sdk\platforms\android-35\android.jar
+  Production USB probe 685; read-only Picture Control 453; USB copy/adaptation 1004;
+  wireless Picture Control wrapper 1345. Total: 3487.
+tests/run-library.ps1 -JdkHome D:\dev\Java\jdk-17.0.19 -AndroidJar D:\dev\android-sdk\platforms\android-35\android.jar
+  Local library / injected HTTPS checks: 127.
+All 10520 passed. git diff --check passed.
+The final one-line UI opacity fix did not change these tested protocol/persistence classes.
+
+Emulator UI verification:
+Pixel 9 read-only AVD copy, Android 17 / API 37, 1080x2424, no physical-phone installation.
+Installed and launched the APK. Only the emulator was targeted by installation/UI commands.
+The emulator's installed base.apk SHA-256 matches the final APK above.
+Synthetic HOST NCP came from tests/NcpCompatibilityFixtures and was selected via the system
+file picker; it is not included in the APK and is not a real photographic-effect sample.
+Checked connection choice, guide, invalid IPv4, dark mode, 1.3 font scale and scroll access.
+A local TCP waiting peer accepted an initiator connection without providing camera data.
+Checked that Cancel is enabled while waiting and that tapping it restores the read action
+with an explicit cancellation message. No registration was attempted by these UI checks.
+
+Screenshot version mapping in .impeccable/review/:
+phone-wireless-choice.png, phone-wireless-guide.png, phone-wireless-invalid.png,
+phone-wireless-dark130.png, phone-wireless-dark130-bottom.png:
+  same-round build SHA-256 5a126629ebddedc12c300fac0dfb0f6f82f249d04e8591d802aaffbb63a81218.
+phone-wireless-reading.png, phone-wireless-cancelled.png:
+  final APK SHA-256 98ba923e455b1052b130ceddfca39a59cfde4f0300349ac742daa935a2617795.
+The final build only restored full opacity on the active Cancel button.
+Independent UI review found this issue; after recapture it scored the issue resolved
+and returned disposition ship for the previously reviewed phone UI scope.
+
+Limits:
+- No physical-camera wireless handshake, vendor capability, registration or readback test.
+- No Nikon proprietary pairing/authentication implementation.
+- No reliable evidence yet that Z6II built-in Wi-Fi exposes SetPicCtrlData (0x90CD).
+  The current wireless session must advertise required operations and pass read-only checks.
+- USB success feedback does not establish Wi-Fi compatibility.
+- No real-camera confirmation/success page, tablet, landscape, TalkBack or full OS matrix review.
+- Successful adapted-byte registration does not prove Nikon-native conversion or photo effects.
+- No user recipe, private SDK source or concept sample photo was bundled.

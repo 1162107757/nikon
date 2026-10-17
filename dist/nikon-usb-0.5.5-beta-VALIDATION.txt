@@ -1,0 +1,212 @@
+Nikon Preset 0.5.5-beta - Delivery and validation record
+Date: 2026-10-17 (Asia/Shanghai)
+
+DELIVERED ARTIFACT
+
+File: dist/nikon-usb-0.5.5-beta-debug.apk
+Application ID: com.nikonpreset.usbprobe
+Version name: 0.5.5-beta
+Version code: 22
+APK size: 2736761 bytes
+APK SHA-256:
+3b2b7235f5e89b9c27f919b6aac39b99d534452bd27a571fae3ca7317a5688a0
+
+The final artifact was installed through ADB with existing application data
+preserved on device 286f0dba, model PKG110, Android 16. The installed version
+and APK hash matched this artifact. Installation did not change the phone's
+permissions or bring the application to the foreground. No real camera was
+connected for this delivery validation.
+
+CHANGES IN THIS BUILD
+
+- After an acknowledged, exact-readback-verified wireless preset import, retain
+  the owned connection for another explicitly confirmed import.
+- An application-owned runtime holds wireless owners, the shared album
+  controller, and serial camera work independently of the Activity. Ordinary
+  Home navigation, screen off, and Activity recreation do not themselves close
+  the connection.
+- A connectedDevice foreground service maintains a connection notification and
+  a partial CPU wake lock while needed. Read-only heartbeats run approximately
+  every 10 seconds: album storage queries on the album worker, Picture Control
+  Standard reads on the serial camera worker. File/network-library work uses a
+  separate executor so it cannot starve camera heartbeats.
+- Explicit disconnect releases the owned connection, stops the service when
+  cleanup is complete, and releases its locks. No reconnect or write retry is
+  performed automatically.
+- Import intent is persisted before calling the registration backend. Unknown
+  outcomes remain blocked until the user performs read-only recovery. A later
+  connection failure does not turn a previously verified import into a claim
+  that it was never written.
+- Shared persistence locking protects report and import-journal access across
+  the file and camera workers. Old Activity callbacks and invalidated operation
+  leases cannot install an obsolete prepared owner.
+
+USER SETUP FOR BACKGROUND / LOCK-SCREEN USE
+
+Open Settings -> Background connection protection -> Allow background running
+(Chinese UI: 设置 -> 后台连接保护 -> 允许后台运行), then approve the relevant
+system setting. Also allow application notifications so the ongoing connection
+notification and its disconnect action are available in the notification drawer.
+Some phone vendors additionally require an unrestricted application battery
+setting. These phone settings were not changed during APK installation.
+Final read-only inspection of the phone found no application entry in the
+device-idle whitelist and POST_NOTIFICATIONS granted=false. The manifest's
+REQUEST_IGNORE_BATTERY_OPTIMIZATIONS permission being granted only permits the
+application to request exemption; it is not proof that exemption was granted.
+
+A foreground service and CPU wake lock improve ordinary background execution;
+they do not provide an unconditional exemption from device-wide Doze or vendor
+process/network restrictions. A modern Wi-Fi performance lock is not treated as
+a guarantee of background or screen-off connectivity.
+
+REGRESSION RESULTS
+
+17832 checks passed in total:
+- 9205 core checks.
+- 8627 Picture Control probe checks.
+
+These are host/regression checks, not real-camera interoperability results.
+
+INDEPENDENT ANDROID LIFECYCLE / PROTOCOL LOG AUDIT
+
+Artifact tested: exactly the APK hash recorded above.
+Environment: Android emulator and a loopback-only synthetic Z6II peer.
+The peer stores virtual slots only in memory, exposes zero album photos, and
+never accesses camera hardware. It rejects new initialization after CloseSession.
+The emulator's battery-optimization exemption was explicitly granted through
+the actual Android system Allow UI before the background/Doze checks.
+
+Archived evidence:
+- docs/device-review/wireless-0.5.5-background.log
+- docs/device-review/wireless-0.5.5-lifecycle.log
+
+Connection and transaction totals, independently recomputed from the log:
+- InitCommand: 1; InitEvent: 1; OpenSession: 1.
+- Every command used session 1; no second initialization or reconnect occurred.
+- 141 commands total, including the initial DeviceInfo and OpenSession at tx 0.
+- Positive transaction IDs were exactly 1 through 139, with no gaps or repeats.
+- CloseSession: 1, only at the final explicit manual disconnect.
+- No reject, socket-error, or server-error entries.
+- OpenSession 02:33:53.746Z to CloseSession 02:48:01.782Z: 848.036 seconds.
+
+Read-only heartbeat totals:
+- 28 periodic album 0x1004 storage queries, excluding initial enumeration.
+- 58 Picture Control Standard reads in all.
+- Of those, 2 were initial/refresh reads; 56 were periodic heartbeats:
+  20 before the first import, 25 after C1 and before the second refresh,
+  2 during the second confirmation, and 9 after C2.
+- The synthetic summary's heartbeats=57 includes the second refresh Standard
+  read; it must not be reported as 57 periodic Picture Control heartbeats.
+
+Observed lifecycle stages:
+1. Album Home interval, 02:35:49.9238916Z to 02:38:01.0372011Z:
+   131.113 seconds, with 13 album heartbeats. A clear-task/new-task Activity
+   rebuild then restored the connection in the same application process
+   (PID 19406), without an additional Init/Open.
+2. Album-to-Picture-Control handoff:
+   tx31 DeviceInfo, tx32 capabilities, tx33 Standard, tx34-42 all nine slots,
+   on the same session. Picture Control heartbeats then continued after Home
+   and screen off at 02:38:42.2655712Z.
+3. Explicit force-deep-Doze interval with the granted optimization exemption,
+   02:39:34.7444713Z to 02:41:34.9750841Z:
+   120.231 seconds, with 12 Picture Control heartbeats (tx49-60).
+   The system log records forced deep IDLE. A display wakefulness value alone
+   was not used as proof of device-wide Doze.
+4. First import success page, Home and screen off,
+   02:42:08.4156455Z to 02:45:17.1626536Z:
+   188.747 seconds, with 19 Picture Control heartbeats (tx78-96).
+   Another Activity rebuild restored the verified success and live connection.
+5. The user completed the first result, explicitly confirmed C2 using the same
+   retained connection, then returned through detail/root to Settings.
+
+Two explicit virtual imports, with no occupied-slot overwrite:
+
+C1 (item 201):
+- Fresh DeviceInfo tx63, capabilities tx64, all nine slots tx65-73.
+- The target was read again at tx74 before registration.
+- One 614-byte registration at tx75; exact target readback at tx76.
+
+C2 (item 202):
+- A fresh selection scan at tx102-113 observed C1 occupied.
+- Fresh DeviceInfo tx116, capabilities tx117, all nine slots tx118-126.
+- The target was read again at tx127 before registration.
+- One 614-byte registration at tx128; exact target readback at tx129.
+- C1 was read at tx105 and tx118 and still contained its original dataset.
+
+Both writes and their immediate readbacks had this identical SHA-256:
+07434caabeee4bc79727b3cbfd105e037659933866e5aada76419db8745bb199
+
+ACK evidence qualification: the synthetic server accepts a write only after the
+complete 614-byte dataset and framing have been validated, then sends a same-tx
+0x2001 response. The log does not separately dump transmitted ACK frames.
+Server source, the following target readbacks, and the application's verified
+success UI jointly corroborate acceptance; this is not a packet-capture claim.
+
+Final explicit-disconnect cleanup:
+- Settings disconnect was recorded at 02:47:59.4410072Z.
+- The sole CloseSession was tx139 at 02:48:01.782Z, after that manual action.
+- The synthetic peer reported connections=1, opens=1, closes=1, virtualWrites=2,
+  attemptedTargets=[201,202], then closed its transport.
+- The system service dump contained no running application service afterward.
+- The Nikon partial wake lock had a release record and no active Nikon lock
+  remained. The UI showed the camera disconnected.
+
+NOTIFICATION DENIAL AND BACKGROUND TRANSPORT LOSS
+
+A separate read-only loopback peer was started on the same port after the
+successful two-import session had been explicitly disconnected. With no live
+connection, the emulator notification permission was revoked to reset the test;
+this can restart the application and is not counted as a background failure.
+The next actual Android notification prompt was explicitly answered Don't allow.
+The system package dump records POST_NOTIFICATIONS granted=false, while the
+connectedDevice service dump still records isForeground=true and notification 41.
+One InitCommand/InitEvent/OpenSession and the complete capability/nine-slot scan
+succeeded. Five periodic Standard reads (tx12-16) followed, despite denial.
+No registration operation was issued; this peer does not advertise registration.
+
+At 02:50:54.1399578Z the application was sent Home, then the owned loopback server
+was stopped to close its transports. The Nikon CPU lock was released at
+02:51:02.640Z. Before returning to the foreground, the service dump was empty and
+active wake locks were zero. The returned wireless page said the camera was
+disconnected, and Settings showed no connection. No automatic reconnect or write
+was observed. This tests actual TCP transport loss in the synthetic setup,
+not loss of the phone's Wi-Fi radio or a real camera access point.
+
+Evidence: docs/device-review/wireless-0.5.5-loss.log and the lifecycle log.
+Screenshots include phone-apple-v055-success-restored.png,
+phone-apple-v055-second-success.png, phone-apple-v055-disconnected.png,
+phone-apple-v055-notification-denied-connected.png and
+phone-apple-v055-transport-lost.png under .impeccable/review/. The root reviewer
+inspected the first two captures as actual pixels and checked UI hierarchies for
+the remaining states; this is not a full visual/accessibility certification.
+
+TEST RESOURCE CLEANUP
+
+Stopped the two owned synthetic servers. Restored the emulator's original
+always_finish_activities and notification grant, unforced device idle and reset
+the simulated battery, then shut down the temporary read-only emulator. None of
+these test settings were applied to the physical phone.
+
+SCOPE AND LIMITS
+
+This record establishes the tested application's lifecycle and same-session
+protocol behavior against a synthetic peer. It is not a new real-phone/camera
+import test. In particular, the forced-Doze result applies only to the emulator
+with the explicitly granted battery-optimization exemption. It does not prove
+unexempt Doze behavior, OEM power management, or a real camera AP's lifetime.
+
+The imports were triggered by explicit foreground confirmations after returning
+to the app. Background execution maintained the connection through read-only
+heartbeats; it did not initiate automatic registrations.
+
+Force-stop, system process removal, reboot, radio/network loss, or the camera
+turning off its AP can terminate the connection. Original TCP sessions cannot
+survive process death. A user must reconnect explicitly; unknown import outcomes
+must be checked read-only before another write is allowed.
+
+Seamless transfer is supported from an existing album session into Picture
+Control. Starting a new album connection after Picture Control still explicitly
+releases the previous owner and connects again; reverse seamless handoff is not
+part of this build.
+
+This delivery record contains only the completed checks listed above.

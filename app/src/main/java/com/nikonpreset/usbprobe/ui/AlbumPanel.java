@@ -1,12 +1,12 @@
 package com.nikonpreset.usbprobe.ui;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -30,6 +30,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -44,6 +45,8 @@ import com.nikonpreset.usbprobe.album.ConnectionInfo;
 import com.nikonpreset.usbprobe.album.DownloadedPhoto;
 import com.nikonpreset.usbprobe.album.PhotoItem;
 import com.nikonpreset.usbprobe.album.PhotoPage;
+import com.nikonpreset.usbprobe.album.PhotoPreview;
+import com.nikonpreset.usbprobe.album.PtpIpClient;
 import java.io.File;
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
@@ -67,6 +70,7 @@ public final class AlbumPanel implements AutoCloseable {
     public interface Host {
         void onChanged();
         void onMessage(String title, String text);
+        default void beforeConnect(Runnable connect) { connect.run(); }
     }
 
     public static final int REQUEST_EXPORT = 7312;
@@ -79,6 +83,8 @@ public final class AlbumPanel implements AutoCloseable {
     private final Activity activity;
     private final Host host;
     private final AlbumController controller;
+    private final boolean ownsController;
+    private final Runnable connectionListener;
     private final Handler main = new Handler(Looper.getMainLooper());
     private final ExecutorService images = Executors.newSingleThreadExecutor();
     private final List<PhotoItem> photos = new ArrayList<>();
@@ -96,14 +102,18 @@ public final class AlbumPanel implements AutoCloseable {
     private LinearLayout root;
     private GridView grid;
     private PhotoAdapter adapter;
+    private final AlbumPaging paging = new AlbumPaging();
     private TextView transferLabel, transferFile, transferBytes;
     private ProgressBar transferBar;
     private Screen screen = Screen.OVERVIEW;
     private ConnectionInfo connection;
-    private boolean downloadedTab, connecting, loadingPage, loadingDownloads, localLoaded, selectionMode;
-    private boolean hasMore, closed, downloading, cancelRemaining, exporting;
-    private boolean connectionSettingsExpanded, addressManuallyEdited;
-    private int cursor, epoch, sessionNumber, batchTotal, batchCompleted, batchFailed, batchCancelled, batchUnconfirmed;
+    private boolean downloadedTab, connecting, loadingDownloads, localLoaded, selectionMode;
+    private boolean ownsConnectionRequest;
+    private long connectionIntent;
+    private Runnable pendingConnectionStart;
+    private boolean closed, downloading, cancelRemaining, exporting;
+    private boolean addressManuallyEdited;
+    private int epoch, sessionNumber, batchTotal, batchCompleted, batchFailed, batchCancelled, batchUnconfirmed;
     private long receivedBytes, expectedBytes;
     private String cameraError = "", localError = "", connectionError = "", batchMessage = "", currentFilename = "";
     private String cameraAddress = "", portText = String.valueOf(AlbumController.DEFAULT_PORT);
@@ -111,27 +121,91 @@ public final class AlbumPanel implements AutoCloseable {
     private DownloadedPhoto localDetail;
     private Bitmap detailBitmap;
     private String detailImageKey = "";
+    private PhotoPreview remotePreview;
+    private PhotoImageView viewerImage;
+    private Bitmap viewerPhoto;
+    private View viewerTop, viewerBottom;
+    private TextView viewerStatus;
+    private TextView photoCountLabel, pageStatus;
+    private boolean viewerControlsVisible = true, previewLoading;
+    private int previewRequest;
+    private long previewReceived, previewTotal;
+    private String previewError = "";
     private File exportFile;
-    private int firstVisible, firstVisibleTop;
+    private android.os.Parcelable gridSavedState;
     private boolean resetGridPosition;
+    private boolean restoringGridPosition;
+    private ScrollView guideScroll;
+    private int guideScrollY;
 
     public AlbumPanel(Activity activity, Host host) {
+        this(activity, host, new AlbumController(activity), true);
+    }
+
+    /** The application runtime owns a shared controller across Activity recreation. */
+    public AlbumPanel(Activity activity, Host host, AlbumController controller) {
+        this(activity, host, controller, false);
+    }
+
+    private AlbumPanel(Activity activity, Host host, AlbumController controller, boolean ownsController) {
+        if (controller == null) throw new IllegalArgumentException("缺少相册连接管理器。");
         this.activity = activity;
         this.host = host;
+        this.controller = controller;
+        this.ownsController = ownsController;
         this.palette = new UiPalette(activity);
         exportFile = restoreExportFile();
-        controller = new AlbumController(activity);
-        controller.setConnectionListener(() -> {
-            if (closed) return;
-            connection = null;
-            connecting = false;
-            loadingPage = false;
-            cameraError = "无线连接已断开。已下载照片仍可查看，请重新连接相机后浏览。";
-            // The command transfer may already be fully received and still be saving locally.
-            // Its callback is the authority for the current photo; only stop the remaining queue.
-            if (downloading) cancelRemaining = true;
-            changed();
-        });
+        connectionListener = this::controllerStateChanged;
+        controller.setConnectionListener(connectionListener);
+        ConnectionInfo restored = controller.connectionInfo();
+        if (restored != null) restoreConnection(restored);
+        else connecting = controller.isConnecting();
+        refreshDownloads();
+    }
+
+    private void controllerStateChanged() {
+        if (closed) return;
+        ConnectionInfo current = controller.connectionInfo();
+        if (current != null) {
+            // The initiating UI's callback already restores its own page. A new
+            // UI can instead recover a connection started by a destroyed one.
+            if (ownsConnectionRequest && connecting) return;
+            if (connection != current) { restoreConnection(current); changed(); }
+            return;
+        }
+        if (controller.isConnecting()) {
+            if (connection != null) resetRemoteConnection(false);
+            if (!connecting) { connecting = true; connectionError = ""; changed(); }
+            return;
+        }
+        boolean hadConnection = connection != null;
+        if (!hadConnection && !connecting) return;
+        connection = null; connecting = false; ownsConnectionRequest = false;
+        paging.reset(false);
+        if (hadConnection) cameraError = "无线连接已断开。已下载照片仍可查看，请重新连接相机后浏览。";
+        else connectionError = "相册连接未完成，请检查相机网络后重试。";
+        // An in-flight file may already be saving locally. Its callback remains
+        // authoritative for that photo; only stop the remaining batch queue.
+        if (downloading) cancelRemaining = true;
+        changed();
+    }
+
+    private void restoreConnection(ConnectionInfo restored) {
+        retireGrid(true);
+        epoch++;
+        photos.clear(); selected.clear(); savedThisSession.clear();
+        pendingThumbs.clear(); failedThumbs.clear(); selectionMode = false; loadingDownloads = false;
+        clearDetailImage();
+        if (screen == Screen.DETAIL && remoteDetail != null && localDetail == null) {
+            screen = Screen.OVERVIEW; remoteDetail = null;
+        }
+        sessionNumber++;
+        connection = restored; connecting = false; ownsConnectionRequest = false;
+        cameraAddress = restored.host(); portText = Integer.toString(restored.port()); addressManuallyEdited = true;
+        cameraError = connectionError = "";
+        paging.reset(restored.totalHandles() > 0);
+        if (downloading) finishInterruptedBatch();
+        if (paging.hasMore()) loadNextPage();
         refreshDownloads();
     }
 
@@ -144,12 +218,18 @@ public final class AlbumPanel implements AutoCloseable {
     }
 
     public String title() {
-        if (screen == Screen.GUIDE) return "无线连接相机";
+        if (screen == Screen.GUIDE) return "Wi-Fi 连接";
         if (screen == Screen.DETAIL) return "照片详情";
         return selectionMode ? "已选择 " + selected.size() + " 张" : "相册";
     }
 
     public boolean canGoBack() { return screen != Screen.OVERVIEW || selectionMode; }
+    public boolean isImmersive() { return screen == Screen.DETAIL; }
+    public String navigationKey() {
+        String detail = screen != Screen.DETAIL ? "" : remoteDetail != null ? Long.toString(remoteDetail.handle())
+                : localDetail != null ? localDetail.file().getAbsolutePath() : "";
+        return screen.name() + ":" + downloadedTab + ":" + selectionMode + ":" + detail;
+    }
 
     public void goBack() {
         if (screen != Screen.OVERVIEW) {
@@ -161,22 +241,86 @@ public final class AlbumPanel implements AutoCloseable {
         changed();
     }
 
-    public boolean isConnected() { return !closed && controller.isConnected(); }
+    public boolean isConnected() { return !closed && !connecting && connection != null && controller.isConnected(); }
+    public boolean isConnecting() { return !closed && (connecting || controller.isConnecting()); }
+    public boolean isTransferBusy() { return !closed && (downloading || exporting); }
+    public boolean isConnectionGuide() { return screen == Screen.GUIDE; }
+    public String connectionModel() { return isConnected() && connection != null ? connection.model() : ""; }
+    public String connectionHost() { return isConnected() && connection != null ? connection.host() : ""; }
+    public int connectionPort() { return isConnected() && connection != null ? connection.port() : 0; }
+    public String getConfiguredHost() { return cameraAddress.trim(); }
+    public int getConfiguredPort() {
+        try { int port = Integer.parseInt(portText.trim()); return port >= 1 && port <= 65535 ? port : AlbumController.DEFAULT_PORT; }
+        catch (NumberFormatException error) { return AlbumController.DEFAULT_PORT; }
+    }
+
+    /** The Activity routes this editor exclusively through the Settings destination. */
+    public void openConnectionSettings() { if (!closed) showGuide(); }
 
     public void disconnect() {
         if (closed) return;
+        connectionIntent++;
+        pendingConnectionStart = null;
+        resetRemoteConnection(true);
+    }
+
+    /** A host can fail before the controller starts, so no controller callback will settle the UI. */
+    public void connectionStartFailed(String message) {
+        connectionStartFailed(message, pendingConnectionStart);
+    }
+
+    /** Ignore a late failure for an already consumed or superseded deferred start. */
+    public void connectionStartFailed(String message, Runnable expectedStart) {
+        if (expectedStart == null || pendingConnectionStart != expectedStart) return;
+        connectionIntent++;
+        pendingConnectionStart = null;
+        connecting = false;
+        ownsConnectionRequest = false;
+        if (closed) return;
+        ConnectionInfo current = controller.connectionInfo();
+        if (current != null) restoreConnection(current);
+        else connection = null;
+        connectionError = message == null || message.trim().isEmpty() ? "未能开始连接，请重试。" : message;
+        changed();
+    }
+
+    /** Stops old photo work before the controller drains and hands off the live session. */
+    public void transferForPictureControl(AlbumController.Callback<PtpIpClient> callback) {
+        if (closed || !isConnected() || isTransferBusy()) {
+            callback.onError("当前相册连接无法移交，请结束照片传输后重试。"); return;
+        }
+        retireGrid(!downloadedTab);
         epoch++;
-        controller.disconnect();
+        pendingThumbs.clear();
+        controller.transferForPictureControl(new AlbumController.Callback<PtpIpClient>() {
+            @Override public void onSuccess(PtpIpClient owner) {
+                if (closed) {
+                    if (ownsController) owner.close();
+                    else callback.onSuccess(owner);
+                    return;
+                }
+                resetRemoteConnection(false);
+                callback.onSuccess(owner);
+            }
+            @Override public void onError(String message) { callback.onError(message); }
+        });
+    }
+
+    private void resetRemoteConnection(boolean disconnect) {
+        // The old grid may still be retained while Settings is visible. Retire it before
+        // changing the adapter's backing list, so it cannot save an obsolete row index.
+        retireGrid(!downloadedTab);
+        epoch++;
+        if (disconnect) controller.disconnect();
         connection = null;
         connecting = false;
-        loadingPage = false;
+        ownsConnectionRequest = false;
+        paging.reset(false);
         loadingDownloads = false;
         photos.clear();
         selected.clear();
         savedThisSession.clear();
         selectionMode = false;
-        cursor = 0;
-        hasMore = false;
         pendingThumbs.clear();
         failedThumbs.clear();
         clearDetailImage();
@@ -192,23 +336,35 @@ public final class AlbumPanel implements AutoCloseable {
     }
 
     @Override public void close() {
+        if (closed) return;
         closed = true;
         epoch++;
-        controller.close();
+        // A shared controller may still need to start a user-requested connection
+        // after another owned session finishes closing. Only its UI is retired.
+        if (ownsController) { connectionIntent++; pendingConnectionStart = null; }
+        boolean detached = controller.clearConnectionListener(connectionListener);
+        if (ownsController) controller.close();
+        else if (detached) controller.cancelPreview();
         images.shutdownNow();
         main.removeCallbacksAndMessages(null);
         thumbs.evictAll();
         detailBitmap = null;
+        releasePreview(false);
+        if (viewerImage != null) { viewerImage.setOnSingleTap(null); viewerImage.setPhoto(null); }
+        viewerImage = null; viewerPhoto = null;
         root = null;
     }
 
     private void render() {
         if (root == null || closed) return;
         rememberGridPosition();
+        if (guideScroll != null) guideScrollY = guideScroll.getScrollY();
+        guideScroll = null;
         grid = null;
         adapter = null;
         transferBar = null;
         transferLabel = transferFile = transferBytes = null;
+        photoCountLabel = pageStatus = null;
         root.removeAllViews();
         if (screen == Screen.GUIDE) renderGuide();
         else if (screen == Screen.DETAIL) renderDetail();
@@ -219,18 +375,21 @@ public final class AlbumPanel implements AutoCloseable {
         if (closed) return;
         rememberGridPosition();
         grid = null;
+        adapter = null;
         host.onChanged();
     }
 
     private void renderOverview() {
         LinearLayout header = vertical();
-        header.setPadding(dp(16), dp(4), dp(16), 0);
-        header.addView(connectionRow());
+        header.setPadding(dp(24), dp(2), dp(24), 0);
+        header.addView(text("浏览预览，按需下载原图", 14, palette.secondary, false));
         LinearLayout tabs = horizontal();
-        tabs.setPadding(0, dp(8), 0, 0);
         tabs.addView(tab("相机照片", !downloadedTab, () -> chooseTab(false)), weight());
         tabs.addView(tab("已下载", downloadedTab, () -> chooseTab(true)), weight());
-        header.addView(tabs);
+        int tabWidth = activity.getResources().getConfiguration().fontScale > 1.2f ? 248 : 216;
+        LinearLayout.LayoutParams tabsParams = new LinearLayout.LayoutParams(dp(tabWidth), dp(48));
+        tabsParams.topMargin = dp(14);
+        header.addView(tabs, tabsParams);
         root.addView(header);
 
         if (!batchMessage.isEmpty()) addNotice(root, batchMessage, false);
@@ -240,10 +399,11 @@ public final class AlbumPanel implements AutoCloseable {
 
         LinearLayout heading = horizontal();
         heading.setGravity(Gravity.CENTER_VERTICAL);
-        heading.setPadding(dp(16), dp(16), dp(12), dp(4));
+        heading.setPadding(dp(24), dp(10), dp(14), dp(6));
         String caption = downloadedTab ? "已下载照片" : "相机照片";
-        if (!downloadedTab && !photos.isEmpty()) caption += " · " + photos.size() + (hasMore ? "+" : " 张");
-        heading.addView(text(caption, 16, palette.text, true), new LinearLayout.LayoutParams(0, -2, 1));
+        if (!downloadedTab && !photos.isEmpty()) caption += " · " + photos.size() + (paging.hasMore() ? "+" : " 张");
+        photoCountLabel = text(caption, 15, palette.text, true);
+        heading.addView(photoCountLabel, new LinearLayout.LayoutParams(0, -2, 1));
         if (downloadedTab) {
             Button refresh = textAction("刷新", () -> { resetGridPosition = true; refreshDownloads(); render(); });
             refresh.setEnabled(!loadingDownloads && !downloading);
@@ -264,9 +424,9 @@ public final class AlbumPanel implements AutoCloseable {
             grid.setNumColumns(GridView.AUTO_FIT);
             grid.setColumnWidth(dp(104));
             grid.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
-            grid.setHorizontalSpacing(dp(4));
-            grid.setVerticalSpacing(dp(4));
-            grid.setPadding(dp(16), dp(4), dp(16), dp(12));
+            grid.setHorizontalSpacing(dp(8));
+            grid.setVerticalSpacing(dp(8));
+            grid.setPadding(dp(20), dp(4), dp(20), dp(100));
             grid.setClipToPadding(false);
             grid.setDrawSelectorOnTop(true);
             grid.setSelector(new RippleDrawable(ColorStateList.valueOf(palette.primaryContainer), null, null));
@@ -285,32 +445,51 @@ public final class AlbumPanel implements AutoCloseable {
                 return true;
             });
             root.addView(grid, new LinearLayout.LayoutParams(-1, 0, 1));
-            if (firstVisible > 0) grid.setSelectionFromTop(firstVisible, firstVisibleTop);
+            final GridView visibleGrid = grid;
+            restoringGridPosition = true;
+            if (gridSavedState != null) grid.onRestoreInstanceState(gridSavedState);
+            grid.getViewTreeObserver().addOnGlobalLayoutListener(new android.view.ViewTreeObserver.OnGlobalLayoutListener() {
+                public void onGlobalLayout() {
+                    if (grid != visibleGrid) { visibleGrid.getViewTreeObserver().removeOnGlobalLayoutListener(this); return; }
+                    if (visibleGrid.getChildCount() == 0) return;
+                    restoringGridPosition = false;
+                    visibleGrid.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    visibleGrid.post(() -> maybeLoadMore(visibleGrid));
+                }
+            });
+            grid.setOnScrollListener(new AbsListView.OnScrollListener() {
+                public void onScrollStateChanged(AbsListView view, int state) {}
+                public void onScroll(AbsListView view, int first, int visible, int total) {
+                    if (visible > 0 && total > 0 && first + visible >= total) visibleGrid.post(() -> maybeLoadMore(visibleGrid));
+                }
+            });
+            grid.post(() -> maybeLoadMore(visibleGrid));
         } else {
             LinearLayout empty = vertical();
             empty.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL);
             boolean compactEmpty = activity.getResources().getConfiguration().screenHeightDp < 500;
             empty.setPadding(dp(compactEmpty ? 16 : 28), dp(compactEmpty ? 12 : 44), dp(compactEmpty ? 16 : 28), dp(compactEmpty ? 12 : 24));
-            if (!compactEmpty && !downloadedTab && !isConnected()) {
-                empty.addView(new ConnectionDiagram(), new LinearLayout.LayoutParams(dp(224), dp(104)));
-            } else if (!compactEmpty) {
+            if (!compactEmpty) {
+                FrameLayout illustration = new FrameLayout(activity);
+                illustration.setBackground(shape(palette.card, 26));
                 ImageView icon = icon(downloadedTab ? AppIcon.Kind.ALBUM : AppIcon.Kind.CAMERA, palette.secondary);
-                empty.addView(icon, new LinearLayout.LayoutParams(dp(44), dp(44)));
+                illustration.addView(icon, new FrameLayout.LayoutParams(dp(34), dp(34), Gravity.CENTER));
+                empty.addView(illustration, new LinearLayout.LayoutParams(dp(84), dp(84)));
             }
             String title, body;
-            boolean pending = downloadedTab ? loadingDownloads : (connecting || loadingPage);
+            boolean pending = downloadedTab ? loadingDownloads : (connecting || paging.isLoading());
             if (pending) {
                 title = downloadedTab ? "正在读取已下载照片" : connecting ? "正在连接相机" : "正在查找 JPEG 照片";
                 body = "请稍候";
             } else if (downloadedTab) {
                 title = "还没有已下载照片";
-                body = "连接相机后，选择照片下载到手机，即可在这里离线查看。";
+                body = "从相机下载的原图会保存在这里，\n断开连接也能继续查看。";
             } else if (!isConnected()) {
-                title = "浏览相机中的照片";
-                body = "连接相机 Wi-Fi 后，可查看 JPEG 照片并下载到手机。";
-            } else if (hasMore) {
+                title = "连接相机，开始浏览";
+                body = "在底部「设置」中连接相机 Wi-Fi，\n照片会显示在这里。";
+            } else if (paging.hasMore()) {
                 title = "当前范围未找到 JPEG";
-                body = "存储卡中还有对象未检查，可继续查找。";
+                body = "正在继续查找存储卡中的 JPEG 照片。";
             } else {
                 title = "没有找到 JPEG 照片";
                 body = "请检查存储卡中的照片格式。本版暂不浏览 RAW 和视频。";
@@ -322,16 +501,22 @@ public final class AlbumPanel implements AutoCloseable {
             emptyBody.setGravity(Gravity.CENTER);
             addSpaced(empty, emptyBody, 8);
             if (pending) addSpaced(empty, spinner(), 16);
-            else if (!downloadedTab && !isConnected()) addSpaced(empty, button("无线连接相机", true, this::showGuide), compactEmpty ? 12 : 24);
             ScrollView emptyScroll = new ScrollView(activity); emptyScroll.setFillViewport(true);
+            emptyScroll.setPadding(0, 0, 0, dp(100));
+            emptyScroll.setClipToPadding(false);
             emptyScroll.addView(empty, new ScrollView.LayoutParams(-1, -2));
             root.addView(emptyScroll, new LinearLayout.LayoutParams(-1, 0, 1));
+            if (!downloadedTab && photos.isEmpty()) root.post(() -> maybeLoadMore(null));
         }
-        if (!downloadedTab && isConnected() && (hasMore || loadingPage || !cameraError.isEmpty())) {
-            Button more = button(loadingPage ? "正在读取照片…" : cameraError.isEmpty() ? "加载更多照片" : "重试读取照片", false, this::loadNextPage);
-            more.setEnabled(!loadingPage && !downloading);
-            more.setPadding(dp(16), dp(8), dp(16), dp(8));
-            root.addView(more, new LinearLayout.LayoutParams(-1, -2));
+        if (!downloadedTab && isConnected()) {
+            if (paging.isPaused()) {
+                Button retry = button("重试读取照片", false, () -> { paging.retry(); loadNextPage(); });
+                retry.setEnabled(!downloading && !selectionMode); root.addView(retry);
+            } else if (paging.isLoading() || paging.hasMore() || !photos.isEmpty()) {
+                TextView status = text(paging.isLoading() ? "正在读取更多照片…" : paging.hasMore() ? "继续下滑浏览更多照片" : "已显示全部照片", 12, palette.secondary, false);
+                status.setGravity(Gravity.START); status.setPadding(dp(24), dp(2), dp(24), dp(6)); root.addView(status, 1);
+                pageStatus = status;
+            }
         }
         if (downloading) renderTransfer(root);
         else if (selectionMode && !downloadedTab) {
@@ -339,7 +524,7 @@ public final class AlbumPanel implements AutoCloseable {
             actions.setPadding(dp(20), dp(12), dp(20), dp(16));
             Button cancel = button("取消选择", false, () -> { selectionMode = false; selected.clear(); changed(); });
             actions.addView(cancel, weight());
-            Button download = button("下载 " + selected.size() + " 张", true, () -> {
+            Button download = button("下载 " + selected.size() + " 张原图", true, () -> {
                 List<PhotoItem> chosen = new ArrayList<>();
                 for (PhotoItem item : photos) if (selected.contains(item.handle())) chosen.add(item);
                 startBatch(chosen);
@@ -351,50 +536,24 @@ public final class AlbumPanel implements AutoCloseable {
         }
     }
 
-    private View connectionRow() {
-        LinearLayout row = horizontal();
-        row.setGravity(Gravity.CENTER_VERTICAL);
-        row.setPadding(dp(14), dp(12), dp(12), dp(12));
-        row.setMinimumHeight(dp(56));
-        row.setBackground(interactive(palette.container, 8));
-        ImageView camera = icon(AppIcon.Kind.CAMERA, palette.secondary);
-        row.addView(camera, new LinearLayout.LayoutParams(dp(28), dp(28)));
-        if (isConnected()) {
-            View dot = new View(activity); dot.setBackground(shape(palette.success, 4));
-            LinearLayout.LayoutParams dotParams = new LinearLayout.LayoutParams(dp(7), dp(7));
-            dotParams.leftMargin = dp(12); row.addView(dot, dotParams);
-        }
-        String label = connecting ? "正在连接相机…" : isConnected() ? (connection == null ? "尼康相机" : connection.model()) + " · 无线已连接" : "无线未连接";
-        TextView labels = text(label, 15, palette.text, false);
-        labels.setMaxLines(2);
-        LinearLayout.LayoutParams labelParams = new LinearLayout.LayoutParams(0, -2, 1);
-        labelParams.leftMargin = dp(isConnected() ? 8 : 12);
-        row.addView(labels, labelParams);
-        row.addView(new Chevron(), new LinearLayout.LayoutParams(dp(20), dp(20)));
-        row.setFocusable(true);
-        row.setOnClickListener(v -> {
-            if (!isConnected()) { showGuide(); return; }
-            String address = connection == null ? "" : "\n" + connection.host() + ":" + connection.port();
-            new AlertDialog.Builder(activity).setTitle("无线连接")
-                    .setMessage((connection == null ? "尼康相机" : connection.model()) + address + "\n\n标准无线连接兼容性待实机验证。已下载照片可离线查看。")
-                    .setNegativeButton("关闭", null).setPositiveButton("断开连接", (dialog, which) -> disconnect()).show();
-        });
-        return row;
-    }
-
     private View tab(String label, boolean checked, Runnable action) {
-        LinearLayout group = vertical();
+        FrameLayout group = new FrameLayout(activity);
+        if (checked) {
+            View capsule = new View(activity);
+            GradientDrawable fill = shape(palette.glass, 17);
+            fill.setStroke(dp(0.5f), palette.rim);
+            capsule.setBackground(fill);
+            group.addView(capsule, new FrameLayout.LayoutParams(-1, dp(34), Gravity.CENTER));
+        }
         Button tab = textAction(label, action);
-        tab.setTextSize(16);
-        tab.setPadding(dp(8), dp(10), dp(8), dp(10));
-        tab.setTextColor(checked ? palette.primary : palette.secondary);
-        tab.setTypeface(null, checked ? Typeface.BOLD : Typeface.NORMAL);
+        tab.setTextSize(13);
+        tab.setPadding(dp(8), 0, dp(8), 0);
+        tab.setTextColor(checked ? palette.text : palette.secondary);
+        tab.setTypeface(Typeface.create(checked ? "sans-serif-medium" : "sans-serif", Typeface.NORMAL));
+        tab.setBackground(interactive(Color.TRANSPARENT, 17));
         tab.setSelected(checked);
         tab.setContentDescription(label + (checked ? "，当前标签" : ""));
-        group.addView(tab, new LinearLayout.LayoutParams(-1, dp(48)));
-        View underline = new View(activity);
-        underline.setBackgroundColor(checked ? palette.primary : palette.outline);
-        group.addView(underline, new LinearLayout.LayoutParams(-1, dp(2)));
+        group.addView(tab, new FrameLayout.LayoutParams(-1, dp(48), Gravity.CENTER));
         return group;
     }
 
@@ -410,6 +569,7 @@ public final class AlbumPanel implements AutoCloseable {
 
     private void showGuide() {
         if (!addressManuallyEdited) cameraAddress = controller.suggestHost();
+        if (screen != Screen.GUIDE) guideScrollY = 0;
         screen = Screen.GUIDE;
         connectionError = "";
         changed();
@@ -418,67 +578,55 @@ public final class AlbumPanel implements AutoCloseable {
     private void renderGuide() {
         ScrollView scroll = new ScrollView(activity);
         scroll.setFillViewport(true);
+        scroll.setClipToPadding(false);
         LinearLayout body = vertical();
-        body.setPadding(dp(16), dp(8), dp(16), dp(24));
-        TextView introduction = text("连接后可浏览相机照片，并下载到手机", 15, palette.secondary, false);
-        introduction.setGravity(Gravity.CENTER);
+        body.setPadding(dp(24), dp(2), dp(24), dp(28));
+        TextView introduction = text("连接相机的 Wi-Fi，浏览照片与导入预设。", 14, palette.secondary, false);
         body.addView(introduction);
-        addSpaced(body, new ConnectionDiagram(), 12);
-        step(body, "1", "在相机中开启 Wi-Fi", "连接至智能设备 → Wi-Fi 连接 → 建立 Wi-Fi 连接");
-        step(body, "2", "手机连接相机的 Wi-Fi", "按相机显示的名称和密码连接，提示无法上网时仍保持连接");
-        step(body, "3", "返回 App 读取照片", "关闭其他相机应用，保持相机 Wi-Fi 连接，再点击读取");
-        LinearLayout downloaded = horizontal(); downloaded.setGravity(Gravity.CENTER_VERTICAL);
-        downloaded.setPadding(dp(14), dp(10), dp(6), dp(10));
-        downloaded.setBackground(shape(palette.container, 10));
-        downloaded.addView(text("已有下载照片？\n无需连接也能查看", 14, palette.text, false), weight());
-        Button local = textAction("查看已下载", () -> {
-            downloadedTab = true;
-            screen = Screen.OVERVIEW;
-            if (!localLoaded) refreshDownloads();
-            changed();
-        });
-        downloaded.addView(local);
-        addSpaced(body, downloaded, 16);
-        TextView connectionNote = text("USB 用于导入预设；无线用于读取照片", 12, palette.secondary, false);
-        connectionNote.setGravity(Gravity.CENTER);
-        addSpaced(body, connectionNote, 20);
-        addSpaced(body, button("打开 Wi-Fi 设置", false, () -> {
+        addSpaced(body, text("连接准备", 12, palette.secondary, false), 24);
+        LinearLayout preparation = vertical();
+        preparation.setPadding(dp(18), dp(2), dp(18), dp(2));
+        preparation.setBackground(shape(palette.card, 24));
+        step(preparation, "1", "开启相机 Wi-Fi", "相机菜单：连接至智能设备 → Wi-Fi 连接 → 建立 Wi-Fi 连接");
+        step(preparation, "2", "手机加入相机网络", "使用相机显示的名称与密码；提示无法上网时仍保持连接。");
+        step(preparation, "3", "返回并连接相机", "关闭其他相机应用，保持相机 Wi-Fi 开启，再确认下方地址。");
+        addSpaced(body, preparation, 8);
+        Button systemWifi = textAction("打开系统 Wi-Fi 设置", () -> {
             try { activity.startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS)); }
             catch (RuntimeException error) { host.onMessage("无法打开设置", "请从手机系统设置中连接相机 Wi-Fi。"); }
-        }), 14);
-        Button settings = textAction(connectionSettingsExpanded ? "收起连接设置" : "连接设置", () -> {
-            connectionSettingsExpanded = !connectionSettingsExpanded;
-            render();
         });
-        settings.setEnabled(!connecting);
-        if (connectionSettingsExpanded) {
-            addSpaced(body, text("地址建议来自手机当前 Wi-Fi 网关，并非自动发现相机；你可以手动修改。", 13, palette.secondary, false), 4);
-            addSpaced(body, text("相机 IP 地址", 14, palette.text, true), 12);
-            EditText address = input(cameraAddress, "填写相机的 IPv4 地址", InputType.TYPE_CLASS_PHONE);
-            address.setContentDescription("相机 IPv4 地址");
-            // input() initializes its text before this watcher is attached.
-            address.addTextChangedListener(watcher(value -> {
-                cameraAddress = value;
-                addressManuallyEdited = true;
-            }));
-            address.setEnabled(!connecting);
-            body.addView(address, new LinearLayout.LayoutParams(-1, -2));
-            addSpaced(body, text("端口", 14, palette.text, true), 12);
-            EditText port = input(portText, "15740", InputType.TYPE_CLASS_NUMBER);
-            port.setContentDescription("相机无线连接端口");
-            port.addTextChangedListener(watcher(value -> portText = value));
-            port.setEnabled(!connecting);
-            body.addView(port, new LinearLayout.LayoutParams(-1, -2));
-        }
+        systemWifi.setEnabled(!connecting);
+        addSpaced(body, systemWifi, 6);
+        addSpaced(body, text("相机地址", 12, palette.secondary, false), 20);
+        LinearLayout fields = vertical();
+        fields.setPadding(dp(18), dp(16), dp(18), dp(18));
+        fields.setBackground(shape(palette.card, 24));
+        fields.addView(text("IP 地址", 13, palette.secondary, false));
+        EditText address = input(cameraAddress, "填写相机的 IPv4 地址", InputType.TYPE_CLASS_PHONE);
+        address.setContentDescription("相机 IPv4 地址");
+        // input() initializes its text before this watcher is attached.
+        address.addTextChangedListener(watcher(value -> {
+            cameraAddress = value;
+            addressManuallyEdited = true;
+        }));
+        address.setEnabled(!connecting);
+        addSpaced(fields, address, 8);
+        addSpaced(fields, text("端口", 13, palette.secondary, false), 16);
+        EditText port = input(portText, "15740", InputType.TYPE_CLASS_NUMBER);
+        port.setContentDescription("相机无线连接端口");
+        port.addTextChangedListener(watcher(value -> portText = value));
+        port.setEnabled(!connecting);
+        addSpaced(fields, port, 8);
+        addSpaced(body, fields, 8);
+        addSpaced(body, text("地址建议来自当前 Wi-Fi 网关，可手动修改；它不是相机自动发现结果。", 12, palette.secondary, false), 10);
         if (!connectionError.isEmpty()) {
             TextView error = text(connectionError, 14, palette.error, false);
             error.setAccessibilityLiveRegion(View.ACCESSIBILITY_LIVE_REGION_POLITE);
             addSpaced(body, error, 16);
         }
-        Button connect = button(connecting ? "正在连接并读取…" : "我已连接，读取照片", true, this::connect);
+        Button connect = button(connecting ? "正在连接相机…" : "连接相机", true, this::connect);
         connect.setEnabled(!connecting);
-        addSpaced(body, connect, 12);
-        addSpaced(body, settings, 0);
+        addSpaced(body, connect, 20);
         if (connecting) {
             addSpaced(body, spinner(), 12);
             addSpaced(body, textAction("取消连接", () -> { disconnect(); screen = Screen.GUIDE; changed(); }), 8);
@@ -488,6 +636,8 @@ public final class AlbumPanel implements AutoCloseable {
         addSpaced(body, compatibility, 16);
         scroll.addView(body, new ScrollView.LayoutParams(-1, -2));
         root.addView(scroll, new LinearLayout.LayoutParams(-1, 0, 1));
+        guideScroll = scroll;
+        scroll.post(() -> { if (guideScroll == scroll) scroll.scrollTo(0, guideScrollY); });
     }
 
     private void connect() {
@@ -495,18 +645,16 @@ public final class AlbumPanel implements AutoCloseable {
         if (!addressManuallyEdited) {
             cameraAddress = controller.suggestHost();
             if (cameraAddress.isEmpty()) {
-                connectionSettingsExpanded = true;
-                connectionError = "当前 Wi-Fi 没有可用的地址建议。请先连接相机 Wi-Fi，或在连接设置中手动填写相机 IP。";
+                connectionError = "当前 Wi-Fi 没有可用的地址建议。请先连接相机 Wi-Fi，或手动填写相机 IP。";
                 render();
                 return;
             }
         }
         int port;
         try { port = Integer.parseInt(portText.trim()); }
-        catch (NumberFormatException error) { connectionSettingsExpanded = true; connectionError = "请输入 1–65535 之间的端口。"; render(); return; }
-        if (port < 1 || port > 65535) { connectionSettingsExpanded = true; connectionError = "请输入 1–65535 之间的端口。"; render(); return; }
-        if (!cameraAddress.trim().matches("[0-9]{1,3}(\\.[0-9]{1,3}){3}")) {
-            connectionSettingsExpanded = true;
+        catch (NumberFormatException error) { connectionError = "请输入 1–65535 之间的端口。"; render(); return; }
+        if (port < 1 || port > 65535) { connectionError = "请输入 1–65535 之间的端口。"; render(); return; }
+        if (!validIpv4(cameraAddress.trim())) {
             connectionError = "请输入相机的 IPv4 地址，可在相机网络设置中确认。";
             render();
             return;
@@ -514,59 +662,92 @@ public final class AlbumPanel implements AutoCloseable {
         View focus = activity.getCurrentFocus();
         InputMethodManager keyboard = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         if (keyboard != null && focus != null) keyboard.hideSoftInputFromWindow(focus.getWindowToken(), 0);
+        retireGrid(true);
         epoch++;
         final int request = epoch;
+        final long intent = ++connectionIntent;
         connecting = true;
+        ownsConnectionRequest = true;
         loadingDownloads = false;
         connectionError = cameraError = "";
         photos.clear(); selected.clear(); savedThisSession.clear();
         pendingThumbs.clear(); failedThumbs.clear();
-        cursor = 0; hasMore = false; resetGridPosition = true;
-        render();
-        controller.connect(cameraAddress.trim(), port, new AlbumController.Callback<ConnectionInfo>() {
-            @Override public void onSuccess(ConnectionInfo result) {
-                if (!current(request)) return;
-                sessionNumber++;
-                connecting = false;
-                connection = result;
-                if (screen == Screen.GUIDE) {
-                    screen = Screen.OVERVIEW;
-                    downloadedTab = false;
-                }
-                hasMore = result.totalHandles() > 0;
-                changed();
-                if (hasMore) loadNextPage();
-                refreshDownloads();
+        paging.reset(false);
+        changed();
+        final String requestedHost = cameraAddress.trim();
+        Runnable start = new Runnable() {
+            @Override public void run() {
+                if (connectionIntent != intent || pendingConnectionStart != this || (closed && ownsController)) return;
+                pendingConnectionStart = null;
+                controller.connect(requestedHost, port, new AlbumController.Callback<ConnectionInfo>() {
+                    @Override public void onSuccess(ConnectionInfo result) {
+                        if (!current(request)) return;
+                        sessionNumber++;
+                        connecting = false;
+                        ownsConnectionRequest = false;
+                        connection = result;
+                        if (screen == Screen.GUIDE) {
+                            screen = Screen.OVERVIEW;
+                            downloadedTab = false;
+                        }
+                        paging.reset(result.totalHandles() > 0);
+                        changed();
+                        if (paging.hasMore()) loadNextPage();
+                        refreshDownloads();
+                    }
+                    @Override public void onError(String message) {
+                        if (!current(request)) return;
+                        connecting = false;
+                        ownsConnectionRequest = false;
+                        connection = null;
+                        connectionError = message;
+                        changed();
+                    }
+                });
             }
-            @Override public void onError(String message) {
-                if (!current(request)) return;
-                connecting = false;
-                connection = null;
-                connectionSettingsExpanded = true;
-                connectionError = message;
-                render();
-            }
-        });
+        };
+        pendingConnectionStart = start;
+        host.beforeConnect(start);
+    }
+
+    private void maybeLoadMore(GridView expectedGrid) {
+        if (closed || screen != Screen.OVERVIEW || downloadedTab || selectionMode || downloading || exporting
+                || !isConnected() || paging.isLoading() || paging.isPaused() || !paging.hasMore()) return;
+        if (expectedGrid != null) {
+            if (grid != expectedGrid || grid.getChildCount() == 0 || grid.getLastVisiblePosition() < photos.size() - 1) return;
+        } else if (!photos.isEmpty()) return;
+        loadNextPage();
     }
 
     private void loadNextPage() {
-        if (closed || loadingPage || downloading || !isConnected()) return;
-        loadingPage = true;
+        if (closed || downloading || selectionMode || !isConnected()) return;
+        AlbumPaging.Request pageRequest = paging.begin();
+        if (pageRequest == null) return;
         cameraError = "";
         final int request = epoch;
-        render();
-        controller.loadPage(cursor, PAGE_SIZE, new AlbumController.Callback<PhotoPage>() {
+        if (screen == Screen.OVERVIEW && !downloadedTab && grid != null && pageStatus != null) pageStatus.setText("正在读取更多照片…");
+        else render();
+        controller.loadPage(pageRequest.offset(), PAGE_SIZE, new AlbumController.Callback<PhotoPage>() {
             @Override public void onSuccess(PhotoPage page) {
                 if (!current(request)) return;
-                photos.addAll(page.items());
-                cursor = page.nextOffset();
-                hasMore = page.hasMore();
-                loadingPage = false;
-                render();
+                AlbumPaging.Result result = paging.succeed(pageRequest, page.nextOffset(), page.hasMore());
+                if (result == AlbumPaging.Result.STALE) return;
+                if (result == AlbumPaging.Result.STALLED) cameraError = "相机未返回新的照片位置，已暂停读取。请重试或重新连接。";
+                else photos.addAll(page.items());
+                if (result != AlbumPaging.Result.STALLED && screen == Screen.OVERVIEW && !downloadedTab && grid != null && adapter != null) {
+                    // Append into the current grid. Replacing it during a fast page response loses the scroll anchor.
+                    View first = grid.getChildAt(0);
+                    boolean restoreAnchor = !restoringGridPosition && first != null;
+                    android.os.Parcelable anchor = restoreAnchor ? grid.onSaveInstanceState() : null;
+                    adapter.notifyDataSetChanged(); if (anchor != null) grid.onRestoreInstanceState(anchor);
+                    if (photoCountLabel != null) photoCountLabel.setText("相机照片 · " + photos.size() + (paging.hasMore() ? "+" : " 张"));
+                    if (pageStatus != null) pageStatus.setText(paging.hasMore() ? "继续下滑浏览更多照片" : "已显示全部照片");
+                    final GridView currentGrid = grid; grid.post(() -> maybeLoadMore(currentGrid));
+                } else render();
             }
             @Override public void onError(String message) {
                 if (!current(request)) return;
-                loadingPage = false;
+                if (!paging.fail(pageRequest)) return;
                 cameraError = message;
                 render();
             }
@@ -583,6 +764,8 @@ public final class AlbumPanel implements AutoCloseable {
                 loadingDownloads = false;
                 localLoaded = true;
                 localError = "";
+                // Save against the old download list while all visible rows still exist.
+                if (adapter != null && adapter.local) retireGrid(false);
                 downloads.clear(); downloads.addAll(result);
                 if (downloadedTab && screen == Screen.OVERVIEW) render();
             }
@@ -602,75 +785,139 @@ public final class AlbumPanel implements AutoCloseable {
     }
 
     private void openRemote(PhotoItem photo) {
+        clearDetailImage(); viewerControlsVisible = true;
         remoteDetail = photo;
         localDetail = savedThisSession.get(photo.handle());
         screen = Screen.DETAIL;
-        clearDetailImage();
         changed();
     }
 
     private void openLocal(DownloadedPhoto photo) {
+        clearDetailImage(); viewerControlsVisible = true;
         remoteDetail = null;
         localDetail = photo;
         screen = Screen.DETAIL;
-        clearDetailImage();
         changed();
     }
 
     private void renderDetail() {
         if (remoteDetail == null && localDetail == null) { screen = Screen.OVERVIEW; renderOverview(); return; }
-        ScrollView scroll = new ScrollView(activity);
-        scroll.setFillViewport(true);
-        LinearLayout body = vertical();
-        body.setPadding(dp(20), dp(20), dp(20), dp(24));
-        FrameLayout preview = new FrameLayout(activity);
-        preview.setBackground(shape(palette.container, 8));
-        preview.setClipToOutline(true);
-        ImageView image = new ImageView(activity);
-        image.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        image.setContentDescription("照片预览");
-        TextView unavailable = text("暂无预览", 15, palette.secondary, false);
-        unavailable.setGravity(Gravity.CENTER);
-        preview.addView(unavailable, new FrameLayout.LayoutParams(-1, -1));
-        preview.addView(image, new FrameLayout.LayoutParams(-1, -1));
-        int previewHeight = Math.min(380, Math.max(220, activity.getResources().getConfiguration().screenHeightDp * 2 / 5));
-        body.addView(preview, new LinearLayout.LayoutParams(-1, dp(previewHeight)));
-        if (localDetail != null) {
-            if (detailBitmap != null) { image.setImageBitmap(detailBitmap); unavailable.setVisibility(View.GONE); }
-            else requestDetailImage(localDetail, image, unavailable);
-        } else {
-            String key = remoteKey(remoteDetail);
-            Bitmap bitmap = thumbs.get(key);
-            if (bitmap != null) { image.setImageBitmap(bitmap); unavailable.setVisibility(View.GONE); }
-            else requestRemoteThumb(remoteDetail, null);
+        root.setBackgroundColor(Color.BLACK);
+        FrameLayout stage = new FrameLayout(activity); stage.setBackgroundColor(Color.BLACK);
+        if (viewerImage == null) viewerImage = new PhotoImageView(activity);
+        if (viewerImage.getParent() instanceof ViewGroup) ((ViewGroup) viewerImage.getParent()).removeView(viewerImage);
+        viewerImage.setOnSingleTap(() -> { viewerControlsVisible = !viewerControlsVisible; updateViewerChrome(); });
+        stage.addView(viewerImage, new FrameLayout.LayoutParams(-1, -1));
+        Bitmap photo = detailBitmap;
+        if (photo == null && remoteDetail != null) photo = thumbs.get(remoteKey(remoteDetail));
+        if (viewerPhoto != photo) {
+            boolean preserveView = viewerPhoto != null && photo != null;
+            viewerPhoto = photo;
+            if (preserveView) viewerImage.setPhotoPreservingTransform(photo);
+            else viewerImage.setPhoto(photo);
+        }
+        if (photo == null) {
+            TextView placeholder = text(previewError.isEmpty() ? "正在加载照片…" : "暂无预览", 15, Color.LTGRAY, false); placeholder.setGravity(Gravity.CENTER);
+            placeholder.setClickable(false); placeholder.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+            stage.addView(placeholder, new FrameLayout.LayoutParams(-1, -1));
         }
         String filename = localDetail != null ? localDetail.filename() : remoteDetail.filename();
-        addSpaced(body, text(filename, 20, palette.text, true), 16);
-        long bytes = localDetail != null ? localDetail.byteSize() : remoteDetail.byteSize();
-        String metadata = "JPEG · " + formatBytes(bytes);
-        if (remoteDetail != null && remoteDetail.width() > 0 && remoteDetail.height() > 0) metadata += " · " + remoteDetail.width() + " × " + remoteDetail.height();
-        addSpaced(body, text(metadata, 14, palette.secondary, false), 6);
-        if (remoteDetail != null && localDetail == null) addSpaced(body, text("此处显示相机提供的缩略图。下载后可在本机查看照片。", 13, palette.secondary, false), 8);
+        LinearLayout top = horizontal(); top.setGravity(Gravity.CENTER_VERTICAL); top.setBackgroundColor(0xB8000000);
+        FrameLayout back = new FrameLayout(activity); back.setBackground(interactive(0x00000000, 24));
+        ImageView backIcon = icon(AppIcon.Kind.BACK, Color.WHITE); back.addView(backIcon, new FrameLayout.LayoutParams(dp(24), dp(24), Gravity.CENTER));
+        back.setContentDescription("返回相册"); back.setFocusable(true); back.setOnClickListener(v -> goBack());
+        top.addView(back, new LinearLayout.LayoutParams(dp(48), dp(48)));
+        TextView name = text(filename, 15, Color.WHITE, false); name.setMaxLines(1); name.setEllipsize(TextUtils.TruncateAt.MIDDLE);
+        LinearLayout.LayoutParams nameParams = new LinearLayout.LayoutParams(0, -2, 1); nameParams.leftMargin = dp(8); top.addView(name, nameParams);
+        stage.addView(top, new FrameLayout.LayoutParams(-1, -2, Gravity.TOP)); viewerTop = top;
+        LinearLayout bottom = vertical();
+        GradientDrawable toolbar = shape(0xD91C1D21, 26);
+        toolbar.setStroke(dp(0.5f), 0x33FFFFFF);
+        bottom.setBackground(toolbar);
+        viewerStatus = text("", 13, 0xFFE1E3E6, false); viewerStatus.setGravity(Gravity.CENTER);
+        viewerStatus.setAccessibilityLiveRegion(View.ACCESSIBILITY_LIVE_REGION_POLITE); bottom.addView(viewerStatus);
         if (localDetail != null) {
-            addSpaced(body, detailStatus(true), 24);
-            addSpaced(body, text("照片保存在此应用内；卸载应用可能会移除这些文件。", 13, palette.secondary, false), 8);
-            addSpaced(body, text("下载于 " + DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT).format(new Date(localDetail.downloadedAt())), 12, palette.secondary, false), 8);
-            Button export = button(exporting ? "正在另存…" : "另存到系统文件", true, () -> export(localDetail));
-            export.setEnabled(!exporting);
-            addSpaced(body, export, 24);
+            Button save = viewerButton(exporting ? "正在另存…" : "另存到系统文件", () -> export(localDetail));
+            save.setEnabled(!exporting); addSpaced(bottom, save, 12);
         } else {
-            addSpaced(body, detailStatus(false), 24);
-            Button download = button(downloading ? "正在下载照片…" : "下载到手机", true, () -> {
-                List<PhotoItem> one = new ArrayList<>(); one.add(remoteDetail); startBatch(one);
-            });
-            download.setEnabled(!downloading && isConnected());
-            addSpaced(body, download, 24);
-            if (!isConnected()) addSpaced(body, text("无线连接已断开，请返回相册重新连接。", 14, palette.error, false), 12);
+            Button save = viewerButton(downloading ? "正在下载原图…" : "下载原图", () -> { List<PhotoItem> one = new ArrayList<>(); one.add(remoteDetail); startBatch(one); });
+            save.setEnabled(!downloading && isConnected()); addSpaced(bottom, save, 12);
+            if (!previewError.isEmpty() && isConnected() && !downloading) {
+                Button retry = textAction("重新加载预览", () -> { clearDetailImage(); render(); });
+                retry.setTextColor(Color.WHITE); addSpaced(bottom, retry, 4);
+            }
         }
-        if (downloading) renderTransfer(body);
-        else if (!batchMessage.isEmpty()) addSpaced(body, text(batchMessage, 14, palette.secondary, false), 16);
-        scroll.addView(body, new ScrollView.LayoutParams(-1, -2));
-        root.addView(scroll, new LinearLayout.LayoutParams(-1, 0, 1));
+        FrameLayout.LayoutParams bottomParams = new FrameLayout.LayoutParams(-1, -2, Gravity.BOTTOM);
+        bottomParams.setMargins(dp(16), 0, dp(16), dp(14));
+        stage.addView(bottom, bottomParams); viewerBottom = bottom;
+        stage.setOnApplyWindowInsetsListener((view, insets) -> {
+            int left, right, upper, lower;
+            if (android.os.Build.VERSION.SDK_INT >= 30) {
+                android.graphics.Insets safe = insets.getInsetsIgnoringVisibility(android.view.WindowInsets.Type.systemBars() | android.view.WindowInsets.Type.displayCutout());
+                left = safe.left; right = safe.right; upper = safe.top; lower = safe.bottom;
+            } else { left = insets.getStableInsetLeft(); right = insets.getStableInsetRight(); upper = insets.getStableInsetTop(); lower = insets.getStableInsetBottom(); }
+            top.setPadding(left + dp(8), upper + dp(8), right + dp(16), dp(8));
+            bottom.setPadding(left + dp(16), dp(12), right + dp(16), lower + dp(16));
+            return insets;
+        });
+        root.addView(stage, new LinearLayout.LayoutParams(-1, -1)); stage.requestApplyInsets();
+        if (localDetail != null) requestDetailFile(localDetail.file(), localKey(localDetail));
+        else requestRemotePreview();
+        updateViewerStatus(); updateViewerChrome();
+    }
+
+    private Button viewerButton(String label, Runnable action) {
+        Button result = button(label, true, action);
+        result.setTextColor(Color.WHITE);
+        android.graphics.drawable.StateListDrawable states = new android.graphics.drawable.StateListDrawable();
+        states.addState(new int[] {-android.R.attr.state_enabled}, shape(0xFF383A3E, 25));
+        int filledBlue = palette.dark ? 0xFF0065DC : palette.primary;
+        states.addState(new int[] {}, new RippleDrawable(ColorStateList.valueOf(0x33FFFFFF), shape(filledBlue, 25), shape(Color.WHITE, 25)));
+        result.setBackground(states);
+        return result;
+    }
+
+    private void updateViewerChrome() {
+        if (viewerTop != null) viewerTop.setVisibility(viewerControlsVisible ? View.VISIBLE : View.GONE);
+        if (viewerBottom != null) viewerBottom.setVisibility(viewerControlsVisible ? View.VISIBLE : View.GONE);
+    }
+
+    private void updateViewerStatus() {
+        if (viewerStatus == null) return;
+        String status;
+        if (downloading) status = "正在下载原图 · " + formatBytes(receivedBytes) + (expectedBytes > 0 ? " / " + formatBytes(expectedBytes) : "");
+        else if (!previewError.isEmpty()) status = previewError;
+        else if (localDetail != null) status = "已保存到手机 · " + formatBytes(localDetail.byteSize());
+        else if (previewLoading) status = "正在加载预览…";
+        else if (remoteDetail != null) {
+            Bitmap preview = detailBitmap != null ? detailBitmap : thumbs.get(remoteKey(remoteDetail));
+            String quality = detailBitmap != null && remotePreview != null && remotePreview.isLargeThumbnail()
+                    ? "高清预览" : "缩略预览";
+            status = preview == null ? "暂无预览" : quality + " · " + preview.getWidth() + " × " + preview.getHeight();
+            status += isConnected() ? "\n原图 " + formatBytes(remoteDetail.byteSize()) + " · 下载后可查看细节" : "\n连接已断开，重新连接后可下载原图";
+        } else status = "正在加载照片…";
+        viewerStatus.setText(status);
+    }
+
+    private void requestRemotePreview() {
+        if (remoteDetail == null || localDetail != null || remotePreview != null || previewLoading || !previewError.isEmpty()) return;
+        previewLoading = true; previewReceived = previewTotal = 0;
+        final int request = ++previewRequest; final PhotoItem photo = remoteDetail;
+        controller.loadPreview(photo, new AlbumController.PreviewCallback() {
+            public void onProgress(long received, long total) {
+                if (closed || request != previewRequest || remoteDetail != photo) return;
+                previewReceived = received; previewTotal = total; updateViewerStatus();
+            }
+            public void onSuccess(PhotoPreview preview) {
+                if (closed || request != previewRequest || screen != Screen.DETAIL || remoteDetail != photo) { preview.close(); return; }
+                previewLoading = false; remotePreview = preview;
+                requestDetailFile(preview.file(), "preview:" + remoteKey(photo)); updateViewerStatus();
+            }
+            public void onError(String message) {
+                if (closed || request != previewRequest || remoteDetail != photo) return;
+                previewLoading = false; previewError = "预览未加载：" + message; render();
+            }
+        });
     }
 
     private void startBatch(List<PhotoItem> chosen) {
@@ -701,7 +948,9 @@ public final class AlbumPanel implements AutoCloseable {
                 batchCompleted++;
                 savedThisSession.put(photo.handle(), result);
                 if (remoteDetail != null && remoteDetail.handle() == photo.handle()) {
-                    localDetail = result; clearDetailImage();
+                    localDetail = result; releasePreview(); previewLoading = false; previewError = "";
+                    // Keep the visible preview while decoding the explicitly downloaded original.
+                    detailImageKey = "";
                 }
                 downloadNext();
             }
@@ -770,6 +1019,7 @@ public final class AlbumPanel implements AutoCloseable {
     }
 
     private void updateTransfer() {
+        updateViewerStatus();
         if (transferLabel == null) return;
         int current = Math.min(batchTotal, batchCompleted + batchFailed + 1);
         transferLabel.setText("正在下载 " + current + " / " + batchTotal + " · 已完成 " + batchCompleted + " 张");
@@ -815,7 +1065,7 @@ public final class AlbumPanel implements AutoCloseable {
         String key;
         ThumbTile() {
             super(activity);
-            setBackground(shape(palette.container, 5)); setClipToOutline(true);
+            setBackground(shape(palette.container, 14)); setClipToOutline(true);
             placeholder = text("暂无预览", 12, palette.secondary, false);
             placeholder.setGravity(Gravity.CENTER);
             addView(placeholder, new FrameLayout.LayoutParams(-1, -1));
@@ -847,7 +1097,8 @@ public final class AlbumPanel implements AutoCloseable {
         controller.loadThumbnail(photo, new AlbumController.Callback<byte[]>() {
             @Override public void onSuccess(byte[] bytes) {
                 if (!current(request)) return;
-                decodeThumb(key, request, () -> decodeJpegThumbnail(bytes), after);
+                final int target = gridThumbnailTarget();
+                decodeThumb(key, request, () -> decodeJpegThumbnail(bytes, target), after);
             }
             @Override public void onError(String message) {
                 if (!current(request)) return;
@@ -861,7 +1112,8 @@ public final class AlbumPanel implements AutoCloseable {
         if (closed || pendingThumbs.size() >= MAX_THUMB_REQUESTS || pendingThumbs.contains(key) || failedThumbs.contains(key)) return;
         pendingThumbs.add(key);
         final int request = epoch;
-        decodeThumb(key, request, () -> decodeFile(photo.file(), 320, 320), null);
+        final int target = gridThumbnailTarget();
+        decodeThumb(key, request, () -> decodeFile(photo.file(), target, target, true), null);
     }
 
     private interface Decode { Bitmap run(); }
@@ -885,24 +1137,63 @@ public final class AlbumPanel implements AutoCloseable {
         if (screen == Screen.DETAIL && remoteDetail != null && localDetail == null) render();
     }
 
-    private BitmapFactory.Options thumbnailOptions(byte[] bytes) {
-        BitmapFactory.Options bounds = new BitmapFactory.Options(); bounds.inJustDecodeBounds = true;
-        BitmapFactory.decodeByteArray(bytes, 0, bytes.length, bounds);
-        return sampledOptions(bounds.outWidth, bounds.outHeight, 480, 480);
+    /** Capture the current grid geometry on the main thread before decoding in images. */
+    private int gridThumbnailTarget() {
+        android.util.DisplayMetrics display = activity.getResources().getDisplayMetrics();
+        GridView visibleGrid = grid;
+        int availableWidth = Math.max(1, display.widthPixels - dp(40));
+        int columns = Math.max(1, (availableWidth + dp(8)) / Math.max(1, dp(104) + dp(8)));
+        int tileWidth = Math.max(1, (availableWidth - (columns - 1) * dp(8)) / columns);
+        int gridHeight = display.heightPixels;
+        if (visibleGrid != null && visibleGrid.getWidth() > 0 && visibleGrid.getNumColumns() > 0) {
+            columns = visibleGrid.getNumColumns();
+            tileWidth = Math.max(1, visibleGrid.getColumnWidth());
+            if (visibleGrid.getHeight() > 0) gridHeight = visibleGrid.getHeight();
+        }
+        // AUTO_FIT may show many more than three columns in landscape/tablet layouts.
+        // Include partial rows and leave 2 MiB for the next cells arriving during scroll.
+        long visibleCells = (long) columns * (Math.max(1, (gridHeight + tileWidth - 1) / tileWidth) + 1);
+        int cacheTarget = (int) Math.sqrt((10L * 1024 * 1024) / Math.max(4L, visibleCells * 4));
+        // A <=31 px rounding allowance avoids halving a 320 px image for a 308 px tile.
+        return Math.max(1, Math.min(320, Math.min((tileWidth + 31) / 32 * 32, cacheTarget)));
     }
 
-    private Bitmap decodeJpegThumbnail(byte[] bytes) {
-        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, thumbnailOptions(bytes));
+    private BitmapFactory.Options thumbnailOptions(byte[] bytes, int target) {
+        BitmapFactory.Options bounds = new BitmapFactory.Options(); bounds.inJustDecodeBounds = true;
+        BitmapFactory.decodeByteArray(bytes, 0, bytes.length, bounds);
+        return gridDecodeOptions(bounds.outWidth, bounds.outHeight, target);
+    }
+
+    private BitmapFactory.Options gridDecodeOptions(int width, int height, int target) {
+        // Grid cells share a 12 MiB cache. Unlike the detail decoder, do not allow
+        // twice the target: 15 visible 640 x 400 ARGB previews would evict each
+        // other and notifyDataSetChanged would continuously fetch them again.
+        int sample = 1;
+        while (width / sample > target || height / sample > target) sample *= 2;
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = sample;
+        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        return options;
+    }
+
+    private Bitmap decodeJpegThumbnail(byte[] bytes, int target) {
+        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, thumbnailOptions(bytes, target));
         try (ByteArrayInputStream input = new ByteArrayInputStream(bytes)) {
             return orient(bitmap, new ExifInterface(input).getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL));
         } catch (java.io.IOException | RuntimeException ignored) { return bitmap; }
     }
 
     private Bitmap decodeFile(File file, int width, int height) {
+        return decodeFile(file, width, height, false);
+    }
+
+    private Bitmap decodeFile(File file, int width, int height, boolean gridPreview) {
         BitmapFactory.Options bounds = new BitmapFactory.Options(); bounds.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(file.getAbsolutePath(), bounds);
         if (bounds.outWidth <= 0 || bounds.outHeight <= 0) return null;
-        Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath(), sampledOptions(bounds.outWidth, bounds.outHeight, width, height));
+        BitmapFactory.Options options = gridPreview ? gridDecodeOptions(bounds.outWidth, bounds.outHeight, Math.min(width, height))
+                : sampledOptions(bounds.outWidth, bounds.outHeight, width, height);
+        Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
         try {
             return orient(bitmap, new ExifInterface(file.getAbsolutePath()).getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL));
         } catch (java.io.IOException | RuntimeException ignored) { return bitmap; }
@@ -931,32 +1222,45 @@ public final class AlbumPanel implements AutoCloseable {
         while (width / sample > targetWidth * 2 || height / sample > targetHeight * 2 || (long) (width / sample) * (height / sample) > 4000000L) sample *= 2;
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = sample;
-        options.inPreferredConfig = Bitmap.Config.RGB_565;
+        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
         return options;
     }
 
-    private void requestDetailImage(DownloadedPhoto photo, ImageView image, TextView placeholder) {
-        String key = localKey(photo);
+    private void requestDetailFile(File file, String key) {
         if (key.equals(detailImageKey)) return;
         detailImageKey = key;
-        final int request = epoch;
-        final int target = Math.min(1600, Math.max(640, activity.getResources().getDisplayMetrics().widthPixels));
-        placeholder.setText("正在读取照片…");
+        final int request = epoch, viewerRequest = previewRequest;
+        final int target = Math.min(2048, Math.max(1280, activity.getResources().getDisplayMetrics().widthPixels));
         images.execute(() -> {
             Bitmap bitmap = null;
-            try { bitmap = decodeFile(photo.file(), target, target); } catch (RuntimeException | OutOfMemoryError ignored) { }
+            try { bitmap = decodeFile(file, target, target); } catch (RuntimeException | OutOfMemoryError ignored) { }
             final Bitmap decoded = bitmap;
             main.post(() -> {
-                if (!current(request) || !key.equals(detailImageKey) || screen != Screen.DETAIL) { if (decoded != null) decoded.recycle(); return; }
+                if (!current(request) || viewerRequest != previewRequest || !key.equals(detailImageKey) || screen != Screen.DETAIL) { if (decoded != null) decoded.recycle(); return; }
                 detailBitmap = decoded;
-                if (decoded == null) { placeholder.setText("暂无预览"); return; }
+                if (decoded == null) previewError = "照片暂时无法解码，请返回后重试或另存原文件。";
                 // The shell may have recreated the detail while decoding; render into its current views.
                 render();
             });
         });
     }
 
-    private void clearDetailImage() { detailBitmap = null; detailImageKey = ""; }
+    private void releasePreview() {
+        releasePreview(true);
+    }
+
+    private void releasePreview(boolean cancelController) {
+        previewRequest++;
+        if (cancelController) controller.cancelPreview();
+        if (remotePreview != null) { remotePreview.close(); remotePreview = null; }
+    }
+
+    private void clearDetailImage() {
+        releasePreview(); detailBitmap = null; detailImageKey = "";
+        previewLoading = false; previewError = ""; previewReceived = previewTotal = 0;
+        if (viewerImage != null) { viewerImage.setOnSingleTap(null); viewerImage.setPhoto(null); }
+        viewerImage = null; viewerPhoto = null; viewerStatus = null; viewerTop = viewerBottom = null;
+    }
 
     private void export(DownloadedPhoto photo) {
         if (photo == null || exporting || closed) return;
@@ -1031,16 +1335,39 @@ public final class AlbumPanel implements AutoCloseable {
 
     private void rememberGridPosition() {
         if (resetGridPosition) {
-            firstVisible = firstVisibleTop = 0;
+            gridSavedState = null;
             resetGridPosition = false;
             return;
         }
-        if (grid != null) {
-            firstVisible = grid.getFirstVisiblePosition();
-            View child = grid.getChildAt(0); firstVisibleTop = child == null ? 0 : child.getTop();
+        if (grid == null || adapter == null || restoringGridPosition || grid.getChildCount() == 0) return;
+        int count = adapter.getCount();
+        int first = grid.getFirstVisiblePosition();
+        int last = grid.getLastVisiblePosition();
+        int selectedPosition = grid.getSelectedItemPosition();
+        if (grid.getAdapter() != adapter || count == 0 || first < 0 || first >= count
+                || last < first || last >= count || selectedPosition >= count) {
+            gridSavedState = null;
+            return;
         }
+        gridSavedState = grid.onSaveInstanceState();
+    }
+
+    /** Release retained views before clearing or replacing the list they read. */
+    private void retireGrid(boolean resetPosition) {
+        if (resetPosition) {
+            gridSavedState = null;
+            resetGridPosition = true;
+        } else rememberGridPosition();
+        grid = null;
+        adapter = null;
+        restoringGridPosition = false;
     }
     private boolean current(int request) { return !closed && request == epoch; }
+    private static boolean validIpv4(String address) {
+        if (!address.matches("[0-9]{1,3}(\\.[0-9]{1,3}){3}")) return false;
+        for (String part : address.split("\\.")) if (Integer.parseInt(part) > 255) return false;
+        return true;
+    }
     private String remoteKey(PhotoItem photo) { return "camera:" + sessionNumber + ":" + photo.handle(); }
     private String localKey(DownloadedPhoto photo) { return "local:" + photo.file().getAbsolutePath() + ":" + photo.downloadedAt(); }
     private int dp(float value) { return Math.round(value * activity.getResources().getDisplayMetrics().density); }
@@ -1058,7 +1385,7 @@ public final class AlbumPanel implements AutoCloseable {
         Button result = new Button(activity); result.setText(label); result.setTextSize(15); result.setAllCaps(false);
         result.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
         result.setLetterSpacing(0); result.setIncludeFontPadding(false);
-        result.setMinHeight(dp(52)); result.setMinimumHeight(dp(52));
+        result.setMinHeight(dp(50)); result.setMinimumHeight(dp(50));
         result.setPadding(dp(16), dp(12), dp(16), dp(12));
         result.setStateListAnimator(null); result.setElevation(0); result.setTranslationZ(0);
         result.setBackgroundTintList(null);
@@ -1066,8 +1393,8 @@ public final class AlbumPanel implements AutoCloseable {
                 new int[] {palette.secondary, primary ? palette.onPrimary : palette.primary}));
         if (primary) result.setBackground(primaryButtonBackground());
         else {
-            GradientDrawable outline = shape(palette.surface, 8); outline.setStroke(dp(1), palette.outline);
-            result.setBackground(new RippleDrawable(ColorStateList.valueOf(palette.dark ? 0x22FFFFFF : 0x15000000), outline, shape(palette.text, 8)));
+            GradientDrawable outline = shape(palette.card, 25); outline.setStroke(dp(0.5f), palette.outline);
+            result.setBackground(new RippleDrawable(ColorStateList.valueOf(palette.dark ? 0x22FFFFFF : 0x15000000), outline, shape(palette.text, 25)));
         }
         result.setOnClickListener(v -> action.run());
         return result;
@@ -1081,8 +1408,8 @@ public final class AlbumPanel implements AutoCloseable {
     }
     private android.graphics.drawable.Drawable primaryButtonBackground() {
         android.graphics.drawable.StateListDrawable states = new android.graphics.drawable.StateListDrawable();
-        states.addState(new int[]{-android.R.attr.state_enabled}, shape(palette.container, 8));
-        states.addState(new int[]{}, interactive(palette.primary, 8));
+        states.addState(new int[]{-android.R.attr.state_enabled}, shape(palette.container, 25));
+        states.addState(new int[]{}, interactive(palette.primary, 25));
         return states;
     }
     private GradientDrawable shape(int color, int radius) {
@@ -1103,8 +1430,12 @@ public final class AlbumPanel implements AutoCloseable {
         EditText result = new EditText(activity);
         result.setText(value); result.setHint(hint); result.setTextSize(16);
         result.setTextColor(palette.text); result.setHintTextColor(palette.secondary);
-        result.setInputType(type); result.setSingleLine(true); result.setMinHeight(dp(56));
-        result.setBackgroundTintList(ColorStateList.valueOf(palette.primary));
+        result.setInputType(type); result.setSingleLine(true); result.setMinHeight(dp(50));
+        result.setPadding(dp(14), dp(12), dp(14), dp(12));
+        result.setBackgroundTintList(null);
+        GradientDrawable field = shape(palette.container, 14);
+        field.setStroke(dp(0.5f), palette.rim);
+        result.setBackground(field);
         return result;
     }
     private interface OnText { void changed(String value); }
@@ -1127,7 +1458,7 @@ public final class AlbumPanel implements AutoCloseable {
     private void addNotice(LinearLayout parent, String message, boolean error) {
         TextView notice = text(message, 13, error ? palette.error : palette.text, false);
         notice.setPadding(dp(12), dp(10), dp(12), dp(10));
-        notice.setBackground(shape(error ? palette.container : palette.primaryContainer, 8));
+        notice.setBackground(shape(error ? palette.container : palette.primaryContainer, 16));
         notice.setAccessibilityLiveRegion(View.ACCESSIBILITY_LIVE_REGION_POLITE);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-1, -2);
         params.setMargins(dp(16), dp(10), dp(16), dp(4)); parent.addView(notice, params);
@@ -1135,7 +1466,7 @@ public final class AlbumPanel implements AutoCloseable {
     private void addSavedNotice(LinearLayout parent) {
         LinearLayout notice = horizontal(); notice.setGravity(Gravity.CENTER_VERTICAL);
         notice.setPadding(dp(14), dp(12), dp(14), dp(12));
-        notice.setBackground(shape(palette.primaryContainer, 8));
+        notice.setBackground(shape(palette.card, 20));
         ImageView check = icon(AppIcon.Kind.CHECK, palette.primary);
         notice.addView(check, new LinearLayout.LayoutParams(dp(26), dp(26)));
         LinearLayout words = vertical();
@@ -1253,22 +1584,24 @@ public final class AlbumPanel implements AutoCloseable {
         }
     }
     private void step(LinearLayout parent, String number, String title, String body) {
+        if (!"1".equals(number)) {
+            View divider = new View(activity);
+            divider.setBackgroundColor(palette.rim);
+            LinearLayout.LayoutParams rule = new LinearLayout.LayoutParams(-1, dp(0.5f));
+            rule.leftMargin = dp(38);
+            parent.addView(divider, rule);
+        }
         LinearLayout row = horizontal(); row.setGravity(Gravity.CENTER_VERTICAL);
-        row.setPadding(dp(14), dp(18), dp(10), dp(18));
-        row.setMinimumHeight(dp(120)); row.setBackground(shape(palette.container, 12));
-        TextView marker = text(number, 16, palette.onPrimary, true); marker.setGravity(Gravity.CENTER);
-        marker.setBackground(shape(palette.primary, 16));
+        row.setPadding(0, dp(16), 0, dp(16));
+        TextView marker = text(number, 13, palette.primary, true); marker.setGravity(Gravity.CENTER);
+        marker.setBackground(shape(palette.primaryContainer, 14));
         LinearLayout.LayoutParams mark = new LinearLayout.LayoutParams(dp(28), dp(28)); mark.gravity = Gravity.TOP;
         row.addView(marker, mark);
-        LinearLayout words = vertical(); words.addView(text(title, 16, palette.text, true));
-        addSpaced(words, text(body, 13, palette.secondary, false), 8);
+        LinearLayout words = vertical(); words.addView(text(title, 15, palette.text, true));
+        addSpaced(words, text(body, 13, palette.secondary, false), 6);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, -2, 1); params.leftMargin = dp(10);
         row.addView(words, params);
-        if (activity.getResources().getConfiguration().fontScale <= 1.2f && activity.getResources().getConfiguration().screenWidthDp >= 360) {
-            LinearLayout.LayoutParams art = new LinearLayout.LayoutParams(dp(68), dp(84)); art.leftMargin = dp(8);
-            row.addView(new StepDiagram(Integer.parseInt(number)), art);
-        }
-        addSpaced(parent, row, 12);
+        parent.addView(row, new LinearLayout.LayoutParams(-1, -2));
     }
     private static String formatBytes(long size) {
         if (size < 1024) return size + " B";

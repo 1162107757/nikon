@@ -232,6 +232,9 @@ public final class UsbPictureControlProbe implements AutoCloseable {
 
     /** Camera serial numbers and NCP files are not read by this snapshot. */
     public static final class Result {
+        public String transport = "usb";
+        public String wirelessHost = "";
+        public int wirelessPort;
         public final String timestamp = timestamp();
         public String manufacturer = "";
         public String model = "";
@@ -241,6 +244,7 @@ public final class UsbPictureControlProbe implements AutoCloseable {
         public boolean deviceInfoRead;
         public boolean sessionOpened;
         public boolean sessionClosed;
+        public boolean sessionRetained;
         public boolean vendorPropertiesRead;
         public boolean capabilityRead;
         public boolean capabilityParsed;
@@ -278,6 +282,7 @@ public final class UsbPictureControlProbe implements AutoCloseable {
                     .put("sha256", standardCapabilitySha256)
                     .put("rawBase64", Base64.getEncoder().encodeToString(standardCapabilityRawBytes));
             return new JSONObject().put("reportVersion", 1).put("timestampUtc", timestamp)
+                    .put("transport", transport).put("wirelessHost", wirelessHost).put("wirelessPort", wirelessPort)
                     .put("probeMode", "nikon_picture_control_read_only").put("readOnly", true)
                     .put("shootingMenu", "photo").put("completed", completed)
                     .put("serialNumberCollected", false).put("presetWriteAttempted", false)
@@ -289,6 +294,7 @@ public final class UsbPictureControlProbe implements AutoCloseable {
                     .put("vendorProperties", hexArray(vendorProperties))
                     .put("deviceInfoRead", deviceInfoRead).put("sessionOpenedByProbe", sessionOpened)
                     .put("sessionCloseConfirmed", sessionClosed)
+                    .put("sessionRetainedForConfirmation", sessionRetained)
                     .put("protocolPhaseUnconfirmed", protocolPhaseUnconfirmed)
                     .put("standardCapability", capability).put("items", records)
                     .put("phase", phase).put("failurePhase", failurePhase)
@@ -310,9 +316,11 @@ public final class UsbPictureControlProbe implements AutoCloseable {
 
         public String toDisplayText() {
             StringBuilder text = new StringBuilder("优化校准专用接口：只读验证（照片菜单）")
+                    .append("\n连接方式：").append(transport.equals("wifi") ? "Wi-Fi / PTP-IP" : "USB")
                     .append("\n相机：").append(model.isEmpty() ? "尚未读取" : model)
                     .append("\n固件：").append(firmware)
                     .append("\n读取流程：").append(completed ? "完成" : "未完成")
+                    .append("\n本工具会话：").append(sessionRetained ? "保持连接，等待确认" : sessionClosed ? "已关闭" : "关闭未确认")
                     .append("\n未执行上传、删除、预设选择或模式切换。")
                     .append("\nStandard 能力：").append(capabilityParsed ? "已解析" : "尚未完成")
                     .append("（").append(standardCapabilityRawBytes.length).append(" 字节）")

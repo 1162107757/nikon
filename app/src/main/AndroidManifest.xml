@@ -2,6 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <uses-feature android:name="android.hardware.usb.host" android:required="true" />
     <application
         android:allowBackup="false"
@@ -10,6 +17,8 @@
         android:theme="@style/AppTheme"
         android:supportsRtl="true"
         android:usesCleartextTraffic="false">
+        <service android:name=".connection.CameraConnectionService" android:exported="false"
+            android:foregroundServiceType="connectedDevice" android:stopWithTask="false" />
         <activity android:name=".DiagnosticsActivity" android:exported="false" android:theme="@style/DiagnosticTheme" />
         <activity android:name=".MainActivity" android:exported="true" android:configChanges="orientation|screenSize|uiMode|fontScale">
             <intent-filter>

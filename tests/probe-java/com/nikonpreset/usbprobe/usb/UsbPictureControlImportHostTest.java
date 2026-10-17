@@ -37,6 +37,8 @@ public final class UsbPictureControlImportHostTest {
         ncpEntryRecomputesAdaptationAndPreservesItsPurpose();
         ncpConversionAndOccupiedTargetsNeverBypassTheGuards();
         ncpWriteFailureKeepsConversionMetadata();
+        explicitOccupiedOverwriteReadsCapabilityAndClosesTheUsbSession();
+        occupiedOverwriteRequiresMatchingConfirmationAndCapability();
         System.out.println("PASS: " + checks + " production empty-slot Picture Control copy checks");
     }
 
@@ -336,6 +338,62 @@ public final class UsbPictureControlImportHostTest {
         check(!result.adaptationPreview.isEmpty(), "The chosen adaptations remain reviewable after success or failure");
     }
 
+    private static void explicitOccupiedOverwriteReadsCapabilityAndClosesTheUsbSession() throws Exception {
+        Camera camera = new Camera();
+        camera.advertiseCapability = true;
+        byte[] previous = syntheticProfile("CONFIRMED OLD");
+        camera.slots.put(TARGET, previous.clone());
+        camera.expectedWrite = NcpCompatibilityFixtures.expectedData(4, -4);
+        PictureControlImportSession.OverwriteConfirmation confirmation =
+                new PictureControlImportSession.OverwriteConfirmation(TARGET, previous);
+        UsbPictureControlImport.Result result = new UsbPictureControlImport().importNcpPreset(
+                camera.device, camera.manager, NcpCompatibilityFixtures.ncp(), 4, -4, TARGET, confirmation);
+        check(result.completed && result.ncpRegistrationVerified && result.readbackVerified && result.sessionClosed
+                        && !result.sessionRetainedAfterImport,
+                "Explicit occupied USB overwrite still requires exact readback and acknowledged session cleanup");
+        check(result.overwriteRequested && result.initialTargetMatched && result.recheckTargetMatched && result.freshCapabilityVerified,
+                "USB overwrite validates capability and both observations of the explicitly confirmed occupied contents");
+        equal(confirmation.sha256(), result.confirmedTargetSha256);
+        equal("CONFIRMED OLD", result.confirmedTargetName);
+        equal(camera.expectedWrite, camera.slots.get(TARGET));
+        equal(1L, camera.count(0x90cf));
+        equal(1L, camera.count(0x90cd));
+        equal(1L, camera.count(0x1003));
+        equal(1, camera.dataPayloads.size());
+        for (Command command : camera.commands) check(command.operation == 0x1001 || command.operation == 0x1002
+                        || command.operation == 0x1003 || command.operation == 0x90cf || command.operation == 0x90cc || command.operation == 0x90cd,
+                "USB overwrite never deletes, selects presets, changes mode or writes files");
+        lifecycle(camera);
+    }
+
+    private static void occupiedOverwriteRequiresMatchingConfirmationAndCapability() throws Exception {
+        for (String failure : List.of("no_confirmation", "changed", "became_empty", "raced", "missing_capability", "malformed_capability")) {
+            Camera camera = new Camera();
+            camera.advertiseCapability = !failure.equals("missing_capability");
+            byte[] previous = syntheticProfile("CONFIRMED OLD"); camera.slots.put(TARGET, previous.clone());
+            camera.expectedWrite = NcpCompatibilityFixtures.expectedData(4, -4);
+            PictureControlImportSession.OverwriteConfirmation confirmation =
+                    new PictureControlImportSession.OverwriteConfirmation(TARGET, previous);
+            if (failure.equals("changed")) camera.slots.put(TARGET, syntheticProfile("SOMEONE ELSE"));
+            if (failure.equals("became_empty")) camera.slots.put(TARGET, new byte[36]);
+            if (failure.equals("raced")) camera.targetBecomesOccupied = true;
+            if (failure.equals("malformed_capability")) camera.malformedCapability = true;
+            try {
+                new UsbPictureControlImport().importNcpPreset(camera.device, camera.manager, NcpCompatibilityFixtures.ncp(),
+                        4, -4, TARGET, failure.equals("no_confirmation") ? null : confirmation);
+                throw new AssertionError("Expected missing occupied-slot proof or invalid capability to stop USB overwrite");
+            } catch (UsbPictureControlImport.ImportException error) {
+                check(!error.partialResult.completed && !error.partialResult.writeAttempted,
+                        "USB cannot overwrite changed, unconfirmed or unsupported occupied contents");
+                if (failure.equals("raced")) check(error.partialResult.initialTargetMatched && !error.partialResult.recheckTargetMatched,
+                        "USB's final observation detects a changed occupied target");
+            }
+            equal(0L, camera.count(0x90cd));
+            equal(0, camera.dataPayloads.size());
+            lifecycle(camera);
+        }
+    }
+
     private static UsbPictureControlImport.ImportException failedNcp(Camera camera, byte[] ncp,
                                                                     int middle, int clarity) throws Exception {
         try { new UsbPictureControlImport().importNcpPreset(camera.device, camera.manager, ncp, middle, clarity, TARGET); }
@@ -419,6 +477,7 @@ public final class UsbPictureControlImportHostTest {
         int claims, releases, closes;
         boolean closed;
         boolean targetBecomesOccupied;
+        boolean advertiseCapability, malformedCapability;
         boolean normalizeReadback;
         boolean cancelAfterReadback;
         int readbackResponseBoundary = -1;
@@ -494,9 +553,10 @@ public final class UsbPictureControlImportHostTest {
             long responseTransaction = command.transaction;
             boolean finalReadback = false;
             switch (command.operation) {
-                case 0x1001: data = deviceInfo(); break;
+                case 0x1001: data = deviceInfo(advertiseCapability); break;
                 case 0x1002: equal(new long[] {1}, command.parameters); break;
                 case 0x1003: equal(new long[0], command.parameters); response = cleanupResponseCode; break;
+                case 0x90cf: equal(new long[] {1}, command.parameters); data = new byte[malformedCapability ? 29 : 28]; break;
                 case 0x90cc:
                     equal(2, command.parameters.length);
                     equal(0L, command.parameters[1]);
@@ -519,8 +579,9 @@ public final class UsbPictureControlImportHostTest {
             readbackResponseBoundary = cancelAfterReadback && finalReadback ? 12 + data.length : -1;
         }
     }
-    private static byte[] deviceInfo() {
-        int[] supported = {0x1001, 0x1002, 0x1003, 0x90cc, 0x90cd};
+    private static byte[] deviceInfo(boolean capability) {
+        int[] supported = capability ? new int[] {0x1001, 0x1002, 0x1003, 0x90cc, 0x90cd, 0x90cf}
+                : new int[] {0x1001, 0x1002, 0x1003, 0x90cc, 0x90cd};
         Writer writer = new Writer().u16(100).u32(10).u16(100).string("").u16(0).u32(supported.length);
         for (int opcode : supported) writer.u16(opcode);
         return writer.u32(0).u32(0).u32(0).u32(0).string("Nikon").string("Z 6_2").string("V1.62").string("private").bytes();

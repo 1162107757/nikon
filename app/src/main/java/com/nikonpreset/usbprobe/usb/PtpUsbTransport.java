@@ -21,7 +21,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /** Bounded USB transport with separate fixed transfer and read-only probe allow-lists. */
 final class PtpUsbTransport implements AutoCloseable, NcpTransferSession.Operations,
         PictureControlReadSession.Operations, PictureControlImportSession.Operations {
-    enum Mode { STANDARD_TRANSFER, PC_READ_ONLY, WRITE_EMPTY_PC }
+    enum Mode { STANDARD_TRANSFER, PC_READ_ONLY, WRITE_EMPTY_PC, WRITE_CONFIRMED_PC }
     private static final int BUFFER_BYTES = 16384;
     private static final int BULK_TIMEOUT_MS = 5000;
     private static final int TRANSACTION_TIMEOUT_MS = 30000;
@@ -109,7 +109,9 @@ final class PtpUsbTransport implements AutoCloseable, NcpTransferSession.Operati
 
     @Override public byte[] getData(int operation, long transactionId, long... parameters) throws IOException {
         if (mode == Mode.PC_READ_ONLY) validatePictureControlQuery(operation, parameters);
-        if (mode == Mode.WRITE_EMPTY_PC) validatePictureControlImportQuery(operation, parameters);
+        if (isPictureControlWriteMode()) {
+            validatePictureControlImportQuery(operation, parameters, mode == Mode.WRITE_CONFIRMED_PC);
+        }
         return guarded(() -> getDataInternal(operation, transactionId, parameters));
     }
 
@@ -158,10 +160,10 @@ final class PtpUsbTransport implements AutoCloseable, NcpTransferSession.Operati
         if (mode == Mode.PC_READ_ONLY) {
             throw new IOException("优化校准只读模式禁止所有数据上传、属性修改和删除操作。");
         }
-        if (mode == Mode.WRITE_EMPTY_PC) {
+        if (isPictureControlWriteMode()) {
             if (operation != 0x90cd || parameters == null || parameters.length != 2
                     || parameters[0] < 201 || parameters[0] > 209 || parameters[1] != 0) {
-                throw new IOException("空槽登记模式仅允许 SetPicCtrlData(C1–C9, new=0)。");
+                throw new IOException("优化校准登记模式仅允许 SetPicCtrlData(C1–C9, new=0)。");
             }
             PictureControlImportSession.validateConvertedData(bytes);
             if (pictureControlWriteAttempted) throw new IOException("本次连接已尝试一次登记，禁止重复写入。");
@@ -170,11 +172,17 @@ final class PtpUsbTransport implements AutoCloseable, NcpTransferSession.Operati
         return guarded(() -> sendDataInternal(operation, transactionId, bytes, parameters));
     }
 
-    private static void validatePictureControlImportQuery(int operation, long[] parameters) throws IOException {
+    private boolean isPictureControlWriteMode() {
+        return mode == Mode.WRITE_EMPTY_PC || mode == Mode.WRITE_CONFIRMED_PC;
+    }
+
+    private static void validatePictureControlImportQuery(int operation, long[] parameters,
+                                                         boolean allowCapability) throws IOException {
         boolean allowed = parameters != null && ((operation == 0x1001 && parameters.length == 0)
+                || (allowCapability && operation == 0x90cf && parameters.length == 1 && parameters[0] == 1)
                 || (operation == 0x90cc && parameters.length == 2 && parameters[0] >= 201
                 && parameters[0] <= 209 && parameters[1] == 0));
-        if (!allowed) throw new IOException("空槽登记模式不允许此查询操作或参数；未发送 USB 命令。");
+        if (!allowed) throw new IOException("优化校准登记模式不允许此查询操作或参数；未发送 USB 命令。");
     }
 
     private static void validatePictureControlQuery(int operation, long[] parameters) throws IOException {
@@ -279,7 +287,7 @@ final class PtpUsbTransport implements AutoCloseable, NcpTransferSession.Operati
                     throw new IOException("USB 查询发送未完整确认（" + count + "/" + requested
                             + " 字节）。只读验证已停止，未请求写入预设。");
                 }
-                if (mode == Mode.WRITE_EMPTY_PC) {
+                if (isPictureControlWriteMode()) {
                     throw new IOException("USB 优化校准传输未完整确认（" + count + "/" + requested
                             + " 字节）。目标槽可能已改变；未自动重试，请先重新只读扫描。");
                 }

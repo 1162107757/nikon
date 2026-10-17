@@ -1,0 +1,238 @@
+Nikon Preset 0.5.6-beta - Delivery and validation record
+Date: 2026-10-17 (Asia/Shanghai)
+
+FINAL ARTIFACT
+
+File: dist/nikon-usb-0.5.6-beta-debug.apk
+Application ID: com.nikonpreset.usbprobe
+Version name: 0.5.6-beta
+Version code: 23
+APK size: 2744953 bytes
+APK SHA-256:
+62236c22e6839b017871ea76e5ac43c8e42ba34f69152e881e05ff50fe9b2e30
+
+The size and SHA-256 above were read from the frozen artifact and checked again
+for the final log audit. The Android UI observations below used this final APK.
+Completed synthetic checks and outstanding physical-device work are separated.
+
+PHONE AND CAMERA STATUS AT RECORD CREATION
+
+The user's PKG110 / Android 16 phone previously received 0.5.5-beta (code 22).
+It was not online through ADB during this investigation. No valid new phone
+last-report, pending journal or system/network-state capture was obtained,
+and 0.5.6 has not yet been installed on that phone. Do not infer a current
+permission or battery-exemption state from older inspection records.
+
+No physical camera, camera hotspot or physical-phone interface was operated
+for this validation. Phone permissions were not changed. Existing Z6II user
+feedback remains distinct from developer-observed interoperability evidence.
+
+CHANGES IN THIS BUILD
+
+- Explicitly confirmed replacement of occupied C1-C9 slots is supported over
+  Wi-Fi and USB. The confirmation UI lists all nine slots, prefers an empty
+  target, and shows the original name for an occupied target. Replacement
+  requires a separate final confirmation naming both old and new presets.
+- Existing backend APIs remain empty-only by default. Replacement overloads
+  require an immutable OverwriteConfirmation containing a private copy of the
+  originally confirmed occupied slot. Target, exact bytes, SHA-256, name and
+  base must match both the fresh nine-slot scan and the adjacent pre-write
+  target read. Changed or newly empty targets stop without a registration.
+- Fresh NCP conversion, device/capability checks, a single SetPicCtrlData
+  attempt and exact same-target readback remain required. There is no generic
+  write-budget reset, automatic retry, rollback or atomic compare-and-set.
+  Wi-Fi success retains the verified session and both sockets for another
+  separately confirmed operation. USB still requires acknowledged cleanup.
+- USB replacement uses WRITE_CONFIRMED_PC. Its only additional read allowance
+  compared with the old empty-slot mode is 0x90CF with Standard=1. Payload,
+  target, new=0 and one-write transport restrictions remain intact.
+- Reports preserve overwrite intent, the confirmed original hash/name/base
+  and target, fresh capability verification and both snapshot-match results.
+  Occupied-target success does not falsely mark the target as initially empty.
+- The durable pending journal records overwrite intent and the original
+  hash/name before backend entry. A P2 recovery-state issue was fixed by
+  carrying immutable journal JSON with application-owned ImportStatus, so
+  Activity recreation restores the same pending intent. Unknown results are
+  read and compared; they do not automatically replay a replacement.
+- Read-only Picture Control heartbeat can retain a still-healthy owned session
+  after a complete, matching GeneralError (0x2002) or DeviceBusy (0x2019).
+  Backend and runtime share the response classification. The refusal remains
+  an exception with diagnostics, not a successful data read. Other codes,
+  wrong transactions, invalid datasets, cancellation and protocol/network
+  failures remain terminal. A write-phase 0x2002 is never exempt or replayed.
+- Album grids and immersive viewing prefer an advertised Nikon GetLargeThumb
+  (0x90C4) camera-generated JPEG preview, with bounded transfer and the existing
+  GetThumb fallback. Viewing does not invoke GetObject. The original is fetched
+  only after an explicit download action. Large-preview metadata is retained
+  in the preview cache, and album mode does not gain registration permission.
+- On-device synthetic UI work exposed grid bitmap-cache thrashing. The final
+  fix captures actual grid geometry on the main thread, caps grid decoding
+  at 320 pixels and budgets the visible set against 10 MiB. Strict sampling
+  keeps decoded grid images within that target. Remote and local grids use
+  the same policy; detail-view decoding remains separate and unchanged.
+
+Independent source review reported no remaining P1/P2 findings within the
+reviewed import, ownership, recovery and preview scope after the recovery-state
+fix. This is a scoped review result, not a real-camera or comprehensive UX
+certification.
+
+USER-REPORTED DISCONNECT AND EVIDENCE LIMIT
+
+The user reported that, on installed 0.5.5, the phone's system Wi-Fi connection
+to the camera also disconnected after preset import, and subsequently clarified
+that the camera body itself turns off its hotspot. The phone was offline when
+a new report was requested, so the actual failure response, network sequence
+and camera-side trigger remain unknown. This is user feedback, not an observed
+physical-camera trace from the synthetic validation below.
+
+Source review independently confirmed a premature-close path: a matched,
+complete Standard heartbeat GeneralError still released an otherwise healthy
+session. This build removes that specific close path under the existing
+identity, transaction, ownership and protocol checks. That code correction
+does not prove the user's incident was caused by GeneralError, that the camera
+disabled its access point for this reason, or that physical-camera stability
+has been established. No automatic reconnect or write replay was added.
+
+REGRESSION RESULTS
+
+20982 checks passed in total:
+- 9505 core checks, including PTP/IP 3956, album host 226 and preview cache 53.
+- 11477 Picture Control probe checks: ordinary USB 685, read-only Picture
+  Control 453, USB copy/adaptation 1253 and wireless 9086.
+
+The replacement regressions cover unchanged empty-only defaults, immutable
+original-target evidence, fresh capability checks, changes at both target
+reads, cancellation after matching recheck but before Set, exact replacement
+readback, unknown outcomes and a second explicitly confirmed replacement on
+the same connection. Heartbeat cases cover matching GeneralError followed by
+a successful tick, wrong-transaction/nonrecoverable errors, post-import
+temporary refusal, subsequent explicit import and terminal write GeneralError.
+Synthetic peer self-tests preserve the original empty-slot scenario alongside
+the occupied-slot and post-import temporary-refusal scenarios.
+
+These host/regression counts do not establish Android service scheduling,
+physical installation, camera hotspot behavior or native photographic effects.
+
+COMPLETED FINAL-APK ALBUM UI / PROTOCOL OBSERVATIONS
+
+Environment: Pixel 9 emulator, Android 17, 1080 x 2424 portrait display.
+Peer: loopback-only synthetic camera and JPEG fixtures; no camera hardware.
+Artifact: exactly the frozen APK hash recorded above.
+
+Archived evidence:
+- docs/device-review/album-0.5.6-functional.log
+- docs/device-review/album-0.5.6-before-download.log
+- docs/device-review/album-0.5.6-after-download.log
+- docs/device-review/album-0.5.6-large.log
+
+The static portrait grid completed 15 large-preview requests and remained
+stable without repeated grid requests. Before explicit download there were
+zero GetObject requests. Immersive detail displayed a 1280 x 800 high-quality
+preview; that intentional detail read brought total large previews to 16.
+
+Only the explicit original-download action produced GetObject (0x1009) for
+TEST3 / handle 3: exactly one original transfer of 89320 bytes. The archived
+before/after logs distinguish preview traffic from that original transfer.
+
+The downloaded emulator file was independently pulled without run-as and its
+89320-byte size and SHA-256 matched the local fixture TEST_0003.JPG:
+014f6890d669e4f41477f37e9b89cc35b233b0d4712caf48f0567dc6f28ce17f
+Emulator path:
+/sdcard/Android/data/com.nikonpreset.usbprobe/files/Pictures/camera-album/1792207752968-6737d06e__TEST_0003.JPG
+Fixture: app/build/large-preview-ui-fixtures/TEST_0003.JPG
+Independent audit copy: app/build/v056-download-audit-TEST_0003.JPG
+The full emulator/fixture hash evidence is archived in the functional log.
+
+The landscape observation did not add repeated preview or original requests.
+The existing download-status message left little vertical space for the grid
+in that configuration; this baseline layout limitation remains. These checks
+verify the stated functionality and request counts, not comprehensive landscape
+or visual-quality certification.
+
+COMPLETED FINAL-APK FALLBACK PREVIEW CHECK
+
+Archive: docs/device-review/album-0.5.6-fallback.log.
+The synthetic peer advertised GetLargeThumb but explicitly rejected its first
+request with OperationNotSupported (0x2005). Independent log counting found
+exactly one 0x90C4 request, then 16 GetThumb (0x100A) requests and zero GetObject
+requests. The unsupported large-preview operation was not repeatedly probed
+within that session. The operator observed the 320 x 200 fallback detail and
+its preview-source indication. This establishes the tested fallback behavior,
+not support for every camera error or image format.
+
+COMPLETED FINAL-APK REPLACEMENT / RETAINED-CONNECTION AUDIT
+
+Archives:
+- docs/device-review/wireless-0.5.6-overwrite.log
+- docs/device-review/album-0.5.6-functional.log
+
+The loopback-only peer seeded occupied C1 with SYNTHETIC OLD. At
+03:34:41.871Z the operator canceled its replacement confirmation dialog;
+there were zero virtual writes at that checkpoint. The first registration
+did not occur until a later explicit confirmation. No real slot was accessed.
+
+The occupied C1 replacement was explicitly confirmed in a 375dp-wide
+configuration (1080 physical pixels, density 460 dpi), dark theme, font scale
+1.3 and system animations disabled. Its fresh capability request was tx60,
+the full nine-slot scan tx61-69, adjacent C1 recheck tx70, registration tx71
+and exact readback tx72. The original C1 SHA-256 was
+b47c803b00e75cfd0e71377f9eaab7da5e39a74c5c58aad88a4a46c14bef5781.
+
+The first post-import Standard heartbeat, tx73 at 03:36:59.786Z, received the
+intentional complete matched 0x2002 refusal. No close/reconnect followed.
+The next periodic Standard request was tx74 at 03:37:09.796Z on the same
+session. A second separately confirmed import into empty C2 then completed
+on the same sockets: fresh capability tx91, all nine slots tx92-100, adjacent
+C2 recheck tx101, registration tx102 and exact readback tx103.
+
+Both 614-byte virtual registrations and their immediate readbacks had SHA-256:
+07434caabeee4bc79727b3cbfd105e037659933866e5aada76419db8745bb199
+The log records exactly two writes, only one replacing the seeded occupied
+target. Repeated later C1 reads during a refresh are not additional writes.
+
+Independently recomputed connection/transaction totals:
+- One InitCommand, one InitEvent, one OpenSession and one CloseSession.
+- One session throughout; 120 commands total: two at tx0, then positive
+  transaction IDs exactly 1 through 118, with no gaps or repeats.
+- OpenSession 03:33:01.499Z to CloseSession 03:40:06.658Z: 425.159 seconds.
+- Standard requests total 46. Four were initial/refresh reads (tx2, 17, 44,
+  79), leaving 42 periodic heartbeat attempts, including the one simulated
+  0x2002 refusal. The peer's summary heartbeats=45 includes three refresh
+  reads and must not be reported as 45 periodic timer heartbeats.
+- CloseSession was tx118, after the final explicit manual disconnect; no
+  intervening session close, reinitialization or additional registration.
+
+Density/theme restoration rebuilt the Activity while retaining the successful
+C2 outcome and connection. The functional trace records Home plus screen off
+at 03:38:50.8644254Z and the asleep checkpoint at 03:39:48.1579093Z, an interval
+of 57.293 seconds. Five periodic Standard requests occurred within that
+interval. The checkpoint showed the connectedDevice service in the foreground,
+the application's partial CPU wake lock held and the screen asleep. Settings
+still showed the connection after returning. This was ordinary background /
+screen-off verification; no new forced-Doze claim is made for this version.
+
+The operator initiated manual disconnect at 03:40:04.432Z. Only then did the
+peer receive CloseSession at 03:40:06.658Z. The functional trace subsequently
+showed no running connection service and zero wake locks, with the application
+CPU-lock release recorded at 03:40:06.720. No automatic reconnect occurred.
+
+The operator visually inspected the large-preview detail, the light-theme
+occupied-slot confirmation dialog and the dark 375dp/font-1.3 confirmation
+dialog, finding those captures readable without clipping. Other states were
+checked through the recorded hierarchy/screenshots and protocol traces. This
+limited pixel inspection is not a general accessibility, every-size or UX
+certification; the landscape baseline limitation noted above remains.
+
+OUTSTANDING PHYSICAL-DEVICE VALIDATION
+
+- The phone remains offline through ADB. This 0.5.6 artifact has not been
+  installed on it; a later installation needs its own version/hash check.
+- No physical camera body or hotspot was operated. Obtain the user's actual
+  report/network evidence and test physical-camera interoperability before
+  claiming the camera-side hotspot issue is resolved.
+- Synthetic responses and successful connection retention cannot establish
+  Nikon firmware policy, vendor power-management behavior or native image
+  appearance. No phone permissions were changed.
+
+Historical 0.5.5 lifecycle/Doze and phone-install evidence retains its original
+version scope and must not be relabeled as 0.5.6 evidence.

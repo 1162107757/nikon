@@ -1,0 +1,89 @@
+0.5.4-beta / versionCode 21 — reuse the connection before slot reads
+Date: 2026-10-17
+
+Delivery
+  APK: nikon-usb-0.5.4-beta-debug.apk
+  Size: 2724473 bytes
+  SHA-256: cd1780d4401b50ed31e931ccbade1713b77473a73ffc85c9e54fb8187ebaa37b
+  scripts/build-apk.ps1 completed; v2/v3 signatures verified.
+
+Problem and behavior
+  User reports 0.5.3 can import wirelessly, but Wi-Fi disconnected once while
+  reading capability/empty slots. This is a user report without an independently
+  reviewed full camera trace, not proof of a specific AP firmware trigger.
+  Remaining code gaps: closing album sockets before new preset reads, and closing
+  standalone settings detection before later preset selection. Both are removed.
+  Same-endpoint album work drains before a one-way transfer to a distinct PC
+  owner. Its sockets, open session, event reader and transaction IDs are preserved.
+  Old album handles cannot read/write/reconnect; old close/abort cannot affect
+  the new owner. Settings read-only detection keeps the owned session even when
+  registration is not advertised. Root navigation keeps 10-second Standard reads.
+  Selecting a preset fully refreshes DeviceInfo/capability/Standard/nine slots.
+  Actual import still checks required operations, all slots and target, sends
+  at most one registration and verifies exact readback before session closure.
+  Explicit reconnection, changed endpoint, USB, recovery and cancellation release
+  connections. Close diagnostics preserve first handshake/command/event cause.
+  Pending handoffs have an atomic holder, cancellation/destruction close, executor
+  rejection cleanup and CAS retirement; shutdownNow cannot leak queued ownership.
+
+Automated checks
+  tests/run.ps1: 8690 passed, including PTP/IP 3288 and AlbumController 82.
+  tests/run-probe.ps1: 6938 passed:
+    ordinary probe 685; read-only 453; USB copy/adaptation 1004; wireless 4796.
+  Total current run: 15628. Historical library checks are not added.
+  New deterministic tests cover in-flight half-frame draining, old queued work
+  and callbacks, stale photos, cancelled handoffs/claims, repeated transfer/claim,
+  old controller closure, preview pin cleanup, event ping/EOF/bad frames, endpoint
+  mismatch, fresh snapshot failure, no registration capability and one-write paths.
+  Mixed synthetic UI server self-tests and existing mode checks passed.
+  Independent source review found one queued-owner leak, fixed with the atomic
+  holder above; final review reports no remaining P1/P2.
+
+Final APK foreground UI verification
+  Pixel 9 Android 17/API 37 temporary read-only emulator, 1080x2424.
+  PreviewTone.NCP added before the final connection. Server mode:
+    --picture-control-album-import-synthetic
+  Strictly loopback 127.0.0.1:15744, emulator 10.0.2.2:15744, zero photos,
+  virtual slots only in process memory. CloseSession makes new Init requests fail.
+  No camera/physical Wi-Fi access in the server. One complete foreground chain:
+    Album enumeration -> settings detection handoff -> back to preset root ->
+    selected preset fresh scan -> confirmation -> import -> exact readback.
+  Open 01:55:13.785Z to Close 01:57:29.769Z: 135.984 seconds.
+  Only one InitCommand/InitEvent/Open/Close, all session=1, tx1-49 continuous.
+  tx1/2 album enumeration; tx3 DeviceInfo/4 capability/5 Standard/6-14 nine slots;
+  settings kept 39.947 seconds, timed Standard tx15-17;
+  tx18 DeviceInfo/19 capability/20 Standard/21-29 nine slots;
+  confirmation held 54.974 seconds, timed Standard tx30-34;
+  tx35 DeviceInfo/36 capability/37-45 nine slots/46 final target recheck;
+  tx47 sole 90CD/48 readback/49 CloseSession.
+  Eight timed heartbeats. Server's heartbeats=9 also counts refreshed Standard.
+  Write and readback both 614 bytes with identical SHA-256:
+    07434caabeee4bc79727b3cbfd105e037659933866e5aada76419db8745bb199
+  UI displayed saved to C1/readback verified. No intermediate transport_closed,
+  socket error or rejection. Root assertions and independent log audit passed.
+  Final emulator app alive, process-filtered AndroidRuntime error log empty.
+  Evidence: docs/device-review/wireless-0.5.4-retained.log.
+  Root opened final settings-held, confirm and success captures under
+  .impeccable/review/phone-apple-v054-final-{settings-held,confirm,success}.png.
+
+Exploratory background limitation
+  In an earlier run, album->settings handoff and heartbeats passed; subsequently
+  opening external document selection put the app in background. Transport
+  closed without CloseSession and without writes. Cause not established; this
+  run is not counted as successful end-to-end or background stability evidence.
+  docs/device-review/wireless-0.5.4-background-picker.log preserves it separately.
+  Final foreground run above used an already-added preset and a new server.
+
+Physical phone installation
+  PKG110 / Android 16, serial 286f0dba, main user 0.
+  adb install --user 0 -r succeeded, preserving application data.
+  versionCode 21, versionName 0.5.4-beta, installed=true.
+  Installed base.apk SHA-256 matches the delivery hash above.
+  No synthetic preset was added to the phone, no foreground manipulation or
+  camera operation during install. This version still needs Z6II retesting.
+
+Limits
+  Synthetic success proves application session continuity on the tested foreground
+  path, not Nikon AP policy, firmware acceptance, Wi-Fi quality or pairing.
+  Existing strict NCP subset and template approximation remain unchanged.
+  No new photo-effect, background, TalkBack, tablet or performance certification.

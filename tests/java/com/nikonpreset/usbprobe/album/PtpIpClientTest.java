@@ -1,16 +1,22 @@
 package com.nikonpreset.usbprobe.album;
 
+import com.nikonpreset.usbprobe.ptp.PtpContainer;
+import com.nikonpreset.usbprobe.ptp.PtpResponseException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Deque;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 
 /** Synthetic TCP peers; no Android runtime, camera, private SDK, or photographs. */
 public final class PtpIpClientTest {
@@ -25,6 +31,7 @@ public final class PtpIpClientTest {
     public static void main(String[] args) throws Exception {
         handshakeAndFragmentedTransfers();
         rejectedWritesNeverReachTheSocket();
+        largeThumbnailIsBoundedReadonlyAndCannotCrossModes();
         handshakeFailuresReleaseEveryCreatedSocket();
         framingAndTransactionFailuresCloseBothChannels();
         remoteLengthsAreBoundedWithoutTruncation();
@@ -32,7 +39,607 @@ public final class PtpIpClientTest {
         failedOutputClosesBothChannels();
         cancelledClientCannotOpenSockets();
         completeCameraErrorsKeepTheBoundaryReusable();
+        pictureControlConnectionsAreIsolatedAndSessionOwned();
+        pictureControlReadsAreStrictlyBounded();
+        pictureControlSessionResponsesKeepTheirBoundaries();
+        pictureControlWriteFramesAndSingleAttempt();
+        pictureControlFailuresNeverRetry();
+        pictureControlCancellationClosesBothChannels();
+        albumHandoffMovesChannelsAndTransactionOwnershipExactlyOnce();
+        transferredEventFailuresCloseTheCurrentOwner();
+        cancelledAndInvalidHandoffsCannotCreateAnotherOwner();
+        obsoleteAlbumCloseCannotCancelTheNewOwner();
+        handoffWaitsForTheAlbumTransactionBoundaryAndHonorsCancellation();
+        transferredEventReaderStillAnswersCameraPing();
+        verifiedRegistrationTransfersOneFreshAttemptWithoutClosingChannels();
+        unverifiedRegistrationCannotRefreshItsWriteBudget();
+        registrationProofCannotCrossAClosedAndReopenedSession();
         System.out.println("PASS: " + checks + " PTP/IP client checks");
+    }
+
+    private static void pictureControlConnectionsAreIsolatedAndSessionOwned() throws Exception {
+        Peer peer = new Peer();
+        PtpIpClient client = PtpIpClient.forPictureControl(peer::openSocket);
+        rejects(() -> client.connect("camera.test", 15740, GUID, FRIENDLY_NAME));
+        equal(0, peer.sockets.size());
+        client.connectForPictureControl("camera.test", 15740, GUID, FRIENDLY_NAME);
+        check(!client.isClosed() && !client.isOpen(), "Picture Control handshake leaves PTP session ownership to the caller");
+        equal(0, peer.operations.size());
+        rejects(() -> client.getData(0x1004, 64));
+        rejects(() -> client.readTo(0x1009, new ByteArrayOutputStream(), 64, 1, null, 1));
+        rejects(() -> client.sendPictureControlData(0x90cd, 1, profile(false), 201, 0));
+        rejects(() -> client.getPictureControlData(0x90cc, 1, 201, 0));
+        rejects(() -> client.pictureControlCommand(0x1002, 1, 1));
+        rejects(() -> client.pictureControlCommand(0x1002, 0, 2));
+        rejects(() -> client.pictureControlCommand(0x1003, 1));
+        equal(0, peer.operations.size());
+        equal(INFO, client.getPictureControlData(0x1001, 0));
+        PtpContainer opened = client.pictureControlCommand(0x1002, 0, 1);
+        equal(PtpContainer.RESPONSE, opened.type());
+        equal(0x2001, opened.code());
+        check(client.isOpen(), "An explicit successful OpenSession opens the bounded PTP session");
+        int commands = peer.operations.size();
+        rejects(() -> client.getPictureControlData(0x1001, 0));
+        rejects(() -> client.pictureControlCommand(0x1002, 0, 1));
+        equal(commands, peer.operations.size());
+        equal(SMALL, client.getPictureControlData(0x90ca, 1));
+        equal(SMALL, client.getPictureControlData(0x90cf, 2, 1));
+        equal(SMALL, client.getPictureControlData(0x90cc, 3, 1, 0));
+        equal(SMALL, client.getPictureControlData(0x90cc, 4, 209, 0));
+        PtpContainer close = client.pictureControlCommand(0x1003, 5);
+        equal(5L, close.transactionId());
+        check(!client.isOpen() && !client.isClosed(), "CloseSession releases only the owned PTP session");
+        client.close();
+        peer.assertClosed();
+
+        Peer album = new Peer();
+        PtpIpClient readOnly = album.connect();
+        commands = album.operations.size();
+        rejects(() -> readOnly.connectForPictureControl("camera.test", 15740, GUID, FRIENDLY_NAME));
+        rejects(() -> readOnly.getPictureControlData(0x90cc, 1, 201, 0));
+        rejects(() -> readOnly.pictureControlCommand(0x1003, 1));
+        rejects(() -> readOnly.sendPictureControlData(0x90cd, 1, profile(false), 201, 0));
+        equal(commands, album.operations.size());
+        equal(SMALL, readOnly.getData(0x1004, 64));
+        readOnly.close();
+
+        final int[] openedSockets = {0};
+        PtpIpClient cancelled = PtpIpClient.forPictureControl((h, p, t) -> { openedSockets[0]++; return new Socket(); });
+        cancelled.close();
+        rejects(() -> cancelled.connectForPictureControl("camera.test", 15740, GUID, FRIENDLY_NAME));
+        equal(0, openedSockets[0]);
+    }
+
+    private static void pictureControlReadsAreStrictlyBounded() throws Exception {
+        Peer peer = new Peer();
+        PtpIpClient client = peer.connectPictureControl();
+        int commands = peer.operations.size();
+        for (int operation : new int[] {0x1004, 0x1007, 0x1009, 0x1016, 0x90cd, 0x90ce, 0x9fff}) {
+            rejects(() -> client.getPictureControlData(operation, 1, 201, 0));
+            rejects(() -> client.pictureControlCommand(operation, 1, 201, 0));
+        }
+        rejects(() -> client.getPictureControlData(0x90cc, 1, 200, 0));
+        rejects(() -> client.getPictureControlData(0x90cc, 1, 210, 0));
+        rejects(() -> client.getPictureControlData(0x90cc, 1, 201, 1));
+        rejects(() -> client.getPictureControlData(0x90cc, 1, 201));
+        rejects(() -> client.getPictureControlData(0x90ca, 1, 0));
+        rejects(() -> client.getPictureControlData(0x90cf, 1, 201));
+        rejects(() -> client.getPictureControlData(0x90cf, -1, 1));
+        rejects(() -> client.getPictureControlData(0x90cf, 0x100000000L, 1));
+        rejects(() -> client.getPictureControlData(0x90cf, 0, 1));
+        equal(commands, peer.operations.size());
+        check(client.isOpen(), "Rejected local parameters leave the connection reusable");
+        peer.fault = Fault.ERROR_RESPONSE;
+        try {
+            client.getPictureControlData(0x90cc, 1, 201, 0);
+            throw new AssertionError("Expected camera rejection");
+        } catch (PtpResponseException expected) { equal(1L, expected.transactionId()); }
+        check(client.isOpen() && !client.isProtocolUnconfirmed(), "A matching read rejection preserves a confirmed boundary");
+        peer.fault = Fault.RESPONSE_WRONG_TRANSACTION;
+        rejects(() -> client.getPictureControlData(0x90cc, 2, 201, 0));
+        check(client.isClosed() && client.isProtocolUnconfirmed(), "Wrong read response transaction aborts the protocol");
+        peer.assertClosed();
+    }
+
+    private static void pictureControlWriteFramesAndSingleAttempt() throws Exception {
+        for (boolean curve : new boolean[] {false, true}) {
+            Peer peer = new Peer();
+            PtpIpClient client = peer.connectPictureControl();
+            byte[] data = profile(curve);
+            int commands = peer.operations.size();
+            rejects(() -> client.sendPictureControlData(0x100d, 1, data, 201, 0));
+            rejects(() -> client.sendPictureControlData(0x90cd, 1, data, 200, 0));
+            rejects(() -> client.sendPictureControlData(0x90cd, 1, data, 210, 0));
+            rejects(() -> client.sendPictureControlData(0x90cd, 1, data, 201, 1));
+            rejects(() -> client.sendPictureControlData(0x90cd, 1, data, 201));
+            rejects(() -> client.sendPictureControlData(0x90cd, 1, null, 201, 0));
+            byte[] invalid = data.clone(); invalid[0] = 0;
+            rejects(() -> client.sendPictureControlData(0x90cd, 1, invalid, 201, 0));
+            byte[] invalidField = data.clone(); invalidField[25] = 127;
+            rejects(() -> client.sendPictureControlData(0x90cd, 1, invalidField, 201, 0));
+            equal(commands, peer.operations.size());
+            long transaction = 0x89abcdefL;
+            int packetStart = peer.commandPackets.size();
+            PtpContainer result = client.sendPictureControlData(0x90cd, transaction, data, 209, 0);
+            equal(PtpContainer.RESPONSE, result.type());
+            equal(0x2001, result.code());
+            equal(transaction, result.transactionId());
+            equal(new long[] {0xfedcba98L}, result.parameters());
+            equal(3, peer.commandPackets.size() - packetStart);
+            equal(frame(6, concat(le32(2), le16(0x90cd), le32(transaction), le32(209), le32(0))),
+                    peer.commandPackets.get(packetStart));
+            equal(frame(9, concat(le32(transaction), le64(data.length))), peer.commandPackets.get(packetStart + 1));
+            equal(frame(12, concat(le32(transaction), data)), peer.commandPackets.get(packetStart + 2));
+            equal(data, peer.uploaded.toByteArray());
+            int packets = peer.commandPackets.size();
+            rejects(() -> client.sendPictureControlData(0x90cd, transaction + 1, data, 208, 0));
+            equal(packets, peer.commandPackets.size());
+            equal(SMALL, client.getPictureControlData(0x90cc, transaction + 2, 209, 0));
+            client.pictureControlCommand(0x1003, transaction + 3);
+            client.close();
+            peer.assertClosed();
+        }
+    }
+
+    private static void pictureControlSessionResponsesKeepTheirBoundaries() throws Exception {
+        Peer peer = new Peer();
+        PtpIpClient client = PtpIpClient.forPictureControl(peer::openSocket);
+        client.connectForPictureControl("camera.test", 15740, GUID, FRIENDLY_NAME);
+        peer.fault = Fault.ERROR_RESPONSE;
+        try {
+            client.pictureControlCommand(0x1002, 0, 1);
+            throw new AssertionError("Expected OpenSession refusal");
+        } catch (PtpResponseException expected) { equal(0L, expected.transactionId()); }
+        check(!client.isClosed() && !client.isOpen() && !client.isProtocolUnconfirmed(),
+                "A refused OpenSession never grants session ownership");
+        peer.fault = Fault.NONE;
+        client.pictureControlCommand(0x1002, 0, 1);
+        peer.fault = Fault.ERROR_RESPONSE;
+        try {
+            client.pictureControlCommand(0x1003, 1);
+            throw new AssertionError("Expected CloseSession refusal");
+        } catch (PtpResponseException expected) { equal(1L, expected.transactionId()); }
+        check(client.isOpen() && !client.isProtocolUnconfirmed(), "A refused CloseSession leaves ownership with the caller");
+        peer.fault = Fault.RESPONSE_WRONG_TRANSACTION;
+        rejects(() -> client.pictureControlCommand(0x1003, 2));
+        check(client.isClosed() && client.isProtocolUnconfirmed(), "An unconfirmed CloseSession closes the underlying connection");
+        peer.assertClosed();
+    }
+
+    private static void pictureControlFailuresNeverRetry() throws Exception {
+        for (Fault fault : new Fault[] {Fault.WRITE_REJECTED, Fault.WRITE_DROP, Fault.WRITE_START_FAILED,
+                Fault.WRITE_TIMEOUT, Fault.WRITE_WRONG_TRANSACTION, Fault.WRITE_TRUNCATED_RESPONSE}) {
+            Peer peer = new Peer();
+            PtpIpClient client = peer.connectPictureControl();
+            peer.fault = fault;
+            try {
+                client.sendPictureControlData(0x90cd, 1, profile(false), 201, 0);
+                throw new AssertionError("Expected write failure: " + fault);
+            } catch (PtpResponseException rejected) {
+                check(fault == Fault.WRITE_REJECTED, "Only a matching refusal is a complete camera rejection");
+                equal(0x200f, rejected.responseCode()); equal(1L, rejected.transactionId());
+            } catch (IOException error) {
+                check(fault != Fault.WRITE_REJECTED, "A complete refusal retains its response code");
+            }
+            int commands = peer.operations.size();
+            equal(1L, peer.operations.stream().filter(op -> op == 0x90cd).count());
+            rejects(() -> client.sendPictureControlData(0x90cd, 2, profile(false), 201, 0));
+            equal(commands, peer.operations.size());
+            if (fault == Fault.WRITE_REJECTED) {
+                check(client.isOpen() && !client.isProtocolUnconfirmed(), "A refused write leaves a known response boundary");
+                peer.fault = Fault.NONE;
+                equal(SMALL, client.getPictureControlData(0x90cc, 3, 201, 0));
+                client.pictureControlCommand(0x1003, 4);
+                client.close();
+            } else {
+                check(client.isClosed() && client.isProtocolUnconfirmed(), "Uncertain writes close both channels: " + fault);
+                rejects(() -> client.pictureControlCommand(0x1003, 3));
+                equal(commands, peer.operations.size());
+            }
+            peer.assertClosed();
+        }
+    }
+
+    private static void pictureControlCancellationClosesBothChannels() throws Exception {
+        Peer peer = new Peer();
+        PtpIpClient client = peer.connectPictureControl();
+        peer.fault = Fault.WRITE_BLOCKED;
+        final Throwable[] outcome = {null};
+        Thread worker = new Thread(() -> {
+            try { client.sendPictureControlData(0x90cd, 1, profile(false), 201, 0); }
+            catch (Throwable error) { outcome[0] = error; }
+        }, "synthetic-wireless-upload");
+        worker.start();
+        check(peer.writeEnded.await(5, TimeUnit.SECONDS), "Synthetic peer observed the complete upload before cancellation");
+        client.close();
+        worker.join(5000);
+        check(!worker.isAlive() && outcome[0] instanceof IOException, "close interrupts an in-flight response wait");
+        equal(1L, peer.operations.stream().filter(op -> op == 0x90cd).count());
+        peer.assertClosed();
+
+        Peer interruptedPeer = new Peer();
+        PtpIpClient interrupted = interruptedPeer.connectPictureControl();
+        int commands = interruptedPeer.operations.size();
+        Thread.currentThread().interrupt();
+        try {
+            rejects(() -> interrupted.sendPictureControlData(0x90cd, 1, profile(false), 201, 0));
+        } finally { Thread.interrupted(); }
+        equal(commands, interruptedPeer.operations.size());
+        check(interrupted.isClosed(), "A cancelled operation closes the connection before sending");
+        interruptedPeer.assertClosed();
+    }
+
+    private static byte[] profile(boolean curve) {
+        byte[] bytes = new byte[curve ? 614 : 36];
+        bytes[0] = 1;
+        byte[] name = "WIRELESS TEST".getBytes(StandardCharsets.US_ASCII);
+        System.arraycopy(name, 0, bytes, 2, name.length);
+        if (curve) {
+            bytes[35] = 1;
+            for (int i = 36; i < bytes.length; i++) bytes[i] = (byte) (i * 13);
+        }
+        return bytes;
+    }
+
+    private static void albumHandoffMovesChannelsAndTransactionOwnershipExactlyOnce() throws Exception {
+        Peer peer = new Peer();
+        PtpIpClient album = peer.connect();
+        equal(SMALL, album.getData(0x1004, 64));
+        equal(SMALL, album.getData(0x1008, 64, 7));
+        long lastAlbumTransaction = peer.lastTransaction;
+        int before = peer.operations.size();
+        PtpIpClient preset = album.transferToPictureControl();
+        check(preset != album && preset.isOpen() && album.isClosed() && !album.isOpen(),
+                "Handoff creates an explicit new owner and permanently retires the album instance");
+        equal(before, peer.operations.size());
+        equal(2, peer.sockets.size());
+        equal("camera.test", preset.connectedHost());
+        equal(15740, preset.connectedPort());
+        rejects(() -> preset.getPictureControlData(0x90cc, 1, 201, 0));
+        rejects(() -> preset.pictureControlCommand(0x1003, 1));
+        rejects(() -> preset.sendPictureControlData(0x90cd, 1, profile(false), 201, 0));
+        long next = preset.claimTransferredSession();
+        check(next > lastAlbumTransaction, "The transferred session inherits the next nonzero album transaction");
+        rejects(preset::claimTransferredSession);
+        rejects(album::transferToPictureControl);
+        rejects(album::claimTransferredSession);
+        rejects(() -> album.getData(0x1004, 64));
+        rejects(() -> album.readTo(0x1009, new ByteArrayOutputStream(), 64, SMALL.length, null, 7));
+        rejects(() -> album.getPictureControlData(0x90cc, 1, 201, 0));
+        rejects(() -> album.sendPictureControlData(0x90cd, 1, profile(false), 201, 0));
+        rejects(() -> album.connect("camera.test", 15740, GUID, FRIENDLY_NAME));
+        rejects(() -> album.connectForPictureControl("camera.test", 15740, GUID, FRIENDLY_NAME));
+        equal(before, peer.operations.size());
+        album.close();
+        album.abortProtocol(new IOException("obsolete album callback"));
+        check(preset.isOpen(), "Closing an obsolete album handle cannot release the transferred channels");
+        check(!preset.isProtocolUnconfirmed(), "An obsolete album protocol callback cannot taint the new owner's boundary");
+        for (FakeSocket socket : peer.sockets) check(!socket.closed, "Handoff keeps both original TCP channels open");
+        rejects(preset::transferToPictureControl);
+        rejects(() -> preset.connectForPictureControl("camera.test", 15740, GUID, FRIENDLY_NAME));
+        rejects(() -> preset.getData(0x1004, 64));
+        equal(INFO, preset.getPictureControlData(0x1001, next++));
+        equal(SMALL, preset.getPictureControlData(0x90cf, next++, 1));
+        equal(SMALL, preset.getPictureControlData(0x90cc, next++, 201, 0));
+        preset.sendPictureControlData(0x90cd, next++, profile(false), 201, 0);
+        preset.pictureControlCommand(0x1003, next++);
+        equal(1L, peer.operations.stream().filter(operation -> operation == 0x1002).count());
+        equal(1L, peer.operations.stream().filter(operation -> operation == 0x1003).count());
+        equal(1L, peer.operations.stream().filter(operation -> operation == 0x90cd).count());
+        assertSessionTransactionsAdvance(peer);
+        preset.close();
+        peer.assertClosed();
+        int after = peer.operations.size();
+        rejects(album::transferToPictureControl);
+        rejects(preset::claimTransferredSession);
+        equal(after, peer.operations.size());
+        equal(2, peer.sockets.size());
+    }
+
+    private static void transferredEventFailuresCloseTheCurrentOwner() throws Exception {
+        for (boolean malformed : new boolean[] {false, true}) {
+            Peer peer = new Peer();
+            PtpIpClient album = peer.connect();
+            PtpIpClient preset = album.transferToPictureControl();
+            preset.claimTransferredSession();
+            CountDownLatch ownerClosed = new CountDownLatch(1);
+            preset.setOnClosed(ownerClosed::countDown);
+            // The event reader was started by the original album instance. Its
+            // error must now target the transferred owner, not the retired object.
+            if (malformed) peer.sockets.get(1).input.add(frame(8, new byte[5]));
+            else peer.sockets.get(1).input.close();
+            check(ownerClosed.await(5, TimeUnit.SECONDS), "Event failure reaches the current owner after handoff");
+            check(preset.isClosed() && preset.isProtocolUnconfirmed(),
+                    "Event EOF or malformed framing aborts the transferred connection");
+            check(!preset.closeReason().isEmpty(), "The current owner retains the actual event-channel failure reason");
+            int before = peer.operations.size();
+            rejects(() -> preset.getPictureControlData(0x90cc, 1, 201, 0));
+            rejects(() -> preset.sendPictureControlData(0x90cd, 2, profile(false), 201, 0));
+            equal(before, peer.operations.size());
+            equal(2, peer.sockets.size());
+            peer.assertClosed();
+        }
+    }
+
+    private static void cancelledAndInvalidHandoffsCannotCreateAnotherOwner() throws Exception {
+        Peer unopenedPeer = new Peer();
+        PtpIpClient unopened = new PtpIpClient(unopenedPeer::openSocket);
+        rejects(unopened::transferToPictureControl);
+        rejects(unopened::claimTransferredSession);
+        equal(0, unopenedPeer.sockets.size());
+        Peer closedPeer = new Peer();
+        PtpIpClient closed = closedPeer.connect();
+        closed.close();
+        rejects(closed::transferToPictureControl);
+        equal(2, closedPeer.sockets.size());
+        closedPeer.assertClosed();
+
+        Peer cancelledPeer = new Peer();
+        PtpIpClient cancelled = cancelledPeer.connect();
+        PtpIpClient[] escaped = {null};
+        Thread.currentThread().interrupt();
+        try { rejects(() -> escaped[0] = cancelled.transferToPictureControl()); }
+        finally {
+            Thread.interrupted();
+            cancelled.close();
+            if (escaped[0] != null) escaped[0].close();
+        }
+        equal(2, cancelledPeer.sockets.size());
+        cancelledPeer.assertClosed();
+
+        Peer afterTransferPeer = new Peer();
+        PtpIpClient obsolete = afterTransferPeer.connect();
+        PtpIpClient current = obsolete.transferToPictureControl();
+        long next = current.claimTransferredSession();
+        int commands = afterTransferPeer.operations.size();
+        Thread.currentThread().interrupt();
+        try { rejects(() -> current.getPictureControlData(0x90cc, next, 201, 0)); }
+        finally { Thread.interrupted(); }
+        check(current.isClosed(), "Cancellation after handoff releases the current owner");
+        equal(commands, afterTransferPeer.operations.size());
+        obsolete.close();
+        afterTransferPeer.assertClosed();
+
+        Peer beforeClaimPeer = new Peer();
+        PtpIpClient beforeClaimAlbum = beforeClaimPeer.connect();
+        PtpIpClient beforeClaim = beforeClaimAlbum.transferToPictureControl();
+        commands = beforeClaimPeer.operations.size();
+        Thread.currentThread().interrupt();
+        try { rejects(beforeClaim::claimTransferredSession); }
+        finally { Thread.interrupted(); beforeClaim.close(); }
+        check(beforeClaim.isClosed(), "Cancellation before claim releases the unconsumed transferred owner");
+        equal(commands, beforeClaimPeer.operations.size());
+        equal(2, beforeClaimPeer.sockets.size());
+        beforeClaimPeer.assertClosed();
+    }
+
+    private static void obsoleteAlbumCloseCannotCancelTheNewOwner() throws Exception {
+        Peer peer = new Peer();
+        PtpIpClient album = peer.connect();
+        PtpIpClient preset = album.transferToPictureControl();
+        long next = preset.claimTransferredSession();
+        peer.fault = Fault.WRITE_BLOCKED;
+        Throwable[] outcome = {null};
+        Thread worker = new Thread(() -> {
+            try { preset.sendPictureControlData(0x90cd, next, profile(false), 201, 0); }
+            catch (Throwable error) { outcome[0] = error; }
+        }, "synthetic-transferred-upload");
+        worker.start();
+        try {
+            check(peer.writeEnded.await(5, TimeUnit.SECONDS), "Transferred owner reaches the pending upload response");
+            album.close();
+            check(preset.isOpen(), "A delayed obsolete album cancellation cannot abort a current pending upload");
+            for (FakeSocket socket : peer.sockets) check(!socket.closed, "Obsolete cancellation cannot close transferred TCP channels");
+        } finally {
+            preset.close();
+            worker.join(5000);
+        }
+        check(!worker.isAlive() && outcome[0] instanceof IOException,
+                "The actual owner's cancellation unblocks its pending upload");
+        equal(1L, peer.operations.stream().filter(operation -> operation == 0x90cd).count());
+        equal(0L, peer.operations.stream().filter(operation -> operation == 0x1003).count());
+        equal(2, peer.sockets.size());
+        peer.assertClosed();
+    }
+
+    private static void assertSessionTransactionsAdvance(Peer peer) {
+        boolean opened = false;
+        long last = 0;
+        for (int i = 0; i < peer.operations.size(); i++) {
+            if (peer.operations.get(i) == 0x1002) { opened = true; continue; }
+            if (opened) {
+                long next = peer.transactions.get(i);
+                check(next > last, "Album reads and transferred preset operations share an advancing transaction sequence");
+                last = next;
+            }
+        }
+    }
+
+    private static void handoffWaitsForTheAlbumTransactionBoundaryAndHonorsCancellation() throws Exception {
+        for (boolean cancel : new boolean[] {false, true}) {
+            Peer peer = new Peer();
+            PtpIpClient album = peer.connect();
+            peer.fault = Fault.READ_BLOCKED;
+            AtomicReference<byte[]> read = new AtomicReference<>();
+            AtomicReference<Throwable> readFailure = new AtomicReference<>();
+            AtomicReference<PtpIpClient> moved = new AtomicReference<>();
+            AtomicReference<Throwable> moveFailure = new AtomicReference<>();
+            Thread reader = new Thread(() -> {
+                try { read.set(album.getData(0x1008, 64, 7)); }
+                catch (Throwable error) { readFailure.set(error); }
+            }, "synthetic-album-read");
+            CountDownLatch moveStarted = new CountDownLatch(1);
+            Thread mover = new Thread(() -> {
+                moveStarted.countDown();
+                try { moved.set(album.transferToPictureControl()); }
+                catch (Throwable error) { moveFailure.set(error); }
+            }, "synthetic-album-handoff");
+            reader.start();
+            try {
+                check(peer.command.input.waiting.await(5, TimeUnit.SECONDS), "Album read reaches a partial dataset boundary");
+                mover.start();
+                check(moveStarted.await(5, TimeUnit.SECONDS), "Handoff request starts while the album transaction is pending");
+                if (cancel) album.close();
+                else {
+                    peer.command.input.add(frame(12, concat(le32(peer.lastTransaction), Arrays.copyOfRange(SMALL, 3, SMALL.length))));
+                    peer.command.input.add(response(peer.lastTransaction));
+                }
+                reader.join(5000);
+                mover.join(5000);
+                check(!reader.isAlive() && !mover.isAlive(), "Both pending album read and handoff reach a terminal boundary");
+                if (cancel) {
+                    check(readFailure.get() instanceof IOException && moveFailure.get() instanceof IOException && moved.get() == null,
+                            "Cancelling a pending album read prevents any transferred owner from escaping");
+                    peer.assertClosed();
+                } else {
+                    equal(SMALL, read.get());
+                    check(readFailure.get() == null && moveFailure.get() == null && moved.get() != null,
+                            "Handoff waits until every byte and final response of the album transaction is consumed");
+                    long next = moved.get().claimTransferredSession();
+                    check(next > peer.lastTransaction, "A completed in-flight album read contributes to the inherited transaction sequence");
+                    moved.get().close();
+                    peer.assertClosed();
+                }
+                equal(2, peer.sockets.size());
+                equal(1L, peer.operations.stream().filter(operation -> operation == 0x1002).count());
+                equal(0L, peer.operations.stream().filter(operation -> operation == 0x90cd).count());
+            } finally {
+                album.close();
+                if (moved.get() != null) moved.get().close();
+                reader.join(5000);
+                if (mover.getState() != Thread.State.NEW) mover.join(5000);
+            }
+        }
+    }
+
+    private static void transferredEventReaderStillAnswersCameraPing() throws Exception {
+        Peer peer = new Peer();
+        PtpIpClient album = peer.connect();
+        PtpIpClient preset = album.transferToPictureControl();
+        preset.claimTransferredSession();
+        peer.sockets.get(1).input.add(frame(13, new byte[0]));
+        check(peer.pong.await(5, TimeUnit.SECONDS), "The original event channel still answers camera ping after handoff");
+        check(preset.isOpen() && !preset.isProtocolUnconfirmed(), "A valid event ping preserves the transferred session");
+        equal(1, peer.eventPongs);
+        equal(1, peer.eventRequests);
+        equal(2, peer.sockets.size());
+        preset.close();
+        peer.assertClosed();
+    }
+
+    private static void verifiedRegistrationTransfersOneFreshAttemptWithoutClosingChannels() throws Exception {
+        Peer peer = new Peer();
+        peer.exactPictureControlReadback = true;
+        PtpIpClient first = peer.connectPictureControl();
+        byte[] one = profile(false);
+        first.sendPictureControlData(0x90cd, 1, one, 201, 0);
+        rejects(() -> first.transferAfterVerifiedPictureControlImport(2));
+        equal(one, first.getPictureControlData(0x90cc, 2, 201, 0));
+        rejects(() -> first.transferAfterVerifiedPictureControlImport(2));
+        int before = peer.operations.size();
+        PtpIpClient second = first.transferAfterVerifiedPictureControlImport(3);
+        check(first.isClosed() && second.isOpen(),
+                "Exact registration proof moves the physical session into a new one-attempt owner");
+        equal(before, peer.operations.size());
+        equal(2, peer.sockets.size());
+        rejects(() -> first.transferAfterVerifiedPictureControlImport(3));
+        rejects(() -> first.getPictureControlData(0x90cc, 3, 201, 0));
+        rejects(() -> first.sendPictureControlData(0x90cd, 3, one, 202, 0));
+        first.close();
+        first.abortProtocol(new IOException("obsolete first-import callback"));
+        check(second.isOpen() && !second.isProtocolUnconfirmed(),
+                "Old registration handles cannot cancel or taint the new explicit attempt");
+        final long next = second.claimTransferredSession();
+        equal(3L, next);
+        rejects(second::claimTransferredSession);
+        rejects(() -> second.transferAfterVerifiedPictureControlImport(next));
+        byte[] two = profile(true);
+        second.sendPictureControlData(0x90cd, next, two, 202, 0);
+        rejects(() -> second.sendPictureControlData(0x90cd, next + 1, one, 203, 0));
+        equal(two, second.getPictureControlData(0x90cc, next + 1, 202, 0));
+        PtpIpClient idle = second.transferAfterVerifiedPictureControlImport(next + 2);
+        check(second.isClosed() && idle.isOpen(), "A second independently verified registration can return to idle ownership");
+        long idleTransaction = idle.claimTransferredSession();
+        equal(5L, idleTransaction);
+        idle.getPictureControlData(0x90cc, idleTransaction, 1, 0);
+        idle.pictureControlCommand(0x1003, idleTransaction + 1);
+        equal(2L, peer.operations.stream().filter(operation -> operation == 0x90cd).count());
+        equal(1L, peer.operations.stream().filter(operation -> operation == 0x1002).count());
+        equal(1L, peer.operations.stream().filter(operation -> operation == 0x1003).count());
+        assertSessionTransactionsAdvance(peer);
+        idle.close();
+        peer.assertClosed();
+    }
+
+    private static void unverifiedRegistrationCannotRefreshItsWriteBudget() throws Exception {
+        for (String state : new String[] {"no_write", "no_readback", "wrong_target", "different_bytes", "rejected", "unknown", "cancelled"}) {
+            Peer peer = new Peer();
+            peer.exactPictureControlReadback = true;
+            PtpIpClient client = peer.connectPictureControl();
+            byte[] bytes = profile(false);
+            if (!state.equals("no_write")) {
+                if (state.equals("rejected")) peer.fault = Fault.WRITE_REJECTED;
+                if (state.equals("unknown")) peer.fault = Fault.WRITE_DROP;
+                try { client.sendPictureControlData(0x90cd, 1, bytes, 201, 0); }
+                catch (IOException error) {
+                    check(state.equals("rejected") || state.equals("unknown"), "Only configured synthetic write failures are expected");
+                }
+                if (state.equals("wrong_target")) {
+                    // Another slot may happen to contain identical bytes. Exact
+                    // data from that slot cannot verify the requested target.
+                    peer.uploadedTarget = 202;
+                    equal(bytes, client.getPictureControlData(0x90cc, 2, 202, 0));
+                }
+                if (state.equals("different_bytes")) {
+                    peer.readbackOverride = bytes.clone();
+                    peer.readbackOverride[2] = 'X';
+                    client.getPictureControlData(0x90cc, 2, 201, 0);
+                }
+                if (state.equals("rejected")) {
+                    // Matching pre-existing bytes do not turn a rejected Set
+                    // response into a successfully verified registration.
+                    peer.fault = Fault.NONE;
+                    equal(bytes, client.getPictureControlData(0x90cc, 2, 201, 0));
+                }
+                if (state.equals("cancelled")) {
+                    client.getPictureControlData(0x90cc, 2, 201, 0);
+                    client.close();
+                }
+            }
+            int before = peer.operations.size();
+            rejects(() -> client.transferAfterVerifiedPictureControlImport(3));
+            equal(before, peer.operations.size());
+            equal(2, peer.sockets.size());
+            if (!state.equals("no_write")) {
+                rejects(() -> client.sendPictureControlData(0x90cd, 4, bytes, 202, 0));
+                equal(1L, peer.operations.stream().filter(operation -> operation == 0x90cd).count());
+            }
+            client.close();
+            peer.assertClosed();
+        }
+    }
+
+    private static void registrationProofCannotCrossAClosedAndReopenedSession() throws Exception {
+        Peer peer = new Peer();
+        peer.exactPictureControlReadback = true;
+        PtpIpClient client = peer.connectPictureControl();
+        byte[] bytes = profile(false);
+        client.sendPictureControlData(0x90cd, 1, bytes, 201, 0);
+        equal(bytes, client.getPictureControlData(0x90cc, 2, 201, 0));
+        client.pictureControlCommand(0x1003, 3);
+        client.pictureControlCommand(0x1002, 0, 1);
+        int before = peer.operations.size();
+        rejects(() -> client.transferAfterVerifiedPictureControlImport(1));
+        rejects(() -> client.transferAfterVerifiedPictureControlImport(4));
+        rejects(() -> client.sendPictureControlData(0x90cd, 1, bytes, 202, 0));
+        equal(before, peer.operations.size());
+        equal(1L, peer.operations.stream().filter(operation -> operation == 0x90cd).count());
+        equal(2L, peer.operations.stream().filter(operation -> operation == 0x1002).count());
+        equal(1L, peer.operations.stream().filter(operation -> operation == 0x1003).count());
+        equal(2, peer.sockets.size());
+        check(client.isOpen(), "Rejected stale proof cannot grant another write or close the reopened owned session");
+        client.close();
+        peer.assertClosed();
     }
 
     private static void cancelledClientCannotOpenSockets() throws Exception {
@@ -97,6 +704,42 @@ public final class PtpIpClientTest {
         }
         client.close();
         peer.assertClosed();
+    }
+
+    private static void largeThumbnailIsBoundedReadonlyAndCannotCrossModes() throws Exception {
+        Peer peer = new Peer();
+        try (PtpIpClient client = peer.connect()) {
+            int before = peer.operations.size();
+            for (long handle : new long[] {0, -1, 0xffffffffL, 0x100000000L}) {
+                rejects(() -> client.getLargeThumbnail(handle));
+                equal(before, peer.operations.size());
+            }
+            rejects(() -> client.getData(0x90c4, 64, 42));
+            equal(before, peer.operations.size());
+            equal(SMALL, client.getLargeThumbnail(42));
+            equal(0x90c4, peer.operations.get(peer.operations.size() - 1).intValue());
+            equal(new long[] {42}, peer.lastParameters);
+            check(client.isOpen(), "A completed large thumbnail keeps the album session open");
+        }
+        Peer pcPeer = new Peer();
+        try (PtpIpClient client = pcPeer.connectPictureControl()) {
+            int before = pcPeer.operations.size();
+            rejects(() -> client.getLargeThumbnail(42));
+            equal(before, pcPeer.operations.size());
+        }
+        for (Fault fault : new Fault[] {Fault.START_WRONG_TRANSACTION, Fault.END_WRONG_TRANSACTION,
+                Fault.RESPONSE_WRONG_TRANSACTION, Fault.TRUNCATED_FRAME, Fault.OVER_LARGE_THUMB_CAP}) {
+            Peer broken = new Peer();
+            try (PtpIpClient client = broken.connect()) {
+                broken.fault = fault;
+                rejects(() -> client.getLargeThumbnail(42));
+                check(!client.isOpen(), "Malformed or oversized large preview is terminal: " + fault);
+                broken.assertClosed();
+                int commands = broken.operations.size();
+                rejects(() -> client.getData(0x100a, 64, 42));
+                equal(commands, broken.operations.size());
+            }
+        }
     }
 
     private static void handshakeFailuresReleaseEveryCreatedSocket() throws Exception {
@@ -210,22 +853,40 @@ public final class PtpIpClientTest {
         NONE, INIT_REJECTED, EVENT_REJECTED, SECOND_CONNECT_FAIL,
         SHORT_HEADER_LENGTH, START_WRONG_TRANSACTION, DATA_WRONG_TRANSACTION,
         END_WRONG_TRANSACTION, RESPONSE_WRONG_TRANSACTION, PREMATURE_END,
-        TOO_MUCH_DATA, MISSING_END, TRUNCATED_FRAME, OVER_METADATA_CAP, UINT64_LENGTH, LARGE_STREAM,
-        ERROR_RESPONSE
+        TOO_MUCH_DATA, MISSING_END, TRUNCATED_FRAME, OVER_METADATA_CAP, OVER_LARGE_THUMB_CAP, UINT64_LENGTH, LARGE_STREAM,
+        ERROR_RESPONSE, WRITE_REJECTED, WRITE_DROP, WRITE_START_FAILED, WRITE_TIMEOUT,
+        WRITE_WRONG_TRANSACTION, WRITE_TRUNCATED_RESPONSE, WRITE_BLOCKED, READ_BLOCKED
     }
 
     private static final class Peer {
         private final List<FakeSocket> sockets = new ArrayList<>();
         private final List<Integer> operations = new ArrayList<>();
+        private final List<Long> transactions = new ArrayList<>();
+        private final List<byte[]> commandPackets = new ArrayList<>();
+        private final ByteArrayOutputStream uploaded = new ByteArrayOutputStream();
+        private final CountDownLatch writeEnded = new CountDownLatch(1);
+        private final CountDownLatch pong = new CountDownLatch(1);
         private FakeSocket command;
         private Fault fault = Fault.NONE;
         private int eventRequests;
+        private int eventPongs;
+        private boolean exactPictureControlReadback;
+        private int uploadedTarget;
+        private byte[] readbackOverride;
         private long lastTransaction;
         private long[] lastParameters;
 
         PtpIpClient connect() throws Exception {
             PtpIpClient client = new PtpIpClient(this::openSocket);
             equal(INFO, client.connect("camera.test", 15740, GUID.clone(), FRIENDLY_NAME));
+            return client;
+        }
+
+        PtpIpClient connectPictureControl() throws Exception {
+            PtpIpClient client = PtpIpClient.forPictureControl(this::openSocket);
+            client.connectForPictureControl("camera.test", 15740, GUID, FRIENDLY_NAME);
+            equal(INFO, client.getPictureControlData(0x1001, 0));
+            client.pictureControlCommand(0x1002, 0, 1);
             return client;
         }
 
@@ -245,6 +906,12 @@ public final class PtpIpClientTest {
         void receive(FakeSocket socket, byte[] packet) throws IOException {
             long type = u32(packet, 4);
             if (socket.event) {
+                if (type == 14) {
+                    equal(8, packet.length);
+                    eventPongs++;
+                    pong.countDown();
+                    return;
+                }
                 equal(3L, type);
                 equal(12, packet.length);
                 equal(CONNECTION_NUMBER, u32(packet, 8));
@@ -263,26 +930,68 @@ public final class PtpIpClientTest {
                 socket.input.add(fault == Fault.INIT_REJECTED ? frame(5, le32(1)) : frame(2, ack));
                 return;
             }
+            commandPackets.add(packet.clone());
+            if (type == 9) {
+                equal(20, packet.length);
+                equal(lastTransaction, u32(packet, 8));
+                check(u32(packet, 12) == 36 || u32(packet, 12) == 614, "Only bounded validated datasets reach the wire");
+                equal(0L, u32(packet, 16));
+                if (fault == Fault.WRITE_START_FAILED) throw new IOException("synthetic send failure");
+                return;
+            }
+            if (type == 10 || type == 12) {
+                equal(lastTransaction, u32(packet, 8));
+                uploaded.write(packet, 12, packet.length - 12);
+                if (type == 12) {
+                    if (fault == Fault.WRITE_BLOCKED) socket.input.holdOpen = true;
+                    else if (fault == Fault.WRITE_TIMEOUT) socket.input.timeoutWhenEmpty = true;
+                    else if (fault != Fault.WRITE_DROP) {
+                        byte[] complete = frame(7, concat(le16(fault == Fault.WRITE_REJECTED ? 0x200f : 0x2001),
+                                le32(lastTransaction + (fault == Fault.WRITE_WRONG_TRANSACTION ? 1 : 0)), le32(0xfedcba98L)));
+                        socket.input.add(fault == Fault.WRITE_TRUNCATED_RESPONSE ? Arrays.copyOf(complete, complete.length - 1) : complete);
+                    }
+                    writeEnded.countDown();
+                }
+                return;
+            }
             equal(6L, type);
             check(packet.length >= 18 && (packet.length - 18) % 4 == 0, "Operation packet has only complete parameters");
-            equal(1L, u32(packet, 8));
             int operation = u16(packet, 12);
+            equal(operation == 0x90cd ? 2L : 1L, u32(packet, 8));
             long transaction = u32(packet, 14);
             lastTransaction = transaction;
             lastParameters = new long[(packet.length - 18) / 4];
             for (int i = 0; i < lastParameters.length; i++) lastParameters[i] = u32(packet, 18 + i * 4);
             operations.add(operation);
-            if (operation == 0x1002) {
+            transactions.add(transaction);
+            if (operation == 0x90cd) {
+                equal(new long[] {lastParameters[0], 0}, lastParameters);
+                uploadedTarget = (int) lastParameters[0];
+                uploaded.reset();
+            } else if (operation == 0x1002) {
                 equal(new long[] {1}, lastParameters);
-                socket.input.add(response(transaction));
+                addCommandResponse(socket.input, transaction);
             } else if (operation == 0x1001) {
                 equal(0, lastParameters.length);
                 addTransfer(socket.input, transaction, INFO, Fault.NONE);
             } else if (operation == 0x1003) {
-                socket.input.add(response(transaction));
+                addCommandResponse(socket.input, transaction);
             } else {
-                addTransfer(socket.input, transaction, SMALL, fault);
+                if (fault == Fault.READ_BLOCKED) {
+                    socket.input.holdOpen = true;
+                    socket.input.add(frame(9, concat(le32(transaction), le64(SMALL.length))));
+                    socket.input.add(frame(10, concat(le32(transaction), Arrays.copyOfRange(SMALL, 0, 3))));
+                    return;
+                }
+                byte[] data = exactPictureControlReadback && operation == 0x90cc && lastParameters[0] == uploadedTarget
+                        && uploaded.size() > 0 ? (readbackOverride == null ? uploaded.toByteArray() : readbackOverride) : SMALL;
+                addTransfer(socket.input, transaction, data, fault);
             }
+        }
+
+        private void addCommandResponse(QueuedInput input, long transaction) {
+            input.add(frame(7, concat(le16(fault == Fault.ERROR_RESPONSE ? 0x2009 : 0x2001),
+                    le32(transaction + (fault == Fault.RESPONSE_WRONG_TRANSACTION ? 1 : 0)))));
         }
 
         void assertClosed() {
@@ -304,6 +1013,7 @@ public final class PtpIpClientTest {
         if (fault == Fault.PREMATURE_END) declared++;
         if (fault == Fault.TOO_MUCH_DATA) declared--;
         if (fault == Fault.OVER_METADATA_CAP) declared = 65;
+        if (fault == Fault.OVER_LARGE_THUMB_CAP) declared = 8L * 1024 * 1024 + 1;
         if (fault == Fault.UINT64_LENGTH) declared = 0x100000001L;
         if (fault == Fault.LARGE_STREAM) declared = 2L * 1024 * 1024 + 31;
         long startTx = transaction + (fault == Fault.START_WRONG_TRANSACTION ? 1 : 0);
@@ -370,7 +1080,9 @@ public final class PtpIpClientTest {
 
     private static final class QueuedInput extends InputStream {
         private final Deque<byte[]> chunks = new ArrayDeque<>();
-        private final boolean holdOpen;
+        private final CountDownLatch waiting = new CountDownLatch(1);
+        private volatile boolean holdOpen;
+        private boolean timeoutWhenEmpty;
         private int offset;
         private long remaining;
         private boolean closed;
@@ -380,7 +1092,9 @@ public final class PtpIpClientTest {
         }
         synchronized long remaining() { return remaining; }
         private boolean hasData() throws IOException {
+            if (chunks.isEmpty() && timeoutWhenEmpty) throw new SocketTimeoutException("synthetic response timeout");
             while (chunks.isEmpty() && holdOpen && !closed) {
+                waiting.countDown();
                 try { wait(); }
                 catch (InterruptedException interrupted) {
                     Thread.currentThread().interrupt();

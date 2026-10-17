@@ -1,0 +1,8 @@
+tone-curve PASS 257 samples 10/172/240
+short-original-label PASS
+short-control-touch-down PASS
+short-control-touch-up PASS
+identity-curve PASS 257 samples 0/128/255
+tone-cache-after-switch PASS 257 samples 10/172/240
+dark-large-curve PASS 257 samples 10/172/240
+restored-settings-curve PASS 257 samples 10/172/240

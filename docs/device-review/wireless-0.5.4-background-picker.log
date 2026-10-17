@@ -1,0 +1,33 @@
+2026-10-17T01:48:57.633Z 0001 READY loopback=127.0.0.1:15744 emulator=10.0.2.2:15744 photos=0 ttl=1200s log=D:\dev\ai-project\nikon\app\build\v054-album-handoff-ui-fixtures\server.log
+2026-10-17T01:48:57.643Z 0002 SYNTHETIC_TEST mode=picture-control-album-import-synthetic model=Z6II registrationAdvertised=true memoryOnly=true expectedNcpDatasetBytes=614 maxVirtualWrites=1 rejectInitAfterClose=true emptyAlbum=true
+2026-10-17T01:51:12.090Z 0003 INIT_COMMAND session=1
+2026-10-17T01:51:12.134Z 0004 INIT_EVENT session=1
+2026-10-17T01:51:12.138Z 0005 CMD session=1 tx=0 op=0x1001 phase=1 params=[]
+2026-10-17T01:51:12.147Z 0006 CMD session=1 tx=0 op=0x1002 phase=1 params=[1]
+2026-10-17T01:51:12.147Z 0007 OPEN_SESSION session=1 tx=0 opens=1
+2026-10-17T01:51:12.152Z 0008 CMD session=1 tx=1 op=0x1004 phase=1 params=[]
+2026-10-17T01:51:12.153Z 0009 EMPTY_ALBUM_STORAGE session=1 tx=1 synthetic=true
+2026-10-17T01:51:12.161Z 0010 CMD session=1 tx=2 op=0x1007 phase=1 params=[65537,14337,0]
+2026-10-17T01:51:12.162Z 0011 EMPTY_ALBUM_HANDLES session=1 tx=2 photos=0 synthetic=true
+2026-10-17T01:52:03.820Z 0012 CMD session=1 tx=3 op=0x1001 phase=1 params=[]
+2026-10-17T01:52:03.820Z 0013 DEVICE_INFO_RECHECK session=1 tx=3
+2026-10-17T01:52:03.823Z 0014 CMD session=1 tx=4 op=0x90cf phase=1 params=[1]
+2026-10-17T01:52:03.829Z 0015 CMD session=1 tx=5 op=0x90cc phase=1 params=[1,0]
+2026-10-17T01:52:03.830Z 0016 STANDARD_READ session=1 tx=5 count=1 heartbeats=0
+2026-10-17T01:52:03.841Z 0017 CMD session=1 tx=6 op=0x90cc phase=1 params=[201,0]
+2026-10-17T01:52:03.847Z 0018 CMD session=1 tx=7 op=0x90cc phase=1 params=[202,0]
+2026-10-17T01:52:03.850Z 0019 CMD session=1 tx=8 op=0x90cc phase=1 params=[203,0]
+2026-10-17T01:52:03.853Z 0020 CMD session=1 tx=9 op=0x90cc phase=1 params=[204,0]
+2026-10-17T01:52:03.857Z 0021 CMD session=1 tx=10 op=0x90cc phase=1 params=[205,0]
+2026-10-17T01:52:03.859Z 0022 CMD session=1 tx=11 op=0x90cc phase=1 params=[206,0]
+2026-10-17T01:52:03.862Z 0023 CMD session=1 tx=12 op=0x90cc phase=1 params=[207,0]
+2026-10-17T01:52:03.869Z 0024 CMD session=1 tx=13 op=0x90cc phase=1 params=[208,0]
+2026-10-17T01:52:03.872Z 0025 CMD session=1 tx=14 op=0x90cc phase=1 params=[209,0]
+2026-10-17T01:52:13.924Z 0026 CMD session=1 tx=15 op=0x90cc phase=1 params=[1,0]
+2026-10-17T01:52:13.925Z 0027 STANDARD_READ session=1 tx=15 count=2 heartbeats=1
+2026-10-17T01:52:23.931Z 0028 CMD session=1 tx=16 op=0x90cc phase=1 params=[1,0]
+2026-10-17T01:52:23.932Z 0029 STANDARD_READ session=1 tx=16 count=3 heartbeats=2
+2026-10-17T01:52:33.935Z 0030 CMD session=1 tx=17 op=0x90cc phase=1 params=[1,0]
+2026-10-17T01:52:33.941Z 0031 STANDARD_READ session=1 tx=17 count=4 heartbeats=3
+2026-10-17T01:52:39.636Z 0032 PC_IMPORT_SYNTHETIC_SUMMARY session=1 state=transport_closed connections=1 opens=1 closes=0 heartbeats=3 standardReads=4 virtualWrites=0 commands=19
+2026-10-17T01:52:39.636Z 0033 CLOSED session=1

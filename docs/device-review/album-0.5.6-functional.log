@@ -1,0 +1,29 @@
+0.5.6 final Android UI checks
+APK SHA256 62236c22e6839b017871ea76e5ac43c8e42ba34f69152e881e05ff50fe9b2e30
+2026-10-17T03:28:24.7044847Z static portrait grid: GetLargeThumb requests=15; GetObject requests=0
+2026-10-17T03:29:10.6280083Z detail UI: 高清预览1280x800; before explicit download GetObject=0
+
+2026-10-17T03:30:05.8145836Z static landscape: GetLargeThumb=16; GetObject=1
+2026-10-17T03:34:41.8711391Z occupied C1 dialog Cancel; virtual write log count=0
+2026-10-17T03:36:51.5469188Z 375dp width / dark / font1.3 / system animations0; explicit confirm occupied C1
+2026-10-17T03:38:50.8644254Z second explicit C2 import verified; density/theme configuration restored, success and same connection recovered; HOME + screen off
+2026-10-17T03:39:48.1579093Z background screen-off checkpoint before returning
+  * ServiceRecord{e0ec988 u0 com.nikonpreset.usbprobe/.connection.CameraConnectionService c:com.nikonpreset.usbprobe}
+    isForeground=true foregroundId=41 types=0x00000010 foregroundNoti=Notification(channel=camera-connection shortcut=null contentView=null vibrate=null sound=null defaults=0 flags=ONGOING_EVENT|ONLY_ALERT_ONCE|NO_CLEAR|FOREGROUND_SERVICE color=0x00000000 category=service actions=1 vis=PRIVATE template=null)
+  mWakefulness=Asleep
+  PARTIAL_WAKE_LOCK                 'nikon:camera-connection' ACQ=-6m48s650ms LONG (uid=10230 isFrozen=false isAttributedUidCached=false pid=17614 powerGroupId=0)
+mWakefulness=0
+2026-10-17T03:40:04.4323056Z Settings still connected after background; explicit disconnect now
+ACTIVITY MANAGER SERVICES (dumpsys activity services)
+  (nothing)
+Wake Locks: size=0
+  10-17 03:18:37.630 - 10230 (com.nikonpreset.usbprobe) - ACQ nikon:camera-connection (partial)
+  10-17 03:31:21.372 - 10230 (com.nikonpreset.usbprobe) - ACQ nikon:camera-connection (partial)
+  10-17 03:32:26.430 - 10230 (com.nikonpreset.usbprobe) - REL nikon:camera-connection
+  10-17 03:32:59.638 - 10230 (com.nikonpreset.usbprobe) - ACQ nikon:camera-connection (partial)
+  10-17 03:40:06.720 - 10230 (com.nikonpreset.usbprobe) - REL nikon:camera-connection
+2026-10-17T03:42:56.3546599Z original-download hash verification on final APK
+014f6890d669e4f41477f37e9b89cc35b233b0d4712caf48f0567dc6f28ce17f  /sdcard/Android/data/com.nikonpreset.usbprobe/files/Pictures/camera-album/1792207752968-6737d06e__TEST_0003.JPG
+014F6890D669E4F41477F37E9B89CC35B233B0D4712CAF48F0567DC6F28CE17F
+Final APK process 17614 crash buffer:
+2026-10-17T03:44:09.0302252Z owned synthetic servers stopped; test display/font/night/animation/rotation overrides reset; readonly emulator shut down, test settings discarded

@@ -26,10 +26,48 @@ public final class PictureControlReadSession {
     private boolean started;
     private boolean sessionOwned;
     private boolean protocolAbortRequired;
+    private boolean snapshotComplete;
+    private boolean retainedSession;
 
     public PictureControlReadSession(Operations operations, UsbPictureControlProbe.Result result) {
         this.operations = Objects.requireNonNull(operations, "operations");
         this.result = Objects.requireNonNull(result, "result");
+    }
+
+    /** Only the owning wireless adapter may continue an already opened session. */
+    PictureControlReadSession(Operations operations, UsbPictureControlProbe.Result result,
+                              long nextTransactionId) {
+        this(operations, result);
+        if (nextTransactionId < 1 || nextTransactionId > 0xffffffffL) {
+            throw new IllegalArgumentException("无线会话事务编号无效。");
+        }
+        this.nextTransactionId = nextTransactionId;
+        retainedSession = true;
+        sessionOwned = true;
+        result.sessionOpened = true;
+    }
+
+    /** Package-only owner handback after the wireless adapter and transport verified registration. */
+    static PictureControlReadSession fromVerifiedImportSnapshot(Operations operations,
+            UsbPictureControlProbe.Result result, long nextTransactionId) throws IOException {
+        if (!result.completed || !result.capabilityParsed || result.items.size() != 10) {
+            throw new IOException("登记后的只读持有状态不完整。");
+        }
+        boolean[] seen = new boolean[10];
+        for (UsbPictureControlProbe.ItemRecord item : result.items) {
+            if (item.itemCode != 1 && (item.itemCode < 201 || item.itemCode > 209)) {
+                throw new IOException("登记后的只读槽位快照包含不允许的项目。");
+            }
+            int index = item.itemCode == 1 ? 0 : item.itemCode - 200;
+            if (index < 0 || index >= seen.length || seen[index] || !item.parsed) {
+                throw new IOException("登记后的只读槽位快照不完整。");
+            }
+            seen[index] = true;
+            PictureControlData.parse(item.rawBytes());
+        }
+        PictureControlReadSession session = new PictureControlReadSession(operations, result, nextTransactionId);
+        session.snapshotComplete = true;
+        return session;
     }
 
     public void run() throws IOException {
@@ -70,7 +108,7 @@ public final class PictureControlReadSession {
     }
 
     private void runDetailed() throws IOException {
-        byte[] deviceBytes = query(0x1001, 0);
+        byte[] deviceBytes = query(0x1001, retainedSession ? nextTransactionId++ : 0);
         result.phase = "DeviceInfoParse";
         PtpDeviceInfo device = PtpDeviceInfo.parseRedacted(deviceBytes);
         result.manufacturer = device.manufacturer();
@@ -90,11 +128,13 @@ public final class PictureControlReadSession {
             }
         }
 
-        recordStep(0x1002, 0, 1);
-        PtpValidation.requireOkResponse(operations.command(0x1002, 0, 1), 0);
-        recordSuccess();
-        sessionOwned = true;
-        result.sessionOpened = true;
+        if (!retainedSession) {
+            recordStep(0x1002, 0, 1);
+            PtpValidation.requireOkResponse(operations.command(0x1002, 0, 1), 0);
+            recordSuccess();
+            sessionOwned = true;
+            result.sessionOpened = true;
+        }
 
         if (device.supportsOperation(0x90ca)) {
             byte[] properties = query(0x90ca, nextTransactionId++);
@@ -116,6 +156,7 @@ public final class PictureControlReadSession {
         readItem(1);
         for (int item = 201; item <= 209; item++) readItem(item);
         result.phase = "ReadComplete";
+        snapshotComplete = true;
         result.diagnostics.add("已读取照片菜单 Standard 和 C1–C9；未切换相机模式、未选择预设、未修改任何优化校准。");
         result.diagnostics.add("读取成功只验证专用读取路径；NCP 转换与直接写入仍未验证。");
     }
@@ -162,6 +203,48 @@ public final class PictureControlReadSession {
 
     public boolean ownsSession() { return sessionOwned; }
     public boolean requiresProtocolAbort() { return protocolAbortRequired; }
+
+    /** A bounded read in the session this reader opened; never reconnects or uploads. */
+    void keepAlive() throws IOException {
+        if (!snapshotComplete || !sessionOwned || protocolAbortRequired) {
+            throw new IOException("待确认的无线会话已失效，请重新读取空槽。");
+        }
+        try {
+            byte[] bytes = query(0x90cc, nextTransactionId++, 1, 0);
+            result.phase = "PictureControlDataParse";
+            PictureControlData.parse(bytes);
+            result.phase = "ReadComplete";
+        } catch (PtpResponseException error) {
+            result.failurePhase = result.phase;
+            if (error.transactionId() != result.lastTransactionId) {
+                protocolAbortRequired = true;
+                result.protocolPhaseUnconfirmed = true;
+                throw new PtpProtocolException("无线保活响应的事务编号不匹配。", error);
+            }
+            result.failedOperation = result.lastOperation;
+            result.failedTransactionId = error.transactionId();
+            result.failedParameters = result.lastParameters.clone();
+            result.failedItemCode = result.lastItemCode;
+            throw error;
+        } catch (IOException error) {
+            failLocal(error);
+            throw error;
+        } catch (RuntimeException error) {
+            IOException failure = new IOException("无线保活响应格式未确认。", error);
+            failLocal(failure);
+            throw failure;
+        }
+    }
+
+    /** Transfers only the session opened by this reader, preserving its transaction sequence. */
+    long transferOwnedSession() throws IOException {
+        if (!snapshotComplete || !sessionOwned || protocolAbortRequired
+                || nextTransactionId < 1 || nextTransactionId > 0xffffffffL) {
+            throw new IOException("待确认的无线会话已失效，请重新读取空槽。");
+        }
+        sessionOwned = false;
+        return nextTransactionId;
+    }
 
     /** Cleanup has its own context and never overwrites the failing read's context. */
     public void closeSession() throws IOException {

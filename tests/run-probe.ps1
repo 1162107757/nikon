@@ -28,6 +28,8 @@ $commonSourcePaths += Join-Path $javaRoot 'usb\PictureControlReadSession.java'
 $commonSourcePaths += Join-Path $javaRoot 'usb\UsbPictureControlProbe.java'
 $commonSourcePaths += Join-Path $javaRoot 'usb\PictureControlImportSession.java'
 $commonSourcePaths += Join-Path $javaRoot 'usb\UsbPictureControlImport.java'
+$commonSourcePaths += Join-Path $javaRoot 'usb\WirelessPictureControl.java'
+$commonSourcePaths += Join-Path $javaRoot 'album\PtpIpClient.java'
 $commonSourcePaths += @(Get-ChildItem -LiteralPath (Join-Path $javaRoot 'picturecontrol') -Filter '*.java' | ForEach-Object FullName)
 $commonSourcePaths += @(Get-ChildItem -LiteralPath (Join-Path $javaRoot 'ncp') -Filter '*.java' | ForEach-Object FullName)
 $commonSourcePaths += Join-Path $PSScriptRoot 'java\com\nikonpreset\usbprobe\ncp\NcpCompatibilityFixtures.java'
@@ -51,6 +53,8 @@ function Invoke-ProbeTest([string]$SourcePath, [string]$OutputPath, [string]$Tes
         }
         & $runtimePath -cp $testClassPath com.nikonpreset.usbprobe.usb.UsbPictureControlImportHostTest
         if ($LASTEXITCODE -ne 0) { throw 'Production Picture Control empty-slot copy host tests failed.' }
+        & $runtimePath -cp $testClassPath com.nikonpreset.usbprobe.usb.UsbWirelessPictureControlHostTest
+        if ($LASTEXITCODE -ne 0) { throw 'Production wireless Picture Control host tests failed.' }
     }
 }
 

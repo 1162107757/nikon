@@ -1,0 +1,85 @@
+0.5.3-beta / versionCode 20 — retained wireless import confirmation session
+Date: 2026-10-17
+
+Delivery
+  APK: nikon-usb-0.5.3-beta-debug.apk
+  Size: 2716281 bytes
+  SHA-256: 385a893a7b4865246f7c72292a613f4cbb9f3bbc4590d5ca6248b62a56d15098
+  scripts/build-apk.ps1 completed; v2/v3 signatures verified.
+
+Problem and fix
+  User screenshots show EHOSTUNREACH before a registration request was sent.
+  Old code closed its probe session and both sockets before confirmation, then
+  attempted a fresh connection for import. Camera AP shutdown in response is an
+  inference from the symptom, not independently proved Nikon behavior.
+  prepareImport now retains its owned session and both sockets. Confirmation
+  schedules a read-only Standard query every 10 seconds on the serial worker.
+  importPreparedNcpPreset transfers that same session and next transaction ID;
+  it cannot connect to a new endpoint. It freshly reads DeviceInfo/capability,
+  all nine slots and the target again, permits at most one registration and
+  verifies exact readback. No automatic reconnect or registration retry.
+  Cancel/back/root switch release the owned session; teardown cancels or drains
+  pending work as appropriate. Heartbeat failures end confirmation with no write.
+  Independent settings probes and recovery remain standalone read-only flows.
+  Socket routing remains pinned to one selected Android Wi-Fi Network.
+
+Automated verification
+  tests/run.ps1: 8212 checks passed.
+  tests/run-probe.ps1: 5686 checks passed:
+    ordinary USB probe 685; Picture Control read-only 453;
+    USB copy/adaptation 1004; wireless 3544.
+  Total: 13898. Historical library checks are not added to this count.
+  New retained-session regressions cover a peer refusing reconnection after
+  CloseSession, monotonic transaction handoff, same sockets, complete fresh
+  preflight, changed model/operation/capability/slot, cancellation/concurrency,
+  peer loss, cleanup acknowledgement failures and unknown-result no-retry paths.
+  Synthetic UI server self-tests passed; normal album/read-only modes retain
+  their write rejection. Production source and MainActivity lifecycle received
+  independent reviews with no remaining P1/P2 finding.
+
+Final-APK native UI integration
+  Temporary read-only Pixel 9 emulator, Android 17/API 37, 1080x2424.
+  A hand-written PreviewTone.NCP was imported via the Android document picker.
+  The server listened only on 127.0.0.1; emulator used 10.0.2.2:15743.
+  All virtual slots were process memory. No real-camera or phone Wi-Fi control.
+  On CloseSession the server rejects new InitCommand handshakes to reproduce
+  the old close/reconnect gap; it does not shut down any physical Wi-Fi network.
+
+  Success: first nine-slot scan ended 01:24:27.919Z; fresh import DeviceInfo at
+  01:26:40.255Z, a 132.336-second confirmation wait with 13 Standard heartbeats.
+  Exactly one InitCommand, OpenSession and CloseSession, all session=1.
+  tx25 DeviceInfo, tx26 capability, tx27-35 nine slots, tx36 target C1 recheck,
+  tx37 sole 0x90CD, tx38 exact readback, tx39 CloseSession.
+  Virtual write/readback both 614 bytes, SHA-256:
+    07434caabeee4bc79727b3cbfd105e037659933866e5aada76419db8745bb199
+  Native result displayed saved to C1 and readback verified.
+  Evidence: docs/device-review/wireless-0.5.3-success.log.
+
+  Cancel: 193.527 seconds after initial scan, 19 heartbeats, then back to detail.
+  Exactly one handshake/Open/Close, zero 0x90CD, virtualWrites=0, no reconnect.
+  Evidence: docs/device-review/wireless-0.5.3-cancel.log.
+  Both final logs independently audited; assertions confirm single registration,
+  exact readback, single sessions and zero cancel writes.
+  Captures opened and inspected by root under .impeccable/review/:
+    phone-apple-v053-confirm-held.png
+    phone-apple-v053-cancelled-detail.png
+    phone-apple-v053-confirm-before-write.png
+    phone-apple-v053-import-success.png
+  This is a focused protocol/lifecycle fix and confirmation-status copy update;
+  prior visual-review dispositions keep their original version scope.
+
+Physical phone installation
+  PKG110 / Android 16, serial 286f0dba, main user 0.
+  adb install --user 0 -r succeeded, preserving existing application data.
+  Package reports versionCode 20, versionName 0.5.3-beta, installed=true.
+  Installed base.apk SHA-256 exactly matches the delivery hash above.
+  No test presets added to the phone; no foreground UI manipulation or camera
+  operation during this installation. No physical-camera registration tested.
+
+Limits
+  Synthetic success proves the repaired application connection lifetime, not
+  Z6II AP policy, firmware acceptance, Nikon proprietary pairing or Wi-Fi quality.
+  Real Z6II retest should include waiting 30-60 seconds on confirmation before
+  importing into an empty slot and reviewing the resulting report.
+  Existing strict NCP subset and phone-template approximation remain unchanged.
+  No new camera-effect, TalkBack, tablet, gesture or performance claim.

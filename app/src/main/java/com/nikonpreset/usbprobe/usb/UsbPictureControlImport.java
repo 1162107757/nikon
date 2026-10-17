@@ -37,6 +37,13 @@ public final class UsbPictureControlImport implements AutoCloseable {
         return execute(device, manager, snapshot, sourceItem, targetItem, true);
     }
 
+    /** Explicit occupied-slot replacement, retaining source verification for camera copies. */
+    public Result importPreset(UsbDevice device, UsbManager manager, byte[] snapshot,
+                               int sourceItem, int targetItem,
+                               PictureControlImportSession.OverwriteConfirmation overwrite) throws Exception {
+        return execute(device, manager, snapshot, sourceItem, targetItem, true, false, 0, 0, overwrite);
+    }
+
     // Internal registration entry point; the current UI must use source-verified copy above.
     Result importPreset(UsbDevice device, UsbManager manager, byte[] data, int targetItem) throws Exception {
         return execute(device, manager, data, -1, targetItem, false);
@@ -46,19 +53,28 @@ public final class UsbPictureControlImport implements AutoCloseable {
     public Result importNcpPreset(UsbDevice device, UsbManager manager, byte[] originalNcp,
                                   int middleQuarter, int clarityQuarter, int targetItem) throws Exception {
         return execute(device, manager, originalNcp, -1, targetItem, false, true,
-                middleQuarter, clarityQuarter);
+                middleQuarter, clarityQuarter, null);
+    }
+
+    /** Call only after the user explicitly confirms replacing this exact occupied snapshot. */
+    public Result importNcpPreset(UsbDevice device, UsbManager manager, byte[] originalNcp,
+                                  int middleQuarter, int clarityQuarter, int targetItem,
+                                  PictureControlImportSession.OverwriteConfirmation overwrite) throws Exception {
+        return execute(device, manager, originalNcp, -1, targetItem, false, true,
+                middleQuarter, clarityQuarter, overwrite);
     }
 
     private Result execute(UsbDevice device, UsbManager manager, byte[] bytes,
                            int sourceItem, int targetItem, boolean requireSource) throws Exception {
-        return execute(device, manager, bytes, sourceItem, targetItem, requireSource, false, 0, 0);
+        return execute(device, manager, bytes, sourceItem, targetItem, requireSource, false, 0, 0, null);
     }
 
     private Result execute(UsbDevice device, UsbManager manager, byte[] bytes,
                            int sourceItem, int targetItem, boolean requireSource, boolean ncpMode,
-                           int middleQuarter, int clarityQuarter) throws Exception {
+                           int middleQuarter, int clarityQuarter,
+                           PictureControlImportSession.OverwriteConfirmation overwrite) throws Exception {
         if (Looper.myLooper() == Looper.getMainLooper()) {
-            throw new IllegalStateException("优化校准空槽登记必须在后台线程运行。");
+            throw new IllegalStateException("优化校准登记必须在后台线程运行。");
         }
         if (!running.compareAndSet(false, true)) throw new IllegalStateException("此登记实例正在运行。");
         activeDeviceId = device == null ? -1 : device.getDeviceId();
@@ -67,6 +83,7 @@ public final class UsbPictureControlImport implements AutoCloseable {
         result.sourceLabel = PictureControlImportSession.label(sourceItem);
         result.targetItem = targetItem;
         result.targetLabel = PictureControlImportSession.label(targetItem);
+        if (overwrite != null) overwrite.recordInto(result);
         if (ncpMode) {
             result.ncpMode = true;
             result.modePurpose = "ncp_compatibility_import";
@@ -87,11 +104,12 @@ public final class UsbPictureControlImport implements AutoCloseable {
                 result.sourceNcpSize = requestedInput == null ? 0 : requestedInput.length;
                 if (requestedInput != null) result.sourceNcpSha256 = UsbPictureControlProbe.sha256(requestedInput);
             }
-            if (closed || Thread.currentThread().isInterrupted()) throw new IOException("空槽登记已取消。");
+            if (closed || Thread.currentThread().isInterrupted()) throw new IOException("优化校准登记已取消。");
             if (targetItem < 201 || targetItem > 209 || (requireSource
                     && (sourceItem < 201 || sourceItem > 209 || sourceItem == targetItem))) {
-                throw new IOException("必须明确选择不同的 C1–C9 来源槽和目标空槽。");
+                throw new IOException("必须明确选择 C1–C9 目标槽；复制时来源与目标必须不同。");
             }
+            if (overwrite != null) overwrite.requireTargetMatch(targetItem);
             if (ncpMode) {
                 result.phase = "NcpCompatibilityAdaptation";
                 NcpPictureControlConverter.Conversion conversion = NcpPictureControlConverter.convert(
@@ -109,15 +127,16 @@ public final class UsbPictureControlImport implements AutoCloseable {
             result.convertedRawBytes = requested.clone();
             result.convertedSha256 = UsbPictureControlProbe.sha256(requested);
             result.phase = "UsbConnection";
-            transport = new PtpUsbTransport(device, manager, result.commandsSent, PtpUsbTransport.Mode.WRITE_EMPTY_PC);
+            transport = new PtpUsbTransport(device, manager, result.commandsSent, overwrite == null
+                    ? PtpUsbTransport.Mode.WRITE_EMPTY_PC : PtpUsbTransport.Mode.WRITE_CONFIRMED_PC);
             synchronized (lifecycleLock) {
-                if (closed) throw new IOException("空槽登记已取消或相机已断开。");
+                if (closed) throw new IOException("优化校准登记已取消或相机已断开。");
                 active = transport;
             }
             if (requireSource) {
-                session = new PictureControlImportSession(transport, result, requested, sourceItem, targetItem);
+                session = new PictureControlImportSession(transport, result, requested, sourceItem, targetItem, overwrite);
             } else {
-                session = new PictureControlImportSession(transport, result, requested, targetItem);
+                session = new PictureControlImportSession(transport, result, requested, targetItem, overwrite);
             }
             session.run();
         } catch (Exception error) {
@@ -248,6 +267,9 @@ public final class UsbPictureControlImport implements AutoCloseable {
     }
 
     public static final class Result {
+        public String transport = "usb";
+        public String wirelessHost = "";
+        public int wirelessPort;
         public final String timestamp = timestamp();
         public String modePurpose = "camera_preset_copy";
         public String type = "camera_preset_copy";
@@ -281,6 +303,14 @@ public final class UsbPictureControlImport implements AutoCloseable {
         public byte[] convertedRawBytes = new byte[0];
         public String convertedSha256 = "";
         public boolean sourceVerified;
+        public boolean overwriteRequested;
+        public int confirmedTargetItem = -1;
+        public String confirmedTargetSha256 = "";
+        public String confirmedTargetName = "";
+        public int confirmedTargetBasePictureControl = -1;
+        public boolean freshCapabilityVerified;
+        public boolean initialTargetMatched;
+        public boolean recheckTargetMatched;
         public boolean initialTargetEmpty;
         public boolean recheckTargetEmpty;
         public boolean writeAttempted;
@@ -291,6 +321,7 @@ public final class UsbPictureControlImport implements AutoCloseable {
         public boolean completed;
         public boolean sessionOpened;
         public boolean sessionClosed;
+        public boolean sessionRetainedAfterImport;
         public boolean protocolPhaseUnconfirmed;
         public int differenceCount;
         public final List<Integer> differenceOffsets = new ArrayList<>();
@@ -322,7 +353,9 @@ public final class UsbPictureControlImport implements AutoCloseable {
             JSONArray advertised = new JSONArray();
             for (int operation : operations) advertised.put(PtpConstants.hex16(operation));
             return new JSONObject().put("reportVersion", 1).put("timestampUtc", timestamp)
+                    .put("transport", transport).put("wirelessHost", wirelessHost).put("wirelessPort", wirelessPort)
                     .put("operationMode", ncpMode ? "nikon_ncp_compatibility_registration"
+                            : overwriteRequested ? "nikon_picture_control_copy_to_confirmed_snapshot"
                             : "nikon_picture_control_copy_to_observed_empty_slot")
                     .put("modePurpose", modePurpose).put("type", type).put("ncpMode", ncpMode)
                     .put("readOnly", false).put("shootingMenu", "photo").put("completed", completed)
@@ -344,6 +377,12 @@ public final class UsbPictureControlImport implements AutoCloseable {
                     .put("manufacturer", manufacturer).put("model", model).put("firmware", firmware)
                     .put("operationsAdvertised", advertised).put("sourceItem", sourceItem).put("sourceLabel", sourceLabel)
                     .put("targetItem", targetItem).put("targetLabel", targetLabel).put("sourceVerified", sourceVerified)
+                    .put("overwriteRequested", overwriteRequested)
+                    .put("confirmedTargetItem", confirmedTargetItem)
+                    .put("confirmedTargetSha256", confirmedTargetSha256).put("confirmedTargetName", confirmedTargetName)
+                    .put("confirmedTargetBasePictureControl", confirmedTargetBasePictureControl)
+                    .put("freshCapabilityVerified", freshCapabilityVerified)
+                    .put("initialTargetMatched", initialTargetMatched).put("recheckTargetMatched", recheckTargetMatched)
                     .put("basePictureControl", basePictureControl).put("registrationName", registrationName)
                     .put("requestedByteLength", convertedRawBytes.length).put("requestedSha256", convertedSha256)
                     .put("requestedDataSha256", convertedSha256)
@@ -359,6 +398,7 @@ public final class UsbPictureControlImport implements AutoCloseable {
                     .put("differenceInterpretation", normalizationObserved ? "cause_unconfirmed" : "none_observed")
                     .put("differenceCount", differenceCount).put("differenceOffsets", new JSONArray(differenceOffsets))
                     .put("sessionOpenedByTool", sessionOpened).put("sessionCloseConfirmed", sessionClosed)
+                    .put("sessionRetainedAfterImport", sessionRetainedAfterImport)
                     .put("protocolPhaseUnconfirmed", protocolPhaseUnconfirmed)
                     .put("phase", phase).put("failurePhase", failurePhase).put("lastOperation", lastOperation)
                     .put("lastTransactionId", lastTransactionId).put("lastParameters", parameterJson(lastParameters))
@@ -373,12 +413,13 @@ public final class UsbPictureControlImport implements AutoCloseable {
 
         public String toJsonString() {
             try { return toJson().toString(2); }
-            catch (JSONException error) { throw new IllegalStateException("无法生成空槽登记报告。", error); }
+            catch (JSONException error) { throw new IllegalStateException("无法生成优化校准登记报告。", error); }
         }
 
         public String toDisplayText() {
             StringBuilder text = new StringBuilder(ncpMode ? "NCP 兼容适配试导入（照片菜单）"
                     : "机内优化校准复制实验（照片菜单）")
+                    .append("\n连接方式：").append(transport.equals("wifi") ? "Wi-Fi / PTP-IP" : "USB")
                     .append("\n相机：").append(model.isEmpty() ? "尚未读取" : model).append(" / ").append(firmware);
             if (ncpMode) {
                 text.append("\nNCP 内注册名：").append(sourceNcpName.isEmpty() ? "尚未解析" : sourceNcpName)
@@ -393,18 +434,23 @@ public final class UsbPictureControlImport implements AutoCloseable {
                 text.append("\n来源：").append(sourceLabel).append(" → 目标：").append(targetLabel)
                         .append("\n来源重新核对：").append(sourceVerified);
             }
-            text.append("\n名称：").append(registrationName).append("，base=").append(basePictureControl)
-                    .append("\n目标初查/写前复查为空：").append(initialTargetEmpty).append(" / ").append(recheckTargetEmpty)
-                    .append("\n登记请求已尝试/相机已确认：").append(writeAttempted).append(" / ").append(writeResponseOk)
+            text.append("\n名称：").append(registrationName).append("，base=").append(basePictureControl);
+            if (overwriteRequested) {
+                text.append("\n明确覆盖：").append(targetLabel).append("「").append(confirmedTargetName).append("」")
+                        .append("\n确认原槽 SHA-256：").append(confirmedTargetSha256)
+                        .append("\n初查/写前复查与确认快照一致：").append(initialTargetMatched).append(" / ").append(recheckTargetMatched);
+            } else text.append("\n目标初查/写前复查为空：").append(initialTargetEmpty).append(" / ").append(recheckTargetEmpty);
+            text.append("\n登记请求已尝试/相机已确认：").append(writeAttempted).append(" / ").append(writeResponseOk)
                     .append("\n读回字节精确一致：").append(readbackVerified)
-                    .append("\n会话关闭已确认：").append(sessionClosed);
+                    .append("\n会话关闭已确认：").append(sessionClosed)
+                    .append("\n导入后保持只读连接：").append(sessionRetainedAfterImport);
             if (normalizationObserved) text.append("\n读回存在 ").append(differenceCount)
                     .append(" 个字节差异，原因未确定；可能包含相机规范化，不能宣称精确验证。");
             if (writeAttempted && !completed) text.append("\n目标槽可能已经登记。请先重新只读扫描，勿重复写入。");
             if (!error.isEmpty()) text.append("\n结果：").append(error);
             if (!cleanupError.isEmpty()) text.append("\n清理：").append(cleanupError);
             text.append("\n未请求删除、自动还原、设置当前选择或修改相机模式。")
-                    .append("\n连续空槽检查不是相机原子保护；操作期间请勿从相机或其它应用修改槽位。");
+                    .append("\n连续目标检查不是相机原子保护；操作期间请勿从相机或其它应用修改槽位。");
             if (ncpMode) {
                 text.append("\n兼容数据登记并精确读回核对：").append(ncpMode && completed && readbackVerified)
                         .append("\n原生载入等效性与实际拍摄效果：均未验证。\n");
