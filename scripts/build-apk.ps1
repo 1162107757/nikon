@@ -62,6 +62,7 @@ $resourcesZip = Join-Path $outputRoot 'resources.zip'
 Invoke-Checked (Join-Path $toolsRoot 'aapt2.exe') @('compile', '--dir', (Join-Path $projectRoot 'app\src\main\res'), '-o', $resourcesZip)
 $unsignedApk = Join-Path $outputRoot 'unsigned.apk'
 Invoke-Checked (Join-Path $toolsRoot 'aapt2.exe') @('link', '-I', $androidJar, '--manifest', $manifestPath,
+    '-A', (Join-Path $projectRoot 'app\src\main\assets'),
     '--java', $generatedRoot, '--min-sdk-version', '26', '--target-sdk-version', '35',
     '--version-code', $appVersionCode, '--version-name', $appVersionName, '-o', $unsignedApk, $resourcesZip)
 
@@ -89,6 +90,19 @@ Add-Type -AssemblyName System.IO.Compression.FileSystem
 Add-Type -AssemblyName System.IO.Compression
 $apkArchive = [IO.Compression.ZipFile]::Open($unsignedApk, [IO.Compression.ZipArchiveMode]::Update)
 try {
+    # Windows aapt2 can leave backslashes in nested asset names. Android assets use '/'.
+    foreach ($resource in @($apkArchive.Entries)) {
+        if (-not $resource.FullName.StartsWith('assets/') -or -not $resource.FullName.Contains('\')) { continue }
+        $assetName = $resource.FullName.Replace('\', '/')
+        if ($apkArchive.GetEntry($assetName)) { throw ('Duplicate application asset: ' + $assetName) }
+        $apkEntry = $apkArchive.CreateEntry($assetName, [IO.Compression.CompressionLevel]::Optimal)
+        $sourceStream = $resource.Open()
+        try {
+            $targetStream = $apkEntry.Open()
+            try { $sourceStream.CopyTo($targetStream) } finally { $targetStream.Dispose() }
+        } finally { $sourceStream.Dispose() }
+        $resource.Delete()
+    }
     foreach ($dexFile in Get-ChildItem -LiteralPath $dexRoot -Filter '*.dex') {
         [IO.Compression.ZipFileExtensions]::CreateEntryFromFile($apkArchive, $dexFile.FullName, $dexFile.Name, [IO.Compression.CompressionLevel]::Optimal) | Out-Null
     }

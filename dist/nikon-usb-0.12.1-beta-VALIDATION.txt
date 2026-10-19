@@ -1,0 +1,74 @@
+Huevia 0.12.1-beta (63) — selected-camera gateway and self-IP correction
+Date: 2026-10-19, Asia/Shanghai
+
+APK: dist/nikon-usb-0.12.1-beta-debug.apk
+Package: com.nikonpreset.usbprobe
+Version: 63 / 0.12.1-beta
+Bytes: 3376749
+SHA-256: b81720f01106fdda8cc3d10e72f3ccbbeeb5247bdd55839aa55b77c0373c6514
+minSdk 26 / targetSdk 35
+Android35/JDK17 manual build: PASS
+APK v2/v3 signature and aapt2 package/version check: PASS
+No publication or automatic physical-device install performed.
+
+ACTUAL USER EVIDENCE
+User screenshots show an X-T20 Wi-Fi connection attempt to 192.168.0.1:55740
+from phone IP 192.168.90.3, rejected at TCP connect. A subsequent attempt used
+192.168.192.3 for both target and source, so it targeted the phone itself.
+The later WLAN details screenshot confirms a FUJIFILM-X-T20 hotspot and phone
+IPv4 192.168.186.2; it does not display the gateway. No successful Fuji protocol
+handshake or photo download is shown. Exact camera SSID suffix is not recorded.
+
+FIX
+- Fuji no longer supplies a hardcoded default IP. On Android10+, automatic camera
+  address is enabled by default, including upgrades with a previously saved IP.
+- After the explicit Wi-Fi request succeeds, resolve only that requested Network's
+  valid, unambiguous IPv4 default gateway. Re-resolve for every new connection.
+- onAvailable can precede usable LinkProperties: wait up to3s on the camera worker,
+  with cancellation/generation checks. Do not open sockets until target is known.
+- No fallback to saved IP, other Wi-Fi/mobile default gateway, subnet+'.1' or scan.
+- Production socket connector rejects a target equal to the phone's link address
+  before creating a socket. A known selected-network gateway is included in help.
+- Manual entry remains available; auto/manual preference persists independently
+  from Nikon endpoints. UI distinguishes the phone's IPv4 from the camera gateway.
+- Connection refusal/timeout shown in Chinese; attempted address displayed after
+  resolution. Existing-session reuse additionally requires the same protocol.
+- JPEG/protocol/live capability boundaries remain as in0.12.0 experimental support.
+
+VERIFIED ON HOST
+CameraWifiGatewayTest:37 checks PASS
+  Dynamic186/90 networks, actual gateways not necessarily .1, correct selected
+  route while another Wi-Fi is default, missing/ambiguous/IPv6/invalid gateway,
+  route lost/replaced during read, self-IP rejected before socket creation.
+CameraGatewayConnectionHostTest:22 checks PASS
+  Re-resolve each attempt, delayed LinkProperties, missing gateway produces
+  zero socket calls, cancel while waiting, and Chinese error/attempted endpoint.
+CameraConnectionPreferencesTest:71 checks PASS
+  Old fixed/self endpoint defaults to auto, manual/auto persistence, blank Fuji
+  default address, Nikon migration and separate endpoints/drafts preserved.
+Existing selected-network regression:519 retention +27 routing +557 session PASS
+Existing Wi-Fi runtime network-loss regression:13 checks PASS
+Independent review of the final beforeConnect -> Wi-Fi selection -> resolver ->
+connector chain: no additional confirmed blocker after the tested corrections.
+Full latest run-album:826 controller +22 capability +22 gateway +356 project
+store +100 folder checks =1326 checks PASS. Default Nikon connect paths and
+the connect-method refactor are covered; no production changes after this run.
+
+LIMITS
+- This fixes the observed address-selection and phone-self-IP failures; it does
+  not establish a successful X-T20 connection or photo transfer on the user's unit.
+- A camera Wi-Fi gateway is the target candidate, not proof of camera identity;
+  the existing actual Fuji handshake/model gate must still succeed.
+- Missing gateway produces a clear failure instead of guessing. Older Android
+  without the specific network request uses manually confirmed camera address.
+- No new native Android UI, real camera handshake, real JPEG, sustained background
+  or lockscreen acceptance this round. Device listing could not start the local
+  ADB daemon in the sandbox; no phone was controlled or installed.
+- Existing0.12.0 protocol tests and unrelated baseline USB-import fixture limitation
+  remain documented in dist/nikon-usb-0.12.0-beta-VALIDATION.txt; not claimed rerun.
+
+USER ACTION
+Install0.12.1 over existing Huevia. Choose Fujifilm X-T20, keep automatic camera
+address enabled, open camera Wireless Communication and connect the same hotspot.
+For the open hotspot, select the no-password option. Do not enter the phone's
+WLAN IPv4 address. A real X-T20 retry is still required for compatibility acceptance.

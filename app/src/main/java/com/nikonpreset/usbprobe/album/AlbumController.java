@@ -68,10 +68,11 @@ public final class AlbumController implements AutoCloseable {
     private final AtomicInteger previewGeneration = new AtomicInteger();
     private final Object lifecycle = new Object();
     private final Set<BrowseCompletion> pendingBrowses = new HashSet<>();
-    private volatile PtpIpClient active;
+    private volatile PhotoCameraClient active;
     private volatile boolean closed;
     private volatile boolean transferring;
     private volatile boolean connecting;
+    private volatile String connectionAttemptHost = "";
     private volatile Runnable connectionListener;
     private volatile Runnable lifecycleObserver;
     private volatile ConnectionInfo cachedConnectionInfo;
@@ -235,17 +236,17 @@ public final class AlbumController implements AutoCloseable {
         }
     }
 
-    private static String cameraKey(PtpIpClient client, PtpDeviceInfo info) {
+    private static String cameraKey(PhotoCameraClient client, PtpDeviceInfo info) {
         String id = client.cameraIdentity();
         return (id.isEmpty() || id.matches("0+") ? client.connectedHost() + ":" + client.connectedPort() : id)
                 + "\n" + info.manufacturer() + "\n" + info.model();
     }
-    private static boolean trustedCamera(PtpIpClient client) {
+    private static boolean trustedCamera(PhotoCameraClient client) {
         String id = client.cameraIdentity(); return id.matches("[0-9a-fA-F]{32}") && !id.matches("0+");
     }
 
     private final class LiveRun {
-        final PtpIpClient client; final int generation; final String camera, photoSession;
+        final PhotoCameraClient client; final int generation; final String camera, photoSession;
         final boolean trustedCamera;
         final PhotoLiveProjectSetup setup;
         final LiveStartCompletion start;
@@ -269,10 +270,10 @@ public final class AlbumController implements AutoCloseable {
         int completed, scanCursor, failures; long received, total, lastScan, due;
         String error = ""; LiveCandidate current; Long idleMetadata; PhotoLiveLedger ledger; ScheduledFuture<?> timer;
         String projectId = "", projectName;
-        LiveRun(PtpIpClient client, int generation, String projectName, Callback<Void> callback) {
+        LiveRun(PhotoCameraClient client, int generation, String projectName, Callback<Void> callback) {
             this(client, generation, projectName, null, callback);
         }
-        LiveRun(PtpIpClient client, int generation, String projectName, PhotoLiveProjectSetup setup, Callback<Void> callback) {
+        LiveRun(PhotoCameraClient client, int generation, String projectName, PhotoLiveProjectSetup setup, Callback<Void> callback) {
             this.client = client; this.generation = generation; this.photoSession = session;
             this.projectName = projectName == null ? "" : projectName.trim();
             this.setup = setup; camera = cameraKey(client, deviceInfo); trustedCamera = trustedCamera(client);
@@ -327,6 +328,9 @@ public final class AlbumController implements AutoCloseable {
         if (callback == null) throw new IllegalArgumentException("callback");
         final LiveRun run;
         synchronized (lifecycle) {
+            if (hasLiveSession() && !supportsPhotoLive()) {
+                main.post(() -> callback.onError("富士 X-T20 的无线传输模式暂不支持边拍边传。请先拍摄，再连接下载照片。")); return;
+            }
             if (rawReadReserved.get()) { main.post(() -> callback.onError("RAW 原文件正在处理中，请完成后再开始照片直播。")); return; }
             if (closed || transferring || deletingDownloadedPhotos || !isConnected()) {
                 main.post(() -> callback.onError("请先连接可浏览照片的相机。")); return;
@@ -385,8 +389,11 @@ public final class AlbumController implements AutoCloseable {
     /** User-requested continuation only. A new connection never starts an old project implicitly. */
     public void resumePhotoLive(String projectId, Callback<Void> callback) {
         if (callback == null) throw new IllegalArgumentException("callback");
-        final PtpIpClient owner; final int request;
+        final PhotoCameraClient owner; final int request;
         synchronized (lifecycle) {
+            if (hasLiveSession() && !supportsPhotoLive()) {
+                main.post(() -> callback.onError("富士 X-T20 的无线传输模式暂不支持继续照片直播。请先拍摄，再连接下载照片。")); return;
+            }
             if (rawReadReserved.get()) { main.post(() -> callback.onError("RAW 原文件正在处理中，请完成后再继续照片直播。")); return; }
             if (closed || connecting || transferring || deletingDownloadedPhotos || !isConnected()) {
                 main.post(() -> callback.onError("请先连接可浏览照片的相机。")); return;
@@ -430,7 +437,7 @@ public final class AlbumController implements AutoCloseable {
 
     /** Does not interrupt a framed read. Queued receives stop and any in-flight work drains on the worker. */
     public void stopPhotoLive() { stopPhotoLive(null, ""); }
-    private void stopPhotoLive(PtpIpClient expected, String error) {
+    private void stopPhotoLive(PhotoCameraClient expected, String error) {
         synchronized (lifecycle) {
             if (liveRun == null || expected != null && liveRun.client != expected) return;
             stopLiveRun(liveRun, error);
@@ -1067,43 +1074,78 @@ public final class AlbumController implements AutoCloseable {
     }
 
     public void connect(String host, int port, Callback<ConnectionInfo> callback) {
-        connect(host, port, callback, true);
+        connect(host, port, CameraProtocol.NIKON, callback, true);
+    }
+
+    public void connect(String host, int port, CameraProtocol protocol, Callback<ConnectionInfo> callback) {
+        connect(host, port, protocol, callback, true);
     }
 
     /** Opens a camera session without requiring photo storage or Picture Control capabilities. */
     public void connectCamera(String host, int port, Callback<ConnectionInfo> callback) {
-        connect(host, port, callback, false);
+        connect(host, port, CameraProtocol.NIKON, callback, false);
     }
 
-    private void connect(String host, int port, Callback<ConnectionInfo> callback, boolean browse) {
+    public void connectCamera(String host, int port, CameraProtocol protocol, Callback<ConnectionInfo> callback) {
+        connect(host, port, protocol, callback, false);
+    }
+
+    /** Call after the user's specific camera Wi-Fi request succeeds. Never guesses a subnet address. */
+    public void connectCameraViaGateway(int port, CameraProtocol protocol, Callback<ConnectionInfo> callback) {
+        if (protocol != CameraProtocol.FUJIFILM_X_T20) throw new IllegalArgumentException("Gateway mode is for Fujifilm photos");
+        connect("", port, protocol, callback, false, true);
+    }
+
+    public String connectionAttemptHost() { return connectionAttemptHost; }
+
+    private void connect(String host, int port, CameraProtocol protocol, Callback<ConnectionInfo> callback, boolean browse) {
+        connect(host, port, protocol, callback, browse, false);
+    }
+
+    private void connect(String host, int port, CameraProtocol protocol, Callback<ConnectionInfo> callback, boolean browse, boolean fromGateway) {
         if (callback == null) throw new IllegalArgumentException("callback");
+        if (protocol == null) throw new IllegalArgumentException("protocol");
         disconnect();
         final int connectionGeneration = generation.get();
         synchronized (lifecycle) {
             if (closed) { main.post(() -> callback.onError("相册已关闭，未开始连接。")); return; }
-            connecting = true;
+            connecting = true; connectionAttemptHost = "";
         }
         notifyStateChanged();
         submit(connectionGeneration, callback, () -> {
             try {
-            PtpIpClient client = new PtpIpClient(wifi.connector(host.trim(), port));
+            String address = fromGateway ? resolveCameraGateway(connectionGeneration) : host.trim();
+            synchronized (lifecycle) {
+                if (closed || connectionGeneration != generation.get()) throw new IOException("无线连接已取消。");
+                connectionAttemptHost = address;
+            }
+            PhotoCameraClient client = protocol == CameraProtocol.FUJIFILM_X_T20
+                    ? new FujifilmPhotoClient(wifi.fujifilmPhotoConnector(address, port))
+                    : new PtpIpClient(wifi.connector(address, port));
             observeClient(client, connectionGeneration);
             synchronized (lifecycle) {
                 if (closed || connectionGeneration != generation.get()) { client.close(); throw new IOException("无线连接已取消。"); }
                 active = client;
             }
             try {
-                byte[] info = client.connect(host.trim(), port, wifi.clientGuid(), "Preset Album");
-                if (browse) return readConnectionSnapshot(client, host.trim(), port, info, connectionGeneration, false);
+                byte[] info = client.connect(address, port, wifi.clientGuid(), "Preset Album");
+                if (browse) return readConnectionSnapshot(client, address, port, info, connectionGeneration, false);
                 PtpDeviceInfo parsed = readCameraIdentity(client, info, connectionGeneration);
-                ConnectionInfo connected = new ConnectionInfo(parsed.model(), host.trim(), port, 0);
+                ConnectionInfo connected = new ConnectionInfo(parsed.model(), address, port, 0, protocol);
                 synchronized (lifecycle) {
                     requireCurrentSession(client, connectionGeneration);
                     handles = new long[0]; session = "";
                     cachedConnectionInfo = null; sessionConnectionInfo = connected; browseError = "";
                 }
                 return connected;
-            } catch (Exception error) { client.close(); throw error; }
+            } catch (Exception error) {
+                client.close();
+                if (error instanceof java.net.ConnectException) throw new IOException("相机地址 " + address + ":" + port
+                        + " 的网络连接被拒绝。请保持相机“无线通信”界面开启，确认连接的是相机热点，并关闭 Camera Remote 等其他相机应用。", error);
+                if (error instanceof java.net.SocketTimeoutException) throw new IOException("连接相机 " + address + ":" + port
+                        + " 超时。请检查相机是否仍在无线通信中，以及相机上是否有待确认的连接请求。", error);
+                throw error;
+            }
             } finally {
                 synchronized (lifecycle) {
                     if (connectionGeneration == generation.get()) connecting = false;
@@ -1113,17 +1155,46 @@ public final class AlbumController implements AutoCloseable {
         });
     }
 
+    private String resolveCameraGateway(int request) throws IOException {
+        // onAvailable may precede usable LinkProperties. Wait briefly on the camera worker,
+        // with generation checks, without ever opening a socket to a saved/default endpoint.
+        long deadline = System.nanoTime() + 3_000_000_000L;
+        do {
+            synchronized (lifecycle) {
+                if (closed || request != generation.get()) throw new IOException("无线连接已取消。");
+            }
+            String gateway = wifi.selectedCameraGateway();
+            if (!gateway.isEmpty()) return gateway;
+            try { Thread.sleep(100); }
+            catch (InterruptedException cancelled) { Thread.currentThread().interrupt(); throw new IOException("无线连接已取消。", cancelled); }
+        } while (System.nanoTime() < deadline);
+        throw new IOException("所选相机 Wi-Fi 尚未提供可用的 IPv4 网关，未尝试连接旧地址。请等待热点连接完成后重试，或关闭自动识别并填写相机的网关地址；不要填写手机自身的 IPv4 地址。");
+    }
+
     public boolean isConnected() {
-        PtpIpClient client = active;
+        PhotoCameraClient client = active;
         return !closed && !connecting && !transferring && cachedConnectionInfo != null && client != null && client.isOpen();
     }
     public boolean isConnecting() { return !closed && connecting; }
 
     /** A claimed camera session may stay live even when its photo inventory is unavailable. */
     public boolean hasLiveSession() {
-        PtpIpClient client = active;
+        PhotoCameraClient client = active;
         return !closed && !transferring && sessionConnectionInfo != null && client != null
                 && client.isOpen() && !client.isProtocolUnconfirmed();
+    }
+
+    /** Session capabilities are available without an additional camera request. */
+    public boolean supportsPhotoLive() {
+        return hasLiveSession() && cameraProtocol(active).supportsPhotoLive;
+    }
+
+    public boolean supportsPictureControl() {
+        return hasLiveSession() && active instanceof PtpIpClient && cameraProtocol(active).supportsPictureControl;
+    }
+
+    private static CameraProtocol cameraProtocol(PhotoCameraClient client) {
+        return client instanceof PtpIpClient ? CameraProtocol.NIKON : CameraProtocol.FUJIFILM_X_T20;
     }
 
     public ConnectionInfo sessionConnectionInfo() { return hasLiveSession() ? sessionConnectionInfo : null; }
@@ -1159,7 +1230,7 @@ public final class AlbumController implements AutoCloseable {
     public void retryBrowse(Callback<ConnectionInfo> callback) {
         if (callback == null) throw new IllegalArgumentException("callback");
         stopPhotoLive();
-        final PtpIpClient client;
+        final PhotoCameraClient client;
         final ConnectionInfo held;
         final int request;
         synchronized (lifecycle) {
@@ -1176,7 +1247,7 @@ public final class AlbumController implements AutoCloseable {
         queueExistingSessionBrowse(client, held.host(), held.port(), request, false, callback);
     }
 
-    private void queueExistingSessionBrowse(PtpIpClient client, String host, int port, int request,
+    private void queueExistingSessionBrowse(PhotoCameraClient client, String host, int port, int request,
                                            boolean claim, Callback<ConnectionInfo> callback) {
         BrowseCompletion completion = new BrowseCompletion(client, request, callback);
         synchronized (lifecycle) {
@@ -1192,10 +1263,13 @@ public final class AlbumController implements AutoCloseable {
             Exception failure = null;
             try {
                 synchronized (lifecycle) { requireCurrentSession(client, request); }
-                if (claim) client.claimTransferredAlbumSession();
+                if (claim) {
+                    if (!(client instanceof PtpIpClient)) throw new IOException("相册移交不支持此相机协议。");
+                    ((PtpIpClient) client).claimTransferredAlbumSession();
+                }
                 synchronized (lifecycle) {
                     requireCurrentSession(client, request);
-                    if (sessionConnectionInfo == null) sessionConnectionInfo = new ConnectionInfo("", host, port, 0);
+                    if (sessionConnectionInfo == null) sessionConnectionInfo = new ConnectionInfo("", host, port, 0, cameraProtocol(client));
                 }
                 handles = new long[0]; session = ""; deviceInfo = null;
                 connected = readConnectionSnapshot(client, host, port, client.readAlbumDeviceInfo(), request, true);
@@ -1232,11 +1306,11 @@ public final class AlbumController implements AutoCloseable {
 
     /** Completion survives shutdownNow discarding a queued task and is delivered exactly once. */
     private final class BrowseCompletion {
-        private final PtpIpClient client;
+        private final PhotoCameraClient client;
         private final int request;
         private final Callback<ConnectionInfo> callback;
         private final AtomicBoolean completed = new AtomicBoolean();
-        BrowseCompletion(PtpIpClient client, int request, Callback<ConnectionInfo> callback) {
+        BrowseCompletion(PhotoCameraClient client, int request, Callback<ConnectionInfo> callback) {
             this.client = client; this.request = request; this.callback = callback;
         }
         void complete(ConnectionInfo result, Exception error) {
@@ -1251,12 +1325,12 @@ public final class AlbumController implements AutoCloseable {
         }
     }
 
-    private ConnectionInfo readConnectionSnapshot(PtpIpClient client, String host, int port, byte[] info,
+    private ConnectionInfo readConnectionSnapshot(PhotoCameraClient client, String host, int port, byte[] info,
                                                    int request, boolean preserveSession) throws IOException {
         PtpDeviceInfo parsed = readCameraIdentity(client, info, request);
         synchronized (lifecycle) {
             requireCurrentSession(client, request);
-            if (preserveSession) sessionConnectionInfo = new ConnectionInfo(parsed.model(), host, port, 0);
+            if (preserveSession) sessionConnectionInfo = new ConnectionInfo(parsed.model(), host, port, 0, cameraProtocol(client));
         }
         for (int op : new int[] {0x1004, 0x1007, 0x1008, 0x1009}) if (!parsed.supportsOperation(op)) {
             throw new BrowseUnavailableException("相机未提供当前相册需要的照片读取能力。");
@@ -1284,7 +1358,7 @@ public final class AlbumController implements AutoCloseable {
         }
         long[] observedHandles = new long[collected.size()]; int i = 0;
         for (long handle : collected) observedHandles[i++] = handle;
-        ConnectionInfo connected = new ConnectionInfo(parsed.model(), host, port, observedHandles.length);
+        ConnectionInfo connected = new ConnectionInfo(parsed.model(), host, port, observedHandles.length, cameraProtocol(client));
         synchronized (lifecycle) {
             requireCurrentSession(client, request);
             handles = observedHandles; session = UUID.randomUUID().toString();
@@ -1293,11 +1367,9 @@ public final class AlbumController implements AutoCloseable {
         return connected;
     }
 
-    private PtpDeviceInfo readCameraIdentity(PtpIpClient client, byte[] info, int request) throws IOException {
+    private PtpDeviceInfo readCameraIdentity(PhotoCameraClient client, byte[] info, int request) throws IOException {
         PtpDeviceInfo parsed = PtpDeviceInfo.parseRedacted(info);
-        if (!parsed.manufacturer().toLowerCase(Locale.ROOT).contains("nikon")) {
-            throw new IOException("这不是已支持的尼康无线相机。");
-        }
+        validateCameraIdentity(client, parsed);
         synchronized (lifecycle) {
             requireCurrentSession(client, request);
             deviceInfo = parsed; largeThumbnailUnavailable = false;
@@ -1305,13 +1377,24 @@ public final class AlbumController implements AutoCloseable {
         return parsed;
     }
 
-    private void requireCurrentSession(PtpIpClient client, int request) throws IOException {
+    private static void validateCameraIdentity(PhotoCameraClient client, PtpDeviceInfo parsed) throws IOException {
+        if (cameraProtocol(client) == CameraProtocol.FUJIFILM_X_T20) {
+            if (!"FUJIFILM".equalsIgnoreCase(parsed.manufacturer().trim())
+                    || !"X-T20".equalsIgnoreCase(parsed.model().trim())) {
+                throw new IOException("富士照片连接当前仅支持 FUJIFILM X-T20，请检查所选相机机型。");
+            }
+        } else if (!parsed.manufacturer().toLowerCase(Locale.ROOT).contains("nikon")) {
+            throw new IOException("这不是已支持的尼康无线相机。");
+        }
+    }
+
+    private void requireCurrentSession(PhotoCameraClient client, int request) throws IOException {
         if (closed || request != generation.get() || active != client || !client.isOpen() || client.isProtocolUnconfirmed()) {
             throw new IOException("无线连接已取消或相机已断开。");
         }
     }
 
-    private void observeClient(PtpIpClient client, int request) {
+    private void observeClient(PhotoCameraClient client, int request) {
         client.setOnClosed(() -> deliver(request, () -> {
             if (active == client) {
                 stopPhotoLive(client, "相机连接已断开，照片直播已停止。");
@@ -1347,24 +1430,23 @@ public final class AlbumController implements AutoCloseable {
         try {
             worker.execute(() -> {
                 Exception failure = null;
-                PtpIpClient operationClient = null;
+                PhotoCameraClient operationClient = null;
                 try {
                     if (closed || transferring || request != generation.get()) {
                         throw new IOException("相册连接已切换，未发送保活请求。");
                     }
-                    PtpIpClient client = requireClient();
+                    PhotoCameraClient client = requireClient();
                     operationClient = client;
                     if (!hasLiveSession()) {
                         throw new IOException("相册会话尚未接管，未发送保活请求。");
                     }
-                    if (cachedConnectionInfo != null && deviceInfo != null && deviceInfo.supportsOperation(0x1004)) {
+                    if (client instanceof PtpIpClient && cachedConnectionInfo != null && deviceInfo != null
+                            && deviceInfo.supportsOperation(0x1004)) {
                         long[] storages = PtpStorageIds.parse(client.getData(0x1004, 4096));
                         if (storages.length > 64) throw new IOException("相机存储空间数量超过浏览上限。");
                     } else {
                         PtpDeviceInfo observed = PtpDeviceInfo.parseRedacted(client.readAlbumDeviceInfo());
-                        if (!observed.manufacturer().toLowerCase(Locale.ROOT).contains("nikon")) {
-                            throw new IOException("相机身份已改变，已停止保活。");
-                        }
+                        validateCameraIdentity(client, observed);
                     }
                 } catch (Exception error) {
                     failure = error;
@@ -1398,14 +1480,17 @@ public final class AlbumController implements AutoCloseable {
     public void transferForPictureControl(Callback<PtpIpClient> callback) {
         if (callback == null) throw new IllegalArgumentException("callback");
         if (rawReadReserved.get()) { main.post(() -> { if (!closed) callback.onError("RAW 原文件正在处理中，请完成后再导入预设；相机连接会继续保留。"); }); return; }
-        stopPhotoLive();
         final int request;
         synchronized (lifecycle) {
+            if (active != null && !(active instanceof PtpIpClient)) {
+                main.post(() -> callback.onError("富士 X-T20 仅支持照片下载，不能导入尼康预设；相机连接保持。")); return;
+            }
             if (rawReadReserved.get()) { main.post(() -> callback.onError("RAW 原文件正在处理中，请完成后再导入预设；相机连接会继续保留。")); return; }
             if (closed || connecting || transferring || !hasLiveSession()) {
                 main.post(() -> callback.onError("当前相册连接不可移交，请重新连接相机。"));
                 return;
             }
+            stopPhotoLive();
             transferring = true;
             previewGeneration.incrementAndGet();
             request = generation.incrementAndGet();
@@ -1417,9 +1502,10 @@ public final class AlbumController implements AutoCloseable {
                 try {
                     synchronized (lifecycle) {
                         if (closed || request != generation.get()) return;
-                        PtpIpClient source = active;
+                        PhotoCameraClient source = active;
                         if (source == null || !source.isOpen()) throw new IOException("相册连接已断开，未重新连接。");
-                        transferred = source.transferToPictureControl();
+                        if (!(source instanceof PtpIpClient)) throw new IOException("富士 X-T20 仅支持照片下载，不能导入尼康预设。");
+                        transferred = ((PtpIpClient) source).transferToPictureControl();
                         active = null;
                         cachedConnectionInfo = null; sessionConnectionInfo = null; browseError = "";
                         handles = new long[0]; session = ""; deviceInfo = null;
@@ -1487,11 +1573,14 @@ public final class AlbumController implements AutoCloseable {
         final int browseRequest = browseGeneration.get();
         submit(callback, () -> {
             requireBrowseRequest(browseRequest);
-            PtpIpClient client = requireClient();
+            PhotoCameraClient client = requireClient();
             if (offset < 0 || offset > handles.length || limit < 1 || limit > 60) throw new IOException("照片分页参数无效。");
             List<PhotoItem> photos = new ArrayList<>();
             int cursor = offset, scanned = 0;
-            while (cursor < handles.length && photos.size() < limit && scanned++ < 300) {
+            int scanLimit = cameraProtocol(client) == CameraProtocol.FUJIFILM_X_T20 ? Math.max(limit, 12) : 300;
+            client.beginPhotoPage();
+            try {
+            while (cursor < handles.length && photos.size() < limit && scanned++ < scanLimit) {
                 requireBrowseRequest(browseRequest);
                 if (requestedGeneration != generation.get()) throw new IOException("照片读取已交还相机连接。");
                 long handle = handles[cursor++];
@@ -1503,6 +1592,7 @@ public final class AlbumController implements AutoCloseable {
             }
             requireBrowseRequest(browseRequest);
             return new PhotoPage(photos, cursor, handles.length);
+            } finally { client.endPhotoPage(); }
         });
     }
 
@@ -1522,7 +1612,7 @@ public final class AlbumController implements AutoCloseable {
         submitRaw(request, callback, () -> {
             requireRawIdle(); requireBrowseRequest(browseRequest);
             if (offset < 0 || limit < 1 || limit > 60) throw new IOException("RAW 分页参数无效。");
-            PtpIpClient client = requireClient();
+            PhotoCameraClient client = requireClient();
             ensureRawInventory(client, request, offset == 0);
             if (offset > rawHandles.length) throw new IOException("RAW 列表已变化，请重新读取。");
             List<PhotoItem> items = new ArrayList<>(); int cursor = offset, scanned = 0;
@@ -1541,7 +1631,7 @@ public final class AlbumController implements AutoCloseable {
         final int request = generation.get();
         submitRaw(request, callback, () -> {
             requireRawIdle();
-            PtpIpClient client = requirePhoto(raw);
+            PhotoCameraClient client = requirePhoto(raw);
             if (!raw.isRaw()) throw new IOException("请选择相机 RAW 列表中的 NEF 原文件。");
             return prepareRaw(client, raw, null, "", request, callback);
         });
@@ -1551,7 +1641,7 @@ public final class AlbumController implements AutoCloseable {
     public void downloadRawForJpeg(PhotoItem jpeg, RawDownloadCallback callback) {
         final int request = generation.get();
         submitRaw(request, callback, () -> {
-            requireRawIdle(); PtpIpClient client = requirePhoto(jpeg);
+            requireRawIdle(); PhotoCameraClient client = requirePhoto(jpeg);
             if (jpeg.format() != PhotoFormat.JPEG) throw new IOException("请选择相机中的 JPG 照片，或在 RAW 列表明确选择 NEF。");
             verifyDownloadDescriptor(client, jpeg);
             String source = rawSourceIdentity(client, jpeg);
@@ -1573,7 +1663,7 @@ public final class AlbumController implements AutoCloseable {
                 RawPhotoDownload saved = rawStore().find(reference.sourceIdentity);
                 if (saved != null) { deliver(request, () -> callback.onProgress(saved.byteSize(), saved.byteSize())); return saved; }
                 throw new RawContinuation(false, () -> {
-                    requireRawIdle(); PtpIpClient client = requireClient();
+                    requireRawIdle(); PhotoCameraClient client = requireClient();
                     if (!trustedCamera(client) || !reference.camera.equals(cameraKey(client, deviceInfo)))
                         throw new IOException("请连接拍摄这张照片的原相机，或在 RAW 文件列表明确选择 NEF 原文件。");
                     PhotoItem jpeg = new PhotoItem(session, reference.handle, reference.info);
@@ -1583,7 +1673,7 @@ public final class AlbumController implements AutoCloseable {
         });
     }
 
-    private RawPhotoDownload discoverRawForJpeg(PtpIpClient client, PhotoItem jpeg, String source, int request, RawDownloadCallback callback) throws Exception {
+    private RawPhotoDownload discoverRawForJpeg(PhotoCameraClient client, PhotoItem jpeg, String source, int request, RawDownloadCallback callback) throws Exception {
             requireRawCurrent(client, request); verifyDownloadDescriptor(client, jpeg);
             deliver(request, () -> callback.onStage("discovery"));
             ensureRawInventory(client, request, true);
@@ -1614,7 +1704,7 @@ public final class AlbumController implements AutoCloseable {
         submitRawLocal(callback, () -> new RawPhotoPublisher(context).publish(photo));
     }
 
-    private RawPhotoDownload prepareRaw(PtpIpClient client, PhotoItem raw, PhotoItem jpeg, String alias, int request, RawDownloadCallback callback) throws Exception {
+    private RawPhotoDownload prepareRaw(PhotoCameraClient client, PhotoItem raw, PhotoItem jpeg, String alias, int request, RawDownloadCallback callback) throws Exception {
             requireRawCurrent(client, request); verifyDownloadDescriptor(client, raw);
             if (raw.byteSize() < 32 || raw.byteSize() > MAX_PHOTO_BYTES) throw new IOException("NEF 原文件大小无效，本版最多下载 512 MB。");
             String identity = rawSourceIdentity(client, raw); RawPhotoStore store = rawStore();
@@ -1627,7 +1717,7 @@ public final class AlbumController implements AutoCloseable {
                 throw new RawContinuation(false, () -> receiveRaw(client, raw, jpeg, alias, identity, store, request, callback), null);
             }, null);
     }
-    private RawPhotoDownload receiveRaw(PtpIpClient client, PhotoItem raw, PhotoItem jpeg, String alias, String identity,
+    private RawPhotoDownload receiveRaw(PhotoCameraClient client, PhotoItem raw, PhotoItem jpeg, String alias, String identity,
                                        RawPhotoStore store, int request, RawDownloadCallback callback) throws Exception {
             requireRawCurrent(client, request); verifyDownloadDescriptor(client, raw);
             if (jpeg != null) verifyDownloadDescriptor(client, jpeg);
@@ -1662,7 +1752,7 @@ public final class AlbumController implements AutoCloseable {
             } finally { if (!deferred) cleanup.run(); }
     }
 
-    private void ensureRawInventory(PtpIpClient client, int request, boolean refresh) throws IOException {
+    private void ensureRawInventory(PhotoCameraClient client, int request, boolean refresh) throws IOException {
         requireRawCurrent(client, request);
         if (!refresh && rawSnapshotSession.equals(session)) return;
         long[] storages = PtpStorageIds.parse(client.getData(0x1004, 4096));
@@ -1681,13 +1771,13 @@ public final class AlbumController implements AutoCloseable {
         for (long handle : all) rawHandles[i++] = handle;
         rawMetadata.clear(); rawSnapshotSession = session; rawInventoryComplete = complete;
     }
-    private PtpObjectInfo rawInfo(PtpIpClient client, long handle) throws IOException {
+    private PtpObjectInfo rawInfo(PhotoCameraClient client, long handle) throws IOException {
         PtpObjectInfo known = rawMetadata.get(handle); if (known != null) return known;
         try {
             PtpObjectInfo info = PtpObjectInfo.parse(client.getData(0x1008, 65536, handle)); rawMetadata.put(handle, info); return info;
         } catch (PtpResponseException missing) { if (missing.responseCode() == 0x2009) { rawInventoryComplete = false; return null; } throw missing; }
     }
-    private String rawSourceIdentity(PtpIpClient client, PhotoItem photo) {
+    private String rawSourceIdentity(PhotoCameraClient client, PhotoItem photo) {
         String camera = cameraKey(client, deviceInfo);
         if (!trustedCamera(client)) camera += "\n" + session;
         return PhotoLiveLedger.identity(camera, photo.handle(), photo.objectInfo());
@@ -1699,7 +1789,7 @@ public final class AlbumController implements AutoCloseable {
             if (connecting || deletingDownloadedPhotos) throw new IOException("照片任务正在处理中，请完成后再读取 RAW。");
         }
     }
-    private void requireRawCurrent(PtpIpClient client, int request) throws IOException {
+    private void requireRawCurrent(PhotoCameraClient client, int request) throws IOException {
         if (closed || generation.get() != request || active != client || !client.isOpen()) throw new IOException("RAW 读取已停止，请检查相机连接后重试。");
     }
     private synchronized RawPhotoStore rawStore() throws IOException {
@@ -1812,7 +1902,7 @@ public final class AlbumController implements AutoCloseable {
             try (PhotoLocalTasks.Lease ignored = PhotoLocalTasks.use()) {
             if (photo == null) throw new IOException("照片信息无效，请刷新相机照片列表。");
             if (photo.byteSize() > MAX_PHOTO_BYTES) throw new IOException("照片超过本版 512 MB 下载上限。");
-            PtpIpClient client = requirePhoto(photo);
+            PhotoCameraClient client = requirePhoto(photo);
             verifyDownloadDescriptor(client, photo);
             final String originalIdentity;
             final String completionIdentity;
@@ -1872,7 +1962,7 @@ public final class AlbumController implements AutoCloseable {
         if (observer != null) try { observer.accept(saved); }
         catch (RuntimeException publicationUnavailable) { /* The completed original remains available for a local gallery retry. */ }
     }
-    private static void verifyDownloadDescriptor(PtpIpClient client, PhotoItem photo) throws IOException {
+    private static void verifyDownloadDescriptor(PhotoCameraClient client, PhotoItem photo) throws IOException {
         PtpObjectInfo current = PtpObjectInfo.parse(client.getData(0x1008, 65536, photo.handle()));
         if (!Arrays.equals(current.toBytes(), photo.objectInfo().toBytes())) throw new IOException("相机上的照片已变化，请刷新列表后重新下载。");
     }
@@ -1899,7 +1989,7 @@ public final class AlbumController implements AutoCloseable {
         List<BrowseCompletion> cancelled;
         synchronized (lifecycle) {
             transferring = false; connecting = false; cachedConnectionInfo = null; sessionConnectionInfo = null; browseError = "";
-            PtpIpClient client = active; active = null; if (client != null) client.close();
+            PhotoCameraClient client = active; active = null; if (client != null) client.close();
             cancelled = new ArrayList<>(pendingBrowses);
         }
         for (BrowseCompletion completion : cancelled) {
@@ -1954,9 +2044,9 @@ public final class AlbumController implements AutoCloseable {
     }
     private void deliver(int request, Runnable callback) { if (!closed) main.post(() -> { if (!closed && request == generation.get()) callback.run(); }); }
     private static void discard(Object result) { if (result instanceof PhotoPreview) ((PhotoPreview) result).close(); }
-    private PtpIpClient requireClient() throws IOException { PtpIpClient c = active; if (c == null || !c.isOpen()) throw new IOException("无线连接已断开，请重新连接相机。"); return c; }
-    private PtpIpClient requirePhoto(PhotoItem photo) throws IOException {
-        PtpIpClient c = requireClient();
+    private PhotoCameraClient requireClient() throws IOException { PhotoCameraClient c = active; if (c == null || !c.isOpen()) throw new IOException("无线连接已断开，请重新连接相机。"); return c; }
+    private PhotoCameraClient requirePhoto(PhotoItem photo) throws IOException {
+        PhotoCameraClient c = requireClient();
         if (photo == null || !session.equals(photo.session)) throw new IOException("照片来自旧的连接，请刷新列表后再操作。");
         return c;
     }
@@ -1972,13 +2062,15 @@ public final class AlbumController implements AutoCloseable {
         return completedOriginals;
     }
     private byte[] readThumbnail(PhotoItem photo) throws IOException {
-        PtpIpClient client = requirePhoto(photo);
+        PhotoCameraClient client = requirePhoto(photo);
         if (!deviceInfo.supportsOperation(0x100a)) {
             throw new IOException("相机未提供缩略图读取能力，可选择下载原图后查看。");
         }
         byte[] jpeg = client.getData(0x100a, MAX_PREVIEW_BYTES, photo.handle());
         if (!completeJpeg(jpeg)) {
-            throw new IOException("相机没有返回完整的 JPEG 缩略图，可选择下载原图后查看。");
+            throw new IOException("相机未返回完整 JPEG 预览（GetThumb / 0x100A，收到 " + jpeg.length + " 字节）。"
+                    + (jpeg.length < 4 ? "返回内容过短。" : (jpeg[0] & 255) != 255 || (jpeg[1] & 255) != 216
+                    ? "缺少 JPEG 开始标记。" : "缺少 JPEG 结束标记。") + "可选择下载原图后查看。");
         }
         return jpeg;
     }
@@ -1989,8 +2081,9 @@ public final class AlbumController implements AutoCloseable {
 
     private CameraThumbnail readBestThumbnail(PhotoItem photo, Integer browseRequest) throws IOException {
         if (browseRequest != null) requireBrowseRequest(browseRequest);
-        PtpIpClient client = requirePhoto(photo);
-        if (deviceInfo.supportsOperation(0x90c4) && !largeThumbnailUnavailable) {
+        PhotoCameraClient client = requirePhoto(photo);
+        if (client instanceof PtpIpClient && deviceInfo.manufacturer().toLowerCase(Locale.ROOT).contains("nikon")
+                && deviceInfo.supportsOperation(0x90c4) && !largeThumbnailUnavailable) {
             try {
                 byte[] large = client.getLargeThumbnail(photo.handle());
                 if (browseRequest != null) requireBrowseRequest(browseRequest);

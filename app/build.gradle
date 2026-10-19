@@ -7,8 +7,8 @@ android {
         applicationId 'com.nikonpreset.usbprobe'
         minSdk 26
         targetSdk 35
-        versionCode 61
-        versionName '0.11.4-beta'
+        versionCode 66
+        versionName '0.12.4-beta'
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17

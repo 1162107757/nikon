@@ -29,6 +29,7 @@ $commonSourcePaths += Join-Path $javaRoot 'usb\UsbPictureControlProbe.java'
 $commonSourcePaths += Join-Path $javaRoot 'usb\PictureControlImportSession.java'
 $commonSourcePaths += Join-Path $javaRoot 'usb\UsbPictureControlImport.java'
 $commonSourcePaths += Join-Path $javaRoot 'usb\WirelessPictureControl.java'
+$commonSourcePaths += Join-Path $javaRoot 'album\PhotoCameraClient.java'
 $commonSourcePaths += Join-Path $javaRoot 'album\PtpIpClient.java'
 $commonSourcePaths += Join-Path $javaRoot 'album\ConnectionTrace.java'
 $commonSourcePaths += @(Get-ChildItem -LiteralPath (Join-Path $javaRoot 'picturecontrol') -Filter '*.java' | ForEach-Object FullName)

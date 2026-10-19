@@ -1,0 +1,67 @@
+Huevia 0.12.3-beta (65) — Fujifilm browsing latency and preview diagnosis
+Date: 2026-10-19, Asia/Shanghai
+
+Package: com.nikonpreset.usbprobe
+APK: dist/nikon-usb-0.12.3-beta-debug.apk
+Bytes: 3376749
+SHA-256: 140485ada8bff1938db4068fe181928c47fa58ae6488f353b1baf29e4323debb
+minSdk26 / targetSdk35
+Android35/JDK17 manual build: PASS
+APK Signature Scheme v2/v3: PASS
+aapt2 versionCode65/versionName0.12.3-beta: PASS
+No publication or physical-phone installation performed.
+
+USER EVIDENCE
+User confirms X-T20 connection succeeds. Screenshot shows camera album with
+24+ entries and no thumbnails. Opening a photo and tapping retry repeatedly
+returns the same placeholder. User confirms there is no specific error text.
+This proves connection and partial list progress, not successful preview or
+original JPEG download. The exact preview error has not yet been captured.
+
+CHANGES
+1. Metadata pages enter/leave correct-size mode once per page, rather than
+   around every ObjectInfo. Nikon uses default no-op page hooks.
+   Synthetic 24-photo metadata workload: 28 operations instead of120.
+2. Fuji UI requests6 photos per page (10 operations for6 JPEG descriptors),
+   queues that page's thumbnails before more metadata, and waits for pending
+   thumbnails before auto-loading the next visible page. Non-JPEG scan bounds
+   remain bounded; camera transactions remain serialized.
+3. Fuji keeps a bounded in-session thumbnail cache:48 entries /8 MiB.
+   Returned arrays are copied. Changed descriptions, descriptor eviction or
+   changed object count invalidate cached data. Download descriptors are
+   still freshly read before and after original download.
+4. Grid distinguishes loading from unavailable. Failed detail preview opens
+   a dialog with the actual error and an explicit retry button. Incomplete
+   JPEG errors include GetThumb0x100A, received bytes, missing start/end or
+   too-short information. Decode failures retain an explanation.
+5. No automatic full-original fallback and no parallel PTP command stream.
+
+VALIDATION RUN THIS ROUND
+tests/run-fuji.ps1: PASS
+  Batch operation count and mode transitions; cache hits, independent copies,
+  48-entry eviction, descriptor/count invalidation; failed-page cleanup;
+  previous mixed scalar widths, invalid lengths, channel errors, identity,
+  framing/transaction limits, short downloads and cancellation checks.
+tests/run-album.ps1: PASS
+  826 production album controller checks
+  28 camera capability controller checks, including page completion/failure/
+     cancellation mode restoration
+  22 gateway connection controller checks
+  356 photo-live project store checks
+  100 photo-live project folder checks
+  Total1332 checks. A stale gateway assertion expected the old generic error;
+  it now checks the actual command channel and target, matching v64 behavior.
+APK compile, signing, version badging and SHA-256: PASS.
+git diff --check: PASS (repository LF/CRLF notices only).
+
+LIMITATIONS
+The command-count improvement is a deterministic synthetic measurement, not
+an X-T20 elapsed-time benchmark. Native Android UI and actual-camera preview
+were not exercised here. The user's preview failure root cause is unknown;
+this build exposes the diagnostic instead of claiming a speculative fix.
+If detail preview still fails, tap '查看原因' and report the actual message.
+No completed real JPEG download, photo-live or RAF capability is claimed.
+Previous APKs and validation records are retained. Unchanged Wi-Fi runtime
+and preference suites were not rerun this round; prior records remain valid
+only for their recorded scope. Existing unrelated USB fixture limitation
+remains documented in the0.12.0 validation record.

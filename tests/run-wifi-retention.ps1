@@ -20,5 +20,7 @@ if ($LASTEXITCODE -ne 0) { throw 'Camera Wi-Fi retention compilation failed.' }
 if ($LASTEXITCODE -ne 0) { throw 'Camera Wi-Fi retention checks failed.' }
 & (Join-Path $JdkHome 'bin\java.exe') -cp $classes com.nikonpreset.usbprobe.album.CameraWifiSocketNetworkTest
 if ($LASTEXITCODE -ne 0) { throw 'Camera Wi-Fi socket target checks failed.' }
+& (Join-Path $JdkHome 'bin\java.exe') -cp $classes com.nikonpreset.usbprobe.album.CameraWifiGatewayTest
+if ($LASTEXITCODE -ne 0) { throw 'Selected camera gateway/self-target checks failed.' }
 & (Join-Path $JdkHome 'bin\java.exe') -cp $classes com.nikonpreset.usbprobe.connection.CameraWifiSessionTest
 if ($LASTEXITCODE -ne 0) { throw 'Specific camera Wi-Fi session checks failed.' }

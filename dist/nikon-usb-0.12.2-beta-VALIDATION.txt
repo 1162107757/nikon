@@ -1,0 +1,71 @@
+Huevia 0.12.2-beta (64) — Fujifilm scalar properties and channel errors
+Date: 2026-10-19, Asia/Shanghai
+
+Package: com.nikonpreset.usbprobe
+APK: dist/nikon-usb-0.12.2-beta-debug.apk
+Bytes: 3376749
+SHA-256: bf68bf77ace21f0c049a68e32efebde7e5ab96a1a8221a3e50e230bdf910edf3
+minSdk26 / targetSdk35
+Android35/JDK17 manual build: PASS
+APK Signature Scheme v2/v3: PASS
+aapt2 versionCode64/versionName0.12.2-beta: PASS
+MIT attribution asset present: PASS
+Previous0.12.1 APK remains b81720f01106fdda8cc3d10e72f3ccbbeeb5247bdd55839aa55b77c0373c6514.
+No publication or physical-phone install performed.
+
+ACTUAL EVIDENCE
+User reports camera confirmation prompt appeared, followed by a screenshot of
+'富士属性长度无效'. In production that message is raised only by property()
+after command ACK identity, OpenSession and event polling have succeeded.
+This is property-negotiation progress; it is NOT full gallery/download success.
+The old message does not expose the exact property or payload width, so the
+user's exact response has not been captured and is not represented as known.
+
+CONFIRMED GAP AND FIX
+The old scalar helper accepted2/4 bytes but omitted1 byte. libpict's actual
+ptp_parse_prop_value supports UINT8/UINT16/UINT32 (1/2/4 bytes).
+New code supports bounded unsigned1-byte scalar values. Zero/3/oversize lengths
+remain failures; errors identify property0xNNNN and observed length when read.
+Malformed framed/oversize data is still rejected by existing transport limits.
+PTP refusal exception types are preserved for the optional-property branch.
+
+Channel connect errors now identify the actual command/event/preview port.
+Auxiliary-port refusal says command handshake completed, instead of having
+AlbumController label all refusals as the configured command port55740.
+Each failure still closes every previously opened channel.
+
+TESTS RUN THIS ROUND
+1. Changed the synthetic camera from all-uint32 responses to mixed widths:
+   DF21 is2 bytes; optional D244 is1 byte(value255); version fields are4 bytes.
+2. Ran the fixture against old production code: FAILED with the same generic
+   '富士属性长度无效' at property()/optionalProperty(), reproducing the omission.
+3. Applied the production fix and reran tests/run-fuji.ps1: PASS.
+   Covers complete mixed-width setup and byte-preserved chunk download,
+   invalid0/3/5-byte DF21 responses (correct property detail and close),
+   refused55740/55741/55742 (actual channel/port and close), identity mismatch,
+   transaction mismatch, oversized packet, short chunk, forbidden delete,
+   cancellation before setup and independent cancellation during download.
+4. APK compile/sign/badging/hash/attribution checks: PASS.
+5. git diff --check: PASS (normal repository LF/CRLF notices only).
+
+LIMITS
+No true-camera packet capture, completed gallery connection, real JPEG download,
+native Android UI or background/lockscreen test this round. Mixed-width fixtures
+prove the parser omission and its correction; they do not prove the user's
+exact failing property was D244 or1 byte. If another property layout fails,
+the next message now contains its code and length rather than a generic error.
+No unchanged gateway/full-album suites claimed rerun; their prior evidence
+remains in the0.12.1 validation record. Existing unrelated USB fixture limitation
+remains in the0.12.0 record.
+
+REFERENCE
+https://github.com/petabyt/libpict/blob/master/src/data.c
+  ptp_parse_prop_value accepts payload lengths1,2,4.
+https://github.com/petabyt/libfuji/blob/master/lib/fuji.c
+  Setup properties are read after session/access confirmation.
+
+RETRY
+Install0.12.2 over the existing app, re-enter X-T20 Wireless Communication,
+connect with automatic address selection, and press OK on the camera when
+the phone/connection confirmation appears. Do not change the IP to the phone's
+own WLAN IPv4 address. Physical X-T20 completion still needs confirmation.

@@ -16,9 +16,8 @@ import java.util.Objects;
 import java.util.Arrays;
 
 /** Bounded PTP/IP initiator with separate album and explicitly requested Picture Control modes. */
-public final class PtpIpClient implements AutoCloseable {
+public final class PtpIpClient implements PhotoCameraClient {
     public interface SocketConnector { Socket connect(String host, int port, int timeoutMs) throws IOException; }
-    public interface Progress { void onProgress(long received, long total); }
     private static final int CONTROL_TIMEOUT = 30000;
     private static final int DOWNLOAD_TIMEOUT = 600000;
     private static final long MAX_DOWNLOAD = 512L * 1024 * 1024;
@@ -277,7 +276,7 @@ public final class PtpIpClient implements AutoCloseable {
     /** Called only for the current read-only owner; callbacks must enqueue work, never perform protocol I/O. */
     public void setOnObjectAdded(java.util.function.LongConsumer listener) { onObjectAdded = listener; }
 
-    String cameraIdentity() { return cameraIdentity; }
+    public String cameraIdentity() { return cameraIdentity; }
 
     /** Fresh album capability discovery in the already opened and claimed session. */
     public synchronized byte[] readAlbumDeviceInfo() throws IOException {

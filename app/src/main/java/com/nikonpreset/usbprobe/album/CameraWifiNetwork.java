@@ -3,6 +3,7 @@ package com.nikonpreset.usbprobe.album;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.LinkProperties;
+import android.net.LinkAddress;
 import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.net.RouteInfo;
@@ -76,6 +77,58 @@ public final class CameraWifiNetwork {
 
     /** A suggested gateway, never proof that the connected network belongs to a camera. */
     public String suggestHost() {
+        final boolean held;
+        final long revision;
+        synchronized (CameraWifiNetwork.class) {
+            held = routeOwner != null; revision = routeRevision;
+        }
+        if (held) return selectedCameraGateway();
+        String suggestion = unownedSuggestedHost();
+        synchronized (CameraWifiNetwork.class) {
+            // A request created during lookup must not inherit another network's gateway.
+            return routeOwner == null && routeRevision == revision ? suggestion : "";
+        }
+    }
+
+    /** Only the currently requested camera Wi-Fi may supply an automatic target address. */
+    public String selectedCameraGateway() {
+        final Network selected;
+        final long revision;
+        synchronized (CameraWifiNetwork.class) {
+            if (routeOwner == null || requestedNetwork == null) return "";
+            selected = requestedNetwork; revision = routeRevision;
+        }
+        final String address;
+        try {
+            if (!isWifi(selected)) return "";
+            address = uniqueIpv4Gateway(selected);
+        } catch (SecurityException unavailable) { return ""; }
+        synchronized (CameraWifiNetwork.class) {
+            return routeOwner != null && requestedNetwork == selected && routeRevision == revision ? address : "";
+        }
+    }
+
+    /** Checks only the owned camera route; an unrelated Wi-Fi never identifies this address. */
+    public boolean isSelectedCameraLocalAddress(String host) {
+        final InetAddress address;
+        try { address = numericIpv4(host); } catch (IOException invalid) { return false; }
+        final Network selected;
+        final long revision;
+        synchronized (CameraWifiNetwork.class) {
+            if (routeOwner == null || requestedNetwork == null) return false;
+            selected = requestedNetwork; revision = routeRevision;
+        }
+        final boolean local;
+        try {
+            if (!isWifi(selected)) return false;
+            local = localIpv4Address(connectivity.getLinkProperties(selected), address);
+        } catch (SecurityException unavailable) { return false; }
+        synchronized (CameraWifiNetwork.class) {
+            return routeOwner != null && requestedNetwork == selected && routeRevision == revision && local;
+        }
+    }
+
+    private String unownedSuggestedHost() {
         try {
             Network active = connectivity == null ? null : connectivity.getActiveNetwork();
             if (isWifi(active)) { String address = gateway(active); if (!address.isEmpty()) return address; }
@@ -86,8 +139,54 @@ public final class CameraWifiNetwork {
         return "";
     }
 
+    private String uniqueIpv4Gateway(Network network) {
+        return uniqueIpv4Gateway(connectivity.getLinkProperties(network));
+    }
+
+    private String uniqueIpv4Gateway(LinkProperties properties) {
+        if (properties == null) return "";
+        String selected = "";
+        for (RouteInfo route : properties.getRoutes()) {
+            InetAddress address = route.getGateway();
+            if (!route.isDefaultRoute() || !(address instanceof Inet4Address)) continue;
+            final String candidate;
+            try { candidate = numericIpv4(address.getHostAddress()).getHostAddress(); }
+            catch (IOException invalid) { continue; }
+            if (!selected.isEmpty() && !selected.equals(candidate)) return "";
+            selected = candidate;
+        }
+        return selected;
+    }
+
+    private static boolean localIpv4Address(LinkProperties properties, InetAddress address) {
+        if (properties == null) return false;
+        for (LinkAddress local : properties.getLinkAddresses()) {
+            if (local.getAddress() instanceof Inet4Address && local.getAddress().equals(address)) return true;
+        }
+        return false;
+    }
+
+    private void rejectLocalTarget(Network network, InetAddress address) throws IOException {
+        final LinkProperties properties;
+        try { properties = connectivity.getLinkProperties(network); }
+        catch (SecurityException unavailable) { return; }
+        if (!localIpv4Address(properties, address)) return;
+        String gateway = uniqueIpv4Gateway(properties);
+        throw new IOException("这是手机在所选 Wi-Fi 下的 IP，不是相机地址；请使用相机热点网关"
+                + (gateway.isEmpty() ? "，或核对相机无线通信页面显示的地址。" : " " + gateway + "。"));
+    }
+
     /** Both PTP/IP channels stay on this Wi-Fi even when Android prefers mobile data. */
     public PtpIpClient.SocketConnector connector(String host, int port) throws IOException {
+        return connector(host, port, false);
+    }
+
+    /** Fuji's command, event and preview sockets share one explicitly selected Wi-Fi. */
+    public PtpIpClient.SocketConnector fujifilmPhotoConnector(String host, int commandPort) throws IOException {
+        return connector(host, commandPort, true);
+    }
+
+    private PtpIpClient.SocketConnector connector(String host, int port, boolean fujiPhotoChannels) throws IOException {
         InetAddress address = numericIpv4(host);
         if (port < 1 || port > 65535) throw new IOException("相机端口应为 1–65535。");
         final Network network;
@@ -100,13 +199,19 @@ public final class CameraWifiNetwork {
             revision = routeRevision;
         }
         return (requestedHost, requestedPort, timeout) -> {
-            if (!host.trim().equals(requestedHost) || requestedPort != port) throw new IOException("无线连接地址发生变化，请重新连接。");
+            boolean allowedPort = requestedPort == port
+                    || fujiPhotoChannels && (requestedPort == 55741 || requestedPort == 55742);
+            if (!host.trim().equals(requestedHost) || !allowedPort) throw new IOException("无线连接地址发生变化，请重新连接。");
+            synchronized (CameraWifiNetwork.class) {
+                if (revision != routeRevision) throw new IOException("相机 Wi-Fi 连接已切换，已取消旧连接。");
+            }
+            rejectLocalTarget(network, address);
             synchronized (CameraWifiNetwork.class) {
                 if (revision != routeRevision) throw new IOException("相机 Wi-Fi 连接已切换，已取消旧连接。");
             }
             Socket socket = network.getSocketFactory().createSocket();
             try {
-                socket.connect(new InetSocketAddress(address, port), timeout);
+                socket.connect(new InetSocketAddress(address, requestedPort), timeout);
                 synchronized (CameraWifiNetwork.class) {
                     if (revision != routeRevision) throw new IOException("相机 Wi-Fi 连接已切换，已取消旧连接。");
                     rememberSocket(socket, network);

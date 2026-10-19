@@ -21,6 +21,7 @@ $sourcePaths += @(Get-ChildItem -LiteralPath (Join-Path $projectRoot 'app\src\ma
 $sourcePaths += Join-Path $projectRoot 'app\src\main\java\com\nikonpreset\usbprobe\usb\NcpTransferSession.java'
 $sourcePaths += Join-Path $projectRoot 'app\src\main\java\com\nikonpreset\usbprobe\usb\StorageAssessment.java'
 $sourcePaths += Join-Path $projectRoot 'app\src\main\java\com\nikonpreset\usbprobe\usb\PtpDirectorySurvey.java'
+$sourcePaths += Join-Path $projectRoot 'app\src\main\java\com\nikonpreset\usbprobe\album\PhotoCameraClient.java'
 $sourcePaths += Join-Path $projectRoot 'app\src\main\java\com\nikonpreset\usbprobe\album\PtpIpClient.java'
 $sourcePaths += Join-Path $projectRoot 'app\src\main\java\com\nikonpreset\usbprobe\album\ConnectionTrace.java'
 $sourcePaths += Join-Path $projectRoot 'app\src\main\java\com\nikonpreset\usbprobe\album\PhotoItem.java'
@@ -63,6 +64,8 @@ if ($LASTEXITCODE -ne 0) { throw 'Album pagination tests failed' }
 if ($LASTEXITCODE -ne 0) { throw 'Photo swipe gesture tests failed' }
 & $runtimePath -cp $classesDirectory com.nikonpreset.usbprobe.ui.PhotoPagerMotionTest
 if ($LASTEXITCODE -ne 0) { throw 'Photo pager motion tests failed' }
+& (Join-Path $PSScriptRoot 'run-fuji.ps1') -JdkHome $JdkHome
+& (Join-Path $PSScriptRoot 'run-connection-preferences.ps1') -JdkHome $JdkHome
 & (Join-Path $PSScriptRoot 'run-album.ps1') -JdkHome $JdkHome
 & (Join-Path $PSScriptRoot 'run-gallery.ps1') -JdkHome $JdkHome
 & (Join-Path $PSScriptRoot 'run-photo-presets.ps1') -JdkHome $JdkHome

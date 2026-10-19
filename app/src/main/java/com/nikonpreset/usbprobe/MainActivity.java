@@ -60,6 +60,7 @@ import com.nikonpreset.usbprobe.album.ConnectionTrace;
 import com.nikonpreset.usbprobe.connection.CameraWifiSession;
 import com.nikonpreset.usbprobe.connection.CameraConnectionRuntime;
 import com.nikonpreset.usbprobe.connection.CameraConnectionPreferences;
+import com.nikonpreset.usbprobe.album.CameraProtocol;
 import com.nikonpreset.usbprobe.connection.PhotoLiveContinuation;
 import com.nikonpreset.usbprobe.connection.ConnectionProtection;
 import com.nikonpreset.usbprobe.library.OnlinePresetRepository;
@@ -414,8 +415,9 @@ public final class MainActivity extends Activity {
                 livePreparationRequested = livePreparationPrompted = false;
                 CameraConnectionRuntime.HeldConnection existing = connections.held();
                 String host = album.getConfiguredHost(); int port = album.getConfiguredPort();
-                boolean samePreset = existing != null && existing.owner.isPrepared() && existing.host.equals(host) && existing.port == port;
-                boolean sameAlbum = album.hasCameraConnection() && album.connectionHost().equals(host) && album.connectionPort() == port;
+                boolean samePreset = album.configuredProtocol() == CameraProtocol.NIKON && existing != null && existing.owner.isPrepared() && existing.host.equals(host) && existing.port == port;
+                boolean sameAlbum = album.hasCameraConnection() && album.configuredProtocol() == album.connectionProtocol()
+                        && album.connectionHost().equals(host) && album.connectionPort() == port;
                 if (samePreset || sameAlbum) {
                     album.followSharedConnection(); return;
                 }
@@ -1104,7 +1106,7 @@ public final class MainActivity extends Activity {
         LinearLayout copy = vertical(); copy.setPadding(dp(12), 0, 0, 0);
         TextView eyebrow = text(connected ? "当前相机" : "相机", 11, false); eyebrow.setTextColor(colors.secondary); copy.addView(eyebrow);
         String model = connected ? (wireless ? album.hasCameraConnection() ? album.connectionModel() : preparedWirelessModel : usbModel) : "尚未连接相机";
-        TextView modelLabel = text(model == null || model.isEmpty() ? "Nikon 相机" : model, 19, true); modelLabel.setPadding(0, dp(4), 0, 0); copy.addView(modelLabel);
+        TextView modelLabel = text(model == null || model.isEmpty() ? "相机" : model, 19, true); modelLabel.setPadding(0, dp(4), 0, 0); copy.addView(modelLabel);
         identity.addView(copy, new LinearLayout.LayoutParams(0, -2, 1)); camera.addView(identity);
         if (connected) identity.addView(iconButton(AppIcon.Kind.INFO, "相机详情", this::showCameraDetails));
         LinearLayout status = horizontal(); status.setPadding(0, dp(10), 0, dp(8)); status.addView(connectionIndicator(false), new LinearLayout.LayoutParams(0, -2, 1));
@@ -1122,7 +1124,7 @@ public final class MainActivity extends Activity {
         if (!message.isEmpty()) { TextView notice = label(content, message, 13, colors.secondary); notice.setAccessibilityLiveRegion(View.ACCESSIBILITY_LIVE_REGION_POLITE); }
         settingsHeading(content, "相机连接");
         LinearLayout connections = settingsGroup(content);
-        settingsRow(connections, AppIcon.Kind.WIFI, "Wi-Fi 无线连接", "浏览照片、导入预设", connected && wireless ? "使用中" : "", this::openCameraSettings);
+        settingsRow(connections, AppIcon.Kind.WIFI, "Wi-Fi 无线连接", "尼康相机 / 富士 X-T20", connected && wireless ? "使用中" : "", this::openCameraSettings);
         settingsRow(connections, AppIcon.Kind.USB, "USB 数据线连接", "导入预设", connected && !wireless ? "使用中" : "", this::connectUsbSettings);
         settingsHeading(content, "账号");
         LinearLayout identityGroup = settingsGroup(content);
@@ -1143,7 +1145,7 @@ public final class MainActivity extends Activity {
         settingsRow(application, AppIcon.Kind.ALBUM, "预览模板", "用于预设主图的近似模拟", presetPreviews.templateLabel(), this::choosePreviewTemplate);
         settingsRow(application, AppIcon.Kind.HELP, "使用帮助", "", "", this::showHelp);
         settingsRow(application, AppIcon.Kind.DOWNLOAD, "检查更新", "查看新版本与更新说明", appVersion(), updates::open);
-        settingsRow(application, AppIcon.Kind.INFO, "关于", "", "", () -> notice(getString(R.string.app_name), "版本 " + appVersion() + "\n\n管理本地预设、模拟色调、连接尼康相机、浏览和下载照片。可在设置中注册或登录账号，也可继续以游客使用。无线支持范围取决于实际机型与接口。模板模拟为手机近似预览，不代表相机实拍。"));
+        settingsRow(application, AppIcon.Kind.INFO, "关于", "", "", () -> notice(getString(R.string.app_name), "版本 " + appVersion() + "\n\n管理本地预设、模拟色调、连接相机、浏览和下载照片。支持尼康相机，富士 X-T20 的 JPEG 下载为实验适配，尚待真机验证。可在设置中注册或登录账号，也可继续以游客使用。无线支持范围取决于实际机型与接口。模板模拟为手机近似预览，不代表相机实拍。"));
     }
 
     private void renderCameraConnectionGuide() {
@@ -2045,6 +2047,9 @@ public final class MainActivity extends Activity {
     }
 
     private void beginImport(PresetRecord record) {
+        if (album.hasCameraConnection() && !album.supportsPictureControl()) {
+            notice("请连接尼康相机", "NCP / NP3 是尼康预设，不能写入富士 X-T20。当前富士连接可继续下载 JPEG，手机套预设仍可使用。"); return;
+        }
         clearPendingPhotoLive();
         if (!canChangeConnection() || !requirePresetLibrary()) return;
         if (record == null) { showPresetRequired(); return; }
@@ -2253,8 +2258,8 @@ public final class MainActivity extends Activity {
             wirelessAddress = pendingJournal.optString("wirelessHost", "");
             wirelessPortText = Integer.toString(pendingJournal.optInt("wirelessPort", CameraWifiNetwork.DEFAULT_PORT));
         } else if (wirelessAddress.isEmpty()) {
-            wirelessAddress = CameraConnectionPreferences.loadHost(this);
-            wirelessPortText = Integer.toString(CameraConnectionPreferences.loadPort(this));
+            wirelessAddress = CameraConnectionPreferences.loadHost(this, CameraProtocol.NIKON);
+            wirelessPortText = CameraConnectionPreferences.loadPortText(this, CameraProtocol.NIKON);
             if (wirelessAddress.isEmpty()) wirelessAddress = Build.VERSION.SDK_INT >= 29 ? "192.168.1.1" : wifi.suggestHost();
         }
         message = ""; render();
@@ -2378,6 +2383,11 @@ public final class MainActivity extends Activity {
     }
 
     private void scanWirelessSlots() {
+        if (album.hasCameraConnection() && !album.supportsPictureControl()
+                || !wirelessRecovery && !hasPreparedWireless()
+                && CameraConnectionPreferences.loadProtocol(this) == CameraProtocol.FUJIFILM_X_T20) {
+            notice("请连接尼康相机", "富士 X-T20 连接仅用于照片下载。请在 Wi-Fi 连接页选择尼康，再读取或导入相机预设。"); return;
+        }
         if (!canChangeConnection()) return;
         final String host = wirelessAddress.trim(); final int port;
         try { port = Integer.parseInt(wirelessPortText.trim()); CameraWifiNetwork.validateAddress(host, port); }
@@ -2447,7 +2457,7 @@ public final class MainActivity extends Activity {
                 else result = operation.prepareImport(host, port, wifi.clientGuid());
                 List<UsbPictureControlProbe.ItemRecord> slots = validateSnapshot(result, recovery ? null : operation);
                 if (request != wirelessScanEpoch) return;
-                CameraConnectionPreferences.save(this, host, port);
+                CameraConnectionPreferences.save(this, host, port, CameraProtocol.NIKON);
                 if (recovery) { completeRecovery(result, slots, request); return; }
                 // A read-only recovery may work on cameras that do not expose wireless registration.
                 boolean writeAvailable = false; for (int op : result.operations) if (op == 0x90cd) writeAvailable = true;

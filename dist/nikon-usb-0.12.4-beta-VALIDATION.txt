@@ -1,0 +1,83 @@
+Huevia 0.12.4-beta (66) — Fujifilm thumbnail JPEG suffix handling
+Date: 2026-10-19, Asia/Shanghai
+
+Package: com.nikonpreset.usbprobe
+APK: dist/nikon-usb-0.12.4-beta-debug.apk
+Bytes: 3376749
+SHA-256: 51a27af9c11c8d05adec1529a74bf98d455ec8d17b08a60d883a56262e79f4b6
+minSdk26 / targetSdk35
+Android35/JDK17 manual build: PASS
+APK Signature Scheme v2/v3: PASS
+aapt2 versionCode66/versionName0.12.4-beta: PASS
+No publication or physical-phone installation performed.
+
+USER EVIDENCE AND SCOPE
+Screenshot for DSCF9172.JPG reports GetThumb0x100A returned21314 bytes and
+the old completeness check did not find FF D9 at the end of that response.
+The screenshot does not contain the response bytes. It establishes the check
+that failed, but cannot prove whether EOI is present earlier or truly absent.
+
+CONFIRMED CODE GAP
+The old controller and thumbnail cache only accept SOI at the beginning and
+EOI in the final two bytes. A complete JPEG followed by auxiliary bytes fails
+that test. The new Fuji-only GetThumb normalization locates the main image's
+EOI by walking JPEG marker segments and scan data. It returns only the bytes
+through an existing EOI, making the result suitable for the unchanged grid,
+detail cache and JPEG completeness checks.
+
+APP/EXIF segment lengths skip embedded JPEGs and their EOI. Entropy stuffing,
+restart/fill markers and multiple scans are handled. Truncated or unrecognized
+payloads are left intact; no EOI is appended and no embedded JPEG is promoted
+as a substitute. Only GetThumb is normalized; original transport and saved
+original validation remain unchanged. Normalized previews use the existing
+bounded in-session cache and independent caller arrays.
+
+TESTS RUN THIS ROUND
+tests/run-fuji.ps1: PASS
+  Real ImageIO-encoded baseline and progressive JPEGs with zero/nonzero suffix
+  data, including a synthetic21314-byte response. Normalized bytes match the
+  JPEG exactly; both formats decode to32x24 pixels. Input arrays are unchanged.
+  APP1 containing an entire nested JPEG must not terminate the outer image.
+  Every truncated prefix of the nested-image fixtures remains unmodified.
+  Invalid segment lengths0/1/65535, missing frame/scan, incomplete prefixes,
+  entropy byte stuffing, restart markers, marker fill and multiple scans.
+  Scripted fragmented PTP transport proves normalization before return/cache,
+  one camera read for repeated grid/detail access, independent returned bytes,
+  non-caching of a genuinely missing EOI, and exact original-transfer bytes
+  even when the original suffix fails later controller validation.
+  Existing handshake, scalar, batch/cache, framing and cancellation cases pass.
+tests/run-album.ps1: PASS
+  826 production album controller checks
+  28 camera capability controller checks
+  22 gateway connection controller checks
+  356 photo-live project store checks
+  100 photo-live project folder checks
+  Total1332 checks.
+APK build/signing, version badging, SHA-256 and attribution asset: PASS.
+DEX contains trimThumbnailSuffix in v66; the v65 DEX does not.
+Manual build normalizes nested asset ZIP names to forward slashes, fixing
+Windows aapt2's backslash path for the bundled libfuji attribution notice.
+git diff --check: PASS (repository LF/CRLF notices only).
+
+LIMITS
+No raw user-camera payload was captured; synthetic fixture length21314 is not
+represented as the user's actual bytes. The suffix compatibility gap is fixed
+and tested, while real X-T20 preview success still needs hardware confirmation.
+Genuinely truncated previews continue to fail instead of being repaired.
+No native Android UI, new real-camera performance measurement, real original
+JPEG download, photo-live or RAF capability is claimed this round. Previous
+APKs/validation records remain. No unchanged Wi-Fi/preferences suites claimed
+rerun; existing unrelated USB fixture limitation remains in the v62 record.
+
+REFERENCES CONSULTED
+https://github.com/petabyt/libfuji/blob/master/lib/fuji.c
+  fuji_get_thumb returns the GetThumb payload as preview bytes.
+https://github.com/libjpeg-turbo/libjpeg-turbo/blob/main/src/jdmarker.c
+  Marker processing treats M_EOI as JPEG_REACHED_EOI and skips APP segments.
+  The new marker walker is independently implemented Java, not copied source.
+
+RETRY
+Install0.12.4 over the current app, restart the X-T20 wireless session and
+confirm the phone on the camera. Browse grid and open the affected photo.
+The existing diagnostic dialog remains available if the actual payload
+is genuinely incomplete or differs from the handled JPEG structure.

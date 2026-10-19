@@ -1839,7 +1839,7 @@ public final class AlbumControllerHostTest {
             PtpIpClient client = (PtpIpClient) privateField(controller, "active").get(controller);
             Class<?> runType = Arrays.stream(AlbumController.class.getDeclaredClasses())
                     .filter(type -> type.getSimpleName().equals("LiveRun")).findFirst().orElseThrow();
-            var constructor = runType.getDeclaredConstructor(AlbumController.class, PtpIpClient.class,
+            var constructor = runType.getDeclaredConstructor(AlbumController.class, PhotoCameraClient.class,
                     int.class, String.class, AlbumController.Callback.class);
             constructor.setAccessible(true);
             int generation = ((AtomicInteger) privateField(controller, "generation").get(controller)).get();
@@ -1906,7 +1906,7 @@ public final class AlbumControllerHostTest {
         try (AlbumController controller = connected(root, peer)) {
             Class<?> runType = Arrays.stream(AlbumController.class.getDeclaredClasses())
                     .filter(type -> type.getSimpleName().equals("LiveRun")).findFirst().orElseThrow();
-            var constructor = runType.getDeclaredConstructor(AlbumController.class, PtpIpClient.class,
+            var constructor = runType.getDeclaredConstructor(AlbumController.class, PhotoCameraClient.class,
                     int.class, String.class, AlbumController.Callback.class); constructor.setAccessible(true);
             Object run = constructor.newInstance(controller, privateField(controller, "active").get(controller),
                     ((AtomicInteger) privateField(controller, "generation").get(controller)).get(), "History bounds", new Result<Void>());

@@ -1,0 +1,79 @@
+Huevia 0.12.0-beta (62) — Fujifilm X-T20 experimental JPEG download
+Date: 2026-10-19, Asia/Shanghai
+
+DELIVERY
+Package: com.nikonpreset.usbprobe
+APK: dist/nikon-usb-0.12.0-beta-debug.apk
+Bytes: 3372653
+SHA-256: ece17060c3d02fcac3fd11a1b5c9029827db7a89ec12bc0b576ed6e77cb291e9
+minSdk 26 / targetSdk 35
+Android 35 manual build with JDK 17.0.19: PASS
+APK Signature Scheme v2 and v3: PASS
+aapt2 badging versionCode 62 / versionName 0.12.0-beta: PASS
+Bundled assets/third-party/libfuji-MIT.txt matches repository notice: PASS
+Previous 0.11.4-beta APK bytes remain equal to Git HEAD: PASS
+No production publication or physical-phone installation performed.
+
+IMPLEMENTED
+- Explicit Nikon / Fujifilm X-T20 experimental selection in Wi-Fi connection page.
+- Separate saved endpoints and editable drafts; old Nikon migration preserved.
+- Dedicated Fuji TCP/PTP initialization, strict actual ACK X-T20 model gate,
+  remote-channel/gallery negotiation, event polling, virtual storage/indices,
+  JPEG metadata/thumbnail reads and bounded 1 MiB partial-object downloads.
+- Selected Wi-Fi route applies to command and fixed auxiliary ports 55741/55742.
+- Exact transaction, packet bounds, size, chunk and JPEG completion checks.
+- No public shutter, camera-delete, generic property-write or preset-write API.
+- Fuji live start/resume and Nikon preset handoff refused before side effects.
+- Existing downloaded JPEG saving and mobile preset flows reused.
+- RAF, video, USB photo transfer and Fuji photo live are not implemented.
+
+HOST VERIFICATION
+FujifilmPhotoClientTest (scripted, fragmented I/O; no physical network/camera): PASS
+  Init bytes, ACK identity, gallery negotiation, expected auxiliary ports,
+  virtual storage/indices, metadata, two-chunk byte-preserved transfer, heartbeat,
+  foreign/empty model before PTP setup, wrong transaction, oversize/truncation,
+  forbidden delete never sent, cancelled setup and independent mid-download close.
+CameraConnectionPreferencesTest: 58 checks PASS
+PhotoCameraCapabilityHostTest: 22 checks PASS
+AlbumControllerHostTest: 826 checks PASS
+PhotoLiveProjectStore + folders: 356 + 100 checks PASS
+PTP/IP transport regression: 4552 checks PASS
+Nikon wireless Picture Control wrapper regression: 9698 checks PASS
+RAW related regression: 54 + 8 + 31 + 9 checks PASS
+Wi-Fi retention / selected-session: 519 + 557 checks PASS
+Production multiport socket routing: 27 checks PASS
+Runtime network loss: 13 checks PASS
+Live continuation: 18 checks PASS
+Photo-live receipt controller after routing change: 42 checks PASS
+git diff --check: PASS (only normal Git LF/CRLF notices)
+
+EXISTING UNRELATED FAILURE
+The full run-probe.ps1 USB-import fixture fails at
+UsbPictureControlImportHostTest.ncpConversionAndOccupiedTargetsNeverBypassTheGuards,
+fake camera expectedWrite byte-array mismatch (line 526, invoked at line 285).
+The same test was rerun with original HEAD PtpIpClient taking classpath precedence
+and failed identically; USB transport/import/fixture files were not changed here.
+The read-only probe 685 and PictureControl 453 checks passed before that failure;
+the Nikon wireless wrapper was run independently and passed as listed above.
+The full probe suite is NOT represented as passing.
+
+LIMITS / NOT VERIFIED
+- No real X-T20 connection, actual JPEG transfer, pixel comparison, RAF, throughput,
+  physical-shutter availability, long connection, lockscreen, Doze or power test.
+- No Android native UI acceptance this round. Emulator start escalation review
+  timed out twice; a workspace-configured restricted read-only launch exited
+  before Android boot. No emulator screenshot or native UI result is claimed.
+- Host camera substitutes validate sequencing and failure containment; they do
+  not prove compatibility with the user's firmware and Wi-Fi environment.
+- Official X-T20 Camera Remote support proves wireless import is available, not
+  continuous physical-shutter tether shooting. Fuji photo live remains disabled.
+- The adapter's DeviceInfo and storage/handle datasets are locally mapped views
+  of Fuji protocol facts, not a claimed camera-provided standard GetDeviceInfo.
+- Initialization and download sequence follow maintained libfuji/libpict sources;
+  final compatibility needs a true X-T20 test.
+
+USE
+Settings -> Wi-Fi wireless connection -> Camera type -> Fujifilm X-T20 (experimental)
+Camera -> Shooting settings or Playback menu -> Wireless communication
+Default endpoint: 192.168.0.1:55740. Confirm the phone on the camera.
+See docs/fujifilm-x-t20.md for Chinese instructions, exact scope and source links.

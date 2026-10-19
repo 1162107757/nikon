@@ -32,6 +32,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.AbsListView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridView;
@@ -66,6 +67,7 @@ import com.nikonpreset.usbprobe.album.PhotoPage;
 import com.nikonpreset.usbprobe.album.PhotoPreview;
 import com.nikonpreset.usbprobe.album.PtpIpClient;
 import com.nikonpreset.usbprobe.connection.CameraConnectionPreferences;
+import com.nikonpreset.usbprobe.album.CameraProtocol;
 import com.nikonpreset.usbprobe.library.PresetRecord;
 import java.io.File;
 import java.io.IOException;
@@ -106,6 +108,7 @@ public final class AlbumPanel implements AutoCloseable {
 
     public static final int REQUEST_EXPORT = 7312;
     private static final int PAGE_SIZE = 24;
+    private static final int FUJI_PAGE_SIZE = 6;
     private static final int MAX_THUMB_REQUESTS = 6;
     private static final String EXPORT_PREFERENCES = "album-panel";
     private enum Screen { OVERVIEW, GUIDE, DETAIL }
@@ -247,6 +250,9 @@ public final class AlbumPanel implements AutoCloseable {
     private long receivedBytes, expectedBytes;
     private String cameraError = "", localError = "", connectionError = "", batchMessage = "", currentFilename = "";
     private String cameraAddress = "", portText = String.valueOf(AlbumController.DEFAULT_PORT);
+    private CameraProtocol cameraProtocol = CameraProtocol.NIKON;
+    private boolean fujiAutoAddress = true;
+    private String resolvedAutoAddress = "";
     private PhotoItem remoteDetail;
     private DownloadedPhoto localDetail;
     private Bitmap detailBitmap;
@@ -325,6 +331,8 @@ public final class AlbumPanel implements AutoCloseable {
         onlyStarredLive = activity.getSharedPreferences(EXPORT_PREFERENCES, Activity.MODE_PRIVATE).getBoolean("starred-live", false);
         loadStars();
         PhotoStars.get(activity).addObserver(starsChanged);
+        cameraProtocol = CameraConnectionPreferences.loadProtocol(activity);
+        fujiAutoAddress = CameraConnectionPreferences.loadFujiAutoAddress(activity);
         cameraAddress = CameraConnectionPreferences.loadHost(activity);
         portText = CameraConnectionPreferences.loadPortText(activity);
         addressManuallyEdited = !cameraAddress.isEmpty();
@@ -395,7 +403,7 @@ public final class AlbumPanel implements AutoCloseable {
         }
         sessionNumber++;
         connection = restored; connecting = false; ownsConnectionRequest = false;
-        configureConnection(restored.host(), restored.port());
+        configureConnection(restored.host(), restored.port(), restored.protocol());
         cameraError = connectionError = "";
         paging.reset(restored.totalHandles() > 0);
         if (downloading) finishInterruptedBatch();
@@ -450,6 +458,7 @@ public final class AlbumPanel implements AutoCloseable {
 
     public boolean isConnected() { return !closed && !connecting && connection != null && controller.isConnected(); }
     public boolean hasCameraConnection() { return !closed && controller.hasLiveSession(); }
+    public boolean supportsPictureControl() { return controller.supportsPictureControl(); }
     public boolean wantsCameraPhotos() { return !closed && !downloadedTab && screen != Screen.GUIDE; }
 
     /** Returns to Photo Live after a user-requested connection; project creation still needs confirmation. */
@@ -497,18 +506,26 @@ public final class AlbumPanel implements AutoCloseable {
     public String connectionModel() { ConnectionInfo live = controller.sessionConnectionInfo(); return live == null ? "" : live.model().trim().isEmpty() ? "相机" : live.model(); }
     public String connectionHost() { ConnectionInfo live = controller.sessionConnectionInfo(); return live == null ? "" : live.host(); }
     public int connectionPort() { ConnectionInfo live = controller.sessionConnectionInfo(); return live == null ? 0 : live.port(); }
+    public CameraProtocol configuredProtocol() { return cameraProtocol; }
+    public CameraProtocol connectionProtocol() { ConnectionInfo live = controller.sessionConnectionInfo(); return live == null ? null : live.protocol(); }
     public String getConfiguredHost() { return cameraAddress.trim(); }
     public int getConfiguredPort() {
-        try { int port = Integer.parseInt(portText.trim()); return port >= 1 && port <= 65535 ? port : AlbumController.DEFAULT_PORT; }
-        catch (NumberFormatException error) { return AlbumController.DEFAULT_PORT; }
+        try { int port = Integer.parseInt(portText.trim()); return port >= 1 && port <= 65535 ? port : cameraProtocol.defaultPort; }
+        catch (NumberFormatException error) { return cameraProtocol.defaultPort; }
     }
 
     /** Synchronize the sole address editor after an existing camera session is adopted. */
     public void configureConnection(String host, int port) {
+        ConnectionInfo held = controller.sessionConnectionInfo();
+        configureConnection(host, port, held == null ? CameraProtocol.NIKON : held.protocol());
+    }
+
+    private void configureConnection(String host, int port, CameraProtocol protocol) {
         if (closed || host == null || host.trim().isEmpty() || port < 1 || port > 65535) return;
+        cameraProtocol = protocol;
         cameraAddress = host.trim(); portText = Integer.toString(port);
         addressManuallyEdited = true;
-        CameraConnectionPreferences.save(activity, cameraAddress, port);
+        CameraConnectionPreferences.save(activity, cameraAddress, port, protocol);
     }
 
     /** The Activity routes this editor exclusively through the Settings destination. */
@@ -546,7 +563,8 @@ public final class AlbumPanel implements AutoCloseable {
 
     private void connectedFeedback(String model) {
         String name = model == null ? "" : model.trim();
-        host.onFeedback("相机已连接", name.isEmpty() ? "可浏览照片或导入预设。" : name + " · 可浏览照片或导入预设。");
+        String available = controller.supportsPictureControl() ? "可浏览照片或导入预设。" : "可浏览和下载 JPEG 照片，实验适配待真机验证。";
+        host.onFeedback("相机已连接", name.isEmpty() ? available : name + " · " + available);
     }
 
     private void feedbackDetails(String title, String summary, String details) {
@@ -1148,6 +1166,7 @@ public final class AlbumPanel implements AutoCloseable {
 
     private void requestPhotoLive() {
         if (closed) return;
+        if (showUnsupportedPhotoLive()) return;
         PhotoLiveState state = controller.photoLiveState();
         if (state.enabled) { controller.stopPhotoLive(); return; }
         if (state.starting) { host.onFeedback("正在准备直播", "正在确认现有照片，请等待准备完成。"); return; }
@@ -1475,6 +1494,7 @@ public final class AlbumPanel implements AutoCloseable {
 
     private void requestResumeProject(String id) {
         if (closed) return;
+        if (showUnsupportedPhotoLive()) return;
         PhotoLiveProject project = findLiveProject(id);
         if (project == null) { host.onFeedback("项目暂不可用", "请重新选择拍摄项目后再试。"); refreshLiveProjects(); return; }
         PhotoLiveState state = controller.photoLiveState();
@@ -2358,9 +2378,24 @@ public final class AlbumPanel implements AutoCloseable {
         }
     }
 
+    private boolean showUnsupportedPhotoLive() {
+        if (!controller.hasLiveSession() || controller.supportsPhotoLive()) return false;
+        host.onMessage("X-T20 暂不支持照片直播", "当前富士适配仅支持浏览和下载 JPEG。X-T20 不提供官方联机拍摄，尚未验证按机身快门持续自动传图；可以先拍摄，再进入无线通信下载照片。已保存的直播项目仍可查看。");
+        return true;
+    }
+
+    private String suggestedCameraHost() {
+        if (cameraProtocol == CameraProtocol.FUJIFILM_X_T20) return "";
+        return android.os.Build.VERSION.SDK_INT >= 29 ? cameraProtocol.defaultHost : controller.suggestHost();
+    }
+
+    private boolean usesAutomaticCameraAddress() {
+        return cameraProtocol == CameraProtocol.FUJIFILM_X_T20 && fujiAutoAddress && android.os.Build.VERSION.SDK_INT >= 29;
+    }
+
     private void showGuide() {
         if (!addressManuallyEdited && cameraAddress.isEmpty()) {
-            cameraAddress = android.os.Build.VERSION.SDK_INT >= 29 ? "192.168.1.1" : controller.suggestHost();
+            cameraAddress = suggestedCameraHost();
             if (!cameraAddress.isEmpty()) CameraConnectionPreferences.saveDraft(activity, cameraAddress, portText);
         }
         if (screen != Screen.GUIDE) guideScrollY = 0;
@@ -2375,16 +2410,39 @@ public final class AlbumPanel implements AutoCloseable {
         scroll.setClipToPadding(false);
         LinearLayout body = vertical();
         body.setPadding(dp(24), dp(2), dp(24), dp(28));
-        TextView introduction = text("连接相机的 Wi-Fi，浏览照片与导入预设。", 14, palette.secondary, false);
+        boolean fuji = cameraProtocol == CameraProtocol.FUJIFILM_X_T20;
+        TextView introduction = text(fuji ? "连接 X-T20 的 Wi-Fi，浏览并下载 JPEG 照片。" : "连接相机的 Wi-Fi，浏览照片与导入预设。", 14, palette.secondary, false);
         body.addView(introduction);
+        addSpaced(body, text("相机类型", 12, palette.secondary, false), 20);
+        Button protocol = button(cameraProtocol.label + "  ›", false, () -> {
+            CameraProtocol[] choices = CameraProtocol.values();
+            String[] labels = new String[choices.length];
+            for (int i = 0; i < choices.length; i++) labels[i] = choices[i].label;
+            new AlertDialog.Builder(activity).setTitle("选择相机类型")
+                    .setSingleChoiceItems(labels, cameraProtocol.ordinal(), (dialog, which) -> {
+                        dialog.dismiss();
+                        if (choices[which] == cameraProtocol) return;
+                        CameraConnectionPreferences.saveDraft(activity, cameraAddress, portText, cameraProtocol);
+                        cameraProtocol = choices[which];
+                        CameraConnectionPreferences.selectProtocol(activity, cameraProtocol);
+                        cameraAddress = CameraConnectionPreferences.loadHost(activity);
+                        portText = CameraConnectionPreferences.loadPortText(activity);
+                        addressManuallyEdited = !cameraAddress.isEmpty();
+                        if (cameraAddress.isEmpty()) cameraAddress = suggestedCameraHost();
+                        connectionError = ""; changed();
+                    }).setNegativeButton("取消", null).show();
+        });
+        protocol.setEnabled(!connecting);
+        protocol.setContentDescription("相机类型：" + cameraProtocol.label);
+        addSpaced(body, protocol, 8);
         addSpaced(body, text("连接准备", 12, palette.secondary, false), 24);
         LinearLayout preparation = vertical();
         preparation.setPadding(dp(18), dp(2), dp(18), dp(2));
         preparation.setBackground(shape(palette.card, 24));
-        step(preparation, "1", "开启相机 Wi-Fi", "相机菜单：连接至智能设备 → Wi-Fi 连接 → 建立 Wi-Fi 连接");
+        step(preparation, "1", "开启相机 Wi-Fi", fuji ? "X-T20 菜单：拍摄设置或回放菜单 → 无线通信。" : "相机菜单：连接至智能设备 → Wi-Fi 连接 → 建立 Wi-Fi 连接");
         step(preparation, "2", android.os.Build.VERSION.SDK_INT >= 29 ? "在 App 中连接" : "手机加入相机网络",
-                android.os.Build.VERSION.SDK_INT >= 29 ? "点击下方连接相机，填写相机的 Wi-Fi 名称与密码，并允许系统连接。" : "使用相机显示的名称与密码；提示无法上网时仍保持连接。");
-        step(preparation, "3", "保持相机 Wi-Fi 开启", "关闭其他相机应用，确认下方地址；连接后可切后台继续接收。");
+                android.os.Build.VERSION.SDK_INT >= 29 ? "点击下方连接相机，填写相机的 Wi-Fi 名称与密码，并允许系统连接。" + (fuji ? "若相机热点无需密码，勾选没有密码。" : "") : "使用相机显示的名称与密码；提示无法上网时仍保持连接。");
+        step(preparation, "3", fuji ? "在相机上确认连接" : "保持相机 Wi-Fi 开启", fuji ? "关闭 Camera Remote 等相机应用，在 X-T20 上按 OK 确认；保持无线通信页面开启。" : "关闭其他相机应用，确认下方地址；连接后可切后台继续接收。");
         addSpaced(body, preparation, 8);
         Button systemWifi = textAction(android.os.Build.VERSION.SDK_INT >= 29 ? "查看系统 Wi-Fi 设置" : "打开系统 Wi-Fi 设置", () -> {
             try { activity.startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS)); }
@@ -2396,28 +2454,43 @@ public final class AlbumPanel implements AutoCloseable {
         LinearLayout fields = vertical();
         fields.setPadding(dp(18), dp(16), dp(18), dp(18));
         fields.setBackground(shape(palette.card, 24));
+        if (fuji && android.os.Build.VERSION.SDK_INT >= 29) {
+            CheckBox automatic = new CheckBox(activity);
+            automatic.setText("自动识别相机地址"); automatic.setTextSize(14); automatic.setTextColor(palette.text);
+            automatic.setMinHeight(dp(48)); automatic.setChecked(fujiAutoAddress); automatic.setEnabled(!connecting);
+            automatic.setOnCheckedChangeListener((view, checked) -> {
+                fujiAutoAddress = checked;
+                if (checked) resolvedAutoAddress = "";
+                CameraConnectionPreferences.saveFujiAutoAddress(activity, checked);
+                connectionError = ""; changed();
+            });
+            fields.addView(automatic);
+            addSpaced(fields, text("连接所选相机热点后读取实际网关，每次重新识别。手机 WLAN 详情里的 IPv4 地址是手机地址，不能填在这里。", 12, palette.secondary, false), 4);
+        }
         fields.addView(text("IP 地址", 13, palette.secondary, false));
-        EditText address = input(cameraAddress, "填写相机的 IPv4 地址", InputType.TYPE_CLASS_PHONE);
+        EditText address = input(usesAutomaticCameraAddress() ? resolvedAutoAddress : cameraAddress,
+                usesAutomaticCameraAddress() ? "连接相机热点后自动识别" : "填写相机的网关地址", InputType.TYPE_CLASS_PHONE);
         address.setContentDescription("相机 IPv4 地址");
         // input() initializes its text before this watcher is attached.
         address.addTextChangedListener(watcher(value -> {
             cameraAddress = value;
             addressManuallyEdited = true;
-            CameraConnectionPreferences.saveDraft(activity, cameraAddress, portText);
+            CameraConnectionPreferences.saveDraft(activity, cameraAddress, portText, cameraProtocol);
         }));
-        address.setEnabled(!connecting);
+        address.setEnabled(!connecting && !usesAutomaticCameraAddress());
         addSpaced(fields, address, 8);
         addSpaced(fields, text("端口", 13, palette.secondary, false), 16);
-        EditText port = input(portText, "15740", InputType.TYPE_CLASS_NUMBER);
+        EditText port = input(portText, Integer.toString(cameraProtocol.defaultPort), InputType.TYPE_CLASS_NUMBER);
         port.setContentDescription("相机无线连接端口");
         port.addTextChangedListener(watcher(value -> {
             portText = value;
-            CameraConnectionPreferences.saveDraft(activity, cameraAddress, portText);
+            CameraConnectionPreferences.saveDraft(activity, cameraAddress, portText, cameraProtocol);
         }));
         port.setEnabled(!connecting);
         addSpaced(fields, port, 8);
         addSpaced(body, fields, 8);
-        addSpaced(body, text(android.os.Build.VERSION.SDK_INT >= 29 ? "默认地址为 192.168.1.1；如相机显示不同地址，请手动修改。"
+        addSpaced(body, text(fuji ? "相机地址以本次热点的实际网关为准，端口通常为 55740。"
+                : android.os.Build.VERSION.SDK_INT >= 29 ? "默认地址为 192.168.1.1；如相机显示不同地址，请手动修改。"
                 : "地址建议来自当前 Wi-Fi 网关，可手动修改；它不是相机自动发现结果。", 12, palette.secondary, false), 10);
         if (!connectionError.isEmpty()) {
             TextView error = text(connectionError, 14, palette.error, false);
@@ -2434,7 +2507,7 @@ public final class AlbumPanel implements AutoCloseable {
                 host.onConnectionCancelled(); changed();
             }), 8);
         }
-        TextView compatibility = text("连接后可浏览照片、开启照片直播或导入预设。", 12, palette.secondary, false);
+        TextView compatibility = text(fuji ? "实验适配，尚未通过 X-T20 真机验证。仅支持 JPEG 下载；照片直播、RAF 和向相机导入尼康预设暂不支持。" : "连接后可浏览照片、开启照片直播或导入预设。", 12, palette.secondary, false);
         compatibility.setGravity(Gravity.CENTER);
         addSpaced(body, compatibility, 16);
         scroll.addView(body, new ScrollView.LayoutParams(-1, -2));
@@ -2449,8 +2522,8 @@ public final class AlbumPanel implements AutoCloseable {
             host.onFeedback("正在连接相机", "请等待当前连接完成，或先取消连接。"); return;
         }
         if (showPhotoTaskBlocked("连接相机")) return;
-        if (!addressManuallyEdited && cameraAddress.isEmpty()) {
-            cameraAddress = android.os.Build.VERSION.SDK_INT >= 29 ? "192.168.1.1" : controller.suggestHost();
+        if (!usesAutomaticCameraAddress() && !addressManuallyEdited && cameraAddress.isEmpty()) {
+            cameraAddress = suggestedCameraHost();
             if (cameraAddress.isEmpty()) {
                 connectionError = "当前 Wi-Fi 没有可用的地址建议。请先连接相机 Wi-Fi，或手动填写相机 IP。";
                 render();
@@ -2468,8 +2541,8 @@ public final class AlbumPanel implements AutoCloseable {
             connectionError = "请输入 1–65535 之间的端口。"; render();
             feedbackDetails("请检查端口", "端口应为 1–65535 的数字。", connectionError); return;
         }
-        if (!validIpv4(cameraAddress.trim())) {
-            connectionError = "请输入相机的 IPv4 地址，可在相机网络设置中确认。";
+        if (!usesAutomaticCameraAddress() && !validIpv4(cameraAddress.trim())) {
+            connectionError = "请输入相机热点的网关地址；不要填写手机自身的 IPv4 地址。";
             render();
             feedbackDetails("请检查相机地址", "填写有效的 IP 地址后重试。", connectionError);
             return;
@@ -2486,23 +2559,27 @@ public final class AlbumPanel implements AutoCloseable {
         connection = null;
         loadingDownloads = false;
         connectionError = cameraError = "";
+        resolvedAutoAddress = "";
         photos.clear(); clearSelection(); savedThisSession.clear();
         pendingThumbs.clear(); failedThumbs.clear();
         paging.reset(false);
         changed();
         final String requestedHost = cameraAddress.trim();
-        CameraConnectionPreferences.save(activity, requestedHost, port);
+        final CameraProtocol requestedProtocol = cameraProtocol;
+        final boolean automaticAddress = usesAutomaticCameraAddress();
+        if (!automaticAddress) CameraConnectionPreferences.save(activity, requestedHost, port, requestedProtocol);
         Runnable start = new Runnable() {
             @Override public void run() {
                 if (connectionIntent != intent || pendingConnectionStart != this || (closed && ownsController)) return;
                 pendingConnectionStart = null;
-                controller.connectCamera(requestedHost, port, new AlbumController.Callback<ConnectionInfo>() {
+                AlbumController.Callback<ConnectionInfo> completion = new AlbumController.Callback<ConnectionInfo>() {
                     @Override public void onSuccess(ConnectionInfo result) {
                         if (!current(request)) return;
                         sessionNumber++;
                         connecting = false;
                         ownsConnectionRequest = false;
                         connection = result;
+                        if (automaticAddress) resolvedAutoAddress = result.host();
                         if (screen == Screen.GUIDE) {
                             screen = Screen.OVERVIEW;
                             downloadedTab = false;
@@ -2521,11 +2598,18 @@ public final class AlbumPanel implements AutoCloseable {
                         if (current != null) restoreConnection(current);
                         else if (controller.hasLiveSession()) restoreCameraSession(controller.sessionConnectionInfo());
                         else connection = null;
-                        connectionError = "连接失败，请检查相机 Wi-Fi 与地址后重试。";
+                        if (automaticAddress && !controller.connectionAttemptHost().isEmpty()) {
+                            cameraAddress = controller.connectionAttemptHost();
+                            resolvedAutoAddress = cameraAddress;
+                            CameraConnectionPreferences.save(activity, cameraAddress, port, requestedProtocol);
+                        }
+                        connectionError = message;
                         changed();
                         feedbackDetails("相机连接失败", "请检查相机 Wi-Fi 和连接地址后重试。", message);
                     }
-                });
+                };
+                if (automaticAddress) controller.connectCameraViaGateway(port, requestedProtocol, completion);
+                else controller.connectCamera(requestedHost, port, requestedProtocol, completion);
             }
         };
         pendingConnectionStart = start;
@@ -2536,6 +2620,7 @@ public final class AlbumPanel implements AutoCloseable {
     private void maybeLoadMore(GridView expectedGrid) {
         if (closed || screen != Screen.OVERVIEW || liveTab || downloadedTab || selectionMode || downloading || exporting
                 || !isConnected() || paging.isLoading() || paging.isPaused() || !paging.hasMore()) return;
+        if (connection != null && connection.protocol() == CameraProtocol.FUJIFILM_X_T20 && !pendingThumbs.isEmpty()) return;
         if (expectedGrid != null) {
             if (grid != expectedGrid || grid.getChildCount() == 0 || grid.getLastVisiblePosition() < photos.size() - 1) return;
         } else if (!photos.isEmpty()) return;
@@ -2553,7 +2638,8 @@ public final class AlbumPanel implements AutoCloseable {
         if (screen == Screen.OVERVIEW && !downloadedTab && grid != null && pageStatus != null) pageStatus.setText("正在读取更多照片…");
         else if (screen == Screen.DETAIL) updateDetailNavigation();
         else render();
-        controller.loadPage(pageRequest.offset(), PAGE_SIZE, new AlbumController.Callback<PhotoPage>() {
+        final boolean fuji = connection != null && connection.protocol() == CameraProtocol.FUJIFILM_X_T20;
+        controller.loadPage(pageRequest.offset(), fuji ? FUJI_PAGE_SIZE : PAGE_SIZE, new AlbumController.Callback<PhotoPage>() {
             @Override public void onSuccess(PhotoPage page) {
                 if (!current(request) || browseRequest != browseEpoch) return;
                 if (pendingPage == pageRequest) pendingPage = null;
@@ -2569,6 +2655,8 @@ public final class AlbumPanel implements AutoCloseable {
                     adapter.notifyDataSetChanged(); if (anchor != null) grid.onRestoreInstanceState(anchor);
                     if (photoCountLabel != null) photoCountLabel.setText("相机照片 · " + photos.size() + (paging.hasMore() ? "+" : " 张"));
                     if (pageStatus != null) pageStatus.setText(paging.hasMore() ? "继续下滑浏览更多照片" : "已显示全部照片");
+                    // Queue this small page's first visible thumbnails before another metadata page.
+                    if (fuji) for (int i = 0; i < Math.min(MAX_THUMB_REQUESTS, page.items().size()); i++) requestRemoteThumb(page.items().get(i), null);
                     final GridView currentGrid = grid; grid.post(() -> maybeLoadMore(currentGrid));
                 } else if (screen == Screen.DETAIL) {
                     int index = detailIndex();
@@ -3142,7 +3230,7 @@ public final class AlbumPanel implements AutoCloseable {
         }
         if (viewerComparison != null) viewerComparison.setEffect(photo);
         boolean retry = !previewError.isEmpty() && remoteDetail != null && isConnected();
-        viewerImage.setPlaceholderText(previewError.isEmpty() ? "正在加载…" : retry ? "暂无预览，轻点重试" : "暂无预览");
+        viewerImage.setPlaceholderText(previewError.isEmpty() ? "正在加载…" : retry ? "预览失败，轻点查看原因" : "暂无预览");
     }
 
     private void renderDetail() {
@@ -3154,7 +3242,10 @@ public final class AlbumPanel implements AutoCloseable {
         if (viewerImage == null) viewerImage = new PhotoImageView(activity);
         if (viewerImage.getParent() instanceof ViewGroup) ((ViewGroup) viewerImage.getParent()).removeView(viewerImage);
         viewerImage.setOnSingleTap(() -> {
-            if (viewerPhoto == null && !previewError.isEmpty() && remoteDetail != null && isConnected()) { clearDetailImage(); render(); }
+            if (viewerPhoto == null && !previewError.isEmpty() && remoteDetail != null && isConnected()) {
+                new AlertDialog.Builder(activity).setTitle("预览未能加载").setMessage(previewError)
+                        .setNegativeButton("关闭", null).setPositiveButton("重试预览", (dialog, which) -> { clearDetailImage(); render(); }).show();
+            }
             else { viewerControlsVisible = !viewerControlsVisible; updateViewerChrome(); }
         });
         viewerImage.setOnSwipe(this::moveDetail);
@@ -3633,6 +3724,7 @@ public final class AlbumPanel implements AutoCloseable {
             tile.setContentDescription(name + (local ? "，已下载" : "") + (favorite ? "，已标星" : "") + (checked ? "，已选择" : ""));
             tile.setSelected(checked);
             tile.placeholder.setVisibility(View.VISIBLE);
+            tile.placeholder.setText(failedThumbs.contains(key) ? "预览暂不可用" : "正在加载预览…");
             tile.image.setImageDrawable(null);
             Bitmap cached = thumbs.get(key);
             if (cached != null) { tile.image.setImageBitmap(cached); tile.placeholder.setVisibility(View.GONE); }
@@ -3692,6 +3784,7 @@ public final class AlbumPanel implements AutoCloseable {
 
     private void requestRemoteThumb(PhotoItem photo, Runnable after) {
         final String key = remoteKey(photo);
+        if (thumbs.get(key) != null) { if (after != null) after.run(); return; }
         if (closed || downloading || !isConnected() || pendingThumbs.size() >= MAX_THUMB_REQUESTS || pendingThumbs.contains(key) || failedThumbs.contains(key)) return;
         pendingThumbs.add(key);
         final int request = epoch;
@@ -3743,6 +3836,10 @@ public final class AlbumPanel implements AutoCloseable {
         if (liveAdapter != null) liveAdapter.notifyDataSetChanged();
         if (screen == Screen.DETAIL) {
             updateDetailPhoto(); updateViewerStatus(); updateDetailNavigation();
+        }
+        if (screen == Screen.OVERVIEW && !downloadedTab && !liveTab && grid != null
+                && connection != null && connection.protocol() == CameraProtocol.FUJIFILM_X_T20) {
+            final GridView currentGrid = grid; currentGrid.post(() -> maybeLoadMore(currentGrid));
         }
     }
 
