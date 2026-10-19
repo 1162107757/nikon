@@ -1,0 +1,21 @@
+{
+  "verifiedAt": "2026-10-19T01:22:58.030Z",
+  "checks": [
+    {
+      "path": "/health",
+      "status": 200
+    },
+    {
+      "path": "/catalog.json",
+      "status": 200
+    },
+    {
+      "path": "/community/messages/unread",
+      "status": 401
+    },
+    {
+      "path": "/releases/latest?channel=beta&versionCode=59&sdk=35",
+      "status": 200
+    }
+  ]
+}

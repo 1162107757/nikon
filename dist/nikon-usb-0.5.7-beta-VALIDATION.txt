@@ -1,0 +1,90 @@
+Nikon Preset 0.5.7-beta - Delivery and validation record
+Date: 2026-10-17 (Asia/Shanghai)
+
+FINAL ARTIFACT
+File: dist/nikon-usb-0.5.7-beta-debug.apk
+Application ID: com.nikonpreset.usbprobe
+Version name: 0.5.7-beta
+Version code: 24
+APK size: 2753145 bytes
+SHA-256: 491290bce7c2b81af142b03480666fdbf4b8ba5b1e4f67af6982cffe4b029a5c
+Build and v2/v3 signature verification passed. Android UI checks below used
+this frozen artifact. Production sources were not changed after its build.
+
+CHANGES
+- Preset and album share the existing physical Wi-Fi/PTP session in both
+  directions. A completed verified import retains a fresh read owner, which
+  can transfer to album and back without a new Init/Open/Close operation.
+  Ownership transfer revokes old facades and preserves sockets, event reader
+  and exact transaction sequence. Album remains read-only; importing again
+  still needs fresh checks, immutable intent and explicit confirmation.
+- Application-owned orchestration holds the connection service across the
+  ownership gap, completes cancelled queued handoffs exactly once, and rejects
+  stale results after disconnect. The same failed automatic preparation does
+  not retry indefinitely as the UI renders; explicit retry remains possible.
+- All pages use the actual live connection for status. Photo readiness is
+  separate: a live but unsupported or temporarily refused album displays
+  connected/photos unavailable and offers a read retry on the same session.
+  Protocol loss or malformed data still terminates the invalid connection.
+- Immersive remote/local viewing supports left/right navigation, accessible
+  previous/next controls, correct boundaries and detail metadata pagination.
+  Zoomed drag pans; multi-touch/cancel/double tap do not trigger navigation.
+- Pinch follows its moving focus, lifting one finger reanchors the remaining
+  pointer, and double tap animates between fit and enlargement. The touch hot
+  path updates transforms/frame invalidation without decoding or rebuilding
+  the stage. Same-photo preview/original upgrades preserve the viewport.
+- Viewing still reads camera previews. Only explicit download reads originals;
+  unknown import results still do not replay writes or silently rearm budgets.
+
+AUTOMATED VALIDATION
+22017 checks passed: core 9928 + Picture Control probe 12089.
+Core includes PTP/IP 4258, album controller 319, preview cache 53 and swipe 28.
+Probe breakdown: ordinary USB 685, read-only PC 453, USB copy/adaptation 1253,
+wireless 9698. Synthetic peer self-tests also pass for full 49-photo album and
+Picture Control on one session. See tests/PTP_CORE.md.
+
+Independent scoped source review found no remaining P1/P2 after correcting
+queued-cancellation completion and the service-start/render retry loop.
+Final read-only gesture/lifecycle review likewise found no blocking P1/P2.
+
+FINAL-APK ANDROID CHECKS
+Temporary Pixel 9 / Android 17 emulator, 1080x2424; loopback-only synthetic
+camera with 49 JPEG fixtures and virtual preset slots. No physical camera.
+Explicit C2 import -> Album -> explicit C3 import -> Album succeeded on one
+connection. All three root pages showed connected while the session lived.
+Photo detail passed remote left/right, first/last boundaries, 24->48->49
+pagination, double tap, zoomed pan, moving-focus pinch, remaining-finger drag,
+cancel/vertical suppression, and local left/right over two downloaded images.
+Before explicit downloads there were zero original requests. The only two
+downloads were TEST_0049 and TEST_0048; their sizes/hashes matched fixtures.
+HOME and return retained the foreground service and photos. Manual disconnect
+closed the transport, updated status, stopped service and released CPU lock.
+This final path issued no CloseSession; do not confuse transport close with
+protocol CloseSession. The app-filtered crash buffer was empty.
+
+Evidence:
+- docs/device-review/album-0.5.7-functional.log
+- docs/device-review/album-0.5.7-before-download.log
+- docs/device-review/album-0.5.7-roundtrip.log
+- docs/device-review/album-0.5.7-protocol-audit.md
+- .impeccable/review/phone-apple-v057-*.png (see functional record for scope)
+
+PHYSICAL PHONE DELIVERY
+PKG110 / Android 16, user 0, previously installed code23 / 0.5.6-beta.
+Before updating, app-service inspection was empty. Preserve-data replacement
+installation returned Success; package inspection confirmed code24 /
+0.5.7-beta, updated 2026-10-17 12:29:40 local. Installed base.apk SHA-256
+matched the frozen delivery hash. No uninstall or data clear was performed.
+No synthetic fixtures, phone permission changes or physical camera operations
+were performed on that phone. Physical zoom feel and camera interoperability
+of this build remain for user verification.
+
+USER FEEDBACK / LIMITS
+The user reports 0.5.6 import no longer closes the camera hotspot, but the
+preset page showed connected while Album showed disconnected. Source review
+confirmed the missing reverse handoff and inconsistent readiness checks,
+which this build corrects. The earlier hotspot improvement is user feedback,
+not an independently captured 0.5.7 real-camera trace.
+This validation does not certify a physical frame rate, every camera/firmware,
+manufacturer battery policy or indefinite background connectivity. No claim
+is made that a disconnected camera hotspot can be kept alive by UI changes.

@@ -1,0 +1,41 @@
+0.9.1-beta / code40, 2026-10-17 Asia/Shanghai.
+Final APK: 8da86defdc2f4851b384c9df2838e678bd84a65741a2d0f47356569fefc2f3a3.
+Android17/API37 emulator only. No physical-photo processing or phone screenshots.
+
+acb candidate:
+Import synthetic PreviewTone and PreviewIdentity. Open new VisualQA project's
+default selector: two visibly different current-template images and preset names,
+explicit None/current check. Choose Tone -> automatic return with VisualQA name
+retained. Reopen and Back -> Tone remains. Explicit Start/foreground choice ->
+one synthetic new original, one automatic effect; then Stop.
+Existing project's selector shows Tone checked. None -> automatic return/disable.
+Live filter menu sits next to photo count, contains only checkable Star. Toggle
+to zero results, reopen and toggle off -> original visible again.
+Downloaded selection -> same visual picker, Tone -> confirm exactly one photo.
+Cancel confirmation/picker Back retain the original selection. No manual batch
+was started. Dark/font1.3, 984x2190 override and landscape, animator scale0:
+cards remain scrollable and names reachable. Candidate dark system-bar icon
+contrast was fixed in final source, not accepted as final visual evidence.
+
+Final8da:
+Mark synthetic raw4, Downloaded filter -> exactly one result. Popup contains only
+checked Star, count-adjacent trigger has check+Star+chevron. Dark1.3 screenshot
+visually inspected. Batch -> two real effect cards; select Identity -> automatic
+return to one-photo confirmation; Cancel -> selection retained.
+Existing VisualQA default -> explicit None checked; Identity -> automatic return
+and project label updated. Live Star filter -> exactly one photo. Live batch also
+opens the shared visual picker; Back preserves one selected photo.
+Final dark picker screenshot visually inspected: status/navigation indicators
+have suitable contrast after explicit WindowInsetsController appearance update.
+Force-stop/cold-start retains VisualQA, Identity default and Star filter; no
+automatic live start. Package readback40/0.9.1-beta. App crash-filter matches0.
+Display controls restored: font1.0, nightno, wm size reset, user_rotation0,
+accelerometer_rotation1, animator_duration_scale1.
+
+Own emulator shut down, synthetic peer exited on its automatic timeout.
+Archived trace: preset-picker-0.9.1-synthetic-protocol.log. One session/Open,
+zero CloseSession/virtual writes, one original and four large previews, all
+synthetic. No additional raw acquisition occurs just from choosing a preset.
+Final device inventory had no physical phone; 0.9.1 not installed on phone.
+No host/protocol suite rerun, physical-camera, real-photo, Doze/lock-screen,
+TalkBack or tablet acceptance is claimed.

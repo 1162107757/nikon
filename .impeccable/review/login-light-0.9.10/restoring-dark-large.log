@@ -1,0 +1,14 @@
+INSTRUMENTATION_STATUS: checks=347
+INSTRUMENTATION_STATUS: phase=READY
+INSTRUMENTATION_STATUS: state=restoring
+INSTRUMENTATION_STATUS: stream=QQ UI probe READY; synthetic=true; state=restoring; holdMs=3500
+
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_RESULT: authorizingBounds=button=[63,976,1017,1115];overlay=[294,976,786,1115];spinner=[336,1019,389,1072];label=[410,1008,744,1083]
+INSTRUMENTATION_RESULT: checks=347
+INSTRUMENTATION_RESULT: exchangingBounds=button=[63,1084,1017,1223];overlay=[342,1084,738,1223];spinner=[384,1127,437,1180];label=[458,1116,696,1191]
+INSTRUMENTATION_RESULT: restoringBounds=button=[63,976,1017,1115];overlay=[291,976,789,1115];spinner=[333,1019,386,1072];label=[407,1008,747,1083]
+INSTRUMENTATION_RESULT: status=PASS
+INSTRUMENTATION_RESULT: stream=QQ UI probe PASS; checks=347; state=restoring; no SDK authorization or session exchange was invoked
+
+INSTRUMENTATION_CODE: -1

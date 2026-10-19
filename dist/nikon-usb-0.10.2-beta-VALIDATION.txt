@@ -1,0 +1,28 @@
+Huevia 0.10.2-beta / versionCode 56 — 2026-10-18
+Published to existing beta channel; public APK length/hash and update metadata verified.
+APK: nikon-usb-0.10.2-beta-debug.apk
+Package: com.nikonpreset.usbprobe; minimum Android API 26.
+Bytes: 3274269
+SHA-256: 91ce0f51527a50d49ef37915d07439d043c9c77f42751fcb6c13d8d0f52beb10
+Existing signer verified by apksigner v2/v3 and backend full-content APK inspector.
+
+Changes: Recognize known NCP modification states 0/1/2 while preserving all other checks;
+account avatar picker/preview/reset and QQ defaults; inline preset-detail comments/replies;
+legacy online-download discussion recovery; cross-account draft and queued-author guards.
+Parallel task's NCP/NP3 format fields and NP3 original-file storage/download included.
+NP3 is not eligible for camera import, simulated preview, or photo preset rendering.
+
+Validation: 102 backend HTTP tests, avatar PostgreSQL migration/CAS/ACL/quota checks,
+13 live avatar assertions with exact owned fixture cleanup; migrations 001..008 deployed.
+98 NCP conversion and 2168 preview checks; actual 638-byte Bluesky file preserved,
+known flags produce identical 614-byte camera parameters.
+Final hash native inline tests: light94 / dark94 / landscape106, corrected visual12 / 15.
+Avatar native light140 / dark140 used candidate 09e37a68... with the same avatar UI/image pipeline;
+final account/author binding checked by host account150, community33, reply94, feed17, QQ gate23, challenge18.
+Related core, album/cache, gallery, date and preset-batch regressions passed in separate runs.
+Sandbox Temp rename failures were resolved using a workspace java.io.tmpdir; no cache product change.
+
+No physical phone install or real camera write performed in this task.
+Real QQ authorization, long-running performance and camera-rendering equivalence are not certified.
+Details: docs/validation/avatar-comments-0.10.2.json
+Native scope/screens: .impeccable/review/avatar-inline-0.10.2/INLINE-QA.md

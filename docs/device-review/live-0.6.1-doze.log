@@ -1,0 +1,28 @@
+0.6.1 final APK synthetic Android17 emulator; 2026-10-17 Asia/Shanghai; screen off + forced deep Doze; user-approved battery exemption.
+ACTUAL DEVICE IDLE
+    com.nikonpreset.usbprobe
+  mForceIdle=true
+  mState=IDLE mLightState=OVERRIDE
+ACTUAL WINDOW POLICY
+      showing=true
+      screenState=SCREEN_STATE_OFF
+      interactiveState=INTERACTIVE_STATE_SLEEP
+ACTUAL SERVICE
+    processName=com.nikonpreset.usbprobe
+    isForeground=true foregroundId=41 types=0x00000010 foregroundNoti=Notification(channel=camera-connection shortcut=null contentView=null vibrate=null sound=null defaults=0 flags=ONGOING_EVENT|ONLY_ALERT_ONCE|NO_CLEAR|FOREGROUND_SERVICE color=0x00000000 category=service actions=2 vis=PRIVATE template=null)
+ACTUAL CPU LOCK
+  mWakefulness=Asleep
+  PARTIAL_WAKE_LOCK                 'nikon:camera-connection' ACQ=-2m16s846ms LONG (uid=10230 isFrozen=false isAttributedUidCached=false pid=9738 powerGroupId=0)
+mWakefulness=0
+  10-17 06:02:45.022 - 10230 (com.nikonpreset.usbprobe) - ACQ nikon:camera-connection (partial)
+  10-17 06:05:19.694 - 10230 (com.nikonpreset.usbprobe) - REL nikon:camera-connection
+  10-17 06:06:36.417 - 10230 (com.nikonpreset.usbprobe) - ACQ nikon:camera-connection (partial)
+ACTUAL MEDIASTORE
+Row: 0 _id=37, _display_name=v061-live-baseline.png, is_pending=0, relative_path=/
+Row: 1 _id=40, _display_name=TEST0004-LIVE-d5c09c6c3f5a80c88058b5bba327da86fb934d3892b3381fb79ca0ab23e34abc.jpg, is_pending=0, relative_path=Pictures/相机预设/
+Row: 2 _id=41, _display_name=TEST0005-LIVE-5c15800da3f3fc71346dc5f783c53045362649613a88d9394b050211d722d031.jpg, is_pending=0, relative_path=Pictures/相机预设/
+Row: 3 _id=42, _display_name=TEST0006-LIVE-eaec76c80316a250c21edfdc374fab04f66bf895cfa30c89087cf3053a68da2c.jpg, is_pending=0, relative_path=Pictures/相机预设/
+ACTUAL ORIGINAL HASHES
+f026c924b35a1f8897c911ed79ed0e35680e444bea9f4d69253d5f2a5f1da133  /sdcard/Pictures/相机预设/TEST0004-LIVE-d5c09c6c3f5a80c88058b5bba327da86fb934d3892b3381fb79ca0ab23e34abc.jpg
+00f6d88bd1de2407ab9806247fd228414a486a6c7feff00be4402ac3a8c89a52  /sdcard/Pictures/相机预设/TEST0005-LIVE-5c15800da3f3fc71346dc5f783c53045362649613a88d9394b050211d722d031.jpg
+fa30134e143a185e01e0b0f14fb82b8c6b2cd9c67eaddc6ace98f0ed2c525004  /sdcard/Pictures/相机预设/TEST0006-LIVE-eaec76c80316a250c21edfdc374fab04f66bf895cfa30c89087cf3053a68da2c.jpg

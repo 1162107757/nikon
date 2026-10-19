@@ -1,0 +1,71 @@
+Nikon Preset 0.8.2-beta / versionCode 33
+2026-10-17 Asia/Shanghai
+STATUS: FINAL ARTIFACT VERIFIED; SYNTHETIC DELETION / READ-ONLY PHONE SCOPES BELOW
+APK: nikon-usb-0.8.2-beta-debug.apk
+Final: 2,855,545 bytes, built 2026-10-17 17:16:47 +08:00.
+SHA-256 b2eb2ecbda09a715837b38166db0e8fc72ae29f0065740b8a8d75d8f36f8e1ee.
+APK v2/v3 signature verification passes; versionCode 33 / 0.8.2-beta.
+
+IMPLEMENTED SCOPE
+Downloaded photos group by local capture date. EXIF Original/Digitized/DateTime
+and supported offset tags are read on a separate local worker; missing or
+invalid dates fall back to saved-file time. Raw metadata has a cancellable
+canonical-path/length/mtime LRU cache capped at 4,096. JPEGs are not rewritten.
+Date headers show counts and whole-day select/cancel; immutable grouping and
+lazy row metadata support virtualized thumbnail rows with stable path selection.
+
+Viewer trash and selected batch delete require explicit confirmation. Only
+the App file, its corresponding system-gallery copy and project membership
+are removed. Camera-card photos are retained; no camera write is issued.
+Live, saving and preset-processing tasks exclude deletion. Per-item failure
+retains the App source and reports retryable errors.
+
+CONFIRMED FOCUSED HOST CHECKS
+All runners exit 0. Total 1,564:
+702 controller + 355 project store + 100 project folder + 171 Gallery/Saver
++ 20 production delete + 54 batch + 40 source + 55 groups + 67 date reader.
+Raw backend outputs: app/build/v082-delete-album-tests.log and
+app/build/v082-delete-focused-summary.log. Dates: tests/run-photo-dates.ps1.
+Host facades/calendar/file checks do not establish Android EXIF/MediaStore,
+real-OS permission handling or physical-phone deletion behaviour.
+
+FINAL ARTIFACT: ANDROID 17 EMULATOR
+Three synthetic JPEGs are pushed today but EXIF dates are today, yesterday
+and 2025-12-31. The final app groups all three accurately. Whole-day selection
+and cancelling a delete confirmation work.
+Synthetic live project DeleteQA receives photo 4 (741,289 bytes). After live
+stops, Tone creates a 2,036,914-byte effect. Downloaded contains five photos:
+today three, yesterday one and previous year one. Confirming batch deletion
+of TEST4 + its effect changes App photos 5->3 and MediaStore rows 38/39 2->0.
+Project persists, detail changes 1 photo -> 0 photos / 0 B, no ghost picture,
+and connection remains green. HOME/return captures delete FGS type 0x11.
+Save TODAY from its viewer to row 40, then confirm viewer trash: private
+photos 3->2 and its gallery row 1->0. Today group disappears; yesterday and
+previous-year groups remain. All deletion targets are synthetic emulator data.
+
+Final b2eb dark layout at 375dp/font1.3 passes date-title/count, whole-day
+select and delete-bar inspection. Explicit Settings disconnect, force-stop
+and cold-start preserve DeleteQA at 0 photos / 0 B. Deleted private photos
+and system-gallery copies do not resurrect; the app crash log is empty.
+Protocol audit: one InitCommand + one InitEvent + one OpenSession;
+DeleteObject (0x100b) = 0, virtualWrites = 0, CloseSession = 0.
+Transport closes only after explicit Settings disconnect, not on deletion.
+
+Fixture setup initially had a shell-owned directory. Automatic approval
+review rejected chmod 2777; it was not executed. After confirming only three
+synthetic fixtures existed, the emulator test App was reinstalled so it
+normally created its own directory. No permission override was applied;
+the setup issue was resolved before acceptance.
+
+PHYSICAL PHONE: PRESERVE-DATA INSTALL / READ-ONLY UI ONLY
+286f0dba, user 0, 2026-10-17 17:28 +08:00: install -r succeeds; versionCode
+33 / 0.8.2-beta and installed base.apk hash exactly match final b2eb.
+Read-only checks retain Agfa Optima and 11 downloads: today 10, August 14 one.
+Selection mode opens with zero selected and is cancelled. No real photo is
+selected or deleted, and no phone screenshot is exported. Final phone app
+crash log is empty, activity services report nothing, and Downloaded overview
+remains open. This is not phone deletion or new hardware-camera/Doze proof.
+Historical evidence remains version-scoped; setup has no remaining blocker.
+
+See ../docs/device-review/album-0.8.2-functional.log.
+Original comparison and NCP phone-simulation/rendering capabilities are unchanged.

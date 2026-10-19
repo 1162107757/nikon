@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <meta name="referrer" content="same-origin">
+  <title>管理后台 · 相机预设</title>
+  <link rel="icon" href="./mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./tokens.css">
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./releases.css">
+  <link rel="stylesheet" href="./community.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要内容</a>
+  <aside id="sidebar" class="sidebar" hidden aria-label="管理导航">
+    <a class="brand sidebar-brand" href="#presets"><img src="./mark.svg" width="36" height="36" alt=""><span>相机预设<small>管理后台</small></span></a>
+    <nav class="side-nav" aria-label="主要导航">
+      <a href="#presets" data-page="presets"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/><circle cx="9" cy="9" r="1.5"/><path d="m5 17 5-5 4 4 3-3 3 4"/></svg><span>预设管理</span></a>
+      <a href="#users" data-page="users"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 20v-2a6 6 0 0 1 12 0v2M16 5a3 3 0 0 1 0 6M17 14a5 5 0 0 1 4 5v1"/></svg><span>用户管理</span></a>
+      <a href="#community" data-page="community"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-9l-5 3v-3a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"/><path d="M7 9h10M7 13h6"/></svg><span>社区管理</span></a>
+      <a href="#releases" data-page="releases" data-admin-only hidden><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M10 5h4M12 9v7m-3-3 3 3 3-3M11 19h2"/></svg><span>App 版本</span></a>
+    </nav>
+    <div class="sidebar-foot"><span class="connection-label"><i aria-hidden="true"></i>管理服务已连接</span><small id="environment"></small></div>
+  </aside>
+  <header class="topbar">
+    <a class="brand top-brand" href="./" aria-label="相机预设管理首页"><img src="./mark.svg" width="36" height="36" alt=""><span>相机预设<small>管理后台</small></span></a>
+    <p class="workspace-location" id="workspace-location" hidden><span>控制台</span><span aria-hidden="true">/</span><strong id="current-page-name">预设管理</strong></p>
+    <div class="top-actions">
+      <label class="theme-control"><span class="sr-only">外观</span><select id="theme" aria-label="外观"><option value="system">跟随系统</option><option value="light">浅色</option><option value="dark">深色</option></select></label>
+      <span id="account" class="account" hidden></span>
+      <button id="logout" class="button quiet" hidden>退出登录</button>
+    </div>
+  </header>
+  <main id="main" tabindex="-1"><div class="initial-state" role="status"><span class="spinner"></span><p>正在连接管理服务…</p></div></main>
+  <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+  <dialog id="editor" class="editor" aria-labelledby="editor-title"></dialog>
+  <dialog id="user-detail" class="editor user-detail" aria-labelledby="user-detail-title"></dialog>
+  <dialog id="confirm" class="confirm" aria-labelledby="confirm-title"></dialog>
+  <noscript><div class="noscript">请启用 JavaScript 后使用管理后台。</div></noscript>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

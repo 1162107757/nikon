@@ -1,0 +1,51 @@
+Huevia 0.11.0-beta (versionCode 57)
+Date: 2026-10-18 (Asia/Shanghai)
+APK: dist/nikon-usb-0.11.0-beta-debug.apk
+SHA-256: 620ee1c2a47de008a6a4bb8a8a89e9e7c7db5a67ff5b67727ec08038c92ccf8b
+Size: 3282461 bytes
+Android APK v2/v3 signature verification: PASS (existing development signing key).
+
+Implemented:
+- Strict NP3 0310 Flexible Color parameter parsing and a documented phone approximation.
+- 257-sample tone curve, basic tone, saturation, eight-colour HSL edits, three-zone grading.
+- Shared template preview, tone mapping, visual preset picker, photo batch and project default preset.
+- Full-resolution JPEG95/sRGB output, separate NP3 model identity, original linkage and reuse.
+- Recovery after output commit interrupted before source-link commit uses exact source/preset/model keys.
+- Legacy NCP rendering, identities and camera conversion boundaries preserved.
+
+Host validation:
+- NP3 focused runner: 8692 synthetic checks; 1125387 corpus checks.
+- Real corpus: 133 supported / 9 explicit unsupported / 142 NP3 files; 127 distinct grid outputs.
+- Unsupported: one Creative base (Bluegrain) and eight unknown non-neutral field 0x1400 recipes.
+- Photo batch: 165; source links: 82 (including interrupted NP3 recovery).
+- Project automatic preset: 32; photo library grouping/version: 36.
+- Preset library: 1371; full original archive verified as 236 NP3 + 4 NCP.
+- Legacy NCP structure/preview/converter: 68 / 2168 / 98.
+- Core PTP, transfer, storage, read dataset, PTP/IP, trace, cache and paging/motion checks passed.
+- Album controller/project store/folders: 826 / 356 / 100.
+- Gallery save/delete/original identity: 221 / 36 / 18.
+- Photo date grouping/reader: 55 / 67.
+- General runner stopped in gallery because Windows sandbox temporary-directory atomic rename was denied.
+  The three compiled gallery suites were rerun with java.io.tmpdir inside tests/.build/gallery-files and passed.
+  The remaining date suites and the final photo batch suites were run separately and passed.
+- One initial library invocation supplied the 142 cloud-only archive to a test expecting the original 236-file archive.
+  Corrected the input to nikon-recipes-main.zip; full library verification passed. No production format changes were needed.
+- Independent review found the interrupted-output NP3 source-link recovery issue; fixed and regression-tested.
+
+Native validation on final APK/hash:
+- Dedicated read-only Pixel_9 emulator-5582, Android 17, ranchu, airplane mode.
+- Light: 60 PASS. Dark: 60 PASS.
+- Actual Android template pixel processing, immutable source NP3/template, supported BleachBypass and rejected Bluegrain.
+- Actual 1800x1200 JPEG codec, sRGB, EXIF orientation/capture metadata, pre-cancellation.
+- Fresh batch, effect-to-original reapply/reuse, exact original SHA/mtime unchanged.
+- Actual committed MediaStore rows with private/public output byte equality.
+- Supported/unsupported details and picker screenshots reviewed in both themes.
+- Evidence: docs/validation/np3-native/light/report.json and dark/report.json.
+- Reproducible instrumentation: tests/np3-device-probe/README.md.
+
+Limits:
+- Phone approximation only. No claim of Nikon camera/NX Studio colour equivalence.
+- No RAW development, camera base transform, spatial sharpening/clarity or new NP3 camera-write support.
+- Photo input remains complete JPEG originals in the app album, not arbitrary system-gallery import.
+- No NX Studio colour baseline calibration, physical-phone performance or 24MP long-running batch validation.
+- No user phone installation, real-camera connection/write or public release performed in this task.

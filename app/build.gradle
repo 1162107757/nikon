@@ -7,8 +7,8 @@ android {
         applicationId 'com.nikonpreset.usbprobe'
         minSdk 26
         targetSdk 35
-        versionCode 23
-        versionName '0.5.6-beta'
+        versionCode 61
+        versionName '0.11.4-beta'
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
@@ -17,4 +17,10 @@ android {
     buildTypes {
         release { minifyEnabled false }
     }
+}
+
+dependencies {
+    implementation files('libs/open_sdk_3.5.19_r9483ffc7_lite.jar')
+    // Tencent exposes optional legacy Fragment overloads. This app uses native Activity only.
+    compileOnly files('libs/compile-only/support-fragment-28.0.0.jar')
 }

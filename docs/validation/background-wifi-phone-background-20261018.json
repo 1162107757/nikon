@@ -1,0 +1,12 @@
+{
+  "phase": "background",
+  "capturedAt": "2026-10-18T15:26:10.5836814+08:00",
+  "pid": "28028",
+  "foregroundService": true,
+  "connectedDeviceType": true,
+  "wifiRequest59742": true,
+  "ptpEstablished": 0,
+  "cpuLock": true,
+  "awake": true,
+  "hueviaTop": false
+}

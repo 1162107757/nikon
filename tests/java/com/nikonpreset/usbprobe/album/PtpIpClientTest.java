@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /** Synthetic TCP peers; no Android runtime, camera, private SDK, or photographs. */
 public final class PtpIpClientTest {
@@ -54,7 +55,62 @@ public final class PtpIpClientTest {
         verifiedRegistrationTransfersOneFreshAttemptWithoutClosingChannels();
         unverifiedRegistrationCannotRefreshItsWriteBudget();
         registrationProofCannotCrossAClosedAndReopenedSession();
+        pictureControlCanReturnToAReadOnlyAlbumWithoutReopening();
+        pictureControlWriteAttemptsCannotBeLaunderedThroughAlbumHandoff();
+        reverseHandoffEventFailureAndCancellationCloseOnlyTheCurrentOwner();
+        objectAddedEventsBelongOnlyToTheCurrentReadOnlyOwner();
+        objectAddedListenerFailuresCannotKillThePhysicalEventReader();
+        malformedObjectAddedEventsCloseTheCurrentOwner();
+        connectionTraceHooksNeverExposeCameraData();
         System.out.println("PASS: " + checks + " PTP/IP client checks");
+    }
+
+    private static void connectionTraceHooksNeverExposeCameraData() throws Exception {
+        var directory = java.nio.file.Files.createTempDirectory("huevia-ptp-trace-");
+        var file = directory.resolve("connection-trace.log");
+        ConnectionTrace.configure(file.toFile());
+        try {
+            Peer peer = new Peer(); PtpIpClient client = peer.connect();
+            equal(SMALL, client.getData(0x100a, 64, 0x12345678L));
+            peer.sockets.get(1).input.add(frame(13, new byte[0]));
+            check(peer.pong.await(5, TimeUnit.SECONDS), "Trace instrumentation preserves the actual event ping response");
+            peer.fault = Fault.ERROR_RESPONSE;
+            rejects(() -> client.getData(0x1004, 64));
+            check(client.isOpen(), "A traced complete rejection still preserves the reusable protocol boundary");
+            peer.fault = Fault.NONE;
+            rejects(() -> client.readTo(0x1009, new OutputStream() {
+                @Override public void write(int value) throws IOException { throw new IOException("private-file.JPG secret-token"); }
+                @Override public void write(byte[] bytes, int start, int length) throws IOException { throw new IOException("private-file.JPG secret-token"); }
+            }, 64, SMALL.length, null, 0x12345678L));
+            client.close(); client.close();
+
+            Peer remote = new Peer(); PtpIpClient disconnected = remote.connect();
+            CountDownLatch closed = new CountDownLatch(1); disconnected.setOnClosed(closed::countDown);
+            remote.sockets.get(1).input.close();
+            check(closed.await(5, TimeUnit.SECONDS), "An actual event EOF reaches the first-close trace hook");
+            disconnected.close();
+            Peer explicit = new Peer(); PtpIpClient released = explicit.connect(); released.close(); released.close();
+            ConnectionTraceTest.flushForTest("TRACE_FLUSH");
+            String evidence = java.nio.file.Files.readString(file);
+            check(evidence.contains("event=PTP_OP_BEGIN") && evidence.contains("event=PTP_OP_COMPLETE")
+                    && evidence.contains("event=PTP_OP_FAILED") && evidence.contains("op=0x100a tx="),
+                    "Real command paths emit operation start, complete, failure and elapsed timing");
+            check(evidence.contains("event=PTP_EVENT_PING_REPLY"), "The actual event reader records its successful ping reply");
+            equal(3L, evidence.lines().filter(line -> line.contains("event=PTP_CLOSED ")).count());
+            check(evidence.lines().anyMatch(line -> line.contains("event=PTP_CLOSED ") && line.endsWith("category=EOF"))
+                    && evidence.lines().anyMatch(line -> line.contains("event=PTP_CLOSED ") && line.endsWith("category=IO"))
+                    && evidence.lines().anyMatch(line -> line.contains("event=PTP_CLOSED ") && line.endsWith("category=EXPLICIT")),
+                    "Only each physical connection's first close is recorded with its fixed cause category");
+            check(!evidence.contains("private-file") && !evidence.contains("secret-token") && !evidence.contains("camera.test")
+                    && !evidence.contains(FRIENDLY_NAME) && !evidence.contains("305419896") && !evidence.contains("12345678"),
+                    "Actual PTP tracing excludes exception messages, host, friendly name, handles and payload");
+        } finally {
+            ConnectionTrace.configure(null);
+            var writer = ConnectionTrace.class.getDeclaredField("WRITER"); writer.setAccessible(true);
+            ((java.util.concurrent.ExecutorService) writer.get(null)).submit(() -> { }).get(10, TimeUnit.SECONDS);
+            java.nio.file.Files.deleteIfExists(directory.resolve("connection-trace.log.tmp"));
+            java.nio.file.Files.deleteIfExists(file); java.nio.file.Files.deleteIfExists(directory);
+        }
     }
 
     private static void pictureControlConnectionsAreIsolatedAndSessionOwned() throws Exception {
@@ -640,6 +696,162 @@ public final class PtpIpClientTest {
         check(client.isOpen(), "Rejected stale proof cannot grant another write or close the reopened owned session");
         client.close();
         peer.assertClosed();
+    }
+
+    private static void pictureControlCanReturnToAReadOnlyAlbumWithoutReopening() throws Exception {
+        Peer peer = new Peer();
+        PtpIpClient preset = peer.connectPictureControl();
+        preset.getPictureControlData(0x90cc, 1, 1, 0);
+        rejects(() -> preset.transferToAlbum(1));
+        rejects(() -> preset.transferToAlbum(3));
+        int before = peer.operations.size();
+        PtpIpClient album = preset.transferToAlbum(2);
+        check(preset.isClosed() && album.isOpen(), "Reverse handoff revokes the old preset facade while preserving the physical connection");
+        equal(before, peer.operations.size());
+        equal(2, peer.sockets.size());
+        rejects(() -> album.getData(0x1004, 64));
+        rejects(album::readAlbumDeviceInfo);
+        rejects(() -> album.getPictureControlData(0x90cc, 2, 201, 0));
+        rejects(() -> album.sendPictureControlData(0x90cd, 2, profile(false), 201, 0));
+        equal(2L, album.claimTransferredAlbumSession());
+        rejects(album::claimTransferredAlbumSession);
+        rejects(preset::claimTransferredAlbumSession);
+        rejects(() -> preset.transferToAlbum(2));
+        rejects(() -> preset.getPictureControlData(0x90cc, 2, 1, 0));
+        preset.close();
+        preset.abortProtocol(new IOException("obsolete preset callback"));
+        check(album.isOpen() && !album.isProtocolUnconfirmed(), "Obsolete preset cleanup cannot cancel the adopted read-only album owner");
+        equal(INFO, album.readAlbumDeviceInfo());
+        equal(2L, peer.lastTransaction);
+        equal(SMALL, album.getData(0x1004, 64));
+        equal(3L, peer.lastTransaction);
+        ByteArrayOutputStream original = new ByteArrayOutputStream();
+        album.readTo(0x1009, original, 64, SMALL.length, null, 7);
+        equal(SMALL, original.toByteArray());
+        equal(4L, peer.lastTransaction);
+        int beforeSecondTransfer = peer.operations.size();
+        PtpIpClient secondPreset = album.transferToPictureControl();
+        equal(beforeSecondTransfer, peer.operations.size());
+        equal(5L, secondPreset.claimTransferredSession());
+        rejects(album::claimTransferredAlbumSession);
+        rejects(() -> album.getData(0x1004, 64));
+        album.close();
+        album.abortProtocol(new IOException("obsolete album callback"));
+        equal(SMALL, secondPreset.getPictureControlData(0x90cc, 5, 201, 0));
+        check(secondPreset.isOpen(), "An album-to-preset return remains usable after stale album callbacks");
+        equal(1L, peer.operations.stream().filter(operation -> operation == 0x1002).count());
+        equal(0L, peer.operations.stream().filter(operation -> operation == 0x1003).count());
+        equal(0L, peer.operations.stream().filter(operation -> operation == 0x90cd).count());
+        equal(2, peer.sockets.size());
+        assertSessionTransactionsAdvance(peer);
+        secondPreset.close();
+        peer.assertClosed();
+    }
+
+    private static void pictureControlWriteAttemptsCannotBeLaunderedThroughAlbumHandoff() throws Exception {
+        for (String outcome : new String[] {"acknowledged_unverified", "rejected", "unknown", "verified_old_facade"}) {
+            Peer peer = new Peer();
+            peer.exactPictureControlReadback = true;
+            PtpIpClient preset = peer.connectPictureControl();
+            if (outcome.equals("rejected")) peer.fault = Fault.WRITE_REJECTED;
+            if (outcome.equals("unknown")) peer.fault = Fault.WRITE_DROP;
+            try { preset.sendPictureControlData(0x90cd, 1, profile(false), 201, 0); }
+            catch (IOException error) { check(outcome.equals("rejected") || outcome.equals("unknown"), "Only configured write failures are expected"); }
+            if (outcome.equals("verified_old_facade")) preset.getPictureControlData(0x90cc, 2, 201, 0);
+            int before = peer.operations.size();
+            rejects(() -> preset.transferToAlbum(outcome.equals("verified_old_facade") ? 3 : 2));
+            equal(before, peer.operations.size());
+            equal(1L, peer.operations.stream().filter(operation -> operation == 0x90cd).count());
+            equal(2, peer.sockets.size());
+            preset.close();
+            peer.assertClosed();
+        }
+    }
+
+    private static void reverseHandoffEventFailureAndCancellationCloseOnlyTheCurrentOwner() throws Exception {
+        Peer peer = new Peer();
+        PtpIpClient oldPreset = peer.connectPictureControl();
+        PtpIpClient album = oldPreset.transferToAlbum(1);
+        album.claimTransferredAlbumSession();
+        CountDownLatch closed = new CountDownLatch(1);
+        album.setOnClosed(closed::countDown);
+        peer.sockets.get(1).input.close();
+        check(closed.await(5, TimeUnit.SECONDS), "The original preset event reader routes EOF to the current album owner");
+        check(album.isClosed() && album.isProtocolUnconfirmed() && !album.closeReason().isEmpty(),
+                "Reverse handoff preserves terminal event failure evidence on the current owner");
+        oldPreset.close();
+        peer.assertClosed();
+
+        Peer cancelledPeer = new Peer();
+        PtpIpClient cancelled = cancelledPeer.connectPictureControl();
+        PtpIpClient[] escaped = {null};
+        Thread.currentThread().interrupt();
+        try { rejects(() -> escaped[0] = cancelled.transferToAlbum(1)); }
+        finally { Thread.interrupted(); cancelled.close(); if (escaped[0] != null) escaped[0].close(); }
+        equal(2, cancelledPeer.sockets.size());
+        cancelledPeer.assertClosed();
+    }
+
+    private static void objectAddedEventsBelongOnlyToTheCurrentReadOnlyOwner() throws Exception {
+        Peer peer = new Peer();
+        PtpIpClient original = peer.connect(), preset = null, album = null;
+        AtomicInteger oldCalls = new AtomicInteger(), currentCalls = new AtomicInteger();
+        CountDownLatch first = new CountDownLatch(1), current = new CountDownLatch(1);
+        try {
+            original.setOnObjectAdded(handle -> { equal(42L, handle); oldCalls.incrementAndGet(); first.countDown(); });
+            int commandsBefore = peer.operations.size();
+            peer.sockets.get(1).input.add(frame(8, concat(le16(0x4002), le32(0xffffffffL), le32(42))));
+            check(first.await(5, TimeUnit.SECONDS), "A valid ObjectAdded event reaches the current album listener");
+            equal(commandsBefore, peer.operations.size());
+            preset = original.transferToPictureControl(); equal(1L, preset.claimTransferredSession());
+            preset.getPictureControlData(0x1001, 1);
+            peer.sockets.get(1).input.add(frame(8, concat(le16(0x4002), le32(0xffffffffL), le32(88))));
+            album = preset.transferToAlbum(2); equal(2L, album.claimTransferredAlbumSession());
+            album.setOnObjectAdded(handle -> { if (handle == 89) { currentCalls.incrementAndGet(); current.countDown(); } });
+            original.close(); preset.close();
+            commandsBefore = peer.operations.size();
+            peer.sockets.get(1).input.add(frame(8, concat(le16(0x4002), le32(0xffffffffL), le32(89))));
+            check(current.await(5, TimeUnit.SECONDS), "The same physical reader delivers a later ObjectAdded event to the returned album owner");
+            equal(1, oldCalls.get()); equal(1, currentCalls.get()); equal(commandsBefore, peer.operations.size());
+            equal(SMALL, album.getData(0x1004, 64));
+            equal(2L, peer.transactions.get(peer.transactions.size() - 1).longValue());
+            equal(2, peer.sockets.size());
+            check(album.isOpen() && peer.operations.stream().noneMatch(op -> op == 0x1009 || op == 0x90cd || op == 0x1003),
+                    "Object notifications never cause event-thread original downloads, registration, reconnect, or CloseSession");
+        } finally { if (album != null) album.close(); if (preset != null) preset.close(); original.close(); }
+        peer.assertClosed();
+    }
+
+    private static void objectAddedListenerFailuresCannotKillThePhysicalEventReader() throws Exception {
+        Peer peer = new Peer(); PtpIpClient album = peer.connect();
+        try {
+            album.setOnObjectAdded(handle -> { throw new IllegalStateException("synthetic detached UI listener"); });
+            peer.sockets.get(1).input.add(frame(8, concat(le16(0x4002), le32(0xffffffffL), le32(42))));
+            peer.sockets.get(1).input.add(frame(13, new byte[0]));
+            check(peer.pong.await(5, TimeUnit.SECONDS), "A throwing ObjectAdded callback cannot kill event ping processing");
+            check(album.isOpen() && !album.isProtocolUnconfirmed(), "Listener code failure does not corrupt the healthy command or event channel");
+            equal(SMALL, album.getData(0x1004, 64));
+        } finally { album.close(); }
+        peer.assertClosed();
+    }
+
+    private static void malformedObjectAddedEventsCloseTheCurrentOwner() throws Exception {
+        for (byte[] payload : new byte[][] {
+                concat(le16(0x4002), le32(0xffffffffL)),
+                concat(le16(0x4002), le32(0xffffffffL), le32(0)),
+                concat(le16(0x4002), le32(0xffffffffL), le32(0xffffffffL)),
+                concat(le16(0x4002), le32(0xffffffffL), le32(42), le32(43))}) {
+            Peer peer = new Peer(); PtpIpClient old = peer.connectPictureControl(), album = old.transferToAlbum(1);
+            album.claimTransferredAlbumSession();
+            CountDownLatch closed = new CountDownLatch(1); AtomicInteger events = new AtomicInteger();
+            album.setOnClosed(closed::countDown); album.setOnObjectAdded(handle -> events.incrementAndGet());
+            peer.sockets.get(1).input.add(frame(8, payload));
+            check(closed.await(5, TimeUnit.SECONDS), "Malformed ObjectAdded semantic payload terminates the physical current owner");
+            equal(0, events.get());
+            check(album.isClosed() && album.isProtocolUnconfirmed() && !album.closeReason().isEmpty(),
+                    "Invalid live-event handles or arity cannot become a photo candidate and preserve terminal diagnostics");
+            old.close(); album.close(); peer.assertClosed();
+        }
     }
 
     private static void cancelledClientCannotOpenSockets() throws Exception {

@@ -1,0 +1,11 @@
+{
+  "scope": "Isolated localhost, in-memory synthetic moderation records and publication state; metadata from real existing signed APK; no cloud write",
+  "checks": [
+    "Rootmain release UI publish requires explicit second confirmation and reflects actual APK metadata",
+    "Public download defaults stable; absent stable is explicitly labelled beta with real APK metadata and page QR",
+    "Community moderation, safe text rendering, comment hiding, report dismissal, settings save and audit before/after all operated through actual browser adapter",
+    "Existing presets/users routes remain reachable",
+    "Desktop plus mobile light/dark with reduced motion captured; no viewport overflow"
+  ],
+  "errors": []
+}

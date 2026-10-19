@@ -1,0 +1,4 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.nikonpreset.usbprobe.replyqa">
+ <application android:label="Huevia 回复关系隔离验证" android:allowBackup="false" />
+ <instrumentation android:name=".ReplyProbe" android:targetPackage="com.nikonpreset.usbprobe" android:functionalTest="true" />
+</manifest>

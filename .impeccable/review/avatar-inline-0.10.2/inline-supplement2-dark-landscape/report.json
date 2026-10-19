@@ -1,0 +1,27 @@
+{
+  "versionCode": 56,
+  "installedApkSha256": "91ce0f51527a50d49ef37915d07439d043c9c77f42751fcb6c13d8d0f52beb10",
+  "layout": "landscape",
+  "status": "PASS",
+  "checks": 15,
+  "passed": [
+    "dedicated-emulator-only",
+    "landscape-freeze",
+    "frozen-version",
+    "no-real-account",
+    "theme",
+    "evidence-run-label",
+    "evidence-directory",
+    "private-fixture-directory",
+    "guest-session",
+    "no-camera-task",
+    "screenshot-corrected-inline-comment-avatars",
+    "landscape-pixels-corrected-inline-comment-avatars",
+    "legacy-comment-layout-present",
+    "screenshot-corrected-legacy-downloaded-comments",
+    "landscape-pixels-corrected-legacy-downloaded-comments"
+  ],
+  "theme": "dark",
+  "scope": "Supplemental screenshots after 94-check functional PASS; nested inline mount coordinates corrected in helper. Synthetic account\/comments\/catalog, private fixture library, no camera or production writes.",
+  "ownedFixtureCleaned": true
+}

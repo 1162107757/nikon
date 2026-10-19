@@ -1,0 +1,53 @@
+Nikon Preset 0.7.1-beta / versionCode 29
+2026-10-17 Asia/Shanghai
+APK: nikon-usb-0.7.1-beta-debug.apk
+Bytes: 2,802,297
+SHA-256: 462c508e4f335cf0bf1dd473af6b419d6f8e81a05a727b92bddfb30b1b293220
+Build: 2026-10-17 14:51:09 +08:00; no later production source changes.
+
+CHANGE
+Rounded 48dp project selector with an independent CHEVRON_DOWN vector and
+END-ellipsized name. Chooser rows distinguish date, photo count, selection
+check and active reception status. The durable project/original format and
+camera protocol implementation are unchanged by this patch.
+
+CHECKS
+249 store checks pass against the final production classes. Durable-store
+source protections were audited. This is not a new full core/probe/server,
+protocol, background, Doze or physical-camera validation run.
+
+FINAL APK EMULATOR
+Android 17 / Pixel 9. The older 0.7.0 APK created two projects:
+- AutumnPortraitSessionAtTheLakesideAndOldTown2026: two synthetic photos 4/5.
+- Weekend: empty.
+Stopped reception and disconnected before preserve-data upgrade to 0.7.1.
+Both projects/photos remain and switch offline. Force-stop/cold-start keeps
+the long-name selected project ID and its two photos. Weekend still shows
+the correct empty state, and reopening the chooser retains both projects.
+Light/dark selector and menu screenshots were inspected as legible.
+Installed emulator base APK SHA-256 matches the final artifact. App services
+are empty. App-package/FATAL EXCEPTION crash filter is empty; vendor UWB
+service failures are unrelated. run-as is unavailable because the package
+is non-debuggable; no private Android disk inspection is claimed.
+
+PHYSICAL PHONE
+At 14:54 PKG110 was still actively receiving Photo Live on 0.7.0; initial
+delivery left that session untouched. The user later explicitly requested
+installation. Before updating, UI confirmed Photo Live stopped and the
+existing project 2026-10-17 14:44 contained two photos. The idle camera
+connection was manually disconnected; app services were empty.
+Preserve-data install to code 29 / 0.7.1-beta succeeded at 2026-10-17
+14:59:56 +08:00. Installed base APK SHA-256 matches the final artifact.
+Post-install phone UI shows the new selector and project 2026-10-17 14:44
+still containing two photos. No connection or live reception resumed; the
+phone remains on Photo Live with that existing project. No active transfer
+was interrupted; no uninstall/data clear or new physical capture/import,
+protocol/Doze or power-setting test is claimed.
+
+EVIDENCE
+../docs/device-review/projects-0.7.1-functional.log
+../.impeccable/review/phone-apple-v071-project-selector-light.png
+../.impeccable/review/phone-apple-v071-project-menu-light.png
+../.impeccable/review/phone-apple-v071-project-menu-dark.png
+Prior 0.7.0 protocol/Doze/install evidence remains historical, not retested
+or attributed to 0.7.1.

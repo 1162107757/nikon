@@ -1,0 +1,38 @@
+Nikon Preset0.7.0-beta / versionCode28
+2026-10-17 Asia/Shanghai
+APK nikon-usb-0.7.0-beta-debug.apk,2,798,201 bytes
+SHA2562381807a1b02b5af059304ef1aa287f54759ea68256f41396f23a769fdf1b3c5
+Build14:33:33+08; Android target35/min26; Java17; v2/v3 signatures verified.
+
+Fast baseline uses fresh storage/handle inventories without per-old-photo
+ObjectInfo. Independent browser cancellation drains an in-flight frame but
+retires queued pages/thumbnails. Live tab does not preload the camera grid.
+New live starts create a named persistent project. Main preview remains;
+three-column virtualized thumbnails replace the filename list. History works
+offline and detail swipes remain within the selected project. New originals
+publish into distinct project subdirectories in the system gallery.
+
+Final checks:core10595(including controller626+project store106),probe12089,
+synthetic server238. Total22922 passed. No real camera automatic operation.
+Final Android17 emulator:10000-stock baseline ready with0 ObjectInfo/preview/
+original requests, one unavailable slot tolerated; seven new JPEGs received
+in two projects A4/B3 with exact public-file hashes. Duplicate/no events, busy
+retry, HOME, screenOFF and forced deep Doze passed under battery exemption.
+This round keyguard showing=false; do not claim secure keyguard verification.
+Selecting A while B receives keeps A selected; A viewer boundary does not
+enter B. Disconnected app process restart retains both projects and photos.
+Stop rejects11; explicit disconnect releases service/CPU. One Init/Open,
+zero protocol CloseSession or preset writes.
+
+PKG110 Android16 user0 preserve-data27->28 install-r Success.
+lastUpdateTime2026-10-17 14:40:59+08; installed base.apk SHA equals artifact.
+No active transfer at update:old session already disconnected/live stopped,
+service nothing. Existing Agfa Optima preset and7 downloaded photos visible
+after update. No uninstall/data clear, phone permission changes, new camera
+connection, physical shooting or preset import.
+
+See ../docs/device-review/live-0.7.0-functional.log,baseline.log,protocol.log,
+doze.log,originals.log,audit.md. Host logs under ignored app/build/v070-*.log.
+Limits:synthetic timings are not Z6II guarantees; rare baseline-handle reuse
+before first lazy metadata sample is conservatively excluded. Actual camera
+AP policy/secure lock screen/OEM process kills still need physical testing.

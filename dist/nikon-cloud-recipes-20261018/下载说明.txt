@@ -1,0 +1,10 @@
+尼康云创色彩方案公开文件合集
+来源：https://github.com/shouryan01/Nikon-Recipes
+
+这是网友整理的公开文件，不是尼康官方提供的整包。作者说明云创部分通过“同步到相机 → 拍 RAW → NX Studio 保存并导出”收集。
+Nikon Creators 与 Color Grading 为作者整理的云创方案；Third Party Creators 为第三方作者预设，NikonPC 为经典预设。
+
+nikon-recipes-main.zip 保留下载的原仓库内容。inventory.json 记录各预设文件路径、大小和 SHA-256。
+补充按实际文件内容审计：共 240 份，236 份 NP3（0310）和 4 份 NCP（0100）。其中 3 份 NCP 原来没有扩展名，系统收录时仅补全下载文件名，原文件字节与 SHA-256 保持不变。
+已检查 ZIP 完整性、容器记录及原字节，未向相机写入，也未验证相机兼容性。
+NP3 存在不同格式与能力要求，不能仅凭扩展名判断机身支持。Huevia 的本次更新支持 NP3 下载保留，暂不支持 NP3 相机写入和手机模拟。

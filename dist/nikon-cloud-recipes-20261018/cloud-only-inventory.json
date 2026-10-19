@@ -1,0 +1,726 @@
+{
+  "source": "https://github.com/shouryan01/Nikon-Recipes",
+  "presets": 142,
+  "by_directory": {
+    "Color Grading": 30,
+    "Nikon Creators": 112
+  },
+  "extensions": {
+    ".NP3": 142
+  },
+  "sha256": "7a1cf3cd719ed9ec69dae4936625afb1fc3cc1871bc6d61f46c27903a32a087c",
+  "bytes": 75376,
+  "unchanged_file_bytes": true,
+  "files": [
+    {
+      "path": "Color Grading/BleachBypass_01a.NP3",
+      "bytes": 392,
+      "sha256": "d64de018e668077a350de019c7ae70fc55e173e0141d46a71a27a2b3ce5e65af"
+    },
+    {
+      "path": "Color Grading/ClrMode_Bu_01a.NP3",
+      "bytes": 392,
+      "sha256": "a639759c7de02cfed48cd3ea17c607e4275eea49b28598bd926f31483c442d7a"
+    },
+    {
+      "path": "Color Grading/ClrMode_Bu_01b.NP3",
+      "bytes": 392,
+      "sha256": "daf827ed0397e2e15f1909bef63fa00729c91128abb6f14ea071db0211c15787"
+    },
+    {
+      "path": "Color Grading/ClrMode_Gn_01a.NP3",
+      "bytes": 392,
+      "sha256": "5ef3dafc6885d39d7e34a7e62b0b4131660e54579d9d8e5f04fdbaa05fd1e7b8"
+    },
+    {
+      "path": "Color Grading/ClrMode_Gn_01b.NP3",
+      "bytes": 392,
+      "sha256": "a1d2fe599c9acade39644e69f84e818b860d5af38726db44125f6fbef25f0198"
+    },
+    {
+      "path": "Color Grading/ClrMode_TealOr_01a.NP3",
+      "bytes": 392,
+      "sha256": "be85cf19cfb80eb9dc6a9046b8820ffb9c8f577edf6b97e420ceaf0b4e29d1f3"
+    },
+    {
+      "path": "Color Grading/ClrMode_TealOr_01b.NP3",
+      "bytes": 392,
+      "sha256": "63b44a6be0deefdb9c7ccb7085cf01e5ce7cbd7aaaa3a8a921ab6ce7e2a2d964"
+    },
+    {
+      "path": "Color Grading/ClrMode_Ye_01a.NP3",
+      "bytes": 392,
+      "sha256": "6feef074d0631c00895212c23f9a916538df7efe4ab1feec403beb9bd3634029"
+    },
+    {
+      "path": "Color Grading/ClrMode_Ye_01b.NP3",
+      "bytes": 392,
+      "sha256": "0cfd5459d7aa19fb616f4894e2f499d36a59a3143765426856a89cbc35a01134"
+    },
+    {
+      "path": "Color Grading/Negative_Bu_01a.NP3",
+      "bytes": 392,
+      "sha256": "29518e97e6f21412f2dc2f975dcf71edc8221b3f8f42eb53dace13162d7d365e"
+    },
+    {
+      "path": "Color Grading/Negative_Bu_01b.NP3",
+      "bytes": 392,
+      "sha256": "840f0022af4956d11ecc5d65c0b75cfaa813691c0c88a04df3005a7b017ab259"
+    },
+    {
+      "path": "Color Grading/Negative_CyBu_01a.NP3",
+      "bytes": 392,
+      "sha256": "9fd8b977e9e5760f17c3599c37925f53199f601d4ee8ec4d4bb82749bc38835d"
+    },
+    {
+      "path": "Color Grading/Negative_CyBu_01b.NP3",
+      "bytes": 392,
+      "sha256": "35d4015bb8da511be7367de3b2a69f72b31a89e1414e5da0d77eb42b98665365"
+    },
+    {
+      "path": "Color Grading/Negative_Cy_01a.NP3",
+      "bytes": 392,
+      "sha256": "49ad5a57c2303f73c92d17e70673167bdf4bd028b43e2735a89b1a01e5dab93e"
+    },
+    {
+      "path": "Color Grading/Negative_GnCy_01a.NP3",
+      "bytes": 392,
+      "sha256": "18fb2a3d0cceeea1de7d6e59c9e175c19fef85334c97bd63b98f1cc24263e332"
+    },
+    {
+      "path": "Color Grading/Negative_GnCy_01b.NP3",
+      "bytes": 392,
+      "sha256": "b71ea011085eb9483ba3a99e446c27c5f29fa8ae7eb71e7cabe3f5c504971ffc"
+    },
+    {
+      "path": "Color Grading/Negative_RdCy_01a.NP3",
+      "bytes": 392,
+      "sha256": "0d153ea30f22fcacbf871c2c00ba2ed6de2bba2fd4c955ecb694264d0893d31a"
+    },
+    {
+      "path": "Color Grading/Negative_RdCy_01b.NP3",
+      "bytes": 392,
+      "sha256": "8ecd7478f0c4e89801af69038b70dbbfa6ff385089793ce5f6a3006a7790c7a2"
+    },
+    {
+      "path": "Color Grading/Negative_T_01a.NP3",
+      "bytes": 392,
+      "sha256": "df02fc08c4bc0700a2b4866302ae3e470ae6721ea12b6ed095ff5c4c804ee1dd"
+    },
+    {
+      "path": "Color Grading/Negative_T_01b.NP3",
+      "bytes": 392,
+      "sha256": "5346fb105e90491cc53c2b0dccc905078c0700a0eedc0820697fd74cda93a0e0"
+    },
+    {
+      "path": "Color Grading/Negative_YeCy_01a.NP3",
+      "bytes": 392,
+      "sha256": "4dfee0410c27dc37fff929ab17d6b0e9686ea9be090bcd570ac73860b8dfcaac"
+    },
+    {
+      "path": "Color Grading/Negative_YeCy_02a.NP3",
+      "bytes": 392,
+      "sha256": "97319e83787f91dd40b852c4cdbad8a3277c0cf629ef5da0ae0078e0086c3cbc"
+    },
+    {
+      "path": "Color Grading/Negative_YeGn_01a.NP3",
+      "bytes": 392,
+      "sha256": "0b215aae32973c89277085fa46e0f0477ce1f57f9e6d8e461954490710e68c00"
+    },
+    {
+      "path": "Color Grading/Negative_YeGn_01b.NP3",
+      "bytes": 392,
+      "sha256": "d57ebc861a480613a4c41e56707c3fe9099c7ed57ac5208f554df581f27b530b"
+    },
+    {
+      "path": "Color Grading/Negative_Ye_01a.NP3",
+      "bytes": 392,
+      "sha256": "e111749a9abf332419f0295dc7ea147ed02130e1326ced47f25911878e37a67f"
+    },
+    {
+      "path": "Color Grading/Negative_Ye_01b.NP3",
+      "bytes": 392,
+      "sha256": "352e261371056436ec9a27f6f1b1b5a07a518d4fae505685aa41bd1c0853beec"
+    },
+    {
+      "path": "Color Grading/Negative_Ye_02a.NP3",
+      "bytes": 392,
+      "sha256": "2aa6682835d5a10cb8897f493ca26ff2b04625c63cbaf4b1b3de0c4579a721e6"
+    },
+    {
+      "path": "Color Grading/Negative_Ye_02b.NP3",
+      "bytes": 392,
+      "sha256": "fa2d0ef7d008be41fd2d3c55cec9d472c9cc2594f85a5b3060965e3f0fda7f23"
+    },
+    {
+      "path": "Color Grading/Negative_Ye_03a.NP3",
+      "bytes": 392,
+      "sha256": "3e9250df2f40d99f0f5b56bbda739476cf45a73112a36ab7ad6e66118cea262b"
+    },
+    {
+      "path": "Color Grading/Negative_Ye_03b.NP3",
+      "bytes": 392,
+      "sha256": "9c082e48adb3040933c2375335aeaa26621f35dd22b6067c1d12dff06e6dc737"
+    },
+    {
+      "path": "Nikon Creators/24Look_24Frames.NP3",
+      "bytes": 978,
+      "sha256": "ebaaf0af106c38bee6e7d34c2ec68d52c142102a0fb1fce45c6db8cee1e01935"
+    },
+    {
+      "path": "Nikon Creators/AirGreen_Gunji.NP3",
+      "bytes": 978,
+      "sha256": "e8750ff77a236683be89e848abb42c521d8315cbc2606e79159cfd375b43688c"
+    },
+    {
+      "path": "Nikon Creators/At Dusk_Woo.NP3",
+      "bytes": 392,
+      "sha256": "afbee25d06e5bf888a2a55df3e1049230299f635925a0027c24c436f1ce88d1a"
+    },
+    {
+      "path": "Nikon Creators/BleachBlue_Aparupa.NP3",
+      "bytes": 392,
+      "sha256": "74824fd754990adf019e63514d6ef545faa36c621c43eaabb197cdab63ff1ccb"
+    },
+    {
+      "path": "Nikon Creators/BlueHour_Luna.NP3",
+      "bytes": 392,
+      "sha256": "97ac746b1c47de892f304d10859d14b5ad8bf9a30b2757afaf39c3870d629ee7"
+    },
+    {
+      "path": "Nikon Creators/BlueM_LUIZCLAS.NP3",
+      "bytes": 978,
+      "sha256": "8ba7a29c629d5f4d8398ec533037c002a44a6a76d1eef231bc72c237fedd772c"
+    },
+    {
+      "path": "Nikon Creators/Bluegrain_jyota.NP3",
+      "bytes": 392,
+      "sha256": "1cea7a90bfa80fdd3d68b7e6dbe371a5993447a12be85026eca4251f0a273999"
+    },
+    {
+      "path": "Nikon Creators/BohoLook_EmilieH.NP3",
+      "bytes": 978,
+      "sha256": "c75b23fa01cfe728603ce25b393d954625784cf645f2b5d110b10059eddb9c7c"
+    },
+    {
+      "path": "Nikon Creators/BritFilmBW_Vincent.NP3",
+      "bytes": 392,
+      "sha256": "16eeb407890ee48c68d946b271b397667c29a7f9a0e35a2532673a4eb94ae9b9"
+    },
+    {
+      "path": "Nikon Creators/CINENigRed_Fuji.NP3",
+      "bytes": 392,
+      "sha256": "de9452a2ac9d89889b5928d41025f326c3122ee2d33257c991e50dd06644a046"
+    },
+    {
+      "path": "Nikon Creators/CRYSClear_Eisuke.NP3",
+      "bytes": 392,
+      "sha256": "e3ce58235c9ac70eed28597199f79b8782a57aba166f77464993cb44473efca8"
+    },
+    {
+      "path": "Nikon Creators/CafeCat_yw.NP3",
+      "bytes": 392,
+      "sha256": "20f80e055fc77119286a3d7ee6bc53493ed4cf1f2642681d8375582971379e46"
+    },
+    {
+      "path": "Nikon Creators/CallItLove_Faloo Mi.NP3",
+      "bytes": 978,
+      "sha256": "42fad565ee8fe31735a58402bc9fdd2bae74d2ad5c7f562fa868358f59398084"
+    },
+    {
+      "path": "Nikon Creators/CalmBreeze_Dondre.NP3",
+      "bytes": 392,
+      "sha256": "3f5933609459737c4db2c86079673c7a7c6b3db4beb8f90eace47a2774ed92de"
+    },
+    {
+      "path": "Nikon Creators/Catgrain_yw.NP3",
+      "bytes": 392,
+      "sha256": "7b742d5116d99dfa2e17910cac89514a4e3edc7849110e1139dae6ba7a6429d2"
+    },
+    {
+      "path": "Nikon Creators/CineAchromic.NP3",
+      "bytes": 392,
+      "sha256": "37e2fffd5b8743416192bc3ee05da9fb86ed93363af49eaed28b45ef2df8c2c3"
+    },
+    {
+      "path": "Nikon Creators/CineBias-BB.NP3",
+      "bytes": 392,
+      "sha256": "63409e727a9c6f2551433b736fcd23962f32508cb86467f6a84f61a82d3251db"
+    },
+    {
+      "path": "Nikon Creators/CineBias-C.NP3",
+      "bytes": 978,
+      "sha256": "42c9b350ee208cac1e8120e8480e946c5607f6c7a900b0bf02a755e2aea9b7b6"
+    },
+    {
+      "path": "Nikon Creators/CineBias-CC.NP3",
+      "bytes": 978,
+      "sha256": "603a60999b9b975dbc30707a262da2201d8e07b8c3d4f7840db9b54708fb04e6"
+    },
+    {
+      "path": "Nikon Creators/CineBias-T.NP3",
+      "bytes": 978,
+      "sha256": "f0707d8676878452e38d7b8d8f59cf7508377bba73b2f48b80834feb391cc4f3"
+    },
+    {
+      "path": "Nikon Creators/CineBias-TC.NP3",
+      "bytes": 978,
+      "sha256": "fa0777985224b635b5d0c8e34a53eaf77efb6b15f8f4dc607078f22df54edfa9"
+    },
+    {
+      "path": "Nikon Creators/CineBias-WC.NP3",
+      "bytes": 978,
+      "sha256": "7125edb7387b5afb11950e5e259512bb043f5b2382965956979a1dd8154a0598"
+    },
+    {
+      "path": "Nikon Creators/CineBiasOffset.NP3",
+      "bytes": 392,
+      "sha256": "7c1588bdcc5f2b697283563c9fc32de689f1f0ff39249654e2e78b434daea016"
+    },
+    {
+      "path": "Nikon Creators/CineBias_RED.NP3",
+      "bytes": 392,
+      "sha256": "f22553f89fddc37d594e42d80e46d66a35f4ddcbcd488b2699934fc0fa1e4ea4"
+    },
+    {
+      "path": "Nikon Creators/CineBlue_BrandonW.NP3",
+      "bytes": 978,
+      "sha256": "eef37d8d4738b7824615eeaa5c2ea946efb512ce6065128f801ac06c31f8eda4"
+    },
+    {
+      "path": "Nikon Creators/CineM_LUIZCLAS.NP3",
+      "bytes": 978,
+      "sha256": "ab5e983b312e44f3387022fb4aca27d5f77e4c624b903809a732115e62f45f28"
+    },
+    {
+      "path": "Nikon Creators/CloudyForest_Y2.NP3",
+      "bytes": 392,
+      "sha256": "84905c94c2145b0d1f593bda6fb28a4ae8b64c5c01b252b3f71e6f0ea4f129a3"
+    },
+    {
+      "path": "Nikon Creators/ClrPortrait_TSakai.NP3",
+      "bytes": 978,
+      "sha256": "016862d694f32ca5be5d17c009acefee63c861d5bd95804bece5c64e8d7cc4c4"
+    },
+    {
+      "path": "Nikon Creators/Coastal Glow_NM.NP3",
+      "bytes": 978,
+      "sha256": "e3d33b2497a5932427489d8d4c9df9cb0a2e86b6207a500e673b744d3c389466"
+    },
+    {
+      "path": "Nikon Creators/ColorSplash_Gilmar.NP3",
+      "bytes": 392,
+      "sha256": "a5a270be77bd85dea75afcd29595726aca9c1978c3b1f3f1a3b1da05dcd6a21e"
+    },
+    {
+      "path": "Nikon Creators/CozyAutumn_Leno.NP3",
+      "bytes": 392,
+      "sha256": "e825147a0ba5b0209a1da9d9a8ea327413573126abcf739541e647a241fc5b53"
+    },
+    {
+      "path": "Nikon Creators/Cyanora_EyesOfBelga.NP3",
+      "bytes": 978,
+      "sha256": "bc7148418a49218a375e8ea6eb225d3e89dbba1aece7ceb18f5787f64881274e"
+    },
+    {
+      "path": "Nikon Creators/DGFilmLook_DannyG.NP3",
+      "bytes": 392,
+      "sha256": "aa1278b89d7e9d6644a18c5f39a7f602522e4e926696171992a7df40aaaeb70f"
+    },
+    {
+      "path": "Nikon Creators/DawnHues_Leno.NP3",
+      "bytes": 392,
+      "sha256": "f3375f66850e9b68514faf9d220fbc7b832282a8e9b4889782ba40d53d53bf1e"
+    },
+    {
+      "path": "Nikon Creators/EmotionalB&W_Wazika.NP3",
+      "bytes": 392,
+      "sha256": "37f9c9a630bcc4195abe2358869cf58ad50d037bb3fc7a994d5de74601c3ffa7"
+    },
+    {
+      "path": "Nikon Creators/EuroFilmBW_Vincent.NP3",
+      "bytes": 392,
+      "sha256": "26f0ebbcf424e816188afea97264de701ebcfa6957a90a549d3d33658a641ed1"
+    },
+    {
+      "path": "Nikon Creators/FadedBlue_Hinami.NP3",
+      "bytes": 392,
+      "sha256": "e28d7141eaffa869c7fab83639b65b36f1fbabf99d86ab644ca44d8e315022a9"
+    },
+    {
+      "path": "Nikon Creators/Fern_IanHarland.NP3",
+      "bytes": 978,
+      "sha256": "73ab0ea6cec4848a3a35a9865847aea3d37084719d778b0b2d19122099104ffd"
+    },
+    {
+      "path": "Nikon Creators/FilmPop_Leno.NP3",
+      "bytes": 392,
+      "sha256": "b347f3bcc12a2c2fa57c8153775f37c5e220483e62a6bb53175de14891efa0c7"
+    },
+    {
+      "path": "Nikon Creators/Filmic_Fabio.NP3",
+      "bytes": 978,
+      "sha256": "b8671c705cb1f572284bc5a406d8f46a75bbae34c3b2141b4273a326c913b233"
+    },
+    {
+      "path": "Nikon Creators/GlowUp_Preston.NP3",
+      "bytes": 392,
+      "sha256": "c7db1ee464017f8d71395c69d4c5008b24284bf5367fd8bfa7871a1d7c9063e8"
+    },
+    {
+      "path": "Nikon Creators/Glow_IanHarland.NP3",
+      "bytes": 978,
+      "sha256": "d43daa0290d9d18d73d7eabaf4baa107aa3fe3d73a9e07c0f898f6fa03d0ef8e"
+    },
+    {
+      "path": "Nikon Creators/GoldenBrownSiinapse.NP3",
+      "bytes": 392,
+      "sha256": "febd9a3abdde8bab4dd63147e8e1f43d282a2df8384dfe6951358150989b80d7"
+    },
+    {
+      "path": "Nikon Creators/GoldenDusk_EmilieH.NP3",
+      "bytes": 978,
+      "sha256": "11cdd768e5b9826ee429793278299cd274de332b380e83a0e48da9c34c3e1af9"
+    },
+    {
+      "path": "Nikon Creators/GoldenHourGlow_DAnn.NP3",
+      "bytes": 978,
+      "sha256": "34dbec500bccabd891f94a15563194cccd695d246ddd36358fb48516983ef375"
+    },
+    {
+      "path": "Nikon Creators/Golden_Grid_LKJ.NP3",
+      "bytes": 392,
+      "sha256": "441318ffcfbd8a5a007a08487008da137fa86b042d196f6ca716d514967dec6f"
+    },
+    {
+      "path": "Nikon Creators/Green Soul_Wong.NP3",
+      "bytes": 392,
+      "sha256": "a4b8c0cbeffcfd3cb76209a68536b28b63ab29372526a0471b6bb8bfb4fda1b6"
+    },
+    {
+      "path": "Nikon Creators/HKReminisce_Hiuman.NP3",
+      "bytes": 392,
+      "sha256": "ee20588020efd14d40692957da461ecbcbe1a8437061a7bfbad2ea59a1c83fa1"
+    },
+    {
+      "path": "Nikon Creators/HT Harmony_HanaaT.NP3",
+      "bytes": 392,
+      "sha256": "1ed3755105b05889070d2b67aec0300a14c9f924a1130d7751d9cb701cdb996b"
+    },
+    {
+      "path": "Nikon Creators/HazyMemories_Julia.NP3",
+      "bytes": 392,
+      "sha256": "baa3d5cfe1c391b732a663f647065e3760a1ebd0dcbe4634b9e60ba3f04e4b94"
+    },
+    {
+      "path": "Nikon Creators/Heartwarming_YoheiS.NP3",
+      "bytes": 978,
+      "sha256": "137bd9998a2845304062b9f44c31f6ba1b7e31d55a178466c880c7a8d300b636"
+    },
+    {
+      "path": "Nikon Creators/Hidamari_Haruka.NP3",
+      "bytes": 392,
+      "sha256": "08444c027e44f3a3107f112aac4018b24a7ba30d298d64703637e4b9284b7fa3"
+    },
+    {
+      "path": "Nikon Creators/HoneyTale_MASAYA.NP3",
+      "bytes": 392,
+      "sha256": "ca7cecbc7e0fab8bfc137262f0b16a30b8175b4f33f49454ecab3494ea2fd7ce"
+    },
+    {
+      "path": "Nikon Creators/Honey_IanHarland.NP3",
+      "bytes": 978,
+      "sha256": "fba18c95076cd1cb4d8619cb07417441351785363e647d3e176a3e1eee99135d"
+    },
+    {
+      "path": "Nikon Creators/IndoorHarmony_Julia.NP3",
+      "bytes": 392,
+      "sha256": "5c47e9adcc5e71de44ca7a195667395e8491f10131c726208b9df4989448096f"
+    },
+    {
+      "path": "Nikon Creators/Japanesque_Arashida.NP3",
+      "bytes": 978,
+      "sha256": "fffdfaaf1e08c3d1efca6d13b4ba8b74808f4efce64de7785ad5680656a27a2f"
+    },
+    {
+      "path": "Nikon Creators/Kota-Green_TAKASU.NP3",
+      "bytes": 392,
+      "sha256": "20e5b66525dd3e5164fb8c59a2a95880fed01192d3f7c9cb2d22695b5d5e914c"
+    },
+    {
+      "path": "Nikon Creators/MNightBlush_Preston.NP3",
+      "bytes": 392,
+      "sha256": "f47d110c45ebe886bbdb268286f163e235db19180d37f8b45ab15a11dac277f9"
+    },
+    {
+      "path": "Nikon Creators/MOSS_Nagisa.NP3",
+      "bytes": 978,
+      "sha256": "ab99f7980ef1f5c2547db7fb02ab9afe9f09224810d37f6a966e69817656393b"
+    },
+    {
+      "path": "Nikon Creators/MV Green Orange_Woo.NP3",
+      "bytes": 392,
+      "sha256": "74f4b6364136fd4544a8c8d44a35d38dc0b88306ca169a0b608ce82e84e5faea"
+    },
+    {
+      "path": "Nikon Creators/MatteBlueGray_tanco.NP3",
+      "bytes": 978,
+      "sha256": "cfbb999aac77d26d7b58ae96af9df6797afd52c132960b4e172a4e49945f61c1"
+    },
+    {
+      "path": "Nikon Creators/MoistureGn_HirokiN.NP3",
+      "bytes": 978,
+      "sha256": "7fdf49d504e27d40648b743bd314754d88c323c3bbfe3ad48a9a14cd9dc03364"
+    },
+    {
+      "path": "Nikon Creators/MoodyGr_BrittanyK.NP3",
+      "bytes": 392,
+      "sha256": "58b9f911cc456bdfca8003850423d77556e79ec350254e2ddd0e817e5e77d0dd"
+    },
+    {
+      "path": "Nikon Creators/MoodyShadows_Gilmar.NP3",
+      "bytes": 392,
+      "sha256": "19567b90d1f5071ee6b7135e17d5401462614ec21f5a668459eaa314a93787ec"
+    },
+    {
+      "path": "Nikon Creators/MovieG&O_InstantF.NP3",
+      "bytes": 392,
+      "sha256": "726e91e3a5772087f863fac448044580060abad937de99e63a8b84569b3be645"
+    },
+    {
+      "path": "Nikon Creators/Nature_Links.NP3",
+      "bytes": 978,
+      "sha256": "61b8995f9cd6147ff1beb6bc72897a469954e720b7aaaada7e8372a561634e7e"
+    },
+    {
+      "path": "Nikon Creators/NeonGlow_BrandonW.NP3",
+      "bytes": 978,
+      "sha256": "07eb687b2733fb3c94327a4b6faa81f887e272ac8ed9993e5f21dc058e629138"
+    },
+    {
+      "path": "Nikon Creators/NightsLike_Dondre.NP3",
+      "bytes": 392,
+      "sha256": "ea64bd8fc99587ba1b7c5828d4a32c27db26a479c3ba53b7c2caf420717c759c"
+    },
+    {
+      "path": "Nikon Creators/PainterlyLight_DAnn.NP3",
+      "bytes": 392,
+      "sha256": "589d588c8330d17609c35c0d48629d843b81fe956f76828fea92985328e5d4ba"
+    },
+    {
+      "path": "Nikon Creators/Pale Tale_Yuri.NP3",
+      "bytes": 978,
+      "sha256": "fd67e4721ef755b9e2b69c376c50c58d770feb051aaa08510ccf77b6e8bd5a86"
+    },
+    {
+      "path": "Nikon Creators/PastelNos_TSakai.NP3",
+      "bytes": 978,
+      "sha256": "5ed397e3a1e8be2bf59b83876613423fb49bbb04ef013b59af3c221a3fbf2243"
+    },
+    {
+      "path": "Nikon Creators/Pastelpink_Yuki.NP3",
+      "bytes": 978,
+      "sha256": "a4d48ce3b720b3de9e3b81e268c146a2f8c1ebfa776229d4edc1b4023ae39163"
+    },
+    {
+      "path": "Nikon Creators/PinkWater_HYEYA.NP3",
+      "bytes": 392,
+      "sha256": "f238aa59f9677e515186eb16c14e285f72f1d2b064f1636a2aff39a9386fbfd2"
+    },
+    {
+      "path": "Nikon Creators/PrimaryPop_Gilmar.NP3",
+      "bytes": 978,
+      "sha256": "3744fa4f28220eecd417ccadb41034a08acfbe752d93fcc9a509660ebab17855"
+    },
+    {
+      "path": "Nikon Creators/PurpleM_LUIZCLAS.NP3",
+      "bytes": 978,
+      "sha256": "1e3a3a15611f532994fa5e4411c4dde7d74c6f2e494431c6fe2e2ddb9f70b343"
+    },
+    {
+      "path": "Nikon Creators/QUIET_Nagisa.NP3",
+      "bytes": 978,
+      "sha256": "54ec29d9398244df8c46f32582ecac07f650267dae8cc5fe04bb970b214e7efa"
+    },
+    {
+      "path": "Nikon Creators/RedM_LUIZCLAS.NP3",
+      "bytes": 978,
+      "sha256": "ec95fccefddd0f89ffb390cb14ca0b29a99379911d2b1fe594078d0c80d197fa"
+    },
+    {
+      "path": "Nikon Creators/RoseOldFilm_hinano.NP3",
+      "bytes": 978,
+      "sha256": "9aec229a1ce9809e8812a0d0b23a93f388634045b0e6ea4d26a69ed9db0053c8"
+    },
+    {
+      "path": "Nikon Creators/SetouchiBlue_Noci.NP3",
+      "bytes": 392,
+      "sha256": "88f9803995e19d0d4f19f52678aa055a4bf4d4ed9948991692539cea408a77db"
+    },
+    {
+      "path": "Nikon Creators/ShadeFall_BrittanyK.NP3",
+      "bytes": 392,
+      "sha256": "af7eaa38ea39b4aaad3832176181c92e8fbd31828691335c30df6d3f4ae740e1"
+    },
+    {
+      "path": "Nikon Creators/SkyMistFilm_hinano.NP3",
+      "bytes": 978,
+      "sha256": "8ffb4a360a734c455c210709cde6b3c3bd02d01ddfccd413bd1c07f450a47cbd"
+    },
+    {
+      "path": "Nikon Creators/Soft Vivid_Vijay.NP3",
+      "bytes": 392,
+      "sha256": "7883be2d0b6afd901035bbed3e534ffabc14546c99854ed69d2547db2e88baa3"
+    },
+    {
+      "path": "Nikon Creators/SoftFilm_Leno.NP3",
+      "bytes": 392,
+      "sha256": "8543d9290c0c55ecca0f88e9174121e5753ffd0c247cd0973b8a1d0d5d1a2f0b"
+    },
+    {
+      "path": "Nikon Creators/SoftGlow_Harpreet.NP3",
+      "bytes": 978,
+      "sha256": "de708a7b5a149ce6d64a1fc1f9f428f1f649c28cba68acf070656df6bf2a85a3"
+    },
+    {
+      "path": "Nikon Creators/SummerShine_Dondre.NP3",
+      "bytes": 978,
+      "sha256": "f3d5b4d95291f5e016edf212dd00e2cd70d92a59e57682116ac813f7c213b267"
+    },
+    {
+      "path": "Nikon Creators/Summertime_Zerletti.NP3",
+      "bytes": 392,
+      "sha256": "3dfe35e0e6fb7346b5c153c0058e7ae724050f2c347ff4cd9d435f865f071ecb"
+    },
+    {
+      "path": "Nikon Creators/SunkissedCool_Julia.NP3",
+      "bytes": 392,
+      "sha256": "3b2f33b7e65ddd8bd35b386b0aa34595853e481cc4a929fc81f27c02dc625408"
+    },
+    {
+      "path": "Nikon Creators/SunkissedWarm_Julia.NP3",
+      "bytes": 392,
+      "sha256": "ca4a95f0cfa42dff287688c7e90bbc9a3e633b8bbb793c826a2557f1558ce2c4"
+    },
+    {
+      "path": "Nikon Creators/SunlightHappy_DAnn.NP3",
+      "bytes": 392,
+      "sha256": "33bed8facdd923621a31d91f8a3f046bc69745a0a37eb3e91ef8e52954ca4758"
+    },
+    {
+      "path": "Nikon Creators/SunsetFilm_JKBoy.NP3",
+      "bytes": 392,
+      "sha256": "4d67f8b69477e53032607c34e537194f79db2c1162bfa68c296aef19ddae1c51"
+    },
+    {
+      "path": "Nikon Creators/SunsetGlow_Mikan.NP3",
+      "bytes": 978,
+      "sha256": "d76d46c233ee10b657d9a0a2aa4ebe241da2e74fa36910dc53452a11fff7d780"
+    },
+    {
+      "path": "Nikon Creators/SunsetReset_Baek.NP3",
+      "bytes": 392,
+      "sha256": "af30b286f9ac16a21906cd92f76947c3cf9d1a483db511944eb324ecd9844c27"
+    },
+    {
+      "path": "Nikon Creators/T&O_BrandonW.NP3",
+      "bytes": 392,
+      "sha256": "6793c40748332691b9dd51403e5b8a6eef6c878aefbad38bcf0bda84966baec6"
+    },
+    {
+      "path": "Nikon Creators/TenderClear_FukaK.NP3",
+      "bytes": 978,
+      "sha256": "ca242f7e1596ccc9f42cf0d0a16795a7738d62b936e8dd790fde03f024ce4352"
+    },
+    {
+      "path": "Nikon Creators/TexturedDocmntry_MS.NP3",
+      "bytes": 392,
+      "sha256": "b2ae12427144e86150bdbf809209c46b7c4d5a884e15983a38a064897de60853"
+    },
+    {
+      "path": "Nikon Creators/Turquoise_Blue_Yuki.NP3",
+      "bytes": 978,
+      "sha256": "cec9a1a21f967038902a2e6daf5195dc1dc9d787d0304ecae5331f45942fc509"
+    },
+    {
+      "path": "Nikon Creators/USAFilmBW_Vincent.NP3",
+      "bytes": 392,
+      "sha256": "ac3c5d532491a00f09bea9077068356939a36c83e7edb055795a91f576e5ee81"
+    },
+    {
+      "path": "Nikon Creators/VINTAGEFla_Fuji.NP3",
+      "bytes": 978,
+      "sha256": "d5d93682668145892ac2e635e4bf7a5c395bb87c8e350802d29b42fec06ff995"
+    },
+    {
+      "path": "Nikon Creators/VINTAGEPort_Fuji.NP3",
+      "bytes": 392,
+      "sha256": "8098ecfac6b83c9d5b37d89b807734b9294a72e8d35a081e56a906102a936c79"
+    },
+    {
+      "path": "Nikon Creators/VINTAGE_FILM_Ludwig.NP3",
+      "bytes": 392,
+      "sha256": "10728e7f081f28ad48881a8cb0b6dd65ff5e05e66a6e07a86016af50a6821bce"
+    },
+    {
+      "path": "Nikon Creators/Vibrant_Lamoureux.NP3",
+      "bytes": 392,
+      "sha256": "5967e887ce1376fe847292f232cbef182f79e1d3f239f3bdb7dad7e858da3ada"
+    },
+    {
+      "path": "Nikon Creators/VintageA_BrittanyK.NP3",
+      "bytes": 392,
+      "sha256": "38f78b9992d7ab12efca0ef8eb82e53a58c5c94909b8bfa37808117673cd6afa"
+    },
+    {
+      "path": "Nikon Creators/VintageM_TSakai.NP3",
+      "bytes": 978,
+      "sha256": "fc2f2eedb70cc51678da84b1fb7b9e1f004a94364829478614c47789ac2829e9"
+    },
+    {
+      "path": "Nikon Creators/VintageTouch_Amy.NP3",
+      "bytes": 978,
+      "sha256": "82e334b74a16a8f3afd06acb9919d49efe1ca3af2560707a7707eccfaa45e290"
+    },
+    {
+      "path": "Nikon Creators/VintageVibe_Preston.NP3",
+      "bytes": 392,
+      "sha256": "fb546ff2e80ce04663bfd61a8f94fec1138812a16475d01b781a688a7d76e603"
+    },
+    {
+      "path": "Nikon Creators/VitalityFilm_Pmango.NP3",
+      "bytes": 392,
+      "sha256": "448299b52677b06a6df831e06c028f43caf8da71b5b5039f1bc8cf9ca56e01ea"
+    },
+    {
+      "path": "Nikon Creators/Warm Street_Ben.NP3",
+      "bytes": 392,
+      "sha256": "ce104928a4ee2445968061976b19b880919fe1b78ff5bbe0274963e68b4bad5f"
+    },
+    {
+      "path": "Nikon Creators/WarmDimLight_Luna.NP3",
+      "bytes": 392,
+      "sha256": "6a2e78d6ec9efaffb4640e2cd269abed97c4a652f17e265293c2cb6f70005eaa"
+    },
+    {
+      "path": "Nikon Creators/WarmPortrait_Y2.NP3",
+      "bytes": 978,
+      "sha256": "97c9d5c910e515550159662db67581e01cbd364136c20957fe4f7082a0d75ee4"
+    },
+    {
+      "path": "Nikon Creators/WarmtonedPtt_Wazika.NP3",
+      "bytes": 392,
+      "sha256": "caad7473f66b5e3b6ee9b6773ac2739602da9b47424656b501f2d30b1a1dd9bb"
+    },
+    {
+      "path": "Nikon Creators/Winter Hues_Eeva.NP3",
+      "bytes": 978,
+      "sha256": "8fc49064e5b790f50995855bc3b479f78861080c0d3bb64ae0b20d375e1017c1"
+    },
+    {
+      "path": "Nikon Creators/Yuragi_Hinami.NP3",
+      "bytes": 392,
+      "sha256": "422a9f283ff4c22889ca0ca84c8ceb37b10a8097f6a93c453076aa70dfc73c91"
+    }
+  ]
+}

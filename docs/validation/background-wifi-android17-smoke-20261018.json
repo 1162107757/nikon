@@ -1,0 +1,70 @@
+{
+  "versionCode": 52,
+  "versionName": "0.9.13-beta",
+  "sdkInt": 37,
+  "release": "17",
+  "packageName": "com.nikonpreset.usbprobe",
+  "productApkSha256": "6a2cda9e068ea9b4a311c49dfbe419d7367014c9cace82b376e8dfc37a6cbac6",
+  "scope": "Wi-Fi NetworkRequest API and Activity\/background\/screen-off retention only; synthetic echo, no PTP or camera transfer",
+  "requestCreations": 1,
+  "targetMatchObserved": true,
+  "phases": [
+    {
+      "phase": "foreground",
+      "requestRetained": true,
+      "sameCallback": true,
+      "targetAvailable": true,
+      "displayInteractive": true,
+      "activityVisible": true,
+      "echoRoundtrip": true
+    },
+    {
+      "phase": "background-1s",
+      "requestRetained": true,
+      "sameCallback": true,
+      "targetAvailable": true,
+      "displayInteractive": true,
+      "activityVisible": false,
+      "echoRoundtrip": true
+    },
+    {
+      "phase": "background-6s",
+      "requestRetained": true,
+      "sameCallback": true,
+      "targetAvailable": true,
+      "displayInteractive": true,
+      "activityVisible": false,
+      "echoRoundtrip": true
+    },
+    {
+      "phase": "screen-off-1s",
+      "requestRetained": true,
+      "sameCallback": true,
+      "targetAvailable": true,
+      "displayInteractive": false,
+      "activityVisible": false,
+      "echoRoundtrip": true
+    },
+    {
+      "phase": "screen-off-5s",
+      "requestRetained": true,
+      "sameCallback": true,
+      "targetAvailable": true,
+      "displayInteractive": false,
+      "activityVisible": false,
+      "echoRoundtrip": true
+    },
+    {
+      "phase": "screen-off-9s",
+      "requestRetained": true,
+      "sameCallback": true,
+      "targetAvailable": true,
+      "displayInteractive": false,
+      "activityVisible": false,
+      "echoRoundtrip": true
+    }
+  ],
+  "checks": 42,
+  "passed": true,
+  "noCameraOrPhotoAccess": true
+}

@@ -1,0 +1,76 @@
+Huevia 0.9.14-beta (53) — 2026-10-18
+
+APK: nikon-usb-0.9.14-beta-debug.apk
+Package: com.nikonpreset.usbprobe
+Bytes: 3200541
+SHA-256: 257a028ca814be1625e74e2217a184d9e33c1554f8749dfff37672da6592cd5c
+完整构建、zipalign、v2/v3签名验证通过，包名和签名保留。
+
+触发与结果
+0.9.13真机HOME后相机PTP断开、系统Wi-Fi切其他热点，用户确认相机热点自己关闭。
+旧generic request不能指定相机AP，旧Android17 echo42项仍限固定单网络的短时API范围，不能作为真实相机通过证据。
+本轮在Android10+先以精确SSID WifiNetworkSpecifier申请系统连接，取得Network后再建立PTP。
+Android13+请求NEARBY_WIFI_DEVICES；Android10–12适配定位权限和系统位置开关；更旧系统保留原手动方式。
+SSID本机私有偏好保留；密码只用于本次请求，禁止view-state/autofill，不落盘、不入日志或报告。
+
+连接所有权
+specific请求由Runtime/连接服务持有，等待授权、相册/预设移交、直播等待和页面销毁不释放已交付连接。
+取消有token和deliveryPending保护；available后但成功回调尚未交付的取消回收请求，正常交付后不由Activity销毁回收。
+两条PTP通道强制使用系统返回Network；失联保留guard，不回退到其他Wi-Fi，不自动重连或重试写入。
+specific失联立即废除无线owner/handoff/相册句柄、停止直播网络任务并提示；本地保存/预设处理和USB操作保留。
+显式断开/改USB先关闭PTP再释放同token请求，旧清理不影响新请求。
+
+断线采证
+ConnectionTrace固定schema带wall_ms/mono_ms，仅记录事件、PTP操作码/事务/耗时与关闭类别。
+不记录SSID、密码、相机地址、文件名、照片句柄、参数、数据或异常消息。
+最多256条/64KiB；普通协议事件最多每10秒异步合并落盘，失败/首次close/UI和网络标记立即异步刷新。
+不增加协议命令，不阻塞PTP线程，保留前进程合法末尾记录；写入失败不关连接。
+
+Host检查（分组含重复基线，不合计为独立总数）
+- Specific session557、generic519、socket route10、直接真实Runtime源码失联13项通过。
+- ConnectionTrace541、PtpIpClient4552项通过；包含实际协议hooks、15000 normal事件合并、urgent抢占/尾部定时写入。
+- AlbumController826、项目store356、项目folder100项复测通过。
+- 初次album runner在系统Temp的缓存rename失败；将测试临时目录限定workspace classes目录后完整通过，无产品缓存逻辑修改。
+
+最终同SHA原生UI
+- camera-wifi-ui-native浅色39/深色39 PASS：真实输入框、mask、保存/自动填充禁用、UTF8/密码校验、open切换、负按钮/返回取消仅一次。
+- 凭据QA只使用合成无效输入/取消，不点击有效连接，不发真实Wi-Fi请求或PTP，不改SSID偏好。
+- photo-library-native浅色84/深色84 PASS：归组、版本切换/持久、真正原图比较、单效果删除及整组私有/真实MediaStore删除、无关组保留。
+- 自有fixtures清理成功，既有3文件/1组基线保持原样；旧52证据归档保留，不重新标记。
+- 手机模拟器Pixel9/API37，1080×2376/density408/font1；未据此声明平板、横屏、TalkBack或真实相机通过。
+
+实体手机安装
+PKG110 / 286f0dba使用install -r --no-incremental从52覆盖成功，未卸载/清数据。
+已安装base.apk回读SHA与本交付完全一致；version53/0.9.14-beta。
+lastUpdate2026-10-18 15:57:44；owner firstInstall2026-10-16 20:45:14与前次相同。
+MainActivity启动Status ok/COLD/TotalTime300ms，PID2395存活且其AndroidRuntime错误过滤为空。
+真实相机第一轮（后台策略调整前，未通过）
+- 用户完成specific系统授权并开启直播；前台PID2395、Wi-Fi请求59946、两条PTP端口36390/36394，实际协议持续成功。
+- HOME记录16:03:14.397；UI_BACKGROUND已记录。最后一组协议成功到16:03:18.386，随后后台停更。
+- 16:05:16相机TCP为0、请求不在，前台服务/CPU锁仍在；AM curProcState4/FGS、cached=false、isFrozen=false，Doze/light均false。
+- 16:09:53恢复前台后，3秒直播调度的下一条PTP才执行：前后wall与mono均间隔394795ms；IO关闭、WIFI_LOST、UI_FOREGROUND随即在约52ms内补达。
+- 只读锁序检查未发现确定环；这些观测支持后台执行受限，但不能单靠时序断言具体厂商实现。
+- 系统应用详情→Huevia耗电管理的实际选项为“智能优化后台运行”；Android电池优化白名单此前已有Huevia，二者不等同。
+- 已通过正常系统UI改为“完全允许后台行为”，确认对话框后回读首个单选checked=true；用户也确认已点允许。只修改Huevia自身，不改其他应用策略。
+- 旧失败快照保留docs/validation/phone-wifi-53-attempt1/。
+
+系统策略调整后的真实相机第二轮（限定观察通过）
+- 同一53/最终SHA，用户重新连接并开启直播；同PID2395、specific请求60007、PTP本地端口39664/39670。
+- HOME时间16:21:57.614；后台113.2秒快照仍同请求/双通道/CPU锁，实际协议响应持续推进。
+- SLEEP时间16:24:14.742，系统mWakefulness=Dozing；锁屏166.0秒快照awake=false，仍同请求/双通道/CPU锁，实际协议持续响应。
+- 用户确认在锁屏期间拍摄；GetObject conn2/tx318在wall1792311923428开始，1792311974985完成，51556ms。该次原图传输在实际锁屏期间完整完成。
+- 仅查询本包owner、且锁屏时间之后的MediaStore时间/大小：1792311975发布6840961字节，1792311977发布2175697字节；没有读取文件名或图片内容，没有删除真实照片。
+- 唤醒并请求回到Huevia时，总连接观察345.2秒，PID、请求和两个TCP端口一致；连接/直播保持运行。锁屏未绕过，用户解锁即可回到App。
+- 汇总phone-wifi-53-summary.json，四阶段快照和固定schema trace、owned-mediastore证据同目录。
+- 结论仅此手机/相机/实际系统策略下的短时后台与锁屏；未覆盖长时间深度Doze、所有OEM或全部机身，不作永不断线承诺。
+
+证据
+docs/validation/camera-specific-wifi-20261018.md
+.impeccable/review/camera-wifi-ui-native/{light,dark}/report.json
+.impeccable/review/photo-library-native/{light,dark}/report.json
+tests/run-wifi-retention.ps1
+tests/run-wifi-runtime.ps1
+tests/run.ps1
+tests/run-album.ps1
+docs/validation/phone-wifi-53-summary.json
+照片版本/保存整体行为详见docs/photo-library.md和0.9.13交付记录。

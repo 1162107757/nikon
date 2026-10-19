@@ -1,0 +1,78 @@
+Nikon Preset 0.5.8-beta / final APK Android observations
+2026-10-17 (Asia/Shanghai); server log timestamps are UTC.
+Artifact SHA-256: 5e4aa6001b8b4a52e8a089e9d4903e37575eff8ab0b44746bd48b4966ca6a045
+Version: 25 / 0.5.8-beta; 2757241 bytes. No source edits after final build.
+Pixel 9 emulator / Android 17 / 1080x2424. Loopback synthetic JPEG camera
+at 127.0.0.1:15755, reached as 10.0.2.2:15755. 49 JPEG fixtures.
+
+1. Configured endpoint through actual Settings -> Wi-Fi connection UI, then
+   entered Album and opened TEST_0001.JPG. Detail hierarchy contains only
+   photo content description, Back, filename, original size and Download.
+   No visible previous/next, position/total, quality label or explanatory copy.
+   Button bounds [786,2208][1017,2324] at emulator density: 88dp x 44dp.
+2. Held DOWN at820/1100, moved to400/1100, captured before UP. Screenshot
+   v058-drag-half shows current 01 translated left and incoming 02 on the
+   right. Release selected TEST_0002 with its own size. This is direct
+   manipulation, not a screenshot taken only after an instantaneous swap.
+3. Short 100px slow drag returned to TEST_0002. A full ACTION_CANCEL drag
+   also stayed on TEST_0002.
+4. Right swipe returned to TEST_0001. Another right swipe at the first
+   boundary returned to TEST_0001 rather than selecting an invalid item.
+5. Double tap enlarged; horizontal pan remained TEST_0001. Double tap back
+   to fit, moving-focus pinch plus single-finger continuation, then inward
+   pinch likewise retained TEST_0001.
+6. Left swipe selected TEST_0002. Animator duration scale set to0 in the
+   emulator, then another left swipe selected TEST_0003. Restored scale1.
+7. Explicit Download of TEST_0003 changed the compact action to Save As.
+   Right swipe and explicit Download of TEST_0002 did the same. Opened the
+   actual Android Save As picker and cancelled with Back; right swipe then
+   selected TEST_0001, confirming paging was unlocked after cancellation.
+8. Drag left470px then reverse to within10px of initial position before UP
+   stayed on TEST_0001.
+9. 24 ordinary left swipes with settling intervals reached TEST_0025, crossing
+   the initial24-photo metadata boundary without visible navigation buttons.
+10. Returned to the grid -> Downloaded -> TEST_0002. Left swipe selected
+    TEST_0003 locally with original-size text and compact Save As action.
+11. Explicit Settings Disconnect ended the synthetic connection. Service
+    inspection reported nothing. App PID8788 remained; its crash buffer was
+    empty. No physical camera was operated in these checks.
+
+NETWORK CHECKPOINTS (raw files, not a claim of full interoperability)
+docs/device-review/album-0.5.8-before-download.log:
+18 GetLargeThumb requests, 0 GetObject requests.
+docs/device-review/album-0.5.8-ui.log:
+52 GetLargeThumb, 2 GetObject, 1 OpenSession, 0 CloseSession, session1.
+Only original data events:
+04:59:53.868Z handle3 / 89320 bytes (first explicit Download)
+05:00:04.085Z handle2 / 87488 bytes (second explicit Download)
+Final CLOSED session1 at05:02:00.547Z corresponds to manual transport close.
+Adjacent preview reads do not introduce original downloads or preset writes.
+
+SCREENSHOT EVIDENCE
+.impeccable/review/phone-apple-v058-viewer-minimal.png
+.impeccable/review/phone-apple-v058-drag-half.png
+.impeccable/review/phone-apple-v058-swiped-second.png
+.impeccable/review/phone-apple-v058-zoom-pan.png
+.impeccable/review/phone-apple-v058-downloaded.png
+.impeccable/review/phone-apple-v058-cross-page.png
+.impeccable/review/phone-apple-v058-local-swipe.png
+
+CORE AND REVIEW
+Full tests/run.ps1: 9981 PASS, including swipe43 / pager38, pagination101,
+PTP/IP4258 / album319. Picture Control probe was not rerun for this UI change.
+Scoped source review resolved the missing-preview and paused-pagination
+navigation traps, then reported no remaining P1/P2. Failure-state navigation
+and named accessibility retry were source/helper-test reviewed, not exercised
+against an Android peer fault injection in this session.
+
+PHONE DELIVERY
+PKG110 / Android16 user0. Prior version24 / 0.5.7; app-service dump empty
+before update. adb install --user0 -r returned Success; package inspection
+confirmed code25 / 0.5.8, lastUpdateTime 2026-10-17 13:00:40 local.
+Installed base.apk SHA-256 equals the final artifact above. No data clear,
+uninstall, permission changes, synthetic-fixture import, camera operation or
+physical gesture/FPS verification was performed on the phone.
+
+The temporary emulator and loopback peer were shut down after validation.
+UI observations establish these synthetic functional paths, not measured
+physical animation smoothness, every file format or real camera compatibility.

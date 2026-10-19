@@ -1,0 +1,51 @@
+{
+  "date": "2026-10-18T11:31:16.202Z",
+  "environment": "nikon-d8girdjsr252fd90e",
+  "app": {
+    "version": "0.10.1-beta",
+    "versionCode": 55,
+    "sha256": "81021bfc4d7468dd8181d899f9ae5f4a260fbf30b95ac0eefc2be18ffaf9cca6",
+    "bytes": 3257885,
+    "channel": "beta",
+    "published": true,
+    "publicBytesVerified": true
+  },
+  "community": {
+    "registration": true,
+    "challengeReplayBlocked": true,
+    "privateUpload": true,
+    "privateFile404": true,
+    "idempotentSave": true,
+    "duplicateContentBlocked": true,
+    "pendingExcluded": true,
+    "review": true,
+    "persistentMessage": true,
+    "readAll": true,
+    "ownedFixturesCleaned": true,
+    "noTestContentPublished": true
+  },
+  "proxy": {
+    "trustedHops": 4,
+    "loopbackOnly": true,
+    "spoofedPrefixSourceStable": true
+  },
+  "serverTests": 91,
+  "installation": {
+    "scope": "Fresh isolated emulator5562, test-only code53 baseline reusing production updater to public final55",
+    "actualSystemDownload": true,
+    "cancel": true,
+    "processStopRecovery": true,
+    "nativeInstaller": true,
+    "playProtectScan": "safe; global protection unchanged",
+    "sameFirstInstall": true,
+    "privateMarkerPreserved": true,
+    "phoneChanged": false,
+    "evidence": ".impeccable/review/update-native/acceptance.json"
+  },
+  "commentReview": {
+    "newAccountFirstComments": "pending",
+    "publicPendingHidden": true,
+    "notifyOnApprovalOnly": true,
+    "backendPgUpgradeAndRollbackPassed": true
+  }
+}

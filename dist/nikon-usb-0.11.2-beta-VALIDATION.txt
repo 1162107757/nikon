@@ -1,0 +1,26 @@
+Huevia 0.11.2-beta / versionCode 59
+Delivered: 2026-10-19 (Asia/Shanghai)
+APK: dist/nikon-usb-0.11.2-beta-debug.apk
+SHA-256: 774ac5a78d599b33105d98e349192b226d20946819a4017041b740ff15f43828
+Size: 3347997 bytes; existing development signing key; APK v2/v3 verification PASS.
+
+Reply rows explicitly show author -> recipient. The composer names its recipient;
+same-thread recipient changes clear the old recipient's draft. Actual selected reply
+IDs are recorded separately from the paginated root. Immediate and moderated replies
+notify the actual recipient once; self-replies do not create a notification.
+Old clients remain compatible and historical replies retain their recorded root.
+Hidden target metadata does not expose the target author or text.
+
+Host: Java repository/drafts33, paging17, reply paging94, recipient9; backend Node103.
+Disposable PostgreSQL target, moderation, idempotency, security and legacy acceptance PASS.
+Native final-hash Android17/API37 emulator: light18 and dark18 PASS. Four screenshots inspected.
+Native accounts/transports are synthetic/injected; no real user messages were posted.
+See docs/validation/comment-replies-59/README.md and tests/comment-reply-device-probe/.
+
+Cloud: additive migration009 verified; backend1.4.1 Active. Guest GET checks4 PASS.
+The sampled public preset had zero comments; no live message-delivery claim is made.
+Beta publication and full public APK bytes/latest metadata verification PASS.
+Download: https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/download/?channel=beta
+
+No physical phone installation, camera operations, forced process/lifecycle test,
+landscape, long-name, TalkBack or physical-device performance certification this task.

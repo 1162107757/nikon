@@ -1,0 +1,4 @@
+INSTRUMENTATION_RESULT: status=FAIL
+INSTRUMENTATION_RESULT: stream=Live scroll RAW native FAIL; stage=actual-touch-scroll-moves-live-hero; checks=136; failure=java.lang.IllegalStateException: actual-touch-scroll-moves-live-hero
+
+INSTRUMENTATION_CODE: 0

@@ -1,0 +1,67 @@
+Huevia 0.9.11-beta (50) — 2026-10-18
+
+交付
+APK: nikon-usb-0.9.11-beta-debug.apk
+Package: com.nikonpreset.usbprobe
+Bytes: 3163677
+SHA-256: d5037ed50bcfa8dccffd54739daace836bc5f9bc11bdb642ee870715136f3f39
+签名: v2 / v3 验证通过，沿用现有证书。
+Certificate SHA-256: 04db0f9d3d76c9831a0778cfabc1a0aaab984e05398da16eb644950ccfa0ae31
+标签 Huevia；minSdk 26 / targetSdk 35。
+
+范围
+将用户批准的 D 组合稿落实为原生照片直播页面：固定主图、左上默认预设、右上放大、76dp 接收浮层、统计及接收记录、照片工具行、三列缩略图、批量操作浮条。
+直播中的默认与批量预设选择使用双列效果图和名称，保留原生全屏选中返回。窄屏/大字号可改为单列；非直播选择页继续原有默认布局。
+实际原图字节百分比与未知大小状态分别显示；预览、接收及保存分阶段。系统相册发布失败保留原图并提供重试信息。
+修复无变化的自动预设通知链，以及 runtime 高频通知重建 Activity 壳层、状态键反复重解码/清空图像的问题。状态、筛选和批选局部更新；旧主图保留至新图就绪。
+项目菜单保留“新建项目”，直播进行中提示先停止，停止后可建第二项目。查看历史项目时，另一个项目的接收和停止后保存明确标记归属。
+既有账号、QQ、在线库、品牌资源、PTP/Wi-Fi、前台服务及后台保活实现保留，本轮未变更连接协议或服务策略。
+
+构建与 host 检查
+- scripts/build-apk.ps1 -SdkRoot D:/dev/android-sdk -JdkRoot D:/dev/Java/jdk-17.0.19 完整资源链接、javac、D8、zipalign、签名通过。
+- SDK 既有可选注解及过期 API 编译警告保留，无编译错误。
+- AlbumControllerHostTest：810 项；PhotoLiveProjectStoreTest：355 项；PhotoLiveProjectFoldersTest：100 项。
+- AlbumControllerHostTest live-progress：38 项定向检查（包含于控制器总组，不另加总）。
+- tests/run-project-auto.ps1：26 项，包括 500 次无变化 live/library 事件不触发观察者或 host 工作回调。
+- tests/run-live-continuation.ps1 -JdkHome D:/dev/Java/jdk-17.0.19：18 项。
+- 以上 host 使用替身验证控制逻辑，不等同于 Android 图片编解码、系统相册实际发布或物理相机。
+
+原生验收
+最终同 SHA APK 在专用只读 Pixel 9 / Android 17 API37 模拟器通过浅色 297 项、深色 297 项。两种主题包含重复基线，不宣称 594 项独立覆盖。
+1080×2376，density 408，与用户手机当前覆盖尺寸/密度一致；fontScale 1。
+每次报告独立读取安装 APK 哈希。主图 978×724px（约 383.5×283.9dp），与 D 284dp 画布对应；传输槽位 76dp。
+10 次 200ms 字节事件从 68% 到 77%，以及两次照片任务租约变化，保持 Activity/body、AlbumPanel/root、canvas、grid、progress、heroBitmap 和首缩略图身份与几何位置；无额外主图解码请求。
+等待、接收、大小未知、保存、错误、准备与停止状态的画布/列表边界保持固定。星标、批选保持主图；默认预设图文选择自动返回，批量预设选择不改变默认值。
+异步原图升级保留旧像素；切项目清除旧项目图，过期回调不能串图；失败预览键不按进度事件重试。
+实际点击项目菜单：进行中显示先停止提示，停止后第二项目名称表单可达，取消保留原项目与六张合成原图。
+初轮视觉检查发现的统计/标题/批选计数对齐及预设双列差异已修。独立审查发现的新建第二项目入口回退、跨项目保存归属和失败成功文案已修复。
+最终独立复核：SHIP，仅限本轮 D 原生 UI 与模拟器交互，无未解决 P1/P2。
+
+设计稿保留
+原 A/B/C 三文件前后 SHA-256 一致：
+index.html E4DF9AC81CC0FED1F71386056267C361290ABB16D3BEE2EF4765DBACC8A7408A
+review.css 56454B0F69EE428F0E15ED716CE69A311A97BC0520A0261279EF91A9EBBB0E99
+review.js FA3CD455D0B77F08AFCBC1A0EF373DE37334EB80F82A6AA8B79764C0371680BB
+D combined.html/css/js 保持可审核，未用原生验收替换其历史原型证据。
+
+实体手机安装
+PKG110 / Android 16，用户 0：从 0.9.10-beta / 49 使用 adb install -r --no-incremental 覆盖成功，无卸载或清数据。
+lastUpdateTime: 2026-10-18 14:00:21 +08:00
+firstInstallTime: 2026-10-16 20:45:14 +08:00，与升级前一致。
+回读版本 0.9.11-beta / 50；拉取实际 installed base.apk 得到与交付完全相同的 SHA-256。
+启动 MainActivity: Status ok / COLD / TotalTime 321ms。后续进程 PID 20666 仍运行，本进程 AndroidRuntime:E 输出为空。
+未读取真实账号、预设或照片内容，也未向手机植入合成项目/照片。
+
+证据与复现
+docs/design-review/photo-live-redesign/NATIVE-D.md
+.impeccable/review/photo-live-d-native/QA-NOTES.md
+.impeccable/review/photo-live-d-native/light/report.json 和场景 PNG
+.impeccable/review/photo-live-d-native/dark/report.json 和场景 PNG
+.tooling/live-d-qa/README.md：隔离 instrumentation 构建/运行命令，限制 emulator-5558。
+host 控制器 classes: tests/.build/live-d-core-album；运行使用 workspace java.io.tmpdir 避免 Windows sandbox Temp 原子重命名限制。
+java -Djava.io.tmpdir=D:/dev/ai-project/nikon/tests/.build/live-d-core-files -cp tests/.build/live-d-core-album com.nikonpreset.usbprobe.album.AlbumControllerHostTest
+其余 project store/folder 类同样在该 classpath 运行；定向控制器命令增加参数 live-progress。
+
+边界
+原生场景来自合成风景图和手写 NCP，只验证实际原生 Views/图片生命周期与状态展示，没有执行真实相机拍摄、网络原图传输或 MediaStore 发布。手机证据证明覆盖安装、哈希、版本和正常启动；不将模拟器图当作用户手机实拍。
+未进行真实相机连续拍摄、锁屏/Doze、弱网络、TalkBack、横屏或平板验收；不把本轮 UI 稳定性结论扩大为所有相机热点或系统后台行为保证。专用模拟器已关闭，浏览器原设计稿保留。

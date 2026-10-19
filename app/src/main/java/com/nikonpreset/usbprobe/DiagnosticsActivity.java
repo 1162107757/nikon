@@ -95,7 +95,7 @@ public class DiagnosticsActivity extends Activity {
                     runUsbAction(device, pendingAction);
                 } else {
                     setBusy(false);
-                    statusText.setText("未获得相机 USB 访问权限。可以重新检测并允许访问。");
+                    showUsbPrerequisite("未获得 USB 访问权限", "请保持相机开机及数据线连接，重新检测后在系统弹窗中允许访问相机。检测只读取能力，原导入或试传需重新确认。");
                 }
             } else if (UsbManager.ACTION_USB_DEVICE_DETACHED.equals(intent.getAction())) {
                 UsbProbe probe = activeProbe;
@@ -118,7 +118,7 @@ public class DiagnosticsActivity extends Activity {
                         && pendingDevice.getDeviceId() == device.getDeviceId()) {
                     pendingDevice = null;
                     setBusy(false);
-                    statusText.setText("相机已断开，请重新连接数据线。");
+                    showUsbPrerequisite("相机已断开", "请重新连接支持数据传输的 USB 线，确认相机开机，再检测并允许 USB 访问权限。");
                 }
             }
         }
@@ -149,7 +149,7 @@ public class DiagnosticsActivity extends Activity {
         root.setOrientation(LinearLayout.VERTICAL);
         root.setPadding(dp(22), dp(28), dp(22), dp(32));
         scroll.addView(root);
-        addText(root, "NIKON PRESET / USB LAB · " + appVersion(), 12, accent, true);
+        addText(root, getString(R.string.app_name) + " / USB LAB · " + appVersion(), 12, accent, true);
         TextView title = addText(root, "一根线，连接你的预设", 28, foreground, true);
         title.setPadding(0, dp(12), 0, dp(10));
         addText(root, "目标设备：Nikon Z6II · 安卓手机", 14, muted, false);
@@ -170,38 +170,37 @@ public class DiagnosticsActivity extends Activity {
         addText(connection, "已在相机导出预设，但 App 找不到 NIKON 目录时，使用“目录诊断”。结果记录 USB 实际列出的目录，便于判断访问范围。", 13, muted, false)
                 .setPadding(0, dp(12), 0, 0);
         statusText = addText(connection, "等待检测", 15, foreground, false);
+        statusText.setAccessibilityLiveRegion(View.ACCESSIBILITY_LIVE_REGION_POLITE);
 
         LinearLayout files = card(root);
         addText(files, "02  准备 NCP 文件", 18, foreground, true);
         presetText = addText(files, "尚未选择文件。检测 USB 能力不需要先选择预设。", 14, muted, false);
         fileButton = button(files, "选择 NCP 文件", false);
-        fileButton.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-            intent.setType("*/*");
-            startActivityForResult(intent, OPEN_NCP);
-        });
+        fileButton.setOnClickListener(v -> chooseNcpFile());
         ncpImportButton = button(files, "NCP 兼容试导入 · 机内空槽", true);
-        ncpImportButton.setEnabled(false);
         ncpImportButton.setOnClickListener(v -> chooseNcpImportOptions());
         addText(files, "保留已支持的 NCP 参数和曲线，预览并指定旧文件没有的中等范围锐化、清晰度，再直接登记到空槽。尚未验证与相机原生载入效果完全一致。", 13, muted, false)
                 .setPadding(0, dp(12), 0, 0);
         transferButton = button(files, "原通道：试传到存储卡", false);
-        transferButton.setEnabled(false);
-        transferButton.setOnClickListener(v -> new AlertDialog.Builder(this)
+        transferButton.setOnClickListener(v -> {
+            if (!requirePreset()) return;
+            new AlertDialog.Builder(this)
                 .setTitle("试传 NCP 文件")
                 .setMessage("将通过 USB 尝试写入相机卡的 NIKON/CUSTOMPC，使用目录列表中未占用的编号。可能创建文件夹；不请求覆盖或删除。\n\n普通模式遇到只读标志会停止。这条路径尚未完成 Z6II 真机验证，传输后仍需在相机菜单中载入预设。")
                 .setNegativeButton("取消", null)
-                .setPositiveButton("试传", (dialog, which) -> detectCamera(UsbAction.FILE_TRANSFER)).show());
+                .setPositiveButton("试传", (dialog, which) -> detectCamera(UsbAction.FILE_TRANSFER)).show();
+        });
         addText(files, "目标目录：SD 卡根目录下的 NIKON/CUSTOMPC。若普通试传因只读标志停止，可使用下方入口实测现存目录。先断开手机，在相机的“管理优化校准 → 载入/保存 → 复制到存储卡”中导出一个自定义预设到 SD，再连接手机。", 13, muted, false)
                 .setPadding(0, dp(14), 0, 0);
         directoryExperimentButton = button(files, "指定目录实测", false);
-        directoryExperimentButton.setEnabled(false);
-        directoryExperimentButton.setOnClickListener(v -> new AlertDialog.Builder(this)
+        directoryExperimentButton.setOnClickListener(v -> {
+            if (!requirePreset()) return;
+            new AlertDialog.Builder(this)
                 .setTitle("实测现存的 NIKON/CUSTOMPC")
                 .setMessage("此入口会在 Z6II 报告“只读，可删除”时，仍向已存在且可被 USB 读取到的 NIKON/CUSTOMPC 尝试新增 NCP，记录相机真实返回码。目录不可见时停止，不会创建目录。\n\n使用目录列表中未占用的编号，不请求覆盖、删除或修改机内预设槽。相机若只显示部分文件，列表未占用不等于卡上一定没有同名文件。连接中断可能留下空文件或未完成文件，失败后请先查看报告。")
                 .setNegativeButton("取消", null)
-                .setPositiveButton("开始实测", (dialog, which) -> detectCamera(UsbAction.EXISTING_DIRECTORY_TRANSFER)).show());
+                .setPositiveButton("开始实测", (dialog, which) -> detectCamera(UsbAction.EXISTING_DIRECTORY_TRANSFER)).show();
+        });
 
         LinearLayout pictureControls = card(root);
         addText(pictureControls, "03  机内复制 · 空槽实测", 18, foreground, true);
@@ -214,23 +213,74 @@ public class DiagnosticsActivity extends Activity {
         resultText = addText(results, "先读取机内优化校准，再按需实测空槽复制。每次完成或失败后，请保存诊断报告。", 14, muted, false);
         resultText.setTextIsSelectable(true);
         saveButton = button(results, "保存诊断报告", false);
-        saveButton.setEnabled(false);
         saveButton.setOnClickListener(v -> {
+            if (busy) return;
+            if (report == null) {
+                new AlertDialog.Builder(this).setTitle("先生成诊断报告")
+                        .setMessage("请先连接 USB 相机并完成一次检测，生成报告后再保存。检测仅用于读取能力，不会自动继续导入或试传。")
+                        .setNegativeButton("取消", null)
+                        .setPositiveButton("检测相机", (dialog, which) -> detectCamera(UsbAction.CAPABILITIES)).show();
+                return;
+            }
             Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
             intent.addCategory(Intent.CATEGORY_OPENABLE);
             intent.setType("application/json");
             intent.putExtra(Intent.EXTRA_TITLE, "nikon-usb-report.json");
-            startActivityForResult(intent, SAVE_REPORT);
+            try { startActivityForResult(intent, SAVE_REPORT); }
+            catch (RuntimeException unavailable) {
+                new AlertDialog.Builder(this).setTitle("无法选择报告保存位置")
+                        .setMessage("手机未提供可用的文件保存界面，请检查系统文件应用后重试。当前报告仍保留在本机。")
+                        .setPositiveButton("好", null).show();
+            }
         });
         addText(root, "文件与报告保存在本机。报告不包含相机序列号。", 12, muted, false);
         setContentView(scroll);
     }
 
+    private void chooseNcpFile() {
+        if (busy) return;
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("*/*");
+        try { startActivityForResult(intent, OPEN_NCP); }
+        catch (RuntimeException unavailable) {
+            new AlertDialog.Builder(this).setTitle("无法选择文件")
+                    .setMessage("手机未提供可用的文件选择器，请检查系统文件应用后重试。")
+                    .setPositiveButton("好", null).show();
+        }
+    }
+
+    private boolean requirePreset() {
+        if (busy) return false;
+        if (preset != null) return true;
+        new AlertDialog.Builder(this).setTitle("先选择 NCP 文件")
+                .setMessage("选择并检查 NCP 文件后，再点击这项操作。选择文件不会自动导入或试传。")
+                .setNegativeButton("取消", null)
+                .setPositiveButton("选择 NCP 文件", (dialog, which) -> chooseNcpFile()).show();
+        return false;
+    }
+
+    private void showUsbPrerequisite(String title, String message) {
+        statusText.setText(message);
+        new AlertDialog.Builder(this).setTitle(title).setMessage(message)
+                .setNegativeButton("取消", null)
+                .setPositiveButton("检测相机", (dialog, which) -> detectCamera(UsbAction.CAPABILITIES)).show();
+    }
+
+    private void showPictureControlPrerequisite(String title, Exception error) {
+        new AlertDialog.Builder(this).setTitle(title)
+                .setMessage(error.getMessage() + "\n\n先只读获取完整的机内预设与空槽报告，再重新点击原操作。读取不会自动复制或导入预设。")
+                .setNegativeButton("取消", null)
+                .setPositiveButton("读取机内优化校准", (dialog, which) -> detectCamera(UsbAction.PICTURE_CONTROL_READ)).show();
+    }
+
     private void detectCamera(UsbAction action) {
         if (busy) return;
+        if ((action == UsbAction.FILE_TRANSFER || action == UsbAction.EXISTING_DIRECTORY_TRANSFER)
+                && !requirePreset()) return;
         List<UsbDevice> devices = UsbProbe.findNikonDevices(usbManager);
         if (devices.isEmpty()) {
-            statusText.setText("未发现尼康相机。请确认相机已开机、数据线支持传输，且手机已启用 OTG（如果有此设置）。");
+            showUsbPrerequisite("先连接 USB 相机", "未发现尼康相机。请开机并使用支持数据传输的 USB 线连接手机，确认已启用 OTG（如有此设置）。连接后检测相机，并在系统弹窗中允许访问 USB。");
             return;
         }
         if (devices.size() == 1) requestProbe(devices.get(0), action);
@@ -254,6 +304,7 @@ public class DiagnosticsActivity extends Activity {
         }
         else {
             pendingDevice = device;
+            statusText.setText("等待 USB 访问权限，请在系统弹窗中允许访问相机…");
             int flags = PendingIntent.FLAG_UPDATE_CURRENT;
             if (Build.VERSION.SDK_INT >= 31) flags |= PendingIntent.FLAG_MUTABLE;
             PendingIntent permission = PendingIntent.getBroadcast(this, device.getDeviceId(),
@@ -262,7 +313,7 @@ public class DiagnosticsActivity extends Activity {
             catch (Exception error) {
                 pendingDevice = null;
                 setBusy(false);
-                statusText.setText("无法申请 USB 权限：" + error.getMessage());
+                showUsbPrerequisite("无法申请 USB 访问权限", "请检查数据线连接与系统 USB 权限后重新检测。\n" + error.getMessage());
             }
         }
     }
@@ -298,7 +349,7 @@ public class DiagnosticsActivity extends Activity {
                                 .setNegativeButton("取消", null).show();
                     }).setNegativeButton("取消", null).show();
         } catch (Exception error) {
-            showImportError("暂不能复制", error);
+            showPictureControlPrerequisite("先读取机内预设与空槽", error);
         }
     }
 
@@ -349,7 +400,7 @@ public class DiagnosticsActivity extends Activity {
     }
 
     private void chooseNcpImportOptions() {
-        if (busy || preset == null) return;
+        if (!requirePreset()) return;
         try {
             List<Integer> targets = readPictureControlSnapshot().targets;
             LinearLayout options = new LinearLayout(this);
@@ -369,7 +420,7 @@ public class DiagnosticsActivity extends Activity {
                     .setPositiveButton("生成预览", (dialog, which) -> prepareNcpImport(
                             targets.get(target.getSelectedItemPosition()), middle.getSelectedItemPosition(),
                             clarity.getSelectedItemPosition() - 20)).show();
-        } catch (Exception error) { showImportError("暂不能导入", error); }
+        } catch (Exception error) { showPictureControlPrerequisite("先读取机内预设与空槽", error); }
     }
 
     private Spinner choiceSpinner(LinearLayout parent, String[] choices, int selection) {
@@ -389,9 +440,10 @@ public class DiagnosticsActivity extends Activity {
     }
 
     private void prepareNcpImport(int targetItem, int middleQuarter, int clarityQuarter) {
-        if (busy || preset == null) return;
+        if (!requirePreset()) return;
         JSONObject selected = preset;
         setBusy(true);
+        statusText.setText("正在生成 NCP 兼容预览，请稍候…");
         worker.execute(() -> {
             try {
                 byte[] bytes = java.nio.file.Files.readAllBytes(new File(getFilesDir(), "selected.ncp").toPath());
@@ -404,6 +456,7 @@ public class DiagnosticsActivity extends Activity {
                         targetItem, middleQuarter, clarityQuarter);
                 onUi(() -> {
                     setBusy(false);
+                    statusText.setText("兼容预览已生成，请检查目标与适配参数后确认。");
                     new AlertDialog.Builder(this).setTitle("确认向 " + slotLabel(targetItem) + " 导入")
                             .setMessage("文件：" + plan.fileName + "\n目标：" + slotLabel(targetItem)
                                     + "\n\n" + conversion.toDisplayText()
@@ -415,7 +468,11 @@ public class DiagnosticsActivity extends Activity {
                                 detectCamera(UsbAction.NCP_COMPATIBILITY_IMPORT);
                             }).show();
                 });
-            } catch (Exception error) { onUi(() -> { setBusy(false); showImportError("无法生成兼容预览", error); }); }
+            } catch (Exception error) { onUi(() -> {
+                setBusy(false);
+                statusText.setText("兼容预览未生成，请检查 NCP 文件与适配参数。");
+                showImportError("无法生成兼容预览", error);
+            }); }
         });
     }
 
@@ -444,7 +501,7 @@ public class DiagnosticsActivity extends Activity {
                     statusText.setText(result.completed && result.readbackVerified
                             ? "NCP 兼容数据已登记到 " + slotLabel(plan.targetItem) + " 并读回核对。请保存报告，在相机中检查拍摄效果。"
                             : "登记后的核对或收尾未完成，请保存报告并重新只读检查。");
-                    saveButton.setEnabled(true);
+                    saveButton.setEnabled(!busy);
                 });
             } catch (Exception error) {
                 String message = error.getMessage() == null ? error.getClass().getSimpleName() : error.getMessage();
@@ -464,7 +521,7 @@ public class DiagnosticsActivity extends Activity {
                     onUi(() -> {
                         report = saved;
                         resultText.setText(partialText + persistenceWarning);
-                        saveButton.setEnabled(true);
+                        saveButton.setEnabled(!busy);
                     });
                 } catch (Exception ignored) { /* Keep the primary failure visible. */ }
                 onUi(() -> statusText.setText("NCP 兼容导入未完成：" + message));
@@ -551,7 +608,7 @@ public class DiagnosticsActivity extends Activity {
                     statusText.setText(result.completed && result.readbackVerified
                             ? "已复制到 " + slotLabel(copy.targetItem) + " 并读回核对。请保存报告，再在相机中检查。"
                             : "写入后的精确核对未完成。请保存报告并重新只读检查，勿重复写入。");
-                    saveButton.setEnabled(true);
+                    saveButton.setEnabled(!busy);
                 });
             } catch (Exception error) {
                 String message = error.getMessage() == null ? error.getClass().getSimpleName() : error.getMessage();
@@ -575,7 +632,7 @@ public class DiagnosticsActivity extends Activity {
                     onUi(() -> {
                         report = saved;
                         resultText.setText(partialText + persistenceWarning);
-                        saveButton.setEnabled(true);
+                        saveButton.setEnabled(!busy);
                     });
                 } catch (Exception ignored) { /* Preserve the primary operation failure. */ }
                 onUi(() -> statusText.setText("机内复制未完成：" + message));
@@ -630,7 +687,7 @@ public class DiagnosticsActivity extends Activity {
                     report = saved;
                     resultText.setText(result.toDisplayText() + persistenceWarning);
                     statusText.setText("机内优化校准读取完成。请保存诊断报告，以便继续验证预设转换与导入。");
-                    saveButton.setEnabled(true);
+                    saveButton.setEnabled(!busy);
                 });
             } catch (Exception error) {
                 String message = error.getMessage() == null ? error.getClass().getSimpleName() : error.getMessage();
@@ -654,7 +711,7 @@ public class DiagnosticsActivity extends Activity {
                     onUi(() -> {
                         report = saved;
                         resultText.setText(partialText + "本次只读取数据，没有修改机内预设。" + persistenceWarning);
-                        saveButton.setEnabled(true);
+                        saveButton.setEnabled(!busy);
                     });
                 } catch (Exception ignored) { /* Keep the original camera error visible. */ }
                 onUi(() -> statusText.setText("机内优化校准读取未完成：" + message));
@@ -688,7 +745,7 @@ public class DiagnosticsActivity extends Activity {
                     statusText.setText(directoryInspection
                             ? "只读目录诊断完成。请查看下方结果并保存诊断报告；未执行上传。"
                             : "USB 读取完成。尚未验证或执行 NCP 导入。");
-                    saveButton.setEnabled(true);
+                    saveButton.setEnabled(!busy);
                 });
             } catch (Exception error) {
                 String message = error.getMessage() == null ? error.getClass().getSimpleName() : error.getMessage();
@@ -711,7 +768,7 @@ public class DiagnosticsActivity extends Activity {
                     String partialText = partial == null ? "" : partial.toDisplayText() + "\n\n";
                     onUi(() -> {
                         report = saved;
-                        saveButton.setEnabled(true);
+                        saveButton.setEnabled(!busy);
                         resultText.setText(partialText + "当前没有执行预设写入。" + persistenceWarning);
                     });
                 } catch (Exception ignored) { /* Keep original probe error visible. */ }
@@ -729,7 +786,7 @@ public class DiagnosticsActivity extends Activity {
     private void runTransfer(UsbDevice device, boolean directoryExperiment) {
         if (preset == null) {
             setBusy(false);
-            statusText.setText("请先选择 NCP 文件。");
+            requirePreset();
             return;
         }
         UsbNcpTransfer transfer = new UsbNcpTransfer();
@@ -755,7 +812,7 @@ public class DiagnosticsActivity extends Activity {
                     report = saved;
                     resultText.setText(result.toDisplayText() + persistenceWarning);
                     statusText.setText("文件已传到卡里并读回核对。请断开连接，在相机菜单中载入预设。");
-                    saveButton.setEnabled(true);
+                    saveButton.setEnabled(!busy);
                 });
             } catch (Exception error) {
                 String message = error.getMessage() == null ? error.getClass().getSimpleName() : error.getMessage();
@@ -778,7 +835,7 @@ public class DiagnosticsActivity extends Activity {
                     String changes = error instanceof UsbNcpTransfer.TransferException
                             && ((UsbNcpTransfer.TransferException) error).partialResult != null
                             ? ((UsbNcpTransfer.TransferException) error).partialResult.toDisplayText() : "尚未开始相机文件传输。";
-                    onUi(() -> { report = saved; resultText.setText(changes + persistenceWarning); saveButton.setEnabled(true); });
+                    onUi(() -> { report = saved; resultText.setText(changes + persistenceWarning); saveButton.setEnabled(!busy); });
                 } catch (Exception ignored) { /* Preserve the original transfer failure. */ }
                 onUi(() -> statusText.setText("试传未完成：" + message));
             } finally {
@@ -795,6 +852,7 @@ public class DiagnosticsActivity extends Activity {
         Uri uri = data.getData();
         if (request == OPEN_NCP) {
             setBusy(true);
+            statusText.setText("正在读取并检查 NCP 文件，请稍候…");
             worker.execute(() -> {
                 try {
                     String name = documentName(uri);
@@ -816,15 +874,22 @@ public class DiagnosticsActivity extends Activity {
                     try (FileOutputStream file = openFileOutput("preset.json", MODE_PRIVATE)) {
                         file.write(metadata.toString().getBytes(StandardCharsets.UTF_8));
                     }
-                    onUi(() -> { preset = metadata; showPreset(); });
+                    onUi(() -> {
+                        preset = metadata; showPreset();
+                        statusText.setText("NCP 文件已检查，可以生成兼容预览或选择试传。");
+                    });
                 } catch (Exception error) {
-                    onUi(() -> new AlertDialog.Builder(this).setTitle("文件未导入")
-                            .setMessage(error.getMessage()).setPositiveButton("好", null).show());
+                    onUi(() -> {
+                        statusText.setText("NCP 文件检查未完成，请重新选择。");
+                        new AlertDialog.Builder(this).setTitle("文件未导入")
+                                .setMessage(error.getMessage()).setPositiveButton("好", null).show();
+                    });
                 } finally { onUi(() -> setBusy(false)); }
             });
         } else if (request == SAVE_REPORT && report != null) {
             String snapshot = report;
             setBusy(true);
+            statusText.setText("正在保存诊断报告，请稍候…");
             worker.execute(() -> {
                 try (OutputStream output = getContentResolver().openOutputStream(uri, "wt")) {
                     if (output == null) throw new IllegalStateException("无法写入所选位置。");
@@ -867,9 +932,6 @@ public class DiagnosticsActivity extends Activity {
                 showPreset();
             }
         } catch (Exception ignored) { preset = null; }
-        transferButton.setEnabled(preset != null);
-        directoryExperimentButton.setEnabled(preset != null);
-        ncpImportButton.setEnabled(preset != null);
     }
 
     private void restoreReport() {
@@ -879,7 +941,7 @@ public class DiagnosticsActivity extends Activity {
                 report = new String(java.nio.file.Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
                 new JSONObject(report);
                 resultText.setText("已保留上一次诊断报告。连接相机并重新检测可生成最新报告。");
-                saveButton.setEnabled(true);
+                saveButton.setEnabled(!busy);
             }
         } catch (Exception ignored) { report = null; }
     }
@@ -912,10 +974,10 @@ public class DiagnosticsActivity extends Activity {
         pictureControlButton.setEnabled(!value);
         pictureControlCopyButton.setEnabled(!value);
         fileButton.setEnabled(!value);
-        transferButton.setEnabled(!value && preset != null);
-        directoryExperimentButton.setEnabled(!value && preset != null);
-        ncpImportButton.setEnabled(!value && preset != null);
-        saveButton.setEnabled(!value && report != null);
+        transferButton.setEnabled(!value);
+        directoryExperimentButton.setEnabled(!value);
+        ncpImportButton.setEnabled(!value);
+        saveButton.setEnabled(!value);
     }
 
     private void onUi(Runnable action) {

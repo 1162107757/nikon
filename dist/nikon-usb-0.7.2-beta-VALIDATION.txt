@@ -1,0 +1,57 @@
+Nikon Preset 0.7.2-beta / versionCode 30
+2026-10-17 Asia/Shanghai
+APK: nikon-usb-0.7.2-beta-debug.apk
+Bytes: 2,806,393
+SHA-256: da0a8ecae6f842a1a0c8740fdafe01d9db1b7d540ddb1f0c96a1a8fad444b5c4
+Final build: 2026-10-17 15:14:43 +08:00.
+Latest production edit: final UI error-tip fix at 15:14:04; production frozen.
+
+CHANGE AND HOST CHECKS
+Project details show creation time, photo count and journal-aggregated bytes.
+Atomic rename retains UUID, createdAt, photo entries/order and original files;
+invalid errors preserve records, and normalized no-op does not rewrite.
+Active rename updates live/saved display names after durable success without
+stopping reception or changing camera ownership. Stable folder bindings keep
+existing and future MediaStore originals in one directory, without migrating
+the existing .project format or moving prior photos.
+Final tests/run-album: 652 controller + 342 store + 100 folder = 1,094 pass.
+No new complete core/probe/server or Doze test is claimed.
+
+EARLIER CANDIDATE SCOPE
+Android 17 / Pixel 9 emulator started with 0.7.1 Old_Project containing two
+synthetic photos 4/5. Preserve-data upgrade to an earlier 0.7.2 candidate
+retained the project. Offline details showed two photos, 176.7 KB and creation
+time 7:11. Rename to Renamed_Project succeeded; the existing two MediaStore
+rows 38/39 remained pending=0 in Pictures/相机预设/Old_Project-42a6f7a6/.
+The final rebuild changes only the UI error tip after this candidate run;
+these candidate checks are not claimed as final-artifact validation.
+
+FINAL ARTIFACT EMULATOR
+Installed emulator base hash matches final APK / code 30. Force-stop and
+cold-start retain Renamed_Project with two photos / 176.7 KB / created 7:11.
+Invalid bad/name shows a fully visible inline error; cancel preserves name.
+Active session 2 creates Live_Original and receives photo 6, renames to
+Live_Renamed, then receives missed-event photo 7. Details update to two
+photos / 178.9 KB / latest TEST_0007.JPG / waiting to shoot. Rows 46/47 stay
+pending=0 under Pictures/相机预设/Live_Original-61331355/; old rows 38/39 stay
+pending=0 under Old_Project-42a6f7a6/. Active rename has no reconnect and
+session 2 has one Open / zero CloseSession. TotalOriginalTransfers=4 includes
+older candidate photos 4/5 and final photos 6/7, not four final transfers.
+Dark 375dp (984x2190 at density 420), font 1.3 and animator scale 0 verify
+scrollable details, latest-photo/note and reachable bottom rename/close.
+Landscape scrolling and buttons work; not all fields are simultaneously
+visible. Relevant screenshots were inspected. Emulator size/font/rotation/
+night/animation settings were restored; live stopped and disconnected before
+the final cold restart. App crash filter is empty. No new Doze test is claimed.
+Synthetic listener and temporary emulator were stopped after QA.
+
+PHYSICAL PHONE
+PKG110 services were empty before preserve-data update 29->30 at
+2026-10-17 15:19:36 +08:00. Installed base APK SHA-256 matches final artifact.
+Existing project 2026-10-17 14:44 retains two photos / 14.6 MB, latest
+DSC_6138.JPG, creation 14:44. New details and rename controls are visible.
+Left the phone offline with the info dialog open; live did not auto restart.
+No real project was renamed and no camera operation was performed.
+Prior 0.7.1 installation and 0.7.0 protocol/Doze runs remain historical.
+
+See ../docs/device-review/projects-0.7.2-functional.log.

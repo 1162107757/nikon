@@ -1,0 +1,105 @@
+Nikon Preset 0.6.1-beta final artifact functional checkpoints
+2026-10-17 Asia/Shanghai. Protocol timestamps with Z are UTC.
+VersionCode27, 2,785,913 bytes.
+APK SHA256 f458b989e30a6cc84206351f22d718b79e99209a0c419caa7ae07e950838e18c
+Production sources frozen before final APK build at14:05:14+08.
+
+SCOPE / SETUP
+Temporary read-only Pixel9 Android17/API37 emulator,1080x2424.
+Loopback synthetic peer127.0.0.1:15757, emulator address10.0.2.2:15757.
+--photo-live-synthetic --live-storage-synthetic
+--picture-control-full-album-import-synthetic --keep-import-session
+All objects and preset slots are synthetic; no physical camera was used.
+The initial permission-smoke APK was replaced by the final artifact before
+the fresh peer/log instance below. Initial smoke confirmed app-dialog cancel,
+system battery-denial not starting live, and notification denial not stopping
+FGS/connection. Those denial observations are not final-artifact reruns.
+The final artifact tested the real OS battery grant/return/start path below.
+
+EMPTY SLOT / BASELINE
+Fresh final-peer log begins06:05:33.208Z. The final APK opens session1 once.
+Storage65537 advertises but GetObjectHandles responds with matched0x2013.
+Storage131073 contains old objects1..3 and returns a valid JPEG inventory.
+Started from Album > Photo Live > Start, chose Enable protection, accepted
+Android's always-run-in-background prompt. Return has no useful data URI;
+actual battery whitelist is checked, then live automatically starts.
+UI showed connected/Waiting to shoot/saved0. No GetObject for1..3.
+Baseline checkpoint was archived before any synthetic live additions.
+
+ALL-STORAGE OUTAGE / BACKGROUND RECOVERY
+Revision1 marks both65537 and131073 unavailable. UI remains connected and
+live enabled, displays waiting-for-storage rather than stopping the session.
+HOME backgrounds Activity. Revision2 restores131073 and adds4 with two
+ObjectAdded notifications.4 automatically previews, downloads and publishes.
+MediaStore row40, pending0; no Download action or Activity reopening needed.
+Known baseline1..3 remains excluded.65537 remains unavailable throughout.
+
+SCREEN OFF / LOCKED
+Sent SLEEP key223 while Activity was backgrounded. Actual window policy:
+showing=true, SCREEN_STATE_OFF, INTERACTIVE_STATE_SLEEP.
+Revision3 adds5 with two notifications and one original-busy response.
+Same-session retry completes and publishes row41, pending0 while locked.
+The connected-device foreground service and partial CPU wake lock remain.
+
+FORCED DEEP DOZE
+On this temporary emulator only, simulated unplug and force-idle.
+Actual deviceidle mForceIdle=true, mState=IDLE, mLightState=OVERRIDE;
+window stays locked/screen off; power reports Asleep with app partial lock.
+App was exempted through the real system prompt, not adb whitelisting.
+Revision4 adds6 with zero ObjectAdded events. Same-session fallback polling
+receives6 and publishes row42,pending0 without waking/unlocking the screen.
+Actual state, MediaStore and public-file hashes archived in doze.log.
+Unforced idle, restored battery simulation, woke/unlocked and opened app.
+UI showed saved3/latestTEST_0006 and all three entries saved to system gallery.
+
+PUBLIC ORIGINAL INTEGRITY
+Rows40..42 are the three live photos in Pictures/相机预设/, all pending0.
+Screenshot helper row37 v061-live-baseline.png is excluded from live counts.
+Public-file SHA256 values match original synthetic fixtures:
+4 f026c924b35a1f8897c911ed79ed0e35680e444bea9f4d69253d5f2a5f1da133
+5 00f6d88bd1de2407ab9806247fd228414a486a6c7feff00be4402ac3a8c89a52
+6 fa30134e143a185e01e0b0f14fb82b8c6b2cd9c67eaddc6ace98f0ed2c525004
+
+STOP / RELEASE
+Stop Live retains the green connection and received photos. Revision5 adds7
+with two events, but no preview or original is requested for7.
+Settings > Background connection protection displays actual Enabled status.
+Explicit Disconnect closes the transport: service dump nothing, no held
+nikon partial wake lock, empty AndroidRuntime crash buffer.
+Final peer summary06:09:51.539Z: connections1,opens1,closes0,virtualWrites0,
+commands303; CLOSED session1 at06:09:51.540Z. No protocol CloseSession.
+Protocol log468lines. Source/host tests separately cover startup metadata
+outage interleaving, first-readable-slot baseline and terminal errors.
+
+PHONE DELIVERY
+PKG110 Android16,user0,serial286f0dba. Existing battery exemption was already
+present before this task. Initial runtime check found FGS active; immediately
+before updating it had no camera service or operation running.
+Preserve-data install-r succeeded from26/0.6.0 to27/0.6.1-beta.
+lastUpdateTime2026-10-17 14:10:20+08; installed base.apk SHA matches above.
+No uninstall, data clear, permission changes, synthetic photo fixtures,
+camera actions or physical shooting/lock-screen tests on the phone.
+
+REGRESSION
+Final tests/run.ps1:10381 (including production AlbumController518).
+Picture Control host/probe:12089. Synthetic server:51+117=168.
+Combined22638 passed. Final build/signature v2/v3 verification passed.
+Temporary peer stopped and read-only emulator shut down after validation;
+no test listener or emulator is intentionally left running.
+The first interrupted core invocation and missing AndroidJar probe invocation
+were replaced by complete successful final runs; do not count the attempts.
+
+LIMITS
+Screen-off and forced-Doze results establish synthetic Android behavior under
+the tested user-approved exemption, not indefinite physical Nikon reception.
+Z6II capture compatibility, actual AP policy, throughput, long idle and OEM
+process-kill behavior still need physical testing. Ordinary backgrounding and
+screen lock do not intentionally stop the shared queue/session. Force-stop,
+process termination and camera AP shutdown cannot be prevented by this app.
+
+EVIDENCE
+live-0.6.1-baseline.log / live-0.6.1-protocol.log / live-0.6.1-doze.log
+live-0.6.1-audit.md (independent read-only audit)
+.impeccable/review/phone-apple-v061-live-baseline.png
+.impeccable/review/phone-apple-v061-after-doze.png
+.impeccable/review/phone-apple-v061-settings-protected.png

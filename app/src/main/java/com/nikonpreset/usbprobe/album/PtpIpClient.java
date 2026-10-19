@@ -34,6 +34,8 @@ public final class PtpIpClient implements AutoCloseable {
     private volatile boolean sessionOpen;
     private volatile boolean protocolUnconfirmed;
     private volatile Runnable onClosed;
+    private volatile java.util.function.LongConsumer onObjectAdded;
+    private String cameraIdentity = "";
     private boolean started;
     private boolean cancelled;
     private boolean pictureControlWriteAttempted;
@@ -52,6 +54,7 @@ public final class PtpIpClient implements AutoCloseable {
 
     /** The event reader follows the physical connection, not an obsolete API handle. */
     private static final class ConnectionOwnership {
+        final long traceId = ConnectionTrace.nextConnectionId();
         PtpIpClient owner;
     }
 
@@ -83,12 +86,12 @@ public final class PtpIpClient implements AutoCloseable {
         requireMode(Mode.ALBUM_READ_ONLY);
         checkClosed();
         synchronized (lifecycle) {
-            requireOpen();
+            requireAlbumSession();
             if (ownership.owner != this || protocolUnconfirmed || commandSocket == null || eventSocket == null
                     || input == null || output == null || nextTransaction < 1 || nextTransaction > 0xffffffffL) {
                 throw new IOException("相册会话已失效，无法移交给预设导入。");
             }
-            return transferOwnedConnection(nextTransaction);
+            return transferOwnedConnection(nextTransaction, Mode.PICTURE_CONTROL);
         }
     }
 
@@ -110,29 +113,65 @@ public final class PtpIpClient implements AutoCloseable {
                     || nextTransactionId != lastPictureControlTransaction + 1) {
                 throw new IOException("本次登记尚未由同一连接完整确认并精确读回，不能延续或再次登记。");
             }
-            return transferOwnedConnection(nextTransactionId);
+            return transferOwnedConnection(nextTransactionId, Mode.PICTURE_CONTROL);
+        }
+    }
+
+    /** Moves a healthy read-only PC owner to album mode without rearming a consumed write attempt. */
+    public synchronized PtpIpClient transferToAlbum(long nextTransactionId) throws IOException {
+        requireMode(Mode.PICTURE_CONTROL);
+        checkClosed();
+        requirePictureControlConnection();
+        requirePictureControlSession(nextTransactionId);
+        synchronized (lifecycle) {
+            requireOpen();
+            if (ownership.owner != this || protocolUnconfirmed || pictureControlWriteAttempted
+                    || commandSocket == null || eventSocket == null || input == null || output == null
+                    || nextTransactionId != lastPictureControlTransaction + 1) {
+                throw new IOException("只有健康且未尝试登记的只读会话可以交给相册。");
+            }
+            return transferOwnedConnection(nextTransactionId, Mode.ALBUM_READ_ONLY);
         }
     }
 
     /** Caller holds both this API monitor and the physical ownership lock. */
-    private PtpIpClient transferOwnedConnection(long nextTransactionId) {
-        PtpIpClient next = new PtpIpClient(connector, Mode.PICTURE_CONTROL, ownership);
+    private PtpIpClient transferOwnedConnection(long nextTransactionId, Mode nextMode) {
+        PtpIpClient next = new PtpIpClient(connector, nextMode, ownership);
         next.commandSocket = commandSocket; next.eventSocket = eventSocket;
         next.input = input; next.output = output;
         next.closed = false; next.sessionOpen = true; next.started = true;
         next.nextTransaction = nextTransactionId; next.transferredSession = true;
+        if (nextMode == Mode.PICTURE_CONTROL) next.lastPictureControlTransaction = nextTransactionId - 1;
         next.connectedHost = connectedHost; next.connectedPort = connectedPort;
+        next.cameraIdentity = cameraIdentity;
         // The physical event reader stays unique. New registration permission
         // belongs only to the new explicit owner; the old facade is revoked.
         ownership.owner = next;
         commandSocket = null; eventSocket = null; input = null; output = null;
-        cancelled = true; closed = true; sessionOpen = false; onClosed = null;
+        cancelled = true; closed = true; sessionOpen = false; onClosed = null; onObjectAdded = null;
         return next;
     }
 
     /** One-time backend claim; the returned transaction continues the album sequence. */
     public synchronized long claimTransferredSession() throws IOException {
         requireMode(Mode.PICTURE_CONTROL);
+        return claimTransferredOwner();
+    }
+
+    /** One-time album claim; no command is sent and reads remain blocked until it succeeds. */
+    public synchronized long claimTransferredAlbumSession() throws IOException {
+        requireMode(Mode.ALBUM_READ_ONLY);
+        return claimTransferredOwner();
+    }
+
+    public boolean isPendingAlbumHandoff() {
+        synchronized (lifecycle) {
+            return mode == Mode.ALBUM_READ_ONLY && ownership.owner == this && transferredSession
+                    && !handoffClaimed && !closed && sessionOpen && !protocolUnconfirmed;
+        }
+    }
+
+    private long claimTransferredOwner() throws IOException {
         checkClosed();
         synchronized (lifecycle) {
             requireOpen();
@@ -190,6 +229,9 @@ public final class PtpIpClient implements AutoCloseable {
             if (ack.type != 2 || ackData.length < 26) throw new IOException("相机没有返回受支持的无线握手。");
             long connectionNumber = u32(ackData, 0);
             validatePeerName(ackData);
+            StringBuilder camera = new StringBuilder(32);
+            for (int i = 4; i < 20; i++) camera.append(String.format(java.util.Locale.ROOT, "%02x", ackData[i] & 255));
+            cameraIdentity = camera.toString();
             Socket events = connector.connect(host, port, 5000);
             install(events, true);
             events.setTcpNoDelay(true); events.setSoTimeout(15000);
@@ -201,8 +243,15 @@ public final class PtpIpClient implements AutoCloseable {
             byte[] info = null;
             if (album) {
                 info = receive(0x1001, 0, new long[0], 1024 * 1024, null, -1, null);
-                request(0x1002, 0, new long[] {1});
-                response(nextControl(deadline(CONTROL_TIMEOUT)), 0);
+                long traceStart = ConnectionTrace.operationStarted(ownership.traceId, 0x1002, 0);
+                try {
+                    request(0x1002, 0, new long[] {1});
+                    response(nextControl(deadline(CONTROL_TIMEOUT)), 0);
+                    ConnectionTrace.operationFinished(ownership.traceId, 0x1002, 0, traceStart, null);
+                } catch (IOException | RuntimeException error) {
+                    ConnectionTrace.operationFinished(ownership.traceId, 0x1002, 0, traceStart, error);
+                    throw error;
+                }
                 sessionOpen = true;
             }
             checkClosed();
@@ -211,7 +260,7 @@ public final class PtpIpClient implements AutoCloseable {
             eventReader.setDaemon(true); eventReader.start();
             return info;
         } catch (IOException | RuntimeException error) {
-            closeWithReason("无线握手：" + failureText(error), false);
+            closeWithReason("无线握手：" + failureText(error), false, ConnectionTrace.category(error));
             throw error;
         }
     }
@@ -225,9 +274,21 @@ public final class PtpIpClient implements AutoCloseable {
     public void abortProtocol(IOException failure) { closeWithReason("协议中止：" + failureText(failure), true); }
     public void setOnClosed(Runnable listener) { onClosed = listener; }
 
+    /** Called only for the current read-only owner; callbacks must enqueue work, never perform protocol I/O. */
+    public void setOnObjectAdded(java.util.function.LongConsumer listener) { onObjectAdded = listener; }
+
+    String cameraIdentity() { return cameraIdentity; }
+
+    /** Fresh album capability discovery in the already opened and claimed session. */
+    public synchronized byte[] readAlbumDeviceInfo() throws IOException {
+        requireMode(Mode.ALBUM_READ_ONLY);
+        requireAlbumSession();
+        return receive(0x1001, transaction(), new long[0], 1024 * 1024, null, -1, null);
+    }
+
     public synchronized byte[] getData(int operation, int maxBytes, long... parameters) throws IOException {
         requireMode(Mode.ALBUM_READ_ONLY);
-        requireOpen();
+        requireAlbumSession();
         if (operation == 0x1009 || maxBytes < 1 || maxBytes > 8 * 1024 * 1024) {
             throw new IOException("照片须使用流式下载；查询或缩略图大小超出限制。");
         }
@@ -238,7 +299,7 @@ public final class PtpIpClient implements AutoCloseable {
     /** Nikon GetLargeThumb is a bounded read of a camera-generated preview, never GetObject. */
     public synchronized byte[] getLargeThumbnail(long handle) throws IOException {
         requireMode(Mode.ALBUM_READ_ONLY);
-        requireOpen();
+        requireAlbumSession();
         if (handle <= 0 || handle >= 0xffffffffL) throw new IOException("照片索引无效。");
         // Keep the vendor operation out of the generic query and PC write allowlists.
         return receive(0x90c4, transaction(), new long[] {handle}, 8 * 1024 * 1024, null, -1, null);
@@ -247,7 +308,7 @@ public final class PtpIpClient implements AutoCloseable {
     public synchronized long readTo(int operation, OutputStream destination, long maxBytes, long expectedBytes,
                        Progress progress, long... parameters) throws IOException {
         requireMode(Mode.ALBUM_READ_ONLY);
-        requireOpen();
+        requireAlbumSession();
         if (operation != 0x1009 || destination == null || maxBytes < 1 || maxBytes > MAX_DOWNLOAD
                 || expectedBytes < 0 || expectedBytes > maxBytes) throw new IOException("照片下载参数无效。");
         validateRead(operation, parameters);
@@ -288,6 +349,7 @@ public final class PtpIpClient implements AutoCloseable {
                 || (!opening && (parameters.length != 0 || !sessionOpen || transaction == 0))) {
             throw new IOException("优化校准仅允许 OpenSession(1, 事务 0) / CloseSession()。");
         }
+        long traceStart = ConnectionTrace.operationStarted(ownership.traceId, operation, transaction);
         try {
             // A verified registration proof belongs to one uninterrupted PTP
             // session. Even an explicit session-close/reopen attempt must not
@@ -299,9 +361,14 @@ public final class PtpIpClient implements AutoCloseable {
             request(operation, transaction, parameters);
             PtpContainer result = response(nextControl(deadline(CONTROL_TIMEOUT)), transaction);
             sessionOpen = opening;
+            ConnectionTrace.operationFinished(ownership.traceId, operation, transaction, traceStart, null);
             return result;
-        } catch (PtpResponseException error) { throw error; }
-        catch (IOException | RuntimeException error) { abortProtocolFailure(error); throw error; }
+        } catch (PtpResponseException error) {
+            ConnectionTrace.operationFinished(ownership.traceId, operation, transaction, traceStart, error); throw error;
+        } catch (IOException | RuntimeException error) {
+            ConnectionTrace.operationFinished(ownership.traceId, operation, transaction, traceStart, error);
+            abortProtocolFailure(error); throw error;
+        }
     }
 
     /** Sends at most one validated registration per instance, including rejected/uncertain attempts. */
@@ -322,6 +389,7 @@ public final class PtpIpClient implements AutoCloseable {
         pictureControlWrittenTarget = (int) parameters[0];
         pictureControlWriteTransaction = transaction;
         lastPictureControlTransaction = Math.max(lastPictureControlTransaction, transaction);
+        long traceStart = ConnectionTrace.operationStarted(ownership.traceId, operation, transaction);
         try {
             checkClosed();
             request(operation, transaction, parameters, 2);
@@ -336,13 +404,19 @@ public final class PtpIpClient implements AutoCloseable {
             send(output, 12, end.toByteArray());
             PtpContainer result = response(nextControl(deadline(CONTROL_TIMEOUT)), transaction);
             pictureControlWriteAcknowledged = true;
+            ConnectionTrace.operationFinished(ownership.traceId, operation, transaction, traceStart, null);
             return result;
-        } catch (PtpResponseException error) { throw error; }
-        catch (IOException | RuntimeException error) { abortProtocolFailure(error); throw error; }
+        } catch (PtpResponseException error) {
+            ConnectionTrace.operationFinished(ownership.traceId, operation, transaction, traceStart, error); throw error;
+        } catch (IOException | RuntimeException error) {
+            ConnectionTrace.operationFinished(ownership.traceId, operation, transaction, traceStart, error);
+            abortProtocolFailure(error); throw error;
+        }
     }
 
     private byte[] receive(int operation, long transaction, long[] parameters, long maxBytes,
                            OutputStream destination, long expectedBytes, Progress progress) throws IOException {
+        long traceStart = ConnectionTrace.operationStarted(ownership.traceId, operation, transaction);
         try {
             request(operation, transaction, parameters);
             long until = deadline(destination == null ? CONTROL_TIMEOUT : DOWNLOAD_TIMEOUT);
@@ -385,9 +459,14 @@ public final class PtpIpClient implements AutoCloseable {
             if (received != total) throw new IOException("无线照片数据被截断。");
             response(nextControl(until), transaction);
             if (expectedBytes > 0 && received != expectedBytes) throw new IOException("照片大小已变化，请刷新相机照片列表。");
+            ConnectionTrace.operationFinished(ownership.traceId, operation, transaction, traceStart, null);
             return memory == null ? null : memory.toByteArray();
-        } catch (PtpResponseException error) { throw error; }
-        catch (IOException | RuntimeException error) { abortProtocolFailure(error); throw error; }
+        } catch (PtpResponseException error) {
+            ConnectionTrace.operationFinished(ownership.traceId, operation, transaction, traceStart, error); throw error;
+        } catch (IOException | RuntimeException error) {
+            ConnectionTrace.operationFinished(ownership.traceId, operation, transaction, traceStart, error);
+            abortProtocolFailure(error); throw error;
+        }
     }
 
     private void request(int operation, long transaction, long[] parameters) throws IOException {
@@ -438,7 +517,7 @@ public final class PtpIpClient implements AutoCloseable {
     }
 
     private void abortProtocolFailure(Exception failure) {
-        closeWithReason("命令通道：" + failureText(failure), true);
+        closeWithReason("命令通道：" + failureText(failure), true, ConnectionTrace.category(failure));
     }
 
     private Header nextHeader(long until) throws IOException {
@@ -447,6 +526,7 @@ public final class PtpIpClient implements AutoCloseable {
             if (h.type != 13) return h;
             if (h.payload != 0) throw new IOException("无线探测包长度无效。");
             send(output, 14, new byte[0]);
+            ConnectionTrace.pingReplied(ownership.traceId, false);
         }
         throw new IOException("无线探测包过多。");
     }
@@ -469,8 +549,26 @@ public final class PtpIpClient implements AutoCloseable {
             InputStream events = socket.getInputStream();
             while (physicalConnectionOpen()) {
                 Header h = header(events, Long.MAX_VALUE, socket);
-                if (h.type == 13 && h.payload == 0) send(socket.getOutputStream(), 14, new byte[0]);
-                else if (h.type == 8 && h.payload >= 6 && h.payload <= 18 && (h.payload - 6) % 4 == 0) body(events, h, 18, Long.MAX_VALUE, socket);
+                if (h.type == 13 && h.payload == 0) {
+                    send(socket.getOutputStream(), 14, new byte[0]);
+                    ConnectionTrace.pingReplied(ownership.traceId, true);
+                }
+                else if (h.type == 8 && h.payload >= 6 && h.payload <= 18 && (h.payload - 6) % 4 == 0) {
+                    byte[] event = body(events, h, 18, Long.MAX_VALUE, socket);
+                    int code = (event[0] & 255) | ((event[1] & 255) << 8);
+                    if (code == 0x4002) {
+                        if (event.length != 10) throw new IOException("新增照片事件参数无效。");
+                        long handle = u32(event, 6);
+                        if (handle == 0 || handle == 0xffffffffL) throw new IOException("新增照片事件索引无效。");
+                        java.util.function.LongConsumer listener = null;
+                        synchronized (lifecycle) {
+                            PtpIpClient owner = ownership.owner;
+                            if (owner != null && !owner.closed && owner.mode == Mode.ALBUM_READ_ONLY
+                                    && (!owner.transferredSession || owner.handoffClaimed)) listener = owner.onObjectAdded;
+                        }
+                        if (listener != null) try { listener.accept(handle); } catch (RuntimeException ignored) { }
+                    }
+                }
                 else throw new IOException("相机无线事件通道返回未知数据。");
             }
         } catch (IOException | RuntimeException error) {
@@ -478,7 +576,7 @@ public final class PtpIpClient implements AutoCloseable {
             synchronized (lifecycle) {
                 PtpIpClient owner = ownership.owner;
                 if (owner != null && !owner.closed) {
-                    listener = owner.closeOwnedLocked("事件通道：" + failureText(error), true);
+                    listener = owner.closeOwnedLocked("事件通道：" + failureText(error), true, ConnectionTrace.category(error));
                 }
             }
             notifyClosed(listener);
@@ -507,9 +605,13 @@ public final class PtpIpClient implements AutoCloseable {
     }
     private long transaction() throws IOException { if (nextTransaction > 0xffffffffL) throw new IOException("无线会话编号已用尽，请重新连接。"); return nextTransaction++; }
     private void requireOpen() throws IOException { if (!isOpen()) throw new IOException("请先连接相机无线网络。"); }
+    private void requireAlbumSession() throws IOException {
+        requireOpen();
+        if (transferredSession && !handoffClaimed) throw new IOException("相册移交会话尚未接管。");
+    }
     private void checkClosed() throws IOException {
         if (Thread.currentThread().isInterrupted()) {
-            closeWithReason("调用线程已取消无线操作。", true);
+            closeWithReason("调用线程已取消无线操作。", true, "CANCEL");
             throw new IOException("无线操作已取消。");
         }
         if (closed) throw new IOException("无线连接已关闭或操作已取消。");
@@ -519,21 +621,26 @@ public final class PtpIpClient implements AutoCloseable {
     }
 
     private void closeWithReason(String reason, boolean abort) {
+        closeWithReason(reason, abort, abort ? "PROTOCOL" : "EXPLICIT");
+    }
+
+    private void closeWithReason(String reason, boolean abort, String category) {
         Runnable listener;
         synchronized (lifecycle) {
             if (ownership.owner != this) {
                 cancelled = true; closed = true; sessionOpen = false;
                 return;
             }
-            listener = closeOwnedLocked(reason, abort);
+            listener = closeOwnedLocked(reason, abort, category);
         }
         notifyClosed(listener);
     }
 
     /** Caller holds the shared ownership lock; notifications run outside it. */
-    private Runnable closeOwnedLocked(String reason, boolean abort) {
+    private Runnable closeOwnedLocked(String reason, boolean abort, String category) {
         if (ownership.owner != this) return null;
         boolean changed = !closed;
+        if (changed) ConnectionTrace.closed(ownership.traceId, category);
         if (closeReason.isEmpty()) closeReason = reason;
         protocolUnconfirmed |= abort;
         cancelled = true; closed = true; sessionOpen = false;

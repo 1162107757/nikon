@@ -1,0 +1,9 @@
+{
+  "phase": "READY_TO_INSTALL",
+  "status": "READY",
+  "checks": 22,
+  "expectedHash": "81021bfc4d7468dd8181d899f9ae5f4a260fbf30b95ac0eefc2be18ffaf9cca6",
+  "installerButton": "Update",
+  "installerPackage": "com.google.android.packageinstaller",
+  "restoredDownloadId": 13
+}

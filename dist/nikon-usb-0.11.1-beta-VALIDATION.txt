@@ -1,0 +1,72 @@
+Huevia 0.11.1-beta (versionCode 58)
+Delivered: 2026-10-19 (Asia/Shanghai); implementation and validation started 2026-10-18.
+APK: dist/nikon-usb-0.11.1-beta-debug.apk
+SHA-256: f1952cca9f98fdfaef4e01875eada653291e5f0ca535cd5cfd05630280a3a568
+Size: 3347997 bytes
+Package: com.nikonpreset.usbprobe; minimum API 26; target/compile API 35.
+APK v2/v3 signature verification: PASS.
+Certificate SHA-256: 04db0f9d3d76c9831a0778cfabc1a0aaab984e05398da16eb644950ccfa0ae31
+
+Delivered behavior:
+- Manual preset application shows overall progress, current image and processing stage.
+- Live automatic presets show stage/percentage in a fixed-height region and on the active tile.
+- Photo Live project, hero and virtualized three-column photo rows scroll together.
+  Byte/status events preserve the current viewport; a compact top action returns to the header.
+- Export distinguishes JPG current version from the camera's unchanged original NEF.
+  Separate RAW camera/saved lists, bounded paging, serial batch export and retry are provided.
+  Direct MediaStore saving uses the original bytes; no file destination picker or JPEG-to-RAW conversion.
+- NEF/JPEG pairing requires trusted camera/provenance and an unambiguous complete inventory.
+  Older JPEGs without that evidence or ambiguous candidates require explicit RAW selection.
+  New camera RAW reading requires stopping Photo Live; saved RAW publication works offline.
+- Online NCP and supported NP3 recipes render the current template without joining My Presets.
+  Visible work is bounded; unsupported recipes have an explicit reason and no false effect image.
+- Process-owned preset downloads show actual byte progress or a named unknown-length stage.
+  Reopening a page retains active state; library revision events synchronize Activity replacement.
+- Local preset detail and card long-press allow confirmed deletion. Project default references
+  are checked again before removal. Active work blocks removal; persisted tombstones prevent
+  legacy migration revival. Camera slots, original/effect photos and unrelated/external samples stay intact.
+
+Targeted host verification during this implementation:
+- Download task manager: 38 checks.
+- Preset library: 1489 checks including the original 240-file NCP/NP3 archive.
+- Project preset reference/deletion store: 221 checks.
+- RAW structure/pairing 54; JPEG provenance 8; production controller 31; real PTP/IP parsing 9.
+- RAW store/publication/legacy/recovery: 157 checks.
+- Preset batch 277; source links 82; automatic project presets 48; grouped photo versions 36.
+  Automatic project suite rerun after final deletion integration: 48 PASS.
+- Earlier compatible regression in the same implementation: controller 826, project persistence
+  356, project folders 100, gallery saver 221, deletion 36, original identity 18, live receipts 111.
+- Independent source review found and closed lifecycle synchronization and RAW foreground-lease issues.
+
+Frozen-APK native verification, emulator-5560, Android 17 / API 37:
+- Online preview/download/delete: light portrait 75 PASS; dark portrait 75 PASS;
+  light landscape 76 PASS. Real NCP and supported/unsupported NP3 fixtures, Android pixels,
+  hold-original, fixed layout, bounded queues, offline cache, unknown sample phase, leave/reenter,
+  duplicate suppression, deletion confirmation and file-backed library reopen are covered.
+  Evidence: docs/validation/online-preview-58/README.md (24 reviewed screenshots).
+- Live scrolling/preset progress/RAW: light portrait 249 PASS; dark portrait 208 PASS.
+  Actual touch scroll, header recycling, return to top, visible-row bounds, anchor preservation,
+  selection/star/viewer behavior, injected progress states and export-format semantics are covered.
+- One owned 33554432-byte synthetic TIFF/EP NEF passed actual RawPhotoStore -> RawPhotoPanel ->
+  Android MediaStore: MIME image/x-nikon-nef, exact full SHA/length, repeat same URI, immediate
+  photo service lease, observed background operation and completion lease release.
+- Final portrait reports confirm owned fixture cleanup. Helpers were independently built;
+  preliminary helper failures concerned touch coordinates, recycled-header geometry and Android
+  canonical path aliases. They did not require a product change after the final build.
+- Live landscape captured screenshots but stopped at the first drag assertion because the
+  helper's central touch region overlapped the floating navigation. It is NOT a passed landscape
+  scrolling test. The existing tall fixed app header also constrains landscape content height.
+  Evidence: .impeccable/review/preset-progress-raw-0.11.1/README.md, including history and limits.
+
+Publication:
+- Published to the beta channel through the authenticated version-management API.
+- Public APK full byte count and SHA-256 match this signed artifact; latest beta metadata matches 58.
+- Download: https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/download/?channel=beta
+- No backend deployment, schema migration or administrator credentials embedded in the client.
+
+Limits:
+- No physical phone installation or real-camera NEF transfer was performed in this task.
+- Synthetic NEF/PTP/MediaStore tests do not establish Nikon model/firmware compatibility or OEM gallery decoding.
+- RAW is preserved original data, with no phone-preset RAW development. Automatic live reception stays JPEG.
+- Phone template rendering remains approximate; unsupported NP3 variants and NP3 camera import remain blocked.
+- No new long-running camera/background/lock-screen, physical gesture performance or TalkBack certification.

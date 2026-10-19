@@ -70,6 +70,12 @@ final class PhotoPreviewCache implements AutoCloseable {
         return pin(entry, photo.filename());
     }
 
+    /** A reused camera handle with changed metadata must not show the previous object's pixels. */
+    synchronized void invalidate(PhotoItem photo) throws IOException {
+        Entry entry = entries.remove(key(photo));
+        if (entry != null) remove(entry);
+    }
+
     /** Ownership of the temporary file transfers only after publication succeeds. */
     synchronized PhotoPreview publish(PhotoItem photo, File temporary) throws IOException {
         return publish(photo, temporary, false);

@@ -1,0 +1,39 @@
+Huevia 0.9.12-beta (51) — 2026-10-18
+
+APK: nikon-usb-0.9.12-beta-debug.apk
+Package: com.nikonpreset.usbprobe
+Bytes: 3163677
+SHA-256: 47af1bb90212442989997dae334505a30c155d1609dd1ac4567c5ab8ef8c5fe0
+构建、zipalign、APK v2/v3 签名验证通过；标签 Huevia，现有包名与签名保留。
+
+修复
+D 画布的“去连接”此前调用只显示顶部提示的路径；提示动作也只进入设置总页。
+现在首次点击直接登记照片直播续接意图，并打开设置中的“Wi-Fi 无线连接”页。
+已有项目保存其项目ID，新项目保留新建意图；连接实际开始前 accepted=false，不能误开始直播。
+返回/取消继续使 continuation 失效并回照片直播。已有相机会话但相册尚未准备的项目分支保留，继续复用会话。
+通用顶部提示的“去连接”也进入 Wi-Fi 页，但不创建直播续接任务。
+未修改 Wi-Fi/PTP、连接提交、后台服务、D 页面布局、账号或照片存储实现。
+
+检查
+- scripts/build-apk.ps1 -SdkRoot D:/dev/android-sdk -JdkRoot D:/dev/Java/jdk-17.0.19：通过。
+- tests/run-live-continuation.ps1 -JdkHome D:/dev/Java/jdk-17.0.19：18 项通过。
+- 独立只读源码复核：首次路由、项目ID、token登记/消费/取消和held会话复用无新增回归。
+- 最终同 SHA APK 在独占只读 Pixel9 Android17/API37 模拟器 navigation-only 浅色94项、深色94项通过；主题包含重复基线，不合计为独立188项。
+- 覆盖已有项目画布、空项目画布、项目菜单新建、通用顶部action四条首次点击→Wi-Fi guide；直播的 pending id、accepted=false、返回取消、旧项目与六张合成照片保留。
+- 报告独立读取实际安装包SHA，尺寸1080×2376 / density408 / fontScale1。未提交“连接相机”，未发起相机网络请求。
+- 0.9.11 的297项D全界面检查保留原有版本范围，本轮不重新标记为0.9.12全量验收。
+
+实体手机
+PKG110 手机从0.9.11-beta/50使用 install -r --no-incremental 覆盖成功；未卸载、未清数据。
+回读 versionName=0.9.12-beta、versionCode=51；拉取已安装base.apk与交付SHA完全一致。
+lastUpdateTime=2026-10-18 14:17:40 +08:00。
+firstInstallTime=2026-10-16 20:45:14 +08:00，与升级前一致。
+MainActivity启动 Status ok / COLD / TotalTime196ms。
+没有操作手机的真实项目、照片、账号或提交真实相机连接。
+
+证据
+.impeccable/review/photo-live-d-navigation/QA-NOTES.md
+.impeccable/review/photo-live-d-navigation/light/report.json 与五张原生截图
+.impeccable/review/photo-live-d-navigation/dark/report.json 与五张原生截图
+.tooling/live-d-qa/README.md：-Mode navigation 的隔离复现命令
+旧D设计稿与0.9.11原生记录完整保留；测试模拟器已关闭。

@@ -1,0 +1,34 @@
+Huevia 0.9.10-beta (49) — 2026-10-18
+
+交付
+APK: nikon-usb-0.9.10-beta-debug.apk
+Package: com.nikonpreset.usbprobe
+Bytes: 3159581
+SHA-256: 8efbd1d53e0729a8d8a083d209fc66eb770be6bbc69c6875976d8b1e5c9d2ad3
+签名: v2 / v3 验证通过；沿用现有开发证书。
+Certificate MD5: 945aa44a13dd8c10155ad0078edf698e
+
+范围
+按用户选择的“轻简入口”实现原生登录页：Huevia 品牌、QQ 主操作、按需展开密码表单、文字注册、输入框显隐、顶部游客使用、底部隐私及登录帮助。短窗口使用紧凑品牌区。忙碌时禁止并淡化切换入口，游客与返回始终可用。保留 QQ 明确同意、生命周期、独立账号、迟到请求边界与密码清理。
+
+协调
+基于另一任务已完成的 0.9.9 品牌资源，保留名称、图标和既有修改。MainActivity 仅增加账号页顶部游客操作的接入；版本递增为 49。未修改服务端、QQ 配置、相机接口或预设分类实现。
+
+检查
+- scripts/build-apk.ps1 完整构建、aapt2 资源链接、javac、D8、zipalign、APK v2 / v3 签名验证通过。
+- aapt2 显示应用标签 Huevia，包名保持，minSdk 26 / targetSdk 35，版本 0.9.10-beta / 49。
+- tests/run-account.ps1：AccountRepository 150 项、QqAuthorizationGate 23 项通过；Host 不等同于 AndroidKeyStore 运行时验证。
+- 更新的 QqAccountProbe 在专用只读模拟器 emulator-5556 运行，6 场景全部通过：浅色 QQ 入口、浅色密码页、浅色注册、QQ 等待授权、深色 1.3 倍字号恢复账号、深色 1.3 倍字号横屏。
+- 每场景执行 347 项基线检查，密码及注册截图状态为 349 项；各场景包含重复基线，不汇总成独立断言总数。
+- 原生检查包括隐藏表单隔离、密码显隐/清理、返回保留用户名、注册确认密码、忙碌切换阻止、游客与返回退出、隐私取消、SDK 未初始化、居中加载和无默认按钮阴影。
+- 说明与帮助入口已检查，横屏内容可滚动到达。窗口旋转及字体倍率检查后恢复模拟器设置。
+- 独立复核修复了密码子页返回后用户名草稿丢失的问题。
+
+证据
+.impeccable/review/login-light-0.9.10/native-review.json
+.impeccable/review/login-light-0.9.10/*.log
+.impeccable/review/login-light-0.9.10/*.png
+.impeccable/surfaces/account-login.md
+
+限制
+本轮只在独立只读模拟器安装和验收，没有操作真机。探针使用合成加载标志，没有点击 QQ 同意发起授权，没有调用登录、注册或 QQ 换取会话 HTTP，也未写入真实会话。真实 QQ 授权仍依赖平台包名及签名一致，本轮不声称验证该流程。未进行相机硬件、平板或性能验收。既有 SDK 可选注解与过期 API 编译警告保留。

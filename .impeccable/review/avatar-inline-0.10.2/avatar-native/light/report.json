@@ -1,0 +1,9 @@
+{
+  "versionCode": 56,
+  "installedApkSha256": "09e37a68ba210c82ca5db20628580e92851a92189f5b3360fe2b5879298ee179",
+  "status": "PASS",
+  "checks": 140,
+  "theme": "light",
+  "profileRequests": 1,
+  "scope": "Frozen version 56 native Java Views; all eight EXIF transforms, crop\/JPEG\/GPS\/bounds, synthetic cached circular\/default avatars, picker intent monitor, preview\/cancel\/offline\/reset\/old-owner callbacks. No real login, server writes, public uploads, camera or installer."
+}

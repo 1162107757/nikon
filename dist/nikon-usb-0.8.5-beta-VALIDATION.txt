@@ -1,0 +1,61 @@
+Nikon Preset 0.8.5-beta / versionCode 36
+2026-10-17 Asia/Shanghai
+STATUS: ARTIFACT VERIFIED; FOCUSED HOST, SYNTHETIC NATIVE AND READ-ONLY
+PHONE SCOPES RECORDED BELOW.
+APK: nikon-usb-0.8.5-beta-debug.apk
+Artifact: 2,867,833 bytes, built 2026-10-17 20:23:28 +08:00.
+SHA-256 349988368a0e9f986d3b542d9434a380e84aa9537485a62ede711ceed9687519.
+Production build exits 0; APK v2/v3 signature verification passes.
+
+IMPLEMENTED SCOPE
+Disconnected Start Live -> Settings retains a one-shot continuation intent.
+Only an explicit connection attempt accepts it. Once camera connection and
+photo inventory are ready, the app returns to Photo Live and opens New Project.
+The user still names/confirms a project before reception starts. Failure can
+retry without consuming the intent. Cancel/leaving clears it; ordinary Settings
+connection does not open a project. Preset-import and live setup intents exclude
+each other. Revision tokens reject old queued callbacks after cancel/replacement.
+The state object holds neither Runnable nor Activity and has no Android dependency.
+
+CONFIRMED FOCUSED HOST CHECKS
+tests/run-live-continuation.ps1 passes 18 checks, exit 0.
+Coverage: no consumption before explicit connect, retry after failure, one-shot
+success, cancelled-token invalidation, old-token/new-request isolation and an
+ordinary connect without a pending intent. Existing protocol suites were not
+rerun in this change; old version counts are not included in this total.
+Host state checks alone do not prove Android navigation or lifecycle outcomes.
+
+FINAL ARTIFACT: ANDROID 17 / API 37 EMULATOR
+Loopback synthetic camera 10.0.2.2:15766. Disconnected Photo Live -> Settings
+and the USB option's Wi-Fi guidance pass. Connecting successfully returns to
+Photo Live and automatically opens New Project. Cancelling leaves zero projects;
+switching Settings/Album does not reopen the dialog. Port 15767 ECONNREFUSED
+followed by retry on 15766 automatically opens New Project again.
+After returning to Photo Live to cancel the continuation, ordinary Settings
+connection succeeds and remains on Settings without a project dialog.
+UI evidence: app/build/v085-auto-project-ui.xml,
+app/build/v085-retry-project-ui.xml, app/build/v085-ordinary-settings-ui.xml.
+Ordinary connection is session 3, still without an automatic project dialog.
+The synthetic server log shows one OpenSession for each of the two automatic
+continuation runs. Each enumerates storage over that same session: storage 65537
+is unavailable, then 131073 yields three valid handles. No project name is
+confirmed, no live reception starts, no original download occurs. All three final
+session summaries report virtualWrites=0 and closes=0 (no CloseSession).
+The test service and emulator are stopped after checks.
+Crash filtering for com.nikonpreset.usbprobe / FATAL EXCEPTION has no match.
+A system UWB hardware-service crash is unrelated to this App; this record does
+not make a blanket empty-crash-buffer claim.
+
+PHYSICAL PHONE: PRESERVE-DATA INSTALL / READ-ONLY UI ONLY
+286f0dba: install -r succeeds at 2026-10-17 20:26:51 +08:00.
+36 / 0.8.5-beta and pm base.apk SHA-256 match final 349988.
+Agfa Optima and project "第一次项目测试" with two originals remain.
+Start Live prerequisite -> Settings shows Return to Live and continuation
+guidance; Return succeeds. No real camera is connected, no project created,
+and no real photo is selected, processed, deleted or otherwise touched.
+At 20:28:37 phone services report nothing.
+
+LIMITS
+No new native background or Activity-lifecycle acceptance is claimed.
+No new physical-camera, USB hardware, Doze, photo processing/deletion or camera
+write acceptance is claimed. Prior-version evidence retains its original scope.

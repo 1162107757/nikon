@@ -1,0 +1,71 @@
+Nikon Preset 0.8.3-beta / versionCode 34
+2026-10-17 Asia/Shanghai
+STATUS: FINAL ARTIFACT VERIFIED; SYNTHETIC EMULATOR AND READ-ONLY PHONE
+SCOPES RECORDED BELOW.
+APK: nikon-usb-0.8.3-beta-debug.apk
+Final: 2,855,545 bytes, built 2026-10-17 17:41:37 +08:00.
+SHA-256 304d233d6e0372441f6af28d754da04370a87a4a37736b6d312de45f41f07306.
+APK v2/v3 signature verification passes; versionCode 34 / 0.8.3-beta.
+
+IMPLEMENTED SCOPE
+Settings has one camera connection with Wi-Fi / USB choices. Redundant
+preset-import transport and wireless-address sections are removed. Preset
+detail uses the actual connected transport. With no connection, it retains
+the selected preset and resumes capability / slot checks after connection;
+the user must still explicitly confirm before any camera write.
+Camera details offers manual preset-support checking. Wi-Fi host / port
+and drafts share persistent preferences with migration of the old keys.
+Opening a Wi-Fi session reads identity without enumerating storage/photos;
+photo inventory is prepared only when the album destination is opened.
+An unavailable photo inventory does not prevent independent preset checks.
+Existing target, overwrite, uncertainty and readback checks are retained.
+
+CONFIRMED FOCUSED HOST CHECKS
+tests/run-album.ps1 exits 0: 754 controller + 355 project store + 100 folder
+= 1,209 checks. Controller coverage adds 52 checks in this change.
+Photo download, date grouping, deletion and preset rendering are unchanged;
+their prior-version test results are not counted as new runs here.
+
+FINAL ARTIFACT: ANDROID 17 EMULATOR / LOOPBACK SYNTHETIC CAMERA
+Initial Settings connect performs GetDeviceInfo (0x1001) and OpenSession
+(0x1002), no GetStorageIDs (0x1004) or GetObjectHandles (0x1007).
+Camera details checks preset support on demand and reports eight empty slots.
+Opening a preset's import confirmation does not create another handshake
+or issue a write. Backing out before connection returns to that preset.
+After explicit disconnect, the synthetic AP refuses a new connection;
+restarting that local test AP and retrying returns automatically to the
+original PreviewTone C2 confirmation. No automatic write occurs.
+Explicit confirmation performs one virtual 614-byte registration and
+successful readback. Opening Album afterwards shows 24+ photos and
+thumbnails over the same Init/Open session used for the successful import.
+Phase 1: app/build/v083-phase1-server.log.
+Phase 2: app/build/v083-phase2-server.log.
+Phase 3: app/build/v083-phase3-server.log.
+Synthetic fixture log: app/build/v083-camera-fixtures/server.log.
+All camera writes above target the local in-memory fixture, never hardware.
+
+After cancelling the pending import, an ordinary Settings connection stays
+on Settings. Phase 3 contains only 0x1001/0x1002 and 0x1001 heartbeats:
+zero vendor preset reads/writes, zero storage/photo enumeration.
+After explicit disconnect, force-stop and cold start, the sole Wi-Fi editor
+still shows 10.0.2.2:15764. System dark layout at 375dp (984px/density420),
+font scale 1.3 keeps Settings titles and rows readable. Screenshot inspected:
+.impeccable/review/phone-apple-v083-settings-dark.png (emulator only).
+The app crash log is empty. Emulator display/font/night overrides were
+restored, the emulator closed and the synthetic server stopped.
+
+PHYSICAL PHONE: PRESERVE-DATA INSTALL / READ-ONLY UI ONLY
+286f0dba, Android 16, user 0, 2026-10-17 17:49-17:50 +08:00.
+Fresh service check at 17:49:33 is empty. Subsequent install -r succeeds;
+34 / 0.8.3-beta and installed base.apk SHA-256 exactly match final 304d.
+Agfa Optima remains; its detail shows "导入相机" with no old transport-change
+link. Eleven downloaded photos remain: today ten, August 14 one.
+Settings has no redundant preset-import group. The single Wi-Fi editor
+shows the migrated 192.168.1.1:15740 configuration.
+No connect/import action, real photo processing/deletion or phone screenshot
+export was performed. At 17:50:21 the app crash log and services are empty;
+the phone remains on the new Settings overview.
+
+LIMITS
+No new physical-camera, USB hardware, Doze, photo deletion or render-quality
+acceptance is claimed. Historical version evidence retains its own scope.

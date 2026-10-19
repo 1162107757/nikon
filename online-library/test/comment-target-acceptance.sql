@@ -1,0 +1,51 @@
+BEGIN;
+CREATE OR REPLACE FUNCTION pg_temp.check_true(value boolean,label text) RETURNS void LANGUAGE plpgsql AS $$ BEGIN IF value IS DISTINCT FROM true THEN RAISE EXCEPTION 'FAIL: %',label; END IF; END $$;
+DO $$
+DECLARE a uuid:=gen_random_uuid(); b uuid:=gen_random_uuid(); c uuid:=gen_random_uuid(); fresh uuid:=gen_random_uuid(); preset uuid:=gen_random_uuid();
+ root_id uuid:=gen_random_uuid(); child_id uuid; other_root uuid:=gen_random_uuid(); foreign_child uuid:=gen_random_uuid();
+ r jsonb; request jsonb; reply_id uuid; pending_id uuid; caught boolean;
+BEGIN
+ INSERT INTO nikon_users(id,nickname,created_at) VALUES(a,'Alice',now()-interval '2 days'),(b,'Bob',now()-interval '2 days'),(c,'Carol',now()-interval '2 days'),(fresh,'New reader',now());
+ INSERT INTO nikon_presets(id,draft,status,published,published_revision,published_at) VALUES(preset,'{}','published','{"name":"Local reply fixture","file":{"url":"https://fixture.invalid/a.ncp","sha256":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","byteLength":52}}',1,now());
+ INSERT INTO nikon_community_comments(id,preset_id,user_id,text,status,was_public) VALUES(root_id,preset,a,'root','visible',true),(other_root,preset,a,'other root','visible',true),(foreign_child,gen_random_uuid(),b,'foreign preset','visible',true);
+ PERFORM nikon_community('adminSetSettings',NULL,NULL,'{"settings":{"commentIntervalSeconds":0}}');
+ r:=nikon_community('comment',b,preset,jsonb_build_object('parentId',root_id,'text','Bob to Alice','idempotencyKey','legacy-reply-001')); child_id:=(r->>'id')::uuid;
+ PERFORM pg_temp.check_true(r->'replyTo'->'author'->>'nickname'='Alice','legacy reply has recorded root recipient');
+ request:=jsonb_build_object('parentId',root_id,'replyToId',child_id,'text','Carol to Bob','idempotencyKey','selected-reply-001');
+ r:=nikon_community('comment',c,preset,request); reply_id:=(r->>'id')::uuid;
+ PERFORM pg_temp.check_true((r->>'parentId')::uuid=root_id AND (r->'replyTo'->>'id')::uuid=child_id,'root and actual target are distinct');
+ PERFORM pg_temp.check_true(r->'replyTo'->'author'->>'nickname'='Bob','correct recipient author returned');
+ PERFORM pg_temp.check_true((SELECT count(*)=1 FROM nikon_community_messages WHERE comment_id=reply_id AND user_id=b AND parent_id=root_id),'only actual recipient receives message');
+ PERFORM pg_temp.check_true(NOT EXISTS(SELECT 1 FROM nikon_community_messages WHERE comment_id=reply_id AND user_id=a),'root author not spuriously notified');
+ PERFORM nikon_community('comment',c,preset,request);
+ PERFORM pg_temp.check_true((SELECT count(*)=1 FROM nikon_community_messages WHERE comment_id=reply_id),'replay does not duplicate notification');
+ caught:=false; BEGIN PERFORM nikon_community('comment',c,preset,request||jsonb_build_object('replyToId',root_id)); EXCEPTION WHEN raise_exception THEN caught:=SQLERRM='IDEMPOTENCY_CONFLICT'; END; PERFORM pg_temp.check_true(caught,'changing target changes idempotency identity');
+ r:=jsonb_path_query_first(nikon_community('comments',NULL,preset),'$.items[*].replies[*] ? (@.text == "Carol to Bob")');
+ PERFORM pg_temp.check_true(r->'replyTo'->'author'->>'nickname'='Bob','inline list preserves target');
+ r:=jsonb_path_query_first(nikon_community('replies',NULL,root_id),'$.items[*] ? (@.text == "Carol to Bob")');
+ PERFORM pg_temp.check_true(r->'replyTo'->'author'->>'nickname'='Bob','paged replies preserve target');
+ r:=nikon_community('comment',b,preset,jsonb_build_object('parentId',root_id,'replyToId',child_id,'text','self reply','idempotencyKey','self-target-001'));
+ PERFORM pg_temp.check_true(NOT EXISTS(SELECT 1 FROM nikon_community_messages WHERE comment_id=(r->>'id')::uuid),'self reply creates no message');
+ FOREACH other_root IN ARRAY ARRAY[other_root,foreign_child] LOOP
+  caught:=false; BEGIN PERFORM nikon_community('comment',c,preset,jsonb_build_object('parentId',root_id,'replyToId',other_root,'text','wrong thread','idempotencyKey',gen_random_uuid()::text)); EXCEPTION WHEN raise_exception THEN caught:=SQLERRM='COMMENT_UNAVAILABLE'; END; PERFORM pg_temp.check_true(caught,'cross thread/preset target rejected');
+ END LOOP;
+ caught:=false; BEGIN PERFORM nikon_community('comment',c,preset,jsonb_build_object('replyToId',child_id,'text','missing root','idempotencyKey','no-root-target-001')); EXCEPTION WHEN raise_exception THEN caught:=SQLERRM='COMMENT_UNAVAILABLE'; END; PERFORM pg_temp.check_true(caught,'target without root rejected');
+ -- New-account moderation must notify Bob, not Alice, when the reply is approved.
+ r:=nikon_community('comment',fresh,preset,jsonb_build_object('parentId',root_id,'replyToId',child_id,'text','pending reply','idempotencyKey','pending-target-001','moderation',jsonb_build_object('decision','review','reason','test review'))); pending_id:=(r->>'id')::uuid;
+ PERFORM pg_temp.check_true(r->>'status'='pending' AND NOT EXISTS(SELECT 1 FROM nikon_community_messages WHERE comment_id=pending_id),'pending reply sends no notification');
+ PERFORM nikon_community('adminReviewComment',NULL,pending_id,'{"decision":"restore"}');
+ PERFORM pg_temp.check_true((SELECT count(*)=1 FROM nikon_community_messages WHERE comment_id=pending_id AND user_id=b),'approved reply notifies selected recipient');
+ PERFORM nikon_community('adminReviewComment',NULL,pending_id,'{"decision":"restore"}');
+ PERFORM pg_temp.check_true((SELECT count(*)=1 FROM nikon_community_messages WHERE comment_id=pending_id),'repeated approval does not duplicate');
+ PERFORM nikon_community('adminReviewComment',NULL,child_id,'{"decision":"hide"}');
+ r:=nikon_community_comment_view(reply_id);
+ PERFORM pg_temp.check_true(NOT (r->'replyTo'->>'available')::boolean AND r->'replyTo'->'author'='null'::jsonb,'hidden target does not expose author or content');
+ caught:=false; BEGIN PERFORM nikon_community('comment',c,preset,jsonb_build_object('parentId',root_id,'replyToId',child_id,'text','hidden target','idempotencyKey','hidden-target-001')); EXCEPTION WHEN raise_exception THEN caught:=SQLERRM='COMMENT_UNAVAILABLE'; END; PERFORM pg_temp.check_true(caught,'new reply to hidden target rejected');
+ PERFORM nikon_community('adminReviewComment',NULL,child_id,'{"decision":"restore"}');
+ PERFORM nikon_community('deleteComment',b,child_id);
+ r:=nikon_community_comment_view(reply_id);
+ PERFORM pg_temp.check_true(r->'replyTo'->'author'->>'nickname'='Bob','public deleted target retains recipient identity without body');
+ PERFORM pg_temp.check_true(NOT (r->'replyTo' ? 'text'),'target projection never leaks quoted content');
+ PERFORM pg_temp.check_true(NOT has_column_privilege('anon','nikon_community_comments','reply_to_id','SELECT'),'new column remains service-only');
+END $$;
+ROLLBACK;

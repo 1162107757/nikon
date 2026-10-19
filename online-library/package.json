@@ -1,0 +1,13 @@
+{
+  "name": "nikon-preset-library",
+  "version": "1.5.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=20.19" },
+  "scripts": {
+    "start": "node server/index.mjs",
+    "test": "node scripts/test.mjs",
+    "check": "node scripts/check.mjs",
+    "package": "node scripts/package.mjs"
+  }
+}

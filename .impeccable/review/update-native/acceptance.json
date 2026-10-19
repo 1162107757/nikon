@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "targetEmulator": "emulator-5562",
+  "baselineVersionCode": 53,
+  "baselineSha256": "9d5f40244b8d5d63071590f0cf64d850785c777aeb95eea7a18bc94f7738f50a",
+  "installedVersionCode": 55,
+  "installedVersionName": "0.10.1-beta",
+  "installedApkSha256": "81021bfc4d7468dd8181d899f9ae5f4a260fbf30b95ac0eefc2be18ffaf9cca6",
+  "downloadManagerId": 13,
+  "firstInstallTimeEpochMillis": 1792322682228,
+  "firstInstallTimeUtc": "2026-10-18T11:24:42.228Z",
+  "lastUpdateTimeDeviceText": "2026-10-18 11:36:15",
+  "markerSha256": "cadd791a1107ed9098a99ad0d8b7c80b2ab495c2bba603919dc598b3bffa32d6",
+  "dataRetained": true,
+  "scope": "Actual production HTTPS metadata and published APK, OS DownloadManager download/cancel/process-stop recovery, package/hash/certificate checks, private readonly provider, unknown-sources Settings return, native installer, normal Play Protect scan and Install confirmation, exact installed APK verification, and one owned private marker retention.",
+  "limitations": "Local QA-only version53 baseline contains production54 code/resources signed with existing certificate. This proves the current updater to actual published55, not a historical released53 or every OEM installer. Fresh emulator only; no real user account/photos/camera; no user phone involved."
+}

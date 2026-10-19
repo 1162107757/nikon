@@ -1,0 +1,4 @@
+INSTRUMENTATION_RESULT: status=PASS
+INSTRUMENTATION_RESULT: stream=Live scroll RAW native PASS; checks=208; report=/storage/emulated/0/Android/data/com.nikonpreset.usbprobe/files/live-scroll-raw-native/dark-portrait/report.json
+
+INSTRUMENTATION_CODE: -1

@@ -1,0 +1,55 @@
+{
+  "testedAt": "2026-10-18T03:38:34.311Z",
+  "scope": "real account UI and declined consent; synthetic busy states; no QQ authorization or user created",
+  "passed": true,
+  "cases": [
+    {
+      "name": "idle-light",
+      "state": "idle",
+      "night": "no",
+      "font": "1.0",
+      "landscape": false,
+      "passed": true
+    },
+    {
+      "name": "authorizing-light",
+      "state": "authorizing",
+      "night": "no",
+      "font": "1.0",
+      "landscape": false,
+      "passed": true
+    },
+    {
+      "name": "privacy-dark-large",
+      "state": "privacy",
+      "night": "yes",
+      "font": "1.5",
+      "landscape": false,
+      "passed": true
+    },
+    {
+      "name": "exchanging-dark-large-landscape",
+      "state": "exchanging",
+      "night": "yes",
+      "font": "1.3",
+      "landscape": true,
+      "passed": true
+    },
+    {
+      "name": "profile-light-flat-buttons",
+      "state": "profile",
+      "night": "no",
+      "font": "1.0",
+      "landscape": false,
+      "passed": true
+    },
+    {
+      "name": "profile-dark-large-flat-buttons",
+      "state": "profile",
+      "night": "yes",
+      "font": "1.5",
+      "landscape": false,
+      "passed": true
+    }
+  ]
+}

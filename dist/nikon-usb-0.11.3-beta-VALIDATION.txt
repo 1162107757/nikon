@@ -1,0 +1,33 @@
+Huevia 0.11.3-beta / versionCode 60
+Delivered: 2026-10-19 (Asia/Shanghai)
+APK SHA-256: 0ab5543e52831c09a5d583f553167d53d57dfcd11768e6f41bec162d1b535241
+Size: 3347997 bytes; existing development key; v2/v3 signature verification PASS.
+
+Read-only physical phone crash diagnosis: NoSuchMethodError Files.readString at
+SubmissionDraftStore.load when reopening an existing submission draft. Replaced
+with a bounded strict UTF-8 stream. No original drafts were deleted.
+
+Home: contextual lower-right floating plus, local file import / online submission.
+Messages: removed home entry; Settings tab dot and Settings message count / 99+.
+Displayed pages are acknowledged by explicit IDs, only for their account. Failed
+acknowledgment retains badges. Unseen arrivals remain unread. Badge refresh does
+not rebuild the current content. Per-comment server rules allow normal comments,
+queue suspicious comments with reason, and fail closed to human review when missing.
+No claim of full automated content-safety coverage; original anti-abuse limits retained.
+
+Java: drafts/repository33, paging17, replies94, recipients9 PASS.
+Server Node108 and source syntax PASS. Disposable actual PostgreSQL010 migration
+idempotence, old request replay, per-comment moderation, ownership/page-only read,
+selected recipients, service-only grants and rollback PASS. Historical009 suite PASS.
+Final APK native dedicated emulator5560/API37: light25, dark25 PASS.
+Native captures inspected; accounts/API responses synthetic, private fixtures cleaned.
+See docs/validation/preset-entry-60/README.md and light/, dark/ evidence.
+
+Cloud incremental010 deployed/verified; code1.4.2 Active. Configuration update
+initially hit transient Updating; subsequent read-only equality check confirmed
+all intended existing variables and separate QQ configuration retained unchanged.
+Beta publication, public whole APK bytes and latest metadata verification PASS.
+Download: https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/download/?channel=beta
+
+No physical phone installation, camera operation, real user comments/messages or
+production test-account creation. No all-OEM, landscape or TalkBack certification.

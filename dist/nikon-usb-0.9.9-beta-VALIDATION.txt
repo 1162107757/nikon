@@ -1,0 +1,37 @@
+Huevia Android 0.9.9-beta（48）交付记录
+日期：2026-10-18（Asia/Shanghai）
+
+交付物
+- APK: dist/nikon-usb-0.9.9-beta-debug.apk
+- 大小：3,155,306 bytes
+- SHA-256: 00603303432fa2e0284f22b5f8adb01b90a42a3d5a81677edc409552b1bfa5f4
+- 包名：com.nikonpreset.usbprobe
+- versionCode 48 / versionName 0.9.9-beta / minSdk 26 / targetSdk 35
+- 证书 SHA-256: 04db0f9d3d76c9831a0778cfabc1a0aaab984e05398da16eb644950ccfa0ae31
+- 证书与 0.9.8-beta 相同，v2/v3 验证通过。
+
+修改范围
+1. application-label 改为字符串资源 Huevia；关于、帮助和高级诊断的产品名称同步。
+2. 关于版本从 PackageManager 读取当前安装包 versionName，修复旧版本文字。
+3. 用户指定图标原文件直接复制到 drawable-nodpi/huevia_launcher.png。
+4. 原生 adaptive-icon 使用相同底色 #FEF8ED，前景内缩 18dp；icon、roundIcon 共用资源，保留完整 H 标志。
+5. 保留包名、开发签名、相机协议标识、系统相册原路径和通知功能文案；通知小图标继续使用单色相机资源。
+6. 未修改 AccountPanel、QQ 授权逻辑、后端或用户数据格式。
+
+指定图片
+- 来源：dist/huevia-icons-100/huevia-color-path-100.png
+- 100×100 RGB，不透明。
+- 来源文件与复制资源 SHA-256 均为 cc4dac0f9428bb1b363bf065cd8283a669d989e595e751ffc9c8d06dae72289d。
+- APK 中 res/drawable-nodpi-v4/huevia_launcher.png 解码后与来源逐像素比较，10,000 个像素全部一致。
+
+实际验证
+- 完整生产 Java / 资源编译、D8、打包及签名通过；现有 Tencent compileOnly 依赖有 3 项 RestrictTo 注解警告，未阻止构建。
+- aapt2 badging 确认 Huevia 名称、48 / 0.9.9-beta、原包名与自适应图标。
+- aapt2 xmltree 确认背景、前景、18dp 内缩、位图缩放过滤。
+- Pixel 9 / Android 17（API 37）模拟器 adb install -r 成功。
+- 系统应用信息页实际显示 Huevia 与指定 H 标志，圆形裁切未截断标志。
+- 主界面启动并处于 topResumedActivity，进程 PID 4859。
+- 证据：.impeccable/review/huevia-0.9.9/app-info.png 与 app-info.xml。
+- 主屏滑动未打开应用抽屉，故使用系统应用信息页进行真实图标显示验收，不声称已验证桌面抽屉截图。
+- 本轮未执行相机、QQ 登录或后台回归，因为未修改相关逻辑。
+- 两次设备枚举均无实体手机，本轮未向手机安装、未清除应用数据；模拟器验证后关闭。

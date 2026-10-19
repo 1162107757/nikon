@@ -1,0 +1,65 @@
+Huevia 0.9.13-beta (52) — 2026-10-18
+
+APK: nikon-usb-0.9.13-beta-debug.apk
+Package: com.nikonpreset.usbprobe
+Bytes: 3188253
+SHA-256: 6a2cda9e068ea9b4a311c49dfbe419d7367014c9cace82b376e8dfc37a6cbac6
+完整构建、zipalign、APK v2/v3 签名验证通过；包名与原签名保留。
+
+照片保存与版本
+- 原图按完整JPEG内容识别；有效相机GUID允许复用完成记录，无GUID跨会话先接收核验。
+- “已下载”与直播项目一张照片一张卡片，原图与效果作为版本；旧重复原图保留私有文件而合并显示。
+- 查看器提供版本菜单并持久保留选择；左右滑动及邻图预取采用一致版本，按住比较追溯严格校验的真正原图。
+- 新原图继续自动发布到系统相册；同原图、同效果的有效内部/外部目录别名复用已保存URI。
+- 不同preset key即使生成相同JPEG内容仍保留不同版本，不错误合并。
+- 新公开文件采用Huevia可读名称；既有“相机预设”目录、项目子目录和旧URI继续兼容，不自动迁移旧文件。
+- 系统副本状态在worker核验，显示已保存/保存/重试；返回App可重新核验外部删除后的副本。
+- 整组删除展开全部原图别名及效果；版本菜单可只删当前效果。系统相册与App同步处理，相机存储卡保留。
+- 目录未就绪阻止删除；效果失败或尚未选择的有效来源依赖保护原图，部分失败明确报告。
+- 本轮不自动物理删除历史重复文件，不进行旧缓存全量清理。
+
+后台连接
+- 新增服务持有的无互联网Wi-Fi NetworkRequest，目标来自已成功建立的实际PTP socket Network。
+- Home/锁屏不释放需求；无线会话、相册移交期间保留，实际无线工作结束释放。
+- 不全局绑定路由、不发相机关闭命令、不由网络回调重连或重试写入；错网/丢网撤销需求并记录。
+- 保留已有前台服务、CPU锁和前台Wi-Fi低延迟锁；新增普通CHANGE_NETWORK_STATE权限。
+- 该补丁关闭确定的保活缺口，不能单凭合成测试认定用户手机此前断线的唯一原因。
+
+Host检查（不同入口有重复基线，不合计为单一独立断言数）
+- Catalog36、batch138、来源关联62。
+- Album/controller826、项目存储356、项目目录100、receipt111。
+- Gallery/发布队列221、删除36、原图内容身份18；gallery新增API35/28跨目录效果别名复用与删除回归。
+- Wi-Fi需求生命周期519、实际socket目标10。
+- 另有dedup身份38与live-progress38的限定检查；它们是controller子集，不再次相加。
+
+最终同SHA原生验证
+- Pixel9 / Android17/API37、1080×2376 / density408 / fontScale1；浅色84与深色84均PASS，包含重复基线，不合并为168项独立断言。
+- 实际产品UI+真实MediaStore，自建JPEG验证归组、版本菜单、选择持久、按住真正原图、仅删效果取消/确认、整组别名与公开副本删除及无关组保留。
+- 两次报告均记录最终安装SHA、ownedFixturesCleaned=true，模拟器原有3文件/1组保持原样；只清理测试自己的文件和准确URI。
+- 最终Android17网络smoke42项通过：真实权限granted、真实requestNetwork callback匹配已连接socket Wi-Fi、仅创建一次request。
+- 前台、HOME后1/6秒、实际灭屏后1/5/9秒：同callback、同Network、Wi-Fi可用、合成echo往返成功。请求/socket/测试CPU锁已清理，原屏幕状态恢复，测试probe已卸载。
+- 背景smoke为产品API+短时生命周期证据，未使用Nikon相机、未拍摄或传输用户照片，不构成长时间Doze或厂商省电认证。
+- 独立最终复核为限定SHIP，无未关闭P1/P2；见.impeccable/review/photo-library-native/FINISH.md。
+
+实体手机
+- PKG110 / 286f0dba 从0.9.12-beta/51使用 install -r --no-incremental 覆盖成功；未卸载、未清数据。
+- 回读versionName=0.9.13-beta、versionCode=52；已安装base.apk的SHA与本交付完全一致。
+- lastUpdateTime=2026-10-18 15:20:22；owner firstInstallTime仍2026-10-16 20:45:14，与升级前一致。
+- MainActivity启动Status ok / COLD / TotalTime289ms，PID28028存活，其AndroidRuntime错误过滤为空。
+- 未操作用户真实项目、照片或账号。真实相机前后台/锁屏传输尚待手机开启直播后验收，不能表述为已保证所有情况不断线。
+
+追加真实相机测试（未通过，随后进入0.9.14修复）
+- 用户开启直播并明确授权前后台/锁屏检查；初始PID28028、connectedDevice前台服务和CPU锁在，ss显示两条到相机15740端口的ESTAB。
+- HOME后15:26:10再次采样，前台服务/CPU锁仍在，但相机PTP ESTAB为0，系统Wi-Fi已转为另一热点。
+- 用户确认未手动切Wi-Fi，相机热点已经关闭。尚不能仅凭这些结果判定是系统先切网还是机身先停热点；此次真机保活验收失败。
+- 这轮没有获得有效锁屏持续传输证据。此前Android17合成echo42项仅保留其API/短时单网络范围。
+- 后续新增精确SSID系统连接、指定Network路由及有界断线时序记录；不再把generic NetworkRequest当作指定相机热点的保证。
+
+实现与证据
+docs/photo-library.md
+docs/validation/background-wifi-retention-20261018.md
+docs/validation/background-wifi-android17-smoke-20261018.json
+.impeccable/review/photo-library-native/
+.tooling/photo-library-native/README.md
+.tooling/background-native-smoke/README.md
+旧D设计稿和0.9.11/0.9.12证据范围保留，不重新标记为0.9.13全量验收。

@@ -12,6 +12,7 @@ public final class NcpPreviewProfileTest {
         endpointsAndFractionalPositionsUseRawSamples();
         presetToneAndApproximateColorSettingsAffectOutput();
         omittedCameraProcessingIsNotInvented();
+        modificationStateKeepsReadOnlyPreviewAndRecognizedCameraStatesSeparate();
         inputAndOutputOwnershipAndRepeatability();
         unsupportedFormatsAndInvalidInputsAreRejected();
         System.out.println("PASS: " + checks + " NCP phone-template approximation checks");
@@ -109,6 +110,28 @@ public final class NcpPreviewProfileTest {
         for (int i = 0; i < 20; i++) equal(repeated, profile.render(pixels, 2, 2));
     }
 
+    private static void modificationStateKeepsReadOnlyPreviewAndRecognizedCameraStatesSeparate() throws Exception {
+        int[] colors = {0xff000000, 0xffffffff, 0xff315fad, 0x80808080, 0x00112233};
+        NcpPreviewProfile reference = NcpPreviewProfile.fromNcp(NcpCompatibilityFixtures.ncp());
+        int[] expected = reference.render(colors, colors.length, 1);
+        for (int flag : new int[] {0, 1, 2, 255}) {
+            byte[] original = NcpCompatibilityFixtures.ncp(); original[38] = (byte) flag;
+            byte[] before = original.clone();
+            NcpPreviewProfile preview = NcpPreviewProfile.fromNcp(original);
+            equal(before, original);
+            equal(expected, preview.render(colors, colors.length, 1));
+            equal(reference.registrationName(), preview.registrationName());
+            equal(reference.basePictureControl(), preview.basePictureControl());
+            equal(reference.sharpening(), preview.sharpening());
+            equal(reference.saturation(), preview.saturation());
+            equal(reference.hue(), preview.hue());
+            for (int i = 0; i <= 256; i++) near(reference.mapTone(i / 256.0), preview.mapTone(i / 256.0));
+            if (flag > 2) unsupported(() -> NcpPictureControlConverter.convert(original, 0, 0));
+            else equal(NcpPictureControlConverter.convert(NcpCompatibilityFixtures.ncp(), 0, 0).dataBytes(),
+                    NcpPictureControlConverter.convert(original, 0, 0).dataBytes());
+        }
+    }
+
     private static void unsupportedFormatsAndInvalidInputsAreRejected() throws Exception {
         unsupported(() -> NcpPreviewProfile.fromNcp(null));
         for (int length : new int[] {0, 8, 637, 639, 1024 * 1024 + 1}) {
@@ -116,7 +139,7 @@ public final class NcpPreviewProfileTest {
         }
         for (int[] mutation : new int[][] {
                 {0, 'X'}, {12, '9'}, {11, 35}, {51, 3}, {637, 1},
-                {36, 0x7f}, {38, 1}, {40, 0xff}, {41, 0}, {43, 0xff}, {44, 0x84},
+                {36, 0x7f}, {39, 0}, {40, 0xff}, {41, 0}, {43, 0xff}, {44, 0x84},
                 {45, 0}, {56, 0}, {62, 21}, {64, 1}, {105, 1}, {120, 0x80}
         }) {
             byte[] invalid = identityNcp(); invalid[mutation[0]] = (byte) mutation[1];

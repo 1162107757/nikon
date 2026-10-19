@@ -1,0 +1,28 @@
+{
+  "phase": "restored",
+  "capturedAt": "2026-10-18T16:11:01.0926566+08:00",
+  "pid": "2395",
+  "foregroundService": false,
+  "cpuLock": false,
+  "awake": true,
+  "hueviaTop": true,
+  "activeRequestIds": [],
+  "ptpEstablished": 0,
+  "ptpLocalPorts": [],
+  "traceLines": 256,
+  "lastPtpResponseWallMs": 1792310598386,
+  "recentTrace": [
+    "wall_ms=1792310598330 mono_ms=721913995 event=PTP_OP_BEGIN conn=1 op=0x1007 tx=169",
+    "wall_ms=1792310598349 mono_ms=721914014 event=PTP_OP_FAILED conn=1 op=0x1007 tx=169 elapsed_ms=18 category=PROTOCOL",
+    "wall_ms=1792310598349 mono_ms=721914014 event=PTP_OP_BEGIN conn=1 op=0x1007 tx=170",
+    "wall_ms=1792310598368 mono_ms=721914033 event=PTP_OP_COMPLETE conn=1 op=0x1007 tx=170 elapsed_ms=18",
+    "wall_ms=1792310598368 mono_ms=721914033 event=PTP_OP_BEGIN conn=1 op=0x1008 tx=171",
+    "wall_ms=1792310598386 mono_ms=721914051 event=PTP_OP_COMPLETE conn=1 op=0x1008 tx=171 elapsed_ms=18",
+    "wall_ms=1792310993181 mono_ms=722308846 event=PTP_OP_BEGIN conn=1 op=0x1004 tx=172",
+    "wall_ms=1792310993182 mono_ms=722308847 event=PTP_OP_FAILED conn=1 op=0x1004 tx=172 elapsed_ms=0 category=IO",
+    "wall_ms=1792310993182 mono_ms=722308847 event=PTP_CLOSED conn=1 category=IO",
+    "wall_ms=1792310993183 mono_ms=722308848 event=WIFI_SPECIFIC_LOST",
+    "wall_ms=1792310993189 mono_ms=722308854 event=WIFI_RUNTIME_HANDLES_INVALIDATED",
+    "wall_ms=1792310993233 mono_ms=722308898 event=UI_FOREGROUND"
+  ]
+}

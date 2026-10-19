@@ -1,0 +1,85 @@
+Nikon Preset 0.6.0-beta - Photo live delivery and validation
+Date: 2026-10-17 (Asia/Shanghai)
+
+ARTIFACT
+Application: com.nikonpreset.usbprobe
+Version: code26 / 0.6.0-beta
+File: dist/nikon-usb-0.6.0-beta-debug.apk
+Size: 2781817 bytes
+SHA-256: 00ac0cf7c6dae130e059dbd532359f1a8c83713e10ba16db1d223ac65d336005
+Android build and v2/v3 signature verification passed. The observations below
+used this frozen artifact. No production files changed after the final build.
+
+IMPLEMENTED
+Album has a Photo Live tab and an explicit Start/Stop action. Enabling creates
+an existing-photo baseline, then receives new JPEGs on the owned read-only
+PTP/IP session. ObjectAdded events wake bounded serialized work; same-session
+index checks compensate for missing events. A camera-generated preview is
+published before an original receive is scheduled. No shutter command is sent.
+Originals use temporary files, metadata/size/JPEG validation, deterministic
+destinations and durable completion identities. Duplicate notifications do not
+create repeated original transfers. Completed app files are also published to
+MediaStore Pictures/相机预设 on Android29+, using pending/verify/publish and
+durable recovery records. Android26-28 retain app files without a new legacy
+storage permission. Gallery failure retains the app original for publication
+retry; it does not repeat the network download.
+Queue and state belong to the application controller, not Activity callbacks.
+They survive ordinary page changes/background/Activity recreation. Stop stops
+new receive work while preserving the connection. Preset handoff pauses live
+work and drains the serialized read before ownership transfer. No automatic
+reconnect, write replay or restart of live mode is added.
+Pending queue128 and success history120 have bounded admission; unfinished and
+failed identities remain retryable up to a total256 records. Capacity waiting
+does not consume the camera-response retry budget.
+
+AUTOMATED VALIDATION / REVIEW
+Full core10309 + full probe12089 + synthetic live server51 = 22449 checks pass.
+Core includes PTP/IP4459 and production AlbumController446. Tests cover event
+ownership, baseline, preview-before-original, duplicates/missing events,
+metadata-unready/DeviceBusy retry, invalid data/transaction termination,
+durable app-file recovery, publisher-only retry, stop/disconnect/handoff and
+bounded capacity recovery. Final logs: app/build/v060-final-core.log,
+v060-final-probe.log and v060-final-live-server.log. The older standalone
+album log includes a corrected test-fixture directory error, not final failure.
+Tests use a repository-local temporary directory because the Windows sandbox's
+redirected system TEMP prevented rename in the cache fixture. Production cache
+implementation was not changed to work around that environment limitation.
+Scoped source review found and resolved queue-capacity retry exhaustion,
+unfinished-history eviction, preview-readiness refresh and stopped retry UI.
+Precise detail-original recovery also handles successfully trimmed history.
+No remaining P1/P2 was reported within that reviewed scope.
+
+FINAL APK ANDROID OBSERVATIONS
+Temporary Pixel9 / Android17 emulator,1080x2424, loopback synthetic camera.
+Photo Live started with six baseline objects and received zero old originals.
+New handles7/8/9 were automatically previewed and saved. Handle7 had duplicate
+events;8 had one metadata2009 and one original2019;9 had no event. Five completed
+originals total (7..11), with five MediaStore rows, all pending0. Public JPEG
+sizes and SHA-256 match the source fixtures. There were six original requests
+(one refused busy request, five successful data transfers), no preset writes.
+HOME/background received10; clear-task/new Activity recovered the same live
+queue/count on one session. While viewing10, incoming11 did not force a jump.
+Stop preserved the connection; subsequently added12 was not received. Preset
+capability/nine-slot read and return to Album reused the same session and did
+not restart live mode. Manual disconnect ended the transport and stopped the
+service; app PID9005 crash buffer was empty. Protocol CloseSession count0.
+The optional repeat/fault gallery app_process probe could not run because the
+delivery manifest is not debuggable. It is not counted as passed. MediaStore
+success/uniqueness/hash checks above used real UI and read-only system records;
+gallery crash recovery has source review rather than Android fault injection.
+
+Evidence:
+docs/device-review/live-0.6.0-functional.log
+docs/device-review/live-0.6.0-baseline.log
+docs/device-review/live-0.6.0-protocol.log
+.impeccable/review/phone-apple-v060-*.png
+
+PHONE INSTALLATION / REMAINING SCOPE
+PKG110 / Android16 / user0 had no active app camera service before update.
+Preserve-data install returned Success; package confirmed code26/0.6.0-beta,
+lastUpdateTime2026-10-17 13:49:19 local. Installed base.apk hash matches above.
+No uninstall/data clear, synthetic fixtures, permission changes, real-camera
+operations or physical phone live-capture test was performed. RAW/video live
+receive and remote shutter control are outside this feature. Real Z6II mode
+compatibility, capture-while-connected, event delivery and throughput still
+require user camera testing; software-emulator checks do not prove those.

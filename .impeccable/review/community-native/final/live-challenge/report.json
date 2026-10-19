@@ -1,0 +1,7 @@
+{
+  "versionCode": 54,
+  "installedApkSha256": "ee597f811e370e42e71e9af5faeca6fc1edbca191a7b0799106c72cbd8308963",
+  "status": "PASS",
+  "checks": 11,
+  "scope": "Real production HTTPS \/auth\/challenge GET and Android PNG decode\/display only. No username\/password\/code entered, no register\/login POST, no real account or community content created."
+}

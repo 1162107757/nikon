@@ -1,0 +1,19 @@
+{
+  "versionName": "0.9.13-beta",
+  "versionCode": 52,
+  "installedApkSha256": "67cdd3a2219c953c872ccc8d69ea785df7071720598966e86909171a04f6c425",
+  "recoveredOwnPriorFixturePaths": 5,
+  "preservedBaselineCards": 1,
+  "preservedBaselineFiles": 3,
+  "nativeGrouping": true,
+  "versionSelectionAndHoldComparison": true,
+  "diskChoicePersistence": true,
+  "effectDeleteCancel": true,
+  "singleEffectAppAndPublicDelete": true,
+  "groupAliasAndPublicDelete": true,
+  "otherGroupRetained": true,
+  "status": "PASS",
+  "checks": 84,
+  "scope": "Native product UI plus real MediaStore; uniquely owned synthetic JPEGs and verified source ledgers; no camera, account, network or user photos.",
+  "ownedFixturesCleaned": true
+}

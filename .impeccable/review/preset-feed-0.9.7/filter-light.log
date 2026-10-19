@@ -1,0 +1,15 @@
+INSTRUMENTATION_STATUS: phase=READY
+INSTRUMENTATION_STATUS: stream=Preset feed preview READY; mode=filter; holdMs=1500
+
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_RESULT: checks=75
+INSTRUMENTATION_RESULT: columns=2
+INSTRUMENTATION_RESULT: filterAndDetailBack=true
+INSTRUMENTATION_RESULT: firstCardBounds=[47,702][524,1559]
+INSTRUMENTATION_RESULT: fixtureScope=in-memory synthetic template variants; no cloud writes
+INSTRUMENTATION_RESULT: mode=filter
+INSTRUMENTATION_RESULT: status=PASS
+INSTRUMENTATION_RESULT: stream=Preset feed probe PASS; mode=filter; checks=75; columns=2; visibleCards=4
+
+INSTRUMENTATION_RESULT: visibleCards=4
+INSTRUMENTATION_CODE: -1

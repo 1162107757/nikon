@@ -1,0 +1,155 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { createServer } from 'node:http';
+import { createHandler } from '../server/app.mjs';
+import { hashPassword, sha256 } from '../server/auth.mjs';
+import { CloudBaseStore, CloudBaseStorage } from '../server/cloudbase.mjs';
+import { MemoryStore, syntheticNcp } from './memory-store.mjs';
+
+test('HTTP admin enforces sessions/CSRF and publishes immutable validated snapshots', async t => {
+  const store = new MemoryStore();
+  store.publicAssetOrigin = 'https://files.example.test';
+  const password = 'Synthetic-test-password-32768';
+  store.admins.set('admin', { username: 'admin', password_hash: await hashPassword(password) });
+  let uploaded = 0;
+  const objects = new Map();
+  const storage = { put: async (path, data) => { uploaded++; objects.set(path, data); }, get: async path => objects.get(path) };
+  const server = createServer();
+  await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
+  t.after(() => { server.closeAllConnections(); server.close(); });
+  const origin = `http://127.0.0.1:${server.address().port}`;
+  server.on('request', createHandler({ store, storage, environmentId: 'test-only', publicBaseUrl: origin, secureCookies: false }));
+  let cookie = '', csrf = '';
+  const request = (path, { method = 'GET', body, raw, headers = {} } = {}) => fetch(`${origin}/preset-library${path}`, {
+    method, headers: { ...(cookie ? { Cookie: cookie } : {}), ...(method !== 'GET' ? { Origin: origin, 'X-CSRF-Token': csrf, 'Content-Type': raw ? 'application/octet-stream' : 'application/json' } : {}), ...headers },
+    body: body === undefined ? undefined : raw ? body : JSON.stringify(body), redirect: 'manual'
+  });
+  assert.equal((await request('/api/presets')).status, 401);
+  assert.deepEqual(await (await request('/catalog.json')).json(), { version: 1, presets: [] });
+  const index = await request('/admin/'); assert.equal(index.status, 200);
+  assert.match(index.headers.get('content-security-policy'), /frame-ancestors 'none'/);
+  assert.equal((await request('/admin/api.js')).status, 200);
+  assert.equal((await request('/api/login', { method: 'POST', body: { username: 'admin', password }, headers: { Origin: 'https://evil.example' } })).status, 403);
+  const login = await request('/api/login', { method: 'POST', body: { username: 'admin', password } });
+  assert.equal(login.status, 200);
+  cookie = login.headers.get('set-cookie').split(';')[0];
+  assert.match(login.headers.get('set-cookie'), /HttpOnly; SameSite=Strict/);
+  csrf = (await login.json()).csrfToken;
+  assert.equal(store.sessions.size, 1);
+  assert.equal([...store.sessions.keys()][0], sha256(cookie.split('=')[1]));
+  assert.equal((await request('/api/uploads?kind=ncp', { method: 'POST', body: syntheticNcp(), raw: true, headers: { 'X-CSRF-Token': 'wrong' } })).status, 403);
+  assert.equal(uploaded, 0);
+  assert.equal((await request('/api/uploads?kind=ncp', { method: 'POST', body: Buffer.from('invalid NCP'), raw: true })).status, 400);
+  assert.equal(uploaded, 0);
+  const firstUpload = await request('/api/uploads?kind=ncp&filename=one.NCP', { method: 'POST', body: syntheticNcp(), raw: true });
+  assert.equal(firstUpload.status, 201);
+  const asset = (await firstUpload.json()).asset;
+  assert.equal(asset.byteLength, 52); assert.equal(asset.sha256, sha256(syntheticNcp()));
+  const publicDownload = () => fetch(origin + new URL(asset.url).pathname);
+  assert.equal((await publicDownload()).status, 404, 'unpublished uploaded files are not public');
+  assert.equal((await request(`/api/assets/${asset.id}/content`)).status, 200, 'admin can preview private assets');
+  const privateHead = await request(`/api/assets/${asset.id}/content`, { method: 'HEAD' });
+  assert.equal(privateHead.status, 405); assert.equal(privateHead.headers.get('allow'), 'GET');
+  assert.equal((await privateHead.arrayBuffer()).byteLength, 0);
+  await request('/api/uploads?kind=ncp&filename=again.NCP', { method: 'POST', body: syntheticNcp(), raw: true });
+  assert.equal(uploaded, 1, 'identical validated content is not uploaded again');
+  const metadata = { name: 'Fixture original', description: 'A test-only fixture', compatibleModels: ['TEST'], sortOrder: 1, fileAssetId: asset.id, previewAssetId: null };
+  const created = await request('/api/presets', { method: 'POST', body: metadata }); assert.equal(created.status, 201);
+  const preset = (await created.json()).preset;
+  assert.equal(preset.status, 'draft');
+  assert.equal((await (await request('/catalog.json')).json()).presets.length, 0);
+  assert.equal((await request(`/api/presets/${preset.id}/publish`, { method: 'POST', body: { expectedRevision: 1 } })).status, 200);
+  const published = (await (await request('/catalog.json')).json()).presets;
+  assert.equal(published[0].name, 'Fixture original'); assert.equal(published[0].fileUrl, asset.url);
+  assert.deepEqual(Buffer.from(await (await publicDownload()).arrayBuffer()), syntheticNcp());
+  const publicHead = await fetch(origin + new URL(asset.url).pathname, { method: 'HEAD' });
+  assert.equal(publicHead.status, 405, 'HEAD explicitly declines unreliable gateway entity metadata');
+  assert.equal(publicHead.headers.get('allow'), 'GET'); assert.equal((await publicHead.arrayBuffer()).byteLength, 0);
+  assert.equal(Object.hasOwn(published[0], 'password_hash'), false);
+  assert.equal((await request(`/api/presets/${preset.id}`, { method: 'PUT', body: { ...metadata, name: 'Fixture draft change', expectedRevision: 1 } })).status, 200);
+  assert.equal((await (await request('/catalog.json')).json()).presets[0].name, 'Fixture original', 'saving does not leak unpublished edits');
+  assert.equal((await request(`/api/presets/${preset.id}/publish`, { method: 'POST', body: { expectedRevision: 1 } })).status, 409);
+  assert.equal((await request(`/api/presets/${preset.id}/publish`, { method: 'POST', body: { expectedRevision: 2 } })).status, 200);
+  assert.equal((await (await request('/catalog.json')).json()).presets[0].name, 'Fixture draft change');
+  assert.equal((await (await request(`/api/presets/${preset.id}/versions`)).json()).items.length, 2);
+  assert.equal((await request(`/api/presets/${preset.id}/unpublish`, { method: 'POST', body: { expectedRevision: 2 } })).status, 200);
+  assert.equal((await (await request('/catalog.json')).json()).presets.length, 0);
+  assert.equal(store.assets.size, 1); assert.equal(store.histories.get(preset.id).length, 2);
+  assert.equal((await publicDownload()).status, 200, 'existing catalog file URLs remain valid after unpublishing');
+  const huge = Buffer.alloc(1024 * 1024 + 1);
+  assert.equal((await request('/api/uploads?kind=ncp', { method: 'POST', body: huge, raw: true })).status, 413);
+  assert.equal((await request('/api/logout', { method: 'POST', body: {} })).status, 200);
+  assert.equal((await request('/api/presets')).status, 401);
+});
+
+test('CloudBase adapter uses documented PG REST/storage paths without leaking credentials', async () => {
+  const requests = [];
+  const store = new CloudBaseStore({ environmentId: 'fixture', serviceKey: 'test-server-only', fetchImpl: async (url, options) => {
+    requests.push({ url: url.href, options });
+    return new Response(JSON.stringify(options.method === 'POST' ? { Key: 'one' } : []), { status: 200 });
+  } });
+  await store.catalogRows();
+  assert.match(requests[0].url, /^https:\/\/fixture.api.tcloudbasegateway.com\/v1\/rdb\/rest\/nikon_presets\?/);
+  const storage = new CloudBaseStorage(store);
+  const url = await storage.put('ncp/abc.ncp', Buffer.from('payload'), 'application/octet-stream');
+  assert.equal(requests[1].url, 'https://fixture.api.tcloudbasegateway.com/v1/storages/object/nikon-presets/ncp/abc.ncp');
+  assert.equal(requests[1].options.headers.Authorization, 'Bearer test-server-only');
+  assert.equal(url, 'https://fixture.api.tcloudbasegateway.com/v1/storages/object/public/nikon-presets/ncp/abc.ncp');
+  assert.equal(url.includes('test-server-only'), false);
+});
+
+test('optional previews publish without samples and change only through explicit published snapshots', async t => {
+  const store = new MemoryStore();
+  store.publicAssetOrigin = 'https://files.example.test';
+  const password = 'Synthetic-preview-test-password-32768';
+  store.admins.set('admin', { username: 'admin', password_hash: await hashPassword(password) });
+  const objects = new Map();
+  const storage = { put: async (path, data) => objects.set(path, data), get: async path => objects.get(path) };
+  const server = createServer();
+  await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
+  t.after(() => { server.closeAllConnections(); server.close(); });
+  const origin = `http://127.0.0.1:${server.address().port}`;
+  server.on('request', createHandler({ store, storage, environmentId: 'test-only', publicBaseUrl: origin, secureCookies: false }));
+  let cookie = '', csrf = '';
+  const request = (path, { method = 'GET', body, raw, headers = {} } = {}) => fetch(`${origin}/preset-library${path}`, {
+    method, headers: { ...(cookie ? { Cookie: cookie } : {}), ...(method !== 'GET' ? { Origin: origin, 'X-CSRF-Token': csrf, 'Content-Type': raw ? 'application/octet-stream' : 'application/json' } : {}), ...headers },
+    body: body === undefined ? undefined : raw ? body : JSON.stringify(body), redirect: 'manual'
+  });
+  const login = await request('/api/login', { method: 'POST', body: { username: 'admin', password } });
+  assert.equal(login.status, 200);
+  cookie = login.headers.get('set-cookie').split(';')[0]; csrf = (await login.json()).csrfToken;
+  const uploadedFile = await request('/api/uploads?kind=ncp&filename=optional-preview.NCP', { method: 'POST', body: syntheticNcp(), raw: true });
+  assert.equal(uploadedFile.status, 201);
+  const file = (await uploadedFile.json()).asset;
+  const metadata = { name: 'Optional preview fixture', fileAssetId: file.id };
+  const create = await request('/api/presets', { method: 'POST', body: metadata });
+  assert.equal(create.status, 201, 'omitting previewAssetId does not prevent creating a draft');
+  const preset = (await create.json()).preset;
+  const catalog = async () => (await (await request('/catalog.json')).json()).presets;
+  const publish = revision => request(`/api/presets/${preset.id}/publish`, { method: 'POST', body: { expectedRevision: revision } });
+  const update = (revision, previewAssetId) => request(`/api/presets/${preset.id}`, { method: 'PUT', body: { ...metadata, expectedRevision: revision, previewAssetId } });
+  assert.equal((await publish(1)).status, 200, 'NCP and name can be published without a sample');
+  assert.equal((await catalog())[0].previewUrl, '', 'empty sample URL delegates the template fallback to the App');
+  assert.equal((await update(1, file.id)).status, 400, 'an NCP asset cannot masquerade as an optional image');
+  assert.equal((await update(1, 'preview-missing')).status, 400, 'a supplied missing image is rejected rather than silently ignored');
+  assert.equal((await request('/api/uploads?kind=preview', { method: 'POST', body: Buffer.from('not a preview'), raw: true })).status, 400);
+  // Locally generated 1x1 solid-color PNG, with no real photograph or external image service.
+  const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVR4nGOQ8KgAAAFUANnsm43hAAAAAElFTkSuQmCC', 'base64');
+  const uploadedPreview = await request('/api/uploads?kind=preview&filename=optional-preview.png', { method: 'POST', body: png, raw: true, headers: { 'Content-Type': 'image/png' } });
+  assert.equal(uploadedPreview.status, 201);
+  const preview = (await uploadedPreview.json()).asset;
+  const publicPreview = () => fetch(origin + new URL(preview.url).pathname);
+  assert.equal((await update(1, preview.id)).status, 200);
+  assert.equal((await catalog())[0].previewUrl, '', 'a saved preview remains private until explicitly published');
+  assert.equal((await publicPreview()).status, 404);
+  assert.equal((await publish(1)).status, 409, 'adding an optional preview retains the revision conflict guard');
+  assert.equal((await publish(2)).status, 200);
+  assert.equal((await catalog())[0].previewUrl, preview.url);
+  assert.deepEqual(Buffer.from(await (await publicPreview()).arrayBuffer()), png);
+  assert.equal((await update(2, null)).status, 200, 'explicit null removes the preview from the draft');
+  assert.equal((await catalog())[0].previewUrl, preview.url, 'removing the draft preview does not alter its published snapshot');
+  assert.equal((await publish(3)).status, 200);
+  assert.equal((await catalog())[0].previewUrl, '', 'publishing a sample-free revision restores the App fallback');
+  assert.deepEqual(Buffer.from(await (await publicPreview()).arrayBuffer()), png, 'previously published immutable preview URLs remain valid');
+  assert.equal((await (await request(`/api/presets/${preset.id}/versions`)).json()).items.length, 3);
+});

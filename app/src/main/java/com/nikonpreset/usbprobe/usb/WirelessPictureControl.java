@@ -214,6 +214,26 @@ public final class WirelessPictureControl implements AutoCloseable {
         }
     }
 
+    /** Transfers only an idle healthy prepared owner; the returned album handoff belongs to the caller. */
+    public PtpIpClient transferPreparedToAlbum() throws Exception {
+        begin(true);
+        try {
+            synchronized (lifecycle) {
+                checkCancelled();
+                if (!isPrepared()) throw new IOException("当前无线会话不可移交给相册；未重新连接。");
+                long next = preparedSession.ownedNextTransaction();
+                PtpIpClient transferred = active.transferToAlbum(next);
+                preparedSession.transferOwnedSession();
+                preparedResult.sessionRetained = false;
+                preparedResult.diagnostics.add("自有无线会话已一次性移交只读相册；双 socket、事件读取和事务序列延续，未关闭或重新连接。");
+                preparedSession = null; preparedResult = null; active = null;
+                // This wrapper can never reconnect, read, register or close the new owner.
+                closed = true;
+                return transferred;
+            }
+        } finally { finish(true); }
+    }
+
     /** Only these complete error responses may preserve a healthy read-only heartbeat session. */
     public static boolean isRecoverableKeepAliveResponse(Integer responseCode) {
         return Integer.valueOf(0x2002).equals(responseCode) || Integer.valueOf(0x2019).equals(responseCode);

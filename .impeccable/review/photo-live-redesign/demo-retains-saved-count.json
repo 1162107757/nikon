@@ -1,0 +1,46 @@
+{
+  "demo": [
+    {
+      "count": "· 13",
+      "phone": "a",
+      "summary": "已保存 13 张 · 按下相机快门即可",
+      "title": "直播中 · 等待拍摄"
+    },
+    {
+      "count": "· 13",
+      "phone": "b",
+      "saved": "13",
+      "summary": "已保存 13 张 · 按下相机快门即可",
+      "title": "直播中 · 等待拍摄"
+    },
+    {
+      "count": "· 13",
+      "phone": "c",
+      "summary": "已保存 13 张 · 按下相机快门即可",
+      "title": "直播中 · 等待拍摄"
+    }
+  ],
+  "stopped": [
+    {
+      "count": "· 13",
+      "detail": "已保存 13 张 · 可继续接收此项目",
+      "phone": "a",
+      "photoVisible": true,
+      "title": "直播已停止"
+    },
+    {
+      "count": "· 13",
+      "detail": "已保存 13 张 · 可继续接收此项目",
+      "phone": "b",
+      "photoVisible": true,
+      "title": "直播已停止"
+    },
+    {
+      "count": "· 13",
+      "detail": "已保存 13 张 · 可继续接收此项目",
+      "phone": "c",
+      "photoVisible": true,
+      "title": "直播已停止"
+    }
+  ]
+}

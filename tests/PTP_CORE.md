@@ -2,6 +2,58 @@
 
 This code is original, dependency-free Java 17. It models standard USB PTP containers and parses the standard GetDeviceInfo, GetStorageIDs and GetStorageInfo datasets. Android classes are excluded, so the protocol core can be tested without a phone or Android SDK.
 
+## Current implementation: fast Photo Live and projects (0.7.0-beta / code 28)
+
+Live startup persists a named project, then reads fresh StorageIDs and per-storage
+ObjectHandles. It does not read every old ObjectInfo, preview or original before ready.
+Events/new photos and original transfers precede optional idle metadata work, limited
+to one old descriptor per reconciliation. Unknown baseline handles only prime identity
+on their first descriptor; reuse before that sample is not guaranteed detectable.
+First-readable-slot baselines still prevent old events from bypassing storage recovery.
+
+An independent browse cancellation token drops queued page/thumbnail work, drains one
+in-flight response and yields without reconnecting; the live tab does not preload the
+camera grid. Project IDs isolate equally named runs, persisted original membership and
+offline project detail paging. Old files stay in the downloaded collection. The separate
+`PhotoLiveProjectStoreTest` covers source protection, checksummed atomic records,
+backup recovery, idempotence and invalid input. Classification/publication retries use
+the completed local original, while new project MediaStore rows use a project subfolder.
+
+The synthetic server suite passes **238 checks**: the original 51, dual-storage 117,
+10,000-photo baseline 60 and baseline-argument 10. `--live-baseline-count=3..19000`
+requires `--photo-live-synthetic`, defaults to 3 and clones shared fixture buffers only;
+handles start with 1–3 then 100 upward, reserving 4–49 for new events. Dual-storage
+0x2013 mode remains composable, with no additional network listener or automatic original
+request. The complete 0.7.0 run passes **10,595 core** (including 626 production controller
+and 106 project-store), **12,089 probe** and **238 server** checks: **22,922 total**.
+
+Final APK emulator verification on Android 17 / Pixel 9 uses 10,000 old photos with the
+first slot continuously returning 0x2013. The named startup sends one StorageIDs and two
+Handles requests, with zero old metadata/preview/original before ready; subsequent old
+metadata is idle-only, one per scan. New duplicate/missed events, HOME screen-off with a
+busy-original retry, and missed-event reception during forced deep Doze IDLE succeed.
+The screen is OFF/Asleep/IDLE, but keyguard showing=false: this is not a secure-lock test.
+Studio_A holds four photos, Studio_B three; new B arrivals cannot replace selected A,
+project detail boundaries hold and force-stop/relaunch restores both projects offline.
+Seven project-separated MediaStore originals are pending=0 with fixture-matching hashes.
+After stop the next photo is not read, and explicit disconnect releases service/CPU locks.
+The 475-line protocol log has one Init/Open, zero CloseSession and zero camera writes.
+
+The final APK is **2,798,201 bytes**, SHA-256
+`2381807a1b02b5af059304ef1aa287f54759ea68256f41396f23a769fdf1b3c5`,
+with no production edits after its 14:33:33 build. PKG110 / Android 16 user 0 was updated
+27→28 at 2026-10-17 14:40:59 +08:00, preserving data and matching the installed base hash.
+Existing preset/downloads remain. Before installation the camera session/live task were
+stopped and services empty; no transmission was deliberately interrupted, phone battery
+or permission settings changed, or real-camera capture/import initiated. This does not
+measure new-version Z6II speed or certify hardware secure-lock reception. See
+[0.7.0 delivery](../dist/nikon-usb-0.7.0-beta-VALIDATION.txt),
+[baseline](../docs/device-review/live-0.7.0-baseline.log),
+[protocol](../docs/device-review/live-0.7.0-protocol.log),
+[Doze](../docs/device-review/live-0.7.0-doze.log),
+[originals](../docs/device-review/live-0.7.0-originals.log) and
+[audit](../docs/device-review/live-0.7.0-audit.md). All counts below retain historical scope.
+
 ## Public API
 
 All classes use the package `com.nikonpreset.usbprobe.ptp`.
@@ -238,6 +290,177 @@ The user subsequently reported that, on the installed **0.5.5**, the phone's sys
 `WirelessPictureControl.isRecoverableKeepAliveResponse(Integer)` is shared with the runtime and accepts only `0x2002` and `DeviceBusy (0x2019)`. A complete response with the expected transaction preserves only the same live, owned, protocol-confirmed session, with all cancellation and identity checks intact. The heartbeat still throws and records its refusal, rather than claiming a successful read; the next scheduled tick may read again without reconnecting. Other response codes, including `SessionNotOpen (0x2003)`, `InvalidTransactionID (0x2004)` and `InvalidParameter (0x201D)`, wrong transactions, invalid datasets and protocol/network failure remain terminal. A registration response `0x2002` is not exempt: the write is not retained or repeated.
 
 The final host runs passed **9,505 `run.ps1` checks** (including **3,956 PTP/IP**, **226 album host** and **53 preview-cache** checks) plus **11,477 `run-probe.ps1` checks** (685 ordinary USB + 453 Picture Control read-only + **1,253 USB copy/adaptation** + **9,086 wireless**), totaling **20,982**. New replacement cases cover default refusal of occupied slots, immutable confirmation evidence, fresh capabilities, changes at both target checks, exact replacement readback, cancellation after a matching recheck but before Set, unknown results, and a second explicitly confirmed replacement in the same session. Heartbeat cases cover matching GeneralError continuation, wrong-transaction and nonrecoverable-code termination, the first post-import refusal followed by a successful tick and another explicit import, and continued terminal treatment of write-phase GeneralError. Synthetic peer self-tests cover the occupied-slot mode and the existing empty-slot mode. These counts do not establish 0.5.6 Android UI, installation or physical-camera results; version-specific delivery evidence is maintained separately.
+
+## Bidirectional session handoff and browse readiness (0.5.7-beta)
+
+The user reports that actual **0.5.6** use no longer disconnects the camera hotspot after import. This is Z6II user feedback, not an independently reviewed complete camera/protocol trace or evidence for every model and firmware. The new request concerns a separate state boundary: a held preset connection had not yet initialized the album. Through 0.5.6, seamless handoff only supported album to Picture Control; any earlier statement that the reverse direction was unsupported describes that historical boundary. Version 0.5.7 adds the reverse without closing and reconnecting.
+
+Worker-only `WirelessPictureControl.transferPreparedToAlbum()` accepts only an idle, live, complete owned read-only snapshot. `PtpIpClient.transferToAlbum(exactNextTx)` creates a new album-only facade while preserving both sockets, the open PTP session, one physical event reader and the inherited transaction sequence. It requires the exact next transaction, a claimed healthy PC owner and no write attempt on that facade. A verified import must first pass the existing ACK/same-target/exact-readback handback to a new PC facade; rejected, uncertain or active writes cannot use a mode round trip to recover a consumed budget. The old PC facade and wireless wrapper are permanently revoked, and closing them cannot close the new owner.
+
+`isPendingAlbumHandoff()` identifies the unconsumed album-only handoff. `claimTransferredAlbumSession()` consumes it once; album reads and another handoff are blocked before claim. `AlbumController.connectFromHandoff(client, host, port, callback)` returns false on refusal without consuming or closing the caller's handle, and still reports an error callback. Returning true synchronously installs the controller's owned holder before work is queued. The worker checks endpoint/ownership, claims, reads fresh DeviceInfo at the inherited positive transaction, verifies Nikon and actual album operation support, then enumerates StorageIDs/Handles. It sends no Init/Open and invokes no fallback connector. Picture Control slot snapshots do not substitute for a photo index, and album mode receives no write permission. A later album-to-PC handoff retains the existing fresh PC capabilities/all-slot/target checks before another explicitly confirmed import.
+
+`hasLiveSession()` and `sessionConnectionInfo()` describe the claimed healthy camera session independently of `isConnected()` / `connectionInfo()`, which require a completed photo index. Session metadata may initially contain only host/port, with model filled after real DeviceInfo parsing. Explicitly missing album capabilities or a complete matching PTP refusal other than session-invalid responses preserves the live read-only owner, records `browseError()` and calls onError rather than falsely marking browse readiness. `retryBrowse()` re-reads DeviceInfo and the index only on that existing owner. A live browse-failed session can also return to preset import. Invalid datasets, wrong transactions, `SessionNotOpen (0x2003)`, `InvalidTransactionID (0x2004)`, EOF and other uncertain I/O terminate the original owner; old-generation cleanup cannot close a replacement. Legacy independent-connect failure keeps its original close behavior.
+
+The runtime's service, connection badges and routing use live-session state; actual page, thumbnail and download work still require browse readiness. A held browse-failed session can heartbeat without losing its error or gaining a fake index: declared `GetStorageIDs` is parsed, otherwise `readAlbumDeviceInfo()` is parsed, without enumeration or reconnect. The runtime owns operation leases and pending handoff holders in both directions, so ordinary destination changes or Activity replacement do not close the physical session. Accepted adopt/retry operations register exact-once completions; disconnect/close completes cancellation even if shutdownNow discards their queued runnable. The new suite caught this completion gap and verified the production fix.
+
+A separate P2 source-review finding in runtime preparation is fixed: the attempted owner identity is recorded before foreground-service startup, so a service-start exception followed by rendering does not automatically retry the same failed preparation indefinitely. An explicit retry or changed owner can start a new attempt. This is an implementation/review statement, not an Android UI or foreground-service scheduling result for this build.
+
+The full runs passed **9,928 `run.ps1` checks** (including **4,258 PTP/IP**, **319 album host**, **53 preview-cache** and **28 gesture** checks) plus **12,089 `run-probe.ps1` checks** (685 ordinary USB + 453 Picture Control read-only + 1,253 USB copy/adaptation + **9,698 wireless**), totaling **22,017**. Added regressions cover PC-to-album-to-PC with another explicit import on the original two channels and single open session, immediate post-import handoff, inherited transaction/claim rules, revoked owners, pending/queued cancellation, event ownership, refusal without consuming caller ownership, held browse failures, same-session retry and heartbeat, return to PC despite unavailable photos, and terminal data/session faults. These host counts do not establish this round's Android UI, physical installation, camera interoperability or hotspot behavior; 0.5.6 and earlier evidence retains its stated version scope.
+
+## 0.5.8 immersive pager validation
+
+The complete core suite passes **9,981** checks on 0.5.8, including **43**
+swipe classification and **38** pager motion checks. The new motion cases cover
+velocity handoff, frame-step independence, spring settling, grab/reverse,
+cancel-to-home, boundary damping, exact-once completion and animation-off.
+Gesture cases include missing-current-preview navigation and explicit edge
+retry without committing a nonexistent page. Android UI observations and
+installation scope are recorded in the [0.5.8 delivery record](../dist/nikon-usb-0.5.8-beta-VALIDATION.txt).
+The Picture Control probe suite was not rerun for this UI-only revision; the
+0.5.7 probe count above is historical and is not a new combined test total.
+
+## Photo Live regression (0.6.0-beta)
+
+The complete historical 0.6.0 `run.ps1` suite passes **10,309** checks: 186 PTP core, 68 NCP
+structure, 2,577 transfer simulation, 148 storage eligibility, 955 directory survey,
+50 Picture Control codec, 77 NCP compatibility, 1,108 preview-profile, **4,459 PTP/IP
+client**, 53 preview-cache, 101 album paging, 43 swipe classifier, 38 page motion and
+**446 production album-controller** checks. The complete `run-probe.ps1` suite passes
+**12,089** (685 ordinary USB probe + 453 read-only Picture Control + 1,253 USB
+copy/adaptation + 9,698 wireless wrapper), for **22,398 Java checks**.
+
+`AlbumControllerHostTest` compiles production `PhotoLiveState` and `PhotoLiveLedger`
+alongside the real controller and PTP/IP transport. Framed synthetic command/event
+sockets exercise existing-photo baselines; ObjectAdded hints, duplicates and missed
+events recovered by polling; preview-before-original; exact original bytes; temporary
+metadata and original rejections with backoff; changed metadata and incomplete JPEG
+refusal; durable completion/file-hash recovery; and exclusion of RAW objects. UI listener
+detachment and replacement, stop, disconnect, handoff, queued-start cancellation,
+protocol failure and event loss test ownership and exact-once completion. A publisher
+callback failure verifies that the completed original survives and a retry republishes
+the same file without another GetObject. It does not substitute thumbnail bytes or
+reconnect to retry.
+
+Two controlled-worker regressions exercise capacity without downloading hundreds of
+irrelevant files. A full 128-item queue remains retryable for six inspection rounds,
+does not consume camera metadata failure attempts and accepts the deferred JPEG after
+one slot is freed. History trimming preserves queued/current, unsaved, original-error
+and gallery-error identities while retiring the oldest successful history toward 120.
+At 256 retained pending/error identities, new admission leaves `known` unchanged and
+retains a finite retry; completing one older failure permits the intended new JPEG to
+enter without losing another failure. These tests use reflection only to prefill state
+and hold the clock; metadata operations and worker decisions execute production code.
+
+The separate server regression runs the actual local-only `--photo-live-synthetic`
+fixture mode: it starts with three photos and applies a revisioned `live-control.json`
+to introduce new handles. Its **51** checks cover duplicate ObjectAdded events, no-event
+additions, one-shot ObjectInfo `0x2009` and original `0x2019`, complete originals,
+transaction/event framing, rejected invalid control revisions and recovery on the
+original single command session. It brings the combined automated total to **22,449**.
+
+```powershell
+& '.\tests\run.ps1' -JdkHome 'D:\dev\Java\jdk-17.0.19'
+& '.\tests\run-probe.ps1' -JdkHome 'D:\dev\Java\jdk-17.0.19' -AndroidJar 'D:\dev\android-sdk\platforms\android-35\android.jar'
+node tests/tools/album-camera-server-live-test.js
+```
+
+In the restricted Windows test environment, the final Java runs used a command-local
+`JAVA_TOOL_OPTIONS=-Djava.io.tmpdir=D:/dev/ai-project/nikon/app/build/v060-test-tmp`
+after creating that workspace directory: the sandbox's redirected system TEMP rejected
+the JPEG cache's file rename. No production path or rename behavior was changed. The
+server test required loopback permission after the sandbox refused local TCP. These are
+test-environment accommodations, not camera compatibility results.
+
+Photo Live appears as an explicitly enabled album tab, does not trigger the shutter,
+and receives only new JPEG identities after its baseline. Its original and publication
+journals are tested at the Java/controller boundaries. Separate final-APK emulator
+evidence confirms a six-photo baseline with zero old originals, five new originals
+(7–11) saved to the app and MediaStore with matching bytes/hashes and `IS_PENDING=0`,
+duplicates and missed-event compensation, metadata/original busy recovery, background
+reception, Activity recreation, keeping the current detail photo when a new one arrives,
+and no reception after Stop. Preset read-only handoff/return retained the one connection
+without restarting reception; final explicit disconnect released the service and the
+application crash log was empty. The frozen protocol has 654 commands, positive
+transactions 1–652 each once, one command/event handshake and OpenSession, six
+GetObject requests including one rejected busy attempt and five completed originals,
+and no CloseSession or preset registration. See the
+[functional checkpoints](../docs/device-review/live-0.6.0-functional.log) and
+[independent protocol audit](../docs/device-review/live-0.6.0-audit.md).
+
+The final 2,781,817-byte APK, SHA-256
+`00ac0cf7c6dae130e059dbd532359f1a8c83713e10ba16db1d223ac65d336005`, was installed
+preserving data on PKG110 / Android 16 user 0 at 2026-10-17 13:49:19 +08:00;
+code 26 / 0.6.0-beta and the installed base APK hash matched. This is installation and
+synthetic-emulator reception evidence, not physical-camera or physical-phone shooting
+verification. The Android gallery failure-injection probe was not executed because
+`run-as` rejected the non-debuggable package; recovery/crash-window statements retain
+source/host coverage only. Full scope is in the
+[0.6.0 delivery record](../dist/nikon-usb-0.6.0-beta-VALIDATION.txt).
+All 0.5.x results above remain historical.
+
+## Storage availability and background protection (0.6.1-beta)
+
+Version code 27 treats only a complete matched `StoreNotAvailable (0x2013)` as a
+temporary per-storage condition. Ordinary album enumeration and live discovery skip
+that card and continue other cards. Live scans retain prior identities during an
+outage; the first readable inventory of a previously unavailable slot is its baseline.
+All slots unavailable leaves the healthy session waiting with backoff rather than
+closing or reconnecting it. Initial baseline ObjectInfo failure with 0x2013 suspends
+that slot's remaining metadata without blocking another card's preparation; preserved
+baseline handles do not become newly downloadable photographs. Bad framing, wrong
+transactions, invalid sessions and actual transport loss retain terminal behavior.
+
+The background implementation continues using the existing application-owned worker,
+connected-device FGS, CPU wake lock and sockets bound to the chosen camera Wi-Fi.
+`ConnectionProtection` reads actual battery exemption and notification/channel state.
+The live-start system authorization path verifies the real exemption on return even
+without Intent data, refuses cancellation without exemption, and clears a destroyed
+Activity's pending callback. These control-flow observations are source review, not a
+substitute for Android authorization, lifecycle or lock-screen tests.
+
+Modern low-latency Wi-Fi locks are not effective with the screen off; requesting the
+deprecated high-performance lock does not bypass that on Android 34+. Doze exemption
+must be requested from the user for continuous network/partial-wake-lock access. See
+[WifiManager](https://developer.android.com/reference/android/net/wifi/WifiManager#WIFI_MODE_FULL_LOW_LATENCY)
+and [Doze](https://developer.android.com/training/monitoring-device-state/doze-standby).
+The physical PKG110 phone's exemption and running FGS already existed when inspected,
+so the new storage response is not attributed to an absent battery setting.
+
+The final 0.6.1 complete core run passes **10,381**, including **518 production album
+controller checks**. The probe suite passes **12,089**. Synthetic server regressions
+pass **168** (the 51 photo-live checks plus 117 storage checks), totaling **22,638**.
+Storage cases cover per-slot refusal and continued accessible-card reception, preserved
+old identities, later recovery, first-readable-slot baseline, all-slot waiting and
+0x2013 during initial ObjectInfo without blocking the other card's baseline.
+
+The final APK separately passed Android 17 / API 37 emulator reception with slot 65537
+continuously unavailable and slot 131073's initial photos 1–3 excluded as baseline.
+All slots unavailable preserved enabled/live connection state and waited. After
+recovery, background HOME received 4; actual screen-off/sleep/keyguard state received
+5 despite repeated events and one busy original response. With battery exemption,
+forced deep Doze `IDLE` still received event-free 6 through polling. Only the three new
+live JPEGs were published into MediaStore rows 40–42, all `IS_PENDING=0` and matching
+fixture content hashes. Stop prevented any preview/original for 7 while maintaining
+the connection; settings read actual protection enabled. Final explicit disconnect
+removed the service and CPU lock with an empty crash buffer. The 468-line protocol
+log keeps one initialization and OpenSession, zero CloseSession and zero preset writes.
+
+The final APK is **2,785,913 bytes**, SHA-256
+`f458b989e30a6cc84206351f22d718b79e99209a0c419caa7ae07e950838e18c`.
+PKG110 / Android 16 user 0 was upgraded preserving data from code 26 to
+**27 / 0.6.1-beta**, last updated 2026-10-17 14:10:20 +08:00; installed base APK hash
+matched. The camera FGS was already stopped and battery exemption already present on
+the phone before installation. No uninstall, data clear, phone permission change or
+physical-camera capture was performed. The final APK verified granting system
+exemption and starting on return. Denial/cancellation smoke checks belong to an earlier
+draft APK with the same logic, not complete final-APK authorization branch testing.
+Actual Z6II shooting and physical-phone screen-off behavior remain unverified; system
+force-stop, OEM process killing and camera hotspot shutdown cannot be guaranteed away.
+See the [0.6.1 delivery record](../dist/nikon-usb-0.6.1-beta-VALIDATION.txt),
+[functional checkpoints](../docs/device-review/live-0.6.1-functional.log),
+[screen-off/Doze system evidence](../docs/device-review/live-0.6.1-doze.log) and
+[protocol log](../docs/device-review/live-0.6.1-protocol.log).
+The 0.6.0 and earlier results above retain their original version scope.
 
 ## Protocol references
 

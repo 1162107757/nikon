@@ -1,0 +1,39 @@
+Nikon Preset 0.6.1-beta / versionCode27
+Date2026-10-17 Asia/Shanghai
+Artifact nikon-usb-0.6.1-beta-debug.apk, 2,785,913 bytes
+SHA256 f458b989e30a6cc84206351f22d718b79e99209a0c419caa7ae07e950838e18c
+Android target35/min26, Java17; final manual APK build14:05:14+08.
+apksigner verification: v2=true,v3=true.
+
+Fixes: matched StoreNotAvailable0x2013 is isolated per storage; available
+cards continue. Previously known identities survive temporary card outages;
+first-readable slots receive a baseline before new-photo admission. All
+unavailable storage waits with capped backoff on the same session. Startup
+metadata2013 suspends only that slot, keeping its baseline exclusions.
+Actual OS battery/notification state is displayed. Start Live offers the
+system battery exemption when needed and rechecks it before continuing.
+Existing app-owned worker, connectedDevice FGS, CPU wake lock and per-socket
+Wi-Fi binding retain their lifetime across normal background and screen lock.
+
+Final checks: core10381 incl AlbumController518; probe12089; server168.
+Total22638 passed. No physical camera automated operations were performed.
+Final-APK Android17 emulator: empty advertised slot2013 does not stop live;
+old1..3 excluded; all-storage outage preserves session, restoration auto
+receives4 while HOME; locked screen receives5 after one busy response;
+forced deep Doze with real system-approved battery exemption receives6 even
+without an ObjectAdded event. Three MediaStore originals are pending0 and
+SHA256-identical to fixtures. Stop rejects7; explicit disconnect releases
+FGS and CPU lock. One Init/Open, zero protocol CloseSession or preset writes.
+
+Phone286f0dba/PKG110 Android16 user0 preserve-data install-r Success.
+Version27/0.6.1-beta; lastUpdateTime2026-10-17 14:10:20+08.
+Installed base.apk SHA256 equals this artifact. No phone permissions changed,
+no data clear/uninstall, no synthetic fixtures or physical-camera test.
+
+Evidence: ../docs/device-review/live-0.6.1-functional.log,
+live-0.6.1-protocol.log, live-0.6.1-baseline.log, live-0.6.1-doze.log,
+live-0.6.1-audit.md. Host logs under ignored app/build/v061-*.log.
+Boundary: real Z6II shooting while locked still requires physical testing.
+No guarantee against user force-stop, OS/OEM process kill, radio loss or
+camera-side hotspot shutdown. Never claim a low-latency Wi-Fi lock itself
+provides screen-off protection on Android14+.

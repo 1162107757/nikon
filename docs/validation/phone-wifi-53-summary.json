@@ -1,0 +1,28 @@
+{
+  "version": "0.9.14-beta",
+  "versionCode": 53,
+  "sha256": "257a028ca814be1625e74e2217a184d9e33c1554f8749dfff37672da6592cd5c",
+  "device": "PKG110",
+  "systemPolicy": "Huevia: 完全允许后台行为",
+  "batteryPolicyConfirmedViaNativeUi": true,
+  "result": "PASS within observed physical test",
+  "homeAt": "2026-10-18T16:21:57.6145183+08:00",
+  "sleepAt": "2026-10-18T16:24:14.7428567+08:00",
+  "backgroundObservedSeconds": 113.2,
+  "lockedObservedSeconds": 166.0,
+  "connectionObservedSeconds": 345.2,
+  "requestIds": [
+    "60007"
+  ],
+  "samePid": true,
+  "samePtpPorts": true,
+  "twoPtpChannelsInAllSnapshots": true,
+  "lockedSnapshotInteractive": false,
+  "getOriginalTrace": [
+    "wall_ms=1792311923428 mono_ms=723239093 event=PTP_OP_BEGIN conn=2 op=0x1009 tx=318",
+    "wall_ms=1792311974985 mono_ms=723290649 event=PTP_OP_COMPLETE conn=2 op=0x1009 tx=318 elapsed_ms=51556"
+  ],
+  "mediaStoreEvidence": "phone-wifi-53-lockscreen-owned-mediastore.txt",
+  "onlyOwnMediaStoreTimeAndSizeRead": true,
+  "limits": "Single real phone/camera session, short background and actual lock screen; no long-duration Doze or other OEM claim. Failed pre-policy run retained separately."
+}

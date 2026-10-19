@@ -1,3 +1,10 @@
+Latest delivery: Huevia 0.11.4-beta / 61 (2026-10-19)
+Full current scope: nikon-usb-0.11.4-beta-VALIDATION.txt
+SHA-256: 75d614edb36c61cb0c7581c8940e6d179476ea473cd3b541284382ad88308d45
+Published beta and public bytes verified. Personal preset cloud files/metadata with consent and offline copies; model connection label, refresh icon, unsupported preview details/deletion. Native light/dark23 each PASS; backend112, PostgreSQL acceptance and live private storage/isolation10 PASS. Backend1.5.0 and migration011 deployed. Own cloud fixtures removed. No physical phone installation or camera operation. Earlier photo/background evidence retains its own version scope.
+
+Historical 0.1.0-lab record below; counts and device limits retain that original scope.
+
 Build: Android SDK 35 + JDK 17 + aapt2 / D8 / apksigner
 APK signature: v2 and v3 verified
 Package: com.nikonpreset.usbprobe / 0.1.0-lab

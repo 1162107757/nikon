@@ -1,0 +1,72 @@
+Nikon Preset 0.8.4-beta / versionCode 35
+2026-10-17 Asia/Shanghai
+STATUS: FINAL ARTIFACT VERIFIED; SYNTHETIC EMULATOR AND READ-ONLY PHONE
+SCOPES RECORDED BELOW.
+APK: nikon-usb-0.8.4-beta-debug.apk
+Final: 2,863,737 bytes, built 2026-10-17 19:47:10 +08:00.
+SHA-256 9db6d2085671953d375980d0e64c3e0b00cb52b243c5d3b1c7179063b656b7b0.
+APK v2/v3 signature verification passes; versionCode 35 / 0.8.4-beta.
+Build log: app/build/v084-build.log.
+
+IMPLEMENTED SCOPE
+Photo Live moves Select to the project-photo count row below the hero image;
+empty projects hide Select. The hero reserves at least one thumbnail row,
+shrinks to available space and hides below 80dp. GONE height is excluded
+from old measurements and remeasurement attempts have a bounded count.
+Start Live without connection offers Settings;
+an existing camera session without ready photo inventory offers preparation.
+Zero selection, missing local presets, active download/save/delete tasks
+and permission returns check actual prerequisites and provide a next step.
+Local-only photo preset batches continue to work without camera connection.
+Advanced Diagnostics gives missing-NCP file selection, missing-report/slot
+read-only inspection, and USB connection/permission feedback. Busy duplicate
+submissions remain blocked with progress. Existing camera-write confirmation,
+target verification and protocol checks are unchanged; no write auto-resumes.
+
+CONFIRMED FOCUSED HOST CHECKS
+tests/run-photo-presets.ps1 exits 0: 54 batch + 40 source links = 94 checks.
+Log: app/build/v084-photo-presets-tests.log.
+These ran before the final UI-only Add Preset prompt and responsive hero
+layout changes, and were not rerun afterwards. Batch/source algorithms,
+source lookup and camera protocols did not change in those final adjustments.
+The previous 1,209 album checks and older date/deletion/rendering acceptance
+are not counted as rerun in this change.
+
+FINAL ARTIFACT: ANDROID 17 EMULATOR
+Preserve-data update to final 9db6 retains FeedbackQA, two synthetic originals
+and the existing effect. Offline PreviewTone completes 1/1 by reusing the
+effect and saving to the system gallery.
+Default light layout retains the hero, two full thumbnails and count-row
+Select. At 375dp/font1.3 in dark mode with the completed-processing card,
+the hero hides to retain two complete thumbnails and count-row Select.
+Viewed screenshots: .impeccable/review/phone-apple-v084-live-final.png and
+.impeccable/review/phone-apple-v084-live-dark-final.png (emulator only).
+Diagnostics final-package checks: no USB detection offers connection help;
+NCP compatibility import without a file offers Select NCP; saving without a
+report shows Generate Diagnostic Report with a read-only Detect Camera entry.
+All prerequisite dialogs are cancelled; no diagnostic write is performed.
+Final emulator App crash log is empty, services report nothing. APK and its
+.sha256 file match 9db6; git diff --check exits 0 (existing CRLF notices only).
+
+CANDIDATE SCOPE ONLY
+Earlier candidates received the two synthetic photos and checked missing-preset
+Add opening the system file picker with one click, plus zero-selection and
+zero-delete feedback. The initial phone-apple-v084-live-selection.png also
+belongs to an earlier candidate. These are not attributed to final 9db6;
+final layout, offline processing and diagnostic results are recorded above.
+
+PHYSICAL PHONE: PRESERVE-DATA INSTALL / READ-ONLY UI ONLY
+286f0dba, user 0, 2026-10-17 19:48-19:49 +08:00.
+Fresh service check at 19:48:19 is empty. Subsequent install -r succeeds;
+35 / 0.8.4-beta and installed base.apk SHA-256 exactly match final 9db6.
+Agfa Optima and the existing live project's two original photos remain.
+Select is beside the project count. Disconnected Start Live shows Settings
+as the next step, then is cancelled. Apply with zero selected asks for a
+selection; the dialog and selection mode are dismissed.
+No real photo is selected, processed or deleted; no phone screenshot is
+exported. At 19:49:24 the App crash log and services are empty. Phone remains
+on Photo Live overview.
+
+LIMITS
+No new physical-camera, USB hardware, Doze, actual-photo deletion or
+render-quality acceptance is claimed. Historical evidence keeps its scope.

@@ -1,0 +1,57 @@
+{
+  "environment": "nikon-d8girdjsr252fd90e",
+  "verifiedAt": "2026-10-19T03:08:44.561Z",
+  "checks": [
+    {
+      "method": "GET",
+      "path": "/personal/presets",
+      "status": 401
+    },
+    {
+      "method": "PUT",
+      "path": "/personal/presets/3c80a06a1d96246d44a1c13eee64b2fef1f931ca3ae506d96cd56616adaefb2b",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/personal/presets/3c80a06a1d96246d44a1c13eee64b2fef1f931ca3ae506d96cd56616adaefb2b",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/personal/presets",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/personal/presets/3c80a06a1d96246d44a1c13eee64b2fef1f931ca3ae506d96cd56616adaefb2b",
+      "status": 404
+    },
+    {
+      "kind": "anonymous bucket object",
+      "status": 404
+    },
+    {
+      "method": "PUT",
+      "path": "/personal/presets/3c80a06a1d96246d44a1c13eee64b2fef1f931ca3ae506d96cd56616adaefb2b",
+      "status": 200
+    },
+    {
+      "method": "DELETE",
+      "path": "/personal/presets/3c80a06a1d96246d44a1c13eee64b2fef1f931ca3ae506d96cd56616adaefb2b",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/personal/presets/3c80a06a1d96246d44a1c13eee64b2fef1f931ca3ae506d96cd56616adaefb2b",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/personal/presets",
+      "status": 200
+    }
+  ],
+  "exactFixtureIdentitiesRemoved": true,
+  "exactPrivateObjectRemoved": true
+}

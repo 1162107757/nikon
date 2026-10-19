@@ -1,0 +1,67 @@
+Nikon Preset 0.9.2-beta / versionCode 41
+2026-10-18 Asia/Shanghai
+STATUS: FINAL SOURCE/ARTIFACT, FOCUSED HOST AND SYNTHETIC NATIVE CHECKS RECORDED.
+PHONE OFFLINE; NO 0.9.2 INSTALLATION.
+APK: nikon-usb-0.9.2-beta-debug.apk
+Final artifact: 2,941,561 bytes, built 2026-10-18 00:34:41 +08:00.
+SHA-256 102262e27429b618ad3e4d4e0b6ae314f66d0f1f5c8b00d3b0a5de7e2eb06a99.
+Final source is unchanged; v2/v3 signature verification logs pass.
+
+IMPLEMENTED SCOPE
+The previous batch path accepted an effect as a new original, causing successive
+preset application to stack processing. processingOriginalFor now resolves the
+verified root original first, using visited identities and a 64-hop bound. Missing
+or damaged source links, cycles or excess depth fail closed. Existing sourceFor
+retains immediate-input semantics for hold-original comparison of old effects.
+Shared Batch normalizes inputs before rendering. The original and its effects
+are merged by root content plus chosen preset/model; derive and publication occur
+once for the same result. Applying A to effect A reuses the verified existing A;
+selecting B generates B from the root original. Gallery publication failures can
+retry and deleted targets can regenerate while the original remains valid.
+New reused/merged state drives existing-result/reuse/merge feedback. Confirmation
+explains that effects start from the original and identical work is not duplicated.
+Originals remain unchanged; this adds no new rendering algorithm or camera write.
+
+CURRENT HOST GROUPS: DO NOT ADD INTO AN ANDROID-CODEC TEST TOTAL
+128 photo-preset Batch checks; 62 source-link checks; 23 automatic queue checks.
+These are actual current runs; other historical suites are not claimed rerun.
+The stub explicitly uses a one-pixel payload, isolating control/source/deduplication
+logic rather than Android codec, actual MediaStore or physical-camera behaviour.
+Use tests/run-photo-presets.ps1 and tests/run-project-auto.ps1 as runner references;
+no nonexistent current persistent batch log is claimed.
+
+NATIVE EMULATOR
+Final package, Android17/API37, entirely offline with no camera connection.
+Persisted synthetic raw4 and Tone effect A from v0.9.1:
+A -> Tone: Existing Effect/Reused1, App and MediaStore totals remain two.
+A -> Identity B: exactly one new result, totals three.
+raw4 -> Identity: immediately Reused1, proving the same target as A -> B.
+Select raw+A+B -> Identity: completed3/3, reused1, merged2, one result, and both
+App directory and MediaStore still total three. SHA-256 values remain unchanged
+before/after reuse and merge:
+raw: 69aa06c23597830d0c68e2201d2fb9bbe3bc5912ce284e5d51abddf2b9bf2cbf
+A: 415ec7235e4216b9860783fe6677544f9d1ba0947860a14f5084517a6900a2dd
+B: 9fd0262f6c13e50d1169001a0d5ecddfec795e5b5918e22f7b729604ef98c7c3
+Confirmation wording and detail statistics are correct. Dark/font1.3 text is not
+clipped. Final emulator-only screenshots in .impeccable/review/ are visually checked:
+phone-apple-v092-reused.png, phone-apple-v092-merged.png,
+phone-apple-v092-merged-dark.png.
+Force-stop/cold start -> effect -> Identity again reuses one and totals stay three.
+These are successful actual Android codec/MediaStore paths, separate from host
+control tests. No native source corruption, target deletion or failure injection
+is performed; those are only host checks. No real photo/phone screenshot is used.
+VersionCode41/versionName0.9.2 and final full artifact SHA-256 are verified again.
+App crash filtering has zero matches: app/build/v092-crash-filter.log.
+Font scale1.0/night no are restored. App is force-stopped; this task's emulator
+receives emu-kill ACK and exits. The synthetic peer was initially started but
+had no camera session; Ctrl-C stops it. Native processing above is entirely offline
+using existing files. No new camera original transfer/write evidence is counted.
+Functional record: docs/device-review/preset-reapply-0.9.2-functional.log.
+
+PHONE
+Offline; no 0.9.2 installation or new phone UI/processing acceptance.
+
+LIMITS
+No new physical-camera, real-photo processing, physical screenshot export,
+background, lock-screen or Doze acceptance. Historical evidence keeps its original
+scope; native failure injection is not claimed from the successful offline checks.

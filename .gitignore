@@ -1,6 +1,7 @@
 .gradle/
 .tooling/
 .research/
+.community-pg-test/
 local.properties
 **/build/
 *.jks
@@ -8,3 +9,4 @@ local.properties
 .idea/
 tests/.build/
 tests/.build-ptpip/
+tests/personal-device-probe/*.apk*

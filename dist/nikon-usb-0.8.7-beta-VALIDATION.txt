@@ -1,0 +1,73 @@
+Nikon Preset 0.8.7-beta / versionCode 38
+2026-10-17 Asia/Shanghai
+STATUS: ARTIFACT AND SYNTHETIC NATIVE CHECKS VERIFIED; PHONE INSTALLED,
+VERSION/HASH AND MAINACTIVITY LAUNCH VERIFIED.
+APK: nikon-usb-0.8.7-beta-debug.apk
+Artifact: 2,876,025 bytes, built 2026-10-17 20:49:19 +08:00.
+SHA-256 e0b9e01b1ddff3da64b564d3bc97e6ab9c7116347d82aa9f4e185c4227662e69.
+Production build exits 0; APK v2/v3 signature verification passes.
+
+IMPLEMENTED SCOPE
+Native rounded nonmodal TopNotice uses UiPalette light/dark surfaces, one-line
+title, two-line description and 44dp action/dismiss targets. Base timeouts are
+4.5s normally and 8s for actions, respecting accessibility timeout settings.
+Updates replace/deduplicate notices; navigation, pause and destroy clear them.
+This includes page changes within Album. Action callbacks verify sourceRoute,
+preventing an obsolete Connect action from recreating a live intent after leaving.
+Root feedback shortens copy, exposes details where needed and deduplicates revisions.
+Missing camera/preset/photo selection/project, busy or receiving tasks, connection
+start/success/failure, photo-index preparation and short save results use notices.
+Actions offer connection, adding a preset, reading photos or viewing details.
+Disconnected preset import still opens its guide and retains selection until
+slot confirmation. Photo Live connection intent is created only by clicking the
+notice action; naming/confirmation still precedes reception. Long errors/failure
+lists, deletion/overwrite/same-camera recovery confirmation, background protection
+and project forms retain dialogs and existing confirmation protections.
+
+CHECK SCOPE
+No host or protocol suite is added or rerun. The previous 18 continuation checks
+and older suite totals remain historical evidence, not runs for this version.
+
+FINAL ARTIFACT: ANDROID 17 / API 37 EMULATOR
+Disconnected Live's Connect action opens Settings and creates the typed intent.
+Switching within Album to Downloaded clears the old notice/action.
+Port 15767 fails with a short Camera Connection Failed notice plus Details;
+only Details opens the raw ECONNREFUSED dialog. Retry on 15766 automatically
+opens New Project. It is not confirmed and no project is created.
+Missing-project info uses a normal notice which expires after about 4.5s.
+System dark mode/font scale 1.3 keeps text uncut; night no/font scale 1 are
+restored afterwards. HOME/return removes the previous notice and action.
+Synthetic PreviewTone import while disconnected opens its guide and notice;
+X dismisses the notice without losing pending import. Connection continues
+to C2 confirmation without pressing the final Import button.
+The subsequent same-session album handoff reads three synthetic entries and
+thumbnails. Apply with zero selected shows Please Select Photos; no processing.
+UI records: app/build/v087-live-resumed-ui.xml,
+app/build/v087-import-resumed-ui.xml.
+Emulator-only screenshots in .impeccable/review/:
+phone-apple-v087-route-dismiss.png, phone-apple-v087-connection-failed.png,
+phone-apple-v087-project-needed.png, phone-apple-v087-expired.png,
+phone-apple-v087-dark-large-text.png, phone-apple-v087-resumed-no-stale.png,
+phone-apple-v087-import-offline.png, phone-apple-v087-manual-close.png,
+phone-apple-v087-select-needed.png. Main screenshots were visually inspected.
+The earlier disconnected-visible image belongs to a candidate and is not
+counted as final-artifact evidence.
+Two server sessions each use one OpenSession; total closes=0/virtualWrites=0.
+No original is downloaded and no live project is created. Album enumeration
+does occur for the three entries above; this is not a zero-album-read run.
+App-related crash filtering has no match. Emulator and test service are stopped.
+
+PHONE: PRESERVE-DATA INSTALL / LAUNCH ONLY
+2026-10-17 21:14:26 +08:00, 286f0dba / PKG110 / Android 16.
+Service check before installation reports nothing; install -r succeeds.
+Version 38 / 0.8.7-beta and complete pm base.apk SHA-256 are verified:
+e0b9e01b1ddff3da64b564d3bc97e6ab9c7116347d82aa9f4e185c4227662e69,
+identical to the final artifact. am start MainActivity succeeds.
+No data clearing, physical-phone screenshot export, real-camera connection or
+photo operation is performed. This adds no physical top-notice UI acceptance.
+
+LIMITS
+HOME checks above validate popup cleanup only, not background photo transfer.
+No new physical-camera, USB write, Doze, lock-screen or physical-accessibility
+acceptance is claimed. No host/protocol suite is rerun; prior 18-check and
+older suite results remain historical evidence, not current runs.

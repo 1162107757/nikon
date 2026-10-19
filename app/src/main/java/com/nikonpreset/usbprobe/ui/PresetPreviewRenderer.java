@@ -12,7 +12,8 @@ import android.net.Uri;
 import android.util.AtomicFile;
 
 import com.nikonpreset.usbprobe.R;
-import com.nikonpreset.usbprobe.ncp.NcpPreviewProfile;
+import com.nikonpreset.usbprobe.ncp.PresetPreviewProfile;
+import com.nikonpreset.usbprobe.ncp.PresetPreviewProfiles;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -47,7 +48,7 @@ public final class PresetPreviewRenderer {
     }
 
     /** Main-thread safe: no image, disk, digest or pixel work. */
-    public String versionKey() { return NcpPreviewProfile.MODEL_VERSION + ':' + info.version; }
+    public String versionKey() { return PresetPreviewProfiles.MODEL_VERSION + ':' + info.version; }
     public String templateLabel() { return info.custom ? "自选模板" : "内置模板"; }
     public boolean hasCustomTemplate() { return info.custom; }
 
@@ -144,12 +145,33 @@ public final class PresetPreviewRenderer {
     }
 
     /** Returns a new bitmap; never modifies or publishes the cached template pixel array. */
-    public Bitmap render(byte[] ncp) throws IOException {
+    public Bitmap render(byte[] preset) throws IOException { return render(preset, MAX_EDGE); }
+
+    /** Cards colour a smaller input; opening a detail never reuses an enlarged card bitmap. */
+    public Bitmap render(byte[] preset, int maxEdge) throws IOException {
+        if (maxEdge < 128 || maxEdge > MAX_EDGE) throw new IllegalArgumentException("Preview edge must be 128..960.");
         try {
-            NcpPreviewProfile profile = NcpPreviewProfile.fromNcp(ncp);
+            PresetPreviewProfile profile = PresetPreviewProfiles.fromPreset(preset);
             TemplatePixels template = snapshot();
-            int[] output = profile.render(template.argb, template.width, template.height);
-            return Bitmap.createBitmap(output, template.width, template.height, Bitmap.Config.ARGB_8888);
+            int width = template.width, height = template.height;
+            int[] input = template.argb;
+            if (Math.max(width, height) > maxEdge) {
+                float scale = maxEdge / (float) Math.max(width, height);
+                int nextWidth = Math.max(1, Math.round(width * scale)), nextHeight = Math.max(1, Math.round(height * scale));
+                Bitmap original = Bitmap.createBitmap(input, width, height, Bitmap.Config.ARGB_8888);
+                Bitmap reduced = null;
+                try {
+                    reduced = Bitmap.createScaledBitmap(original, nextWidth, nextHeight, true);
+                    input = new int[nextWidth * nextHeight];
+                    reduced.getPixels(input, 0, nextWidth, 0, 0, nextWidth, nextHeight);
+                    width = nextWidth; height = nextHeight;
+                } finally {
+                    if (reduced != null && reduced != original) reduced.recycle();
+                    original.recycle();
+                }
+            }
+            int[] output = profile.render(input, width, height);
+            return Bitmap.createBitmap(output, width, height, Bitmap.Config.ARGB_8888);
         } catch (OutOfMemoryError unavailable) {
             throw new IOException("暂时没有足够内存模拟预设，请稍后重试。", unavailable);
         }

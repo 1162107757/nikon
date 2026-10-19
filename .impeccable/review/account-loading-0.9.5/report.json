@@ -1,0 +1,54 @@
+{
+  "testedAt": "2026-10-18T02:28:41.495Z",
+  "passed": true,
+  "cases": [
+    {
+      "name": "register-light",
+      "screen": "register",
+      "state": "working",
+      "night": "no",
+      "font": "1.0",
+      "passed": true
+    },
+    {
+      "name": "login-light",
+      "screen": "login",
+      "state": "working",
+      "night": "no",
+      "font": "1.0",
+      "passed": true
+    },
+    {
+      "name": "profile-light",
+      "screen": "profile",
+      "state": "working",
+      "night": "no",
+      "font": "1.0",
+      "passed": true
+    },
+    {
+      "name": "register-dark-large",
+      "screen": "register",
+      "state": "working",
+      "night": "yes",
+      "font": "1.3",
+      "passed": true
+    },
+    {
+      "name": "login-large",
+      "screen": "login",
+      "state": "working",
+      "night": "no",
+      "font": "1.5",
+      "passed": true
+    },
+    {
+      "name": "login-restoring",
+      "screen": "login",
+      "state": "restoring",
+      "night": "no",
+      "font": "1.0",
+      "passed": true
+    }
+  ]
+}

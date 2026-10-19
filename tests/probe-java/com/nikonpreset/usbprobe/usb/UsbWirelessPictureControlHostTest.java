@@ -63,6 +63,9 @@ public final class UsbWirelessPictureControlHostTest {
         unconfirmedAndNonRecoverableHeartbeatErrorsAreTerminal();
         firstPostImportGeneralErrorDoesNotCloseOrBlockTheNextExplicitImport();
         generalErrorDuringAWriteCannotUseHeartbeatRecovery();
+        preparedPresetCanBrowseAndReturnForAFreshExplicitOverwrite();
+        returningFromAlbumCannotReuseAnOldOverwriteConfirmation();
+        cancelledOrFailedPreparedTransferCannotEscapeAnotherOwner();
         ncpImportRecomputesPrivateSourceAndChecksTheEmptySlotTwice();
         invalidInputsNeverOpenSockets();
         unsupportedCamerasAndOccupiedSlotsNeverWrite();
@@ -433,6 +436,10 @@ public final class UsbWirelessPictureControlHostTest {
             try {
                 service.releasePrepared();
                 throw new AssertionError("Expected cleanup exclusion during registration");
+            } catch (IllegalStateException expected) { checks++; }
+            try {
+                service.transferPreparedToAlbum();
+                throw new AssertionError("Expected album ownership-transfer exclusion during registration");
             } catch (IllegalStateException expected) { checks++; }
             equal(commandsAtWrite, camera.commands.size());
         } finally {
@@ -1220,6 +1227,102 @@ public final class UsbWirelessPictureControlHostTest {
         camera.assertClosed();
     }
 
+    private static void preparedPresetCanBrowseAndReturnForAFreshExplicitOverwrite() throws Exception {
+        Camera camera = new Camera(); camera.advertiseAlbum = true; camera.refuseAfterCloseSession = true;
+        byte[] original = occupiedPreset("CONFIRMED OLD"); camera.slots.put(TARGET, original);
+        WirelessPictureControl firstService = new WirelessPictureControl(camera::connect);
+        firstService.prepareImport(HOST, PORT, GUID);
+        UsbPictureControlImport.Result first = firstService.importPreparedNcpPresetKeepingConnection(
+                NcpCompatibilityFixtures.ncp(), 4, -4, TARGET, new PictureControlImportSession.OverwriteConfirmation(TARGET, original));
+        check(first.completed && first.sessionRetainedAfterImport, "A verified import leaves owned preset state available for browsing");
+        int beforeHandoff = camera.commands.size();
+        PtpIpClient album = firstService.transferPreparedToAlbum();
+        check(!firstService.isPrepared() && !firstService.hasPreparedSession() && album.isOpen(),
+                "Returning to album revokes the old wrapper and moves its live owned physical connection");
+        equal(beforeHandoff, camera.commands.size());
+        firstService.close();
+        check(album.isOpen(), "Closing an obsolete preset wrapper cannot close its returned album connection");
+        int beforeOldImport = camera.commands.size(); expectPreparedImportFailure(firstService); equal(beforeOldImport, camera.commands.size());
+        long next = album.claimTransferredAlbumSession();
+        check(next > camera.commands.get(beforeHandoff - 1).transaction, "Album inherits the next transaction after verified registration readback");
+        album.readAlbumDeviceInfo();
+        equal(le32(0), album.getData(0x1004, 64));
+        equal(concat(le32(1), le32(42)), album.getData(0x1007, 64, 1, 0x3801, 0));
+        equal(camera.albumThumbnail, album.getLargeThumbnail(42));
+        equal(0L, camera.count(0x1009));
+        equal(0L, camera.count(0x1003));
+        equal(1L, camera.count(0x1002));
+        equal(2, camera.connectionAttempts);
+        PtpIpClient returned = album.transferToPictureControl();
+        WirelessPictureControl secondService = new WirelessPictureControl(camera::connect);
+        UsbPictureControlProbe.Result refreshed = secondService.prepareFromHandoff(returned, HOST, PORT, true);
+        album.close(); album.abortProtocol(new IOException("obsolete album callback"));
+        check(secondService.isPrepared(), "Stale album callbacks cannot invalidate the returned preset owner");
+        byte[] current = refreshed.items.stream().filter(item -> item.itemCode == TARGET).findFirst().orElseThrow().rawBytes();
+        UsbPictureControlImport.Result second = secondService.importPreparedNcpPresetKeepingConnection(
+                NcpCompatibilityFixtures.ncp(), 0, 0, TARGET, new PictureControlImportSession.OverwriteConfirmation(TARGET, current));
+        check(second.completed && second.initialTargetMatched && second.recheckTargetMatched && second.freshCapabilityVerified,
+                "Returning from album still requires a new complete read plan and explicit current-target confirmation");
+        equal(2L, camera.count(0x90cd));
+        equal(2, camera.uploads.size());
+        equal(0L, camera.count(0x1003));
+        equal(1L, camera.count(0x1002));
+        equal(2, camera.connectionAttempts);
+        assertMonotonicOwnedTransactions(camera);
+        secondService.releasePrepared();
+        equal(1L, camera.count(0x1003));
+        camera.assertClosed();
+    }
+
+    private static void returningFromAlbumCannotReuseAnOldOverwriteConfirmation() throws Exception {
+        Camera camera = new Camera();
+        byte[] original = occupiedPreset("CONFIRMED OLD"); camera.slots.put(TARGET, original);
+        PictureControlImportSession.OverwriteConfirmation old = new PictureControlImportSession.OverwriteConfirmation(TARGET, original);
+        WirelessPictureControl firstService = new WirelessPictureControl(camera::connect);
+        firstService.prepareImport(HOST, PORT, GUID);
+        firstService.importPreparedNcpPresetKeepingConnection(NcpCompatibilityFixtures.ncp(), 4, -4, TARGET, old);
+        PtpIpClient album = firstService.transferPreparedToAlbum(); album.claimTransferredAlbumSession();
+        album.readAlbumDeviceInfo();
+        WirelessPictureControl nextService = new WirelessPictureControl(camera::connect);
+        nextService.prepareFromHandoff(album.transferToPictureControl(), HOST, PORT, true);
+        try {
+            nextService.importPreparedNcpPresetKeepingConnection(NcpCompatibilityFixtures.ncp(), 0, 0, TARGET, old);
+            throw new AssertionError("Expected pre-browse occupied-slot proof to reject changed current contents");
+        } catch (UsbPictureControlImport.ImportException error) {
+            check(!error.partialResult.writeAttempted && !error.partialResult.initialTargetMatched,
+                    "Browsing cannot make a stale overwrite confirmation valid again");
+        }
+        equal(1L, camera.count(0x90cd));
+        equal(2, camera.connectionAttempts);
+        equal(1L, camera.count(0x1002));
+        camera.assertClosed();
+    }
+
+    private static void cancelledOrFailedPreparedTransferCannotEscapeAnotherOwner() throws Exception {
+        for (boolean eventFailure : new boolean[] {false, true}) {
+            Camera camera = new Camera();
+            PtpIpClient initialAlbum = new PtpIpClient(camera::connect);
+            initialAlbum.connect(HOST, PORT, GUID, "Synthetic album");
+            PtpIpClient preparedOwner = initialAlbum.transferToPictureControl();
+            WirelessPictureControl service = new WirelessPictureControl(camera::connect);
+            service.prepareFromHandoff(preparedOwner, HOST, PORT, true);
+            PtpIpClient[] escaped = {null};
+            if (eventFailure) {
+                CountDownLatch failed = new CountDownLatch(1); preparedOwner.setOnClosed(failed::countDown);
+                camera.sockets.get(1).input.close();
+                check(failed.await(5, TimeUnit.SECONDS), "The prepared owner's event failure is confirmed before transfer is attempted");
+            } else Thread.currentThread().interrupt();
+            try {
+                escaped[0] = service.transferPreparedToAlbum();
+                throw new AssertionError("Expected a cancelled or disconnected prepared owner to refuse album handoff");
+            } catch (IOException expected) { checks++; }
+            finally { Thread.interrupted(); service.close(); if (escaped[0] != null) escaped[0].close(); }
+            equal(0L, camera.count(0x90cd));
+            equal(2, camera.connectionAttempts);
+            camera.assertClosed();
+        }
+    }
+
     private static void assertFreshReadSnapshot(List<Command> commands) {
         equal(0x1001, commands.get(0).operation);
         check(commands.stream().anyMatch(command -> command.operation == 0x90cf),
@@ -1490,6 +1593,8 @@ public final class UsbWirelessPictureControlHostTest {
         final Map<Integer, Integer> reads = new HashMap<>();
         final CountDownLatch blocked = new CountDownLatch(1);
         String model = "NIKON Z 6II";
+        boolean advertiseAlbum;
+        final byte[] albumThumbnail = {(byte) 0xff, (byte) 0xd8, 1, 2, 3, 4, (byte) 0xff, (byte) 0xd9};
         int missingOperation = -1, writeResponse = 0x2001, cleanupResponse = 0x2001, openResponse = 0x2001;
         String fault = "";
         boolean race;
@@ -1591,8 +1696,10 @@ public final class UsbWirelessPictureControlHostTest {
                 return;
             }
             byte[] bytes;
-            if (operation == 0x1001) bytes = deviceInfo(model, missingOperation);
+            if (operation == 0x1001) bytes = deviceInfo(model, missingOperation, advertiseAlbum);
             else if (operation == 0x1004) bytes = le32(0);
+            else if (operation == 0x1007) bytes = concat(le32(1), le32(42));
+            else if (operation == 0x100a || operation == 0x90c4) bytes = albumThumbnail.clone();
             else if (operation == 0x90ca) bytes = le32(0);
             else if (operation == 0x90cf) {
                 if (fault.equals("lost_capability")) return;
@@ -1718,8 +1825,9 @@ public final class UsbWirelessPictureControlHostTest {
     }
 
     private static byte[] standard() { byte[] bytes = new byte[36]; bytes[0] = 1; return bytes; }
-    private static byte[] deviceInfo(String model, int missing) {
-        int[] supported = {0x1001, 0x1002, 0x1003, 0x90ca, 0x90cc, 0x90cd, 0x90cf};
+    private static byte[] deviceInfo(String model, int missing, boolean album) {
+        int[] supported = album ? new int[] {0x1001, 0x1002, 0x1003, 0x90ca, 0x90cc, 0x90cd, 0x90cf, 0x1004, 0x1007, 0x1008, 0x1009, 0x100a, 0x90c4}
+                : new int[] {0x1001, 0x1002, 0x1003, 0x90ca, 0x90cc, 0x90cd, 0x90cf};
         Writer writer = new Writer().u16(100).u32(10).u16(100).string("").u16(0);
         int count = 0;
         for (int operation : supported) if (operation != missing) count++;

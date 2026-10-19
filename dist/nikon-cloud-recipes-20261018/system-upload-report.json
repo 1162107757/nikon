@@ -1,0 +1,2425 @@
+{
+  "source": "https://github.com/shouryan01/Nikon-Recipes",
+  "archive_sha256": "2f0ee976bf8026be25120c89863dbfd727f667a429a5a213c497be3d537b8367",
+  "newly_published": 240,
+  "new_formats": {
+    "NP3": 236,
+    "NCP": 4
+  },
+  "public_catalog_count": 241,
+  "public_downloads_sha256_verified": 240,
+  "public_details_verified": 240,
+  "existing_presets_preserved": [
+    {
+      "id": "b798456f-e181-4944-95c0-f91a6cd0763c",
+      "status": "published",
+      "revision": 2,
+      "publishedRevision": 2,
+      "sha256": "2bab29630bbc537025c5daf68f6b7ab90a866e5c97e6dc7430dd4fe4ad547eb6"
+    }
+  ],
+  "download_verified_at": "2026-10-18T12:53:15.122Z",
+  "detail_verified_at": "2026-10-18T12:53:55.802Z",
+  "items": [
+    {
+      "id": "d082435d-1698-44c2-b552-21b8220393eb",
+      "name": "BleachBypass_01a",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Color Grading/BleachBypass_01a.NP3",
+      "category": "云创调色",
+      "sha256": "d64de018e668077a350de019c7ae70fc55e173e0141d46a71a27a2b3ce5e65af",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-d64de018e668077a350de019c7ae70fc55e173e0141d46a71a27a2b3ce5e65af.np3"
+    },
+    {
+      "id": "9f2f78a3-c6e2-418d-bf3e-97a2b71abafa",
+      "name": "ClrMode_Bu_01a",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Color Grading/ClrMode_Bu_01a.NP3",
+      "category": "云创调色",
+      "sha256": "a639759c7de02cfed48cd3ea17c607e4275eea49b28598bd926f31483c442d7a",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-a639759c7de02cfed48cd3ea17c607e4275eea49b28598bd926f31483c442d7a.np3"
+    },
+    {
+      "id": "72c11637-f64d-4a00-94b4-98a454313448",
+      "name": "ClrMode_Bu_01b",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Color Grading/ClrMode_Bu_01b.NP3",
+      "category": "云创调色",
+      "sha256": "daf827ed0397e2e15f1909bef63fa00729c91128abb6f14ea071db0211c15787",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-daf827ed0397e2e15f1909bef63fa00729c91128abb6f14ea071db0211c15787.np3"
+    },
+    {
+      "id": "9cc71c48-0a2e-40f2-a9ae-1e0f2e46929f",
+      "name": "ClrMode_Gn_01a",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Color Grading/ClrMode_Gn_01a.NP3",
+      "category": "云创调色",
+      "sha256": "5ef3dafc6885d39d7e34a7e62b0b4131660e54579d9d8e5f04fdbaa05fd1e7b8",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-5ef3dafc6885d39d7e34a7e62b0b4131660e54579d9d8e5f04fdbaa05fd1e7b8.np3"
+    },
+    {
+      "id": "9aeb8dfa-b52f-4d4d-a171-7afa58143d1e",
+      "name": "ClrMode_Gn_01b",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Color Grading/ClrMode_Gn_01b.NP3",
+      "category": "云创调色",
+      "sha256": "a1d2fe599c9acade39644e69f84e818b860d5af38726db44125f6fbef25f0198",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-a1d2fe599c9acade39644e69f84e818b860d5af38726db44125f6fbef25f0198.np3"
+    },
+    {
+      "id": "9a362d47-6fa3-43f3-b483-12f6da0d6fbb",
+      "name": "ClrMode_TealOr_01a",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Color Grading/ClrMode_TealOr_01a.NP3",
+      "category": "云创调色",
+      "sha256": "be85cf19cfb80eb9dc6a9046b8820ffb9c8f577edf6b97e420ceaf0b4e29d1f3",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-be85cf19cfb80eb9dc6a9046b8820ffb9c8f577edf6b97e420ceaf0b4e29d1f3.np3"
+    },
+    {
+      "id": "a3a28828-4f6c-4ec1-8446-bb724477e7ca",
+      "name": "ClrMode_TealOr_01b",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Color Grading/ClrMode_TealOr_01b.NP3",
+      "category": "云创调色",
+      "sha256": "63b44a6be0deefdb9c7ccb7085cf01e5ce7cbd7aaaa3a8a921ab6ce7e2a2d964",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-63b44a6be0deefdb9c7ccb7085cf01e5ce7cbd7aaaa3a8a921ab6ce7e2a2d964.np3"
+    },
+    {
+      "id": "277544f4-5abe-4df5-b4e3-90b09659543a",
+      "name": "ClrMode_Ye_01a",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Color Grading/ClrMode_Ye_01a.NP3",
+      "category": "云创调色",
+      "sha256": "6feef074d0631c00895212c23f9a916538df7efe4ab1feec403beb9bd3634029",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-6feef074d0631c00895212c23f9a916538df7efe4ab1feec403beb9bd3634029.np3"
+    },
+    {
+      "id": "e618526e-0520-4bc8-8265-5da9b8724281",
+      "name": "ClrMode_Ye_01b",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Color Grading/ClrMode_Ye_01b.NP3",
+      "category": "云创调色",
+      "sha256": "0cfd5459d7aa19fb616f4894e2f499d36a59a3143765426856a89cbc35a01134",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-0cfd5459d7aa19fb616f4894e2f499d36a59a3143765426856a89cbc35a01134.np3"
+    },
+    {
+      "id": "458e5d91-0ec8-4a0e-8d04-6fa795a51401",
+      "name": "Negative_Bu_01a",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Color Grading/Negative_Bu_01a.NP3",
+      "category": "云创调色",
+      "sha256": "29518e97e6f21412f2dc2f975dcf71edc8221b3f8f42eb53dace13162d7d365e",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-29518e97e6f21412f2dc2f975dcf71edc8221b3f8f42eb53dace13162d7d365e.np3"
+    },
+    {
+      "id": "42ede5d2-5370-4d3b-b12d-ac79caeb3fb1",
+      "name": "Negative_Bu_01b",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Color Grading/Negative_Bu_01b.NP3",
+      "category": "云创调色",
+      "sha256": "840f0022af4956d11ecc5d65c0b75cfaa813691c0c88a04df3005a7b017ab259",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-840f0022af4956d11ecc5d65c0b75cfaa813691c0c88a04df3005a7b017ab259.np3"
+    },
+    {
+      "id": "d62dcc24-ff79-4573-97bb-15c76de4122b",
+      "name": "Negative_CyBu_01a",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Color Grading/Negative_CyBu_01a.NP3",
+      "category": "云创调色",
+      "sha256": "9fd8b977e9e5760f17c3599c37925f53199f601d4ee8ec4d4bb82749bc38835d",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-9fd8b977e9e5760f17c3599c37925f53199f601d4ee8ec4d4bb82749bc38835d.np3"
+    },
+    {
+      "id": "25e0c143-5be5-4ea3-859b-ca77c62fd2c2",
+      "name": "Negative_CyBu_01b",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Color Grading/Negative_CyBu_01b.NP3",
+      "category": "云创调色",
+      "sha256": "35d4015bb8da511be7367de3b2a69f72b31a89e1414e5da0d77eb42b98665365",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-35d4015bb8da511be7367de3b2a69f72b31a89e1414e5da0d77eb42b98665365.np3"
+    },
+    {
+      "id": "581d6c18-a2d4-4342-865b-01fbda64619d",
+      "name": "Negative_Cy_01a",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Color Grading/Negative_Cy_01a.NP3",
+      "category": "云创调色",
+      "sha256": "49ad5a57c2303f73c92d17e70673167bdf4bd028b43e2735a89b1a01e5dab93e",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-49ad5a57c2303f73c92d17e70673167bdf4bd028b43e2735a89b1a01e5dab93e.np3"
+    },
+    {
+      "id": "a782170b-447a-4d5e-897f-ca56e3543301",
+      "name": "Negative_GnCy_01a",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Color Grading/Negative_GnCy_01a.NP3",
+      "category": "云创调色",
+      "sha256": "18fb2a3d0cceeea1de7d6e59c9e175c19fef85334c97bd63b98f1cc24263e332",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-18fb2a3d0cceeea1de7d6e59c9e175c19fef85334c97bd63b98f1cc24263e332.np3"
+    },
+    {
+      "id": "b17f26f3-8684-4a22-bdce-3f5b7f66c50f",
+      "name": "Negative_GnCy_01b",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Color Grading/Negative_GnCy_01b.NP3",
+      "category": "云创调色",
+      "sha256": "b71ea011085eb9483ba3a99e446c27c5f29fa8ae7eb71e7cabe3f5c504971ffc",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-b71ea011085eb9483ba3a99e446c27c5f29fa8ae7eb71e7cabe3f5c504971ffc.np3"
+    },
+    {
+      "id": "ec2885b9-72c7-4418-bf39-05556623b21b",
+      "name": "Negative_RdCy_01a",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Color Grading/Negative_RdCy_01a.NP3",
+      "category": "云创调色",
+      "sha256": "0d153ea30f22fcacbf871c2c00ba2ed6de2bba2fd4c955ecb694264d0893d31a",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-0d153ea30f22fcacbf871c2c00ba2ed6de2bba2fd4c955ecb694264d0893d31a.np3"
+    },
+    {
+      "id": "85ab8a3d-20e1-4936-a5d2-ef83f4dd1ce4",
+      "name": "Negative_RdCy_01b",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Color Grading/Negative_RdCy_01b.NP3",
+      "category": "云创调色",
+      "sha256": "8ecd7478f0c4e89801af69038b70dbbfa6ff385089793ce5f6a3006a7790c7a2",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-8ecd7478f0c4e89801af69038b70dbbfa6ff385089793ce5f6a3006a7790c7a2.np3"
+    },
+    {
+      "id": "7e9e33d0-3a10-400d-b7fe-6b62e39de7d8",
+      "name": "Negative_T_01a",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Color Grading/Negative_T_01a.NP3",
+      "category": "云创调色",
+      "sha256": "df02fc08c4bc0700a2b4866302ae3e470ae6721ea12b6ed095ff5c4c804ee1dd",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-df02fc08c4bc0700a2b4866302ae3e470ae6721ea12b6ed095ff5c4c804ee1dd.np3"
+    },
+    {
+      "id": "4769de2a-ae0c-47ce-9cb2-ba3dd3df633b",
+      "name": "Negative_T_01b",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Color Grading/Negative_T_01b.NP3",
+      "category": "云创调色",
+      "sha256": "5346fb105e90491cc53c2b0dccc905078c0700a0eedc0820697fd74cda93a0e0",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-5346fb105e90491cc53c2b0dccc905078c0700a0eedc0820697fd74cda93a0e0.np3"
+    },
+    {
+      "id": "42f520a5-c619-4451-bed3-f1a36d2545e9",
+      "name": "Negative_YeCy_01a",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Color Grading/Negative_YeCy_01a.NP3",
+      "category": "云创调色",
+      "sha256": "4dfee0410c27dc37fff929ab17d6b0e9686ea9be090bcd570ac73860b8dfcaac",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-4dfee0410c27dc37fff929ab17d6b0e9686ea9be090bcd570ac73860b8dfcaac.np3"
+    },
+    {
+      "id": "d8621ad6-c8d8-41ae-ad87-a0251c2aca3c",
+      "name": "Negative_YeCy_02a",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Color Grading/Negative_YeCy_02a.NP3",
+      "category": "云创调色",
+      "sha256": "97319e83787f91dd40b852c4cdbad8a3277c0cf629ef5da0ae0078e0086c3cbc",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-97319e83787f91dd40b852c4cdbad8a3277c0cf629ef5da0ae0078e0086c3cbc.np3"
+    },
+    {
+      "id": "27acd121-7528-47fa-82e0-887cb8706a3e",
+      "name": "Negative_YeGn_01a",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Color Grading/Negative_YeGn_01a.NP3",
+      "category": "云创调色",
+      "sha256": "0b215aae32973c89277085fa46e0f0477ce1f57f9e6d8e461954490710e68c00",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-0b215aae32973c89277085fa46e0f0477ce1f57f9e6d8e461954490710e68c00.np3"
+    },
+    {
+      "id": "37770562-d6ce-43c2-8451-8471d050ab7e",
+      "name": "Negative_YeGn_01b",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Color Grading/Negative_YeGn_01b.NP3",
+      "category": "云创调色",
+      "sha256": "d57ebc861a480613a4c41e56707c3fe9099c7ed57ac5208f554df581f27b530b",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-d57ebc861a480613a4c41e56707c3fe9099c7ed57ac5208f554df581f27b530b.np3"
+    },
+    {
+      "id": "953743c6-05dd-4118-b5c3-7a457fb678c5",
+      "name": "Negative_Ye_01a",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Color Grading/Negative_Ye_01a.NP3",
+      "category": "云创调色",
+      "sha256": "e111749a9abf332419f0295dc7ea147ed02130e1326ced47f25911878e37a67f",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-e111749a9abf332419f0295dc7ea147ed02130e1326ced47f25911878e37a67f.np3"
+    },
+    {
+      "id": "84e59c90-be93-47b1-b950-71838d24d9b9",
+      "name": "Negative_Ye_01b",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Color Grading/Negative_Ye_01b.NP3",
+      "category": "云创调色",
+      "sha256": "352e261371056436ec9a27f6f1b1b5a07a518d4fae505685aa41bd1c0853beec",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-352e261371056436ec9a27f6f1b1b5a07a518d4fae505685aa41bd1c0853beec.np3"
+    },
+    {
+      "id": "c319d552-d8c3-49bb-b791-5aef033e83ac",
+      "name": "Negative_Ye_02a",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Color Grading/Negative_Ye_02a.NP3",
+      "category": "云创调色",
+      "sha256": "2aa6682835d5a10cb8897f493ca26ff2b04625c63cbaf4b1b3de0c4579a721e6",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-2aa6682835d5a10cb8897f493ca26ff2b04625c63cbaf4b1b3de0c4579a721e6.np3"
+    },
+    {
+      "id": "de53cc37-d8bb-4809-9e67-90b45207bf05",
+      "name": "Negative_Ye_02b",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Color Grading/Negative_Ye_02b.NP3",
+      "category": "云创调色",
+      "sha256": "fa2d0ef7d008be41fd2d3c55cec9d472c9cc2594f85a5b3060965e3f0fda7f23",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-fa2d0ef7d008be41fd2d3c55cec9d472c9cc2594f85a5b3060965e3f0fda7f23.np3"
+    },
+    {
+      "id": "4421f94e-0538-480d-a07c-04ff06cdb0bf",
+      "name": "Negative_Ye_03a",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Color Grading/Negative_Ye_03a.NP3",
+      "category": "云创调色",
+      "sha256": "3e9250df2f40d99f0f5b56bbda739476cf45a73112a36ab7ad6e66118cea262b",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-3e9250df2f40d99f0f5b56bbda739476cf45a73112a36ab7ad6e66118cea262b.np3"
+    },
+    {
+      "id": "c8957545-825d-4851-bf31-154e82733a02",
+      "name": "Negative_Ye_03b",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Color Grading/Negative_Ye_03b.NP3",
+      "category": "云创调色",
+      "sha256": "9c082e48adb3040933c2375335aeaa26621f35dd22b6067c1d12dff06e6dc737",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-9c082e48adb3040933c2375335aeaa26621f35dd22b6067c1d12dff06e6dc737.np3"
+    },
+    {
+      "id": "632b3737-b1dd-4d8d-8318-b401d79855d9",
+      "name": "24Look_24Frames",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/24Look_24Frames.NP3",
+      "category": "云创创作者",
+      "sha256": "ebaaf0af106c38bee6e7d34c2ec68d52c142102a0fb1fce45c6db8cee1e01935",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-ebaaf0af106c38bee6e7d34c2ec68d52c142102a0fb1fce45c6db8cee1e01935.np3"
+    },
+    {
+      "id": "9505aa19-1f3e-4d7a-b6d0-010ad1c76230",
+      "name": "AirGreen_Gunji",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/AirGreen_Gunji.NP3",
+      "category": "云创创作者",
+      "sha256": "e8750ff77a236683be89e848abb42c521d8315cbc2606e79159cfd375b43688c",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-e8750ff77a236683be89e848abb42c521d8315cbc2606e79159cfd375b43688c.np3"
+    },
+    {
+      "id": "0ae97917-0345-4057-b118-459e5ec66120",
+      "name": "At Dusk_Woo",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/At Dusk_Woo.NP3",
+      "category": "云创创作者",
+      "sha256": "afbee25d06e5bf888a2a55df3e1049230299f635925a0027c24c436f1ce88d1a",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-afbee25d06e5bf888a2a55df3e1049230299f635925a0027c24c436f1ce88d1a.np3"
+    },
+    {
+      "id": "a1635565-ebfc-4c4b-a6ff-672027778de0",
+      "name": "BleachBlue_Aparupa",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/BleachBlue_Aparupa.NP3",
+      "category": "云创创作者",
+      "sha256": "74824fd754990adf019e63514d6ef545faa36c621c43eaabb197cdab63ff1ccb",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-74824fd754990adf019e63514d6ef545faa36c621c43eaabb197cdab63ff1ccb.np3"
+    },
+    {
+      "id": "78cc5f79-4a65-43bf-88e1-c35275234296",
+      "name": "BlueHour_Luna",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/BlueHour_Luna.NP3",
+      "category": "云创创作者",
+      "sha256": "97ac746b1c47de892f304d10859d14b5ad8bf9a30b2757afaf39c3870d629ee7",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-97ac746b1c47de892f304d10859d14b5ad8bf9a30b2757afaf39c3870d629ee7.np3"
+    },
+    {
+      "id": "502f665d-3492-46f6-9ed1-c0bf1bf110cc",
+      "name": "BlueM_LUIZCLAS",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/BlueM_LUIZCLAS.NP3",
+      "category": "云创创作者",
+      "sha256": "8ba7a29c629d5f4d8398ec533037c002a44a6a76d1eef231bc72c237fedd772c",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-8ba7a29c629d5f4d8398ec533037c002a44a6a76d1eef231bc72c237fedd772c.np3"
+    },
+    {
+      "id": "683e1d24-57c4-43f9-8d9b-a3e885e88db1",
+      "name": "Bluegrain_jyota",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/Bluegrain_jyota.NP3",
+      "category": "云创创作者",
+      "sha256": "1cea7a90bfa80fdd3d68b7e6dbe371a5993447a12be85026eca4251f0a273999",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-1cea7a90bfa80fdd3d68b7e6dbe371a5993447a12be85026eca4251f0a273999.np3"
+    },
+    {
+      "id": "5883f63c-6eee-4045-a4c6-63d57d178a0b",
+      "name": "BohoLook_EmilieH",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/BohoLook_EmilieH.NP3",
+      "category": "云创创作者",
+      "sha256": "c75b23fa01cfe728603ce25b393d954625784cf645f2b5d110b10059eddb9c7c",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-c75b23fa01cfe728603ce25b393d954625784cf645f2b5d110b10059eddb9c7c.np3"
+    },
+    {
+      "id": "baf65dec-e67a-41e3-a355-0fa9419fd4bb",
+      "name": "BritFilmBW_Vincent",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/BritFilmBW_Vincent.NP3",
+      "category": "云创创作者",
+      "sha256": "16eeb407890ee48c68d946b271b397667c29a7f9a0e35a2532673a4eb94ae9b9",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-16eeb407890ee48c68d946b271b397667c29a7f9a0e35a2532673a4eb94ae9b9.np3"
+    },
+    {
+      "id": "4e6e009a-0084-47ad-89fa-64c68a583e0e",
+      "name": "CINENigRed_Fuji",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/CINENigRed_Fuji.NP3",
+      "category": "云创创作者",
+      "sha256": "de9452a2ac9d89889b5928d41025f326c3122ee2d33257c991e50dd06644a046",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-de9452a2ac9d89889b5928d41025f326c3122ee2d33257c991e50dd06644a046.np3"
+    },
+    {
+      "id": "24b1620c-a2fa-4533-ac18-c1c4ce55ae3e",
+      "name": "CRYSClear_Eisuke",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/CRYSClear_Eisuke.NP3",
+      "category": "云创创作者",
+      "sha256": "e3ce58235c9ac70eed28597199f79b8782a57aba166f77464993cb44473efca8",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-e3ce58235c9ac70eed28597199f79b8782a57aba166f77464993cb44473efca8.np3"
+    },
+    {
+      "id": "89a71d7a-c504-4a93-b835-a83eae352a22",
+      "name": "CafeCat_yw",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/CafeCat_yw.NP3",
+      "category": "云创创作者",
+      "sha256": "20f80e055fc77119286a3d7ee6bc53493ed4cf1f2642681d8375582971379e46",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-20f80e055fc77119286a3d7ee6bc53493ed4cf1f2642681d8375582971379e46.np3"
+    },
+    {
+      "id": "ab0c0aa4-ad35-4215-82a0-acac8701cb06",
+      "name": "CallItLove_Faloo Mi",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/CallItLove_Faloo Mi.NP3",
+      "category": "云创创作者",
+      "sha256": "42fad565ee8fe31735a58402bc9fdd2bae74d2ad5c7f562fa868358f59398084",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-42fad565ee8fe31735a58402bc9fdd2bae74d2ad5c7f562fa868358f59398084.np3"
+    },
+    {
+      "id": "3a23b2dc-8193-4a2e-bf55-c6e43f243112",
+      "name": "CalmBreeze_Dondre",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/CalmBreeze_Dondre.NP3",
+      "category": "云创创作者",
+      "sha256": "3f5933609459737c4db2c86079673c7a7c6b3db4beb8f90eace47a2774ed92de",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-3f5933609459737c4db2c86079673c7a7c6b3db4beb8f90eace47a2774ed92de.np3"
+    },
+    {
+      "id": "9cdfdabd-1ce5-4574-963b-ee58c85e39c5",
+      "name": "Catgrain_yw",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/Catgrain_yw.NP3",
+      "category": "云创创作者",
+      "sha256": "7b742d5116d99dfa2e17910cac89514a4e3edc7849110e1139dae6ba7a6429d2",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-7b742d5116d99dfa2e17910cac89514a4e3edc7849110e1139dae6ba7a6429d2.np3"
+    },
+    {
+      "id": "eceaad08-45ca-4d7e-8196-a9e8b1536c10",
+      "name": "CineAchromic",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/CineAchromic.NP3",
+      "category": "云创创作者",
+      "sha256": "37e2fffd5b8743416192bc3ee05da9fb86ed93363af49eaed28b45ef2df8c2c3",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-37e2fffd5b8743416192bc3ee05da9fb86ed93363af49eaed28b45ef2df8c2c3.np3"
+    },
+    {
+      "id": "17647a5e-5500-43d1-83e9-da2254697486",
+      "name": "CineBias-BB",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/CineBias-BB.NP3",
+      "category": "云创创作者",
+      "sha256": "63409e727a9c6f2551433b736fcd23962f32508cb86467f6a84f61a82d3251db",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-63409e727a9c6f2551433b736fcd23962f32508cb86467f6a84f61a82d3251db.np3"
+    },
+    {
+      "id": "0f35b5ad-94b2-4358-9569-67b57930bbc8",
+      "name": "CineBias-C",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/CineBias-C.NP3",
+      "category": "云创创作者",
+      "sha256": "42c9b350ee208cac1e8120e8480e946c5607f6c7a900b0bf02a755e2aea9b7b6",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-42c9b350ee208cac1e8120e8480e946c5607f6c7a900b0bf02a755e2aea9b7b6.np3"
+    },
+    {
+      "id": "d46ec166-f174-460a-974b-51003ae35b18",
+      "name": "CineBias-CC",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/CineBias-CC.NP3",
+      "category": "云创创作者",
+      "sha256": "603a60999b9b975dbc30707a262da2201d8e07b8c3d4f7840db9b54708fb04e6",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-603a60999b9b975dbc30707a262da2201d8e07b8c3d4f7840db9b54708fb04e6.np3"
+    },
+    {
+      "id": "5adba74a-5e94-45f5-91c2-f218620081cd",
+      "name": "CineBias-T",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/CineBias-T.NP3",
+      "category": "云创创作者",
+      "sha256": "f0707d8676878452e38d7b8d8f59cf7508377bba73b2f48b80834feb391cc4f3",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-f0707d8676878452e38d7b8d8f59cf7508377bba73b2f48b80834feb391cc4f3.np3"
+    },
+    {
+      "id": "e500a613-afe3-45a0-be75-a6ee4e8caf7d",
+      "name": "CineBias-TC",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/CineBias-TC.NP3",
+      "category": "云创创作者",
+      "sha256": "fa0777985224b635b5d0c8e34a53eaf77efb6b15f8f4dc607078f22df54edfa9",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-fa0777985224b635b5d0c8e34a53eaf77efb6b15f8f4dc607078f22df54edfa9.np3"
+    },
+    {
+      "id": "70d11448-ba32-48ea-920f-70617f7380da",
+      "name": "CineBias-WC",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/CineBias-WC.NP3",
+      "category": "云创创作者",
+      "sha256": "7125edb7387b5afb11950e5e259512bb043f5b2382965956979a1dd8154a0598",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-7125edb7387b5afb11950e5e259512bb043f5b2382965956979a1dd8154a0598.np3"
+    },
+    {
+      "id": "fc5ca5f5-43df-483a-a7ef-b61c8576875f",
+      "name": "CineBiasOffset",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/CineBiasOffset.NP3",
+      "category": "云创创作者",
+      "sha256": "7c1588bdcc5f2b697283563c9fc32de689f1f0ff39249654e2e78b434daea016",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-7c1588bdcc5f2b697283563c9fc32de689f1f0ff39249654e2e78b434daea016.np3"
+    },
+    {
+      "id": "76ac57cc-2157-4771-a744-ed7e3a15361a",
+      "name": "CineBias_RED",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/CineBias_RED.NP3",
+      "category": "云创创作者",
+      "sha256": "f22553f89fddc37d594e42d80e46d66a35f4ddcbcd488b2699934fc0fa1e4ea4",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-f22553f89fddc37d594e42d80e46d66a35f4ddcbcd488b2699934fc0fa1e4ea4.np3"
+    },
+    {
+      "id": "cf924794-dd5f-4811-8611-a589d429afc9",
+      "name": "CineBlue_BrandonW",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/CineBlue_BrandonW.NP3",
+      "category": "云创创作者",
+      "sha256": "eef37d8d4738b7824615eeaa5c2ea946efb512ce6065128f801ac06c31f8eda4",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-eef37d8d4738b7824615eeaa5c2ea946efb512ce6065128f801ac06c31f8eda4.np3"
+    },
+    {
+      "id": "a939728a-30a4-4428-a8ab-883bca91fd49",
+      "name": "CineM_LUIZCLAS",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/CineM_LUIZCLAS.NP3",
+      "category": "云创创作者",
+      "sha256": "ab5e983b312e44f3387022fb4aca27d5f77e4c624b903809a732115e62f45f28",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-ab5e983b312e44f3387022fb4aca27d5f77e4c624b903809a732115e62f45f28.np3"
+    },
+    {
+      "id": "adac07bf-75f1-4c57-b9b1-79834272b3c8",
+      "name": "CloudyForest_Y2",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/CloudyForest_Y2.NP3",
+      "category": "云创创作者",
+      "sha256": "84905c94c2145b0d1f593bda6fb28a4ae8b64c5c01b252b3f71e6f0ea4f129a3",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-84905c94c2145b0d1f593bda6fb28a4ae8b64c5c01b252b3f71e6f0ea4f129a3.np3"
+    },
+    {
+      "id": "9feb3487-37ba-4dce-bbed-716b71ce6ed2",
+      "name": "ClrPortrait_TSakai",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/ClrPortrait_TSakai.NP3",
+      "category": "云创创作者",
+      "sha256": "016862d694f32ca5be5d17c009acefee63c861d5bd95804bece5c64e8d7cc4c4",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-016862d694f32ca5be5d17c009acefee63c861d5bd95804bece5c64e8d7cc4c4.np3"
+    },
+    {
+      "id": "befe15b0-7928-4222-9deb-326dad658837",
+      "name": "Coastal Glow_NM",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/Coastal Glow_NM.NP3",
+      "category": "云创创作者",
+      "sha256": "e3d33b2497a5932427489d8d4c9df9cb0a2e86b6207a500e673b744d3c389466",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-e3d33b2497a5932427489d8d4c9df9cb0a2e86b6207a500e673b744d3c389466.np3"
+    },
+    {
+      "id": "3e90efa2-0e51-47ae-9601-e3a67e70625b",
+      "name": "ColorSplash_Gilmar",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/ColorSplash_Gilmar.NP3",
+      "category": "云创创作者",
+      "sha256": "a5a270be77bd85dea75afcd29595726aca9c1978c3b1f3f1a3b1da05dcd6a21e",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-a5a270be77bd85dea75afcd29595726aca9c1978c3b1f3f1a3b1da05dcd6a21e.np3"
+    },
+    {
+      "id": "42b5e564-dacc-4054-9314-423bfe05a179",
+      "name": "CozyAutumn_Leno",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/CozyAutumn_Leno.NP3",
+      "category": "云创创作者",
+      "sha256": "e825147a0ba5b0209a1da9d9a8ea327413573126abcf739541e647a241fc5b53",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-e825147a0ba5b0209a1da9d9a8ea327413573126abcf739541e647a241fc5b53.np3"
+    },
+    {
+      "id": "1c6bf6c2-7e1c-4143-abd1-fd7a0dd8a3cd",
+      "name": "Cyanora_EyesOfBelga",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/Cyanora_EyesOfBelga.NP3",
+      "category": "云创创作者",
+      "sha256": "bc7148418a49218a375e8ea6eb225d3e89dbba1aece7ceb18f5787f64881274e",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-bc7148418a49218a375e8ea6eb225d3e89dbba1aece7ceb18f5787f64881274e.np3"
+    },
+    {
+      "id": "6f7c12da-9bcc-4e69-9e34-3a8a3f90489d",
+      "name": "DGFilmLook_DannyG",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/DGFilmLook_DannyG.NP3",
+      "category": "云创创作者",
+      "sha256": "aa1278b89d7e9d6644a18c5f39a7f602522e4e926696171992a7df40aaaeb70f",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-aa1278b89d7e9d6644a18c5f39a7f602522e4e926696171992a7df40aaaeb70f.np3"
+    },
+    {
+      "id": "a57cf3da-86bc-4145-ac4a-256b2c863fe0",
+      "name": "DawnHues_Leno",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/DawnHues_Leno.NP3",
+      "category": "云创创作者",
+      "sha256": "f3375f66850e9b68514faf9d220fbc7b832282a8e9b4889782ba40d53d53bf1e",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-f3375f66850e9b68514faf9d220fbc7b832282a8e9b4889782ba40d53d53bf1e.np3"
+    },
+    {
+      "id": "16d70335-7864-41b7-9189-ae32419f9a95",
+      "name": "EmotionalB&W_Wazika",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/EmotionalB&W_Wazika.NP3",
+      "category": "云创创作者",
+      "sha256": "37f9c9a630bcc4195abe2358869cf58ad50d037bb3fc7a994d5de74601c3ffa7",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-37f9c9a630bcc4195abe2358869cf58ad50d037bb3fc7a994d5de74601c3ffa7.np3"
+    },
+    {
+      "id": "2f074b6d-3159-4c6e-bfc6-68e2a93c150b",
+      "name": "EuroFilmBW_Vincent",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/EuroFilmBW_Vincent.NP3",
+      "category": "云创创作者",
+      "sha256": "26f0ebbcf424e816188afea97264de701ebcfa6957a90a549d3d33658a641ed1",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-26f0ebbcf424e816188afea97264de701ebcfa6957a90a549d3d33658a641ed1.np3"
+    },
+    {
+      "id": "28717f7f-d6ff-453a-b0a3-a2221c95a194",
+      "name": "FadedBlue_Hinami",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/FadedBlue_Hinami.NP3",
+      "category": "云创创作者",
+      "sha256": "e28d7141eaffa869c7fab83639b65b36f1fbabf99d86ab644ca44d8e315022a9",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-e28d7141eaffa869c7fab83639b65b36f1fbabf99d86ab644ca44d8e315022a9.np3"
+    },
+    {
+      "id": "8333584a-73d6-40fe-8fb1-045558934654",
+      "name": "Fern_IanHarland",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/Fern_IanHarland.NP3",
+      "category": "云创创作者",
+      "sha256": "73ab0ea6cec4848a3a35a9865847aea3d37084719d778b0b2d19122099104ffd",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-73ab0ea6cec4848a3a35a9865847aea3d37084719d778b0b2d19122099104ffd.np3"
+    },
+    {
+      "id": "f1711933-52d5-4998-8814-57e1513f0309",
+      "name": "FilmPop_Leno",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/FilmPop_Leno.NP3",
+      "category": "云创创作者",
+      "sha256": "b347f3bcc12a2c2fa57c8153775f37c5e220483e62a6bb53175de14891efa0c7",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-b347f3bcc12a2c2fa57c8153775f37c5e220483e62a6bb53175de14891efa0c7.np3"
+    },
+    {
+      "id": "515bfd16-c91b-4481-b5ad-f4c467452046",
+      "name": "Filmic_Fabio",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/Filmic_Fabio.NP3",
+      "category": "云创创作者",
+      "sha256": "b8671c705cb1f572284bc5a406d8f46a75bbae34c3b2141b4273a326c913b233",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-b8671c705cb1f572284bc5a406d8f46a75bbae34c3b2141b4273a326c913b233.np3"
+    },
+    {
+      "id": "2d6d1b14-9388-46e0-975a-8561a206c62d",
+      "name": "GlowUp_Preston",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/GlowUp_Preston.NP3",
+      "category": "云创创作者",
+      "sha256": "c7db1ee464017f8d71395c69d4c5008b24284bf5367fd8bfa7871a1d7c9063e8",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-c7db1ee464017f8d71395c69d4c5008b24284bf5367fd8bfa7871a1d7c9063e8.np3"
+    },
+    {
+      "id": "6074f042-4877-4c57-8e60-26c8c1021d38",
+      "name": "Glow_IanHarland",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/Glow_IanHarland.NP3",
+      "category": "云创创作者",
+      "sha256": "d43daa0290d9d18d73d7eabaf4baa107aa3fe3d73a9e07c0f898f6fa03d0ef8e",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-d43daa0290d9d18d73d7eabaf4baa107aa3fe3d73a9e07c0f898f6fa03d0ef8e.np3"
+    },
+    {
+      "id": "16e7ed8d-a752-4294-bf26-0030870f76d7",
+      "name": "GoldenBrownSiinapse",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/GoldenBrownSiinapse.NP3",
+      "category": "云创创作者",
+      "sha256": "febd9a3abdde8bab4dd63147e8e1f43d282a2df8384dfe6951358150989b80d7",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-febd9a3abdde8bab4dd63147e8e1f43d282a2df8384dfe6951358150989b80d7.np3"
+    },
+    {
+      "id": "79f5d8a4-e613-4302-8bb7-e3059b427375",
+      "name": "GoldenDusk_EmilieH",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/GoldenDusk_EmilieH.NP3",
+      "category": "云创创作者",
+      "sha256": "11cdd768e5b9826ee429793278299cd274de332b380e83a0e48da9c34c3e1af9",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-11cdd768e5b9826ee429793278299cd274de332b380e83a0e48da9c34c3e1af9.np3"
+    },
+    {
+      "id": "e55072f9-e938-4264-9cb9-c4f11c580a85",
+      "name": "GoldenHourGlow_DAnn",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/GoldenHourGlow_DAnn.NP3",
+      "category": "云创创作者",
+      "sha256": "34dbec500bccabd891f94a15563194cccd695d246ddd36358fb48516983ef375",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-34dbec500bccabd891f94a15563194cccd695d246ddd36358fb48516983ef375.np3"
+    },
+    {
+      "id": "ad00e7ca-cea4-41c4-8e05-85819c748a68",
+      "name": "Golden_Grid_LKJ",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/Golden_Grid_LKJ.NP3",
+      "category": "云创创作者",
+      "sha256": "441318ffcfbd8a5a007a08487008da137fa86b042d196f6ca716d514967dec6f",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-441318ffcfbd8a5a007a08487008da137fa86b042d196f6ca716d514967dec6f.np3"
+    },
+    {
+      "id": "f8385b3c-7cd9-4a85-9b93-65232037a9ac",
+      "name": "Green Soul_Wong",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/Green Soul_Wong.NP3",
+      "category": "云创创作者",
+      "sha256": "a4b8c0cbeffcfd3cb76209a68536b28b63ab29372526a0471b6bb8bfb4fda1b6",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-a4b8c0cbeffcfd3cb76209a68536b28b63ab29372526a0471b6bb8bfb4fda1b6.np3"
+    },
+    {
+      "id": "fa960210-81d9-40d9-bdf2-2f352a62f1e4",
+      "name": "HKReminisce_Hiuman",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/HKReminisce_Hiuman.NP3",
+      "category": "云创创作者",
+      "sha256": "ee20588020efd14d40692957da461ecbcbe1a8437061a7bfbad2ea59a1c83fa1",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-ee20588020efd14d40692957da461ecbcbe1a8437061a7bfbad2ea59a1c83fa1.np3"
+    },
+    {
+      "id": "129e3615-2419-422c-8b39-3aab5bedb90d",
+      "name": "HT Harmony_HanaaT",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/HT Harmony_HanaaT.NP3",
+      "category": "云创创作者",
+      "sha256": "1ed3755105b05889070d2b67aec0300a14c9f924a1130d7751d9cb701cdb996b",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-1ed3755105b05889070d2b67aec0300a14c9f924a1130d7751d9cb701cdb996b.np3"
+    },
+    {
+      "id": "84203ed6-4a69-4ca4-b2a9-e3ce2fc274a3",
+      "name": "HazyMemories_Julia",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/HazyMemories_Julia.NP3",
+      "category": "云创创作者",
+      "sha256": "baa3d5cfe1c391b732a663f647065e3760a1ebd0dcbe4634b9e60ba3f04e4b94",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-baa3d5cfe1c391b732a663f647065e3760a1ebd0dcbe4634b9e60ba3f04e4b94.np3"
+    },
+    {
+      "id": "28cd097c-3cac-41bd-8d7d-f4354f30ab9b",
+      "name": "Heartwarming_YoheiS",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/Heartwarming_YoheiS.NP3",
+      "category": "云创创作者",
+      "sha256": "137bd9998a2845304062b9f44c31f6ba1b7e31d55a178466c880c7a8d300b636",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-137bd9998a2845304062b9f44c31f6ba1b7e31d55a178466c880c7a8d300b636.np3"
+    },
+    {
+      "id": "6f881beb-9954-4c3a-8ffc-dce4455973ed",
+      "name": "Hidamari_Haruka",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/Hidamari_Haruka.NP3",
+      "category": "云创创作者",
+      "sha256": "08444c027e44f3a3107f112aac4018b24a7ba30d298d64703637e4b9284b7fa3",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-08444c027e44f3a3107f112aac4018b24a7ba30d298d64703637e4b9284b7fa3.np3"
+    },
+    {
+      "id": "8156aebd-7bb0-44b9-b113-19f547b4fc08",
+      "name": "HoneyTale_MASAYA",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/HoneyTale_MASAYA.NP3",
+      "category": "云创创作者",
+      "sha256": "ca7cecbc7e0fab8bfc137262f0b16a30b8175b4f33f49454ecab3494ea2fd7ce",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-ca7cecbc7e0fab8bfc137262f0b16a30b8175b4f33f49454ecab3494ea2fd7ce.np3"
+    },
+    {
+      "id": "7983c9ab-7445-401d-9583-20641411c465",
+      "name": "Honey_IanHarland",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/Honey_IanHarland.NP3",
+      "category": "云创创作者",
+      "sha256": "fba18c95076cd1cb4d8619cb07417441351785363e647d3e176a3e1eee99135d",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-fba18c95076cd1cb4d8619cb07417441351785363e647d3e176a3e1eee99135d.np3"
+    },
+    {
+      "id": "2fbea0be-e1ac-436c-9992-5118a6ed7677",
+      "name": "IndoorHarmony_Julia",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/IndoorHarmony_Julia.NP3",
+      "category": "云创创作者",
+      "sha256": "5c47e9adcc5e71de44ca7a195667395e8491f10131c726208b9df4989448096f",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-5c47e9adcc5e71de44ca7a195667395e8491f10131c726208b9df4989448096f.np3"
+    },
+    {
+      "id": "305ee54f-17d7-4288-bdd3-b91622ddb07a",
+      "name": "Japanesque_Arashida",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/Japanesque_Arashida.NP3",
+      "category": "云创创作者",
+      "sha256": "fffdfaaf1e08c3d1efca6d13b4ba8b74808f4efce64de7785ad5680656a27a2f",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-fffdfaaf1e08c3d1efca6d13b4ba8b74808f4efce64de7785ad5680656a27a2f.np3"
+    },
+    {
+      "id": "793c82b6-b963-4930-bb99-66d5c7babd53",
+      "name": "Kota-Green_TAKASU",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/Kota-Green_TAKASU.NP3",
+      "category": "云创创作者",
+      "sha256": "20e5b66525dd3e5164fb8c59a2a95880fed01192d3f7c9cb2d22695b5d5e914c",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-20e5b66525dd3e5164fb8c59a2a95880fed01192d3f7c9cb2d22695b5d5e914c.np3"
+    },
+    {
+      "id": "bc622850-9f33-4ccb-98cf-624cf983eafe",
+      "name": "MNightBlush_Preston",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/MNightBlush_Preston.NP3",
+      "category": "云创创作者",
+      "sha256": "f47d110c45ebe886bbdb268286f163e235db19180d37f8b45ab15a11dac277f9",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-f47d110c45ebe886bbdb268286f163e235db19180d37f8b45ab15a11dac277f9.np3"
+    },
+    {
+      "id": "138cef75-a528-4870-a890-430ece2f9d17",
+      "name": "MOSS_Nagisa",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/MOSS_Nagisa.NP3",
+      "category": "云创创作者",
+      "sha256": "ab99f7980ef1f5c2547db7fb02ab9afe9f09224810d37f6a966e69817656393b",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-ab99f7980ef1f5c2547db7fb02ab9afe9f09224810d37f6a966e69817656393b.np3"
+    },
+    {
+      "id": "2dce15e7-6153-4aa3-a7b9-ade908eb731b",
+      "name": "MV Green Orange_Woo",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/MV Green Orange_Woo.NP3",
+      "category": "云创创作者",
+      "sha256": "74f4b6364136fd4544a8c8d44a35d38dc0b88306ca169a0b608ce82e84e5faea",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-74f4b6364136fd4544a8c8d44a35d38dc0b88306ca169a0b608ce82e84e5faea.np3"
+    },
+    {
+      "id": "5b0f42f9-12b3-4928-ab23-ce2f68c8e718",
+      "name": "MatteBlueGray_tanco",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/MatteBlueGray_tanco.NP3",
+      "category": "云创创作者",
+      "sha256": "cfbb999aac77d26d7b58ae96af9df6797afd52c132960b4e172a4e49945f61c1",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-cfbb999aac77d26d7b58ae96af9df6797afd52c132960b4e172a4e49945f61c1.np3"
+    },
+    {
+      "id": "78a76400-8eda-4a5e-a851-9bd462f8c5b8",
+      "name": "MoistureGn_HirokiN",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/MoistureGn_HirokiN.NP3",
+      "category": "云创创作者",
+      "sha256": "7fdf49d504e27d40648b743bd314754d88c323c3bbfe3ad48a9a14cd9dc03364",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-7fdf49d504e27d40648b743bd314754d88c323c3bbfe3ad48a9a14cd9dc03364.np3"
+    },
+    {
+      "id": "fc832c2b-0809-497e-8f7e-655831973e1c",
+      "name": "MoodyGr_BrittanyK",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/MoodyGr_BrittanyK.NP3",
+      "category": "云创创作者",
+      "sha256": "58b9f911cc456bdfca8003850423d77556e79ec350254e2ddd0e817e5e77d0dd",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-58b9f911cc456bdfca8003850423d77556e79ec350254e2ddd0e817e5e77d0dd.np3"
+    },
+    {
+      "id": "42640d5f-8ee3-4cff-a5c0-967111d8e030",
+      "name": "MoodyShadows_Gilmar",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/MoodyShadows_Gilmar.NP3",
+      "category": "云创创作者",
+      "sha256": "19567b90d1f5071ee6b7135e17d5401462614ec21f5a668459eaa314a93787ec",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-19567b90d1f5071ee6b7135e17d5401462614ec21f5a668459eaa314a93787ec.np3"
+    },
+    {
+      "id": "0784ccbd-eca9-4b6c-968e-b39284769e33",
+      "name": "MovieG&O_InstantF",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/MovieG&O_InstantF.NP3",
+      "category": "云创创作者",
+      "sha256": "726e91e3a5772087f863fac448044580060abad937de99e63a8b84569b3be645",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-726e91e3a5772087f863fac448044580060abad937de99e63a8b84569b3be645.np3"
+    },
+    {
+      "id": "9fea4cae-3d7b-4c54-a724-269705752936",
+      "name": "Nature_Links",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/Nature_Links.NP3",
+      "category": "云创创作者",
+      "sha256": "61b8995f9cd6147ff1beb6bc72897a469954e720b7aaaada7e8372a561634e7e",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-61b8995f9cd6147ff1beb6bc72897a469954e720b7aaaada7e8372a561634e7e.np3"
+    },
+    {
+      "id": "3c879cf8-7c1d-4d9a-8511-a01183d1adcf",
+      "name": "NeonGlow_BrandonW",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/NeonGlow_BrandonW.NP3",
+      "category": "云创创作者",
+      "sha256": "07eb687b2733fb3c94327a4b6faa81f887e272ac8ed9993e5f21dc058e629138",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-07eb687b2733fb3c94327a4b6faa81f887e272ac8ed9993e5f21dc058e629138.np3"
+    },
+    {
+      "id": "d1dcde6c-aeff-4693-8afb-d49d797b4c0c",
+      "name": "NightsLike_Dondre",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/NightsLike_Dondre.NP3",
+      "category": "云创创作者",
+      "sha256": "ea64bd8fc99587ba1b7c5828d4a32c27db26a479c3ba53b7c2caf420717c759c",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-ea64bd8fc99587ba1b7c5828d4a32c27db26a479c3ba53b7c2caf420717c759c.np3"
+    },
+    {
+      "id": "10d38f0a-0c1a-447f-8c32-b29a923cd650",
+      "name": "PainterlyLight_DAnn",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/PainterlyLight_DAnn.NP3",
+      "category": "云创创作者",
+      "sha256": "589d588c8330d17609c35c0d48629d843b81fe956f76828fea92985328e5d4ba",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-589d588c8330d17609c35c0d48629d843b81fe956f76828fea92985328e5d4ba.np3"
+    },
+    {
+      "id": "058cc19b-4e4e-4b19-ab88-82e9f639f2e9",
+      "name": "Pale Tale_Yuri",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/Pale Tale_Yuri.NP3",
+      "category": "云创创作者",
+      "sha256": "fd67e4721ef755b9e2b69c376c50c58d770feb051aaa08510ccf77b6e8bd5a86",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-fd67e4721ef755b9e2b69c376c50c58d770feb051aaa08510ccf77b6e8bd5a86.np3"
+    },
+    {
+      "id": "f9e7d95a-ea48-46d0-a1fa-1321cad972db",
+      "name": "PastelNos_TSakai",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/PastelNos_TSakai.NP3",
+      "category": "云创创作者",
+      "sha256": "5ed397e3a1e8be2bf59b83876613423fb49bbb04ef013b59af3c221a3fbf2243",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-5ed397e3a1e8be2bf59b83876613423fb49bbb04ef013b59af3c221a3fbf2243.np3"
+    },
+    {
+      "id": "53760c95-65a5-4468-b32e-15771856cbd9",
+      "name": "Pastelpink_Yuki",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/Pastelpink_Yuki.NP3",
+      "category": "云创创作者",
+      "sha256": "a4d48ce3b720b3de9e3b81e268c146a2f8c1ebfa776229d4edc1b4023ae39163",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-a4d48ce3b720b3de9e3b81e268c146a2f8c1ebfa776229d4edc1b4023ae39163.np3"
+    },
+    {
+      "id": "c76b0b31-8692-4d5d-9fa5-cfaf2cf1101e",
+      "name": "PinkWater_HYEYA",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/PinkWater_HYEYA.NP3",
+      "category": "云创创作者",
+      "sha256": "f238aa59f9677e515186eb16c14e285f72f1d2b064f1636a2aff39a9386fbfd2",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-f238aa59f9677e515186eb16c14e285f72f1d2b064f1636a2aff39a9386fbfd2.np3"
+    },
+    {
+      "id": "a8c22b6c-9f5b-43f9-8871-bb6a24d90f4f",
+      "name": "PrimaryPop_Gilmar",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/PrimaryPop_Gilmar.NP3",
+      "category": "云创创作者",
+      "sha256": "3744fa4f28220eecd417ccadb41034a08acfbe752d93fcc9a509660ebab17855",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-3744fa4f28220eecd417ccadb41034a08acfbe752d93fcc9a509660ebab17855.np3"
+    },
+    {
+      "id": "456fa452-a62b-4074-8bfd-c0348d9aae8d",
+      "name": "PurpleM_LUIZCLAS",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/PurpleM_LUIZCLAS.NP3",
+      "category": "云创创作者",
+      "sha256": "1e3a3a15611f532994fa5e4411c4dde7d74c6f2e494431c6fe2e2ddb9f70b343",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-1e3a3a15611f532994fa5e4411c4dde7d74c6f2e494431c6fe2e2ddb9f70b343.np3"
+    },
+    {
+      "id": "d19329c3-26b5-4320-88ec-b3337c45c5ab",
+      "name": "QUIET_Nagisa",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/QUIET_Nagisa.NP3",
+      "category": "云创创作者",
+      "sha256": "54ec29d9398244df8c46f32582ecac07f650267dae8cc5fe04bb970b214e7efa",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-54ec29d9398244df8c46f32582ecac07f650267dae8cc5fe04bb970b214e7efa.np3"
+    },
+    {
+      "id": "8a71cbd5-f9d3-46fe-b44a-c542a44ab2e2",
+      "name": "RedM_LUIZCLAS",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/RedM_LUIZCLAS.NP3",
+      "category": "云创创作者",
+      "sha256": "ec95fccefddd0f89ffb390cb14ca0b29a99379911d2b1fe594078d0c80d197fa",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-ec95fccefddd0f89ffb390cb14ca0b29a99379911d2b1fe594078d0c80d197fa.np3"
+    },
+    {
+      "id": "bb085345-b7f7-44b0-aa59-dc4ebb8d6feb",
+      "name": "RoseOldFilm_hinano",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/RoseOldFilm_hinano.NP3",
+      "category": "云创创作者",
+      "sha256": "9aec229a1ce9809e8812a0d0b23a93f388634045b0e6ea4d26a69ed9db0053c8",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-9aec229a1ce9809e8812a0d0b23a93f388634045b0e6ea4d26a69ed9db0053c8.np3"
+    },
+    {
+      "id": "78160443-152a-45c8-8b93-1e8730645382",
+      "name": "SetouchiBlue_Noci",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/SetouchiBlue_Noci.NP3",
+      "category": "云创创作者",
+      "sha256": "88f9803995e19d0d4f19f52678aa055a4bf4d4ed9948991692539cea408a77db",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-88f9803995e19d0d4f19f52678aa055a4bf4d4ed9948991692539cea408a77db.np3"
+    },
+    {
+      "id": "eacbd424-6d3b-4a29-a978-6d912071304a",
+      "name": "ShadeFall_BrittanyK",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/ShadeFall_BrittanyK.NP3",
+      "category": "云创创作者",
+      "sha256": "af7eaa38ea39b4aaad3832176181c92e8fbd31828691335c30df6d3f4ae740e1",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-af7eaa38ea39b4aaad3832176181c92e8fbd31828691335c30df6d3f4ae740e1.np3"
+    },
+    {
+      "id": "f79f4bbc-c938-4ff6-8921-b5a0f4be217d",
+      "name": "SkyMistFilm_hinano",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/SkyMistFilm_hinano.NP3",
+      "category": "云创创作者",
+      "sha256": "8ffb4a360a734c455c210709cde6b3c3bd02d01ddfccd413bd1c07f450a47cbd",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-8ffb4a360a734c455c210709cde6b3c3bd02d01ddfccd413bd1c07f450a47cbd.np3"
+    },
+    {
+      "id": "13231dda-e9c6-4f1f-90d7-40f42b55e496",
+      "name": "Soft Vivid_Vijay",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/Soft Vivid_Vijay.NP3",
+      "category": "云创创作者",
+      "sha256": "7883be2d0b6afd901035bbed3e534ffabc14546c99854ed69d2547db2e88baa3",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-7883be2d0b6afd901035bbed3e534ffabc14546c99854ed69d2547db2e88baa3.np3"
+    },
+    {
+      "id": "55f0c0ab-e83d-4fa8-8e15-af8a81fe0850",
+      "name": "SoftFilm_Leno",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/SoftFilm_Leno.NP3",
+      "category": "云创创作者",
+      "sha256": "8543d9290c0c55ecca0f88e9174121e5753ffd0c247cd0973b8a1d0d5d1a2f0b",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-8543d9290c0c55ecca0f88e9174121e5753ffd0c247cd0973b8a1d0d5d1a2f0b.np3"
+    },
+    {
+      "id": "e88e6bf2-fd61-49eb-9622-f3d042e67c0c",
+      "name": "SoftGlow_Harpreet",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/SoftGlow_Harpreet.NP3",
+      "category": "云创创作者",
+      "sha256": "de708a7b5a149ce6d64a1fc1f9f428f1f649c28cba68acf070656df6bf2a85a3",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-de708a7b5a149ce6d64a1fc1f9f428f1f649c28cba68acf070656df6bf2a85a3.np3"
+    },
+    {
+      "id": "30c2af07-cf53-49ef-9ef7-463a931d5397",
+      "name": "SummerShine_Dondre",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/SummerShine_Dondre.NP3",
+      "category": "云创创作者",
+      "sha256": "f3d5b4d95291f5e016edf212dd00e2cd70d92a59e57682116ac813f7c213b267",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-f3d5b4d95291f5e016edf212dd00e2cd70d92a59e57682116ac813f7c213b267.np3"
+    },
+    {
+      "id": "1eab048e-139b-4d2e-bb4e-abb4cbd06cc7",
+      "name": "Summertime_Zerletti",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/Summertime_Zerletti.NP3",
+      "category": "云创创作者",
+      "sha256": "3dfe35e0e6fb7346b5c153c0058e7ae724050f2c347ff4cd9d435f865f071ecb",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-3dfe35e0e6fb7346b5c153c0058e7ae724050f2c347ff4cd9d435f865f071ecb.np3"
+    },
+    {
+      "id": "181e9625-d49c-4cce-9be1-70aa61ca1927",
+      "name": "SunkissedCool_Julia",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/SunkissedCool_Julia.NP3",
+      "category": "云创创作者",
+      "sha256": "3b2f33b7e65ddd8bd35b386b0aa34595853e481cc4a929fc81f27c02dc625408",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-3b2f33b7e65ddd8bd35b386b0aa34595853e481cc4a929fc81f27c02dc625408.np3"
+    },
+    {
+      "id": "f795a6ee-24e3-492d-aa6e-e83ba4fade7a",
+      "name": "SunkissedWarm_Julia",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/SunkissedWarm_Julia.NP3",
+      "category": "云创创作者",
+      "sha256": "ca4a95f0cfa42dff287688c7e90bbc9a3e633b8bbb793c826a2557f1558ce2c4",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-ca4a95f0cfa42dff287688c7e90bbc9a3e633b8bbb793c826a2557f1558ce2c4.np3"
+    },
+    {
+      "id": "bb97b12f-1228-453c-98e9-abd06ed92889",
+      "name": "SunlightHappy_DAnn",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/SunlightHappy_DAnn.NP3",
+      "category": "云创创作者",
+      "sha256": "33bed8facdd923621a31d91f8a3f046bc69745a0a37eb3e91ef8e52954ca4758",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-33bed8facdd923621a31d91f8a3f046bc69745a0a37eb3e91ef8e52954ca4758.np3"
+    },
+    {
+      "id": "42204203-c653-4c45-95e2-1033ccf530d1",
+      "name": "SunsetFilm_JKBoy",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/SunsetFilm_JKBoy.NP3",
+      "category": "云创创作者",
+      "sha256": "4d67f8b69477e53032607c34e537194f79db2c1162bfa68c296aef19ddae1c51",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-4d67f8b69477e53032607c34e537194f79db2c1162bfa68c296aef19ddae1c51.np3"
+    },
+    {
+      "id": "62b04cb8-1c74-457a-956c-274b859496ab",
+      "name": "SunsetGlow_Mikan",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/SunsetGlow_Mikan.NP3",
+      "category": "云创创作者",
+      "sha256": "d76d46c233ee10b657d9a0a2aa4ebe241da2e74fa36910dc53452a11fff7d780",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-d76d46c233ee10b657d9a0a2aa4ebe241da2e74fa36910dc53452a11fff7d780.np3"
+    },
+    {
+      "id": "3cc66df2-c008-4d43-913f-481b9a5f07d2",
+      "name": "SunsetReset_Baek",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/SunsetReset_Baek.NP3",
+      "category": "云创创作者",
+      "sha256": "af30b286f9ac16a21906cd92f76947c3cf9d1a483db511944eb324ecd9844c27",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-af30b286f9ac16a21906cd92f76947c3cf9d1a483db511944eb324ecd9844c27.np3"
+    },
+    {
+      "id": "668fa9b0-245a-4bae-b7b7-be871bd88097",
+      "name": "T&O_BrandonW",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/T&O_BrandonW.NP3",
+      "category": "云创创作者",
+      "sha256": "6793c40748332691b9dd51403e5b8a6eef6c878aefbad38bcf0bda84966baec6",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-6793c40748332691b9dd51403e5b8a6eef6c878aefbad38bcf0bda84966baec6.np3"
+    },
+    {
+      "id": "30073445-7833-4003-bf4d-0e28585bbea7",
+      "name": "TenderClear_FukaK",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/TenderClear_FukaK.NP3",
+      "category": "云创创作者",
+      "sha256": "ca242f7e1596ccc9f42cf0d0a16795a7738d62b936e8dd790fde03f024ce4352",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-ca242f7e1596ccc9f42cf0d0a16795a7738d62b936e8dd790fde03f024ce4352.np3"
+    },
+    {
+      "id": "77ee6e52-862f-4e59-9d66-340287ab6c83",
+      "name": "TexturedDocmntry_MS",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/TexturedDocmntry_MS.NP3",
+      "category": "云创创作者",
+      "sha256": "b2ae12427144e86150bdbf809209c46b7c4d5a884e15983a38a064897de60853",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-b2ae12427144e86150bdbf809209c46b7c4d5a884e15983a38a064897de60853.np3"
+    },
+    {
+      "id": "c3963480-a475-4e3d-9460-eeadb18c6fc5",
+      "name": "Turquoise_Blue_Yuki",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/Turquoise_Blue_Yuki.NP3",
+      "category": "云创创作者",
+      "sha256": "cec9a1a21f967038902a2e6daf5195dc1dc9d787d0304ecae5331f45942fc509",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-cec9a1a21f967038902a2e6daf5195dc1dc9d787d0304ecae5331f45942fc509.np3"
+    },
+    {
+      "id": "1914f5da-f140-4877-8645-e55e7e3df150",
+      "name": "USAFilmBW_Vincent",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/USAFilmBW_Vincent.NP3",
+      "category": "云创创作者",
+      "sha256": "ac3c5d532491a00f09bea9077068356939a36c83e7edb055795a91f576e5ee81",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-ac3c5d532491a00f09bea9077068356939a36c83e7edb055795a91f576e5ee81.np3"
+    },
+    {
+      "id": "3fbcd03d-656a-4bb5-ae9c-588d70a52c7a",
+      "name": "VINTAGEFla_Fuji",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/VINTAGEFla_Fuji.NP3",
+      "category": "云创创作者",
+      "sha256": "d5d93682668145892ac2e635e4bf7a5c395bb87c8e350802d29b42fec06ff995",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-d5d93682668145892ac2e635e4bf7a5c395bb87c8e350802d29b42fec06ff995.np3"
+    },
+    {
+      "id": "00fbffcf-f85e-4a49-9de6-54f7c21207cd",
+      "name": "VINTAGEPort_Fuji",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/VINTAGEPort_Fuji.NP3",
+      "category": "云创创作者",
+      "sha256": "8098ecfac6b83c9d5b37d89b807734b9294a72e8d35a081e56a906102a936c79",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-8098ecfac6b83c9d5b37d89b807734b9294a72e8d35a081e56a906102a936c79.np3"
+    },
+    {
+      "id": "0cf5f5f5-3d44-44f8-ae8e-6a049606dcc5",
+      "name": "VINTAGE_FILM_Ludwig",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/VINTAGE_FILM_Ludwig.NP3",
+      "category": "云创创作者",
+      "sha256": "10728e7f081f28ad48881a8cb0b6dd65ff5e05e66a6e07a86016af50a6821bce",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-10728e7f081f28ad48881a8cb0b6dd65ff5e05e66a6e07a86016af50a6821bce.np3"
+    },
+    {
+      "id": "4da1ca35-ddb7-4de8-8296-719e10c3033c",
+      "name": "Vibrant_Lamoureux",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/Vibrant_Lamoureux.NP3",
+      "category": "云创创作者",
+      "sha256": "5967e887ce1376fe847292f232cbef182f79e1d3f239f3bdb7dad7e858da3ada",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-5967e887ce1376fe847292f232cbef182f79e1d3f239f3bdb7dad7e858da3ada.np3"
+    },
+    {
+      "id": "209de4c4-8bc0-4ffa-b4fb-c9a5ef7404e9",
+      "name": "VintageA_BrittanyK",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/VintageA_BrittanyK.NP3",
+      "category": "云创创作者",
+      "sha256": "38f78b9992d7ab12efca0ef8eb82e53a58c5c94909b8bfa37808117673cd6afa",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-38f78b9992d7ab12efca0ef8eb82e53a58c5c94909b8bfa37808117673cd6afa.np3"
+    },
+    {
+      "id": "b3c1cfb2-d968-4290-9e45-da3a820a81a6",
+      "name": "VintageM_TSakai",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/VintageM_TSakai.NP3",
+      "category": "云创创作者",
+      "sha256": "fc2f2eedb70cc51678da84b1fb7b9e1f004a94364829478614c47789ac2829e9",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-fc2f2eedb70cc51678da84b1fb7b9e1f004a94364829478614c47789ac2829e9.np3"
+    },
+    {
+      "id": "b52e7f0b-f5f4-46b6-bb87-e275d599b87f",
+      "name": "VintageTouch_Amy",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/VintageTouch_Amy.NP3",
+      "category": "云创创作者",
+      "sha256": "82e334b74a16a8f3afd06acb9919d49efe1ca3af2560707a7707eccfaa45e290",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-82e334b74a16a8f3afd06acb9919d49efe1ca3af2560707a7707eccfaa45e290.np3"
+    },
+    {
+      "id": "85de8e18-499f-42ed-b6fa-68cddc798660",
+      "name": "VintageVibe_Preston",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/VintageVibe_Preston.NP3",
+      "category": "云创创作者",
+      "sha256": "fb546ff2e80ce04663bfd61a8f94fec1138812a16475d01b781a688a7d76e603",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-fb546ff2e80ce04663bfd61a8f94fec1138812a16475d01b781a688a7d76e603.np3"
+    },
+    {
+      "id": "4a863da4-61b7-4ad4-ad77-321212c0bf66",
+      "name": "VitalityFilm_Pmango",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/VitalityFilm_Pmango.NP3",
+      "category": "云创创作者",
+      "sha256": "448299b52677b06a6df831e06c028f43caf8da71b5b5039f1bc8cf9ca56e01ea",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-448299b52677b06a6df831e06c028f43caf8da71b5b5039f1bc8cf9ca56e01ea.np3"
+    },
+    {
+      "id": "0b3f54fb-030b-4966-b055-8acc98f57a60",
+      "name": "Warm Street_Ben",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/Warm Street_Ben.NP3",
+      "category": "云创创作者",
+      "sha256": "ce104928a4ee2445968061976b19b880919fe1b78ff5bbe0274963e68b4bad5f",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-ce104928a4ee2445968061976b19b880919fe1b78ff5bbe0274963e68b4bad5f.np3"
+    },
+    {
+      "id": "4d419682-7956-438f-812b-32ad1eb8099c",
+      "name": "WarmDimLight_Luna",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/WarmDimLight_Luna.NP3",
+      "category": "云创创作者",
+      "sha256": "6a2e78d6ec9efaffb4640e2cd269abed97c4a652f17e265293c2cb6f70005eaa",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-6a2e78d6ec9efaffb4640e2cd269abed97c4a652f17e265293c2cb6f70005eaa.np3"
+    },
+    {
+      "id": "8b5c8230-fec1-4fa1-8a4c-ffe5b2efa6e0",
+      "name": "WarmPortrait_Y2",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/WarmPortrait_Y2.NP3",
+      "category": "云创创作者",
+      "sha256": "97c9d5c910e515550159662db67581e01cbd364136c20957fe4f7082a0d75ee4",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-97c9d5c910e515550159662db67581e01cbd364136c20957fe4f7082a0d75ee4.np3"
+    },
+    {
+      "id": "1083b7d2-bb09-4ec8-9183-e43e602b19a9",
+      "name": "WarmtonedPtt_Wazika",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/WarmtonedPtt_Wazika.NP3",
+      "category": "云创创作者",
+      "sha256": "caad7473f66b5e3b6ee9b6773ac2739602da9b47424656b501f2d30b1a1dd9bb",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-caad7473f66b5e3b6ee9b6773ac2739602da9b47424656b501f2d30b1a1dd9bb.np3"
+    },
+    {
+      "id": "68168600-087b-40f2-acc6-7a36049da822",
+      "name": "Winter Hues_Eeva",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/Winter Hues_Eeva.NP3",
+      "category": "云创创作者",
+      "sha256": "8fc49064e5b790f50995855bc3b479f78861080c0d3bb64ae0b20d375e1017c1",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-8fc49064e5b790f50995855bc3b479f78861080c0d3bb64ae0b20d375e1017c1.np3"
+    },
+    {
+      "id": "fcebdb77-5d36-4547-8cd7-3c66cfd923ac",
+      "name": "Yuragi_Hinami",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Nikon Creators/Yuragi_Hinami.NP3",
+      "category": "云创创作者",
+      "sha256": "422a9f283ff4c22889ca0ca84c8ceb37b10a8097f6a93c453076aa70dfc73c91",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-422a9f283ff4c22889ca0ca84c8ceb37b10a8097f6a93c453076aa70dfc73c91.np3"
+    },
+    {
+      "id": "d1247a37-a19c-4cb3-b569-cb342d09d8c5",
+      "name": "Kodachrome",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/NikonPC/Kodachrome.NP3",
+      "category": "NikonPC",
+      "sha256": "94f514da2ca2baf325e4f32f26e026259c523fea45e47cbbaee6c149311e208a",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-94f514da2ca2baf325e4f32f26e026259c523fea45e47cbbaee6c149311e208a.np3"
+    },
+    {
+      "id": "b4a17308-6a2f-4429-96f5-5f71d088de4e",
+      "name": "Kodak Gold 100",
+      "file_format": "NCP",
+      "original_path": "Nikon-Recipes-main/NikonPC/Kodak Gold 100",
+      "category": "NikonPC",
+      "sha256": "cb16f10271fe1ca0c5665ddd38516615c20ae129d57a3b5fee1be177135bd9c9",
+      "byte_length": 638,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-cb16f10271fe1ca0c5665ddd38516615c20ae129d57a3b5fee1be177135bd9c9.ncp"
+    },
+    {
+      "id": "ec5495bd-1342-4030-983c-291335ed73f1",
+      "name": "Kodak Portra 160NC",
+      "file_format": "NCP",
+      "original_path": "Nikon-Recipes-main/NikonPC/Kodak Portra 160NC",
+      "category": "NikonPC",
+      "sha256": "90c53aafd20813978b38a771b0248831914190acffa0bc26b2cd09b290de910a",
+      "byte_length": 638,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-90c53aafd20813978b38a771b0248831914190acffa0bc26b2cd09b290de910a.ncp"
+    },
+    {
+      "id": "f921a7cb-30bc-4ad4-9669-4e4ae7ba77bf",
+      "name": "Kodak Portra NC",
+      "file_format": "NCP",
+      "original_path": "Nikon-Recipes-main/NikonPC/Kodak Portra NC",
+      "category": "NikonPC",
+      "sha256": "13b39b5df996d2992bbc7ea6e7d45c9f7933c6d177455a41258713dbcfeebf00",
+      "byte_length": 638,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-13b39b5df996d2992bbc7ea6e7d45c9f7933c6d177455a41258713dbcfeebf00.ncp"
+    },
+    {
+      "id": "93fdb802-38ed-428a-b385-9bf96e05a53a",
+      "name": "Kodak T-Max 400",
+      "file_format": "NCP",
+      "original_path": "Nikon-Recipes-main/NikonPC/Kodak T-Max 400.NCP",
+      "category": "NikonPC",
+      "sha256": "8c0d4203b1a62ed0b4a29c78e25b4790189b426eb48e9e6baa61c47270e38283",
+      "byte_length": 638,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-8c0d4203b1a62ed0b4a29c78e25b4790189b426eb48e9e6baa61c47270e38283.ncp"
+    },
+    {
+      "id": "910326a2-ffef-4fee-9200-bf50633e0afe",
+      "name": "ArmitageEktar100",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Alex Armitage/ArmitageEktar100.NP3",
+      "category": "第三方合集",
+      "sha256": "cf3bb724cf4bb013a938fff0a53b2ce16dcf15f4dc172e6a3a938553567bf607",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-cf3bb724cf4bb013a938fff0a53b2ce16dcf15f4dc172e6a3a938553567bf607.np3"
+    },
+    {
+      "id": "940c493e-8676-42f7-9a12-fa162f6c471c",
+      "name": "ArmitageKGold200",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Alex Armitage/ArmitageKGold200.NP3",
+      "category": "第三方合集",
+      "sha256": "ab6b470b7ac6327c93c80ca7469b07d447adde8e7c57cb88a4ae1c2337142643",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-ab6b470b7ac6327c93c80ca7469b07d447adde8e7c57cb88a4ae1c2337142643.np3"
+    },
+    {
+      "id": "0a34518f-e8c6-4dc4-a3c9-3d274160c683",
+      "name": "ArmitageKPortra800",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Alex Armitage/ArmitageKPortra800.NP3",
+      "category": "第三方合集",
+      "sha256": "1a494d1760c3c4adf6331e698c0188ef4f4b01c15d0a072a4c1a6ab3edbca409",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-1a494d1760c3c4adf6331e698c0188ef4f4b01c15d0a072a4c1a6ab3edbca409.np3"
+    },
+    {
+      "id": "fa360066-7b58-45a1-9d86-b00989d86240",
+      "name": "ArmitageProvia100F",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Alex Armitage/ArmitageProvia100F.NP3",
+      "category": "第三方合集",
+      "sha256": "701a40ad0b0d43826e295045a565f59b5c2c4a224c23cecf6ebb6e25bd3ad6ed",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-701a40ad0b0d43826e295045a565f59b5c2c4a224c23cecf6ebb6e25bd3ad6ed.np3"
+    },
+    {
+      "id": "174aef1f-c33d-421a-8211-e8169a44652a",
+      "name": "ArmitageWarmAutumn",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Alex Armitage/ArmitageWarmAutumn.NP3",
+      "category": "第三方合集",
+      "sha256": "e4473f409cd4439f116d26f65e3de3678d9c978783f546477730fde0cba94b16",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-e4473f409cd4439f116d26f65e3de3678d9c978783f546477730fde0cba94b16.np3"
+    },
+    {
+      "id": "3b2afbe5-a431-4621-9b58-fa67ac5507ac",
+      "name": "Classic Chrome",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Filmstill/Classic Chrome.NP3",
+      "category": "第三方合集",
+      "sha256": "ac4bdf62f214f8c82684f6e470dd45b176be5d0f7e3a62f6df0bac3f4eb3fe24",
+      "byte_length": 480,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-ac4bdf62f214f8c82684f6e470dd45b176be5d0f7e3a62f6df0bac3f4eb3fe24.np3"
+    },
+    {
+      "id": "edf986a6-2859-46e0-b298-ce02da48c23d",
+      "name": "FILMICBW",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Filmstill/FILMICBW.NP3",
+      "category": "第三方合集",
+      "sha256": "4e5ecbba2755c5807b9af7bf61c64eafa7e637b6b337324fabbc55ba3b63923a",
+      "byte_length": 1050,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-4e5ecbba2755c5807b9af7bf61c64eafa7e637b6b337324fabbc55ba3b63923a.np3"
+    },
+    {
+      "id": "63da7afb-be42-4a97-afb4-7b4596436a9d",
+      "name": "FILMSTILLFilmic",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Filmstill/FILMSTILLFilmic.NP3",
+      "category": "第三方合集",
+      "sha256": "ef6fbf0e68a60e43f25e7f78465f21d241772d9c48c44e851aaef310bc064278",
+      "byte_length": 1050,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-ef6fbf0e68a60e43f25e7f78465f21d241772d9c48c44e851aaef310bc064278.np3"
+    },
+    {
+      "id": "4eca271c-8397-4d96-b1ca-e3a9fbb8b7d1",
+      "name": "FIlmstill's Nostalgic Negative",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Filmstill/FIlmstill's Nostalgic Negative.NP3",
+      "category": "第三方合集",
+      "sha256": "7cf1f14368eb2143b05d424236455ea464cac602c956bf6de7345a289093b922",
+      "byte_length": 544,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-7cf1f14368eb2143b05d424236455ea464cac602c956bf6de7345a289093b922.np3"
+    },
+    {
+      "id": "9d572d7f-419b-4621-816b-dae438f1ecd1",
+      "name": "FilmstilGoldmatic",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Filmstill/FilmstilGoldmatic.NP3",
+      "category": "第三方合集",
+      "sha256": "7b038e42a744f0e09fc2dead821cd8dfca6f59a64fe21cc970d4c671860b7e08",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-7b038e42a744f0e09fc2dead821cd8dfca6f59a64fe21cc970d4c671860b7e08.np3"
+    },
+    {
+      "id": "3367e8a3-636d-4b3d-b329-e59b9978774e",
+      "name": "Filmstill's ARTE B&W",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Filmstill/Filmstill's ARTE B&W.NP3",
+      "category": "第三方合集",
+      "sha256": "3ea9d0668e701fe1f20f4aadfc7e444e21957809e441c0e31f4cddd3a592828b",
+      "byte_length": 1124,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-3ea9d0668e701fe1f20f4aadfc7e444e21957809e441c0e31f4cddd3a592828b.np3"
+    },
+    {
+      "id": "39d9fbb3-42a4-4a3d-92d3-5c54e73a2f16",
+      "name": "Filmstill's Astia",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Filmstill/Filmstill's Astia.NP3",
+      "category": "第三方合集",
+      "sha256": "4941da685b85014b64a6366e52f91c1328cf9ddff00ece525beba2590765bcb0",
+      "byte_length": 512,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-4941da685b85014b64a6366e52f91c1328cf9ddff00ece525beba2590765bcb0.np3"
+    },
+    {
+      "id": "3cee95a6-086a-4be4-82b5-561d114ebd42",
+      "name": "Filmstill's Classic Neg",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Filmstill/Filmstill's Classic Neg.NP3",
+      "category": "第三方合集",
+      "sha256": "e0f4f35502709b0780346bc6aae13729ea0ee93e3a301fec302ae35d20028484",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-e0f4f35502709b0780346bc6aae13729ea0ee93e3a301fec302ae35d20028484.np3"
+    },
+    {
+      "id": "f947f9a2-f88b-43e5-b13d-ca69df76c04b",
+      "name": "Filmstill's Portra",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Filmstill/Filmstill's Portra.NP3",
+      "category": "第三方合集",
+      "sha256": "40cce32a443f9ba21941335cdae74fa2551f3aa8d87c00a1d84f7e9db7519cf7",
+      "byte_length": 512,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-40cce32a443f9ba21941335cdae74fa2551f3aa8d87c00a1d84f7e9db7519cf7.np3"
+    },
+    {
+      "id": "b13c4d63-2d14-4d4f-99cd-ae86b66933d1",
+      "name": "Filmstill's Velvia",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Filmstill/Filmstill's Velvia.NP3",
+      "category": "第三方合集",
+      "sha256": "bdca73ba0f3901e6617ee8b7f13bc0c42047ace602de72a87a89165e5f0c6005",
+      "byte_length": 510,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-bdca73ba0f3901e6617ee8b7f13bc0c42047ace602de72a87a89165e5f0c6005.np3"
+    },
+    {
+      "id": "48534600-69fa-4176-b553-df6a8f7aa034",
+      "name": "KOLORA PUSHED",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Filmstill/KOLORA PUSHED.NP3",
+      "category": "第三方合集",
+      "sha256": "53420aad2ab272c598572b6c0ddea9db188922feec5cad57657e0a0275dd3035",
+      "byte_length": 1140,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-53420aad2ab272c598572b6c0ddea9db188922feec5cad57657e0a0275dd3035.np3"
+    },
+    {
+      "id": "924baf65-02a9-48cd-8154-42e518f60df5",
+      "name": "KOLORA",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Filmstill/KOLORA.NP3",
+      "category": "第三方合集",
+      "sha256": "65b87d642ebeb9271e87a4902abf895425ac75eb96227271e76180be0d09a150",
+      "byte_length": 1140,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-65b87d642ebeb9271e87a4902abf895425ac75eb96227271e76180be0d09a150.np3"
+    },
+    {
+      "id": "e91313f6-8095-47e2-abf4-a833021f93e7",
+      "name": "MGA AcrosLike FC",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon B&W Recipes/MGA AcrosLike FC.NP3",
+      "category": "第三方合集",
+      "sha256": "69e254811bb7434ade4b0c29ff52cdf87010b5850c7898241e7222e973af4942",
+      "byte_length": 1006,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-69e254811bb7434ade4b0c29ff52cdf87010b5850c7898241e7222e973af4942.np3"
+    },
+    {
+      "id": "2252305e-fcac-481a-b012-277cc79e1512",
+      "name": "MGA BW Portrait FC",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon B&W Recipes/MGA BW Portrait FC.NP3",
+      "category": "第三方合集",
+      "sha256": "f5d9fde9c7c7c18e55d4dd43d78db455b00ab69b3cd878b426ec6d70c634c853",
+      "byte_length": 1014,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-f5d9fde9c7c7c18e55d4dd43d78db455b00ab69b3cd878b426ec6d70c634c853.np3"
+    },
+    {
+      "id": "14d53bf6-8c41-4a1f-93f7-39aa6f36cd1f",
+      "name": "MGA HCM-Street",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon B&W Recipes/MGA HCM-Street.NP3",
+      "category": "第三方合集",
+      "sha256": "0dc749c904ad073fc537932ca46e785e261fa819bd31987fb3a942f105dc1b10",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-0dc749c904ad073fc537932ca46e785e261fa819bd31987fb3a942f105dc1b10.np3"
+    },
+    {
+      "id": "fc0dbff4-edae-4db6-bf68-b436bf4cf5ba",
+      "name": "MGA In-An-InstantBW",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon B&W Recipes/MGA In-An-InstantBW.NP3",
+      "category": "第三方合集",
+      "sha256": "b257a33ec6b90ec49eed9666bae8ba6761a9f57ab8d796dbae330ee36088c497",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-b257a33ec6b90ec49eed9666bae8ba6761a9f57ab8d796dbae330ee36088c497.np3"
+    },
+    {
+      "id": "e93cd5fa-840c-490c-9d0a-f40436643449",
+      "name": "MGA LeicaMono FC",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon B&W Recipes/MGA LeicaMono FC.NP3",
+      "category": "第三方合集",
+      "sha256": "119e2b94d1005abda0e4be1d029a3ff550cae46f4558163bd8d73ef508bafcf6",
+      "byte_length": 1020,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-119e2b94d1005abda0e4be1d029a3ff550cae46f4558163bd8d73ef508bafcf6.np3"
+    },
+    {
+      "id": "ef98b135-c2db-406a-8c4b-83c071ca0ce4",
+      "name": "MGA MonoFilmic FC",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon B&W Recipes/MGA MonoFilmic FC.NP3",
+      "category": "第三方合集",
+      "sha256": "b1edf9a952ad8dbbc393b94f40bbe774681d6290a4584585d7cbd0fbfc499e0f",
+      "byte_length": 1016,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-b1edf9a952ad8dbbc393b94f40bbe774681d6290a4584585d7cbd0fbfc499e0f.np3"
+    },
+    {
+      "id": "20d494b9-7f93-4d28-a509-070a1009d35f",
+      "name": "MGA TriX",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon B&W Recipes/MGA TriX.NP3",
+      "category": "第三方合集",
+      "sha256": "e66c1557ce6206ede2459d41848fa7d4912fe509ee89d831a46aecfa038ea57c",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-e66c1557ce6206ede2459d41848fa7d4912fe509ee89d831a46aecfa038ea57c.np3"
+    },
+    {
+      "id": "27b49f55-8f7a-466f-b395-458f766e853f",
+      "name": "MGA Everyday Chrome",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA Everyday Chrome.NP3",
+      "category": "第三方合集",
+      "sha256": "d2bb2b932d5dcd553952659c053ff2352da25dbcca5f7516d3864142bc1fcd50",
+      "byte_length": 426,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-d2bb2b932d5dcd553952659c053ff2352da25dbcca5f7516d3864142bc1fcd50.np3"
+    },
+    {
+      "id": "0f2b5f41-1820-4b9d-834f-da95c91dea95",
+      "name": "MGA EverydayChromeW",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA EverydayChromeW.NP3",
+      "category": "第三方合集",
+      "sha256": "50f6e451fac5d803df7d3de451444a54d28db998ef2464524fba97975a31229e",
+      "byte_length": 430,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-50f6e451fac5d803df7d3de451444a54d28db998ef2464524fba97975a31229e.np3"
+    },
+    {
+      "id": "94e0e999-f944-4b37-b1b1-8e0ff0c4340a",
+      "name": "MGA Futurist FC",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA Futurist FC.NP3",
+      "category": "第三方合集",
+      "sha256": "80a158a10c93e29b5000970e48eb6357a01038ab2f2bbe02b493ccade74a5cf2",
+      "byte_length": 1042,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-80a158a10c93e29b5000970e48eb6357a01038ab2f2bbe02b493ccade74a5cf2.np3"
+    },
+    {
+      "id": "76463c30-4544-4e3b-aa31-c06db4b7bf55",
+      "name": "MGA In-An-Instant",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA In-An-Instant.NP3",
+      "category": "第三方合集",
+      "sha256": "55690018c28a56b717234ce46ebf5d0a8b6ff58a8dca5658a10d52acac734337",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-55690018c28a56b717234ce46ebf5d0a8b6ff58a8dca5658a10d52acac734337.np3"
+    },
+    {
+      "id": "81e7dda3-00fc-49fe-8bc1-0da0b72258c3",
+      "name": "MGA Klassic Khrome",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA Klassic Khrome.NP3",
+      "category": "第三方合集",
+      "sha256": "31ffe533daaf62ab2d2cb914ebf9ff402343c7a33e7a07c60b8455782618d2f2",
+      "byte_length": 1012,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-31ffe533daaf62ab2d2cb914ebf9ff402343c7a33e7a07c60b8455782618d2f2.np3"
+    },
+    {
+      "id": "a0297ffa-4865-44e1-b163-b3c5c892e2bd",
+      "name": "MGA Kodachrome 2025",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA Kodachrome 2025.NP3",
+      "category": "第三方合集",
+      "sha256": "294fd35066da4b0b70a03da3433163395bbbb5ea23a5cc5d8385830a7f140cc0",
+      "byte_length": 1044,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-294fd35066da4b0b70a03da3433163395bbbb5ea23a5cc5d8385830a7f140cc0.np3"
+    },
+    {
+      "id": "9abc60af-bc99-4565-af37-0390fe94a478",
+      "name": "MGA Natural FC",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA Natural FC.NP3",
+      "category": "第三方合集",
+      "sha256": "794ff16e93636cb08bcc8cbf4d542daab8733872f6f06f5e3246fa5fdd16e44d",
+      "byte_length": 1010,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-794ff16e93636cb08bcc8cbf4d542daab8733872f6f06f5e3246fa5fdd16e44d.np3"
+    },
+    {
+      "id": "38c44d48-cc7e-47e9-9f78-38e437c06d1b",
+      "name": "MGA Nostalgic FC",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA Nostalgic FC.NP3",
+      "category": "第三方合集",
+      "sha256": "648b76db359101940772d8dbde09f971918ed1876800c81c8aec7e4385d58e5a",
+      "byte_length": 1002,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-648b76db359101940772d8dbde09f971918ed1876800c81c8aec7e4385d58e5a.np3"
+    },
+    {
+      "id": "54c3ae2f-74b6-4007-9691-ad21ce2988be",
+      "name": "MGA Nostalgic Past",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA Nostalgic Past.NP3",
+      "category": "第三方合集",
+      "sha256": "50808b3a4c0247185e593f578cacab081cef6a590e322a135c2fc2c12e231390",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-50808b3a4c0247185e593f578cacab081cef6a590e322a135c2fc2c12e231390.np3"
+    },
+    {
+      "id": "3286ae04-5dcf-4a81-a25a-9bd27ebcdae5",
+      "name": "MGA OldFilmish FC",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA OldFilmish FC.NP3",
+      "category": "第三方合集",
+      "sha256": "2c5d1f355f7264adce7a95e958839bd93960cd2746dc341d508989043c9700fe",
+      "byte_length": 1026,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-2c5d1f355f7264adce7a95e958839bd93960cd2746dc341d508989043c9700fe.np3"
+    },
+    {
+      "id": "caf7c812-979f-467f-9350-2d98b10ee705",
+      "name": "MGA OldSchool RTP",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA OldSchool RTP.NP3",
+      "category": "第三方合集",
+      "sha256": "65a4f090bf49dfbb3b69bdf866181b69b4aa6f7772a9cff21c25ca7b0e2a8d14",
+      "byte_length": 1012,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-65a4f090bf49dfbb3b69bdf866181b69b4aa6f7772a9cff21c25ca7b0e2a8d14.np3"
+    },
+    {
+      "id": "52010a67-4f5a-4e0a-a99f-5ec1cbb3c42b",
+      "name": "MGA Paintry FC",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA Paintry FC.NP3",
+      "category": "第三方合集",
+      "sha256": "06445c3f1e48bc34943fba3ccf86756821a751cc4dcf39622f68f5467ab33be3",
+      "byte_length": 426,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-06445c3f1e48bc34943fba3ccf86756821a751cc4dcf39622f68f5467ab33be3.np3"
+    },
+    {
+      "id": "d2f5c5d9-382b-4fa2-a663-1185b04e1d80",
+      "name": "MGA Portra-Fade FC",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA Portra-Fade FC.NP3",
+      "category": "第三方合集",
+      "sha256": "427136fda08cdf38aa2d7c17c9ea3f4d31cd57befd1c4d047ebe1303d979a819",
+      "byte_length": 1006,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-427136fda08cdf38aa2d7c17c9ea3f4d31cd57befd1c4d047ebe1303d979a819.np3"
+    },
+    {
+      "id": "169c6392-8516-4440-bf0c-1b39ec5d493f",
+      "name": "MGA Portra-Ish FC",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA Portra-Ish FC.NP3",
+      "category": "第三方合集",
+      "sha256": "7eea798b9a87a5af91083f7727d220316e132da8b344e6cce08a622312440830",
+      "byte_length": 1012,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-7eea798b9a87a5af91083f7727d220316e132da8b344e6cce08a622312440830.np3"
+    },
+    {
+      "id": "94d41130-cb01-488a-b383-ea4d9228f8a7",
+      "name": "MGA Retrofy 2",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA Retrofy 2.NP3",
+      "category": "第三方合集",
+      "sha256": "dbcb1e373910def174851a35ac7b7d729c8eab9664d0f634ec6fe66d67d2d462",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-dbcb1e373910def174851a35ac7b7d729c8eab9664d0f634ec6fe66d67d2d462.np3"
+    },
+    {
+      "id": "c493ee4f-f493-4642-a46f-af89fe82e9ba",
+      "name": "MGA Retrofy",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA Retrofy.NP3",
+      "category": "第三方合集",
+      "sha256": "85ecc76b0a4e546c0f40e6ae7f7d34818639a7dadd2d48cb8d414266e14755e4",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-85ecc76b0a4e546c0f40e6ae7f7d34818639a7dadd2d48cb8d414266e14755e4.np3"
+    },
+    {
+      "id": "9562cfb7-db40-4ae7-a9b7-16cdf2e0003f",
+      "name": "MGA Sandstorm",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA Sandstorm.NP3",
+      "category": "第三方合集",
+      "sha256": "fdd1935c1b937e9ee2ab5984455b992a99da909b68cc60bae7075b8a41e4c05f",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-fdd1935c1b937e9ee2ab5984455b992a99da909b68cc60bae7075b8a41e4c05f.np3"
+    },
+    {
+      "id": "ded4ca3b-f6e6-4739-9405-ad7066e3c020",
+      "name": "MGA Slide 2",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA Slide 2.NP3",
+      "category": "第三方合集",
+      "sha256": "ffc373271890dd6f3b716e7e1a29c5c8ec8eed44fb34e43448e5231442671a6a",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-ffc373271890dd6f3b716e7e1a29c5c8ec8eed44fb34e43448e5231442671a6a.np3"
+    },
+    {
+      "id": "013a6de7-c4ea-47d6-b1e8-554ab4bc2aea",
+      "name": "MGA Slide",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA Slide.NP3",
+      "category": "第三方合集",
+      "sha256": "bfc1aeed642829ccd5e5be55fc942b6a2b254d88bf246eeaaf4d6cc7e5bde5ca",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-bfc1aeed642829ccd5e5be55fc942b6a2b254d88bf246eeaaf4d6cc7e5bde5ca.np3"
+    },
+    {
+      "id": "6598a533-bfce-4fa2-a5a5-5b06e7d07c1d",
+      "name": "MGA Summer Memories",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA Summer Memories.NP3",
+      "category": "第三方合集",
+      "sha256": "5033d1628c7e7c347fae8390e63e3e3e57e864c90df8484182cd0136053d024d",
+      "byte_length": 1026,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-5033d1628c7e7c347fae8390e63e3e3e57e864c90df8484182cd0136053d024d.np3"
+    },
+    {
+      "id": "8b690d9d-8967-40d4-930d-b635fa70c063",
+      "name": "MGA WEZZY",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA WEZZY.NP3",
+      "category": "第三方合集",
+      "sha256": "b82ffc0c096e39f429baad3957ab634e197d76785ff699c7bb9e07bcc0636417",
+      "byte_length": 1064,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-b82ffc0c096e39f429baad3957ab634e197d76785ff699c7bb9e07bcc0636417.np3"
+    },
+    {
+      "id": "2f58f9b7-a9bf-46ba-a4d1-86029c4c5b9c",
+      "name": "Premium Dreamy Mono",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Premium Recipes/Premium Dreamy Mono.NP3",
+      "category": "第三方合集",
+      "sha256": "886cc2b108050b2d7c27052cd17f005d6f98800bb577493971a0f221c247313d",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-886cc2b108050b2d7c27052cd17f005d6f98800bb577493971a0f221c247313d.np3"
+    },
+    {
+      "id": "334f7aea-0bc7-4727-a118-27e177e74d9e",
+      "name": "Premium Dreamy Peep",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Premium Recipes/Premium Dreamy Peep.NP3",
+      "category": "第三方合集",
+      "sha256": "d3774968a0c3919ba7e4ddabd876bb84d9a77c3d733d7cfad53fcdda937e26af",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-d3774968a0c3919ba7e4ddabd876bb84d9a77c3d733d7cfad53fcdda937e26af.np3"
+    },
+    {
+      "id": "186816f8-62d4-4972-84b8-ce95a6affe36",
+      "name": "Premium Koda2025",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Premium Recipes/Premium Koda2025.NP3",
+      "category": "第三方合集",
+      "sha256": "b514d6f5dcc9e9948e61a83b3edf1d5afccac2ef95ccf92b9d85f46ab93ce8e6",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-b514d6f5dcc9e9948e61a83b3edf1d5afccac2ef95ccf92b9d85f46ab93ce8e6.np3"
+    },
+    {
+      "id": "310dafea-9b39-4b8c-90bc-c025c693d211",
+      "name": "Premium Monochrome",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Premium Recipes/Premium Monochrome.NP3",
+      "category": "第三方合集",
+      "sha256": "8c3ddbd4505c9d443ce99b136d2f4cdaea662795176d668c8d17c897446aac1b",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-8c3ddbd4505c9d443ce99b136d2f4cdaea662795176d668c8d17c897446aac1b.np3"
+    },
+    {
+      "id": "0594c237-313a-47db-bd9d-6a6b45a99b1b",
+      "name": "Premium Negative",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Premium Recipes/Premium Negative.NP3",
+      "category": "第三方合集",
+      "sha256": "429e825ef81d225abfc068d1be886d868e0156a8e9bdbd1d2b2a0d666a29b8d8",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-429e825ef81d225abfc068d1be886d868e0156a8e9bdbd1d2b2a0d666a29b8d8.np3"
+    },
+    {
+      "id": "b815d9ae-3525-4eca-bcce-ef28c14b0a9d",
+      "name": "Premium Nostalgic",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Premium Recipes/Premium Nostalgic.NP3",
+      "category": "第三方合集",
+      "sha256": "a520b7c2116cb534320089cb4aa9b528a8383019aa0259bc1b1baca487f74ac2",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-a520b7c2116cb534320089cb4aa9b528a8383019aa0259bc1b1baca487f74ac2.np3"
+    },
+    {
+      "id": "291cb02b-9fe5-4e57-8bfc-131f2fc28624",
+      "name": "Premium Standard V2",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Premium Recipes/Premium Standard V2.NP3",
+      "category": "第三方合集",
+      "sha256": "4b65b782b4ede75cb17d0fe8d43d357dcbc98a64f2f13f16f7ded920588c3687",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-4b65b782b4ede75cb17d0fe8d43d357dcbc98a64f2f13f16f7ded920588c3687.np3"
+    },
+    {
+      "id": "323a819c-d17d-4f36-80df-2fd9cdff2ebc",
+      "name": "Premium Standard",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Premium Recipes/Premium Standard.NP3",
+      "category": "第三方合集",
+      "sha256": "9bbf73a5159109930f057d6fd21c1a01ddd674fc8fee7b4aa0e444804b6e9beb",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-9bbf73a5159109930f057d6fd21c1a01ddd674fc8fee7b4aa0e444804b6e9beb.np3"
+    },
+    {
+      "id": "830acb6a-1929-4c4b-9007-c5383554225c",
+      "name": "Premium Vivid Norm",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Premium Recipes/Premium Vivid Norm.NP3",
+      "category": "第三方合集",
+      "sha256": "6b834b62c335ecbe299c1ead06aa00b6a256c7e99ab0703015ce32db83c24e77",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-6b834b62c335ecbe299c1ead06aa00b6a256c7e99ab0703015ce32db83c24e77.np3"
+    },
+    {
+      "id": "827616f1-0f84-4c6e-8eb1-c7c3e4ec68d4",
+      "name": "Premium Vivid Punch",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Premium Recipes/Premium Vivid Punch.NP3",
+      "category": "第三方合集",
+      "sha256": "3cfa3b8b4d5aaca91e03dae3eb81c4ec0455a7c6900a155d24b5748bf63b0fac",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-3cfa3b8b4d5aaca91e03dae3eb81c4ec0455a7c6900a155d24b5748bf63b0fac.np3"
+    },
+    {
+      "id": "0c70bf8c-437a-4d4c-9de0-68666fc1ea58",
+      "name": "PremiumCinema Green",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Premium Recipes/PremiumCinema Green.NP3",
+      "category": "第三方合集",
+      "sha256": "933ef72c38aa8b6805c90ba9575ebf3c3325a9d5f25b980c9fba0575e85c9ec0",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-933ef72c38aa8b6805c90ba9575ebf3c3325a9d5f25b980c9fba0575e85c9ec0.np3"
+    },
+    {
+      "id": "a1809da8-1da8-448b-be73-ccad39c07042",
+      "name": "Wedding V1 Colour",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Premium Recipes/Wedding V1 Colour.NP3",
+      "category": "第三方合集",
+      "sha256": "48cfccd718726bf94be3a886930b0c6df8b0d970e9cd1dd2caba2cef7b22a006",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-48cfccd718726bf94be3a886930b0c6df8b0d970e9cd1dd2caba2cef7b22a006.np3"
+    },
+    {
+      "id": "59477ff7-9ad1-43a0-93d0-f7076fb99c95",
+      "name": "Wedding V1 Mono",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Premium Recipes/Wedding V1 Mono.NP3",
+      "category": "第三方合集",
+      "sha256": "5f9c25da00934ed2b2e34c6e04632661b182d0daf36034a8b50867dad91f7e8a",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-5f9c25da00934ed2b2e34c6e04632661b182d0daf36034a8b50867dad91f7e8a.np3"
+    },
+    {
+      "id": "52d92395-ea5d-431c-b5e8-2ede5bb78730",
+      "name": "MGA Pop! (Blue)",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Special Recipes/MGA Pop! (Blue).NP3",
+      "category": "第三方合集",
+      "sha256": "2d02b50883f0ac72c869faba97bd05eeac07c1cdaa694e29bca5aa9163fc12d5",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-2d02b50883f0ac72c869faba97bd05eeac07c1cdaa694e29bca5aa9163fc12d5.np3"
+    },
+    {
+      "id": "fe5ec986-6210-4eb9-9a12-425fa4e70894",
+      "name": "MGA Pop! (Green)",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Special Recipes/MGA Pop! (Green).NP3",
+      "category": "第三方合集",
+      "sha256": "c8e386881f1657e012faff7ef3e119c66d8a1c790ccabfb5b39eed7352b11dbc",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-c8e386881f1657e012faff7ef3e119c66d8a1c790ccabfb5b39eed7352b11dbc.np3"
+    },
+    {
+      "id": "4826f451-2d1a-4fb2-9a2d-853ee051c1fe",
+      "name": "MGA Pop! (Red)",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Special Recipes/MGA Pop! (Red).NP3",
+      "category": "第三方合集",
+      "sha256": "5f68df2da11505fd6746835b50f80ae95d2adef949a05e46deb547611b5a3982",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-5f68df2da11505fd6746835b50f80ae95d2adef949a05e46deb547611b5a3982.np3"
+    },
+    {
+      "id": "c3990bac-b372-4668-b4db-8e4eb3291489",
+      "name": "MGA Standard MovieT",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Special Recipes/MGA Standard MovieT.NP3",
+      "category": "第三方合集",
+      "sha256": "d66a2c87c88a1ad864287f6d40c2934efa865cf7cf69b463eeceb723d897272e",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-d66a2c87c88a1ad864287f6d40c2934efa865cf7cf69b463eeceb723d897272e.np3"
+    },
+    {
+      "id": "37b40141-85df-4593-9d97-e7f83223dfe7",
+      "name": "A-X+rossandhisjpegs",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Ross And His JPEGs/A-X+rossandhisjpegs.NP3",
+      "category": "第三方合集",
+      "sha256": "12a22849f98b98ffe5e243d254ddcd14b74a33796df0f892b312556eb2eeb8de",
+      "byte_length": 1234,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-12a22849f98b98ffe5e243d254ddcd14b74a33796df0f892b312556eb2eeb8de.np3"
+    },
+    {
+      "id": "4a455b8a-1ef5-476d-8e64-743bdc79320a",
+      "name": "B-7+rossandhisjpegs",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Ross And His JPEGs/B-7+rossandhisjpegs.NP3",
+      "category": "第三方合集",
+      "sha256": "90e8591158c23c00ffbbc1d92a171d5df837422d2afef88fd884ff46465f608a",
+      "byte_length": 1196,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-90e8591158c23c00ffbbc1d92a171d5df837422d2afef88fd884ff46465f608a.np3"
+    },
+    {
+      "id": "9dc31505-6b1e-42e5-a476-2e8f68935b26",
+      "name": "H-1+rossandhisjpegs",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Ross And His JPEGs/H-1+rossandhisjpegs.NP3",
+      "category": "第三方合集",
+      "sha256": "dd0b039e38141cae8b95d6bfe31016f010687251cbbc74ba70192d2f15fae70b",
+      "byte_length": 1224,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-dd0b039e38141cae8b95d6bfe31016f010687251cbbc74ba70192d2f15fae70b.np3"
+    },
+    {
+      "id": "a503e19b-d609-4770-8814-b9afe59835fe",
+      "name": "N-3+rossandhisjpegs",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Ross And His JPEGs/N-3+rossandhisjpegs.NP3",
+      "category": "第三方合集",
+      "sha256": "e19327df046b7913a04984118f15df56ecb276eded50d7880a2e84d919213645",
+      "byte_length": 1228,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-e19327df046b7913a04984118f15df56ecb276eded50d7880a2e84d919213645.np3"
+    },
+    {
+      "id": "2140b800-f298-4d09-b6af-23c9f88e5afc",
+      "name": "Scott's Gold 200",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Scott Tucker/Scott's Gold 200.NP3",
+      "category": "第三方合集",
+      "sha256": "bcbf80c91769c14ac116a52ccb7f9ba0c6544c812ae716ff1dc306c3cb765923",
+      "byte_length": 1046,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-bcbf80c91769c14ac116a52ccb7f9ba0c6544c812ae716ff1dc306c3cb765923.np3"
+    },
+    {
+      "id": "744c3353-43ce-489b-b057-5c0b9e33ac5a",
+      "name": "Scott's Ilford 400 LO",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Scott Tucker/Scott's Ilford 400 LO.NP3",
+      "category": "第三方合集",
+      "sha256": "ff57c07d5c7df1b6f6ffe031ada0b987f6242043c28a2837dc40e3ebdd14561f",
+      "byte_length": 1036,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-ff57c07d5c7df1b6f6ffe031ada0b987f6242043c28a2837dc40e3ebdd14561f.np3"
+    },
+    {
+      "id": "9d70423b-4609-4641-954c-9b0d181bfb50",
+      "name": "Scott's Ilford 400 MID",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Scott Tucker/Scott's Ilford 400 MID.NP3",
+      "category": "第三方合集",
+      "sha256": "413c77830dd1d13d2264808b6cf12eff48be9d3205f17af317375a2b2695298e",
+      "byte_length": 472,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-413c77830dd1d13d2264808b6cf12eff48be9d3205f17af317375a2b2695298e.np3"
+    },
+    {
+      "id": "0e6e47b6-5a93-4cbd-adf4-bbbae5e1473d",
+      "name": "Scott's Ilford 400",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Scott Tucker/Scott's Ilford 400.NP3",
+      "category": "第三方合集",
+      "sha256": "9dabea0e47dc0508a2babc7c0e38d709a7419feba31d8936b31c253d0abc4d95",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-9dabea0e47dc0508a2babc7c0e38d709a7419feba31d8936b31c253d0abc4d95.np3"
+    },
+    {
+      "id": "72308bcf-8284-42b5-b705-8811f33905d0",
+      "name": "Scott's Leiter CLR",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Scott Tucker/Scott's Leiter CLR.NP3",
+      "category": "第三方合集",
+      "sha256": "f4b7e2c80c10fb76bdbd3f7f24c50934598e6f2746c4dabda69ff8908ffbf1c0",
+      "byte_length": 1042,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-f4b7e2c80c10fb76bdbd3f7f24c50934598e6f2746c4dabda69ff8908ffbf1c0.np3"
+    },
+    {
+      "id": "0bce8298-eeff-469c-9720-2d5eee846f5e",
+      "name": "Scott's Leiter",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Scott Tucker/Scott's Leiter.NP3",
+      "category": "第三方合集",
+      "sha256": "2f3c76e6f3e4117a0e5dfbb9c5950d93027f1736fb808f818cea38a46115b5ea",
+      "byte_length": 1062,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-2f3c76e6f3e4117a0e5dfbb9c5950d93027f1736fb808f818cea38a46115b5ea.np3"
+    },
+    {
+      "id": "5153bee9-4162-46c9-80ca-531c7b01c2ee",
+      "name": "Scott's Vintage Film HI",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Scott Tucker/Scott's Vintage Film HI.NP3",
+      "category": "第三方合集",
+      "sha256": "8d125d9cf73c20e9194f977ae91c7e2c4ac072727dce301c8af0939671d22f43",
+      "byte_length": 450,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-8d125d9cf73c20e9194f977ae91c7e2c4ac072727dce301c8af0939671d22f43.np3"
+    },
+    {
+      "id": "d04e6a93-dd51-4f57-8ea9-ad000d6aaec9",
+      "name": "Scott's Vintage Film",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Scott Tucker/Scott's Vintage Film.NP3",
+      "category": "第三方合集",
+      "sha256": "b42e811486a60ba4c3a4660c44712ec272b4df2dd3568df9086d8f8784953f76",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-b42e811486a60ba4c3a4660c44712ec272b4df2dd3568df9086d8f8784953f76.np3"
+    },
+    {
+      "id": "6c0d43d1-92b5-4f23-908f-02efe267152d",
+      "name": "AgU100",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Stephen Morais/AgU100.NP3",
+      "category": "第三方合集",
+      "sha256": "a5c1950e7a55ed3c51fb659e7e708b09ab9631674e6b091470540a39aaa43071",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-a5c1950e7a55ed3c51fb659e7e708b09ab9631674e6b091470540a39aaa43071.np3"
+    },
+    {
+      "id": "ec92643b-a9d1-4622-8c68-32054285b291",
+      "name": "CUBANO",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Stephen Morais/CUBANO.NP3",
+      "category": "第三方合集",
+      "sha256": "8e860a7efd063bd250dd47c5ec39f7c84e9f4fbaa1cd944c0c3cd7f0787d4773",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-8e860a7efd063bd250dd47c5ec39f7c84e9f4fbaa1cd944c0c3cd7f0787d4773.np3"
+    },
+    {
+      "id": "d2431d73-bda2-43c9-95c8-9ed164f7fa62",
+      "name": "E100",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Stephen Morais/E100.NP3",
+      "category": "第三方合集",
+      "sha256": "60090e6c2b09d33c1ad819b31181547dd79268639a24c06f60c3b4c540a38e4a",
+      "byte_length": 1018,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-60090e6c2b09d33c1ad819b31181547dd79268639a24c06f60c3b4c540a38e4a.np3"
+    },
+    {
+      "id": "2505ee0e-69f4-4ac3-bfd2-8ae753bc5f79",
+      "name": "F400H",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Stephen Morais/F400H.NP3",
+      "category": "第三方合集",
+      "sha256": "4ffe6d32000bb524138b1470e54f3927263a904892957fc1db60170ba71182f8",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-4ffe6d32000bb524138b1470e54f3927263a904892957fc1db60170ba71182f8.np3"
+    },
+    {
+      "id": "94ceb771-d170-468c-a893-c343a8a88a40",
+      "name": "FProvia100F",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Stephen Morais/FProvia100F.NP3",
+      "category": "第三方合集",
+      "sha256": "e5550073409bd64fa8caf57d01705014c81c8a948515d3dbde9c975237be8af7",
+      "byte_length": 1022,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-e5550073409bd64fa8caf57d01705014c81c8a948515d3dbde9c975237be8af7.np3"
+    },
+    {
+      "id": "5bc64376-9497-4111-a734-6558674817ff",
+      "name": "FSol100",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Stephen Morais/FSol100.NP3",
+      "category": "第三方合集",
+      "sha256": "a60659a6e6d647e8499a016c55dbf9dbc4f664026b722cfca7c98e35f642f57a",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-a60659a6e6d647e8499a016c55dbf9dbc4f664026b722cfca7c98e35f642f57a.np3"
+    },
+    {
+      "id": "ac0e5890-d154-4d9b-b86b-252df6ecde7e",
+      "name": "KCHROME",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Stephen Morais/KCHROME.NP3",
+      "category": "第三方合集",
+      "sha256": "c9c0754eae873c7fd29bb2778dea470670d0b0e1b4b28d385f0dedc50859417a",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-c9c0754eae873c7fd29bb2778dea470670d0b0e1b4b28d385f0dedc50859417a.np3"
+    },
+    {
+      "id": "3262d0af-c72e-40b9-ac86-5cb27f0853d1",
+      "name": "KEktr100",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Stephen Morais/KEktr100.NP3",
+      "category": "第三方合集",
+      "sha256": "6d3a79caa5b0e93b8d29fbae6f7450d2ef3849c54781b0181347b470351ac8b4",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-6d3a79caa5b0e93b8d29fbae6f7450d2ef3849c54781b0181347b470351ac8b4.np3"
+    },
+    {
+      "id": "cc4883da-6871-4ddc-9465-2498b6b378e4",
+      "name": "KG200",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Stephen Morais/KG200.NP3",
+      "category": "第三方合集",
+      "sha256": "470b2cecfde5714cea186f9374c1aefec92e9795e44b6448ae7a3603d110544c",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-470b2cecfde5714cea186f9374c1aefec92e9795e44b6448ae7a3603d110544c.np3"
+    },
+    {
+      "id": "359bea5c-1d89-49bc-9daf-d804d8274ff8",
+      "name": "KG200P1",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Stephen Morais/KG200P1.NP3",
+      "category": "第三方合集",
+      "sha256": "384776a142b61e73aa8691a0bbc146d5c60ad9c049133a4c664e856276063c1b",
+      "byte_length": 1034,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-384776a142b61e73aa8691a0bbc146d5c60ad9c049133a4c664e856276063c1b.np3"
+    },
+    {
+      "id": "7ad91d62-3a1c-41a8-bc82-1f26f1315b03",
+      "name": "KP160",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Stephen Morais/KP160.NP3",
+      "category": "第三方合集",
+      "sha256": "889301da6a030dc56de4c2ebddfcc36d81071ef0ac7935311128a3c6802c99d9",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-889301da6a030dc56de4c2ebddfcc36d81071ef0ac7935311128a3c6802c99d9.np3"
+    },
+    {
+      "id": "2a197079-ffc8-4c89-8720-2a231aea338c",
+      "name": "KP400",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Stephen Morais/KP400.NP3",
+      "category": "第三方合集",
+      "sha256": "7c3a7fafafac18d4d7e5c22cd217592bb73f67278f1170fe53af422005f7a9ff",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-7c3a7fafafac18d4d7e5c22cd217592bb73f67278f1170fe53af422005f7a9ff.np3"
+    },
+    {
+      "id": "5ac496e4-9991-447b-883e-49ecc6945bd2",
+      "name": "KP800",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Stephen Morais/KP800.NP3",
+      "category": "第三方合集",
+      "sha256": "3d2684f74cf63afa20104681709fd12171bbec9ea289ae938083b4dab769b2c8",
+      "byte_length": 1022,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-3d2684f74cf63afa20104681709fd12171bbec9ea289ae938083b4dab769b2c8.np3"
+    },
+    {
+      "id": "b6acde63-4f23-4859-84be-55ef150e58bf",
+      "name": "L100",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Stephen Morais/L100.NP3",
+      "category": "第三方合集",
+      "sha256": "1ee79f495d1296036ae7d8e63b37127c6b03c5e5d4be98bd07c7ac43cc482620",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-1ee79f495d1296036ae7d8e63b37127c6b03c5e5d4be98bd07c7ac43cc482620.np3"
+    },
+    {
+      "id": "29e75ea2-6100-406a-a841-211b0812f6e4",
+      "name": "LeicaSTD",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Stephen Morais/LeicaSTD.NP3",
+      "category": "第三方合集",
+      "sha256": "0c61830f080427079f01ff17977b64f5c4c3c47100781b2566a8adf1239575cb",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-0c61830f080427079f01ff17977b64f5c4c3c47100781b2566a8adf1239575cb.np3"
+    },
+    {
+      "id": "762341f8-70b9-4a75-9d12-b84ee912f559",
+      "name": "LeicaVIV",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Stephen Morais/LeicaVIV.NP3",
+      "category": "第三方合集",
+      "sha256": "4e0fc4f3b8eb5479d974341546d0c0171d7f0921ec44a2fd6fef98226a40b428",
+      "byte_length": 392,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-4e0fc4f3b8eb5479d974341546d0c0171d7f0921ec44a2fd6fef98226a40b428.np3"
+    },
+    {
+      "id": "a3b173d4-933c-4863-a795-3e71de581439",
+      "name": "LoFi",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Stephen Morais/LoFi.NP3",
+      "category": "第三方合集",
+      "sha256": "c0d087d5f66ddae65373159c16b19d221d2568ed8362be4b802f0ef35fb0d087",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-c0d087d5f66ddae65373159c16b19d221d2568ed8362be4b802f0ef35fb0d087.np3"
+    },
+    {
+      "id": "7ff7cef2-ec84-4e4e-804a-769abe4ecfbc",
+      "name": "OptiColour200",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Stephen Morais/OptiColour200.NP3",
+      "category": "第三方合集",
+      "sha256": "3bbd8afcb48c5b2f70891e0494a9da54cb17f9b0f62af5cab074b649ab3be3ac",
+      "byte_length": 1020,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-3bbd8afcb48c5b2f70891e0494a9da54cb17f9b0f62af5cab074b649ab3be3ac.np3"
+    },
+    {
+      "id": "9957d65e-df0e-4d53-abf0-fc348a8121ec",
+      "name": "WL3",
+      "file_format": "NP3",
+      "original_path": "Nikon-Recipes-main/Third Party Creators/Stephen Morais/WL3.NP3",
+      "category": "第三方合集",
+      "sha256": "c5933056cf778b4316df85ef1b4102770d109781b0d6669189c9208112722dd3",
+      "byte_length": 978,
+      "download_url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-c5933056cf778b4316df85ef1b4102770d109781b0d6669189c9208112722dd3.np3"
+    }
+  ]
+}

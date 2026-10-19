@@ -1,0 +1,39 @@
+0.9.6-beta / versionCode 45
+Verified: 2026-10-18 +08:00
+APK: nikon-usb-0.9.6-beta-debug.apk
+Bytes: 2966137
+SHA-256: 0fddfefe4932dab5e4be0ff5882555c8a36052c38f330a95d9dbc3f6b28252a1
+Signatures: v2 and v3 verified with existing certificate.
+
+Change:
+- Online presets without a preview image show the current original template, defaulting to the built-in photo.
+- A failed publisher sample also falls back to this cover and keeps the detail-page sample retry action.
+- Cover badge/accessibility/detail text explicitly say template illustration, with no preset applied yet.
+- Existing downloaded NCP simulation/comparison and valid publisher samples retain their paths.
+- Template pixels are loaded on the image worker and cached by a separate template/version key.
+- Completion checks template version, page epoch and ImageView tag; sample URL cache is never seeded
+  with fallback pixels. Visible sample failure rebuilds cover/description together.
+
+Verification:
+- Complete product APK compilation and signing succeeded.
+- Same-certificate emulator-only Instrumentation on Pixel 9 / Android 17 checked four states:
+  empty preview URL, pre-marked failed URL, valid cached sample and missing-image detail page.
+- All four passed; actual template decoded, visible badge/description checked, valid sample retained,
+  template cache separated from publisher URL, and no hold-to-compare implied for the illustration.
+- Screenshot/runner evidence: .impeccable/review/template-cover-0.9.6/ (report.json, PNG and logs).
+- Fixtures existed only in memory and were restored; no cloud preset, account or template setting added.
+- Backend already supports optional preview files. Added HTTP regression covers no-image publication,
+  adding an image as a private draft, revision conflict, publication, removal and immutable old versions;
+  invalid/missing assets and forged image bytes still rejected.
+- Backend local tests: 64 passed. Syntax/source checks: 24 modules passed.
+- Backend runtime/admin code and cloud deployment unchanged.
+
+Physical phone:
+- adb install -r succeeded on connected PKG110 / 286f0dba without uninstall or data clear.
+- Installed versionName 0.9.6-beta / versionCode 45 confirmed; launch succeeded.
+- No user credentials or real photos were read, and no cloud preset was published for testing.
+
+Scope limits:
+- UI fixtures directly render product preview/detail components, without certifying the entire page chrome.
+- Failed URL fixture starts with a failure marker; real remote timeout timing was not tested this round.
+- No new physical-camera, photo-live, lock-screen, tablet or performance test is claimed.

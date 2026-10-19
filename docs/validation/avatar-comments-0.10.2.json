@@ -1,0 +1,74 @@
+{
+  "date": "2026-10-18",
+  "environment": "nikon-d8girdjsr252fd90e",
+  "app": {
+    "version": "0.10.2-beta",
+    "versionCode": 56,
+    "channel": "beta",
+    "bytes": 3274269,
+    "sha256": "91ce0f51527a50d49ef37915d07439d043c9c77f42751fcb6c13d8d0f52beb10",
+    "published": true,
+    "publicBytesVerified": true,
+    "physicalPhoneInstalled": false
+  },
+  "backend": {
+    "migrationsAppliedThrough": "008-preset-formats.sql",
+    "httpTests": 102,
+    "failures": 0,
+    "avatarLiveChecks": 13,
+    "ownedLiveFixturesCleaned": true,
+    "trustedProxyHopsPreserved": 4,
+    "liveAvatarReport": "online-library/build/avatar-live-verification.json"
+  },
+  "ncp": {
+    "actualBlueskyBytes": 638,
+    "actualBlueskySha256": "2bab29630bbc537025c5daf68f6b7ab90a866e5c97e6dc7430dd4fe4ad547eb6",
+    "recognizedModificationStates": [0, 1, 2],
+    "cameraParameterBytes": 614,
+    "knownStatesProduceSameCameraParameters": true,
+    "unknownStatesAndOtherValidationRemainRejected": true,
+    "sourceUnchanged": true,
+    "converterChecks": 98,
+    "previewChecks": 2168,
+    "physicalCameraWritePerformed": false
+  },
+  "android": {
+    "finalInlineLightChecks": 94,
+    "finalInlineDarkChecks": 94,
+    "finalInlineLandscapeChecks": 106,
+    "finalSupplementVisualChecks": [12, 15],
+    "finalInlineApkSha256": "91ce0f51527a50d49ef37915d07439d043c9c77f42751fcb6c13d8d0f52beb10",
+    "avatarLightChecks": 140,
+    "avatarDarkChecks": 140,
+    "avatarCandidateApkSha256": "09e37a68ba210c82ca5db20628580e92851a92189f5b3360fe2b5879298ee179",
+    "avatarScope": "Avatar UI and image pipeline unchanged after candidate; final account/author-binding host regression passed. Real public upload tested separately against the deployed backend.",
+    "accountHostChecks": 150,
+    "communityHostChecks": 33,
+    "replyPagingChecks": 94,
+    "feedPagingChecks": 17,
+    "qqGateChecks": 23,
+    "challengeChecks": 18,
+    "oldDownloadsRecoveredWithoutReplacingScroll": true,
+    "guestAndSameAccountDraftPreserved": true,
+    "crossAccountDraftCleared": true,
+    "queuedCommentAuthorBoundAtomically": true,
+    "inlineEvidence": ".impeccable/review/avatar-inline-0.10.2/INLINE-QA.md",
+    "avatarEvidence": ".impeccable/review/avatar-inline-0.10.2/avatar-native/QA.md"
+  },
+  "parallelPresetImport": {
+    "newPresets": 240,
+    "newNP3": 236,
+    "newNCP": 4,
+    "publicCatalogCount": 241,
+    "allOriginalPublicBytesVerifiedByOwningTask": true,
+    "np3StorageDownloadOnly": true,
+    "evidence": "dist/nikon-cloud-recipes-20261018/system-upload-report.json"
+  },
+  "limits": [
+    "Native UI scenarios use in-memory accounts/comments and synthetic images/downloads on an isolated emulator.",
+    "Real QQ authorization was not performed in this task.",
+    "No physical camera import or rendering-equivalence claim follows from the NCP metadata fix.",
+    "Existing phone data and live camera connections were not accessed by this task.",
+    "NP3 has no camera import, template effect, or photo-application support."
+  ]
+}

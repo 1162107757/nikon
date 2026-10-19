@@ -1,0 +1,91 @@
+Nikon Preset 0.9.0-beta / versionCode 39
+2026-10-17 Asia/Shanghai
+STATUS: FINAL SOURCE FROZEN; BUILD/HOST AND SYNTHETIC NATIVE CHECKS RECORDED.
+PHONE PRESERVE-DATA INSTALL, VERSION/HASH AND LAUNCH VERIFIED.
+APK: nikon-usb-0.9.0-beta-debug.apk
+Final artifact: 2,929,273 bytes, built 2026-10-17 21:59:24 +08:00.
+SHA-256 ed5bab298536698a323c18b3ee9c58747f77f3647bcfd851ef0755dde23f86ee.
+Production build passes. Final UI includes picker lifecycle and hero layout fixes.
+
+IMPLEMENTED SCOPE
+Project receipt sheet reads local saved/transferring/retry records, timestamps,
+sizes, concise errors and local thumbnails. All/Pending/Saved filters include
+automatic-effect pending/retry state. Opening it does not connect or download.
+Explicit retry and continue-project actions retain the selected existing project;
+local effect retry does not require a camera. No project is automatically created.
+Photo stars persist; Project and Downloaded offer a star filter. Download identity
+binding retains camera-photo stars on local originals across Activity recreation.
+Default presets can be selected for new or existing projects from validated local
+presets. New originals are retained, then automatic local processing creates and
+publishes effect copies using the existing NCP phone approximation. Configuration
+changes/disablement affect later discoveries only; queued tasks retain the fixed
+preset. Originals have reception priority; automatic work waits for manual batches.
+Queued/processing tasks recover after process restart; failed work requires explicit
+retry. Owned source basename/byte length and existing derived-output/publication
+idempotency checks protect source files and avoid duplicate effect publication.
+This does not add camera-native rendering or change preset-import authorization.
+
+CURRENT HOST CHECKS: KEEP GROUPS SEPARATE, DO NOT ADD INTO A TOTAL
+Stars: 178.
+Project preset store: 146.
+Receive receipts: 105.
+Controller focused: 42; controller: 796; project store: 355; folders: 100.
+Automatic project preset queue: 23; app/build/project-auto-tests.log.
+Photo preset batch/source regression: 54 + 40 = 94;
+app/build/project-auto-batch-regression.log.
+Automatic checks cover fixed preset snapshots, manual job ownership, per-job
+terminal results, repeated events, publication retry, createdAt cutoff, interrupted
+task recovery, source byte-length guard and service-reservation failure cleanup.
+Core queue/Batch/Runtime javac passes; diff --check exits 0 with existing CRLF
+warnings. Host filesystem/gallery/service facades do not establish Android codec,
+MediaStore, actual foreground-service or physical-camera behaviour.
+
+NATIVE EMULATOR
+Android 17/API37 only, PreviewTone and synthetic camera localhost port 15766.
+Earlier 6df candidate: create LiveQA with default preset; shot4 receives three
+duplicate events but produces one original and one effect. Its star is set there.
+Final ed5 preserve-data restart: shot4/effect, star and settings remain. Hold-original
+comparison uses the persisted effect on the final package.
+Final-package offline receipts -> Connect notice -> Settings -> Connect -> return
+to existing LiveQA without another name form; foreground-protection choice permits
+continuation. Shots5/6 receive events3/2 plus busy2/unready1 responses and each produce
+one original and one effect. Same project shows three receipts marked applied.
+Disable default; shot7 saves one original without an effect. Cumulative output is
+four originals and three effects in the correct MediaStore project folder; no
+Save As picker. Live/Downloaded star filters each show one photo. Original/effect
+stars are independent. Effects offer hold-original comparison; restart retains state.
+Final emulator-only screenshots in .impeccable/review/:
+phone-apple-v090-stars.png, phone-apple-v090-effect.png,
+phone-apple-v090-original-held.png, phone-apple-v090-resume-notice.png,
+phone-apple-v090-live-final.png. These are visually inspected; the repaired hero
+keeps a full thumbnail row even when the processing result card appears.
+phone-apple-v090-receipts.png belongs to the earlier 6df candidate, not final ed5.
+Final dark mode/font1.3 screenshot phone-apple-v090-receipts-dark.png is visually
+inspected: four records, status/size/time/preset text and bottom Continue are not
+clipped. Stop Live -> am force-stop -> cold start retains LiveQA's four originals,
+disabled default, four receipts and three applied states. Live does not auto-start.
+Emulator version39/0.9.0 is verified; font scale1.0/night no are restored.
+Final protocol trace docs/device-review/live-0.9.0-synthetic-protocol.log records
+three Opens, totalOriginalTransfers=4, closes=0, virtualWrites=0. Duplicate events
+and transient busy/not-ready responses do not duplicate originals. No physical
+camera is used. Crash filtering for com.nikonpreset/FATAL EXCEPTION has no match;
+the buffer contains an unrelated system/vendor UWB hardware-service failure,
+so the complete crash buffer is not described as empty. This task's emulator and
+synthetic server are stopped.
+
+PHONE
+2026-10-17 22:14:35 +08:00, 286f0dba / PKG110 / Android16.
+Before installation: services report nothing, version38/0.8.7.
+adb install -r succeeds without uninstalling or clearing data. Installed version
+is39/0.9.0; MainActivity launch succeeds and PID10046 is running. Full installed
+base.apk SHA-256 matches the final artifact:
+ed5bab298536698a323c18b3ee9c58747f77f3647bcfd851ef0755dde23f86ee.
+Read-only UI text shows the default-preset picker with existing Agfa Optima. The
+user is operating this screen; no choice or dismissal is performed by the agent.
+No phone screenshot export, real-photo selection/preset processing, camera
+connection or new background/lock-screen acceptance is performed.
+
+LIMITS
+No new physical-camera, USB-write, Doze, lock-screen or real-photo acceptance.
+Older version evidence is retained at its original version/scope. No earlier suite
+is presented as a current run unless listed above.

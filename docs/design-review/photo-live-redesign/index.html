@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Huevia · 照片直播设计评审</title>
+  <link rel="stylesheet" href="assets/apple-tokens.css">
+  <link rel="stylesheet" href="review.css">
+  <script src="review.js" defer></script>
+</head>
+<body>
+<!--
+THESIS: Photos stay anchored while transfer state changes locally; review three structures before editing Android.
+OWN-WORLD: Huevia cloud white, graphite, system blue, optical system type, lit glass only on floating controls.
+STORY: Compare photo-first, project-grid and immersive viewing; simulate transfer, saving and retry, then choose in chat.
+FIRST VIEWPORT: Three equally weighted working phone previews; project, preset, honest per-file progress and photos in each.
+FORM: User-pinned Apple-style native app, code-led review only; surface seed b86a0244. Composition candidates 7/2/6; stable photo, contact sheet, immersive canvas. No production identity replacement.
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+-->
+<svg class="symbols" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><defs>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="m3 16 5-5 5 5 3-3 5 5"/><circle cx="16" cy="8" r="1"/></symbol>
+  <symbol id="i-album" viewBox="0 0 24 24"><path d="M4 16H2V3h15v2"/><rect x="6" y="7" width="16" height="15" rx="2"/><path d="m6 17 4-4 4 4 3-3 5 5"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><path d="m10 3-.6 2.3-2.1 1.2L5 5.9 3 9.3l1.7 1.6v2.2L3 14.7l2 3.4 2.3-.6 2.1 1.2L10 21h4l.6-2.3 2.1-1.2 2.3.6 2-3.4-1.7-1.6v-2.2L21 9.3l-2-3.4-2.3.6-2.1-1.2L14 3Z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v.1"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3 2.8 5.7 6.3.9-4.5 4.4 1 6.2-5.6-3-5.6 3 1-6.2L3 9.6l6.2-.9Z"/></symbol>
+  <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="m8 4 12 8-12 8Z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5M5.3 7a8 8 0 0 1 13.4-1L20 8M4 16l1.3 2A8 8 0 0 0 18.7 17"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+  <symbol id="i-expand" viewBox="0 0 24 24"><path d="M4 9V4h5m6 0h5v5M4 15v5h5m6 0h5v-5"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.5 14A8.7 8.7 0 0 1 10 3.5 8.8 8.8 0 1 0 20.5 14Z"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M2 8a16 16 0 0 1 20 0M5 12a11 11 0 0 1 14 0M8.5 16a5.4 5.4 0 0 1 7 0M12 20h.01"/></symbol>
+</defs></svg>
+<div class="review-shell">
+  <header class="review-header">
+    <a class="brand" href="#"><img src="assets/huevia.png" width="36" height="36" alt=""><span>Huevia<span class="brand-divider">/</span><span class="brand-sub">设计评审</span></span></a>
+    <span class="draft-note">交互设计稿 · 数据与照片均为示意</span>
+  </header>
+  <section class="intro" aria-labelledby="review-title">
+    <div><h1 id="review-title">照片直播，画面始终在原位。</h1><p>接收时只更新进度，保存后再更新照片。三种布局，选一套你喜欢的。</p></div>
+    <button class="theme-toggle" id="theme-toggle" aria-label="切换浅色或深色"><svg class="icon"><use href="#i-moon"/></svg><span>深色预览</span></button>
+  </section>
+  <div class="review-toolbar">
+    <div class="view-switch" aria-label="查看设计方案"><button class="active" data-view="all" aria-pressed="true">并排比较</button><button data-view="a" aria-pressed="false">A 照片优先</button><button data-view="b" aria-pressed="false">B 项目工作台</button><button data-view="c" aria-pressed="false">C 沉浸影棚</button></div>
+    <div class="state-controls"><label for="state-choice">预览状态</label><select id="state-choice"><option value="receiving">接收中 · 68%</option><option value="waiting">等待拍摄</option><option value="preparing">准备直播</option><option value="unknown">接收中 · 大小未知</option><option value="saving">接收完成 · 正在保存</option><option value="processing">原图已保存 · 预设处理中</option><option value="saved">保存完成</option><option value="error">单张失败 · 待重试</option><option value="disconnected">相机连接中断</option><option value="stopped">直播已停止 · 保留照片</option><option value="idle">尚未开始 · 空项目</option></select><button class="demo-button" id="demo-button"><svg class="icon"><use href="#i-play"/></svg><span>模拟连续接收</span></button></div>
+  </div>
+  <main class="concepts" data-view="all" id="concepts">
+    <article class="concept" data-concept="a"><div class="concept-heading"><div class="concept-label">A</div><div><h2>照片优先</h2><p>大图看效果，下方整理照片。</p></div></div><div class="device" data-phone="a"></div><div class="concept-foot"><p>保留熟悉的浏览方式，压缩顶部占用；照片、进度、缩略图各有固定位置。</p><button class="choose-button" data-choose="a">选这套方案 <svg class="icon"><use href="#i-arrow"/></svg></button></div></article>
+    <article class="concept" data-concept="b"><div class="concept-heading"><div class="concept-label">B</div><div><h2>项目工作台</h2><p>更多照片，一眼看清接收情况。</p></div></div><div class="device" data-phone="b"></div><div class="concept-foot"><p>将重复的大预览让给三列照片；适合活动拍摄、批量星标和套用预设。</p><button class="choose-button" data-choose="b">选这套方案 <svg class="icon"><use href="#i-arrow"/></svg></button></div></article>
+    <article class="concept" data-concept="c"><div class="concept-heading"><div class="concept-label">C</div><div><h2>沉浸影棚</h2><p>画面占主角，信息轻轻浮在上方。</p></div></div><div class="device" data-phone="c"></div><div class="concept-foot"><p>大画布与底部胶片条适合边拍边看；通过“全部照片”进入整理和批量操作。</p><button class="choose-button" data-choose="c">选这套方案 <svg class="icon"><use href="#i-arrow"/></svg></button></div></article>
+  </main>
+  <section class="review-notes" aria-labelledby="rules-title"><h2 id="rules-title">三套都遵循同样的接收规则</h2><div><p><strong>百分比属于当前照片</strong><span>按实际已接收字节计算；总量未知时不编造数字。</span></p><p><strong>100% 后还有保存步骤</strong><span>先显示“正在保存”，成功后才显示“已保存到相册”。</span></p><p><strong>状态改变，布局不跳动</strong><span>预览保留，局部更新；重试按钮不会挤高页面。</span></p></div></section>
+  <footer class="review-footer"><span id="choice-feedback" role="status">可以切换状态、点击照片，或模拟一轮接收后再选择。</span><span>仅供审核 · 尚未修改 Android 页面</span></footer>
+</div>
+<dialog id="viewer" class="photo-viewer"><button class="viewer-close" aria-label="关闭照片"><svg class="icon"><use href="#i-close"/></svg></button><div class="viewer-photo"></div><p>示意照片 · 左右箭头切换</p><div class="viewer-actions"><button id="previous-photo" aria-label="上一张"><svg class="icon left"><use href="#i-arrow"/></svg></button><button id="next-photo" aria-label="下一张"><svg class="icon"><use href="#i-arrow"/></svg></button></div></dialog>
+<dialog id="sheet" class="sheet"><div class="sheet-grabber"></div><div class="sheet-header"><h2 id="sheet-title"></h2><button data-close-sheet aria-label="关闭"><svg class="icon"><use href="#i-close"/></svg></button></div><div id="sheet-body"></div></dialog>
+<div class="toast" role="status" id="toast"></div>
+</body>
+</html>

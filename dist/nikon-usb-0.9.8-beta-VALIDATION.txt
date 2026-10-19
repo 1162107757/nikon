@@ -1,0 +1,48 @@
+相机预设 Android 0.9.8-beta（47）交付记录
+日期：2026-10-18（Asia/Shanghai）
+
+交付物
+- APK: dist/nikon-usb-0.9.8-beta-debug.apk
+- 大小：3,142,765 bytes
+- SHA-256: 03cd22145d6f7385b3d20d826be8141b290f5e6ba23bbe486ccf6cef9caef7e9
+- 包名：com.nikonpreset.usbprobe
+- versionCode 47 / versionName 0.9.8-beta / minSdk 26 / targetSdk 35
+- 沿用已有开发签名，v2/v3 验证通过。
+- 证书 MD5: 945aa44a13dd8c10155ad0078edf698e
+
+本轮行为
+1. 设置 → 账号新增 QQ 登录。官方 Android SDK 3.5.19，AppID 1105984855；先明确同意登录与隐私说明，再初始化 SDK，仅申请 get_simple_userinfo。
+2. SDK token 通过 HTTPS 请求体换取本应用独立会话，使用既有 AndroidKeyStore 加密账号存储。QQ 原始凭据不写入本应用账号存储或服务器数据库；官方 SDK 可能短暂自动缓存，控制器随授权结果清理，包括关闭后的迟到回调。
+3. 授权取消、重复请求、超时、Activity 生命周期和跨尝试结果通过控制器与进程内边界处理。固定版本 SDK 默认 SLog 渠道关闭；内部日志控制与 SDK 版本绑定，升级须重新审计，不声称截获 SDK 所有独立异常输出。
+4. QQ 首次登录建立独立用户，不自动合并现有密码账号。密码账号、游客和本地相机功能继续可用。
+5. 账号页按钮关闭默认 StateListAnimator/elevation/translationZ，保留 RippleDrawable；隐私说明为轻量文本入口，加载圈与文字保留在各自按钮内。
+6. Bluesky 预览不再复用相机写入转换器。偏移 38 的修改状态不参与手机色调计算；其它结构/曲线/色彩边界保留。相机写入转换器未放宽，原 NCP 和当前模板未改写，仍为手机近似模拟。
+
+实际检查
+- 账号 Java host 150 项通过；QqAuthorizationGate 23 项通过。
+- NCP 预览 2167 项、相机转换 77 项、结构 68 项通过。
+- 后台 Node 74/74、语法与源码 28 模块通过。sandbox 回环连接 EACCES 后，仅为本地回环检查提升运行，通过后未再修改业务逻辑。
+- 生产仅更新 QQ_APP_ID，不重新部署代码；云函数 Active / Nodejs20.19 / HTTP。
+- 公网 QQ 接口 5 项通过：目标环境、配置生效/空 token 拒绝、外部浏览器 Origin 拒绝、App 资料独立认证、管理员隔离。未调用腾讯授权、未创建用户或会话。
+- 最终 APK 在 Pixel 9 / Android 17（API 37）只读模拟器完成六种账号状态：浅色登录、授权等待、深色 1.5 字号隐私说明、深色 1.3 字号真实横屏交换状态、浅色资料、深色 1.5 字号资料。基础检查 166 项/资料预览 185 项，多轮覆盖有重叠，不相加。
+- 账号 UI 探针点击真实 QQ 按钮、显示说明、拒绝后验证 SDK 未初始化；加载状态和 QQ 资料均为明确内存合成，不代表真实 QQ 登录。
+- 额外在 984 px / 420 dpi（约375 dp）小屏通过166项账号UI检查，并恢复原尺寸；本应用相关崩溃进程过滤没有输出。
+- 无 QQ 的模拟器手动接受说明后可打开官方 SDK 的 H5 加载界面，Back 返回已取消状态、按钮恢复；未输入 QQ 凭据或完成 H5 授权。
+- 真实公开 Bluesky.NCP：638 bytes，SHA-256 2bab29630bbc537025c5daf68f6b7ab90a866e5c97e6dc7430dd4fe4ad547eb6。
+- 实际 Android 同模板渲染通过：724×543，392286 像素发生变化；base=Vivid / sharp=5 / sat=1 / hue=0，mapTone(0.5)=0.4776451918088321。原 NCP 和模板版本不变，对比图左原图/右效果。
+- 在真实在线目录下载该 Bluesky，并在“我的预设 → 风景”看到正常模板模拟封面；详情效果与257点曲线正常。仅变更只读模拟器临时数据，没有改用户手机预设。
+
+证据
+- docs/device-review/qq-login-0.9.8/ui-report.json 及同目录 UI PNG/日志
+- docs/device-review/qq-login-0.9.8/bluesky-render.log
+- docs/device-review/qq-login-0.9.8/bluesky-before-after.png
+- docs/device-review/qq-login-0.9.8/bluesky-card.png / bluesky-detail.png
+- online-library/build/qq-verification.json
+- docs/qq-login.md / app/libs/README.md / tests/qq-device-probe/README.md
+
+范围与待完成项
+- 用户确认 QQ 应用已审核通过/上线，未访问其控制台复核。
+- 用户反馈平台包名、签名与测试包不一致，将自行修改；未代改控制台。真实 QQ 账号授权、腾讯资料返回、两次登录同一身份、多 QQ 身份、撤销授权及手机退出等端到端验收尚未进行。
+- 当前手机 USB 已断开，未安装此版；没有卸载/清数据、退出用户现有账号、操作真实照片或连接真实相机。
+- 本轮新启动的只读模拟器已关闭，未保存模拟器快照，临时预设下载和探针不改变原 AVD 数据。
+- 本轮没有新增真实相机、锁屏/Doze、TalkBack、平板验收。默认可选 support 注解缺失产生3条编译警告，APK和真实 SDK 初始化均通过。

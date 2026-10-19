@@ -1,0 +1,89 @@
+2026-10-17T04:53:03.612Z 0001 READY loopback=127.0.0.1:15755 emulator=10.0.2.2:15755 photos=49 ttl=2400s log=D:\dev\ai-project\nikon\app\build\v058-album-fixtures\server.log
+2026-10-17T04:53:03.624Z 0002 SYNTHETIC_TEST largeThumbnailAdvertised=true largeThumbnailRejected=false largePreviewSource=0x90c4 maxLargePreviewBytes=8388608
+2026-10-17T04:56:17.764Z 0003 INIT_COMMAND session=1
+2026-10-17T04:56:18.625Z 0004 INIT_EVENT session=1
+2026-10-17T04:56:18.662Z 0005 CMD session=1 tx=0 op=0x1001 phase=1 params=[]
+2026-10-17T04:56:18.666Z 0006 CMD session=1 tx=0 op=0x1002 phase=1 params=[1]
+2026-10-17T04:56:18.670Z 0007 CMD session=1 tx=1 op=0x1004 phase=1 params=[]
+2026-10-17T04:56:18.672Z 0008 CMD session=1 tx=2 op=0x1007 phase=1 params=[65537,14337,0]
+2026-10-17T04:56:18.681Z 0009 CMD session=1 tx=3 op=0x1008 phase=1 params=[1]
+2026-10-17T04:56:18.684Z 0010 CMD session=1 tx=4 op=0x1008 phase=1 params=[2]
+2026-10-17T04:56:18.688Z 0011 CMD session=1 tx=5 op=0x1008 phase=1 params=[3]
+2026-10-17T04:56:18.691Z 0012 CMD session=1 tx=6 op=0x1008 phase=1 params=[4]
+2026-10-17T04:56:18.695Z 0013 CMD session=1 tx=7 op=0x1008 phase=1 params=[5]
+2026-10-17T04:56:18.698Z 0014 CMD session=1 tx=8 op=0x1008 phase=1 params=[6]
+2026-10-17T04:56:18.703Z 0015 CMD session=1 tx=9 op=0x1008 phase=1 params=[7]
+2026-10-17T04:56:18.706Z 0016 CMD session=1 tx=10 op=0x1008 phase=1 params=[8]
+2026-10-17T04:56:18.708Z 0017 CMD session=1 tx=11 op=0x1008 phase=1 params=[9]
+2026-10-17T04:56:18.711Z 0018 CMD session=1 tx=12 op=0x1008 phase=1 params=[10]
+2026-10-17T04:56:18.714Z 0019 CMD session=1 tx=13 op=0x1008 phase=1 params=[11]
+2026-10-17T04:56:18.716Z 0020 CMD session=1 tx=14 op=0x1008 phase=1 params=[12]
+2026-10-17T04:56:18.719Z 0021 CMD session=1 tx=15 op=0x1008 phase=1 params=[13]
+2026-10-17T04:56:18.723Z 0022 CMD session=1 tx=16 op=0x1008 phase=1 params=[14]
+2026-10-17T04:56:18.726Z 0023 CMD session=1 tx=17 op=0x1008 phase=1 params=[15]
+2026-10-17T04:56:18.731Z 0024 CMD session=1 tx=18 op=0x1008 phase=1 params=[16]
+2026-10-17T04:56:18.736Z 0025 CMD session=1 tx=19 op=0x1008 phase=1 params=[17]
+2026-10-17T04:56:18.739Z 0026 CMD session=1 tx=20 op=0x1008 phase=1 params=[18]
+2026-10-17T04:56:18.746Z 0027 CMD session=1 tx=21 op=0x1008 phase=1 params=[19]
+2026-10-17T04:56:18.748Z 0028 CMD session=1 tx=22 op=0x1008 phase=1 params=[20]
+2026-10-17T04:56:18.752Z 0029 CMD session=1 tx=23 op=0x1008 phase=1 params=[21]
+2026-10-17T04:56:18.757Z 0030 CMD session=1 tx=24 op=0x1008 phase=1 params=[22]
+2026-10-17T04:56:18.761Z 0031 CMD session=1 tx=25 op=0x1008 phase=1 params=[23]
+2026-10-17T04:56:18.764Z 0032 CMD session=1 tx=26 op=0x1008 phase=1 params=[24]
+2026-10-17T04:56:27.631Z 0033 CMD session=1 tx=27 op=0x1004 phase=1 params=[]
+2026-10-17T04:56:37.640Z 0034 CMD session=1 tx=28 op=0x1004 phase=1 params=[]
+2026-10-17T04:56:47.648Z 0035 CMD session=1 tx=29 op=0x1004 phase=1 params=[]
+2026-10-17T04:56:57.659Z 0036 CMD session=1 tx=30 op=0x1004 phase=1 params=[]
+2026-10-17T04:57:07.671Z 0037 CMD session=1 tx=31 op=0x1004 phase=1 params=[]
+2026-10-17T04:57:17.682Z 0038 CMD session=1 tx=32 op=0x1004 phase=1 params=[]
+2026-10-17T04:57:27.691Z 0039 CMD session=1 tx=33 op=0x1004 phase=1 params=[]
+2026-10-17T04:57:30.178Z 0040 CMD session=1 tx=34 op=0x90c4 phase=1 params=[1]
+2026-10-17T04:57:30.179Z 0041 LARGE_PREVIEW session=1 handle=1 bytes=68487 totalLargePreviews=1 source=0x90c4 originalTransferred=false
+2026-10-17T04:57:30.203Z 0042 CMD session=1 tx=35 op=0x90c4 phase=1 params=[2]
+2026-10-17T04:57:30.204Z 0043 LARGE_PREVIEW session=1 handle=2 bytes=66493 totalLargePreviews=2 source=0x90c4 originalTransferred=false
+2026-10-17T04:57:30.221Z 0044 CMD session=1 tx=36 op=0x90c4 phase=1 params=[3]
+2026-10-17T04:57:30.222Z 0045 LARGE_PREVIEW session=1 handle=3 bytes=68033 totalLargePreviews=3 source=0x90c4 originalTransferred=false
+2026-10-17T04:57:30.247Z 0046 CMD session=1 tx=37 op=0x90c4 phase=1 params=[4]
+2026-10-17T04:57:30.248Z 0047 LARGE_PREVIEW session=1 handle=4 bytes=69616 totalLargePreviews=4 source=0x90c4 originalTransferred=false
+2026-10-17T04:57:30.264Z 0048 CMD session=1 tx=38 op=0x90c4 phase=1 params=[5]
+2026-10-17T04:57:30.265Z 0049 LARGE_PREVIEW session=1 handle=5 bytes=69257 totalLargePreviews=5 source=0x90c4 originalTransferred=false
+2026-10-17T04:57:30.288Z 0050 CMD session=1 tx=39 op=0x90c4 phase=1 params=[6]
+2026-10-17T04:57:30.289Z 0051 LARGE_PREVIEW session=1 handle=6 bytes=69946 totalLargePreviews=6 source=0x90c4 originalTransferred=false
+2026-10-17T04:57:30.319Z 0052 CMD session=1 tx=40 op=0x90c4 phase=1 params=[7]
+2026-10-17T04:57:30.319Z 0053 LARGE_PREVIEW session=1 handle=7 bytes=71822 totalLargePreviews=7 source=0x90c4 originalTransferred=false
+2026-10-17T04:57:30.334Z 0054 CMD session=1 tx=41 op=0x90c4 phase=1 params=[8]
+2026-10-17T04:57:30.335Z 0055 LARGE_PREVIEW session=1 handle=8 bytes=75139 totalLargePreviews=8 source=0x90c4 originalTransferred=false
+2026-10-17T04:57:30.351Z 0056 CMD session=1 tx=42 op=0x90c4 phase=1 params=[9]
+2026-10-17T04:57:30.352Z 0057 LARGE_PREVIEW session=1 handle=9 bytes=75175 totalLargePreviews=9 source=0x90c4 originalTransferred=false
+2026-10-17T04:57:30.372Z 0058 CMD session=1 tx=43 op=0x90c4 phase=1 params=[10]
+2026-10-17T04:57:30.372Z 0059 LARGE_PREVIEW session=1 handle=10 bytes=74159 totalLargePreviews=10 source=0x90c4 originalTransferred=false
+2026-10-17T04:57:30.402Z 0060 CMD session=1 tx=44 op=0x90c4 phase=1 params=[11]
+2026-10-17T04:57:30.402Z 0061 LARGE_PREVIEW session=1 handle=11 bytes=72457 totalLargePreviews=11 source=0x90c4 originalTransferred=false
+2026-10-17T04:57:30.462Z 0062 CMD session=1 tx=45 op=0x90c4 phase=1 params=[12]
+2026-10-17T04:57:30.462Z 0063 LARGE_PREVIEW session=1 handle=12 bytes=71684 totalLargePreviews=12 source=0x90c4 originalTransferred=false
+2026-10-17T04:57:30.490Z 0064 CMD session=1 tx=46 op=0x90c4 phase=1 params=[13]
+2026-10-17T04:57:30.490Z 0065 LARGE_PREVIEW session=1 handle=13 bytes=73386 totalLargePreviews=13 source=0x90c4 originalTransferred=false
+2026-10-17T04:57:30.510Z 0066 CMD session=1 tx=47 op=0x90c4 phase=1 params=[14]
+2026-10-17T04:57:30.510Z 0067 LARGE_PREVIEW session=1 handle=14 bytes=67881 totalLargePreviews=14 source=0x90c4 originalTransferred=false
+2026-10-17T04:57:30.529Z 0068 CMD session=1 tx=48 op=0x90c4 phase=1 params=[15]
+2026-10-17T04:57:30.530Z 0069 LARGE_PREVIEW session=1 handle=15 bytes=65589 totalLargePreviews=15 source=0x90c4 originalTransferred=false
+2026-10-17T04:57:34.983Z 0070 CMD session=1 tx=49 op=0x90c4 phase=1 params=[1]
+2026-10-17T04:57:34.984Z 0071 LARGE_PREVIEW session=1 handle=1 bytes=68487 totalLargePreviews=16 source=0x90c4 originalTransferred=false
+2026-10-17T04:57:37.691Z 0072 CMD session=1 tx=50 op=0x1004 phase=1 params=[]
+2026-10-17T04:57:47.698Z 0073 CMD session=1 tx=51 op=0x1004 phase=1 params=[]
+2026-10-17T04:57:57.705Z 0074 CMD session=1 tx=52 op=0x1004 phase=1 params=[]
+2026-10-17T04:58:07.717Z 0075 CMD session=1 tx=53 op=0x1004 phase=1 params=[]
+2026-10-17T04:58:17.718Z 0076 CMD session=1 tx=54 op=0x1004 phase=1 params=[]
+2026-10-17T04:58:20.258Z 0077 CMD session=1 tx=55 op=0x90c4 phase=1 params=[2]
+2026-10-17T04:58:20.259Z 0078 LARGE_PREVIEW session=1 handle=2 bytes=66493 totalLargePreviews=17 source=0x90c4 originalTransferred=false
+2026-10-17T04:58:27.720Z 0079 CMD session=1 tx=56 op=0x1004 phase=1 params=[]
+2026-10-17T04:58:37.731Z 0080 CMD session=1 tx=57 op=0x1004 phase=1 params=[]
+2026-10-17T04:58:47.743Z 0081 CMD session=1 tx=58 op=0x1004 phase=1 params=[]
+2026-10-17T04:58:57.755Z 0082 CMD session=1 tx=59 op=0x1004 phase=1 params=[]
+2026-10-17T04:59:07.757Z 0083 CMD session=1 tx=60 op=0x1004 phase=1 params=[]
+2026-10-17T04:59:17.757Z 0084 CMD session=1 tx=61 op=0x1004 phase=1 params=[]
+2026-10-17T04:59:27.762Z 0085 CMD session=1 tx=62 op=0x1004 phase=1 params=[]
+2026-10-17T04:59:37.773Z 0086 CMD session=1 tx=63 op=0x1004 phase=1 params=[]
+2026-10-17T04:59:47.775Z 0087 CMD session=1 tx=64 op=0x1004 phase=1 params=[]
+2026-10-17T04:59:49.293Z 0088 CMD session=1 tx=65 op=0x90c4 phase=1 params=[3]
+2026-10-17T04:59:49.294Z 0089 LARGE_PREVIEW session=1 handle=3 bytes=68033 totalLargePreviews=18 source=0x90c4 originalTransferred=false

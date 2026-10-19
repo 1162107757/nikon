@@ -1,0 +1,256 @@
+wall_ms=1792311675144 mono_ms=722990809 event=PTP_OP_COMPLETE conn=2 op=0x1004 tx=68 elapsed_ms=29
+wall_ms=1792311675144 mono_ms=722990809 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=69
+wall_ms=1792311675174 mono_ms=722990839 event=PTP_OP_FAILED conn=2 op=0x1007 tx=69 elapsed_ms=29 category=PROTOCOL
+wall_ms=1792311675180 mono_ms=722990845 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=70
+wall_ms=1792311675206 mono_ms=722990871 event=PTP_OP_COMPLETE conn=2 op=0x1007 tx=70 elapsed_ms=25
+wall_ms=1792311675206 mono_ms=722990871 event=PTP_OP_BEGIN conn=2 op=0x1008 tx=71
+wall_ms=1792311675226 mono_ms=722990891 event=PTP_OP_COMPLETE conn=2 op=0x1008 tx=71 elapsed_ms=19
+wall_ms=1792311675932 mono_ms=722991597 event=PTP_OP_BEGIN conn=2 op=0x1004 tx=72
+wall_ms=1792311675963 mono_ms=722991628 event=PTP_OP_COMPLETE conn=2 op=0x1004 tx=72 elapsed_ms=31
+wall_ms=1792311678229 mono_ms=722993894 event=PTP_OP_BEGIN conn=2 op=0x1004 tx=73
+wall_ms=1792311678314 mono_ms=722993979 event=PTP_OP_COMPLETE conn=2 op=0x1004 tx=73 elapsed_ms=84
+wall_ms=1792311678314 mono_ms=722993979 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=74
+wall_ms=1792311678334 mono_ms=722993999 event=PTP_OP_FAILED conn=2 op=0x1007 tx=74 elapsed_ms=20 category=PROTOCOL
+wall_ms=1792311678336 mono_ms=722994001 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=75
+wall_ms=1792311678356 mono_ms=722994021 event=PTP_OP_COMPLETE conn=2 op=0x1007 tx=75 elapsed_ms=20
+wall_ms=1792311678356 mono_ms=722994021 event=PTP_OP_BEGIN conn=2 op=0x1008 tx=76
+wall_ms=1792311678380 mono_ms=722994045 event=PTP_OP_COMPLETE conn=2 op=0x1008 tx=76 elapsed_ms=24
+wall_ms=1792311681383 mono_ms=722997048 event=PTP_OP_BEGIN conn=2 op=0x1004 tx=77
+wall_ms=1792311681430 mono_ms=722997095 event=PTP_OP_COMPLETE conn=2 op=0x1004 tx=77 elapsed_ms=47
+wall_ms=1792311681430 mono_ms=722997095 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=78
+wall_ms=1792311681469 mono_ms=722997134 event=PTP_OP_FAILED conn=2 op=0x1007 tx=78 elapsed_ms=38 category=PROTOCOL
+wall_ms=1792311681470 mono_ms=722997135 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=79
+wall_ms=1792311681495 mono_ms=722997160 event=PTP_OP_COMPLETE conn=2 op=0x1007 tx=79 elapsed_ms=25
+wall_ms=1792311681495 mono_ms=722997160 event=PTP_OP_BEGIN conn=2 op=0x1008 tx=80
+wall_ms=1792311681529 mono_ms=722997194 event=PTP_OP_COMPLETE conn=2 op=0x1008 tx=80 elapsed_ms=32
+wall_ms=1792311684532 mono_ms=723000197 event=PTP_OP_BEGIN conn=2 op=0x1004 tx=81
+wall_ms=1792311684578 mono_ms=723000243 event=PTP_OP_COMPLETE conn=2 op=0x1004 tx=81 elapsed_ms=46
+wall_ms=1792311684578 mono_ms=723000243 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=82
+wall_ms=1792311684609 mono_ms=723000274 event=PTP_OP_FAILED conn=2 op=0x1007 tx=82 elapsed_ms=30 category=PROTOCOL
+wall_ms=1792311684612 mono_ms=723000277 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=83
+wall_ms=1792311684634 mono_ms=723000299 event=PTP_OP_COMPLETE conn=2 op=0x1007 tx=83 elapsed_ms=22
+wall_ms=1792311684635 mono_ms=723000300 event=PTP_OP_BEGIN conn=2 op=0x1008 tx=84
+wall_ms=1792311684653 mono_ms=723000318 event=PTP_OP_COMPLETE conn=2 op=0x1008 tx=84 elapsed_ms=18
+wall_ms=1792311685940 mono_ms=723001605 event=PTP_OP_BEGIN conn=2 op=0x1004 tx=85
+wall_ms=1792311685980 mono_ms=723001645 event=PTP_OP_COMPLETE conn=2 op=0x1004 tx=85 elapsed_ms=40
+wall_ms=1792311687656 mono_ms=723003321 event=PTP_OP_BEGIN conn=2 op=0x1004 tx=86
+wall_ms=1792311687684 mono_ms=723003349 event=PTP_OP_COMPLETE conn=2 op=0x1004 tx=86 elapsed_ms=28
+wall_ms=1792311687684 mono_ms=723003349 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=87
+wall_ms=1792311687735 mono_ms=723003400 event=PTP_OP_FAILED conn=2 op=0x1007 tx=87 elapsed_ms=50 category=PROTOCOL
+wall_ms=1792311687735 mono_ms=723003400 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=88
+wall_ms=1792311687769 mono_ms=723003434 event=PTP_OP_COMPLETE conn=2 op=0x1007 tx=88 elapsed_ms=33
+wall_ms=1792311687769 mono_ms=723003434 event=PTP_OP_BEGIN conn=2 op=0x1008 tx=89
+wall_ms=1792311687805 mono_ms=723003470 event=PTP_OP_COMPLETE conn=2 op=0x1008 tx=89 elapsed_ms=35
+wall_ms=1792311690809 mono_ms=723006474 event=PTP_OP_BEGIN conn=2 op=0x1004 tx=90
+wall_ms=1792311690846 mono_ms=723006511 event=PTP_OP_COMPLETE conn=2 op=0x1004 tx=90 elapsed_ms=37
+wall_ms=1792311690846 mono_ms=723006511 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=91
+wall_ms=1792311690888 mono_ms=723006553 event=PTP_OP_FAILED conn=2 op=0x1007 tx=91 elapsed_ms=41 category=PROTOCOL
+wall_ms=1792311690889 mono_ms=723006554 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=92
+wall_ms=1792311690922 mono_ms=723006587 event=PTP_OP_COMPLETE conn=2 op=0x1007 tx=92 elapsed_ms=33
+wall_ms=1792311690923 mono_ms=723006588 event=PTP_OP_BEGIN conn=2 op=0x1008 tx=93
+wall_ms=1792311690957 mono_ms=723006622 event=PTP_OP_COMPLETE conn=2 op=0x1008 tx=93 elapsed_ms=34
+wall_ms=1792311693960 mono_ms=723009625 event=PTP_OP_BEGIN conn=2 op=0x1004 tx=94
+wall_ms=1792311693987 mono_ms=723009652 event=PTP_OP_COMPLETE conn=2 op=0x1004 tx=94 elapsed_ms=26
+wall_ms=1792311693987 mono_ms=723009652 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=95
+wall_ms=1792311694028 mono_ms=723009693 event=PTP_OP_FAILED conn=2 op=0x1007 tx=95 elapsed_ms=41 category=PROTOCOL
+wall_ms=1792311694031 mono_ms=723009696 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=96
+wall_ms=1792311694056 mono_ms=723009721 event=PTP_OP_COMPLETE conn=2 op=0x1007 tx=96 elapsed_ms=24
+wall_ms=1792311694056 mono_ms=723009721 event=PTP_OP_BEGIN conn=2 op=0x1008 tx=97
+wall_ms=1792311694088 mono_ms=723009753 event=PTP_OP_COMPLETE conn=2 op=0x1008 tx=97 elapsed_ms=29
+wall_ms=1792311695952 mono_ms=723011617 event=PTP_OP_BEGIN conn=2 op=0x1004 tx=98
+wall_ms=1792311696020 mono_ms=723011685 event=PTP_OP_COMPLETE conn=2 op=0x1004 tx=98 elapsed_ms=68
+wall_ms=1792311697091 mono_ms=723012756 event=PTP_OP_BEGIN conn=2 op=0x1004 tx=99
+wall_ms=1792311697121 mono_ms=723012786 event=PTP_OP_COMPLETE conn=2 op=0x1004 tx=99 elapsed_ms=30
+wall_ms=1792311697121 mono_ms=723012786 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=100
+wall_ms=1792311697145 mono_ms=723012810 event=PTP_OP_FAILED conn=2 op=0x1007 tx=100 elapsed_ms=23 category=PROTOCOL
+wall_ms=1792311697145 mono_ms=723012810 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=101
+wall_ms=1792311697176 mono_ms=723012841 event=PTP_OP_COMPLETE conn=2 op=0x1007 tx=101 elapsed_ms=30
+wall_ms=1792311697176 mono_ms=723012841 event=PTP_OP_BEGIN conn=2 op=0x1008 tx=102
+wall_ms=1792311697199 mono_ms=723012864 event=PTP_OP_COMPLETE conn=2 op=0x1008 tx=102 elapsed_ms=23
+wall_ms=1792311697924 mono_ms=723013589 event=PTP_OP_BEGIN conn=2 op=0x1008 tx=103
+wall_ms=1792311697960 mono_ms=723013625 event=PTP_OP_COMPLETE conn=2 op=0x1008 tx=103 elapsed_ms=35
+wall_ms=1792311697967 mono_ms=723013632 event=PTP_OP_BEGIN conn=2 op=0x1008 tx=104
+wall_ms=1792311698008 mono_ms=723013673 event=PTP_OP_COMPLETE conn=2 op=0x1008 tx=104 elapsed_ms=40
+wall_ms=1792311698020 mono_ms=723013685 event=PTP_OP_BEGIN conn=2 op=0x90c4 tx=105
+wall_ms=1792311698056 mono_ms=723013721 event=PTP_OP_FAILED conn=2 op=0x90c4 tx=105 elapsed_ms=36 category=PROTOCOL
+wall_ms=1792311698057 mono_ms=723013722 event=PTP_OP_BEGIN conn=2 op=0x100a tx=106
+wall_ms=1792311698099 mono_ms=723013764 event=PTP_OP_FAILED conn=2 op=0x100a tx=106 elapsed_ms=41 category=PROTOCOL
+wall_ms=1792311698310 mono_ms=723013975 event=PTP_OP_BEGIN conn=2 op=0x1008 tx=107
+wall_ms=1792311698356 mono_ms=723014021 event=PTP_OP_COMPLETE conn=2 op=0x1008 tx=107 elapsed_ms=46
+wall_ms=1792311698358 mono_ms=723014023 event=PTP_OP_BEGIN conn=2 op=0x1008 tx=108
+wall_ms=1792311698417 mono_ms=723014082 event=PTP_OP_COMPLETE conn=2 op=0x1008 tx=108 elapsed_ms=59
+wall_ms=1792311698427 mono_ms=723014092 event=PTP_OP_BEGIN conn=2 op=0x1009 tx=109
+wall_ms=1792311717743 mono_ms=723033408 event=UI_BACKGROUND
+wall_ms=1792311768032 mono_ms=723083697 event=PTP_OP_COMPLETE conn=2 op=0x1009 tx=109 elapsed_ms=69605
+wall_ms=1792311768046 mono_ms=723083711 event=PTP_OP_BEGIN conn=2 op=0x1008 tx=110
+wall_ms=1792311768093 mono_ms=723083758 event=PTP_OP_COMPLETE conn=2 op=0x1008 tx=110 elapsed_ms=47
+wall_ms=1792311768166 mono_ms=723083831 event=PTP_OP_BEGIN conn=2 op=0x1004 tx=111
+wall_ms=1792311768192 mono_ms=723083857 event=PTP_OP_COMPLETE conn=2 op=0x1004 tx=111 elapsed_ms=25
+wall_ms=1792311768482 mono_ms=723084147 event=PTP_OP_BEGIN conn=2 op=0x1004 tx=112
+wall_ms=1792311768503 mono_ms=723084168 event=PTP_OP_COMPLETE conn=2 op=0x1004 tx=112 elapsed_ms=20
+wall_ms=1792311768503 mono_ms=723084168 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=113
+wall_ms=1792311768522 mono_ms=723084187 event=PTP_OP_FAILED conn=2 op=0x1007 tx=113 elapsed_ms=19 category=PROTOCOL
+wall_ms=1792311768522 mono_ms=723084187 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=114
+wall_ms=1792311768561 mono_ms=723084226 event=PTP_OP_COMPLETE conn=2 op=0x1007 tx=114 elapsed_ms=38
+wall_ms=1792311768562 mono_ms=723084227 event=PTP_OP_BEGIN conn=2 op=0x1008 tx=115
+wall_ms=1792311768590 mono_ms=723084255 event=PTP_OP_COMPLETE conn=2 op=0x1008 tx=115 elapsed_ms=28
+wall_ms=1792311771592 mono_ms=723087257 event=PTP_OP_BEGIN conn=2 op=0x1004 tx=116
+wall_ms=1792311771643 mono_ms=723087308 event=PTP_OP_COMPLETE conn=2 op=0x1004 tx=116 elapsed_ms=51
+wall_ms=1792311771643 mono_ms=723087308 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=117
+wall_ms=1792311771683 mono_ms=723087348 event=PTP_OP_FAILED conn=2 op=0x1007 tx=117 elapsed_ms=39 category=PROTOCOL
+wall_ms=1792311771683 mono_ms=723087348 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=118
+wall_ms=1792311771706 mono_ms=723087371 event=PTP_OP_COMPLETE conn=2 op=0x1007 tx=118 elapsed_ms=22
+wall_ms=1792311771706 mono_ms=723087371 event=PTP_OP_BEGIN conn=2 op=0x1008 tx=119
+wall_ms=1792311771738 mono_ms=723087403 event=PTP_OP_COMPLETE conn=2 op=0x1008 tx=119 elapsed_ms=32
+wall_ms=1792311774740 mono_ms=723090405 event=PTP_OP_BEGIN conn=2 op=0x1004 tx=120
+wall_ms=1792311774796 mono_ms=723090461 event=PTP_OP_COMPLETE conn=2 op=0x1004 tx=120 elapsed_ms=55
+wall_ms=1792311774797 mono_ms=723090462 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=121
+wall_ms=1792311774815 mono_ms=723090480 event=PTP_OP_FAILED conn=2 op=0x1007 tx=121 elapsed_ms=18 category=PROTOCOL
+wall_ms=1792311774816 mono_ms=723090481 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=122
+wall_ms=1792311774839 mono_ms=723090504 event=PTP_OP_COMPLETE conn=2 op=0x1007 tx=122 elapsed_ms=23
+wall_ms=1792311774839 mono_ms=723090504 event=PTP_OP_BEGIN conn=2 op=0x1008 tx=123
+wall_ms=1792311774860 mono_ms=723090525 event=PTP_OP_COMPLETE conn=2 op=0x1008 tx=123 elapsed_ms=20
+wall_ms=1792311775978 mono_ms=723091643 event=PTP_OP_BEGIN conn=2 op=0x1004 tx=124
+wall_ms=1792311776033 mono_ms=723091698 event=PTP_OP_COMPLETE conn=2 op=0x1004 tx=124 elapsed_ms=54
+wall_ms=1792311777862 mono_ms=723093527 event=PTP_OP_BEGIN conn=2 op=0x1004 tx=125
+wall_ms=1792311777937 mono_ms=723093602 event=PTP_OP_COMPLETE conn=2 op=0x1004 tx=125 elapsed_ms=74
+wall_ms=1792311777937 mono_ms=723093602 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=126
+wall_ms=1792311777966 mono_ms=723093631 event=PTP_OP_FAILED conn=2 op=0x1007 tx=126 elapsed_ms=29 category=PROTOCOL
+wall_ms=1792311777967 mono_ms=723093632 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=127
+wall_ms=1792311777996 mono_ms=723093661 event=PTP_OP_COMPLETE conn=2 op=0x1007 tx=127 elapsed_ms=28
+wall_ms=1792311777996 mono_ms=723093661 event=PTP_OP_BEGIN conn=2 op=0x1008 tx=128
+wall_ms=1792311778032 mono_ms=723093697 event=PTP_OP_COMPLETE conn=2 op=0x1008 tx=128 elapsed_ms=35
+wall_ms=1792311781035 mono_ms=723096700 event=PTP_OP_BEGIN conn=2 op=0x1004 tx=129
+wall_ms=1792311781149 mono_ms=723096814 event=PTP_OP_COMPLETE conn=2 op=0x1004 tx=129 elapsed_ms=114
+wall_ms=1792311781149 mono_ms=723096814 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=130
+wall_ms=1792311781177 mono_ms=723096842 event=PTP_OP_FAILED conn=2 op=0x1007 tx=130 elapsed_ms=27 category=PROTOCOL
+wall_ms=1792311781178 mono_ms=723096843 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=131
+wall_ms=1792311781196 mono_ms=723096861 event=PTP_OP_COMPLETE conn=2 op=0x1007 tx=131 elapsed_ms=18
+wall_ms=1792311781197 mono_ms=723096862 event=PTP_OP_BEGIN conn=2 op=0x1008 tx=132
+wall_ms=1792311781232 mono_ms=723096897 event=PTP_OP_COMPLETE conn=2 op=0x1008 tx=132 elapsed_ms=35
+wall_ms=1792311784235 mono_ms=723099900 event=PTP_OP_BEGIN conn=2 op=0x1004 tx=133
+wall_ms=1792311784302 mono_ms=723099967 event=PTP_OP_COMPLETE conn=2 op=0x1004 tx=133 elapsed_ms=67
+wall_ms=1792311784302 mono_ms=723099967 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=134
+wall_ms=1792311784327 mono_ms=723099992 event=PTP_OP_FAILED conn=2 op=0x1007 tx=134 elapsed_ms=24 category=PROTOCOL
+wall_ms=1792311784327 mono_ms=723099992 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=135
+wall_ms=1792311784356 mono_ms=723100021 event=PTP_OP_COMPLETE conn=2 op=0x1007 tx=135 elapsed_ms=28
+wall_ms=1792311784356 mono_ms=723100021 event=PTP_OP_BEGIN conn=2 op=0x1008 tx=136
+wall_ms=1792311784376 mono_ms=723100041 event=PTP_OP_COMPLETE conn=2 op=0x1008 tx=136 elapsed_ms=20
+wall_ms=1792311785981 mono_ms=723101646 event=PTP_OP_BEGIN conn=2 op=0x1004 tx=137
+wall_ms=1792311786063 mono_ms=723101728 event=PTP_OP_COMPLETE conn=2 op=0x1004 tx=137 elapsed_ms=82
+wall_ms=1792311787378 mono_ms=723103043 event=PTP_OP_BEGIN conn=2 op=0x1004 tx=138
+wall_ms=1792311787459 mono_ms=723103124 event=PTP_OP_COMPLETE conn=2 op=0x1004 tx=138 elapsed_ms=81
+wall_ms=1792311787459 mono_ms=723103124 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=139
+wall_ms=1792311787498 mono_ms=723103163 event=PTP_OP_FAILED conn=2 op=0x1007 tx=139 elapsed_ms=38 category=PROTOCOL
+wall_ms=1792311787499 mono_ms=723103164 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=140
+wall_ms=1792311787533 mono_ms=723103198 event=PTP_OP_COMPLETE conn=2 op=0x1007 tx=140 elapsed_ms=33
+wall_ms=1792311787533 mono_ms=723103198 event=PTP_OP_BEGIN conn=2 op=0x1008 tx=141
+wall_ms=1792311787564 mono_ms=723103229 event=PTP_OP_COMPLETE conn=2 op=0x1008 tx=141 elapsed_ms=30
+wall_ms=1792311790568 mono_ms=723106233 event=PTP_OP_BEGIN conn=2 op=0x1004 tx=142
+wall_ms=1792311790634 mono_ms=723106299 event=PTP_OP_COMPLETE conn=2 op=0x1004 tx=142 elapsed_ms=66
+wall_ms=1792311790634 mono_ms=723106299 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=143
+wall_ms=1792311790653 mono_ms=723106318 event=PTP_OP_FAILED conn=2 op=0x1007 tx=143 elapsed_ms=18 category=PROTOCOL
+wall_ms=1792311790653 mono_ms=723106318 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=144
+wall_ms=1792311790684 mono_ms=723106349 event=PTP_OP_COMPLETE conn=2 op=0x1007 tx=144 elapsed_ms=30
+wall_ms=1792311790684 mono_ms=723106349 event=PTP_OP_BEGIN conn=2 op=0x1008 tx=145
+wall_ms=1792311790705 mono_ms=723106370 event=PTP_OP_COMPLETE conn=2 op=0x1008 tx=145 elapsed_ms=21
+wall_ms=1792311793710 mono_ms=723109375 event=PTP_OP_BEGIN conn=2 op=0x1004 tx=146
+wall_ms=1792311793781 mono_ms=723109446 event=PTP_OP_COMPLETE conn=2 op=0x1004 tx=146 elapsed_ms=71
+wall_ms=1792311793782 mono_ms=723109447 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=147
+wall_ms=1792311793801 mono_ms=723109466 event=PTP_OP_FAILED conn=2 op=0x1007 tx=147 elapsed_ms=19 category=PROTOCOL
+wall_ms=1792311793804 mono_ms=723109469 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=148
+wall_ms=1792311793824 mono_ms=723109489 event=PTP_OP_COMPLETE conn=2 op=0x1007 tx=148 elapsed_ms=20
+wall_ms=1792311793825 mono_ms=723109490 event=PTP_OP_BEGIN conn=2 op=0x1008 tx=149
+wall_ms=1792311793853 mono_ms=723109518 event=PTP_OP_COMPLETE conn=2 op=0x1008 tx=149 elapsed_ms=28
+wall_ms=1792311795985 mono_ms=723111650 event=PTP_OP_BEGIN conn=2 op=0x1004 tx=150
+wall_ms=1792311796056 mono_ms=723111721 event=PTP_OP_COMPLETE conn=2 op=0x1004 tx=150 elapsed_ms=71
+wall_ms=1792311796856 mono_ms=723112521 event=PTP_OP_BEGIN conn=2 op=0x1004 tx=151
+wall_ms=1792311796901 mono_ms=723112566 event=PTP_OP_COMPLETE conn=2 op=0x1004 tx=151 elapsed_ms=44
+wall_ms=1792311796901 mono_ms=723112566 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=152
+wall_ms=1792311796937 mono_ms=723112602 event=PTP_OP_FAILED conn=2 op=0x1007 tx=152 elapsed_ms=35 category=PROTOCOL
+wall_ms=1792311796941 mono_ms=723112606 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=153
+wall_ms=1792311796963 mono_ms=723112628 event=PTP_OP_COMPLETE conn=2 op=0x1007 tx=153 elapsed_ms=21
+wall_ms=1792311796963 mono_ms=723112628 event=PTP_OP_BEGIN conn=2 op=0x1008 tx=154
+wall_ms=1792311796984 mono_ms=723112649 event=PTP_OP_COMPLETE conn=2 op=0x1008 tx=154 elapsed_ms=21
+wall_ms=1792311799988 mono_ms=723115653 event=PTP_OP_BEGIN conn=2 op=0x1004 tx=155
+wall_ms=1792311800056 mono_ms=723115721 event=PTP_OP_COMPLETE conn=2 op=0x1004 tx=155 elapsed_ms=68
+wall_ms=1792311800056 mono_ms=723115721 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=156
+wall_ms=1792311800090 mono_ms=723115755 event=PTP_OP_FAILED conn=2 op=0x1007 tx=156 elapsed_ms=33 category=PROTOCOL
+wall_ms=1792311800092 mono_ms=723115757 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=157
+wall_ms=1792311800116 mono_ms=723115781 event=PTP_OP_COMPLETE conn=2 op=0x1007 tx=157 elapsed_ms=23
+wall_ms=1792311800116 mono_ms=723115781 event=PTP_OP_BEGIN conn=2 op=0x1008 tx=158
+wall_ms=1792311800143 mono_ms=723115808 event=PTP_OP_COMPLETE conn=2 op=0x1008 tx=158 elapsed_ms=26
+wall_ms=1792311803145 mono_ms=723118810 event=PTP_OP_BEGIN conn=2 op=0x1004 tx=159
+wall_ms=1792311803205 mono_ms=723118870 event=PTP_OP_COMPLETE conn=2 op=0x1004 tx=159 elapsed_ms=60
+wall_ms=1792311803205 mono_ms=723118870 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=160
+wall_ms=1792311803225 mono_ms=723118890 event=PTP_OP_FAILED conn=2 op=0x1007 tx=160 elapsed_ms=20 category=PROTOCOL
+wall_ms=1792311803227 mono_ms=723118892 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=161
+wall_ms=1792311803249 mono_ms=723118914 event=PTP_OP_COMPLETE conn=2 op=0x1007 tx=161 elapsed_ms=22
+wall_ms=1792311803250 mono_ms=723118915 event=PTP_OP_BEGIN conn=2 op=0x1008 tx=162
+wall_ms=1792311803285 mono_ms=723118950 event=PTP_OP_COMPLETE conn=2 op=0x1008 tx=162 elapsed_ms=35
+wall_ms=1792311805989 mono_ms=723121654 event=PTP_OP_BEGIN conn=2 op=0x1004 tx=163
+wall_ms=1792311806033 mono_ms=723121697 event=PTP_OP_COMPLETE conn=2 op=0x1004 tx=163 elapsed_ms=43
+wall_ms=1792311806293 mono_ms=723121958 event=PTP_OP_BEGIN conn=2 op=0x1004 tx=164
+wall_ms=1792311806334 mono_ms=723121999 event=PTP_OP_COMPLETE conn=2 op=0x1004 tx=164 elapsed_ms=40
+wall_ms=1792311806334 mono_ms=723121999 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=165
+wall_ms=1792311806360 mono_ms=723122025 event=PTP_OP_FAILED conn=2 op=0x1007 tx=165 elapsed_ms=25 category=PROTOCOL
+wall_ms=1792311806360 mono_ms=723122025 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=166
+wall_ms=1792311806394 mono_ms=723122059 event=PTP_OP_COMPLETE conn=2 op=0x1007 tx=166 elapsed_ms=33
+wall_ms=1792311806394 mono_ms=723122059 event=PTP_OP_BEGIN conn=2 op=0x1008 tx=167
+wall_ms=1792311806441 mono_ms=723122105 event=PTP_OP_COMPLETE conn=2 op=0x1008 tx=167 elapsed_ms=46
+wall_ms=1792311809442 mono_ms=723125107 event=PTP_OP_BEGIN conn=2 op=0x1004 tx=168
+wall_ms=1792311809525 mono_ms=723125190 event=PTP_OP_COMPLETE conn=2 op=0x1004 tx=168 elapsed_ms=83
+wall_ms=1792311809526 mono_ms=723125190 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=169
+wall_ms=1792311809547 mono_ms=723125212 event=PTP_OP_FAILED conn=2 op=0x1007 tx=169 elapsed_ms=21 category=PROTOCOL
+wall_ms=1792311809548 mono_ms=723125213 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=170
+wall_ms=1792311809572 mono_ms=723125237 event=PTP_OP_COMPLETE conn=2 op=0x1007 tx=170 elapsed_ms=24
+wall_ms=1792311809572 mono_ms=723125237 event=PTP_OP_BEGIN conn=2 op=0x1008 tx=171
+wall_ms=1792311809595 mono_ms=723125260 event=PTP_OP_COMPLETE conn=2 op=0x1008 tx=171 elapsed_ms=22
+wall_ms=1792311812598 mono_ms=723128263 event=PTP_OP_BEGIN conn=2 op=0x1004 tx=172
+wall_ms=1792311812668 mono_ms=723128333 event=PTP_OP_COMPLETE conn=2 op=0x1004 tx=172 elapsed_ms=70
+wall_ms=1792311812668 mono_ms=723128333 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=173
+wall_ms=1792311812691 mono_ms=723128356 event=PTP_OP_FAILED conn=2 op=0x1007 tx=173 elapsed_ms=23 category=PROTOCOL
+wall_ms=1792311812693 mono_ms=723128358 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=174
+wall_ms=1792311812716 mono_ms=723128381 event=PTP_OP_COMPLETE conn=2 op=0x1007 tx=174 elapsed_ms=22
+wall_ms=1792311812716 mono_ms=723128381 event=PTP_OP_BEGIN conn=2 op=0x1008 tx=175
+wall_ms=1792311812740 mono_ms=723128405 event=PTP_OP_COMPLETE conn=2 op=0x1008 tx=175 elapsed_ms=23
+wall_ms=1792311815742 mono_ms=723131407 event=PTP_OP_BEGIN conn=2 op=0x1004 tx=176
+wall_ms=1792311815790 mono_ms=723131455 event=PTP_OP_COMPLETE conn=2 op=0x1004 tx=176 elapsed_ms=47
+wall_ms=1792311815790 mono_ms=723131455 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=177
+wall_ms=1792311815810 mono_ms=723131475 event=PTP_OP_FAILED conn=2 op=0x1007 tx=177 elapsed_ms=19 category=PROTOCOL
+wall_ms=1792311815810 mono_ms=723131475 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=178
+wall_ms=1792311815831 mono_ms=723131495 event=PTP_OP_COMPLETE conn=2 op=0x1007 tx=178 elapsed_ms=20
+wall_ms=1792311815831 mono_ms=723131496 event=PTP_OP_BEGIN conn=2 op=0x1008 tx=179
+wall_ms=1792311815855 mono_ms=723131520 event=PTP_OP_COMPLETE conn=2 op=0x1008 tx=179 elapsed_ms=24
+wall_ms=1792311815996 mono_ms=723131661 event=PTP_OP_BEGIN conn=2 op=0x1004 tx=180
+wall_ms=1792311816017 mono_ms=723131682 event=PTP_OP_COMPLETE conn=2 op=0x1004 tx=180 elapsed_ms=21
+wall_ms=1792311818857 mono_ms=723134522 event=PTP_OP_BEGIN conn=2 op=0x1004 tx=181
+wall_ms=1792311818927 mono_ms=723134592 event=PTP_OP_COMPLETE conn=2 op=0x1004 tx=181 elapsed_ms=70
+wall_ms=1792311818927 mono_ms=723134592 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=182
+wall_ms=1792311818949 mono_ms=723134614 event=PTP_OP_FAILED conn=2 op=0x1007 tx=182 elapsed_ms=21 category=PROTOCOL
+wall_ms=1792311818949 mono_ms=723134614 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=183
+wall_ms=1792311818971 mono_ms=723134636 event=PTP_OP_COMPLETE conn=2 op=0x1007 tx=183 elapsed_ms=21
+wall_ms=1792311818971 mono_ms=723134636 event=PTP_OP_BEGIN conn=2 op=0x1008 tx=184
+wall_ms=1792311819000 mono_ms=723134665 event=PTP_OP_COMPLETE conn=2 op=0x1008 tx=184 elapsed_ms=29
+wall_ms=1792311822002 mono_ms=723137667 event=PTP_OP_BEGIN conn=2 op=0x1004 tx=185
+wall_ms=1792311822060 mono_ms=723137725 event=PTP_OP_COMPLETE conn=2 op=0x1004 tx=185 elapsed_ms=58
+wall_ms=1792311822060 mono_ms=723137725 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=186
+wall_ms=1792311822085 mono_ms=723137750 event=PTP_OP_FAILED conn=2 op=0x1007 tx=186 elapsed_ms=24 category=PROTOCOL
+wall_ms=1792311822087 mono_ms=723137752 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=187
+wall_ms=1792311822121 mono_ms=723137786 event=PTP_OP_COMPLETE conn=2 op=0x1007 tx=187 elapsed_ms=33
+wall_ms=1792311822121 mono_ms=723137786 event=PTP_OP_BEGIN conn=2 op=0x1008 tx=188
+wall_ms=1792311822140 mono_ms=723137805 event=PTP_OP_COMPLETE conn=2 op=0x1008 tx=188 elapsed_ms=19
+wall_ms=1792311825142 mono_ms=723140807 event=PTP_OP_BEGIN conn=2 op=0x1004 tx=189
+wall_ms=1792311825209 mono_ms=723140874 event=PTP_OP_COMPLETE conn=2 op=0x1004 tx=189 elapsed_ms=66
+wall_ms=1792311825209 mono_ms=723140874 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=190
+wall_ms=1792311825228 mono_ms=723140893 event=PTP_OP_FAILED conn=2 op=0x1007 tx=190 elapsed_ms=18 category=PROTOCOL
+wall_ms=1792311825228 mono_ms=723140893 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=191
+wall_ms=1792311825249 mono_ms=723140914 event=PTP_OP_COMPLETE conn=2 op=0x1007 tx=191 elapsed_ms=21
+wall_ms=1792311825250 mono_ms=723140915 event=PTP_OP_BEGIN conn=2 op=0x1008 tx=192
+wall_ms=1792311825297 mono_ms=723140962 event=PTP_OP_COMPLETE conn=2 op=0x1008 tx=192 elapsed_ms=47
+wall_ms=1792311826004 mono_ms=723141669 event=PTP_OP_BEGIN conn=2 op=0x1004 tx=193
+wall_ms=1792311826039 mono_ms=723141704 event=PTP_OP_COMPLETE conn=2 op=0x1004 tx=193 elapsed_ms=34
+wall_ms=1792311828300 mono_ms=723143965 event=PTP_OP_BEGIN conn=2 op=0x1004 tx=194
+wall_ms=1792311828375 mono_ms=723144040 event=PTP_OP_COMPLETE conn=2 op=0x1004 tx=194 elapsed_ms=74
+wall_ms=1792311828375 mono_ms=723144040 event=PTP_OP_BEGIN conn=2 op=0x1007 tx=195
+wall_ms=1792311828395 mono_ms=723144060 event=PTP_OP_FAILED conn=2 op=0x1007 tx=195 elapsed_ms=20 category=PROTOCOL

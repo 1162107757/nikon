@@ -1,0 +1,66 @@
+Nikon Preset 0.8.0-beta / versionCode 31 functional checkpoints
+2026-10-17 Asia/Shanghai
+Artifact: dist/nikon-usb-0.8.0-beta-debug.apk, 2,830,969 bytes.
+Final build: 2026-10-17 15:57:58 +08:00.
+SHA-256 9ae39f02e4373bbfa1a5b0cdb3cd4c98d9d10a6913ee56b57602c387a3bb1be2.
+15:44:35 candidate: 2,830,969 bytes,
+SHA-256 76d563a634415f07ae530dc4def76a97171280c0a9b7ad5656fb0e7a8042c714.
+After its functional QA, runtime lifecycle notifications are filtered to
+active edges and Service observes progress directly; encoder/batch unchanged.
+Final chooser rows adapt to content; long preset lists are height-capped and scroll.
+
+IMPLEMENTATION / HOST SCOPE
+Batch limit 100 is explicit; remote originals use the existing download
+boundary while local inputs never redownload. App-owned serial local work
+keeps full-size pixels, EXIF and gallery copy work off the camera worker.
+One mutable sRGB bitmap and bounded in-place strips produce separate JPEG95;
+original files stay intact. Cancellation drains an in-flight acquisition,
+then stops at strip/item boundaries. Per-file errors allow remaining items.
+Source/preset/model keys plus checksummed output reuse derived copies and
+allow local publication retry. Effects are not live-original membership.
+Existing phone NCP approximation is explicitly not native Nikon rendering.
+Final runners exit 0: album 683 controller + 342 store + 100 folder = 1,125;
+Gallery 99 and batch 40, total 1,264 checks passed.
+Old-OS API26–28 permission/public-Pictures/scanner checks are host-facade
+only. Real Android codecs/EXIF/MediaStore are outside those host guarantees.
+
+EARLIER CANDIDATE QA (15:35:28; NOT FINAL APK)
+Android 17 emulator with synthetic JPEGs and local Tone preset.
+Original 1 is 6000x4000 / 538,837 bytes. Direct system-gallery save row 39
+retains SHA-256 6d192ccd59e5123b0149c5c19e5ce8fb5db09505498f033f3cab937c3dd8d468.
+Camera photos 2/3 batch Tone completes two: originals 40/42, effects 41/43.
+Local original 1 creates effect row 44, 1,184,360 bytes / 6000x4000, preserving
+orientation 6 and DateTime 2026:10:17 10:20:30. Example pixel probe changes
+ff221d57 to ff5b4590; this demonstrates the phone approximation, not camera
+colour fidelity. Effect SHA-256:
+b3b78f8546c3fc86313eac8a53d0b14d36346f611c8468fac03a7a273f399eeb.
+HOME and Activity clear-task/recreation during local batch preserve the task,
+with foreground-service type 0x2010 (mediaProcessing+connectedDevice).
+No new GetObject occurs for local input. App crash filter is empty.
+Engine/renderer/Gallery sources are unchanged in final; later changes add
+async live publication, stale-save-summary cleanup and observer/chooser fixes.
+This evidence is not relabeled as a final-artifact 24MP encode test.
+
+SECOND CANDIDATE QA (15:44:35 / 76d563a6; NOT REBUILT FINAL)
+Live project receives photos 4/5, then starts Tone batch on those two.
+Photo 6 arrives during processing; batch finishes 2/2 and live count is 3.
+The newly rendered 24MP output is 6000x4000 / 2,036,914 bytes, with orientation
+6 and original DateTime retained. Its SHA-256 is
+415ec7235e4216b9860783fe6677544f9d1ba0947860a14f5084517a6900a2dd.
+Repeating batch keeps row count 11->11 and sends no additional GetObject.
+A cancel run completes 1/2 and stops one, with rows 13->14.
+Subsequent changes isolate progress events from root-page rebuilding and
+adapt preset chooser row/list height; encode/concurrency stays candidate evidence.
+
+FINAL QA / PHYSICAL PHONE
+Final 9ae3 package preserve-data installed on Android 17 emulator.
+Dark 375dp / font 1.3: single preset selector fits its content.
+A new offline batch finishes 1/1 through HOME and Activity clear-task/recreate.
+Captured standalone FGS type 0x2000 (mediaProcessing); new gallery row 56 is
+1600x1000, 131,458 bytes, IS_PENDING=0. After completion services are empty
+and the app crash filter is empty. No final-artifact 24MP re-encode is claimed.
+Physical PKG110 / adb 286f0dba, user 0: preserve-data install succeeds around
+2026-10-17 15:59 +08:00, code 31 / 0.8.0-beta, base SHA matches final 9ae3.
+Phone remains on password lockscreen; process 29498 is alive. No new UI or
+project-count verification, real-photo batch or camera-connection test ran.
+Earlier 0.7.x protocol/Doze/install records remain historical.

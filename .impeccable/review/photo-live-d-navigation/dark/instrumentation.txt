@@ -1,0 +1,5 @@
+INSTRUMENTATION_RESULT: checks=94
+INSTRUMENTATION_RESULT: status=PASS
+INSTRUMENTATION_RESULT: stream=Live D native probe PASS; checks=94; report=/storage/emulated/0/Android/data/com.nikonpreset.usbprobe/files/live-d-navigation/dark/report.json
+
+INSTRUMENTATION_CODE: -1

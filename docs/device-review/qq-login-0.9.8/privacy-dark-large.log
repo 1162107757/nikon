@@ -1,0 +1,13 @@
+INSTRUMENTATION_STATUS: checks=176
+INSTRUMENTATION_STATUS: phase=READY
+INSTRUMENTATION_STATUS: state=privacy
+INSTRUMENTATION_STATUS: stream=QQ UI probe READY; synthetic=false; state=privacy; holdMs=2500
+
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_RESULT: authorizingBounds=button=[58,715,1022,865];overlay=[267,715,812,865];spinner=[309,763,362,816];label=[383,747,770,833]
+INSTRUMENTATION_RESULT: checks=176
+INSTRUMENTATION_RESULT: exchangingBounds=button=[58,833,1022,983];overlay=[323,833,756,983];spinner=[365,881,418,934];label=[439,865,714,951]
+INSTRUMENTATION_RESULT: status=PASS
+INSTRUMENTATION_RESULT: stream=QQ UI probe PASS; checks=176; state=privacy; no SDK authorization or session exchange was invoked
+
+INSTRUMENTATION_CODE: -1

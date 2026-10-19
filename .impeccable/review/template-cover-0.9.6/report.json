@@ -1,0 +1,22 @@
+{
+  "testedAt": "2026-10-18T02:50:00.056Z",
+  "passed": true,
+  "cases": [
+    {
+      "mode": "missing",
+      "passed": true
+    },
+    {
+      "mode": "failed",
+      "passed": true
+    },
+    {
+      "mode": "sample",
+      "passed": true
+    },
+    {
+      "mode": "detail",
+      "passed": true
+    }
+  ]
+}

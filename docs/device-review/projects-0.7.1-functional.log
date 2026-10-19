@@ -1,0 +1,53 @@
+Nikon Preset 0.7.1-beta / versionCode 29 functional checkpoints
+2026-10-17 Asia/Shanghai
+Final APK: dist/nikon-usb-0.7.1-beta-debug.apk; 2,802,297 bytes.
+SHA-256: 462c508e4f335cf0bf1dd473af6b419d6f8e81a05a727b92bddfb30b1b293220
+Build 14:51:09 +08:00; no later production source changes.
+
+SCOPE
+Android 17 / Pixel 9 emulator and loopback synthetic photographs only.
+UI selector patch; durable project/original format unchanged and audited.
+249 store checks pass against final production classes. No new complete
+core/probe/server, protocol, screen-off or Doze suite is claimed.
+
+UPGRADE FIXTURE
+Under 0.7.0, created AutumnPortraitSessionAtTheLakesideAndOldTown2026 and
+received two synthetic originals with handles 4 and 5. Created empty Weekend.
+Stopped Photo Live and disconnected before updating the emulator.
+Preserve-data upgrade to final 0.7.1 succeeds. Both projects remain in the
+chooser; the long-name project retains two photos and Weekend remains empty.
+Project switching works entirely offline.
+
+SELECTOR / RESTART
+The project selector is a rounded 48dp control, with separate CHEVRON_DOWN
+vector and END ellipsis for long names. Chooser rows include project date,
+photo count, selection check and active status when receiving.
+Force-stop and cold-start retain the long-name selected project ID and both
+photos. Switching back to Weekend in dark mode shows the correct empty
+state; reopening the chooser still shows both projects.
+Light selector, light menu and dark menu screenshots were inspected legible:
+.impeccable/review/phone-apple-v071-project-selector-light.png
+.impeccable/review/phone-apple-v071-project-menu-light.png
+.impeccable/review/phone-apple-v071-project-menu-dark.png
+
+FINAL EMULATOR STATE
+Installed base APK SHA-256 equals the final artifact. App services: nothing.
+Crash-buffer filter com.nikonpreset.usbprobe|FATAL EXCEPTION is empty.
+Other crash-buffer entries concern the emulator vendor UWB service only.
+run-as is unavailable for this non-debuggable package; retention is proven
+by upgrade/restart UI behavior and host checks, not private-disk inspection.
+
+PHYSICAL PHONE BOUNDARY
+At 14:54 PKG110 was still on 0.7.0 and actively receiving Photo Live, with two
+photos. Initial delivery left that session untouched. After the user later
+explicitly requested installation, UI confirmed reception stopped and the
+existing project 2026-10-17 14:44 contained two photos. Manually disconnected
+the idle camera connection and confirmed app services empty before install.
+Preserve-data upgrade to code 29 / 0.7.1-beta succeeded at 2026-10-17
+14:59:56 +08:00; installed base SHA-256 matches the final artifact.
+Post-install phone UI shows the new project selector. The project menu
+retains 2026-10-17 14:44 with two photos; no connection/live task resumed.
+The phone was left on Photo Live showing that existing project. No active
+transfer was interrupted and there was no uninstall/data clear. No new
+real-camera capture/import or protocol/Doze claim follows from this UI patch.
+Previous 0.7.0 evidence stays limited to that version.

@@ -1,0 +1,43 @@
+0.9.5-beta / versionCode 44
+Verified: 2026-10-18 10:30 +08:00
+APK: nikon-usb-0.9.5-beta-debug.apk
+Bytes: 2966137
+SHA-256: 6a97b013e64c1311b7598dcb669eb831496ca036faa45493ca87d8eecfa1e914
+Signatures: existing certificate; v2 and v3 verified.
+
+Account loading UI:
+- Loading spinner and status text are centered inside the full-width login/register/refresh button.
+- Loading no longer takes external horizontal space or shifts/shrinks the button.
+- Busy button stays disabled; the decorative overlay is hidden from accessibility.
+- A single helper renders the actual action label for measurement and accessibility.
+- Six final-product-package emulator cases passed: registration, login, profile refresh,
+  dark registration at 1.3 font scale, login at 1.5 font scale and initial account restoration.
+- Each case checks unchanged idle/busy horizontal boundaries, in-button geometry, centered overlay,
+  disabled action and noninteractive/accessibility-hidden overlay. Screenshots inspected.
+- UI states were injected by same-certificate emulator-only Instrumentation, without submitting
+  registration/login, saving a synthetic identity, or using the user's account/password.
+- Evidence: .impeccable/review/account-loading-0.9.5/report.json and sibling PNG/log files.
+
+Built-in online library:
+- App uses its existing CloudBase public catalog as a product-managed endpoint.
+- Settings row, address dialog and Help address entry removed; related help text updated.
+- Older custom and explicitly disabled configurations migrate to the built-in endpoint.
+- Old custom catalog cache is isolated; local downloaded/imported preset bytes are preserved.
+- Unreadable/non-file configuration and atomic write failure close this instance to every endpoint;
+  retry after repairing the filesystem can resume. No fallback request to the legacy endpoint.
+- Library Java host regression: 231 checks passed, including 55 managed-endpoint migration checks.
+- Public catalog GET returned HTTP 200 with zero published presets.
+- Final APK emulator directly loaded this real empty catalog without address configuration;
+  Settings no longer contained the editor. No sample/preset was fabricated or published for this test.
+- Backend not changed or redeployed in this release.
+
+Physical phone:
+- Target: PKG110, serial 286f0dba; adb install -r returned Success.
+- Installed package confirmed versionName 0.9.5-beta / versionCode 44; launch returned Success.
+- No uninstall, data clear, account login, user-password use or real-photo inspection was performed.
+- Installation preserves existing data; this run does not independently inspect private retained content.
+
+Limits:
+- Loading geometry was verified on a portrait phone emulator; no tablet, TalkBack or performance claim.
+- No new real-camera import, live-photo transfer or lock-screen regression was performed.
+- The prior account/backend verification remains scoped to 0.9.4 and backend 1.2.0.

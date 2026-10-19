@@ -41,10 +41,16 @@ public final class NcpPictureControlConverter {
         int legacyBase = uint16be(source, PROFILE_OFFSET + 24);
         int base = mapBase(legacyBase);
 
-        // This is an observed legacy metadata combination, not the PTP ModifiedFlag.
-        // Other combinations have no verified interpretation in this adaptation.
-        if (unsigned(source[38]) != 0 || unsigned(source[39]) != 0xff) {
-            throw unsupported("此 NCP 的修改标志或保留字节组合尚未验证。");
+        // NCP metadata: 0=unmodified, 1=edited back to defaults, 2=modified.
+        // dumpncp.pl documents this field independently of the actual stored parameters.
+        // It is not the camera's PTP ModifiedFlag and must never be copied into the wire header.
+        // All parameter/curve checks below remain mandatory for every recognized state.
+        int modificationState = unsigned(source[38]);
+        if (modificationState > 2) {
+            throw unsupported("预设包含未支持的修改状态（" + modificationState + "），原文件未改动。");
+        }
+        if (unsigned(source[39]) != 0xff) {
+            throw unsupported("预设的保留字段不符合已支持的格式，原文件未改动。");
         }
         int sharpening = unsigned(source[40]) - 0x80;
         int saturation = unsigned(source[43]) - 0x80;

@@ -1,0 +1,39 @@
+0.9.3-beta / versionCode 42
+Built: 2026-10-18 07:55:22 +08:00
+APK: nikon-usb-0.9.3-beta-debug.apk
+Bytes: 2941561
+SHA-256: 4c97fc2ec8c30b56d99e818ae02a1b69b10858d56849619b3bd22939e3c63720
+Signatures: v2 and v3 verified.
+
+Android change:
+- MainActivity initializes the first-time HTTPS online catalog configuration.
+- Existing custom, explicitly disabled, corrupt, unsupported or non-file configuration is preserved.
+- Repository construction itself does not enable an endpoint; initialization is an explicit worker API.
+- Default initialization failure leaves local presets usable and reports the configuration issue.
+- Online preset library host group: 176 checks passed.
+- 92 Android Java sources compiled; complete APK build and signing passed.
+- No phone install, native runtime, camera, live-transfer, lock-screen or real-photo verification was added.
+
+CloudBase environment: nikon-d8girdjsr252fd90e / ap-shanghai
+Target catalog: https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/catalog.json
+Management page: https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/admin/
+Backend code: online-library/
+- Local Node groups: 33 tests passed (10 browser API adapter, 3 auth, 2 HTTP/CloudBase adapter, 18 validation).
+- JavaScript syntax/source checks: 21 modules passed after the GET-only file endpoint change.
+- Real PostgreSQL: 24 assertions passed in a rollback-only synthetic transaction; no test rows retained.
+- Private PG storage: two synthetic objects uploaded/read byte-for-byte; anonymous reads returned 404; both test objects removed.
+- Actual permissions: six management tables have RLS enabled and deny anon/authenticated access; four RPC functions permit only the server role; anonymous direct data request returned 401.
+- Local browser: synthetic login, list/filter, draft edit/save, version history, publish/unpublish and copy catalog observed; light desktop and dark 375px layout inspected.
+- Initial database, private bucket, administrator and HTTP cloud function deployed; function read-only status Active / Nodejs20.19 / HTTP.
+- User explicitly authorized publishing /preset-library; the public gateway route is now created.
+- Real public HTTP: 12 checks passed; health, management page, anonymous version-1 catalog, administrator login, authenticated data, Origin/CSRF rejection, logout and invalidation of the logged-out session. Report: online-library/build/http-verification.json.
+- Online service is live. The final real public workflow passed all 76 checks with zero failures at 2026-10-18 08:38:21 +08:00. Report: online-library/build/public-workflow-verification.json (passed=true).
+- Workflow coverage: raw NCP/preview uploads; unpublished file and private bucket isolation; authenticated GET bytes/length/MIME/ETag/SHA-256; explicit publication; anonymous catalog and file GET; HEAD rejection; immutable publication snapshots; stale revision rejection; version history; republication; unpublication with retained historical file URLs; persistent session revocation.
+- Production Android Java online-library data layer: 11 real HTTPS probe checks passed under host JDK 17. Android image decoding was not exercised; this is not a phone/native-runtime acceptance.
+- Exact synthetic cleanup confirmed: 1 preset, 2 versions, 2 asset rows and 2 private objects removed; no missing objects. No real presets were published and no synthetic catalog entries were retained.
+- Public GET cache observations: NCP retained "public, max-age=31536000, immutable"; preview responses were tightened by the gateway to "no-store, no-cache, must-revalidate, max-age=0". Cache policy was recorded separately and was not treated as a file-integrity assertion.
+- File HEAD requests explicitly return 405 / Allow: GET because the gateway zeroed Content-Length for HEAD. App and web downloads use GET.
+- Initial administrator username: admin. Its generated password remains only in the local ignored online-library/.local/initial-admin.json; no password is included in this record.
+- Browser first visits on the Tencent Cloud default test domain may show a platform "confirm access" interstitial.
+- Local synthetic preview server and temporary browser tab stopped; temporary viewport and theme override restored.
+- Service credentials are excluded from Android, admin assets, deployment archive and Git; no values printed.

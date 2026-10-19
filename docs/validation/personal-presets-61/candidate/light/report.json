@@ -1,0 +1,8 @@
+{
+  "apkSha256": "5e839c3a53f79af3656a2e2976c1313b667041c9a28be26973fe27d2cde8a09b",
+  "status": "PASS",
+  "checks": 23,
+  "theme": "light",
+  "syntheticCloudWrites": 1,
+  "ownedFixtureCleaned": true
+}

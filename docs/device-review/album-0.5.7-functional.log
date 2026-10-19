@@ -1,0 +1,92 @@
+Nikon Preset 0.5.7-beta / Android functional checkpoints
+Date: 2026-10-17, Asia/Shanghai. Protocol timestamps use UTC.
+Artifact: dist/nikon-usb-0.5.7-beta-debug.apk, versionCode 24.
+SHA-256: 491290bce7c2b81af142b03480666fdbf4b8ba5b1e4f67af6982cffe4b029a5c
+Environment: temporary Pixel 9 emulator, Android 17, 1080x2424.
+Peer: loopback synthetic PC/49-photo album, 10.0.2.2:15754 from emulator.
+No physical camera was operated. The observations below used the frozen APK.
+
+CONNECTION ROUND TRIP
+1. Configured the synthetic endpoint and prepared Picture Control capability/
+   slot reads. The synthetic NCP was imported with the actual file picker.
+2. Explicitly confirmed empty C2 import. UI reported saved and readback checked.
+3. Completed the result and returned to preset root: green connected badge.
+4. Entered Album: automatic handoff enumerated photos, green connected badge,
+   initially 24+ items; no user reconnect was required.
+5. After photo-viewer checks, returned to preset detail and selected Wi-Fi import.
+   Confirmation reported the same held session, C3 empty. Explicitly confirmed
+   C3; result again reported saved and readback checked.
+6. Returned to Album camera photos: photos and green connected badge remained.
+7. HOME while camera-photo grid active retained a foreground connection service.
+   Returning brought the same Activity/task forward, with photos and connected
+   status. This was an ordinary brief HOME check, not a new Doze certification.
+8. Settings displayed Z6II, Wi-Fi, connected. Explicitly tapped Disconnect.
+   Settings and Album then displayed disconnected; service dump was empty.
+   dumpsys power reported Wake Locks: size=0, historical camera-lock release
+   at 04:31:16.682Z. The protocol ends in transport_closed/CLOSED, with no
+   CloseSession command. See the separate raw protocol log and audit.
+
+REMOTE PHOTO VIEWER
+- Opened TEST_0001.JPG; detail displayed high-quality preview 1280x800.
+- Left swipe changed 1 to 2, right swipe returned to 1. First previous disabled.
+- Double tap enlarged the image. Horizontal pan changed visible image position
+  while filename/count remained TEST_0001, 1 / loaded 24+.
+- Double tap returned to fit. A two-finger pinch with moving midpoint and
+  one-finger continuation enlarged/panned without changing the selected photo.
+- Inward pinch returned to fit. ACTION_CANCEL and a vertical drag did not
+  navigate; the next ordinary left swipe changed 1 to 2.
+- Repeated Next across initial metadata boundaries reached TEST_0049, 49 / 49;
+  Next disabled, the displayed fixture number matched the filename.
+- Before-download raw checkpoint contains no GetObject. All the above viewing
+  used previews. Original transfers were requested only by the following two
+  explicit download actions.
+
+EXPLICIT DOWNLOAD / LOCAL VIEWER
+- Downloaded TEST_0049, then selected Previous and downloaded TEST_0048.
+- UI showed saved, and the downloaded grid contained exactly these two images.
+- Local fast left swipe changed TEST_0048 1/2 to TEST_0049 2/2; right swipe
+  returned to TEST_0048 1/2. At the last image Next was disabled.
+- An earlier injected drag took 1047ms wall time and did not navigate. This
+  matches the classifier's maximum 800ms gesture interval; it was repeated
+  with a shorter injected gesture and local navigation passed.
+- Independent adb shell file size/SHA-256 inspection matched fixture originals:
+  TEST_0048.JPG: 95245 bytes
+  aaaa8a7ec78c4e18ed93e174f5d80cab8477b41e87e3597a15a95e6d1195353e
+  TEST_0049.JPG: 94596 bytes
+  307a8fe47e8997fef3a9a63b7243a0df1aa334b9621422b7885c87bd7b1dcab2
+  Files were in the emulator app's external Pictures/camera-album directory.
+
+SCREENSHOTS
+.impeccable/review/phone-apple-v057-preset-connected.png
+.impeccable/review/phone-apple-v057-album-shared.png
+.impeccable/review/phone-apple-v057-viewer-fit.png
+.impeccable/review/phone-apple-v057-swiped-back-first.png
+.impeccable/review/phone-apple-v057-viewer-doubletap-zoom.png
+.impeccable/review/phone-apple-v057-viewer-zoom-pan.png
+.impeccable/review/phone-apple-v057-viewer-pinch-focus.png
+.impeccable/review/phone-apple-v057-viewer-pinch-fit.png
+.impeccable/review/phone-apple-v057-viewer-last-page.png
+.impeccable/review/phone-apple-v057-viewer-local-swipe-fast.png
+.impeccable/review/phone-apple-v057-second-import-same-session.png
+.impeccable/review/phone-apple-v057-album-after-second-import.png
+.impeccable/review/phone-apple-v057-settings-connected.png
+.impeccable/review/phone-apple-v057-album-disconnected.png
+The earlier viewer-local-swipe.png is the deliberately retained non-navigation
+observation from the long injected gesture, not evidence of a successful swipe.
+
+PROCESS / PHONE
+Emulator application PID 7288 remained alive; its filtered crash buffer was
+empty at final inspection. Gesture injection helper accepted emulator serials
+only and was not installed as a production app dependency.
+
+Physical PKG110 / Android 16, user 0: no running app service before update.
+adb install --user 0 -r returned Success. Package inspection showed versionCode
+24 / versionName 0.5.7-beta, lastUpdateTime 2026-10-17 12:29:40 local.
+Installed base.apk SHA-256 matched the artifact hash at the top of this record.
+No uninstall, data clear, synthetic fixture import, permission changes, camera
+connection or physical-phone gesture test was performed on the phone.
+
+SCOPE
+Synthetic UI and regression evidence validates these functional paths. Static
+screenshots and software-emulator injection do not establish physical gesture
+feel, frame rate, photographic quality or all camera/firmware compatibility.

@@ -1,0 +1,56 @@
+Nikon Preset 0.8.6-beta / versionCode 37
+2026-10-17 Asia/Shanghai
+STATUS: ARTIFACT VERIFIED; SYNTHETIC EMULATOR AND LIMITED READ-ONLY PHONE
+SCOPES RECORDED BELOW.
+APK: nikon-usb-0.8.6-beta-debug.apk
+Artifact: 2,867,833 bytes, built 2026-10-17 20:33:51 +08:00.
+SHA-256 92582d4d10925b24b2264dfdf5eac12c08ce98e5b03c24a6fad85a7f277c87d7.
+Production build exits 0; APK v2/v3 signature verification passes.
+
+IMPLEMENTED SCOPE
+With no connection, preset Import Camera directly opens the Wi-Fi guide and
+retains the selected preset. Guide text explains successful connection continues
+to slot selection. Switch to USB exits the guide while retaining pending import;
+Cancel Import returns to the original preset detail and clears its continuation.
+Success uses the existing one-shot continuation to confirmation, without an
+automatic write. Ordinary Wi-Fi Settings and Photo Live connection guides do
+not show these two import-specific actions. Camera protocol/confirmation and
+existing album/live behaviour are unchanged.
+
+CHECK SCOPE
+This low-impact navigation/copy change adds no host tests and reruns no host
+or protocol suites. The previous 18 continuation checks and older protocol
+counts remain historical evidence, not runs for this version.
+
+FINAL ARTIFACT: ANDROID 17 / API 37 EMULATOR
+Synthetic PreviewTone.NCP is 638 bytes. Its detail -> Import while disconnected
+directly opens the Wi-Fi guide, including continuation text, Switch to USB and
+Cancel Import. Cancel returns to original PreviewTone detail.
+Switch USB shows a missing-USB prompt. After cancelling, Settings has Return Preset;
+returning and entering the guide again works. Connection to 10.0.2.2:15766 after
+notification Allow automatically opens Confirm Import for the same PreviewTone,
+C2 empty. The final Import button is not pressed; Cancel returns to detail.
+An ordinary Wi-Fi Settings guide has no import continuation text or import footer.
+UI evidence: app/build/v086-direct-guide-ui.xml,
+app/build/v086-confirmation-ui.xml, app/build/v086-ordinary-guide-ui.xml.
+Viewed emulator-only screenshot:
+.impeccable/review/phone-apple-v086-import-guide.png.
+Synthetic server.log: one INIT/OpenSession, zero CloseSession, photo StorageIDs/
+Handles and virtualWrites. Reads include capability 0x90cf and slots 0x90cc.
+No final import confirmation/write is issued. App-related crash filtering has
+no match. Emulator and synthetic server exit with no test process left;
+these are synthetic-camera navigation checks.
+
+PHYSICAL PHONE: INSTALL / LIMITED READ-ONLY UI ONLY
+286f0dba: install -r succeeds at 2026-10-17 20:34:52 +08:00, 37 / 0.8.6-beta.
+Read-only Agfa Optima detail -> Import directly opens the guide with both footer
+actions and address 192.168.1.1:15740. USB is subsequently unplugged.
+Phone Cancel/return and pm base.apk SHA-256 are not completed or verified;
+do not infer installed-hash equality. Project details are not rechecked.
+Installation preserves data without clearing it. No real camera is connected,
+no camera write is performed and no real photo is selected.
+
+LIMITS
+No new physical-camera, USB write, background, Doze or Activity-lifecycle
+acceptance is claimed. The prior 18 host checks and protocol suite results are
+not runs for this version. Historical evidence retains its original scope.

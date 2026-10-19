@@ -1,0 +1,84 @@
+Nikon Preset 0.6.0-beta final APK functional checkpoints
+2026-10-17 Asia/Shanghai. Protocol Z timestamps are UTC.
+Artifact code26 / SHA25600ac0cf7c6dae130e059dbd532359f1a8c83713e10ba16db1d223ac65d336005
+Temporary Pixel9 Android17 emulator,1080x2424; no physical camera.
+Peer127.0.0.1:15756 (emulator10.0.2.2), synthetic49-JPEG fixtures and virtual
+read-only preset capability/slots; all actual photo additions are synthetic.
+
+SETUP / BASELINE
+Initial restricted-process loopback connection attempt timed out before any
+successful handshake; the peer was relaunched on host loopback with reviewed
+permissions. The archived protocol starts with that successful peer instance.
+During UI setup, revision1 added4/5/6 before Start Live completed, so the actual
+baseline contained six objects rather than the service's initial three.
+UI showed Waiting to shoot / saved0; baseline checkpoint has zero GetObject.
+This confirms all six existing objects were excluded from automatic download.
+
+AUTOMATIC RECEIPT
+After baseline readiness, revision2 added:
+7 with two duplicate ObjectAdded events;
+8 with one event, one metadata-not-ready2009, one original-busy2019;
+9 without any event, discovered by same-session fallback polling.
+UI displayed saved3 and the latest TEST_0009 preview/original image, with all
+three entries marked saved to system gallery. No Download button was pressed.
+The busy attempt was retried without session reinitialization or duplicate
+public copy; the successful original data events were7,9,8 in completion order.
+
+BACKGROUND / RECREATION / DETAIL
+HOME while live active retained an isForeground=true connected-device service.
+Revision3 added10 and repeated7 notifications.10 was automatically saved while
+the Activity was backgrounded; no second original transfer for7 appeared.
+Starting MainActivity with NEW_TASK|CLEAR_TASK rebuilt its UI in the same
+process. Album recovered the Photo Live tab, saved4 and latest TEST_0010.
+Opened latest photo10 in immersive detail; revision4 added11. After dismissing
+Android's first fullscreen tutorial, detail still showed TEST_0010, original
+91.4KB and compact Save As. Returning to live showed latest11 and saved5.
+No new photo forced the user away from the selected older image.
+
+STOP / PRESET COMPATIBILITY
+Tapped Stop Live. UI said Live stopped, Start Live available, still connected.
+Revision5 added12 with two events. It produced no original transfer.
+Settings wireless preset detection read capabilities and C1-C9 on the same
+connection, reporting eight empty slots and no write. Returning to Album
+retained saved5/latest11 and stayed stopped. No automatic live restart.
+Explicit Settings Disconnect closed the transport. Service dump reported
+nothing; app PID9005 remained and its filtered crash buffer was empty.
+Raw protocol final summary: connections1,opens1,closes0,virtualWrites0,
+commands654, CLOSED session1 at05:49:21.656Z. No CloseSession was sent.
+
+SYSTEM GALLERY READ-ONLY VERIFICATION
+Published directory: /sdcard/Pictures/相机预设/
+MediaStore own photo rows37..41 were nonpending, exactly five live photos.
+The separate nikon-apple.png row35 was the screenshot helper's file, not a
+received camera photo, and was excluded from the live-photo count.
+Originals matched fixture byte lengths and public-file SHA-256:
+7 92366 d18ae728c2d7a86088da5a049b80ae8575cfda6a2ac1e8a6679a873979850feb
+8 94893 3f5ff1252b2d28db09a1e1a93461f10ee61611c8d93444a5e215edd3abb540e8
+9 95452 de8b0f798772d640c171a7af10cc3bba72758ac6fdcf02ebc3622f9da6ccf38b
+10 93561 5bb0f4266682c590b190dcd0bc6888c182d0d2066c45c9be4b62b0fec83ade0a
+11 92082 e83d691293a84e10552a73aa6255ec2dd81df19efc57f2af0ba6564de2db3b36
+The optional run-as/app_process gallery-fault probe was refused because this
+APK is not debuggable. It did not mutate rows or execute recovery assertions.
+Do not count its repeat/crash tests as passed. Gallery recovery is source-
+reviewed; UI/system verification establishes the successful publish path.
+
+SCREENSHOTS
+.impeccable/review/phone-apple-v060-live-idle.png
+.impeccable/review/phone-apple-v060-live-waiting.png
+.impeccable/review/phone-apple-v060-live-receiving.png
+.impeccable/review/phone-apple-v060-live-after-background.png
+.impeccable/review/phone-apple-v060-detail-retained.png
+.impeccable/review/phone-apple-v060-live-stopped.png
+.impeccable/review/phone-apple-v060-preset-reuse.png
+
+PHONE DELIVERY
+PKG110 Android16 user0, oldcode25/0.5.8. Before updating, its camera service
+dump was empty. Preserve-data install Success; version26/0.6.0 confirmed,
+lastUpdateTime2026-10-17 13:49:19+08. Installed base.apk SHA256 matched the
+artifact above. No camera use, permission changes, synthetic fixtures, app
+data clear, uninstall or physical live-shooting test was performed on phone.
+After validation the temporary peer/emulator were shut down.
+
+Full regression: core10309 + probe12089 + live-server51 =22449 passed.
+These records establish synthetic functionality and delivery, not actual
+Nikon capture mode support, wireless throughput or indefinite background life.

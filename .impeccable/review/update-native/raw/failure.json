@@ -1,0 +1,6 @@
+{
+  "status": "FAIL",
+  "stage": "settings-update-entry",
+  "failure": "java.lang.IllegalStateException: settings-update-entry",
+  "checks": 8
+}

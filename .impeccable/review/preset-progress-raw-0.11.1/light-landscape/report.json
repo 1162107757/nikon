@@ -1,0 +1,18 @@
+{
+  "versionCode": 58,
+  "versionName": "0.11.1-beta",
+  "installedApkSha256": "f1952cca9f98fdfaef4e01875eada653291e5f0ca535cd5cfd05630280a3a568",
+  "sdkInt": 37,
+  "theme": "light",
+  "orientation": "landscape",
+  "density": 2.625,
+  "screenWidth": 2424,
+  "screenHeight": 1080,
+  "initialHero": "[391,697][2175,1065]",
+  "listBounds": "[338,544][2228,1017]",
+  "status": "FAIL",
+  "stage": "actual-touch-scroll-moves-live-hero",
+  "checks": 136,
+  "failure": "java.lang.IllegalStateException: actual-touch-scroll-moves-live-hero",
+  "ownedFixturesCleaned": true
+}

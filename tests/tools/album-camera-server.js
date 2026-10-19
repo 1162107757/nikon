@@ -14,9 +14,19 @@
  * --picture-control-import-synthetic enables one in-memory virtual-slot registration.
  * --picture-control-album-import-synthetic also provides an empty read-only album for handoff tests.
  * --picture-control-overwrite-synthetic additionally seeds C1 and permits guarded in-memory overwrite.
+ * --picture-control-full-album-import-synthetic combines the same virtual slots with 49 synthetic JPEGs and large previews.
  * --post-import-heartbeat-error-once returns a single GeneralError after the first virtual write's exact readback.
  * Add --keep-import-session to permit up to nine explicit registrations into distinct empty virtual slots.
  * Album fixtures with every LARGE_*.JPG advertise Nikon GetLargeThumb; --large-thumb-reject exercises its explicit rejection fallback.
+ * --photo-live-synthetic starts with handles 1..3. Update <fixtures>/live-control.json after enabling live mode:
+ *   {"revision":1,"add":[{"handle":4,"events":2},{"handle":5,"events":1,"busyOriginal":1},{"handle":6,"events":0}]}
+ * The control file is local-only, accepts fixture handles 1..49, and opens no additional listener.
+ * Use --live-control-file=<path> to select another local control file. Existing revisions are ignored at startup.
+ * --live-storage-synthetic adds two advertised slots: 65537 unavailable (0x2013), 131073 containing the fixtures.
+ * Its local control also accepts storages:[{id:65537,available:false},{id:131073,available:true}].
+ * Added photos may select storageId; otherwise they use 131073 in this mode. Empty available slots return no handles.
+ * --live-baseline-count=N (3..19000, photo-live only) adds in-memory baseline photos at handles 100 upward.
+ * The first three fixture handles remain 1..3; clones share JPEG buffers and use BASE_xxxxx.JPG names.
  * This service has no camera/device access. The default and read-only modes reject uploads.
  */
 const net = require('node:net');
@@ -24,28 +34,39 @@ const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
 
-const options = { port: 15740, seconds: 600, fixtures: 'app/build/album-ui-fixtures', pictureControlReadonly: false, pictureControlImportSynthetic: false, pictureControlAlbumImportSynthetic: false, pictureControlOverwriteSynthetic: false, keepImportSession: false, largeThumbReject: false, postImportHeartbeatErrorOnce: false };
+const options = { port: 15740, seconds: 600, fixtures: 'app/build/album-ui-fixtures', pictureControlReadonly: false, pictureControlImportSynthetic: false, pictureControlAlbumImportSynthetic: false, pictureControlOverwriteSynthetic: false, pictureControlFullAlbumSynthetic: false, keepImportSession: false, largeThumbReject: false, postImportHeartbeatErrorOnce: false, photoLiveSynthetic: false, liveStorageSynthetic: false, liveControlFile: '' };
 let selectedPictureControlMode = '';
 for (const argument of process.argv.slice(2)) {
   if (argument === '--keep-import-session') { options.keepImportSession = true; continue; }
   if (argument === '--large-thumb-reject') { options.largeThumbReject = true; continue; }
   if (argument === '--post-import-heartbeat-error-once') { options.postImportHeartbeatErrorOnce = true; continue; }
-  if (['--picture-control-readonly', '--picture-control-import-synthetic', '--picture-control-album-import-synthetic', '--picture-control-overwrite-synthetic'].includes(argument)) {
+  if (argument === '--photo-live-synthetic') { options.photoLiveSynthetic = true; continue; }
+  if (argument === '--live-storage-synthetic') { options.liveStorageSynthetic = true; continue; }
+  if (['--picture-control-readonly', '--picture-control-import-synthetic', '--picture-control-album-import-synthetic', '--picture-control-overwrite-synthetic', '--picture-control-full-album-import-synthetic'].includes(argument)) {
     if (selectedPictureControlMode && selectedPictureControlMode !== argument) throw new Error('Picture Control modes are mutually exclusive');
     selectedPictureControlMode = argument;
     options.pictureControlReadonly = argument === '--picture-control-readonly';
-    options.pictureControlOverwriteSynthetic = argument === '--picture-control-overwrite-synthetic';
+    options.pictureControlFullAlbumSynthetic = argument === '--picture-control-full-album-import-synthetic';
+    options.pictureControlOverwriteSynthetic = argument === '--picture-control-overwrite-synthetic' || options.pictureControlFullAlbumSynthetic;
     options.pictureControlAlbumImportSynthetic = argument === '--picture-control-album-import-synthetic' || options.pictureControlOverwriteSynthetic;
     options.pictureControlImportSynthetic = argument !== '--picture-control-readonly';
     continue;
   }
-  const match = /^--(port|seconds|fixtures)=(.+)$/.exec(argument);
+  const match = /^--(port|seconds|fixtures|live-control-file|live-baseline-count)=(.+)$/.exec(argument);
   if (!match) throw new Error(`Unknown argument: ${argument}`);
-  options[match[1]] = match[1] === 'fixtures' ? match[2] : Number(match[2]);
+  if (match[1] === 'live-control-file') options.liveControlFile = match[2];
+  else if (match[1] === 'live-baseline-count') options.liveBaselineCount = Number(match[2]);
+  else options[match[1]] = match[1] === 'fixtures' ? match[2] : Number(match[2]);
 }
 if (options.pictureControlReadonly && options.pictureControlImportSynthetic) throw new Error('Picture Control modes are mutually exclusive');
 if (options.keepImportSession && !options.pictureControlImportSynthetic) throw new Error('--keep-import-session requires a synthetic Picture Control import mode');
 if (options.postImportHeartbeatErrorOnce && !options.pictureControlImportSynthetic) throw new Error('--post-import-heartbeat-error-once requires a synthetic Picture Control import mode');
+if (options.photoLiveSynthetic && selectedPictureControlMode && !options.pictureControlFullAlbumSynthetic) throw new Error('--photo-live-synthetic requires photo fixtures; combine only with the full-album Picture Control mode');
+if (options.liveControlFile && !options.photoLiveSynthetic) throw new Error('--live-control-file requires --photo-live-synthetic');
+if (options.liveStorageSynthetic && !options.photoLiveSynthetic) throw new Error('--live-storage-synthetic requires --photo-live-synthetic');
+if (options.liveBaselineCount !== undefined && !options.photoLiveSynthetic) throw new Error('--live-baseline-count requires --photo-live-synthetic');
+const liveBaselineCount = options.liveBaselineCount ?? 3;
+if (!Number.isInteger(liveBaselineCount) || liveBaselineCount < 3 || liveBaselineCount > 19000) throw new Error('live-baseline-count must be 3..19000');
 const pictureControl = options.pictureControlReadonly || options.pictureControlImportSynthetic;
 const maxVirtualWrites = options.keepImportSession ? 9 : 1;
 if (!Number.isInteger(options.port) || options.port < 1 || options.port > 65535
@@ -55,8 +76,12 @@ if (!Number.isInteger(options.port) || options.port < 1 || options.port > 65535
 const directory = path.resolve(options.fixtures);
 if (pictureControl) fs.mkdirSync(directory, { recursive: true });
 const logFile = path.join(directory, 'server.log');
-const photos = new Map();
-for (let handle = 1; handle <= (pictureControl ? 0 : 49); handle++) {
+const photos = new Map(), photoFixtures = new Map();
+const storageId = 0x00010001, secondStorageId = 0x00020001;
+const defaultPhotoStorageId = options.liveStorageSynthetic ? secondStorageId : storageId;
+const storageAvailability = new Map(options.liveStorageSynthetic
+  ? [[storageId, false], [secondStorageId, true]] : [[storageId, true]]);
+for (let handle = 1; handle <= (pictureControl && !options.pictureControlFullAlbumSynthetic ? 0 : 49); handle++) {
   const suffix = String(handle).padStart(4, '0') + '.JPG';
   const filename = `TEST_${suffix}`;
   const original = fs.readFileSync(path.join(directory, filename));
@@ -67,16 +92,23 @@ for (let handle = 1; handle <= (pictureControl ? 0 : 49); handle++) {
     throw new Error(`Invalid synthetic JPEG: ${filename}`);
   }
   if (large && (large.length > 8 * 1024 * 1024 || large.readUInt16BE(0) !== 0xffd8)) throw new Error(`Invalid synthetic large preview: ${filename}`);
-  photos.set(handle, { filename, original, thumbnail, large });
+  const photo = { filename, original, thumbnail, large, storageId: defaultPhotoStorageId, busyOriginalRemaining: 0, unreadyInfoRemaining: 0 };
+  photoFixtures.set(handle, photo);
+  if (!options.photoLiveSynthetic || handle <= 3) photos.set(handle, photo);
 }
-const largeThumbnailAvailable = !pictureControl && photos.size > 0 && [...photos.values()].every(photo => photo.large);
+if (options.photoLiveSynthetic) {
+  for (let index = 3; index < liveBaselineCount; index++) {
+    const handle = index + 97, fixture = photoFixtures.get(index % photoFixtures.size + 1);
+    photos.set(handle, { ...fixture, filename: `BASE_${String(handle).padStart(5, '0')}.JPG` });
+  }
+}
+const largeThumbnailAvailable = photoFixtures.size > 0 && [...photoFixtures.values()].every(photo => photo.large);
 fs.writeFileSync(logFile, '');
 const allowed = new Set(pictureControl
   ? [0x1001, 0x1002, 0x1003, 0x90cc, 0x90cf, ...(options.pictureControlImportSynthetic ? [0x90cd] : []),
-    ...(options.pictureControlAlbumImportSynthetic ? [0x1004, 0x1007, 0x1008, 0x1009, 0x100a] : [])]
+    ...(options.pictureControlAlbumImportSynthetic ? [0x1004, 0x1007, 0x1008, 0x1009, 0x100a] : []), ...(largeThumbnailAvailable ? [0x90c4] : [])]
   : [0x1001, 0x1002, 0x1003, 0x1004, 0x1007, 0x1008, 0x1009, 0x100a, ...(largeThumbnailAvailable ? [0x90c4] : [])]);
 const pictureControlReadPlan = [0x1001, 0x1002, 0x90cf, ...Array(10).fill(0x90cc), 0x1003];
-const storageId = 0x00010001;
 const connections = new Map();
 const sockets = new Set();
 const virtualSlots = new Map(Array.from({ length: 9 }, (_, index) => [201 + index, Buffer.alloc(36)]));
@@ -114,13 +146,13 @@ function transfer(socket, transaction, data) {
   response(socket, transaction);
 }
 const deviceInfo = Buffer.concat([
-  u16(100), u32(10), u16(100), str(pictureControl ? (options.pictureControlAlbumImportSynthetic ? 'SYNTHETIC TEST ONLY - empty album and virtual in-memory Picture Control import' : options.pictureControlImportSynthetic ? 'SYNTHETIC TEST ONLY - virtual in-memory Picture Control import' : 'SYNTHETIC TEST ONLY - read-only Picture Control fixture') : 'Synthetic read-only album fixture'), u16(0),
-  a16([...allowed]), a16([]), a16([]), a16([]), a16(pictureControl && !options.pictureControlAlbumImportSynthetic ? [] : [0x3801]),
+  u16(100), u32(10), u16(100), str(pictureControl ? (options.pictureControlFullAlbumSynthetic ? 'SYNTHETIC TEST ONLY - 49 JPEG album and virtual in-memory Picture Control import' : options.pictureControlAlbumImportSynthetic ? 'SYNTHETIC TEST ONLY - empty album and virtual in-memory Picture Control import' : options.pictureControlImportSynthetic ? 'SYNTHETIC TEST ONLY - virtual in-memory Picture Control import' : 'SYNTHETIC TEST ONLY - read-only Picture Control fixture') : 'Synthetic read-only album fixture'), u16(0),
+  a16([...allowed]), a16(options.photoLiveSynthetic ? [0x4002] : []), a16([]), a16([]), a16(pictureControl && !options.pictureControlAlbumImportSynthetic ? [] : [0x3801]),
   str('Nikon'), str(pictureControl ? 'Z6II' : 'Z6II (SYNTHETIC TEST)'), str('TEST ONLY'), str('SYNTHETIC-0000')
 ]);
 function objectInfo(handle, photo) {
   return Buffer.concat([
-    u32(storageId), u16(0x3801), u16(0), u32(photo.original.length),
+    u32(photo.storageId), u16(0x3801), u16(0), u32(photo.original.length),
     u16(0x3801), u32(photo.thumbnail.length), u32(320), u32(200),
     u32(1600), u32(1000), u32(24), u32(0), u16(0), u32(0), u32(handle),
     str(photo.filename), str('20261016T120000'), str('20261016T120000'), str('SYNTHETIC TEST')
@@ -129,6 +161,68 @@ function objectInfo(handle, photo) {
 function reject(socket, transaction, code, reason) {
   log(`REJECT session=${socket.session?.id || '?'} tx=${transaction} ${reason}`);
   response(socket, transaction, code);
+}
+const liveControlFile = path.resolve(options.liveControlFile || path.join(directory, 'live-control.json'));
+let liveControlRevision = 0, liveControlError = '';
+if (options.photoLiveSynthetic && fs.existsSync(liveControlFile)) {
+  try {
+    if (fs.statSync(liveControlFile).size <= 32768) {
+      const revision = JSON.parse(fs.readFileSync(liveControlFile, 'utf8')).revision;
+      if (Number.isSafeInteger(revision) && revision >= 1 && revision <= 1000000) liveControlRevision = revision;
+    }
+  } catch (_) { /* A future valid revision can replace incomplete control input. */ }
+}
+function applyLiveControl() {
+  if (!options.photoLiveSynthetic || closing || !fs.existsSync(liveControlFile)) return;
+  try {
+    const stat = fs.statSync(liveControlFile);
+    if (!stat.isFile() || stat.size > 32768) throw new Error('live control must be a regular file no larger than 32 KiB');
+    const control = JSON.parse(fs.readFileSync(liveControlFile, 'utf8'));
+    if (!Number.isSafeInteger(control.revision) || control.revision < 1 || control.revision > 1000000) throw new Error('invalid live control revision');
+    if (control.revision <= liveControlRevision) return;
+    const additions = control.add === undefined && options.liveStorageSynthetic && control.storages ? [] : control.add;
+    if (!Array.isArray(additions) || additions.length > 49) throw new Error('live add must contain at most 49 fixture entries');
+    if (control.storages !== undefined) {
+      if (!options.liveStorageSynthetic || !Array.isArray(control.storages) || control.storages.length > 2
+          || new Set(control.storages.map(item => item?.id)).size !== control.storages.length
+          || control.storages.some(item => !item || !storageAvailability.has(item.id) || typeof item.available !== 'boolean')) {
+        throw new Error('live storages require distinct advertised ids and boolean availability in --live-storage-synthetic mode');
+      }
+    }
+    for (const item of additions) {
+      if (!item || !Number.isInteger(item.handle) || !photoFixtures.has(item.handle)
+          || !Number.isInteger(item.events ?? 1) || (item.events ?? 1) < 0 || (item.events ?? 1) > 3
+          || !Number.isInteger(item.busyOriginal ?? 0) || (item.busyOriginal ?? 0) < 0 || (item.busyOriginal ?? 0) > 5
+          || !Number.isInteger(item.unreadyInfo ?? 0) || (item.unreadyInfo ?? 0) < 0 || (item.unreadyInfo ?? 0) > 5) {
+        throw new Error('live entries require handle 1..49, events 0..3, and retry counts 0..5');
+      }
+      if (item.storageId !== undefined && (!options.liveStorageSynthetic || !storageAvailability.has(item.storageId))) {
+        throw new Error('live storageId must select an advertised slot in --live-storage-synthetic mode');
+      }
+    }
+    liveControlRevision = control.revision; liveControlError = '';
+    for (const item of control.storages ?? []) {
+      storageAvailability.set(item.id, item.available);
+      log(`PHOTO_LIVE_STORAGE revision=${control.revision} storage=${item.id} available=${item.available}`);
+    }
+    for (const item of additions) {
+      const photo = photoFixtures.get(item.handle), existed = photos.has(item.handle);
+      photo.busyOriginalRemaining = item.busyOriginal ?? 0; photo.unreadyInfoRemaining = item.unreadyInfo ?? 0;
+      photo.storageId = item.storageId ?? photo.storageId;
+      photos.set(item.handle, photo);
+      log(`PHOTO_LIVE_ADD revision=${control.revision} handle=${item.handle} existed=${existed} photos=${photos.size} events=${item.events ?? 1} busyOriginal=${photo.busyOriginalRemaining} unreadyInfo=${photo.unreadyInfoRemaining}`);
+      for (const session of connections.values()) {
+        if (!session.open || !session.event || session.event.destroyed) continue;
+        for (let index = 0; index < (item.events ?? 1); index++) {
+          send(session.event, 8, Buffer.concat([u16(0x4002), u32(0xffffffff), u32(item.handle)]));
+          log(`OBJECT_ADDED_EVENT session=${session.id} handle=${item.handle} revision=${control.revision} copy=${index + 1}`);
+        }
+      }
+    }
+  } catch (error) {
+    // A partially written local file can be replaced atomically; invalid input never mutates the inventory.
+    if (liveControlError !== error.message) { liveControlError = error.message; log(`PHOTO_LIVE_CONTROL_REJECTED ${error.message}`); }
+  }
 }
 function syntheticSummary(session, state) {
   log(`PC_IMPORT_SYNTHETIC_SUMMARY session=${session.id} state=${state} connections=${connectionNumber} opens=${openCount} closes=${closeCount} heartbeats=${heartbeatCount} standardReads=${session.standardReads} virtualWrites=${virtualWrites} commands=${session.commands.length} keepImportSession=${options.keepImportSession} attemptedTargets=[${[...attemptedTargets].join(',')}]`);
@@ -212,7 +306,7 @@ function command(socket, body) {
     if (options.pictureControlImportSynthetic && !session.deviceInfoRead) return reject(socket, transaction, 0x2003, 'GetDeviceInfo required before open');
     session.open = true;
     openCount++;
-    if (options.pictureControlImportSynthetic) log(`OPEN_SESSION session=${session.id} tx=${transaction} opens=${openCount}`);
+    if (options.pictureControlImportSynthetic || options.photoLiveSynthetic) log(`OPEN_SESSION session=${session.id} tx=${transaction} opens=${openCount}`);
     return response(socket, transaction);
   }
   if (!session.open) return reject(socket, transaction, 0x2003, 'session not open');
@@ -294,27 +388,39 @@ function command(socket, body) {
   }
   if (operation === 0x1004) {
     if (parameters.length) return reject(socket, transaction, 0x201d, 'GetStorageIDs parameters');
-    if (options.pictureControlAlbumImportSynthetic) log(`EMPTY_ALBUM_STORAGE session=${session.id} tx=${transaction} synthetic=true`);
-    return transfer(socket, transaction, a32([storageId]));
+    if (options.pictureControlAlbumImportSynthetic) log(`${options.pictureControlFullAlbumSynthetic ? 'PHOTO' : 'EMPTY'}_ALBUM_STORAGE session=${session.id} tx=${transaction} synthetic=true`);
+    return transfer(socket, transaction, a32([...storageAvailability.keys()]));
   }
   if (operation === 0x1007) {
-    if (parameters.length !== 3 || parameters[0] !== storageId
+    if (parameters.length !== 3 || !storageAvailability.has(parameters[0])
         || ![0, 0x3801].includes(parameters[1]) || parameters[2] !== 0) {
       return reject(socket, transaction, 0x201d, 'GetObjectHandles parameters');
     }
-    if (options.pictureControlAlbumImportSynthetic) log(`EMPTY_ALBUM_HANDLES session=${session.id} tx=${transaction} photos=0 synthetic=true`);
-    return transfer(socket, transaction, a32([...photos.keys()]));
+    if (!storageAvailability.get(parameters[0])) return reject(socket, transaction, 0x2013, `synthetic storage ${parameters[0]} not available`);
+    const handles = [...photos.entries()].filter(([, photo]) => photo.storageId === parameters[0]).map(([handle]) => handle);
+    if (options.pictureControlAlbumImportSynthetic) log(`${options.pictureControlFullAlbumSynthetic ? 'PHOTO' : 'EMPTY'}_ALBUM_HANDLES session=${session.id} tx=${transaction} photos=${handles.length} synthetic=true`);
+    else if (options.photoLiveSynthetic) log(`PHOTO_LIVE_HANDLES session=${session.id} tx=${transaction} photos=${handles.length}${options.liveStorageSynthetic ? ` storage=${parameters[0]}` : ''}`);
+    return transfer(socket, transaction, a32(handles));
   }
   if (parameters.length !== 1) return reject(socket, transaction, 0x201d, 'photo parameters');
   const handle = parameters[0], photo = photos.get(handle);
   if (!photo) return reject(socket, transaction, 0x2009, 'unknown synthetic handle');
-  if (operation === 0x1008) return transfer(socket, transaction, objectInfo(handle, photo));
+  if (!storageAvailability.get(photo.storageId)) return reject(socket, transaction, 0x2013, `synthetic storage ${photo.storageId} not available`);
+  if (operation === 0x1008) {
+    if (options.photoLiveSynthetic && photo.unreadyInfoRemaining > 0) {
+      photo.unreadyInfoRemaining--; return reject(socket, transaction, 0x2009, 'synthetic new file metadata not ready');
+    }
+    return transfer(socket, transaction, objectInfo(handle, photo));
+  }
   if (operation === 0x100a) return transfer(socket, transaction, photo.thumbnail);
   if (operation === 0x90c4) {
     if (options.largeThumbReject) return reject(socket, transaction, 0x2005, 'synthetic GetLargeThumb explicit rejection');
     largePreviews++;
     log(`LARGE_PREVIEW session=${session.id} handle=${handle} bytes=${photo.large.length} totalLargePreviews=${largePreviews} source=0x90c4 originalTransferred=false`);
     return transfer(socket, transaction, photo.large);
+  }
+  if (options.photoLiveSynthetic && photo.busyOriginalRemaining > 0) {
+    photo.busyOriginalRemaining--; return reject(socket, transaction, 0x2019, 'synthetic new file original temporarily busy');
   }
   originals++;
   log(`ORIGINAL session=${session.id} handle=${handle} bytes=${photo.original.length} totalOriginalTransfers=${originals}`);
@@ -397,15 +503,19 @@ function stop(reason) {
   server.close();
 }
 const timer = setTimeout(() => stop('automatic timeout'), options.seconds * 1000);
-server.on('close', () => clearTimeout(timer));
-server.on('error', error => { clearTimeout(timer); log(`SERVER_ERROR ${error.message}`); process.exitCode = 1; });
+const liveControlTimer = options.photoLiveSynthetic ? setInterval(applyLiveControl, 250) : null;
+server.on('close', () => { clearTimeout(timer); if (liveControlTimer) clearInterval(liveControlTimer); });
+server.on('error', error => { clearTimeout(timer); if (liveControlTimer) clearInterval(liveControlTimer); log(`SERVER_ERROR ${error.message}`); process.exitCode = 1; });
 process.on('SIGINT', () => stop('SIGINT'));
 process.on('SIGTERM', () => stop('SIGTERM'));
 server.listen(options.port, '127.0.0.1', () => {
   log(`READY loopback=127.0.0.1:${options.port} emulator=10.0.2.2:${options.port} photos=${photos.size} ttl=${options.seconds}s log=${logFile}`);
-  if (!pictureControl) log(`SYNTHETIC_TEST largeThumbnailAdvertised=${largeThumbnailAvailable} largeThumbnailRejected=${options.largeThumbReject} largePreviewSource=0x90c4 maxLargePreviewBytes=8388608`);
+  if (photos.size > 0) log(`SYNTHETIC_TEST largeThumbnailAdvertised=${largeThumbnailAvailable} largeThumbnailRejected=${options.largeThumbReject} largePreviewSource=0x90c4 maxLargePreviewBytes=8388608`);
   if (options.pictureControlReadonly) log('SYNTHETIC_TEST mode=picture-control-readonly model=Z6II registrationAdvertised=false expectedCommands=14');
   if (options.pictureControlImportSynthetic) log(`SYNTHETIC_TEST mode=${options.pictureControlAlbumImportSynthetic ? 'picture-control-album-import-synthetic' : 'picture-control-import-synthetic'} model=Z6II registrationAdvertised=true memoryOnly=true expectedNcpDatasetBytes=614 maxVirtualWrites=${maxVirtualWrites} keepImportSession=${options.keepImportSession} rejectInitAfterClose=true emptyAlbum=${options.pictureControlAlbumImportSynthetic}`);
   if (options.pictureControlOverwriteSynthetic) log(`SYNTHETIC_TEST overwriteEnabled=true seededTarget=201 seededName=SYNTHETIC_OLD seededSha256=${crypto.createHash('sha256').update(virtualSlots.get(201)).digest('hex')} twoMatchingTargetReadsRequired=true`);
   if (options.postImportHeartbeatErrorOnce) log('SYNTHETIC_TEST postImportHeartbeatErrorOnce=true responseCode=0x2002 requiresExactReadback=true hardwareAccess=false');
+  if (options.pictureControlFullAlbumSynthetic) log(`SYNTHETIC_TEST fullPhotoAlbum=true photos=${photos.size} bidirectionalHandoff=true memoryOnlyPictureControl=true`);
+  if (options.photoLiveSynthetic) log(`SYNTHETIC_TEST mode=photo-live-synthetic initialPhotos=${liveBaselineCount} availableFixtures=${photoFixtures.size} objectAddedAdvertised=true controlFile=${liveControlFile} ignoredStartupRevision=${liveControlRevision} additionalNetworkListeners=0`);
+  if (options.liveStorageSynthetic) log(`SYNTHETIC_TEST liveStorageSynthetic=true advertisedStorageIds=[${[...storageAvailability.keys()].join(',')}] unavailableStorageId=${storageId} fixtureStorageId=${defaultPhotoStorageId} hardwareAccess=false`);
 });

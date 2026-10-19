@@ -1,0 +1,80 @@
+Nikon Preset 0.5.8-beta - Delivery and validation record
+Date: 2026-10-17 (Asia/Shanghai)
+
+ARTIFACT
+File: dist/nikon-usb-0.5.8-beta-debug.apk
+Application ID: com.nikonpreset.usbprobe
+Version code/name: 25 / 0.5.8-beta
+Size: 2757241 bytes
+SHA-256: 5e4aa6001b8b4a52e8a089e9d4903e37575eff8ab0b44746bd48b4966ca6a045
+Android compilation and APK v2/v3 signature checks passed. All current UI
+observations below used this final artifact, not the earlier exploratory build.
+
+CHANGES
+- Current and adjacent photos move together on one Canvas during a drag.
+  Release uses displacement and velocity to settle into a real adjacent page
+  or return home with a critically damped spring. Edges resist movement.
+  A new gesture can grab the current position and reverse it; no bitmap decode
+  or view-tree rebuild occurs on animation frames. Commit occurs once after
+  the incoming photo reaches its resting position.
+- Removed visible Previous/Next and item counts from immersive viewing.
+  Top chrome contains Back and filename. Bottom contains original file size
+  and one compact Download/Save As button, minimum 88dp wide and 44dp high.
+  The full-width filled button, card, quality label and explanatory copy
+  were removed. Download progress is shown within the compact button.
+- Adjacent pages reuse/preload bounded preview thumbnails. This does not
+  download originals. Zoomed panning, multi-touch and cancellation cannot
+  commit a page. Same-photo image upgrades preserve page and zoom transforms.
+- Missing previews remain navigable. The loading/error placeholder moves
+  with its page; a tap can retry a failed remote preview without a full-screen
+  label intercepting drags. A failed metadata page can be retried by swiping
+  past the loaded edge or through its named accessibility action.
+- Hidden accessibility scroll actions preserve non-drag navigation. Busy
+  download/export state locks page targets; cancelling the system Save As
+  picker restores paging. System animation-off completes settling directly.
+
+TESTS AND REVIEW
+Full tests/run.ps1 passed 9981 core checks on final sources, including
+43 swipe-classifier checks, 38 pager-motion checks, 101 pagination checks,
+4258 PTP/IP checks and 319 album-controller checks.
+The Picture Control probe suite was not rerun for this UI-only change;
+the 12089 checks recorded for 0.5.7 retain their historical version scope.
+Source review identified and resolved missing-preview and paused-pagination
+navigation traps. Final scoped review found no remaining P1/P2.
+
+FINAL-APK ANDROID OBSERVATIONS
+Pixel 9 emulator / Android 17 / 1080x2424, loopback synthetic camera,
+49 synthetic JPEGs. No physical camera was operated.
+- Default detail has only Back, filename, original size and compact Download.
+- Captured a held partial drag: current 01 and incoming 02 visibly share the
+  screen at their finger-driven offsets. Releasing settles to TEST_0002.
+- Short drag returns to the same photo; ACTION_CANCEL does not navigate.
+  Right swipe returns 2 to 1; swiping beyond the first photo stays on 1.
+- Double-tap zoom and pan remain on the selected photo. Moving-focus pinch
+  and remaining-finger continuation do not accidentally navigate.
+- Reversing a drag before release returns to the current photo.
+- With animator_duration_scale=0, left swipe still selects TEST_0003.
+  The emulator setting was restored to 1 afterwards.
+- Explicit Download for TEST_0003, then TEST_0002, changes the action to compact
+  Save As. Cancelling the actual Android file picker allows swiping back to 1.
+- Continuous swipes crossed the initial 24-item metadata boundary to photo25;
+  downloaded photo2 also swiped to photo3 locally. Manual disconnect ended
+  the transport and stopped the connection service; PID8788 crash buffer empty.
+- Raw download-before checkpoint has 18 large-preview requests and zero
+  original requests. Final log has 52 large previews and exactly two originals,
+  matching the explicit downloads (handle3=89320B, handle2=87488B). One Open,
+  no CloseSession, same session1; manual disconnect closes transport.
+These observations establish the stated synthetic functional paths; they do
+not certify physical touch feel, a measured frame rate or every image format.
+
+Evidence: .impeccable/review/phone-apple-v058-*.png;
+docs/device-review/album-0.5.8-functional.log and album-0.5.8-ui.log.
+
+PHYSICAL PHONE DELIVERY
+PKG110 / Android 16 / user 0. App service inspection was empty before update.
+Preserve-data replacement install returned Success. Package inspection showed
+versionCode25/versionName0.5.8-beta, lastUpdateTime 2026-10-17 13:00:40 local.
+Installed base.apk SHA-256 matched the final artifact above.
+No uninstall/data clear, synthetic fixture import, permission changes, camera
+connection or physical-phone gesture/FPS test was performed on the phone.
+Earlier 0.5.7 camera-connection evidence remains scoped to that version.

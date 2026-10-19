@@ -10,25 +10,28 @@ import java.util.Map;
 
 /** Validated immutable catalog item; compatibility labels are publisher claims, not device verification. */
 public final class OnlinePreset {
-    public final String id, name, description, fileUrl, sha256, previewUrl;
+    public final String id, name, description, fileUrl, sha256, previewUrl, category;
+    public final String authorName, source, fileFormat;
     public final int byteLength;
     public final List<String> compatibleModels;
 
     private OnlinePreset(String id, String name, String description, String fileUrl, String hash,
-                         int length, String previewUrl, List<String> models) {
+                         int length, String previewUrl, List<String> models, String category, String authorName, String source, String fileFormat) {
         this.id = id; this.name = name; this.description = description; this.fileUrl = fileUrl;
-        this.sha256 = hash; this.byteLength = length; this.previewUrl = previewUrl;
+        this.sha256 = hash; this.byteLength = length; this.previewUrl = previewUrl; this.category = category;
         this.compatibleModels = Collections.unmodifiableList(new ArrayList<>(models));
+        this.authorName = authorName; this.source = source; this.fileFormat = fileFormat;
     }
 
     Map<String, Object> toMap() {
         Map<String, Object> m = new LinkedHashMap<>();
         m.put("id", id); m.put("name", name); m.put("description", description); m.put("fileUrl", fileUrl);
         m.put("sha256", sha256); m.put("byteLength", byteLength); m.put("previewUrl", previewUrl);
-        m.put("compatibleModels", compatibleModels); return m;
+        m.put("compatibleModels", compatibleModels); m.put("category", category); m.put("authorName", authorName); m.put("source", source);
+        m.put("fileFormat", fileFormat); return m;
     }
 
-    static OnlinePreset fromMap(Map<String, Object> m) throws IOException {
+    public static OnlinePreset fromMap(Map<String, Object> m) throws IOException {
         String fileUrl = LibraryJson.string(m, "fileUrl", true, 4096);
         SecureHttpClient.httpsUri(fileUrl);
         String preview = LibraryJson.string(m, "previewUrl", false, 4096);
@@ -48,8 +51,14 @@ public final class OnlinePreset {
                 models.add((String) model);
             }
         }
+        String author = LibraryJson.string(m, "authorName", false, 160);
+        if (author.isEmpty() && m.get("author") instanceof Map) {
+            @SuppressWarnings("unchecked") Map<String,Object> authorMap = (Map<String,Object>)m.get("author");
+            author = LibraryJson.string(authorMap, "nickname", false, 160);
+        }
         return new OnlinePreset(LibraryJson.string(m, "id", true, 128), LibraryJson.string(m, "name", true, 160),
                 LibraryJson.string(m, "description", false, 2000), fileUrl,
-                LibraryFiles.requireHash(LibraryJson.string(m, "sha256", true, 64)), (int) length, preview, models);
+                LibraryFiles.requireHash(LibraryJson.string(m, "sha256", true, 64)), (int) length, preview, models,
+                PresetCategories.fromMap(m), author, LibraryJson.string(m, "source", false, 24), PresetFile.formatFromMap(m));
     }
 }

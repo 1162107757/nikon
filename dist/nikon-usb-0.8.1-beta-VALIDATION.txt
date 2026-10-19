@@ -1,0 +1,67 @@
+Nikon Preset 0.8.1-beta / versionCode 32
+2026-10-17 Asia/Shanghai
+STATUS: FINAL ARTIFACT VERIFIED WITH THE SCOPES BELOW
+APK: nikon-usb-0.8.1-beta-debug.apk
+Final: 2,835,065 bytes, built 2026-10-17 16:45:33 +08:00.
+SHA-256 df2d621cb589ec4ced80806c8f4a8f0be3442f3a5e94eb5a4ad40b618dd5115e.
+Production build and APK v2/v3 signature verification pass.
+
+IMPLEMENTED SCOPE
+Completed batch View Effect / 查看效果 opens an actual derived result.
+Lower-right Original / 原图 shows the linked immediate input while held and
+restores Preset Effect on release, cancel, focus loss or Activity pause.
+PhotoImageView preserves zoom/image position; same-dimension replacement
+avoids transform-rounding drift. Existing keyboard/accessibility toggles
+remain. HoldToCompare does not recycle caller-owned bitmaps.
+
+Original lookup, verification and decode run off the UI/camera worker.
+Request/current-photo identities discard stale results after navigation.
+New outputs and verified cache hits persist the exact input association.
+0.8.0 output-only records migrate lazily only after verified output plus
+source-content/committed-preset/model content-key match. Lookup is bounded,
+cancellable and never guesses by filename or project. Missing or changed
+sources leave comparison unavailable without replacing the effect.
+
+FOCUSED HOST CHECKS
+84 checks pass: batch 44 + source association 40.
+The historical 0.8.0 total of 1,264 is not a new 0.8.1 rerun. Host checks do
+not establish Android codec/gesture/physical-camera behaviour by themselves.
+
+EARLIER CANDIDATE: LEGACY UPGRADE / MIGRATION
+Android 17 first runs 0.8.0 to generate a 24MP / EXIF orientation-6 Tone effect.
+A preserve-data upgrade to an earlier 0.8.1 candidate (SHA prefix 4516)
+retains it; the old output .record lazily gains its strict source link.
+Hold shows the original and UP restores the effect. This upgrade interaction
+retains candidate scope rather than being relabelled as a final-artifact run.
+
+FINAL ARTIFACT: ANDROID 17 EMULATOR
+Final df2d package reapplies Tone to that existing effect and completes 1/1
+through HOME/return. View Effect opens actual Effect_PreviewTone, viewer
+size 1.4 MB. While held, all 11,050 sampled screen points differ; release
+has zero sampled differences. Fitted before/after whole PNG SHA values are
+identical; enlarged before/after whole PNG SHA values are also identical.
+These are separate comparisons, not a claim that fitted equals enlarged.
+HOME while pressed restores effect on return. From a newly fitted view,
+fast left swipe reaches the original with no comparison control; right
+swipe returns to the effect with its comparison ready. App crash filter
+is empty. All pixel/PNG evidence uses synthetic emulator images.
+The synthetic original SHA-256 remains
+6d192ccd59e5123b0149c5c19e5ce8fb5db09505498f033f3cab937c3dd8d468.
+No new PTP, Doze or physical-camera test is implied.
+
+PHYSICAL PHONE
+286f0dba, user 0: adb install -r preserve-data update succeeds around
+2026-10-17 16:48 +08:00. Version 32 / 0.8.1-beta and installed system base
+APK SHA-256 match the final df2d artifact. Eleven downloaded photos (two
+older effects) and Agfa Optima are visible. The first older effect opens
+(viewer size 2.3 MB); UIAutomator checks the Original/Preset Effect states
+on press/UP. This is UI-state evidence only, not a phone pixel comparison.
+Real-photo screen-capture export was rejected by automatic approval review;
+it was neither executed nor retried. No real-photo screenshots were exported.
+Current phone app PID crash filtering is empty. No new phone batch ran;
+no camera service was active. This is not a new hardware-camera/PTP/background
+or API26-28 acceptance. Previous 0.8.0 evidence remains unchanged.
+
+See ../docs/device-review/photo-presets-0.8.1-functional.log.
+The NCP phone-simulation algorithm is not strengthened, and this release
+adds no rendering capabilities or native Nikon Picture Control equivalence.

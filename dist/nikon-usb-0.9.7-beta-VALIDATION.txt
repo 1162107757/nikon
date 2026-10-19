@@ -1,0 +1,56 @@
+0.9.7-beta / versionCode 46
+Verified: 2026-10-18 +08:00
+APK: nikon-usb-0.9.7-beta-debug.apk
+Bytes: 2970233
+SHA-256: 38302f75a6ca8b984b46f32c25f5c48eb509b3907d1a7b648cf554836219dfeb
+Signatures: existing certificate, v2 and v3 verified.
+
+Delivered behavior:
+- Native portrait phone preset feed uses two columns of image/name/category cards and compact download actions.
+- Existing template simulation, missing-cover illustration, detail, downloads and camera import remain separate.
+- Native GridView supplies viewport-based item creation; old full-width preset rows are replaced.
+- Category chips filter local and online sources independently. Per-source/filter grid position is restored on return.
+- Local detail offers suggested or custom categories, persisted atomically without changing the NCP/hash.
+- Each preset has one optional category. Missing/null/empty old data is uncategorized.
+- Category contract: reject raw C0/C1/unpaired surrogates, NFC + ECMAScript trim, maximum 24 code points;
+  全部 and 未分类 are reserved filter labels. Suggested values do not restrict custom names.
+- First download inherits the published category; hash deduplication preserves existing local metadata.
+
+Android verification:
+- Library host regression: 301 checks passed (including legacy records, validation, cache, persistence,
+  hash deduplication, category clearing, atomic failure and unchanged original bytes).
+- Full APK compiled and signed successfully.
+- Same-certificate emulator-only Instrumentation ran final-product feed/filter/light/dark-large cases.
+  Synthetic catalog contained eight in-memory items. No fixture was published or downloaded for UI checks.
+- Checks covered two columns, actual categories, missing-cover template, filter to two film presets,
+  opening a detail and returning with the filter, uncategorized and all-item restoration.
+- Pixel 9 / Android 17 portrait light and 1.3-font dark screenshots inspected. Independent limited review: SHIP.
+- Actual emulator local synthetic preset was classified as 胶片; filtering and force-stop/reopen persistence
+  checked through the UI; then its original uncategorized state was restored.
+- Evidence: .impeccable/review/preset-feed-0.9.7/ and docs/design-review/preset-feed-0.9.7.md.
+
+Backend 1.3.0:
+- Existing environment nikon-d8girdjsr252fd90e / ap-shanghai, existing HTTP function and service key reused.
+- Draft, immutable version/published snapshot and public catalog preserve category; unissued draft edits stay private.
+- Admin editor has a free category input with suggestions; list supports category display/filter and history.
+- 004-preset-categories.sql applied. It adds only the manifest category projection/default, retaining ACL/order.
+- Real PostgreSQL category acceptance: 20 assertions passed, all fixture writes rolled back.
+- Node tests: 72 passed. Syntax/source checks: 25 modules passed.
+- Admin CUA local synthetic checks: desktop 1280 and phone 390, category filter, custom save, old/new history,
+  reserved-name rejection; no horizontal overflow or console error. Temporary local UI/server closed.
+- Full live public workflow: 79 checks passed, including actual production Java HTTPS probe's 11 checks.
+  Java probe checks category online, after download, after local/cached reopen; image decoding not exercised.
+- One owned preset, two versions, two assets and two private storage objects precisely removed after the live test.
+- Reports: online-library/build/category-database-verification.json and public-workflow-verification.json.
+- Backend archive SHA-256: e61af7b385c85dc7f02b4008cb084c41b4340764ee910c4813b0840a3da652a7.
+
+Physical phone:
+- PKG110 / serial 286f0dba: install -r returned Success, installed code 46 / 0.9.7-beta confirmed and launched.
+- No uninstall/data clear, private account inspection or real-photo operation performed.
+- Existing data is preserved by the update; private retained data was not independently inspected.
+
+Scope limits:
+- Feed is a regular native two-column card grid, not an unbounded eager waterfall of all files.
+- Landscape/tablet and extreme-font fallback behavior are source-defined, not runtime certified this round.
+- TalkBack, photo-live/lock-screen/camera regressions and performance benchmarking were not repeated.
+- In-memory screenshot entries and cover variants are synthetic UI fixtures, not real published presets/effects.

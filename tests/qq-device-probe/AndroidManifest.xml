@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.nikonpreset.usbprobe.qqqa">
+    <application android:label="QQ 登录界面验证" android:allowBackup="false" android:debuggable="false" />
+    <instrumentation android:name=".QqAccountProbe"
+        android:targetPackage="com.nikonpreset.usbprobe"
+        android:functionalTest="true" android:handleProfiling="false" />
+</manifest>

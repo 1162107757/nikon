@@ -17,11 +17,13 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import java.util.function.Consumer;
 
 /** A momentary photo comparison, with a click toggle for keyboard and accessibility input. */
 public final class HoldToCompare {
     private static final int NO_POINTER = -1;
-    private final ImageView image;
+    private final View target;
+    private final Consumer<Bitmap> display;
     private final TextView badge;
     private final CompareButton button;
     private Bitmap effect;
@@ -32,11 +34,20 @@ public final class HoldToCompare {
     private boolean unavailable;
 
     public HoldToCompare(FrameLayout frame, ImageView image, TextView badge) {
-        requireMainThread();
-        if (frame == null || image == null) throw new IllegalArgumentException("Missing preview view");
-        this.image = image;
-        this.badge = badge;
+        this(frame, image, badge, image == null ? null : image::setImageBitmap);
         image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+    }
+
+    public HoldToCompare(FrameLayout frame, PhotoImageView image) {
+        this(frame, image, null, image == null ? null : image::setPhotoPreservingTransform);
+    }
+
+    private HoldToCompare(FrameLayout frame, View target, TextView badge, Consumer<Bitmap> display) {
+        requireMainThread();
+        if (frame == null || target == null || display == null) throw new IllegalArgumentException("Missing preview view");
+        this.target = target;
+        this.display = display;
+        this.badge = badge;
         button = new CompareButton(frame.getContext());
         button.setAllCaps(false);
         button.setTextSize(13);
@@ -60,6 +71,9 @@ public final class HoldToCompare {
         frame.addView(button, position);
         updateButton();
     }
+
+    /** The owner may position or hide this control; bitmaps remain owned by the caller. */
+    public View getButtonView() { return button; }
 
     /** Updates the result without replacing an original that is currently being held. */
     public void setEffect(Bitmap bitmap) {
@@ -112,15 +126,15 @@ public final class HoldToCompare {
         renderCurrent();
         updateButton();
         if (announce && changed) button.announceForAccessibility(
-                showingOriginal ? "已显示模板原图，点击可返回预设效果" : "已恢复预设效果");
+                showingOriginal ? "已显示原图，点击可返回预设效果" : "已恢复预设效果");
     }
 
     private void renderCurrent() {
         Bitmap displayed = showingOriginal ? original : effect;
-        if (usable(displayed)) image.setImageBitmap(displayed);
-        image.setContentDescription(showingOriginal
-                ? "模板原图，未应用预设" : "预设模板模拟，非相机实拍");
-        if (badge != null) badge.setText(showingOriginal ? "模板原图" : "模板模拟");
+        if (usable(displayed)) display.accept(displayed);
+        target.setContentDescription(showingOriginal
+                ? "原图，未应用预设" : "预设效果，手机模拟");
+        if (badge != null) badge.setText(showingOriginal ? "原图" : "预设效果");
     }
 
     private void updateButton() {
@@ -139,10 +153,10 @@ public final class HoldToCompare {
                 Color.argb(button.hasFocus() ? 255 : 55, 255, 255, 255));
         button.setBackground(surface);
         button.setContentDescription(!enabled ? unavailable ? "预览原图对比暂不可用，原图或效果加载失败" : "预览原图对比，正在准备"
-                : showingOriginal ? "当前显示模板原图。点击返回预设效果；触摸松开可恢复效果"
+                : showingOriginal ? "当前显示原图。点击返回预设效果；触摸松开可恢复效果"
                 : "按住看原图，松开恢复预设效果。使用辅助功能或键盘时，点击可切换原图，再次点击恢复");
         if (Build.VERSION.SDK_INT >= 30) button.setStateDescription(!enabled ? unavailable ? "加载失败" : "正在准备"
-                : showingOriginal ? "模板原图" : "预设效果");
+                : showingOriginal ? "原图" : "预设效果");
     }
 
     private void disallowParentIntercept(boolean disallow) {
@@ -191,7 +205,7 @@ public final class HoldToCompare {
     }
 
     private int dp(int value) {
-        return Math.round(value * image.getResources().getDisplayMetrics().density);
+        return Math.round(value * target.getResources().getDisplayMetrics().density);
     }
 
     private static void requireMainThread() {

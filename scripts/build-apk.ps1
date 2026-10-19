@@ -67,8 +67,11 @@ Invoke-Checked (Join-Path $toolsRoot 'aapt2.exe') @('link', '-I', $androidJar, '
 
 $sources = @(Get-ChildItem -LiteralPath (Join-Path $projectRoot 'app\src\main\java') -Filter '*.java' -Recurse)
 $sources += @(Get-ChildItem -LiteralPath $generatedRoot -Filter '*.java' -Recurse)
+$runtimeJars = @(Get-ChildItem -LiteralPath (Join-Path $projectRoot 'app\libs') -Filter '*.jar' -File -ErrorAction SilentlyContinue)
+$compileOnlyJars = @(Get-ChildItem -LiteralPath (Join-Path $projectRoot 'app\libs\compile-only') -Filter '*.jar' -File -ErrorAction SilentlyContinue)
+$compileClassPath = (@($androidJar) + @($runtimeJars | ForEach-Object FullName) + @($compileOnlyJars | ForEach-Object FullName)) -join [IO.Path]::PathSeparator
 $javacArgs = Join-Path $outputRoot 'javac.args'
-$javacLines = @('-J-Duser.language=en', '-J-Duser.country=US', '-encoding', 'UTF-8', '-source', '17', '-target', '17', '-classpath', ('"' + $androidJar.Replace('\', '/') + '"'),
+$javacLines = @('-J-Duser.language=en', '-J-Duser.country=US', '-encoding', 'UTF-8', '-source', '17', '-target', '17', '-classpath', ('"' + $compileClassPath.Replace('\', '/') + '"'),
     '-d', ('"' + $classesRoot.Replace('\', '/') + '"'))
 $javacLines += $sources | ForEach-Object { '"' + $_.FullName.Replace('\', '/') + '"' }
 [IO.File]::WriteAllLines($javacArgs, $javacLines, [Text.UTF8Encoding]::new($false))
@@ -79,12 +82,31 @@ Invoke-Checked (Join-Path $JdkRoot 'bin\javac.exe') @('@' + $javacArgs)
 $classArchive = Join-Path $outputRoot 'classes.jar'
 Invoke-Checked (Join-Path $JdkRoot 'bin\jar.exe') @('--create', '--file', $classArchive, '-C', $classesRoot, '.')
 $d8Args = @('--debug', '--min-api', '26', '--lib', $androidJar, '--output', $dexRoot, $classArchive)
+foreach ($compileOnlyJar in $compileOnlyJars) { $d8Args += @('--classpath', $compileOnlyJar.FullName) }
+$d8Args += @($runtimeJars | ForEach-Object FullName)
 Invoke-Checked (Join-Path $toolsRoot 'd8.bat') $d8Args
 Add-Type -AssemblyName System.IO.Compression.FileSystem
+Add-Type -AssemblyName System.IO.Compression
 $apkArchive = [IO.Compression.ZipFile]::Open($unsignedApk, [IO.Compression.ZipArchiveMode]::Update)
 try {
     foreach ($dexFile in Get-ChildItem -LiteralPath $dexRoot -Filter '*.dex') {
         [IO.Compression.ZipFileExtensions]::CreateEntryFromFile($apkArchive, $dexFile.FullName, $dexFile.Name, [IO.Compression.CompressionLevel]::Optimal) | Out-Null
+    }
+    # QQ SDK's H5 assets/native helpers live inside its jar and must accompany its dex classes.
+    foreach ($runtimeJar in $runtimeJars) {
+        $runtimeArchive = [IO.Compression.ZipFile]::OpenRead($runtimeJar.FullName)
+        try {
+            foreach ($resource in $runtimeArchive.Entries) {
+                if (-not $resource.FullName.StartsWith('assets/') -or $resource.FullName.EndsWith('/')) { continue }
+                if ($apkArchive.GetEntry($resource.FullName)) { throw ('Duplicate SDK asset: ' + $resource.FullName) }
+                $apkEntry = $apkArchive.CreateEntry($resource.FullName, [IO.Compression.CompressionLevel]::Optimal)
+                $sourceStream = $resource.Open()
+                try {
+                    $targetStream = $apkEntry.Open()
+                    try { $sourceStream.CopyTo($targetStream) } finally { $targetStream.Dispose() }
+                } finally { $sourceStream.Dispose() }
+            }
+        } finally { $runtimeArchive.Dispose() }
     }
 } finally { $apkArchive.Dispose() }
 $alignedApk = Join-Path $outputRoot 'aligned.apk'

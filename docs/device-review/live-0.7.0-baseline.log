@@ -1,0 +1,42 @@
+2026-10-17T06:29:45.127Z 0001 READY loopback=127.0.0.1:15758 emulator=10.0.2.2:15758 photos=10000 ttl=3600s log=D:\dev\ai-project\nikon\app\build\v070-live-ui-fixtures\server.log
+2026-10-17T06:29:45.129Z 0002 SYNTHETIC_TEST largeThumbnailAdvertised=true largeThumbnailRejected=false largePreviewSource=0x90c4 maxLargePreviewBytes=8388608
+2026-10-17T06:29:45.130Z 0003 SYNTHETIC_TEST mode=picture-control-album-import-synthetic model=Z6II registrationAdvertised=true memoryOnly=true expectedNcpDatasetBytes=614 maxVirtualWrites=9 keepImportSession=true rejectInitAfterClose=true emptyAlbum=true
+2026-10-17T06:29:45.131Z 0004 SYNTHETIC_TEST overwriteEnabled=true seededTarget=201 seededName=SYNTHETIC_OLD seededSha256=b47c803b00e75cfd0e71377f9eaab7da5e39a74c5c58aad88a4a46c14bef5781 twoMatchingTargetReadsRequired=true
+2026-10-17T06:29:45.131Z 0005 SYNTHETIC_TEST fullPhotoAlbum=true photos=10000 bidirectionalHandoff=true memoryOnlyPictureControl=true
+2026-10-17T06:29:45.132Z 0006 SYNTHETIC_TEST mode=photo-live-synthetic initialPhotos=10000 availableFixtures=49 objectAddedAdvertised=true controlFile=D:\dev\ai-project\nikon\app\build\v070-live-ui-fixtures\live-control.json ignoredStartupRevision=0 additionalNetworkListeners=0
+2026-10-17T06:29:45.132Z 0007 SYNTHETIC_TEST liveStorageSynthetic=true advertisedStorageIds=[65537,131073] unavailableStorageId=65537 fixtureStorageId=131073 hardwareAccess=false
+2026-10-17T06:34:25.085Z 0008 INIT_COMMAND session=1
+2026-10-17T06:34:25.113Z 0009 INIT_EVENT session=1
+2026-10-17T06:34:25.120Z 0010 CMD session=1 tx=0 op=0x1001 phase=1 params=[]
+2026-10-17T06:34:25.134Z 0011 CMD session=1 tx=0 op=0x1002 phase=1 params=[1]
+2026-10-17T06:34:25.134Z 0012 OPEN_SESSION session=1 tx=0 opens=1
+2026-10-17T06:34:25.139Z 0013 CMD session=1 tx=1 op=0x1004 phase=1 params=[]
+2026-10-17T06:34:25.140Z 0014 PHOTO_ALBUM_STORAGE session=1 tx=1 synthetic=true
+2026-10-17T06:34:25.144Z 0015 CMD session=1 tx=2 op=0x1007 phase=1 params=[65537,14337,0]
+2026-10-17T06:34:25.144Z 0016 REJECT session=1 tx=2 synthetic storage 65537 not available
+2026-10-17T06:34:25.147Z 0017 CMD session=1 tx=3 op=0x1007 phase=1 params=[131073,14337,0]
+2026-10-17T06:34:25.154Z 0018 PHOTO_ALBUM_HANDLES session=1 tx=3 photos=10000 synthetic=true
+2026-10-17T06:34:35.053Z 0019 CMD session=1 tx=4 op=0x1004 phase=1 params=[]
+2026-10-17T06:34:35.053Z 0020 PHOTO_ALBUM_STORAGE session=1 tx=4 synthetic=true
+2026-10-17T06:34:45.055Z 0021 CMD session=1 tx=5 op=0x1004 phase=1 params=[]
+2026-10-17T06:34:45.055Z 0022 PHOTO_ALBUM_STORAGE session=1 tx=5 synthetic=true
+2026-10-17T06:34:55.056Z 0023 CMD session=1 tx=6 op=0x1004 phase=1 params=[]
+2026-10-17T06:34:55.057Z 0024 PHOTO_ALBUM_STORAGE session=1 tx=6 synthetic=true
+2026-10-17T06:35:05.058Z 0025 CMD session=1 tx=7 op=0x1004 phase=1 params=[]
+2026-10-17T06:35:05.058Z 0026 PHOTO_ALBUM_STORAGE session=1 tx=7 synthetic=true
+2026-10-17T06:35:15.059Z 0027 CMD session=1 tx=8 op=0x1004 phase=1 params=[]
+2026-10-17T06:35:15.059Z 0028 PHOTO_ALBUM_STORAGE session=1 tx=8 synthetic=true
+2026-10-17T06:35:25.060Z 0029 CMD session=1 tx=9 op=0x1004 phase=1 params=[]
+2026-10-17T06:35:25.060Z 0030 PHOTO_ALBUM_STORAGE session=1 tx=9 synthetic=true
+2026-10-17T06:35:35.064Z 0031 CMD session=1 tx=10 op=0x1004 phase=1 params=[]
+2026-10-17T06:35:35.065Z 0032 PHOTO_ALBUM_STORAGE session=1 tx=10 synthetic=true
+2026-10-17T06:35:45.065Z 0033 CMD session=1 tx=11 op=0x1004 phase=1 params=[]
+2026-10-17T06:35:45.066Z 0034 PHOTO_ALBUM_STORAGE session=1 tx=11 synthetic=true
+2026-10-17T06:35:54.352Z 0035 CMD session=1 tx=12 op=0x1004 phase=1 params=[]
+2026-10-17T06:35:54.353Z 0036 PHOTO_ALBUM_STORAGE session=1 tx=12 synthetic=true
+2026-10-17T06:35:54.356Z 0037 CMD session=1 tx=13 op=0x1007 phase=1 params=[65537,14337,0]
+2026-10-17T06:35:54.356Z 0038 REJECT session=1 tx=13 synthetic storage 65537 not available
+2026-10-17T06:35:54.358Z 0039 CMD session=1 tx=14 op=0x1007 phase=1 params=[131073,14337,0]
+2026-10-17T06:35:54.362Z 0040 PHOTO_ALBUM_HANDLES session=1 tx=14 photos=10000 synthetic=true
+2026-10-17T06:35:55.066Z 0041 CMD session=1 tx=15 op=0x1004 phase=1 params=[]
+2026-10-17T06:35:55.066Z 0042 PHOTO_ALBUM_STORAGE session=1 tx=15 synthetic=true

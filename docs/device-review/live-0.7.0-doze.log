@@ -1,0 +1,15 @@
+0.7.0 final APK Android17 synthetic; 10000 baseline objects; Studio_A deep Doze.
+    com.nikonpreset.usbprobe
+  mForceIdle=true
+  mState=IDLE mLightState=OVERRIDE
+      showing=false
+      screenState=SCREEN_STATE_OFF
+      interactiveState=INTERACTIVE_STATE_SLEEP
+  mWakefulness=Asleep
+  PARTIAL_WAKE_LOCK                 'nikon:camera-connection' ACQ=-2m32s675ms LONG (uid=10230 isFrozen=false isAttributedUidCached=false pid=8449 powerGroupId=0)
+mWakefulness=0
+Row: 0 _id=40, _display_name=TEST0004-LIVE-d5c09c6c3f5a80c88058b5bba327da86fb934d3892b3381fb79ca0ab23e34abc.jpg, is_pending=0, relative_path=Pictures/相机预设/Studio_A-9d480afc/
+Row: 1 _id=41, _display_name=TEST0005-LIVE-5c15800da3f3fc71346dc5f783c53045362649613a88d9394b050211d722d031.jpg, is_pending=0, relative_path=Pictures/相机预设/Studio_A-9d480afc/
+Row: 2 _id=43, _display_name=v070-project-a.png, is_pending=0, relative_path=/
+Row: 3 _id=44, _display_name=TEST0006-LIVE-eaec76c80316a250c21edfdc374fab04f66bf895cfa30c89087cf3053a68da2c.jpg, is_pending=0, relative_path=Pictures/相机预设/Studio_A-9d480afc/
+Row: 4 _id=45, _display_name=TEST0007-LIVE-c27f6d29cbc4c6e2034891a6370bffc444e6b8ab1eed2286495fe2e327fa8b7d.jpg, is_pending=0, relative_path=Pictures/相机预设/Studio_A-9d480afc/

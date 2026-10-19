@@ -1,0 +1,27 @@
+{
+  "testedAt": "2026-10-18T03:10:48.133Z",
+  "passed": true,
+  "cases": [
+    {
+      "name": "feed-light",
+      "mode": "feed",
+      "font": "1.0",
+      "night": "no",
+      "passed": true
+    },
+    {
+      "name": "filter-light",
+      "mode": "filter",
+      "font": "1.0",
+      "night": "no",
+      "passed": true
+    },
+    {
+      "name": "feed-dark-large",
+      "mode": "feed",
+      "font": "1.3",
+      "night": "yes",
+      "passed": true
+    }
+  ]
+}

@@ -30,6 +30,7 @@ $commonSourcePaths += Join-Path $javaRoot 'usb\PictureControlImportSession.java'
 $commonSourcePaths += Join-Path $javaRoot 'usb\UsbPictureControlImport.java'
 $commonSourcePaths += Join-Path $javaRoot 'usb\WirelessPictureControl.java'
 $commonSourcePaths += Join-Path $javaRoot 'album\PtpIpClient.java'
+$commonSourcePaths += Join-Path $javaRoot 'album\ConnectionTrace.java'
 $commonSourcePaths += @(Get-ChildItem -LiteralPath (Join-Path $javaRoot 'picturecontrol') -Filter '*.java' | ForEach-Object FullName)
 $commonSourcePaths += @(Get-ChildItem -LiteralPath (Join-Path $javaRoot 'ncp') -Filter '*.java' | ForEach-Object FullName)
 $commonSourcePaths += Join-Path $PSScriptRoot 'java\com\nikonpreset\usbprobe\ncp\NcpCompatibilityFixtures.java'

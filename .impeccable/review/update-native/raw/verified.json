@@ -1,0 +1,10 @@
+{
+  "phase": "INSTALLED",
+  "status": "PASS",
+  "checks": 9,
+  "installedVersionCode": 55,
+  "installedApkSha256": "81021bfc4d7468dd8181d899f9ae5f4a260fbf30b95ac0eefc2be18ffaf9cca6",
+  "firstInstallTimePreserved": true,
+  "markerPreservedAndCleaned": true,
+  "scope": "Real app update from local test-only version53 baseline (same product dex\/resources\/certificate) to published unmodified production55 via production metadata, OS DownloadManager, private provider, unknown-sources Settings and native package installer. Fresh workspace userdata; no real account, camera or user files."
+}

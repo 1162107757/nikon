@@ -1,0 +1,9 @@
+{
+  "versionCode": 54,
+  "installedApkSha256": "1b618d288db22b7f0b9ae4a8ea95abc69e1e3a197c57adc80a32a5b1c506c5de",
+  "status": "PASS",
+  "checks": 38,
+  "theme": "light",
+  "scope": "Native Java Views with in-memory account\/community fixtures, draft disk under one synthetic UUID only; no real user login, uploads, public comments, camera, installer or production writes.",
+  "ownedFixtureCleaned": true
+}

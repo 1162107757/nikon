@@ -1,0 +1,13 @@
+{
+  "targetEmulator": "emulator-5562",
+  "avdRoot": ".tooling/update-native/avd/HueviaUpdateQA.avd",
+  "userdataRoot": ".tooling/update-native/data",
+  "baselineVersionCode": 53,
+  "baselineVersionName": "0.9.14-update-qa",
+  "baselineApkSha256": "9d5f40244b8d5d63071590f0cf64d850785c777aeb95eea7a18bc94f7738f50a",
+  "baselineSourceVersionCode": 54,
+  "baselineSourceApkSha256": "e80698b37ad89f24d5897f84abb28f074a576411ac2adb6963a06e1427a46618",
+  "signerSha256": "04db0f9d3d76c9831a0778cfabc1a0aaab984e05398da16eb644950ccfa0ae31",
+  "provenance": "Existing final product dex/assets and resource archive; manifest relinked at versionCode53 only; same existing development certificate. Local-only test, never published.",
+  "scope": "Fresh full workspace AVD/data, no pre-existing target installation, no real accounts or camera connections; existing emulator5560 and physical devices untouched."
+}

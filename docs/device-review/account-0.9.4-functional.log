@@ -1,0 +1,49 @@
+2026-10-18 10:03 +08:00 - Account feature verification
+Product APK 0.9.4-beta (43), 2966137 bytes
+SHA-256 16113a79fffa6add983daad162aa6bbd146ef4a3ccae6358c1a6dcb353e19e60
+
+Target: emulator-5554 / Pixel_9 / Android 17 / API 37.
+Connected physical phone was excluded from every mutating device command.
+
+PASS: guest startup exposes presets; Settings account entry says optional login/register.
+PASS: login and registration screens render with existing application palette and rounded cards.
+PASS: registering a random owned qa_auth_ account reaches verified profile without an extra login.
+PASS: force-stop and launch restores saved identity with pending-verification label.
+PASS: with emulator Wi-Fi and data disabled, profile retains identity and shows network failure.
+PASS: network restored; account can verify online again.
+PASS: wrong password shows '用户名或密码不正确。'; password field becomes empty.
+PASS: password field is empty after Home -> return to App.
+PASS: correct password signs in after previous error.
+PASS: light and dark profile use existing application colors; long username wraps without clipping.
+PASS: logout confirmation explains that local presets/photos/projects are retained.
+PASS: logout returns to guest Settings; original two synthetic local presets remain accessible.
+
+Same-certificate isolated Android Instrumentation on the exact product build:
+INSTRUMENTATION_RESULT: checks=24
+INSTRUMENTATION_RESULT: status=PASS
+INSTRUMENTATION_RESULT: stream=Account storage probe PASS; mode=present; checks=24
+INSTRUMENTATION_CODE: -1
+INSTRUMENTATION_RESULT: checks=6
+INSTRUMENTATION_RESULT: status=PASS
+INSTRUMENTATION_RESULT: stream=Account storage probe PASS; mode=absent; checks=6
+INSTRUMENTATION_CODE: -1
+
+Present: actual private AES-GCM envelope, existing non-exportable AndroidKeyStore key,
+AES-256/GCM key metadata, in-memory decryption, owned identity, Bearer token shape,
+no password field and no account JSON/username plaintext in ciphertext.
+Absent: key alias and session.enc/.bak/.new removed after logout.
+No plaintext session, token, password or ciphertext was printed or copied to this log.
+
+Server verification: 63 Node tests, 24 syntax modules, 28 PG rollback assertions,
+32 live account workflow checks (including 9 real production Java HTTPS client checks) passed.
+Host account regression: 107 checks passed.
+Independent security re-review closed both local-clear failure and cross-Activity logout findings.
+
+Cleanup: one live-workflow account and one separately owned UI account removed, including credentials,
+their sessions and exact username attempt keys. Password hash, marker, creation time, foreign QQ
+bindings and locks checked before removal. Global counters and unrelated records untouched.
+UI cleanup-only evidence explicitly has passed:false and cleanupSucceeded:true; it does not replace
+the separately preserved passed:true full-workflow report.
+
+Screenshots: .impeccable/review/account-2026-10-18/
+No physical camera, real-photo, background-transfer or lock-screen claim is made for this release.

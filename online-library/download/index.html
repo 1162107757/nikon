@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="下载 Huevia Android 安装包，查看版本信息与更新说明。">
+  <title>下载 Huevia</title>
+  <link rel="icon" type="image/png" href="./icon.png">
+  <link rel="stylesheet" href="./tokens.css">
+  <link rel="stylesheet" href="./download.css">
+  <script src="./qr.js" defer></script>
+  <script src="./download.js" type="module"></script>
+</head>
+<body>
+  <a class="skip-link" href="#download">跳到下载</a>
+  <header class="topbar"><a class="brand" href="./" aria-label="Huevia 下载首页"><img src="./icon.png" width="32" height="32" alt=""><span>Huevia</span></a><span class="top-note">Android App</span></header>
+  <main id="download">
+    <section class="intro" aria-labelledby="title">
+      <img class="app-icon" src="./icon.png" width="100" height="100" alt="Huevia 应用图标">
+      <h1 id="title">把喜欢的色彩，<br>留在照片里。</h1>
+      <p class="intro-copy">在 Huevia 管理相机预设，<br class="mobile-break">为照片选择合适的色彩。</p>
+      <nav class="channels" aria-label="版本渠道"><button type="button" data-channel="stable" aria-pressed="true">正式版</button><button type="button" data-channel="beta" aria-pressed="false">测试版</button></nav>
+      <p id="channel-note" class="channel-note" aria-live="polite"></p>
+      <div id="loading" class="loading" role="status">正在读取最新版本…</div>
+      <div id="empty" class="empty" hidden><h2 id="empty-title">暂未发布正式版</h2><p id="empty-copy">安装包上架后，会显示在这里。</p><button id="retry" type="button" class="text-button">重新检查</button></div>
+      <div id="release" hidden>
+        <p class="version-line"><strong id="version"></strong><span id="channel-label"></span></p>
+        <a id="download-button" class="download-button" download><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M5 16v4h14v-4"/></svg><span>下载 Android 安装包</span></a>
+        <p id="metadata" class="metadata"></p>
+        <p class="free-note">无需登录，即可下载。</p>
+      </div>
+    </section>
+    <section id="details" class="details" hidden aria-label="版本详情">
+      <div class="release-notes"><h2>这次更新</h2><p id="notes"></p><details class="integrity"><summary>安装包校验信息</summary><dl><dt>SHA-256</dt><dd id="sha256"></dd><dt>包名</dt><dd id="package"></dd><dt>签名 SHA-256</dt><dd id="signer"></dd></dl></details></div>
+      <aside class="phone-download" aria-label="在手机上打开"><div id="qr" class="qr" role="img" aria-label="下载页二维码"></div><h2>在手机上打开</h2><p>扫描二维码，访问这个下载页。</p><button id="copy-link" class="text-button" type="button">复制下载页链接</button><p id="copy-status" class="copy-status" role="status"></p></aside>
+    </section>
+    <section class="app-previews" aria-labelledby="preview-title">
+      <h2 id="preview-title">在 Huevia 里，分享你的色彩</h2>
+      <p>测试版界面预览，截图内容为演示数据。</p>
+      <div class="preview-gallery">
+        <figure><img src="./preview-community.png" alt="预设详情中查看模板效果，并在下方交流评论" width="912" height="2048" loading="lazy"><figcaption>查看效果，一起交流</figcaption></figure>
+        <figure><img src="./preview-submission.png" alt="填写名称与分类，选择 NCP 文件后提交预设审核" width="912" height="2048" loading="lazy"><figcaption>把喜欢的预设分享出去</figcaption></figure>
+        <figure><img src="./preview-messages.png" alt="消息列表集中查看回复及投稿审核结果" width="912" height="2048" loading="lazy"><figcaption>回复与审核，及时查看</figcaption></figure>
+      </div>
+    </section>
+    <section class="install-note" aria-labelledby="install-title"><h2 id="install-title">安装前的小提示</h2><p>下载完成后，打开 APK 并按 Android 提示安装。系统可能需要你允许浏览器安装应用。已有 Huevia 时，请直接覆盖安装以保留本机数据。</p><p>测试版用于体验仍在调整的功能；如果手机上已安装更高版本，请等待后续更新。</p></section>
+  </main>
+  <footer><span>Huevia</span><span>色彩，随身而行。</span></footer>
+</body>
+</html>

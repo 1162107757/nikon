@@ -1,0 +1,25 @@
+Huevia 0.11.4-beta / versionCode61
+Delivered 2026-10-19 (Asia/Shanghai)
+APK bytes3360285; existing signer; v2/v3 PASS.
+SHA-256 75d614edb36c61cb0c7581c8940e6d179476ea473cd3b541284382ad88308d45
+
+Personal preset cloud storage: authenticated private files + metadata, explicit
+existing-local consent, automatic new imports/downloads, retained offline copy,
+owner-bound requests and visibility, retries, versioned conflicts, deletion records.
+Templates/sample images remain device-local. Cloud private object reclamation deferred.
+Camera status names its model; refresh arc/head are joined. Unsupported simulation
+does not block opening preset details or long-press deletion.
+
+Host sync19/library524/download38 PASS; Node112 and source51 PASS.
+Disposable PostgreSQL011 repeat/multi-account/replay/conflicts/tombstones/limits/grants PASS.
+Final exact-hash native emulator5560/API37 light23 and dark23 PASS, captures inspected.
+Synthetic UI data only, exact fixture files/session/ledger/theme cleaned/restored.
+Live private storage/isolation10 PASS; two temporary owned users, sessions and
+the exact private object cleaned. No public test content or messages to real users.
+Code1.5.0 Active, migration011 verified, deployment preserved existing configuration.
+Beta publication, complete public APK byte/hash comparison and latest update metadata PASS.
+Download https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/download/?channel=beta
+See docs/validation/personal-presets-61/README.md and docs/personal-presets.md.
+
+No physical phone installation or real camera operation this task. Model label
+logic is source-verified; no connected-camera visual evidence is claimed.

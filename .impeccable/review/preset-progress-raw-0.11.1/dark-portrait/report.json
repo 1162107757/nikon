@@ -1,0 +1,23 @@
+{
+  "versionCode": 58,
+  "versionName": "0.11.1-beta",
+  "installedApkSha256": "f1952cca9f98fdfaef4e01875eada653291e5f0ca535cd5cfd05630280a3a568",
+  "sdkInt": 37,
+  "theme": "dark",
+  "orientation": "portrait",
+  "density": 2.625,
+  "screenWidth": 1080,
+  "screenHeight": 2424,
+  "initialHero": "[53,702][1027,1423]",
+  "listBounds": "[0,549][1080,2361]",
+  "heroAfterPartialDrag": "[53,250][1027,971]",
+  "realTouchSwipes": 2,
+  "recycledRowLimit": 15,
+  "transferUpdatesRetainScroll": true,
+  "rawMediaStoreScope": "Actual 32 MiB MediaStore path is verified once in the light-portrait run; this run covers native layout and interaction only.",
+  "status": "PASS",
+  "checks": 208,
+  "fixturePhotoCount": 120,
+  "fixtureScope": "Owned synthetic JPEGs\/project stores and explicitly injected byte\/preset snapshots in production Android UI; no physical camera or real account interaction; no original user images.",
+  "ownedFixturesCleaned": true
+}

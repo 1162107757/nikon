@@ -238,11 +238,17 @@ public final class PictureControlReadSession {
 
     /** Transfers only the session opened by this reader, preserving its transaction sequence. */
     long transferOwnedSession() throws IOException {
+        long next = ownedNextTransaction();
+        sessionOwned = false;
+        return next;
+    }
+
+    /** Validates the next transaction without surrendering ownership before a transport handoff. */
+    long ownedNextTransaction() throws IOException {
         if (!snapshotComplete || !sessionOwned || protocolAbortRequired
                 || nextTransactionId < 1 || nextTransactionId > 0xffffffffL) {
             throw new IOException("待确认的无线会话已失效，请重新读取空槽。");
         }
-        sessionOwned = false;
         return nextTransactionId;
     }
 

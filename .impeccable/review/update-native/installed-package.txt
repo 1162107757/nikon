@@ -1,0 +1,4 @@
+versionCode=55 minSdk=26 targetSdk=35
+versionName=0.10.1-beta
+lastUpdateTime=2026-10-18 11:36:15
+firstInstallTime=2026-10-18 11:24:42

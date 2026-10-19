@@ -1,0 +1,14 @@
+INSTRUMENTATION_STATUS: phase=READY
+INSTRUMENTATION_STATUS: stream=Template cover preview READY; mode=failed; holdMs=1500
+
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_RESULT: bitmapSize=724x543
+INSTRUMENTATION_RESULT: bounds=[42,189,1038,977]
+INSTRUMENTATION_RESULT: checks=19
+INSTRUMENTATION_RESULT: description=模板示意，尚未应用预设，非配套样片
+INSTRUMENTATION_RESULT: imageKey=template:encoded-rgb-tone-hsv-v1:neutral-synthetic-v1
+INSTRUMENTATION_RESULT: mode=failed
+INSTRUMENTATION_RESULT: status=PASS
+INSTRUMENTATION_RESULT: stream=Template cover probe PASS; mode=failed; checks=19; imageKey=template:encoded-rgb-tone-hsv-v1:neutral-synthetic-v1; bounds=[42,189,1038,977]
+
+INSTRUMENTATION_CODE: -1

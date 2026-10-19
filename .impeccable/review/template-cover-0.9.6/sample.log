@@ -1,0 +1,14 @@
+INSTRUMENTATION_STATUS: phase=READY
+INSTRUMENTATION_STATUS: stream=Template cover preview READY; mode=sample; holdMs=1500
+
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_RESULT: bitmapSize=64x48
+INSTRUMENTATION_RESULT: bounds=[42,189,1038,977]
+INSTRUMENTATION_RESULT: checks=16
+INSTRUMENTATION_RESULT: description=预设配套样片
+INSTRUMENTATION_RESULT: imageKey=https://template-cover-probe.invalid/sample.png
+INSTRUMENTATION_RESULT: mode=sample
+INSTRUMENTATION_RESULT: status=PASS
+INSTRUMENTATION_RESULT: stream=Template cover probe PASS; mode=sample; checks=16; imageKey=https://template-cover-probe.invalid/sample.png; bounds=[42,189,1038,977]
+
+INSTRUMENTATION_CODE: -1

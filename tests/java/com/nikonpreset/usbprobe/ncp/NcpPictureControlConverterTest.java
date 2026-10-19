@@ -12,6 +12,7 @@ public final class NcpPictureControlConverterTest {
     public static void main(String[] args) throws Exception {
         exactIndependentOutputAndProtectedCopies();
         documentedSubsetMapsWithoutGuessingMissingChoices();
+        modifiedMetadataDoesNotChangeCameraParameters();
         canonicalContainerAndUnknownFieldsAreRejected();
         curveIsPreservedAndStructuralBoundsAreEnforced();
         System.out.println("PASS: " + checks + " NCP compatibility adaptation checks");
@@ -65,7 +66,7 @@ public final class NcpPictureControlConverterTest {
         invalid.add(null);
         for (int length : new int[] {0, 3, 11, 47, 55, 633, 637, 639}) invalid.add(Arrays.copyOf(NcpCompatibilityFixtures.ncp(), length));
         for (int[] mutation : new int[][] {{0, 'X'}, {3, 1}, {7, 2}, {11, 35}, {11, 37}, {12, '1'},
-                {36, 0xff}, {37, 0xff}, {38, 1}, {39, 0}, {40, 0x7f}, {40, 0x8a}, {40, 0xff},
+                {36, 0xff}, {37, 0xff}, {38, 3}, {38, 0xff}, {39, 0}, {40, 0x7f}, {40, 0x8a}, {40, 0xff},
                 {41, 0}, {42, 0}, {43, 0x7c}, {43, 0x84}, {44, 0x7c}, {44, 0x84},
                 {45, 0}, {46, 0}, {47, 0}, {51, 3}, {55, 0x41}, {55, 0x43}, {637, 1}}) {
             byte[] bytes = NcpCompatibilityFixtures.ncp(); bytes[mutation[0]] = (byte) mutation[1]; invalid.add(bytes);
@@ -76,6 +77,30 @@ public final class NcpPictureControlConverterTest {
         byte[] padding = NcpCompatibilityFixtures.ncp(); padding[35] = 'X'; invalid.add(padding);
         byte[] emptyName = NcpCompatibilityFixtures.ncp(); Arrays.fill(emptyName, 16, 36, (byte) 0); invalid.add(emptyName);
         for (byte[] bytes : invalid) rejects(() -> NcpPictureControlConverter.convert(bytes, 4, 0));
+    }
+
+    private static void modifiedMetadataDoesNotChangeCameraParameters() throws Exception {
+        byte[] source = NcpCompatibilityFixtures.ncp();
+        byte[] expected = NcpPictureControlConverter.convert(source, 4, -4).dataBytes();
+        String unmodifiedHash = hash(source);
+        for (int state : new int[]{0, 1, 2}) {
+            byte[] edited = source.clone(); edited[38] = (byte) state;
+            byte[] original = edited.clone();
+            var conversion = NcpPictureControlConverter.convert(edited, 4, -4);
+            equal(expected, conversion.dataBytes());
+            equal(original, edited);
+            equal(hash(original), conversion.sourceSha256());
+            if (state != 0) check(!unmodifiedHash.equals(conversion.sourceSha256()), "Source identity retains the modified state");
+            byte[] invalid = edited.clone(); invalid[39] = 0;
+            byte[] reserved = invalid;
+            rejects(() -> NcpPictureControlConverter.convert(reserved, 4, -4));
+            invalid = edited.clone(); invalid[120] = (byte) 0x80;
+            byte[] badCurve = invalid;
+            rejects(() -> NcpPictureControlConverter.convert(badCurve, 4, -4));
+            invalid = edited.clone(); invalid[43] = (byte) 0xff;
+            byte[] auto = invalid;
+            rejects(() -> NcpPictureControlConverter.convert(auto, 4, -4));
+        }
     }
 
     private static void curveIsPreservedAndStructuralBoundsAreEnforced() throws Exception {

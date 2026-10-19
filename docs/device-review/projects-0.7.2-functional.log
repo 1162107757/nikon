@@ -1,0 +1,71 @@
+Nikon Preset 0.7.2-beta / versionCode 30 functional checkpoints
+2026-10-17 Asia/Shanghai
+Final APK: dist/nikon-usb-0.7.2-beta-debug.apk; 2,806,393 bytes.
+SHA-256: da0a8ecae6f842a1a0c8740fdafe01d9db1b7d540ddb1f0c96a1a8fad444b5c4
+Final build 15:14:43 +08:00, after UI error-tip fix at 15:14:04.
+All production files are frozen.
+
+IMPLEMENTATION / HOST
+Project details show creation time, photo count and persisted aggregate bytes.
+No UI per-file size traversal is used. Rename atomically preserves immutable
+ID, creation time, serialized membership/order and original content/files.
+Invalid/no-op/failure behavior and offline reconstruction are covered.
+Active-run display names update only after durable success; queues, ongoing
+transfer framing, published URIs and camera session ownership are retained.
+Stable per-project directory binding prevents new photos splitting into a
+new folder after rename; the existing .project format does not migrate.
+Final tests/run-album passes 652 controller + 342 store + 100 folder checks.
+
+EARLIER CANDIDATE EMULATOR (NOT FINAL APK)
+Android 17 / Pixel 9, local synthetic photo peer only.
+0.7.1 created Old_Project with synthetic handles 4/5, then preserved data on
+upgrade to an earlier 0.7.2 candidate. Offline details showed two photos,
+176.7 KB and creation time 7:11. Renamed successfully to Renamed_Project.
+The two existing MediaStore rows 38/39 remained pending=0 at
+Pictures/相机预设/Old_Project-42a6f7a6/; no move or extra row was observed.
+Backend matches final; only the invalid-input UI error tip changed afterward.
+These checks establish candidate behavior, not the final artifact's QA.
+
+FINAL APK EMULATOR
+Preserve-data installation of the final hash succeeds. Force-stop/cold-start
+retains Renamed_Project with two photos, 176.7 KB and creation time 7:11.
+Invalid bad/name shows the full inline error below the input; cancel leaves
+the committed name unchanged. The final error screenshot was inspected:
+.impeccable/review/phone-apple-v072-rename-inline.png
+
+In final-artifact active session 2, created Live_Original and automatically
+received handle 6 (88.7 KB). Renamed to Live_Renamed while receiving; handle 7
+without an event then arrived automatically. Details updated to two photos,
+178.9 KB, latest TEST_0007.JPG and waiting-to-shoot status.
+Both new MediaStore rows 46/47 remain pending=0 in
+Pictures/相机预设/Live_Original-61331355/.
+Old rows 38/39 still remain pending=0 in
+Pictures/相机预设/Old_Project-42a6f7a6/.
+The active rename has no reconnect: session 2 has one Open and no CloseSession.
+TotalOriginalTransfers=4 includes older candidate fixtures 4/5 and final
+fixtures 6/7; it is not four new final-artifact original transfers.
+Earlier offline Old_Project rename remains explicitly a candidate check.
+
+FINAL LAYOUT / CLEANUP
+Installed emulator base APK hash matches the final artifact / code 30.
+Dark 375dp layout used wm 984x2190, density 420, font scale 1.3 and animator
+duration scale 0. Scrolling reaches latest TEST_0007.JPG/note and bottom
+rename/close controls. Landscape scrolling works and buttons remain visible;
+the partial-content mid-scroll screenshot does not show all fields at once.
+Inspected screenshots:
+.impeccable/review/phone-apple-v072-info-dark-narrow.png
+.impeccable/review/phone-apple-v072-info-landscape.png
+Emulator size, font, rotation, night and animation settings were restored.
+Stopped reception and disconnected before the last cold restart; app crash
+filter is empty. No new screen-off/Doze run is claimed for this patch.
+After QA, the synthetic listener was stopped and the temporary emulator closed.
+
+PHYSICAL INSTALL / RETENTION
+PKG110 services were empty before preserve-data installation 29->30 at
+2026-10-17 15:19:36 +08:00; installed base SHA-256 matches the final APK.
+Phone project 2026-10-17 14:44 retains two photos / 14.6 MB, latest
+DSC_6138.JPG, and creation time 14:44. New detail/rename controls are visible.
+Left the info dialog open on that existing project, offline, with no live
+auto restart. No real project rename or camera operation was performed.
+No new real-camera or Doze validation is claimed.
+Prior version evidence remains limited to its original version.

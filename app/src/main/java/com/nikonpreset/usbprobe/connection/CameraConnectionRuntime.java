@@ -6,6 +6,13 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.AtomicFile;
 import com.nikonpreset.usbprobe.album.AlbumController;
+import com.nikonpreset.usbprobe.album.ConnectionInfo;
+import com.nikonpreset.usbprobe.album.PtpIpClient;
+import com.nikonpreset.usbprobe.album.PhotoLiveGallery;
+import com.nikonpreset.usbprobe.album.PhotoAlbumSaver;
+import com.nikonpreset.usbprobe.album.PhotoPresetBatch;
+import com.nikonpreset.usbprobe.album.PhotoProjectPresets;
+import com.nikonpreset.usbprobe.album.PhotoStars;
 import com.nikonpreset.usbprobe.usb.UsbPictureControlProbe;
 import com.nikonpreset.usbprobe.usb.WirelessPictureControl;
 import org.json.JSONObject;
@@ -18,6 +25,7 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 /** Application-owned connections. No Activity, View or Activity callback is retained here. */
 public final class CameraConnectionRuntime {
@@ -54,9 +62,10 @@ public final class CameraConnectionRuntime {
     }
     public final class OperationLease implements AutoCloseable {
         private final long epoch;
+        private final boolean photoTask;
         private WirelessPictureControl owner;
         private boolean released;
-        private OperationLease(long epoch) { this.epoch = epoch; }
+        private OperationLease(long epoch, boolean photoTask) { this.epoch = epoch; this.photoTask = photoTask; }
         public boolean isActive() {
             synchronized (CameraConnectionRuntime.this) { return !released && epoch == generation; }
         }
@@ -79,6 +88,10 @@ public final class CameraConnectionRuntime {
     public final ExecutorService worker = Executors.newSingleThreadExecutor();
     public final ExecutorService cameraWorker = Executors.newSingleThreadExecutor();
     public final AlbumController album;
+    public final PhotoAlbumSaver photoSaver;
+    public final PhotoPresetBatch photoPresets;
+    public final PhotoProjectPresets projectPresets;
+    public final CameraWifiSession wifiSession;
     private final Handler main = new Handler(Looper.getMainLooper());
     private final Set<Runnable> observers = new HashSet<>();
     private final Set<OperationLease> leases = new HashSet<>();
@@ -90,18 +103,86 @@ public final class CameraConnectionRuntime {
     private volatile long noticeRevision;
     private volatile WirelessPictureControl verifiedOwner;
     private volatile ImportStatus importStatus;
+    private volatile boolean preparingAlbum;
+    private volatile String albumPreparationError = "";
+    private long albumRequest;
+    private Object attemptedAlbumIdentity;
+    private final AtomicReference<PtpIpClient> pendingAlbumHandoff = new AtomicReference<>();
     private boolean heartbeatRunning;
+    private boolean photoPresetActive;
+    private long observedWifiConnection = -1, invalidatedWifiConnection = -1;
 
     private CameraConnectionRuntime(Context context) {
         this.context = context;
+        // Queue runtime reconciliation so construction and NetworkCallback delivery
+        // never call into a half-initialized album or retain an Activity listener.
+        wifiSession = new CameraWifiSession(context, () -> main.post(this::wifiNetworkChanged));
         album = new AlbumController(context);
+        photoSaver = PhotoAlbumSaver.get(context);
+        photoPresets = new PhotoPresetBatch(context, album);
+        projectPresets = new PhotoProjectPresets(context, album, photoPresets, new PhotoProjectPresets.WorkHost() {
+            @Override public AutoCloseable beginPhotoWork() { return beginPhotoOperation(); }
+            @Override public void onChanged() { changed(); }
+        });
+        album.setPhotoLiveOriginalObserver(projectPresets::onOriginalSaved);
+        album.setOriginalDownloadIdentityObserver(PhotoStars.get(context)::bindDownloaded);
+        album.setPhotoLiveAsyncPublisher(photoSaver::save);
+        album.setOriginalDownloadObserver(photo -> photoSaver.save(photo, new AlbumController.Callback<String>() {
+            @Override public void onSuccess(String uri) { }
+            @Override public void onError(String error) { }
+        }));
+        photoPresets.setLifecycleObserver(() -> {
+            boolean active = photoPresets.isActive();
+            if (active != photoPresetActive) { photoPresetActive = active; changed(); }
+        });
         album.setLifecycleObserver(this::changed);
+    }
+    private void wifiNetworkChanged() {
+        final long token = wifiSession.token();
+        if (wifiSession.isConnected()) observedWifiConnection = token;
+        if (!wifiSession.isRouteUnavailable() || invalidatedWifiConnection == token) { changed(); return; }
+        invalidatedWifiConnection = token;
+        Set<WirelessPictureControl> owners = new HashSet<>();
+        final PtpIpClient handoff;
+        final boolean hadAlbum = album.hasLiveSession() || album.isConnecting() || preparingAlbum
+                || album.photoLiveState().enabled || album.photoLiveState().starting || album.photoLiveState().receiving;
+        synchronized (this) {
+            // No generation-wide disconnect: local saving, effects and unrelated
+            // USB leases continue. Only handles bound to wireless owners retire.
+            if (prepared != null) { owners.add(prepared.owner); prepared = null; }
+            java.util.Iterator<OperationLease> iterator = leases.iterator();
+            while (iterator.hasNext()) {
+                OperationLease lease = iterator.next();
+                if (lease.owner != null) { owners.add(lease.owner); lease.released = true; iterator.remove(); }
+            }
+            handoff = pendingAlbumHandoff.getAndSet(null);
+            if (hadAlbum || handoff != null || !owners.isEmpty()) {
+                albumRequest++; preparingAlbum = false; attemptedAlbumIdentity = null;
+                albumPreparationError = "相机 Wi-Fi 已断开，请重新连接后继续。";
+            }
+        }
+        if (handoff != null) handoff.close();
+        for (WirelessPictureControl owner : owners) owner.close(); // socket close only; never CloseSession.
+        if (hadAlbum) album.disconnect(); // stops network/live work, not local photo processing.
+        if (hadAlbum || handoff != null || !owners.isEmpty() || observedWifiConnection == token) {
+            notice = "相机 Wi-Fi 已断开，请确认相机热点仍已开启后重新连接。已保存照片和本地处理任务保留。";
+            noticeRevision++;
+            com.nikonpreset.usbprobe.album.ConnectionTrace.mark("WIFI_RUNTIME_HANDLES_INVALIDATED");
+        }
+        changed();
     }
     /** Called from a user-visible action before queueing network work. */
     public OperationLease beginOperation() {
+        return beginOperation(false);
+    }
+    /** Local photo work uses its own foreground type and never suppresses camera heartbeats. */
+    public OperationLease beginPhotoOperation() {
+        return beginOperation(true);
+    }
+    private OperationLease beginOperation(boolean photoTask) {
         OperationLease lease;
-        synchronized (this) { lease = new OperationLease(generation); leases.add(lease); }
-        try { context.startForegroundService(new Intent(context, CameraConnectionService.class)); }
+        synchronized (this) { lease = new OperationLease(generation, photoTask); leases.add(lease); }
+        try { context.startForegroundService(new Intent(context, CameraConnectionService.class).putExtra("photo-task", photoTask)); }
         catch (RuntimeException failure) { lease.close(); throw failure; }
         changed(); return lease;
     }
@@ -115,9 +196,103 @@ public final class CameraConnectionRuntime {
         if (prepared != null && prepared.owner == owner) prepared = null;
         changed();
     }
-    public synchronized boolean hasOperations() { return !leases.isEmpty() || cleanupTasks > 0; }
+    public synchronized boolean hasOperations() {
+        if (cleanupTasks > 0) return true;
+        for (OperationLease lease : leases) if (!lease.photoTask) return true;
+        return false;
+    }
+    public synchronized boolean hasPhotoTasks() {
+        if (photoSaver.isBusy() || photoPresets.isActive() || album.isDeletingDownloadedPhotos()
+                || projectPresets != null && projectPresets.hasWork()) return true;
+        for (OperationLease lease : leases) if (lease.photoTask) return true;
+        return false;
+    }
+    public synchronized boolean hasCameraServiceWork() {
+        return wifiSession.isActive() || hasOperations() || prepared != null || album.hasLiveSession() || album.isConnecting()
+                || album.photoLiveState().starting || album.photoLiveState().receiving;
+    }
+    /** Camera Wi-Fi is retained for the physical session, including idle time between photos. */
+    public synchronized boolean hasWirelessServiceWork() {
+        return wifiSession.isActive() || prepared != null || pendingAlbumHandoff.get() != null || preparingAlbum
+                || album.hasLiveSession() || album.isConnecting();
+    }
     public synchronized boolean needsService() {
-        return !leases.isEmpty() || cleanupTasks > 0 || prepared != null || album.isConnected() || album.isConnecting();
+        return hasCameraServiceWork() || hasPhotoTasks();
+    }
+    public boolean isPreparingAlbum() { return preparingAlbum; }
+    public String albumPreparationError() { return albumPreparationError; }
+
+    /** Start from a user-visible destination; all ownership and completion live outside the Activity. */
+    public boolean prepareAlbumFromCurrent(boolean retry) {
+        final HeldConnection source;
+        synchronized (this) {
+            if (preparingAlbum || album.isConnecting() || album.isConnected()) return true;
+            if (hasOperations() || (importStatus != null && importStatus.uncertain)) return false;
+            source = prepared;
+            Object identity = source == null ? album.sessionConnectionInfo() : source.owner;
+            if (!retry && identity == attemptedAlbumIdentity && !albumPreparationError.isEmpty()) return false;
+            if (album.hasLiveSession()) {
+                if (!retry && !album.browseError().isEmpty()) return false;
+            } else {
+                if (source == null || !source.owner.isPrepared()) return false;
+            }
+            attemptedAlbumIdentity = identity;
+        }
+        final OperationLease lease;
+        try { lease = beginOperation(); }
+        catch (RuntimeException failure) { albumPreparationError = "无法准备照片浏览：" + failure.getMessage(); changed(); return false; }
+        if (source != null && !lease.bind(source.owner)) { lease.close(); return false; }
+        final long request;
+        synchronized (this) {
+            if (!lease.isActive() || preparingAlbum || (source != null && prepared != source)) { lease.close(); return false; }
+            preparingAlbum = true; albumPreparationError = "";
+            request = ++albumRequest;
+        }
+        changed();
+        final AtomicBoolean settled = new AtomicBoolean();
+        AlbumController.Callback<ConnectionInfo> callback = new AlbumController.Callback<ConnectionInfo>() {
+            private void finish(String error) {
+                if (!settled.compareAndSet(false, true)) return;
+                synchronized (CameraConnectionRuntime.this) {
+                    if (request == albumRequest) {
+                        preparingAlbum = false; albumPreparationError = error;
+                        if (source != null && prepared == source && !source.owner.isPrepared()) prepared = null;
+                    }
+                }
+                lease.close(); changed();
+            }
+            @Override public void onSuccess(ConnectionInfo value) { finish(""); }
+            @Override public void onError(String error) { finish(error == null ? "照片读取未完成，请重试。" : error); }
+        };
+        try {
+            cameraWorker.execute(() -> {
+                PtpIpClient moved = null;
+                try {
+                    if (!lease.isActive()) { callback.onError("连接操作已取消。"); return; }
+                    if (source == null) { album.retryBrowse(callback); return; }
+                    synchronized (CameraConnectionRuntime.this) {
+                        if (prepared != source || request != albumRequest) throw new java.io.IOException("相机连接已变化，请重新打开相册。");
+                    }
+                    moved = source.owner.transferPreparedToAlbum();
+                    synchronized (CameraConnectionRuntime.this) {
+                        if (!lease.isActive() || request != albumRequest) throw new java.io.IOException("连接操作已取消。");
+                        if (!pendingAlbumHandoff.compareAndSet(null, moved)) throw new java.io.IOException("已有照片连接正在准备。");
+                        if (prepared == source) prepared = null;
+                    }
+                    changed();
+                    boolean accepted = album.connectFromHandoff(moved, source.host, source.port, callback);
+                    if (accepted) pendingAlbumHandoff.compareAndSet(moved, null);
+                    else if (pendingAlbumHandoff.compareAndSet(moved, null)) moved.close();
+                    moved = null; // The controller, or the rejected handoff's cleanup, owns completion.
+                } catch (Exception failure) {
+                    if (moved != null) {
+                        pendingAlbumHandoff.compareAndSet(moved, null); moved.close();
+                    }
+                    callback.onError(failure.getMessage());
+                }
+            });
+        } catch (RuntimeException failure) { callback.onError(failure.getMessage()); }
+        return true;
     }
     public void addObserver(Runnable observer) { synchronized (this) { observers.add(observer); } }
     public void removeObserver(Runnable observer) { synchronized (this) { observers.remove(observer); } }
@@ -200,14 +375,14 @@ public final class CameraConnectionRuntime {
                         changed();
                     } finally { heartbeatPending.set(false); }
                 });
-                else if (album.isConnected()) {
-                    final com.nikonpreset.usbprobe.album.ConnectionInfo identity = album.connectionInfo();
+                else if (album.hasLiveSession()) {
+                    final com.nikonpreset.usbprobe.album.ConnectionInfo identity = album.sessionConnectionInfo();
                     album.keepAlive(new AlbumController.Callback<Void>() {
                     @Override public void onSuccess(Void ignored) { heartbeatPending.set(false); }
                     @Override public void onError(String error) {
                         heartbeatPending.set(false);
-                        if (hasOperations() || held() != null || album.isConnecting() || album.isConnected()) return;
-                        if (album.connectionInfo() != null && album.connectionInfo() != identity) return;
+                        if (hasOperations() || held() != null || album.isConnecting() || album.hasLiveSession()) return;
+                        if (album.sessionConnectionInfo() != null && album.sessionConnectionInfo() != identity) return;
                         notice = "相机连接已断开，请重新连接后继续。"; noticeRevision++; changed();
                     }
                     });
@@ -226,25 +401,54 @@ public final class CameraConnectionRuntime {
         disconnect(false);
     }
     public void abortConnections() { disconnect(false); }
+    /** A media-processing time limit must never terminate a healthy camera session. */
+    public void photoServiceTimedOut() {
+        projectPresets.pause("自动套用达到系统后台时限，已保存原图和效果保留，请手动重试未完成项。");
+        photoPresets.cancel();
+        synchronized (this) {
+            java.util.Iterator<OperationLease> iterator = leases.iterator();
+            while (iterator.hasNext()) {
+                OperationLease lease = iterator.next();
+                if (lease.photoTask) { lease.released = true; iterator.remove(); }
+            }
+            notice = "照片处理达到系统后台时限，已停止剩余处理。已保存照片和相机连接保留。";
+            noticeRevision++;
+        }
+        changed();
+    }
     private void disconnect(boolean graceful) {
+        final long wifiToken = wifiSession.token();
+        if (!graceful) {
+            projectPresets.pause("后台服务已结束，自动套用未完成项已暂停，原图保留，请手动重试。");
+            photoPresets.cancel();
+        }
         Set<WirelessPictureControl> owners = new HashSet<>();
         synchronized (this) {
             generation++;
+            albumRequest++; preparingAlbum = false; albumPreparationError = ""; attemptedAlbumIdentity = null;
             if (prepared != null) owners.add(prepared.owner);
             prepared = null;
             for (OperationLease lease : leases) { if (lease.owner != null) owners.add(lease.owner); lease.released = true; }
             leases.clear();
         }
+        PtpIpClient pending = pendingAlbumHandoff.getAndSet(null);
+        if (pending != null) pending.close();
         album.disconnect();
+        final java.util.concurrent.atomic.AtomicInteger pendingOwners = new java.util.concurrent.atomic.AtomicInteger(owners.size());
+        if (owners.isEmpty()) wifiSession.disconnect(wifiToken);
         for (WirelessPictureControl owner : owners) {
             if (graceful && owner.isPrepared()) {
                 synchronized (this) { cleanupTasks++; }
                 cameraWorker.execute(() -> {
                     try { owner.releasePrepared(); } catch (Exception ignored) { }
-                    finally { owner.close(); synchronized (CameraConnectionRuntime.this) { cleanupTasks--; } changed(); }
+                    finally {
+                        owner.close();
+                        if (pendingOwners.decrementAndGet() == 0) wifiSession.disconnect(wifiToken);
+                        synchronized (CameraConnectionRuntime.this) { cleanupTasks--; } changed();
+                    }
                 });
             }
-            else owner.close();
+            else { owner.close(); if (pendingOwners.decrementAndGet() == 0) wifiSession.disconnect(wifiToken); }
         }
         changed();
     }

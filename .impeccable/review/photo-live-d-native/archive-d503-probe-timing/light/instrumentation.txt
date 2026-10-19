@@ -1,0 +1,6 @@
+INSTRUMENTATION_RESULT: checks=272
+INSTRUMENTATION_RESULT: stage=new-project-while-live-prompts-stop-first
+INSTRUMENTATION_RESULT: status=FAIL
+INSTRUMENTATION_RESULT: stream=Live D native probe FAIL; stage=new-project-while-live-prompts-stop-first; checks=271; type=IllegalStateException; detail=new-project-while-live-prompts-stop-first
+
+INSTRUMENTATION_CODE: 0

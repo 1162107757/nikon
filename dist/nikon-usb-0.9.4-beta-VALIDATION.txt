@@ -1,0 +1,60 @@
+0.9.4-beta / versionCode 43
+Built: 2026-10-18 09:47 +08:00
+Verified: 2026-10-18 10:03 +08:00
+APK: nikon-usb-0.9.4-beta-debug.apk
+Bytes: 2966137
+SHA-256: 16113a79fffa6add983daad162aa6bbd146ef4a3ccae6358c1a6dcb353e19e60
+Signatures: v2 and v3 verified; existing signing certificate preserved.
+
+Delivered behavior:
+- Optional ordinary user account: Settings -> Account -> register/login/profile/logout.
+- Guest mode remains available for existing camera, preset and photo functions.
+- Registration automatically signs in. Username is canonical lowercase; password spaces are preserved.
+- Session is stored with an AndroidKeyStore AES-256/GCM key outside backup; no saved password.
+- Restored/offline identities are visibly unverified until an online account check succeeds.
+- Account networking runs independently from the camera worker.
+- All Activities share the account repository; stale requests cannot restore a locally logged out identity.
+- Local logout cleanup failure is retryable, blocks account reuse, and still attempts server revocation.
+- Admin user management shows usernames and distinguishes password and QQ providers.
+
+Local and live server checks:
+- Account Java host regression: 107 checks passed, including failed local cleanup and shared-repository races.
+- Backend Node tests: 63 passed; JavaScript syntax/source checks: 24 modules passed.
+- Real PostgreSQL migration 003 applied; 28 password assertions passed in a rollback-only transaction.
+- Real HTTPS password workflow: 32 named checks passed, including the production Java account transport's 9 checks.
+- Production workflow covers register, duplicate name, wrong password, profile, admin search/detail,
+  admin isolation, disable/revoke, re-enable/new login, logout replay and exact fixture cleanup.
+- Live reports: online-library/build/password-workflow-verification.json and
+  online-library/build/password-database-verification.json.
+
+Native runtime: Pixel 9 Android 17 / API 37 emulator; exact product APK above.
+- Guest Settings entry and preset library accessible without login.
+- Real synthetic account registered and automatically entered the profile screen.
+- Force-stop/restart restored identity through actual AndroidKeyStore-backed storage.
+- Offline profile retained the identity, displayed unverified state and a network error.
+- Wrong password showed a Chinese error and cleared the password input.
+- Moving to Home and returning cleared the transient password input.
+- Correct password signed in; light and dark account screens inspected.
+- Logout returned to guest Settings; existing two synthetic local presets remained visible.
+- Same-certificate isolated Instrumentation: 24 present-storage checks and 6 absent-storage checks passed.
+  It checked the real private file envelope, non-exportable AES-256/GCM key, in-memory decryption,
+  correct synthetic identity/token shape, absence of password fields and absence of plaintext account
+  data in ciphertext. After logout, key alias and session/bak/new files were absent.
+- Instrumentation only ran on emulator-5554; product manifest/APK were not changed for testing.
+- Both live-workflow and UI synthetic accounts were ownership-checked and removed. Global rate-limit
+  counters and all unrelated users, preset rows and files were preserved.
+- Screenshots: .impeccable/review/account-2026-10-18/
+- Details: docs/device-review/account-0.9.4-functional.log
+
+Cloud deployment:
+- Environment: nikon-d8girdjsr252fd90e / ap-shanghai
+- Backend 1.2.0 deployed to existing nikon-preset-library function, reusing its server credential.
+- Backend archive SHA-256: f924f56885d94b492082a21045c52663027ca33682851365c3caf97784da89a5
+- Admin: https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/admin/
+- QQ remains disabled pending application approval and Android SDK integration.
+
+Limits of this verification:
+- This version was not installed on the connected physical phone.
+- No real camera, physical Wi-Fi/USB connection, live-photo transfer or lock-screen regression was added.
+- Runtime storage deletion failure was covered through host fault injection, not device fault injection.
+- The instrumentation helper was a temporary emulator-only package, not part of the distributed APK.

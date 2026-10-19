@@ -1,0 +1,33 @@
+{
+  "phase": "foreground",
+  "capturedAt": "2026-10-18T16:21:57.4016997+08:00",
+  "pid": "2395",
+  "foregroundService": true,
+  "cpuLock": true,
+  "awake": true,
+  "hueviaTop": true,
+  "activeRequestIds": [
+    "60007"
+  ],
+  "ptpEstablished": 2,
+  "ptpLocalPorts": [
+    "39664",
+    "39670"
+  ],
+  "traceLines": 256,
+  "lastPtpResponseWallMs": 1792311698417,
+  "recentTrace": [
+    "wall_ms=1792311697960 mono_ms=723013625 event=PTP_OP_COMPLETE conn=2 op=0x1008 tx=103 elapsed_ms=35",
+    "wall_ms=1792311697967 mono_ms=723013632 event=PTP_OP_BEGIN conn=2 op=0x1008 tx=104",
+    "wall_ms=1792311698008 mono_ms=723013673 event=PTP_OP_COMPLETE conn=2 op=0x1008 tx=104 elapsed_ms=40",
+    "wall_ms=1792311698020 mono_ms=723013685 event=PTP_OP_BEGIN conn=2 op=0x90c4 tx=105",
+    "wall_ms=1792311698056 mono_ms=723013721 event=PTP_OP_FAILED conn=2 op=0x90c4 tx=105 elapsed_ms=36 category=PROTOCOL",
+    "wall_ms=1792311698057 mono_ms=723013722 event=PTP_OP_BEGIN conn=2 op=0x100a tx=106",
+    "wall_ms=1792311698099 mono_ms=723013764 event=PTP_OP_FAILED conn=2 op=0x100a tx=106 elapsed_ms=41 category=PROTOCOL",
+    "wall_ms=1792311698310 mono_ms=723013975 event=PTP_OP_BEGIN conn=2 op=0x1008 tx=107",
+    "wall_ms=1792311698356 mono_ms=723014021 event=PTP_OP_COMPLETE conn=2 op=0x1008 tx=107 elapsed_ms=46",
+    "wall_ms=1792311698358 mono_ms=723014023 event=PTP_OP_BEGIN conn=2 op=0x1008 tx=108",
+    "wall_ms=1792311698417 mono_ms=723014082 event=PTP_OP_COMPLETE conn=2 op=0x1008 tx=108 elapsed_ms=59",
+    "wall_ms=1792311698427 mono_ms=723014092 event=PTP_OP_BEGIN conn=2 op=0x1009 tx=109"
+  ]
+}

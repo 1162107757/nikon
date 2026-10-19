@@ -1,0 +1,62 @@
+{
+  "device": "emulator-5556",
+  "readOnlyEmulator": true,
+  "realAuthorization": false,
+  "networkLogin": false,
+  "cases": [
+    {
+      "name": "welcome-light",
+      "state": "idle",
+      "night": "no",
+      "font": "1.0",
+      "rotation": "0",
+      "checks": 347,
+      "passed": true
+    },
+    {
+      "name": "password-light",
+      "state": "password",
+      "night": "no",
+      "font": "1.0",
+      "rotation": "0",
+      "checks": 349,
+      "passed": true
+    },
+    {
+      "name": "register-light",
+      "state": "register",
+      "night": "no",
+      "font": "1.0",
+      "rotation": "0",
+      "checks": 349,
+      "passed": true
+    },
+    {
+      "name": "qq-authorizing-light",
+      "state": "authorizing",
+      "night": "no",
+      "font": "1.0",
+      "rotation": "0",
+      "checks": 347,
+      "passed": true
+    },
+    {
+      "name": "restoring-dark-large",
+      "state": "restoring",
+      "night": "yes",
+      "font": "1.3",
+      "rotation": "0",
+      "checks": 347,
+      "passed": true
+    },
+    {
+      "name": "welcome-dark-large-landscape",
+      "state": "idle",
+      "night": "yes",
+      "font": "1.3",
+      "rotation": "1",
+      "checks": 347,
+      "passed": true
+    }
+  ]
+}

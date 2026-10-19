@@ -1,0 +1,115 @@
+Nikon Preset 0.7.0-beta final artifact functional checkpoints
+2026-10-17 Asia/Shanghai; protocol timestamps ending Z are UTC.
+versionCode28; APK2,798,201 bytes; build14:33:33+08.
+SHA2562381807a1b02b5af059304ef1aa287f54759ea68256f41396f23a769fdf1b3c5
+No production files were modified after this APK was built.
+
+SCOPE
+Temporary read-only Pixel9 Android17/API37 emulator,1080x2424.
+Loopback-only synthetic peer127.0.0.1:15758, reached as10.0.2.2:15758.
+--photo-live-synthetic --live-storage-synthetic --live-baseline-count=10000
+--picture-control-full-album-import-synthetic --keep-import-session
+All objects/slots synthetic. No physical-camera capture or preset writes.
+The preliminary UI package was replaced before any peer connection; this
+protocol instance has only the frozen final APK's one connected session.
+
+FAST START
+Selected Photo Live before connecting. Initial connection inventories10000
+old photos; no old ObjectInfo or preview request is made by live-tab UI.
+Start opens New shooting project. Empty name remains in the naming dialog.
+Entered Studio_A, chose the real system battery exemption prompt, accepted.
+Return automatically creates project and captures a fresh handle inventory.
+Fresh startup has one GetStorageIDs plus two GetObjectHandles:65537 returns
+matched StoreNotAvailable,131073 successfully enumerates10000 handles.
+UI shows connected/Waiting to shoot/saved0/Studio_A. The baseline checkpoint
+has42lines and zero ObjectInfo, preview or original operations.
+Later old metadata is sampled one object per idle reconciliation, rather
+than queueing all10000 old objects ahead of new photographs.
+Synthetic inventory request timestamps are not a real-camera latency or
+end-to-end user-interface time guarantee. Host tests additionally verify
+constant startup request counts for1/5000/20000 objects and event priority.
+
+PROJECT A / GRID
+Revision1 adds4 with two duplicate ObjectAdded events and5 with no event.
+Both preview and original automatically arrive; UI shows saved2 and a
+main preview above a virtualized three-column thumbnail GridView.
+System photos are published into Pictures/相机预设/Studio_A-9d480afc/.
+No manual download action was used. Old10000 originals remain unrequested.
+
+SCREEN OFF / DEEP DOZE
+HOME then SLEEP backgrounds the Activity and turns the screen off.
+Revision2 adds6 with duplicate events and one original-busy response;
+retry succeeds without reconnecting, published into the same A directory.
+After screen policy reports OFF/SLEEP, simulated unplug and forced deep idle
+on the emulator only. Revision3 adds7 without an ObjectAdded event.
+Fallback polling receives it into Studio_A. doze.log records IDLE/OVERRIDE,
+forceIdle=true, screenOFF/INTERACTIVE_SLEEP, Asleep and a held app CPU lock.
+This round's keyguard showing=false: it proves screen-off/deep-idle receive,
+not a displayed secure keyguard. This snapshot does not separately dump FGS.
+Idle forcing and battery simulation were restored before continuing.
+UI after wake shows Studio_A with four photos7,6,5,4 in its grid.
+
+PROJECT B / SELECTION / VIEWER
+Stopped A without disconnecting. Starting again asks for a new project name;
+entered Studio_B. Fresh inventory excludes oldA4..7 as well as original stock.
+Revision4 adds8/9, both saved into Pictures/相机预设/Studio_B-48c320ff/.
+The project chooser shows B2/A4. Selected A while B remained receiving.
+Revision5 adds10 to B; A stays selected with its original four thumbnails,
+while the status explicitly says reception is going to Studio_B.
+Opened A's first thumbnail7, dismissed Android's initial fullscreen tutorial.
+Project-local swipe sequence:7->6->5->4->4 at the boundary. No B photo appears.
+Returned and stopped B; seven successful photos total, A4/B3.
+
+STOP / RESTART / OFFLINE
+Revision6 adds11 with two events after Stop; no preview or original requested.
+Explicit Settings Disconnect releases service and CPU lock; service dump
+returns nothing and crash buffer is empty. Protocol ends transport_closed
+and CLOSED; one Init/Open, zero CloseSession or preset writes.
+Force-stopped only the disconnected emulator app, then relaunched offline.
+A remains selected with four photos; chooser shows B3/A4; selected B and
+viewed its three local thumbnails with no connection or new network request.
+
+ORIGINAL INTEGRITY
+Seven live MediaStore rows40,41,44,45,51,52,55 are pending0, in two project
+directories. Screenshot PNG rows43/57/67 are excluded from live counts.
+All seven public-file SHA256 values match original synthetic fixtures4..10.
+Full original hashes and MediaStore paths are archived in originals.log.
+The protocol has8 GetObject attempts:seven successes and one busy rejection
+for6. Preview sources are never substituted for original bytes.
+
+PHONE DELIVERY
+PKG110 Android16,user0,serial286f0dba,previous27/0.6.1-beta.
+Initial service snapshot showed old live active; opening its UI later showed
+the old camera session had already disconnected/live stopped. Confirmed
+service nothing and no in-flight task before installing; did not interrupt
+or deliberately disconnect a running physical-camera photo transfer.
+Preserve-data install-r Success;28/0.7.0-beta confirmed.
+lastUpdateTime2026-10-17 14:40:59+08; installed base.apk SHA matches above.
+Launched final app:existing Agfa Optima preset retained; Downloaded tab
+shows7 existing photos preserved. Left phone at the new Photo Live entry.
+No phone data clear/uninstall, permission/power changes, synthetic fixtures,
+new camera connection, physical shooting or preset import performed.
+
+TESTS
+Final core10595, including controller626 and project-store106; probe12089;
+synthetic server238 (51live+117storage+60large-baseline+10arguments).
+Total22922 passed, final builds/signature verificationv2/v3 passed.
+Independent source review found no remaining P1/P2 issue.
+
+LIMITS
+Fast startup captures old handle inventories, not every old descriptor.
+First later descriptor of an unknown baseline handle only seeds identity;
+reuse before that first observation cannot be reliably distinguished and is
+conservatively excluded. New handles/events have priority over idle samples.
+The run does not establish actual Z6II speed, AP behavior, secure lock screen
+or long-duration OEM background behavior. Physical compatibility still needs
+user shooting. Force-stop/process kill/camera hotspot shutdown cannot be
+treated as uninterrupted reception. Existing unclassified downloads are not
+moved, renamed or assigned invented historical project names.
+
+EVIDENCE
+live-0.7.0-baseline.log / live-0.7.0-protocol.log / live-0.7.0-doze.log
+live-0.7.0-originals.log / live-0.7.0-audit.md
+.impeccable/review/phone-apple-v070-project-a.png
+.impeccable/review/phone-apple-v070-history-a-active-b.png
+.impeccable/review/phone-apple-v070-offline-project-b.png

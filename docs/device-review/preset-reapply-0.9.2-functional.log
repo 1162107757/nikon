@@ -1,0 +1,44 @@
+0.9.2-beta / code41. 2026-10-18 Asia/Shanghai.
+Final APK SHA256:
+102262e27429b618ad3e4d4e0b6ae314f66d0f1f5c8b00d3b0a5de7e2eb06a99
+Build and APK v2/v3 signature verification pass.
+
+Focused host runners, current implementation:
+tests/run-photo-presets.ps1: 128 Batch and 62 source-link checks pass.
+tests/run-project-auto.ps1: 23 automatic-project-preset checks pass.
+Host Bitmap/Factory/EXIF are explicitly synthetic one-pixel facades; the checks
+establish control/association/merge behaviour, not Android codec acceptance.
+Missing/corrupt associations, old deep chains, cancellation and deleted-result
+regeneration are covered by host checks, not injected on the Android emulator.
+
+ANDROID17 / API37 EMULATOR, FINAL APK
+Use persisted synthetic TEST_0004 original and PreviewTone A from 0.9.1.
+All processing is offline. No physical phone screenshot or real photo is used.
+Starting fixture peer accepted zero connections and was stopped; no camera
+download, preset write or new live reception occurs in this run.
+
+Baseline private JPEGs and actual MediaStore image rows: original+A, count2.
+Choose A effect -> PreviewTone: existing-effect banner, completed1/reused1;
+private and MediaStore counts stay2, no layered copy.
+Choose A effect -> PreviewIdentity B: exactly one B result, counts become3.
+Choose original -> PreviewIdentity: reused1, same B path and bytes, count3.
+Select original+A+B -> PreviewIdentity: completed3/3, reused1, merged2, one
+result, private/MediaStore counts remain3. Details report the same merge counts.
+Force-stop/cold start and effect -> PreviewIdentity: reused1, count3 again.
+
+Content hashes before/after reuse and merged selection:
+Original: 69aa06c23597830d0c68e2201d2fb9bbe3bc5912ce284e5d51abddf2b9bf2cbf
+Tone A:   415ec7235e4216b9860783fe6677544f9d1ba0947860a14f5084517a6900a2dd
+Identity: 9fd0262f6c13e50d1169001a0d5ecddfec795e5b5918e22f7b729604ef98c7c3
+MediaStore bytes: original741289, A2036914, B892735. No duplicate rows.
+
+Emulator-only screenshots visually checked, .impeccable/review/:
+phone-apple-v092-reused.png
+phone-apple-v092-merged.png
+phone-apple-v092-merged-dark.png
+Dark and font1.3 keep reuse/merge feedback and Details readable.
+Restore font1.0/nightno. Package readback confirms41/0.9.2-beta.
+App crash-filter matches0; app/build/v092-crash-filter.log.
+Own emulator and peer stopped. No current physical phone in device inventory;
+0.9.2 not installed on phone. No physical-camera, real-photo, Doze or lock-screen
+acceptance is claimed. Existing effects are retained, never automatically removed.

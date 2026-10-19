@@ -2,7 +2,7 @@ package com.nikonpreset.usbprobe.album;
 
 import com.nikonpreset.usbprobe.ptp.PtpObjectInfo;
 
-/** One immutable JPEG entry, scoped to the wireless session which enumerated it. */
+/** One immutable camera entry, scoped to the wireless session which enumerated it. */
 public final class PhotoItem {
     final String session;
     private final long handle;
@@ -18,4 +18,8 @@ public final class PhotoItem {
     public long width() { return info.imagePixWidth(); }
     public long height() { return info.imagePixHeight(); }
     public String captureDate() { return info.captureDate(); }
+    public PhotoFormat format() { return PhotoFormat.of(info); }
+    public boolean isRaw() { return format() == PhotoFormat.NEF; }
+    /** Immutable original descriptor, available only to the album's identity and persistence code. */
+    PtpObjectInfo objectInfo() { return info; }
 }

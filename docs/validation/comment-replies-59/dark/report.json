@@ -1,0 +1,8 @@
+{
+  "apkSha256": "774ac5a78d599b33105d98e349192b226d20946819a4017041b740ff15f43828",
+  "status": "PASS",
+  "checks": 18,
+  "theme": "dark",
+  "scope": "Actual product comment rows and composer with injected in-memory account\/transport. No public writes or camera.",
+  "restored": true
+}

@@ -1,0 +1,1942 @@
+{
+  "source": "https://github.com/shouryan01/Nikon-Recipes",
+  "downloaded_at": "2026-10-18T19:45:10.838091+08:00",
+  "archive_bytes": 185115,
+  "archive_sha256": "2f0ee976bf8026be25120c89863dbfd727f667a429a5a213c497be3d537b8367",
+  "archive_crc_passed": true,
+  "presets": 240,
+  "by_directory": {
+    "Color Grading": 30,
+    "Nikon Creators": 112,
+    "NikonPC": 5,
+    "Third Party Creators": 93
+  },
+  "files": [
+    {
+      "path": "Nikon-Recipes-main/Color Grading/BleachBypass_01a.NP3",
+      "bytes": 392,
+      "sha256": "d64de018e668077a350de019c7ae70fc55e173e0141d46a71a27a2b3ce5e65af",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Color Grading/ClrMode_Bu_01a.NP3",
+      "bytes": 392,
+      "sha256": "a639759c7de02cfed48cd3ea17c607e4275eea49b28598bd926f31483c442d7a",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Color Grading/ClrMode_Bu_01b.NP3",
+      "bytes": 392,
+      "sha256": "daf827ed0397e2e15f1909bef63fa00729c91128abb6f14ea071db0211c15787",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Color Grading/ClrMode_Gn_01a.NP3",
+      "bytes": 392,
+      "sha256": "5ef3dafc6885d39d7e34a7e62b0b4131660e54579d9d8e5f04fdbaa05fd1e7b8",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Color Grading/ClrMode_Gn_01b.NP3",
+      "bytes": 392,
+      "sha256": "a1d2fe599c9acade39644e69f84e818b860d5af38726db44125f6fbef25f0198",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Color Grading/ClrMode_TealOr_01a.NP3",
+      "bytes": 392,
+      "sha256": "be85cf19cfb80eb9dc6a9046b8820ffb9c8f577edf6b97e420ceaf0b4e29d1f3",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Color Grading/ClrMode_TealOr_01b.NP3",
+      "bytes": 392,
+      "sha256": "63b44a6be0deefdb9c7ccb7085cf01e5ce7cbd7aaaa3a8a921ab6ce7e2a2d964",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Color Grading/ClrMode_Ye_01a.NP3",
+      "bytes": 392,
+      "sha256": "6feef074d0631c00895212c23f9a916538df7efe4ab1feec403beb9bd3634029",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Color Grading/ClrMode_Ye_01b.NP3",
+      "bytes": 392,
+      "sha256": "0cfd5459d7aa19fb616f4894e2f499d36a59a3143765426856a89cbc35a01134",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Color Grading/Negative_Bu_01a.NP3",
+      "bytes": 392,
+      "sha256": "29518e97e6f21412f2dc2f975dcf71edc8221b3f8f42eb53dace13162d7d365e",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Color Grading/Negative_Bu_01b.NP3",
+      "bytes": 392,
+      "sha256": "840f0022af4956d11ecc5d65c0b75cfaa813691c0c88a04df3005a7b017ab259",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Color Grading/Negative_CyBu_01a.NP3",
+      "bytes": 392,
+      "sha256": "9fd8b977e9e5760f17c3599c37925f53199f601d4ee8ec4d4bb82749bc38835d",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Color Grading/Negative_CyBu_01b.NP3",
+      "bytes": 392,
+      "sha256": "35d4015bb8da511be7367de3b2a69f72b31a89e1414e5da0d77eb42b98665365",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Color Grading/Negative_Cy_01a.NP3",
+      "bytes": 392,
+      "sha256": "49ad5a57c2303f73c92d17e70673167bdf4bd028b43e2735a89b1a01e5dab93e",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Color Grading/Negative_GnCy_01a.NP3",
+      "bytes": 392,
+      "sha256": "18fb2a3d0cceeea1de7d6e59c9e175c19fef85334c97bd63b98f1cc24263e332",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Color Grading/Negative_GnCy_01b.NP3",
+      "bytes": 392,
+      "sha256": "b71ea011085eb9483ba3a99e446c27c5f29fa8ae7eb71e7cabe3f5c504971ffc",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Color Grading/Negative_RdCy_01a.NP3",
+      "bytes": 392,
+      "sha256": "0d153ea30f22fcacbf871c2c00ba2ed6de2bba2fd4c955ecb694264d0893d31a",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Color Grading/Negative_RdCy_01b.NP3",
+      "bytes": 392,
+      "sha256": "8ecd7478f0c4e89801af69038b70dbbfa6ff385089793ce5f6a3006a7790c7a2",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Color Grading/Negative_T_01a.NP3",
+      "bytes": 392,
+      "sha256": "df02fc08c4bc0700a2b4866302ae3e470ae6721ea12b6ed095ff5c4c804ee1dd",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Color Grading/Negative_T_01b.NP3",
+      "bytes": 392,
+      "sha256": "5346fb105e90491cc53c2b0dccc905078c0700a0eedc0820697fd74cda93a0e0",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Color Grading/Negative_YeCy_01a.NP3",
+      "bytes": 392,
+      "sha256": "4dfee0410c27dc37fff929ab17d6b0e9686ea9be090bcd570ac73860b8dfcaac",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Color Grading/Negative_YeCy_02a.NP3",
+      "bytes": 392,
+      "sha256": "97319e83787f91dd40b852c4cdbad8a3277c0cf629ef5da0ae0078e0086c3cbc",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Color Grading/Negative_YeGn_01a.NP3",
+      "bytes": 392,
+      "sha256": "0b215aae32973c89277085fa46e0f0477ce1f57f9e6d8e461954490710e68c00",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Color Grading/Negative_YeGn_01b.NP3",
+      "bytes": 392,
+      "sha256": "d57ebc861a480613a4c41e56707c3fe9099c7ed57ac5208f554df581f27b530b",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Color Grading/Negative_Ye_01a.NP3",
+      "bytes": 392,
+      "sha256": "e111749a9abf332419f0295dc7ea147ed02130e1326ced47f25911878e37a67f",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Color Grading/Negative_Ye_01b.NP3",
+      "bytes": 392,
+      "sha256": "352e261371056436ec9a27f6f1b1b5a07a518d4fae505685aa41bd1c0853beec",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Color Grading/Negative_Ye_02a.NP3",
+      "bytes": 392,
+      "sha256": "2aa6682835d5a10cb8897f493ca26ff2b04625c63cbaf4b1b3de0c4579a721e6",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Color Grading/Negative_Ye_02b.NP3",
+      "bytes": 392,
+      "sha256": "fa2d0ef7d008be41fd2d3c55cec9d472c9cc2594f85a5b3060965e3f0fda7f23",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Color Grading/Negative_Ye_03a.NP3",
+      "bytes": 392,
+      "sha256": "3e9250df2f40d99f0f5b56bbda739476cf45a73112a36ab7ad6e66118cea262b",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Color Grading/Negative_Ye_03b.NP3",
+      "bytes": 392,
+      "sha256": "9c082e48adb3040933c2375335aeaa26621f35dd22b6067c1d12dff06e6dc737",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/24Look_24Frames.NP3",
+      "bytes": 978,
+      "sha256": "ebaaf0af106c38bee6e7d34c2ec68d52c142102a0fb1fce45c6db8cee1e01935",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/AirGreen_Gunji.NP3",
+      "bytes": 978,
+      "sha256": "e8750ff77a236683be89e848abb42c521d8315cbc2606e79159cfd375b43688c",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/At Dusk_Woo.NP3",
+      "bytes": 392,
+      "sha256": "afbee25d06e5bf888a2a55df3e1049230299f635925a0027c24c436f1ce88d1a",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/BleachBlue_Aparupa.NP3",
+      "bytes": 392,
+      "sha256": "74824fd754990adf019e63514d6ef545faa36c621c43eaabb197cdab63ff1ccb",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/BlueHour_Luna.NP3",
+      "bytes": 392,
+      "sha256": "97ac746b1c47de892f304d10859d14b5ad8bf9a30b2757afaf39c3870d629ee7",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/BlueM_LUIZCLAS.NP3",
+      "bytes": 978,
+      "sha256": "8ba7a29c629d5f4d8398ec533037c002a44a6a76d1eef231bc72c237fedd772c",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/Bluegrain_jyota.NP3",
+      "bytes": 392,
+      "sha256": "1cea7a90bfa80fdd3d68b7e6dbe371a5993447a12be85026eca4251f0a273999",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/BohoLook_EmilieH.NP3",
+      "bytes": 978,
+      "sha256": "c75b23fa01cfe728603ce25b393d954625784cf645f2b5d110b10059eddb9c7c",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/BritFilmBW_Vincent.NP3",
+      "bytes": 392,
+      "sha256": "16eeb407890ee48c68d946b271b397667c29a7f9a0e35a2532673a4eb94ae9b9",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/CINENigRed_Fuji.NP3",
+      "bytes": 392,
+      "sha256": "de9452a2ac9d89889b5928d41025f326c3122ee2d33257c991e50dd06644a046",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/CRYSClear_Eisuke.NP3",
+      "bytes": 392,
+      "sha256": "e3ce58235c9ac70eed28597199f79b8782a57aba166f77464993cb44473efca8",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/CafeCat_yw.NP3",
+      "bytes": 392,
+      "sha256": "20f80e055fc77119286a3d7ee6bc53493ed4cf1f2642681d8375582971379e46",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/CallItLove_Faloo Mi.NP3",
+      "bytes": 978,
+      "sha256": "42fad565ee8fe31735a58402bc9fdd2bae74d2ad5c7f562fa868358f59398084",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/CalmBreeze_Dondre.NP3",
+      "bytes": 392,
+      "sha256": "3f5933609459737c4db2c86079673c7a7c6b3db4beb8f90eace47a2774ed92de",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/Catgrain_yw.NP3",
+      "bytes": 392,
+      "sha256": "7b742d5116d99dfa2e17910cac89514a4e3edc7849110e1139dae6ba7a6429d2",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/CineAchromic.NP3",
+      "bytes": 392,
+      "sha256": "37e2fffd5b8743416192bc3ee05da9fb86ed93363af49eaed28b45ef2df8c2c3",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/CineBias-BB.NP3",
+      "bytes": 392,
+      "sha256": "63409e727a9c6f2551433b736fcd23962f32508cb86467f6a84f61a82d3251db",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/CineBias-C.NP3",
+      "bytes": 978,
+      "sha256": "42c9b350ee208cac1e8120e8480e946c5607f6c7a900b0bf02a755e2aea9b7b6",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/CineBias-CC.NP3",
+      "bytes": 978,
+      "sha256": "603a60999b9b975dbc30707a262da2201d8e07b8c3d4f7840db9b54708fb04e6",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/CineBias-T.NP3",
+      "bytes": 978,
+      "sha256": "f0707d8676878452e38d7b8d8f59cf7508377bba73b2f48b80834feb391cc4f3",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/CineBias-TC.NP3",
+      "bytes": 978,
+      "sha256": "fa0777985224b635b5d0c8e34a53eaf77efb6b15f8f4dc607078f22df54edfa9",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/CineBias-WC.NP3",
+      "bytes": 978,
+      "sha256": "7125edb7387b5afb11950e5e259512bb043f5b2382965956979a1dd8154a0598",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/CineBiasOffset.NP3",
+      "bytes": 392,
+      "sha256": "7c1588bdcc5f2b697283563c9fc32de689f1f0ff39249654e2e78b434daea016",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/CineBias_RED.NP3",
+      "bytes": 392,
+      "sha256": "f22553f89fddc37d594e42d80e46d66a35f4ddcbcd488b2699934fc0fa1e4ea4",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/CineBlue_BrandonW.NP3",
+      "bytes": 978,
+      "sha256": "eef37d8d4738b7824615eeaa5c2ea946efb512ce6065128f801ac06c31f8eda4",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/CineM_LUIZCLAS.NP3",
+      "bytes": 978,
+      "sha256": "ab5e983b312e44f3387022fb4aca27d5f77e4c624b903809a732115e62f45f28",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/CloudyForest_Y2.NP3",
+      "bytes": 392,
+      "sha256": "84905c94c2145b0d1f593bda6fb28a4ae8b64c5c01b252b3f71e6f0ea4f129a3",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/ClrPortrait_TSakai.NP3",
+      "bytes": 978,
+      "sha256": "016862d694f32ca5be5d17c009acefee63c861d5bd95804bece5c64e8d7cc4c4",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/Coastal Glow_NM.NP3",
+      "bytes": 978,
+      "sha256": "e3d33b2497a5932427489d8d4c9df9cb0a2e86b6207a500e673b744d3c389466",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/ColorSplash_Gilmar.NP3",
+      "bytes": 392,
+      "sha256": "a5a270be77bd85dea75afcd29595726aca9c1978c3b1f3f1a3b1da05dcd6a21e",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/CozyAutumn_Leno.NP3",
+      "bytes": 392,
+      "sha256": "e825147a0ba5b0209a1da9d9a8ea327413573126abcf739541e647a241fc5b53",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/Cyanora_EyesOfBelga.NP3",
+      "bytes": 978,
+      "sha256": "bc7148418a49218a375e8ea6eb225d3e89dbba1aece7ceb18f5787f64881274e",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/DGFilmLook_DannyG.NP3",
+      "bytes": 392,
+      "sha256": "aa1278b89d7e9d6644a18c5f39a7f602522e4e926696171992a7df40aaaeb70f",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/DawnHues_Leno.NP3",
+      "bytes": 392,
+      "sha256": "f3375f66850e9b68514faf9d220fbc7b832282a8e9b4889782ba40d53d53bf1e",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/EmotionalB&W_Wazika.NP3",
+      "bytes": 392,
+      "sha256": "37f9c9a630bcc4195abe2358869cf58ad50d037bb3fc7a994d5de74601c3ffa7",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/EuroFilmBW_Vincent.NP3",
+      "bytes": 392,
+      "sha256": "26f0ebbcf424e816188afea97264de701ebcfa6957a90a549d3d33658a641ed1",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/FadedBlue_Hinami.NP3",
+      "bytes": 392,
+      "sha256": "e28d7141eaffa869c7fab83639b65b36f1fbabf99d86ab644ca44d8e315022a9",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/Fern_IanHarland.NP3",
+      "bytes": 978,
+      "sha256": "73ab0ea6cec4848a3a35a9865847aea3d37084719d778b0b2d19122099104ffd",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/FilmPop_Leno.NP3",
+      "bytes": 392,
+      "sha256": "b347f3bcc12a2c2fa57c8153775f37c5e220483e62a6bb53175de14891efa0c7",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/Filmic_Fabio.NP3",
+      "bytes": 978,
+      "sha256": "b8671c705cb1f572284bc5a406d8f46a75bbae34c3b2141b4273a326c913b233",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/GlowUp_Preston.NP3",
+      "bytes": 392,
+      "sha256": "c7db1ee464017f8d71395c69d4c5008b24284bf5367fd8bfa7871a1d7c9063e8",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/Glow_IanHarland.NP3",
+      "bytes": 978,
+      "sha256": "d43daa0290d9d18d73d7eabaf4baa107aa3fe3d73a9e07c0f898f6fa03d0ef8e",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/GoldenBrownSiinapse.NP3",
+      "bytes": 392,
+      "sha256": "febd9a3abdde8bab4dd63147e8e1f43d282a2df8384dfe6951358150989b80d7",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/GoldenDusk_EmilieH.NP3",
+      "bytes": 978,
+      "sha256": "11cdd768e5b9826ee429793278299cd274de332b380e83a0e48da9c34c3e1af9",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/GoldenHourGlow_DAnn.NP3",
+      "bytes": 978,
+      "sha256": "34dbec500bccabd891f94a15563194cccd695d246ddd36358fb48516983ef375",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/Golden_Grid_LKJ.NP3",
+      "bytes": 392,
+      "sha256": "441318ffcfbd8a5a007a08487008da137fa86b042d196f6ca716d514967dec6f",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/Green Soul_Wong.NP3",
+      "bytes": 392,
+      "sha256": "a4b8c0cbeffcfd3cb76209a68536b28b63ab29372526a0471b6bb8bfb4fda1b6",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/HKReminisce_Hiuman.NP3",
+      "bytes": 392,
+      "sha256": "ee20588020efd14d40692957da461ecbcbe1a8437061a7bfbad2ea59a1c83fa1",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/HT Harmony_HanaaT.NP3",
+      "bytes": 392,
+      "sha256": "1ed3755105b05889070d2b67aec0300a14c9f924a1130d7751d9cb701cdb996b",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/HazyMemories_Julia.NP3",
+      "bytes": 392,
+      "sha256": "baa3d5cfe1c391b732a663f647065e3760a1ebd0dcbe4634b9e60ba3f04e4b94",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/Heartwarming_YoheiS.NP3",
+      "bytes": 978,
+      "sha256": "137bd9998a2845304062b9f44c31f6ba1b7e31d55a178466c880c7a8d300b636",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/Hidamari_Haruka.NP3",
+      "bytes": 392,
+      "sha256": "08444c027e44f3a3107f112aac4018b24a7ba30d298d64703637e4b9284b7fa3",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/HoneyTale_MASAYA.NP3",
+      "bytes": 392,
+      "sha256": "ca7cecbc7e0fab8bfc137262f0b16a30b8175b4f33f49454ecab3494ea2fd7ce",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/Honey_IanHarland.NP3",
+      "bytes": 978,
+      "sha256": "fba18c95076cd1cb4d8619cb07417441351785363e647d3e176a3e1eee99135d",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/IndoorHarmony_Julia.NP3",
+      "bytes": 392,
+      "sha256": "5c47e9adcc5e71de44ca7a195667395e8491f10131c726208b9df4989448096f",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/Japanesque_Arashida.NP3",
+      "bytes": 978,
+      "sha256": "fffdfaaf1e08c3d1efca6d13b4ba8b74808f4efce64de7785ad5680656a27a2f",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/Kota-Green_TAKASU.NP3",
+      "bytes": 392,
+      "sha256": "20e5b66525dd3e5164fb8c59a2a95880fed01192d3f7c9cb2d22695b5d5e914c",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/MNightBlush_Preston.NP3",
+      "bytes": 392,
+      "sha256": "f47d110c45ebe886bbdb268286f163e235db19180d37f8b45ab15a11dac277f9",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/MOSS_Nagisa.NP3",
+      "bytes": 978,
+      "sha256": "ab99f7980ef1f5c2547db7fb02ab9afe9f09224810d37f6a966e69817656393b",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/MV Green Orange_Woo.NP3",
+      "bytes": 392,
+      "sha256": "74f4b6364136fd4544a8c8d44a35d38dc0b88306ca169a0b608ce82e84e5faea",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/MatteBlueGray_tanco.NP3",
+      "bytes": 978,
+      "sha256": "cfbb999aac77d26d7b58ae96af9df6797afd52c132960b4e172a4e49945f61c1",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/MoistureGn_HirokiN.NP3",
+      "bytes": 978,
+      "sha256": "7fdf49d504e27d40648b743bd314754d88c323c3bbfe3ad48a9a14cd9dc03364",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/MoodyGr_BrittanyK.NP3",
+      "bytes": 392,
+      "sha256": "58b9f911cc456bdfca8003850423d77556e79ec350254e2ddd0e817e5e77d0dd",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/MoodyShadows_Gilmar.NP3",
+      "bytes": 392,
+      "sha256": "19567b90d1f5071ee6b7135e17d5401462614ec21f5a668459eaa314a93787ec",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/MovieG&O_InstantF.NP3",
+      "bytes": 392,
+      "sha256": "726e91e3a5772087f863fac448044580060abad937de99e63a8b84569b3be645",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/Nature_Links.NP3",
+      "bytes": 978,
+      "sha256": "61b8995f9cd6147ff1beb6bc72897a469954e720b7aaaada7e8372a561634e7e",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/NeonGlow_BrandonW.NP3",
+      "bytes": 978,
+      "sha256": "07eb687b2733fb3c94327a4b6faa81f887e272ac8ed9993e5f21dc058e629138",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/NightsLike_Dondre.NP3",
+      "bytes": 392,
+      "sha256": "ea64bd8fc99587ba1b7c5828d4a32c27db26a479c3ba53b7c2caf420717c759c",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/PainterlyLight_DAnn.NP3",
+      "bytes": 392,
+      "sha256": "589d588c8330d17609c35c0d48629d843b81fe956f76828fea92985328e5d4ba",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/Pale Tale_Yuri.NP3",
+      "bytes": 978,
+      "sha256": "fd67e4721ef755b9e2b69c376c50c58d770feb051aaa08510ccf77b6e8bd5a86",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/PastelNos_TSakai.NP3",
+      "bytes": 978,
+      "sha256": "5ed397e3a1e8be2bf59b83876613423fb49bbb04ef013b59af3c221a3fbf2243",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/Pastelpink_Yuki.NP3",
+      "bytes": 978,
+      "sha256": "a4d48ce3b720b3de9e3b81e268c146a2f8c1ebfa776229d4edc1b4023ae39163",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/PinkWater_HYEYA.NP3",
+      "bytes": 392,
+      "sha256": "f238aa59f9677e515186eb16c14e285f72f1d2b064f1636a2aff39a9386fbfd2",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/PrimaryPop_Gilmar.NP3",
+      "bytes": 978,
+      "sha256": "3744fa4f28220eecd417ccadb41034a08acfbe752d93fcc9a509660ebab17855",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/PurpleM_LUIZCLAS.NP3",
+      "bytes": 978,
+      "sha256": "1e3a3a15611f532994fa5e4411c4dde7d74c6f2e494431c6fe2e2ddb9f70b343",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/QUIET_Nagisa.NP3",
+      "bytes": 978,
+      "sha256": "54ec29d9398244df8c46f32582ecac07f650267dae8cc5fe04bb970b214e7efa",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/RedM_LUIZCLAS.NP3",
+      "bytes": 978,
+      "sha256": "ec95fccefddd0f89ffb390cb14ca0b29a99379911d2b1fe594078d0c80d197fa",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/RoseOldFilm_hinano.NP3",
+      "bytes": 978,
+      "sha256": "9aec229a1ce9809e8812a0d0b23a93f388634045b0e6ea4d26a69ed9db0053c8",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/SetouchiBlue_Noci.NP3",
+      "bytes": 392,
+      "sha256": "88f9803995e19d0d4f19f52678aa055a4bf4d4ed9948991692539cea408a77db",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/ShadeFall_BrittanyK.NP3",
+      "bytes": 392,
+      "sha256": "af7eaa38ea39b4aaad3832176181c92e8fbd31828691335c30df6d3f4ae740e1",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/SkyMistFilm_hinano.NP3",
+      "bytes": 978,
+      "sha256": "8ffb4a360a734c455c210709cde6b3c3bd02d01ddfccd413bd1c07f450a47cbd",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/Soft Vivid_Vijay.NP3",
+      "bytes": 392,
+      "sha256": "7883be2d0b6afd901035bbed3e534ffabc14546c99854ed69d2547db2e88baa3",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/SoftFilm_Leno.NP3",
+      "bytes": 392,
+      "sha256": "8543d9290c0c55ecca0f88e9174121e5753ffd0c247cd0973b8a1d0d5d1a2f0b",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/SoftGlow_Harpreet.NP3",
+      "bytes": 978,
+      "sha256": "de708a7b5a149ce6d64a1fc1f9f428f1f649c28cba68acf070656df6bf2a85a3",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/SummerShine_Dondre.NP3",
+      "bytes": 978,
+      "sha256": "f3d5b4d95291f5e016edf212dd00e2cd70d92a59e57682116ac813f7c213b267",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/Summertime_Zerletti.NP3",
+      "bytes": 392,
+      "sha256": "3dfe35e0e6fb7346b5c153c0058e7ae724050f2c347ff4cd9d435f865f071ecb",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/SunkissedCool_Julia.NP3",
+      "bytes": 392,
+      "sha256": "3b2f33b7e65ddd8bd35b386b0aa34595853e481cc4a929fc81f27c02dc625408",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/SunkissedWarm_Julia.NP3",
+      "bytes": 392,
+      "sha256": "ca4a95f0cfa42dff287688c7e90bbc9a3e633b8bbb793c826a2557f1558ce2c4",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/SunlightHappy_DAnn.NP3",
+      "bytes": 392,
+      "sha256": "33bed8facdd923621a31d91f8a3f046bc69745a0a37eb3e91ef8e52954ca4758",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/SunsetFilm_JKBoy.NP3",
+      "bytes": 392,
+      "sha256": "4d67f8b69477e53032607c34e537194f79db2c1162bfa68c296aef19ddae1c51",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/SunsetGlow_Mikan.NP3",
+      "bytes": 978,
+      "sha256": "d76d46c233ee10b657d9a0a2aa4ebe241da2e74fa36910dc53452a11fff7d780",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/SunsetReset_Baek.NP3",
+      "bytes": 392,
+      "sha256": "af30b286f9ac16a21906cd92f76947c3cf9d1a483db511944eb324ecd9844c27",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/T&O_BrandonW.NP3",
+      "bytes": 392,
+      "sha256": "6793c40748332691b9dd51403e5b8a6eef6c878aefbad38bcf0bda84966baec6",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/TenderClear_FukaK.NP3",
+      "bytes": 978,
+      "sha256": "ca242f7e1596ccc9f42cf0d0a16795a7738d62b936e8dd790fde03f024ce4352",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/TexturedDocmntry_MS.NP3",
+      "bytes": 392,
+      "sha256": "b2ae12427144e86150bdbf809209c46b7c4d5a884e15983a38a064897de60853",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/Turquoise_Blue_Yuki.NP3",
+      "bytes": 978,
+      "sha256": "cec9a1a21f967038902a2e6daf5195dc1dc9d787d0304ecae5331f45942fc509",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/USAFilmBW_Vincent.NP3",
+      "bytes": 392,
+      "sha256": "ac3c5d532491a00f09bea9077068356939a36c83e7edb055795a91f576e5ee81",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/VINTAGEFla_Fuji.NP3",
+      "bytes": 978,
+      "sha256": "d5d93682668145892ac2e635e4bf7a5c395bb87c8e350802d29b42fec06ff995",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/VINTAGEPort_Fuji.NP3",
+      "bytes": 392,
+      "sha256": "8098ecfac6b83c9d5b37d89b807734b9294a72e8d35a081e56a906102a936c79",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/VINTAGE_FILM_Ludwig.NP3",
+      "bytes": 392,
+      "sha256": "10728e7f081f28ad48881a8cb0b6dd65ff5e05e66a6e07a86016af50a6821bce",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/Vibrant_Lamoureux.NP3",
+      "bytes": 392,
+      "sha256": "5967e887ce1376fe847292f232cbef182f79e1d3f239f3bdb7dad7e858da3ada",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/VintageA_BrittanyK.NP3",
+      "bytes": 392,
+      "sha256": "38f78b9992d7ab12efca0ef8eb82e53a58c5c94909b8bfa37808117673cd6afa",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/VintageM_TSakai.NP3",
+      "bytes": 978,
+      "sha256": "fc2f2eedb70cc51678da84b1fb7b9e1f004a94364829478614c47789ac2829e9",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/VintageTouch_Amy.NP3",
+      "bytes": 978,
+      "sha256": "82e334b74a16a8f3afd06acb9919d49efe1ca3af2560707a7707eccfaa45e290",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/VintageVibe_Preston.NP3",
+      "bytes": 392,
+      "sha256": "fb546ff2e80ce04663bfd61a8f94fec1138812a16475d01b781a688a7d76e603",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/VitalityFilm_Pmango.NP3",
+      "bytes": 392,
+      "sha256": "448299b52677b06a6df831e06c028f43caf8da71b5b5039f1bc8cf9ca56e01ea",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/Warm Street_Ben.NP3",
+      "bytes": 392,
+      "sha256": "ce104928a4ee2445968061976b19b880919fe1b78ff5bbe0274963e68b4bad5f",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/WarmDimLight_Luna.NP3",
+      "bytes": 392,
+      "sha256": "6a2e78d6ec9efaffb4640e2cd269abed97c4a652f17e265293c2cb6f70005eaa",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/WarmPortrait_Y2.NP3",
+      "bytes": 978,
+      "sha256": "97c9d5c910e515550159662db67581e01cbd364136c20957fe4f7082a0d75ee4",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/WarmtonedPtt_Wazika.NP3",
+      "bytes": 392,
+      "sha256": "caad7473f66b5e3b6ee9b6773ac2739602da9b47424656b501f2d30b1a1dd9bb",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/Winter Hues_Eeva.NP3",
+      "bytes": 978,
+      "sha256": "8fc49064e5b790f50995855bc3b479f78861080c0d3bb64ae0b20d375e1017c1",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Nikon Creators/Yuragi_Hinami.NP3",
+      "bytes": 392,
+      "sha256": "422a9f283ff4c22889ca0ca84c8ceb37b10a8097f6a93c453076aa70dfc73c91",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/NikonPC/Kodachrome.NP3",
+      "bytes": 392,
+      "sha256": "94f514da2ca2baf325e4f32f26e026259c523fea45e47cbbaee6c149311e208a",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/NikonPC/Kodak Gold 100",
+      "bytes": 638,
+      "sha256": "cb16f10271fe1ca0c5665ddd38516615c20ae129d57a3b5fee1be177135bd9c9",
+      "header_hex": "4e435000000000010000002430313030",
+      "file_format": "NCP",
+      "container_version": "0100"
+    },
+    {
+      "path": "Nikon-Recipes-main/NikonPC/Kodak Portra 160NC",
+      "bytes": 638,
+      "sha256": "90c53aafd20813978b38a771b0248831914190acffa0bc26b2cd09b290de910a",
+      "header_hex": "4e435000000000010000002430313030",
+      "file_format": "NCP",
+      "container_version": "0100"
+    },
+    {
+      "path": "Nikon-Recipes-main/NikonPC/Kodak Portra NC",
+      "bytes": 638,
+      "sha256": "13b39b5df996d2992bbc7ea6e7d45c9f7933c6d177455a41258713dbcfeebf00",
+      "header_hex": "4e435000000000010000002430313030",
+      "file_format": "NCP",
+      "container_version": "0100"
+    },
+    {
+      "path": "Nikon-Recipes-main/NikonPC/Kodak T-Max 400.NCP",
+      "bytes": 638,
+      "sha256": "8c0d4203b1a62ed0b4a29c78e25b4790189b426eb48e9e6baa61c47270e38283",
+      "header_hex": "4e435000000000010000002430313030",
+      "file_format": "NCP",
+      "container_version": "0100"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Alex Armitage/ArmitageEktar100.NP3",
+      "bytes": 978,
+      "sha256": "cf3bb724cf4bb013a938fff0a53b2ce16dcf15f4dc172e6a3a938553567bf607",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Alex Armitage/ArmitageKGold200.NP3",
+      "bytes": 978,
+      "sha256": "ab6b470b7ac6327c93c80ca7469b07d447adde8e7c57cb88a4ae1c2337142643",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Alex Armitage/ArmitageKPortra800.NP3",
+      "bytes": 978,
+      "sha256": "1a494d1760c3c4adf6331e698c0188ef4f4b01c15d0a072a4c1a6ab3edbca409",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Alex Armitage/ArmitageProvia100F.NP3",
+      "bytes": 978,
+      "sha256": "701a40ad0b0d43826e295045a565f59b5c2c4a224c23cecf6ebb6e25bd3ad6ed",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Alex Armitage/ArmitageWarmAutumn.NP3",
+      "bytes": 978,
+      "sha256": "e4473f409cd4439f116d26f65e3de3678d9c978783f546477730fde0cba94b16",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Filmstill/Classic Chrome.NP3",
+      "bytes": 480,
+      "sha256": "ac4bdf62f214f8c82684f6e470dd45b176be5d0f7e3a62f6df0bac3f4eb3fe24",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Filmstill/FILMICBW.NP3",
+      "bytes": 1050,
+      "sha256": "4e5ecbba2755c5807b9af7bf61c64eafa7e637b6b337324fabbc55ba3b63923a",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Filmstill/FILMSTILLFilmic.NP3",
+      "bytes": 1050,
+      "sha256": "ef6fbf0e68a60e43f25e7f78465f21d241772d9c48c44e851aaef310bc064278",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Filmstill/FIlmstill's Nostalgic Negative.NP3",
+      "bytes": 544,
+      "sha256": "7cf1f14368eb2143b05d424236455ea464cac602c956bf6de7345a289093b922",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Filmstill/FilmstilGoldmatic.NP3",
+      "bytes": 978,
+      "sha256": "7b038e42a744f0e09fc2dead821cd8dfca6f59a64fe21cc970d4c671860b7e08",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Filmstill/Filmstill's ARTE B&W.NP3",
+      "bytes": 1124,
+      "sha256": "3ea9d0668e701fe1f20f4aadfc7e444e21957809e441c0e31f4cddd3a592828b",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Filmstill/Filmstill's Astia.NP3",
+      "bytes": 512,
+      "sha256": "4941da685b85014b64a6366e52f91c1328cf9ddff00ece525beba2590765bcb0",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Filmstill/Filmstill's Classic Neg.NP3",
+      "bytes": 392,
+      "sha256": "e0f4f35502709b0780346bc6aae13729ea0ee93e3a301fec302ae35d20028484",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Filmstill/Filmstill's Portra.NP3",
+      "bytes": 512,
+      "sha256": "40cce32a443f9ba21941335cdae74fa2551f3aa8d87c00a1d84f7e9db7519cf7",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Filmstill/Filmstill's Velvia.NP3",
+      "bytes": 510,
+      "sha256": "bdca73ba0f3901e6617ee8b7f13bc0c42047ace602de72a87a89165e5f0c6005",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Filmstill/KOLORA PUSHED.NP3",
+      "bytes": 1140,
+      "sha256": "53420aad2ab272c598572b6c0ddea9db188922feec5cad57657e0a0275dd3035",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Filmstill/KOLORA.NP3",
+      "bytes": 1140,
+      "sha256": "65b87d642ebeb9271e87a4902abf895425ac75eb96227271e76180be0d09a150",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon B&W Recipes/MGA AcrosLike FC.NP3",
+      "bytes": 1006,
+      "sha256": "69e254811bb7434ade4b0c29ff52cdf87010b5850c7898241e7222e973af4942",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon B&W Recipes/MGA BW Portrait FC.NP3",
+      "bytes": 1014,
+      "sha256": "f5d9fde9c7c7c18e55d4dd43d78db455b00ab69b3cd878b426ec6d70c634c853",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon B&W Recipes/MGA HCM-Street.NP3",
+      "bytes": 978,
+      "sha256": "0dc749c904ad073fc537932ca46e785e261fa819bd31987fb3a942f105dc1b10",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon B&W Recipes/MGA In-An-InstantBW.NP3",
+      "bytes": 978,
+      "sha256": "b257a33ec6b90ec49eed9666bae8ba6761a9f57ab8d796dbae330ee36088c497",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon B&W Recipes/MGA LeicaMono FC.NP3",
+      "bytes": 1020,
+      "sha256": "119e2b94d1005abda0e4be1d029a3ff550cae46f4558163bd8d73ef508bafcf6",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon B&W Recipes/MGA MonoFilmic FC.NP3",
+      "bytes": 1016,
+      "sha256": "b1edf9a952ad8dbbc393b94f40bbe774681d6290a4584585d7cbd0fbfc499e0f",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon B&W Recipes/MGA TriX.NP3",
+      "bytes": 978,
+      "sha256": "e66c1557ce6206ede2459d41848fa7d4912fe509ee89d831a46aecfa038ea57c",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA Everyday Chrome.NP3",
+      "bytes": 426,
+      "sha256": "d2bb2b932d5dcd553952659c053ff2352da25dbcca5f7516d3864142bc1fcd50",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA EverydayChromeW.NP3",
+      "bytes": 430,
+      "sha256": "50f6e451fac5d803df7d3de451444a54d28db998ef2464524fba97975a31229e",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA Futurist FC.NP3",
+      "bytes": 1042,
+      "sha256": "80a158a10c93e29b5000970e48eb6357a01038ab2f2bbe02b493ccade74a5cf2",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA In-An-Instant.NP3",
+      "bytes": 978,
+      "sha256": "55690018c28a56b717234ce46ebf5d0a8b6ff58a8dca5658a10d52acac734337",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA Klassic Khrome.NP3",
+      "bytes": 1012,
+      "sha256": "31ffe533daaf62ab2d2cb914ebf9ff402343c7a33e7a07c60b8455782618d2f2",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA Kodachrome 2025.NP3",
+      "bytes": 1044,
+      "sha256": "294fd35066da4b0b70a03da3433163395bbbb5ea23a5cc5d8385830a7f140cc0",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA Natural FC.NP3",
+      "bytes": 1010,
+      "sha256": "794ff16e93636cb08bcc8cbf4d542daab8733872f6f06f5e3246fa5fdd16e44d",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA Nostalgic FC.NP3",
+      "bytes": 1002,
+      "sha256": "648b76db359101940772d8dbde09f971918ed1876800c81c8aec7e4385d58e5a",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA Nostalgic Past.NP3",
+      "bytes": 978,
+      "sha256": "50808b3a4c0247185e593f578cacab081cef6a590e322a135c2fc2c12e231390",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA OldFilmish FC.NP3",
+      "bytes": 1026,
+      "sha256": "2c5d1f355f7264adce7a95e958839bd93960cd2746dc341d508989043c9700fe",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA OldSchool RTP.NP3",
+      "bytes": 1012,
+      "sha256": "65a4f090bf49dfbb3b69bdf866181b69b4aa6f7772a9cff21c25ca7b0e2a8d14",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA Paintry FC.NP3",
+      "bytes": 426,
+      "sha256": "06445c3f1e48bc34943fba3ccf86756821a751cc4dcf39622f68f5467ab33be3",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA Portra-Fade FC.NP3",
+      "bytes": 1006,
+      "sha256": "427136fda08cdf38aa2d7c17c9ea3f4d31cd57befd1c4d047ebe1303d979a819",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA Portra-Ish FC.NP3",
+      "bytes": 1012,
+      "sha256": "7eea798b9a87a5af91083f7727d220316e132da8b344e6cce08a622312440830",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA Retrofy 2.NP3",
+      "bytes": 978,
+      "sha256": "dbcb1e373910def174851a35ac7b7d729c8eab9664d0f634ec6fe66d67d2d462",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA Retrofy.NP3",
+      "bytes": 978,
+      "sha256": "85ecc76b0a4e546c0f40e6ae7f7d34818639a7dadd2d48cb8d414266e14755e4",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA Sandstorm.NP3",
+      "bytes": 978,
+      "sha256": "fdd1935c1b937e9ee2ab5984455b992a99da909b68cc60bae7075b8a41e4c05f",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA Slide 2.NP3",
+      "bytes": 978,
+      "sha256": "ffc373271890dd6f3b716e7e1a29c5c8ec8eed44fb34e43448e5231442671a6a",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA Slide.NP3",
+      "bytes": 978,
+      "sha256": "bfc1aeed642829ccd5e5be55fc942b6a2b254d88bf246eeaaf4d6cc7e5bde5ca",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA Summer Memories.NP3",
+      "bytes": 1026,
+      "sha256": "5033d1628c7e7c347fae8390e63e3e3e57e864c90df8484182cd0136053d024d",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Colour Recipes/MGA WEZZY.NP3",
+      "bytes": 1064,
+      "sha256": "b82ffc0c096e39f429baad3957ab634e197d76785ff699c7bb9e07bcc0636417",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Premium Recipes/Premium Dreamy Mono.NP3",
+      "bytes": 978,
+      "sha256": "886cc2b108050b2d7c27052cd17f005d6f98800bb577493971a0f221c247313d",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Premium Recipes/Premium Dreamy Peep.NP3",
+      "bytes": 978,
+      "sha256": "d3774968a0c3919ba7e4ddabd876bb84d9a77c3d733d7cfad53fcdda937e26af",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Premium Recipes/Premium Koda2025.NP3",
+      "bytes": 978,
+      "sha256": "b514d6f5dcc9e9948e61a83b3edf1d5afccac2ef95ccf92b9d85f46ab93ce8e6",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Premium Recipes/Premium Monochrome.NP3",
+      "bytes": 978,
+      "sha256": "8c3ddbd4505c9d443ce99b136d2f4cdaea662795176d668c8d17c897446aac1b",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Premium Recipes/Premium Negative.NP3",
+      "bytes": 978,
+      "sha256": "429e825ef81d225abfc068d1be886d868e0156a8e9bdbd1d2b2a0d666a29b8d8",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Premium Recipes/Premium Nostalgic.NP3",
+      "bytes": 392,
+      "sha256": "a520b7c2116cb534320089cb4aa9b528a8383019aa0259bc1b1baca487f74ac2",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Premium Recipes/Premium Standard V2.NP3",
+      "bytes": 392,
+      "sha256": "4b65b782b4ede75cb17d0fe8d43d357dcbc98a64f2f13f16f7ded920588c3687",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Premium Recipes/Premium Standard.NP3",
+      "bytes": 392,
+      "sha256": "9bbf73a5159109930f057d6fd21c1a01ddd674fc8fee7b4aa0e444804b6e9beb",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Premium Recipes/Premium Vivid Norm.NP3",
+      "bytes": 392,
+      "sha256": "6b834b62c335ecbe299c1ead06aa00b6a256c7e99ab0703015ce32db83c24e77",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Premium Recipes/Premium Vivid Punch.NP3",
+      "bytes": 392,
+      "sha256": "3cfa3b8b4d5aaca91e03dae3eb81c4ec0455a7c6900a155d24b5748bf63b0fac",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Premium Recipes/PremiumCinema Green.NP3",
+      "bytes": 978,
+      "sha256": "933ef72c38aa8b6805c90ba9575ebf3c3325a9d5f25b980c9fba0575e85c9ec0",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Premium Recipes/Wedding V1 Colour.NP3",
+      "bytes": 978,
+      "sha256": "48cfccd718726bf94be3a886930b0c6df8b0d970e9cd1dd2caba2cef7b22a006",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Premium Recipes/Wedding V1 Mono.NP3",
+      "bytes": 978,
+      "sha256": "5f9c25da00934ed2b2e34c6e04632661b182d0daf36034a8b50867dad91f7e8a",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Special Recipes/MGA Pop! (Blue).NP3",
+      "bytes": 978,
+      "sha256": "2d02b50883f0ac72c869faba97bd05eeac07c1cdaa694e29bca5aa9163fc12d5",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Special Recipes/MGA Pop! (Green).NP3",
+      "bytes": 978,
+      "sha256": "c8e386881f1657e012faff7ef3e119c66d8a1c790ccabfb5b39eed7352b11dbc",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Special Recipes/MGA Pop! (Red).NP3",
+      "bytes": 978,
+      "sha256": "5f68df2da11505fd6746835b50f80ae95d2adef949a05e46deb547611b5a3982",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Mark G Adams/Nikon Special Recipes/MGA Standard MovieT.NP3",
+      "bytes": 392,
+      "sha256": "d66a2c87c88a1ad864287f6d40c2934efa865cf7cf69b463eeceb723d897272e",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Ross And His JPEGs/A-X+rossandhisjpegs.NP3",
+      "bytes": 1234,
+      "sha256": "12a22849f98b98ffe5e243d254ddcd14b74a33796df0f892b312556eb2eeb8de",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Ross And His JPEGs/B-7+rossandhisjpegs.NP3",
+      "bytes": 1196,
+      "sha256": "90e8591158c23c00ffbbc1d92a171d5df837422d2afef88fd884ff46465f608a",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Ross And His JPEGs/H-1+rossandhisjpegs.NP3",
+      "bytes": 1224,
+      "sha256": "dd0b039e38141cae8b95d6bfe31016f010687251cbbc74ba70192d2f15fae70b",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Ross And His JPEGs/N-3+rossandhisjpegs.NP3",
+      "bytes": 1228,
+      "sha256": "e19327df046b7913a04984118f15df56ecb276eded50d7880a2e84d919213645",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Scott Tucker/Scott's Gold 200.NP3",
+      "bytes": 1046,
+      "sha256": "bcbf80c91769c14ac116a52ccb7f9ba0c6544c812ae716ff1dc306c3cb765923",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Scott Tucker/Scott's Ilford 400 LO.NP3",
+      "bytes": 1036,
+      "sha256": "ff57c07d5c7df1b6f6ffe031ada0b987f6242043c28a2837dc40e3ebdd14561f",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Scott Tucker/Scott's Ilford 400 MID.NP3",
+      "bytes": 472,
+      "sha256": "413c77830dd1d13d2264808b6cf12eff48be9d3205f17af317375a2b2695298e",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Scott Tucker/Scott's Ilford 400.NP3",
+      "bytes": 392,
+      "sha256": "9dabea0e47dc0508a2babc7c0e38d709a7419feba31d8936b31c253d0abc4d95",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Scott Tucker/Scott's Leiter CLR.NP3",
+      "bytes": 1042,
+      "sha256": "f4b7e2c80c10fb76bdbd3f7f24c50934598e6f2746c4dabda69ff8908ffbf1c0",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Scott Tucker/Scott's Leiter.NP3",
+      "bytes": 1062,
+      "sha256": "2f3c76e6f3e4117a0e5dfbb9c5950d93027f1736fb808f818cea38a46115b5ea",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Scott Tucker/Scott's Vintage Film HI.NP3",
+      "bytes": 450,
+      "sha256": "8d125d9cf73c20e9194f977ae91c7e2c4ac072727dce301c8af0939671d22f43",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Scott Tucker/Scott's Vintage Film.NP3",
+      "bytes": 392,
+      "sha256": "b42e811486a60ba4c3a4660c44712ec272b4df2dd3568df9086d8f8784953f76",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Stephen Morais/AgU100.NP3",
+      "bytes": 978,
+      "sha256": "a5c1950e7a55ed3c51fb659e7e708b09ab9631674e6b091470540a39aaa43071",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Stephen Morais/CUBANO.NP3",
+      "bytes": 978,
+      "sha256": "8e860a7efd063bd250dd47c5ec39f7c84e9f4fbaa1cd944c0c3cd7f0787d4773",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Stephen Morais/E100.NP3",
+      "bytes": 1018,
+      "sha256": "60090e6c2b09d33c1ad819b31181547dd79268639a24c06f60c3b4c540a38e4a",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Stephen Morais/F400H.NP3",
+      "bytes": 978,
+      "sha256": "4ffe6d32000bb524138b1470e54f3927263a904892957fc1db60170ba71182f8",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Stephen Morais/FProvia100F.NP3",
+      "bytes": 1022,
+      "sha256": "e5550073409bd64fa8caf57d01705014c81c8a948515d3dbde9c975237be8af7",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Stephen Morais/FSol100.NP3",
+      "bytes": 978,
+      "sha256": "a60659a6e6d647e8499a016c55dbf9dbc4f664026b722cfca7c98e35f642f57a",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Stephen Morais/KCHROME.NP3",
+      "bytes": 978,
+      "sha256": "c9c0754eae873c7fd29bb2778dea470670d0b0e1b4b28d385f0dedc50859417a",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Stephen Morais/KEktr100.NP3",
+      "bytes": 978,
+      "sha256": "6d3a79caa5b0e93b8d29fbae6f7450d2ef3849c54781b0181347b470351ac8b4",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Stephen Morais/KG200.NP3",
+      "bytes": 978,
+      "sha256": "470b2cecfde5714cea186f9374c1aefec92e9795e44b6448ae7a3603d110544c",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Stephen Morais/KG200P1.NP3",
+      "bytes": 1034,
+      "sha256": "384776a142b61e73aa8691a0bbc146d5c60ad9c049133a4c664e856276063c1b",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Stephen Morais/KP160.NP3",
+      "bytes": 978,
+      "sha256": "889301da6a030dc56de4c2ebddfcc36d81071ef0ac7935311128a3c6802c99d9",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Stephen Morais/KP400.NP3",
+      "bytes": 978,
+      "sha256": "7c3a7fafafac18d4d7e5c22cd217592bb73f67278f1170fe53af422005f7a9ff",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Stephen Morais/KP800.NP3",
+      "bytes": 1022,
+      "sha256": "3d2684f74cf63afa20104681709fd12171bbec9ea289ae938083b4dab769b2c8",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Stephen Morais/L100.NP3",
+      "bytes": 978,
+      "sha256": "1ee79f495d1296036ae7d8e63b37127c6b03c5e5d4be98bd07c7ac43cc482620",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Stephen Morais/LeicaSTD.NP3",
+      "bytes": 392,
+      "sha256": "0c61830f080427079f01ff17977b64f5c4c3c47100781b2566a8adf1239575cb",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Stephen Morais/LeicaVIV.NP3",
+      "bytes": 392,
+      "sha256": "4e0fc4f3b8eb5479d974341546d0c0171d7f0921ec44a2fd6fef98226a40b428",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Stephen Morais/LoFi.NP3",
+      "bytes": 978,
+      "sha256": "c0d087d5f66ddae65373159c16b19d221d2568ed8362be4b802f0ef35fb0d087",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Stephen Morais/OptiColour200.NP3",
+      "bytes": 1020,
+      "sha256": "3bbd8afcb48c5b2f70891e0494a9da54cb17f9b0f62af5cab074b649ab3be3ac",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    },
+    {
+      "path": "Nikon-Recipes-main/Third Party Creators/Stephen Morais/WL3.NP3",
+      "bytes": 978,
+      "sha256": "c5933056cf778b4316df85ef1b4102770d109781b0d6669189c9208112722dd3",
+      "header_hex": "4e435000000001000000000430333130",
+      "file_format": "NP3",
+      "container_version": "0310"
+    }
+  ],
+  "verification_scope": "Public archive download, CRC and file inventory only; no camera import or rendering validation.",
+  "by_format": {
+    "NP3": 236,
+    "NCP": 4
+  },
+  "extensionless_valid_ncp": 3
+}

@@ -1,0 +1,82 @@
+Nikon Preset 0.9.1-beta / versionCode 40
+2026-10-17 Asia/Shanghai
+STATUS: FINAL SOURCE/ARTIFACT FROZEN; SYNTHETIC NATIVE UI CHECKS COMPLETE.
+PHONE CURRENTLY OFFLINE; NO 0.9.1 PHONE UPGRADE.
+APK: nikon-usb-0.9.1-beta-debug.apk
+Final artifact: 2,941,561 bytes, built 2026-10-17 22:58:47 +08:00.
+SHA-256 8da86defdc2f4851b384c9df2838e678bd84a65741a2d0f47356569fefc2f3a3.
+Production build and v2/v3 signature verification pass.
+
+IMPLEMENTED SCOPE
+Shared native full-screen Dialog preset-selection page for Photo Live new/existing
+project defaults and batch presets in Camera, Photo Live and Downloaded. Large
+cards show effect/name/current check. Effects use the actual local NCP through
+PresetPreviewRenderer with the existing unified or user-replaced template.
+Local catalog/validation/rendering run asynchronously; visible rows load lazily,
+with ListView virtualization and a bounded single-worker queue/image cache.
+Loading/empty/error feedback and retry are supported. Unsupported formats show
+their reason and are disabled; choosing a preset rereads and validates its NCP.
+Selection dismisses then returns to the parent. Defaults fill the same form;
+batch selection still requires existing processing confirmation. Back/cancel keeps
+the original preset, project form and selected photos. No project is auto-created,
+and no rendering batch is started by simply opening/selecting in this picker.
+Source/generation guards discard obsolete callbacks and private bitmaps. Safe
+areas, UiPalette light/dark colours, adaptive widths, 48dp Back and existing
+reduced-motion-aware page transitions are used. This is local-only: no network,
+camera connection, original acquisition or camera writing is performed by the page.
+Live/Downloaded photo counts are followed immediately by Filter dropdowns. The
+menu contains only a checkable Starred item. Enabled headers show a star icon
+and Starred dropdown; disabling restores all photos.
+
+CHECK SCOPE
+UI-only change: no new host test and no existing host/protocol suite rerun.
+The prior 0.9.0 checks are not presented as runs for 0.9.1.
+No prior 0.9.0 test totals are counted in this run.
+
+NATIVE EMULATOR
+Earlier acb candidate, not final 8da:
+VisualQA new-project form opens default page. Real Tone/Identity template effects
+are visibly distinct with names; None has the current check. Tone selection
+returns to the original form retaining VisualQA. Reopening/Back preserves Tone.
+Starting synthetic Live receives shot4 as one original plus effect; Live stops.
+Existing-default page shows Tone current; selecting None returns automatically.
+Live star filter with zero results can be disabled to show one photo again.
+Downloaded raw4 selection -> visual batch picker -> Tone returns to one-photo
+confirmation. Cancelling keeps the original selected photo; reopening/Back also
+retains it. No actual batch processing is started.
+Dark/font1.3, wm984x2190 and landscape scroll to card names with animator scale0.
+Candidate screenshots use v091 preset-picker, batch-picker, filter-menu,
+picker-dark and picker-landscape names; most have been visually checked.
+Final 8da differs from acb only in full-screen Dialog dark system-bar handling
+(theme and WindowInsetsController).
+
+Final 8da native recheck:
+Dark/font1.3 picker system-bar icons are white and clear. Downloaded Starred menu
+is checked and filters to one photo with the adjacent count/star dropdown header.
+Select raw4 -> two effect cards -> Identity returns to one-photo batch confirmation;
+Cancel performs no processing. Live existing-default page has None checked;
+Identity returns to VisualQA automatically. Live's positive Starred filter shows
+one photo. Live batch also opens the visual page; Back retains its one selected
+photo. Cold start retains VisualQA, default Identity and star filter1 without
+automatically starting Live. Version40/0.9.1 is read back correctly.
+Final emulator screenshots in .impeccable/review/ are visually inspected:
+phone-apple-v091-picker-dark-final.png,
+phone-apple-v091-star-filter-final.png, phone-apple-v091-live-final.png.
+App crash filtering returns zero matches; app/build/v091-crash-filter.log.
+Display settings are restored: font1.0, night no, rotation0/accelerometer1,
+wm size reset and animator scale1. Device list contains only the emulator.
+Own emulator is now shut down; the synthetic peer exited on its timeout.
+Archived protocol: docs/device-review/preset-picker-0.9.1-synthetic-protocol.log.
+One OpenSession, zero CloseSession/virtual writes, one successful synthetic
+original transfer and four large previews. No raw acquisition is triggered by
+opening or cancelling the preset selector. Functional details are in
+docs/device-review/preset-picker-0.9.1-functional.log.
+
+PHONE
+The physical phone is absent; 0.9.1 is not installed on a phone yet. The 0.9.0
+preserve-data phone installation remains historical evidence for that version.
+
+LIMITS
+No new physical-camera, real-photo processing, background-transfer, Doze or
+lock-screen acceptance is claimed. Existing render model and camera-import
+authorization remain unchanged. Historical evidence keeps its original scope.

@@ -1,0 +1,9 @@
+{
+  "scope": "Public production download page, guest GET only; no account or publication writes",
+  "checks": [
+    "desktop: public55, beta label, three real UI previews, no page overflow, HTTPS APK link",
+    "mobile: public55, beta label, three real UI previews, no page overflow, HTTPS APK link",
+    "mobile-dark: public55, beta label, three real UI previews, no page overflow, HTTPS APK link"
+  ],
+  "errors": []
+}

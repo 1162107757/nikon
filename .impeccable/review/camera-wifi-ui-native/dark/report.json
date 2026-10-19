@@ -1,0 +1,9 @@
+{
+  "versionCode": 53,
+  "versionName": "0.9.14-beta",
+  "installedApkSha256": "257a028ca814be1625e74e2217a184d9e33c1554f8749dfff37672da6592cd5c",
+  "status": "PASS",
+  "checks": 39,
+  "theme": "dark",
+  "scope": "Native credentials dialog only; invalid submissions and cancellation; synthetic SSID\/password; no actual Wi-Fi request, PTP, network traffic, camera or user photos."
+}

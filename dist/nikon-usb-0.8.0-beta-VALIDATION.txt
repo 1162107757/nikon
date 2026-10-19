@@ -1,0 +1,66 @@
+Nikon Preset 0.8.0-beta / versionCode 31
+2026-10-17 Asia/Shanghai
+APK: nikon-usb-0.8.0-beta-debug.apk
+Final: 2,830,969 bytes, built 2026-10-17 15:57:58 +08:00.
+SHA-256 9ae39f02e4373bbfa1a5b0cdb3cd4c98d9d10a6913ee56b57602c387a3bb1be2.
+Verified 15:44:35 candidate: 2,830,969 bytes,
+SHA-256 76d563a634415f07ae530dc4def76a97171280c0a9b7ad5656fb0e7a8042c714.
+Final routes runtime/service progress separately from root-page rebuilding,
+and uses content-height chooser rows with a capped scrollable preset list.
+Renderer, batch and Gallery implementations remain unchanged by those fixes.
+
+SCOPE
+Select 1–100 remote/local/live-project photos and a committed local preset.
+Remote originals are acquired through AlbumController; local files are reused.
+Independent app-owned processing survives Activity rebinds. One full-size
+mutable sRGB bitmap is processed in bounded strips; JPEG 95 output is separate,
+with capture/orientation EXIF whitelisted and unfiltered thumbnail omitted.
+No source overwrite or silent resize. Effects are the existing phone-side
+NCP curve approximation, not native Nikon Picture Control rendering.
+Content/preset/model identity deduplicates derived copies; publication failure
+keeps the local copy. Effects do not become live-project original members.
+Originals/effects save directly to MediaStore on 29+. API 26–28 public-Pictures
+permission/scanner behavior is covered only by host facades, not old-OS QA.
+Final code adds async live gallery publication so copy/lock work is off the
+camera worker, and clears stale manual-save summaries.
+
+CONFIRMED HOST CHECKS
+All focused runners exit 0: 683 controller + 342 store + 100 folder = 1,125
+album checks, plus 99 Gallery and 40 batch, total 1,264. Host doubles do not establish Android
+codec/EXIF/MediaStore/foreground-service or physical-camera behavior.
+
+EARLIER CANDIDATE (15:35:28; NOT FINAL APK)
+Engine/renderer/Gallery code matches final; later changes are the async
+live-publication boundary, UI-summary cleanup and observer/chooser fixes above.
+Android 17 candidate direct-saved 6000x4000 original 1 (538,837 bytes) to row 39.
+Original SHA-256 stayed 6d192ccd59e5123b0149c5c19e5ce8fb5db09505498f033f3cab937c3dd8d468.
+Camera photos 2/3 batch Tone completed two outputs: originals rows 40/42 and
+effects 41/43. Local 24MP original 1 produced row 44 (1,184,360 bytes), still
+6000x4000 with orientation 6 and DateTime 2026:10:17 10:20:30. Pixel probes
+changed, e.g. ff221d57->ff5b4590. Output SHA-256:
+b3b78f8546c3fc86313eac8a53d0b14d36346f611c8468fac03a7a273f399eeb.
+HOME and Activity clear-task/recreate during local processing retained the
+task; FGS type 0x2010 (mediaProcessing+connectedDevice). Local processing had
+no new GetObject request. Candidate app crash filter was empty.
+
+SECOND CANDIDATE (15:44:35 / 76d563a6; NOT REBUILT FINAL)
+Live photos 4/5 batch completes 2/2 while photo 6 arrives; project count 3.
+New 24MP effect is 6000x4000 / 2,036,914 bytes, orientation 6 / DateTime intact;
+SHA-256 415ec7235e4216b9860783fe6677544f9d1ba0947860a14f5084517a6900a2dd.
+Repeat batch leaves MediaStore row count 11->11 and sends no new GetObject.
+Cancel run completes one of two and stops one; rows 13->14.
+These functional results precede the runtime/service progress-observer fix.
+
+FINAL APK / PHONE
+Final 9ae3 APK preserve-data installed on Android 17 emulator. New offline
+batch completes 1/1 through HOME and Activity clear-task/recreation, with
+standalone FGS 0x2000 (mediaProcessing). New row 56 is 131,458 bytes,
+1600x1000, IS_PENDING=0. Services are empty after completion; app crash filter
+is empty. Dark 375dp / font 1.3 single-preset chooser contracts to content.
+PKG110 (adb 286f0dba), user 0, preserve-data update to code 31 / 0.8.0-beta
+succeeds around 2026-10-17 15:59 +08:00. Installed base APK hash matches final.
+The phone remains password-locked; no new UI/project-count verification or
+physical-photo batch/camera-connection test was performed. Candidate 24MP
+encoding is not relabeled as a final-artifact encode. No new Doze, hardware
+camera or Android 26–28 emulator acceptance is claimed.
+See ../docs/device-review/photo-presets-0.8.0-functional.log.

@@ -10,7 +10,8 @@ import android.graphics.Typeface;
 import android.os.Looper;
 import android.view.View;
 
-import com.nikonpreset.usbprobe.ncp.NcpPreviewProfile;
+import com.nikonpreset.usbprobe.ncp.PresetPreviewProfile;
+import com.nikonpreset.usbprobe.ncp.Np3PreviewProfile;
 
 /** Read-only plot of the NCP's actual 257 normalized tone samples. */
 public final class ToneCurveView extends View {
@@ -26,6 +27,7 @@ public final class ToneCurveView extends View {
     private final float density, scaledDensity;
     private final DashPathEffect dashed;
     private int state = LOADING;
+    private boolean np3;
 
     public ToneCurveView(Context context) {
         super(context);
@@ -38,18 +40,25 @@ public final class ToneCurveView extends View {
         setContentDescription("色调曲线，正在读取曲线。");
     }
 
-    public void setProfile(NcpPreviewProfile profile) {
+    public ToneCurveView(Context context, String format) {
+        this(context);
+        np3 = "NP3".equals(format);
+        if (np3) setContentDescription("手机色调映射，正在读取。");
+    }
+
+    public void setProfile(PresetPreviewProfile profile) {
         requireMainThread();
         if (profile == null) {
             setUnavailable();
             return;
         }
+        np3 = profile instanceof Np3PreviewProfile;
         for (int i = 0; i < samples.length; i++) {
             samples[i] = (float) profile.mapTone(i / 256.0);
         }
         state = READY;
         rebuildPaths();
-        setContentDescription("色调曲线，257 个实际采样点。输入 0，输出 "
+        setContentDescription((np3 ? "手机色调映射，仅代表亮度部分，257 个近似采样点。" : "色调曲线，257 个实际采样点。") + "输入 0，输出 "
                 + normalizedLabel(samples[0]) + "；输入 128，输出 "
                 + normalizedLabel(samples[128]) + "；输入 255，输出 "
                 + normalizedLabel(samples[256]) + "。实线为预设曲线，虚线为线性参考。");
@@ -111,9 +120,9 @@ public final class ToneCurveView extends View {
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(colors.card);
         canvas.drawRoundRect(card, dp(16), dp(16), paint);
-        text(canvas, "色调曲线", card.left + dp(16), card.top + dp(14), 13,
+        text(canvas, np3 ? "手机色调映射" : "色调曲线", card.left + dp(16), card.top + dp(14), 13,
                 colors.text, Paint.Align.LEFT, true);
-        text(canvas, "NCP", card.right - dp(16), card.top + dp(16), 11,
+        text(canvas, np3 ? "NP3" : "NCP", card.right - dp(16), card.top + dp(16), 11,
                 colors.secondary, Paint.Align.RIGHT, false);
         if (state != READY) {
             String label = state == LOADING ? "正在读取曲线…" : "曲线暂不可用 · 轻点重试";

@@ -1,0 +1,61 @@
+Nikon Preset 0.9.0-beta / code 39
+2026-10-17 Asia/Shanghai
+Final APK SHA256 ed5bab298536698a323c18b3ee9c58747f77f3647bcfd851ef0755dde23f86ee
+Android 17 / API 37 Pixel_9 emulator. Synthetic camera only, localhost:15766.
+
+Earlier 6df candidate: import synthetic PreviewTone.NCP; create LiveQA with
+PreviewTone as default. Inject handle4 with three ObjectAdded events. One raw
+original and one effect are published. Star original4 in the viewer.
+
+Final ed5: preserve-data install and restart retains LiveQA, preset and star.
+Live and Downloaded star filters each show exactly one original. Effect copy
+has an independent star and hold-original comparison. Inspected effect and
+held-original screenshots show different image pixels.
+
+Existing project's receipt Continue action while disconnected displays a
+nonmodal Connect notice. Connect opens Settings with existing-project intent.
+Successful connection returns to LiveQA, no new-name form. Explicit foreground
+protection choice resumes this project. Original4 is not downloaded again.
+
+Inject handles5/6 with events3/2, busyOriginal2 and unreadyInfo1 for handle5.
+Each yields one original and one effect, three applied receipts in LiveQA.
+Disable project default. Inject handle7 with events2: one original, no effect.
+MediaStore query: four originals and three effects, all under
+Pictures/相机预设/LiveQA-8508c83d/. No destination picker.
+
+Receipt All/Pending/Saved controls work; Pending is empty after completion.
+Final sheet at system night=yes/font_scale=1.3 displays four records, source
+size/date and three preset statuses, with Continue reachable. Visually checked.
+Hero resize is deferred until after layout: result card no longer leaves a
+blank hero gap, and a full thumbnail row remains visible.
+
+Stop live, force-stop, cold start. LiveQA has four originals; default remains
+disabled; all four receipts and three applied statuses remain. Live does not
+start automatically. Restore font_scale=1.0 and night=no.
+
+Final installed emulator version verified: versionCode39/versionName0.9.0-beta.
+Crash buffer contains repeated emulator-system uwb-service failures, no app
+package crash or FATAL EXCEPTION entry. This is not an empty crash-buffer claim.
+Own emulator and synthetic peer stopped. Protocol trace:
+docs/device-review/live-0.9.0-synthetic-protocol.log
+Three OpenSession, zero CloseSession, zero virtual preset writes, exactly four
+successful original transfers across the cumulative test.
+
+Final emulator-only images, .impeccable/review/:
+phone-apple-v090-stars.png
+phone-apple-v090-effect.png
+phone-apple-v090-original-held.png
+phone-apple-v090-resume-notice.png
+phone-apple-v090-live-final.png
+phone-apple-v090-receipts-dark.png
+phone-apple-v090-receipts.png is earlier 6df evidence, not final-package evidence.
+
+PHONE INSTALL AFTER USER RECONNECTED
+2026-10-17 22:14:35 +08:00. Device286f0dba / PKG110 / Android16.
+Before installation: services(nothing), version38/0.8.7-beta.
+adb install -r succeeds; no uninstall or clear-data. Installed version39/0.9.0-beta,
+MainActivity launch succeeds, pid10046. Installed base.apk SHA256 exactly matches
+final ed5 artifact above. Read-only UI text shows the default-preset picker with
+the existing Agfa Optima preset. User is interacting, so no dialog is dismissed.
+No physical-phone screenshots or real-photo processing. No physical-camera,
+Doze or lock-screen acceptance in this run.

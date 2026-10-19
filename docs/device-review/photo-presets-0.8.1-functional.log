@@ -1,0 +1,63 @@
+Nikon Preset 0.8.1-beta / versionCode 32 functional checkpoints
+2026-10-17 Asia/Shanghai
+STATUS: FINAL ARTIFACT VERIFIED WITH CANDIDATE/PHONE SCOPE SEPARATED
+Artifact: dist/nikon-usb-0.8.1-beta-debug.apk, 2,835,065 bytes.
+Final build: 2026-10-17 16:45:33 +08:00.
+SHA-256 df2d621cb589ec4ced80806c8f4a8f0be3442f3a5e94eb5a4ad40b618dd5115e.
+Production build and APK v2/v3 signature verification pass.
+
+IMPLEMENTATION / HOST SCOPE
+Completed batch View Effect opens the derived result. Lower-right Original
+shows the linked input while held, then release/cancel/focus loss/pause
+restore Preset Effect. PhotoImageView keeps zoom/image position and avoids
+same-size floating-point drift. Existing slide-out, multiple-pointer,
+keyboard and accessibility paths remain. The control owns no bitmap recycling.
+
+Lookup/verification/decode are off UI/camera work. Request and displayed-photo
+identities discard stale original associations after navigation. New output
+and verified cache hits persist an exact immediate-input link. Old 0.8.0
+output ledgers migrate only on strict source-content/committed-preset/model
+identity plus output verification; no filename/project/visual guesses.
+Lookup is bounded and cancellable; failed lookup leaves the effect intact.
+84 focused host checks pass: batch 44 + source association 40.
+The old 0.8.0 total of 1,264 is historical, not this patch's rerun.
+
+EARLIER CANDIDATE: LEGACY MIGRATION
+Android 17 runs 0.8.0 first and generates a 24MP / EXIF orientation-6 Tone
+effect. Preserve-data upgrade to the earlier 0.8.1 candidate (SHA prefix
+4516) keeps the old output .record. Lazy strict-source migration succeeds;
+press displays the original and UP restores the effect. This legacy-upgrade
+interaction retains candidate scope and is not called a final-df2d repeat.
+
+FINAL DF2D ARTIFACT: ANDROID 17
+Reapply Tone to that existing effect: 1/1 completes through HOME/return.
+View Effect opens the actual Effect_PreviewTone result; viewer reports 1.4 MB.
+Held-original comparison: 11,050/11,050 sampled screen points differ.
+After release: zero sampled differences from the pre-press effect.
+Fitted pre-press/post-release whole PNG SHA values match exactly.
+Enlarged pre-press/post-release whole PNG SHA values also match exactly.
+The two view scales are compared separately; no cross-scale hash claim.
+HOME during an active hold followed by return restores the effect.
+Reopen at fit and swipe rapidly left: original has no comparison control.
+Swipe right to the effect: comparison is ready again. App crash filter empty.
+The synthetic original SHA-256 remains
+6d192ccd59e5123b0149c5c19e5ce8fb5db09505498f033f3cab937c3dd8d468.
+All pixel/PNG checks use synthetic emulator images, not phone photos.
+These checks do not establish new hardware/PTP/Doze behaviour.
+
+PHYSICAL PHONE: FINAL DF2D ARTIFACT
+286f0dba / user 0, approximately 2026-10-17 16:48 +08:00:
+preserve-data adb install -r succeeds. Installed versionCode 32 / 0.8.1-beta
+and system base APK hash match the final df2d artifact. Eleven downloaded
+photos, including two existing effects, and Agfa Optima remain visible.
+The first existing effect opens (viewer reports 2.3 MB); UIAutomator verifies
+Original/Preset Effect interface states on press and UP. No phone pixel
+comparison was performed. Real-photo screencap/pull was rejected by automatic
+approval review and was not executed or retried; no real-photo screenshots
+were exported. The current app PID crash filter is empty. No new phone batch
+ran, and no camera service was active. No new real-camera transfer, PTP,
+hardware-background/Doze or API26-28 Android acceptance is claimed.
+Historical 0.8.0 logs/artifacts remain unchanged.
+
+NCP phone simulation is unchanged: no stronger algorithm or new rendering
+capabilities, and no native Nikon Picture Control equivalence is asserted.
