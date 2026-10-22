@@ -11,7 +11,7 @@
 | 控制台项目 | 当前测试包对应值 |
 | --- | --- |
 | 移动应用 AppID | `1105984855` |
-| Android 包名 | `com.nikonpreset.usbprobe` |
+| Android 包名 | `cc.huevia`（75 / 0.13.7-beta 起；QQ 互联仍需同步更新） |
 | Android 签名证书 MD5 | `945aa44a13dd8c10155ad0078edf698e` |
 
 以上 MD5 是当前测试 APK 所用签名证书的摘要，不是 APK 文件本身的 MD5。请在此 AppID 的 Android 平台资料中填写与实际安装包一致的包名和签名，再确认修改已保存、生效；后续更换签名或正式发布包时需要重新核对，不能直接沿用不同证书的摘要。
@@ -24,7 +24,7 @@
 
 1. 在 [QQ 互联](https://connect.qq.com/) 注册并完成开发者资料审核，准备控制台要求的个人或企业资料。使用能长期管理的开发者账号。官方流程：[成为开发者](https://wiki.connect.qq.com/成为开发者)。
 2. 创建 **移动应用**，填写实际应用名称、图标、简介、联系方式和 Android 平台信息。不要为了手机 App 登录创建网站应用。申请及授权范围以控制台当前要求为准：[创建应用](https://wiki.connect.qq.com/__trashed-2)。
-3. 当前工程 Android 包名为 `com.nikonpreset.usbprobe`。在提交前确定正式包名和稳定的正式签名，再填写与最终 APK 一致的包名、签名。开发调试 APK 的签名不能自动作为将来正式包的签名。腾讯提供的获取方法见 [Android SDK 常见问题，第 4.3、4.4 节](https://wiki.connect.qq.com/android常见问题)。
+3. 当前工程 Android 安装包名为 `cc.huevia`，旧版为 `com.nikonpreset.usbprobe`。本轮未修改 QQ 互联平台资料，需把平台 Android 包名同步为 `cc.huevia`。签名仍使用现有证书；开发调试 APK 的签名不能自动作为将来正式包的签名。腾讯提供的获取方法见 [Android SDK 常见问题，第 4.3、4.4 节](https://wiki.connect.qq.com/android常见问题)。
 4. 准备用户可以访问的隐私政策和 QQ SDK 信息说明。在用户同意后再启用 SDK。接入时应更新实际收集信息、用途、第三方 SDK 目录及账号注销/数据删除说明，参考 [QQ 互联 SDK 隐私保护声明](https://wiki.connect.qq.com/qq互联sdk隐私保护声明)。
 5. 当前 AppID 已提供为 **`1105984855`**，后续 Android SDK 和服务端必须使用相同值。AppKey 不要发送到聊天，不要写入网页、App 配置仓库或普通日志。当前 SDK access token 验证方式不使用 AppKey；将来若增加授权码交换，AppKey 只放服务端受保护的配置中。
 

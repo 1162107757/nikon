@@ -1,7 +1,7 @@
-import com.nikonpreset.usbprobe.ncp.NcpCompatibilityFixtures;
-import com.nikonpreset.usbprobe.ncp.NcpFile;
-import com.nikonpreset.usbprobe.ncp.NcpPictureControlConverter;
-import com.nikonpreset.usbprobe.ncp.NcpPreviewProfile;
+import cc.huevia.ncp.NcpCompatibilityFixtures;
+import cc.huevia.ncp.NcpFile;
+import cc.huevia.ncp.NcpPictureControlConverter;
+import cc.huevia.ncp.NcpPreviewProfile;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

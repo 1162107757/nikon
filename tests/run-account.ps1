@@ -17,15 +17,15 @@ if (Test-Path -LiteralPath $compileOnly) {
 }
 $compileClasspath = $compileDependencies -join [IO.Path]::PathSeparator
 $runtimeClasspath = $classpath -join [IO.Path]::PathSeparator
-$sources = @(Get-ChildItem -LiteralPath (Join-Path $projectRoot 'app\src\main\java\com\nikonpreset\usbprobe\account') -Filter '*.java' | ForEach-Object FullName)
-$sources += @(Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot 'account-java\com\nikonpreset\usbprobe\account') -Filter '*.java' | ForEach-Object FullName)
+$sources = @(Get-ChildItem -LiteralPath (Join-Path $projectRoot 'app\src\main\java\cc\huevia\account') -Filter '*.java' | ForEach-Object FullName)
+$sources += @(Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot 'account-java\cc\huevia\account') -Filter '*.java' | ForEach-Object FullName)
 & (Join-Path $JdkHome 'bin\javac.exe') --release 17 -encoding UTF-8 -cp $compileClasspath -d $classes @sources
 if ($LASTEXITCODE -ne 0) { throw 'Account targeted compilation failed.' }
-& (Join-Path $JdkHome 'bin\java.exe') -cp ($classes + [IO.Path]::PathSeparator + $runtimeClasspath) com.nikonpreset.usbprobe.account.AccountRepositoryTest
+& (Join-Path $JdkHome 'bin\java.exe') -cp ($classes + [IO.Path]::PathSeparator + $runtimeClasspath) cc.huevia.account.AccountRepositoryTest
 if ($LASTEXITCODE -ne 0) { throw 'Account targeted regression failed.' }
-& (Join-Path $JdkHome 'bin\java.exe') -cp ($classes + [IO.Path]::PathSeparator + $runtimeClasspath) com.nikonpreset.usbprobe.account.AccountAvatarTest
+& (Join-Path $JdkHome 'bin\java.exe') -cp ($classes + [IO.Path]::PathSeparator + $runtimeClasspath) cc.huevia.account.AccountAvatarTest
 if ($LASTEXITCODE -ne 0) { throw 'Account avatar regression failed.' }
-& (Join-Path $JdkHome 'bin\java.exe') -cp $classes com.nikonpreset.usbprobe.account.QqAuthorizationGateTest
+& (Join-Path $JdkHome 'bin\java.exe') -cp $classes cc.huevia.account.QqAuthorizationGateTest
 if ($LASTEXITCODE -ne 0) { throw 'QQ authorization gate regression failed.' }
-& (Join-Path $JdkHome 'bin/java.exe') -cp ($classes + [IO.Path]::PathSeparator + $runtimeClasspath) com.nikonpreset.usbprobe/account/AccountCommunityAuthTest
+& (Join-Path $JdkHome 'bin/java.exe') -cp ($classes + [IO.Path]::PathSeparator + $runtimeClasspath) cc.huevia/account/AccountCommunityAuthTest
 if ($LASTEXITCODE -ne 0) { throw 'Account challenge contract regression failed.' }

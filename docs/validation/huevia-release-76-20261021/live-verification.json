@@ -1,0 +1,171 @@
+{
+  "verifiedAt": "2026-10-21T09:26:49.481Z",
+  "passed": true,
+  "version": "0.13.8-beta",
+  "versionCode": 76,
+  "packageName": "cc.huevia",
+  "sha256": "cf74460f3a01ca29250a1c77f8a051bc0cf7e3439df20bb91c9b6b2b33b5fa95",
+  "byteLength": 3434093,
+  "downloadPage": "https://huevia.cc/preset-library/download/?channel=beta",
+  "downloadUrl": "https://huevia.cc/preset-library/releases/0419d4ab-ce9d-4ca5-a7c7-a28d83fa6fc3/file",
+  "withdrawnVersions": [
+    "0.13.5-beta",
+    "0.11.4-beta",
+    "0.11.3-beta",
+    "0.11.2-beta",
+    "0.11.1-beta",
+    "0.10.2-beta",
+    "0.10.1-beta",
+    "0.10.0-beta"
+  ],
+  "checks": [
+    {
+      "name": "Only 0.13.8-beta (76) remains published; all eight previous releases withdrawn",
+      "passed": true
+    },
+    {
+      "name": "New-package update metadata huevia.cc",
+      "passed": true
+    },
+    {
+      "name": "New-package update metadata nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com",
+      "passed": true
+    },
+    {
+      "name": "Legacy installs receive withdrawn status without an incompatible APK",
+      "passed": true
+    },
+    {
+      "name": "Old version 0.13.5-beta download returns 404",
+      "passed": true
+    },
+    {
+      "name": "Old version 0.11.4-beta download returns 404",
+      "passed": true
+    },
+    {
+      "name": "Old version 0.11.3-beta download returns 404",
+      "passed": true
+    },
+    {
+      "name": "Old version 0.11.2-beta download returns 404",
+      "passed": true
+    },
+    {
+      "name": "Old version 0.11.1-beta download returns 404",
+      "passed": true
+    },
+    {
+      "name": "Old version 0.10.2-beta download returns 404",
+      "passed": true
+    },
+    {
+      "name": "Old version 0.10.1-beta download returns 404",
+      "passed": true
+    },
+    {
+      "name": "Old version 0.10.0-beta download returns 404",
+      "passed": true
+    },
+    {
+      "name": "Stable channel has no release; default page may fall back to the labelled beta",
+      "passed": true
+    },
+    {
+      "name": "Published download script matches reviewed source",
+      "passed": true
+    }
+  ],
+  "releaseState": [
+    {
+      "id": "0419d4ab-ce9d-4ca5-a7c7-a28d83fa6fc3",
+      "package_name": "cc.huevia",
+      "version_name": "0.13.8-beta",
+      "version_code": "76",
+      "channel": "beta",
+      "status": "published",
+      "revision": "2",
+      "sha256": "cf74460f3a01ca29250a1c77f8a051bc0cf7e3439df20bb91c9b6b2b33b5fa95"
+    },
+    {
+      "id": "dbe0c6c8-cbda-43db-9c2c-80c85f51031b",
+      "package_name": "com.nikonpreset.usbprobe",
+      "version_name": "0.13.5-beta",
+      "version_code": "73",
+      "channel": "beta",
+      "status": "withdrawn",
+      "revision": "3",
+      "sha256": "f6464b04ed13e749537030e62c087c40dc0a7aae9ee129f2fe703110e1e74f25"
+    },
+    {
+      "id": "ce7b7797-e3c8-4b53-9702-22a59166531e",
+      "package_name": "com.nikonpreset.usbprobe",
+      "version_name": "0.11.4-beta",
+      "version_code": "61",
+      "channel": "beta",
+      "status": "withdrawn",
+      "revision": "3",
+      "sha256": "75d614edb36c61cb0c7581c8940e6d179476ea473cd3b541284382ad88308d45"
+    },
+    {
+      "id": "5961ecb9-3b36-4233-a535-9673d8c5dcca",
+      "package_name": "com.nikonpreset.usbprobe",
+      "version_name": "0.11.3-beta",
+      "version_code": "60",
+      "channel": "beta",
+      "status": "withdrawn",
+      "revision": "3",
+      "sha256": "0ab5543e52831c09a5d583f553167d53d57dfcd11768e6f41bec162d1b535241"
+    },
+    {
+      "id": "63a4672c-d4a2-4d92-b47d-459094d62c9f",
+      "package_name": "com.nikonpreset.usbprobe",
+      "version_name": "0.11.2-beta",
+      "version_code": "59",
+      "channel": "beta",
+      "status": "withdrawn",
+      "revision": "3",
+      "sha256": "774ac5a78d599b33105d98e349192b226d20946819a4017041b740ff15f43828"
+    },
+    {
+      "id": "ef9caf3d-6ef7-4992-9488-b994e0512710",
+      "package_name": "com.nikonpreset.usbprobe",
+      "version_name": "0.11.1-beta",
+      "version_code": "58",
+      "channel": "beta",
+      "status": "withdrawn",
+      "revision": "3",
+      "sha256": "f1952cca9f98fdfaef4e01875eada653291e5f0ca535cd5cfd05630280a3a568"
+    },
+    {
+      "id": "cd66e443-b657-4203-93ff-cd471259c928",
+      "package_name": "com.nikonpreset.usbprobe",
+      "version_name": "0.10.2-beta",
+      "version_code": "56",
+      "channel": "beta",
+      "status": "withdrawn",
+      "revision": "3",
+      "sha256": "91ce0f51527a50d49ef37915d07439d043c9c77f42751fcb6c13d8d0f52beb10"
+    },
+    {
+      "id": "b51fe228-4be1-4304-a72a-c611a7ec374a",
+      "package_name": "com.nikonpreset.usbprobe",
+      "version_name": "0.10.1-beta",
+      "version_code": "55",
+      "channel": "beta",
+      "status": "withdrawn",
+      "revision": "3",
+      "sha256": "81021bfc4d7468dd8181d899f9ae5f4a260fbf30b95ac0eefc2be18ffaf9cca6"
+    },
+    {
+      "id": "8c55d9d5-5e62-476a-bcc5-9a102662e8fd",
+      "package_name": "com.nikonpreset.usbprobe",
+      "version_name": "0.10.0-beta",
+      "version_code": "54",
+      "channel": "beta",
+      "status": "withdrawn",
+      "revision": "3",
+      "sha256": "e80698b37ad89f24d5897f84abb28f074a576411ac2adb6963a06e1427a46618"
+    }
+  ]
+}

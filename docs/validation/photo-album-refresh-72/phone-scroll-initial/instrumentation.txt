@@ -1,0 +1,4 @@
+INSTRUMENTATION_RESULT: status=FAIL
+INSTRUMENTATION_RESULT: stream=Photo editor native FAIL; native-screenshot-failure; java.lang.IllegalStateException: camera-scroll-reaches-real-final-seeded-item-timeout
+
+INSTRUMENTATION_CODE: 0

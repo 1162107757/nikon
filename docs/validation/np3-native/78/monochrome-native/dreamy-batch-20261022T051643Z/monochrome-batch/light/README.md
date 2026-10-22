@@ -1,0 +1,11 @@
+# Version 78 Dreamy native validation
+
+Actual Android instrumentation passed **184 checks** on the frozen `cc.huevia` version 78 / `0.13.10-beta` APK, SHA-256 `0b1767980b10b467a34464015c15090951401c6d4300c9bb64a3a61fd7ea88e5` (3,442,285 bytes). APK signature schemes v2/v3 and the expected development signer were independently verified. `artifact-binding.json` records all 152 product Java/Manifest/build.gradle source hashes plus the exact probe source, APK and original public recipe asset hashes.
+
+Both original Dreamy Mono and Dreamy Peep recipes passed the actual factory, library, synthetic template, alpha, complete monochrome pixels, full 1800 × 1200 JPEG at 100%/37%/0%, sRGB, capture EXIF/orientation, unchanged input and pre/during-render cancellation checks. Partial strength retains source colour. `report.json` contains individual assertions and measured timings; all JPEGs here were produced by the actual Android application code.
+
+Each recipe also ran as its own real `PhotoPresetBatch.startTracked` job on the same newly generated synthetic source. Each first job completed one output with zero failures and zero reuse; repeating from that effect reused the exact same file without rewriting it. Original links and bytes/time were preserved. Both batch files matched independently rendered full JPEGs byte for byte. The two recipe identities produced different output paths and decoded pixels. `post-batch-file-recheck.json` additionally confirms both source/output hashes after both filter jobs.
+
+One observed run: Mono/Peep first batches took 861/683 ms and repeat batches 106/117 ms. Full JPEG pipelines at 100%/37% took 443–521 ms; 0% took 48–51 ms. These are synthetic-image emulator observations, not physical-phone performance targets.
+
+The exclusively owned read-only, headless `emulator-5582` process was shut down after evidence collection. Cleanup confirmed its PID exited, serial disappeared and both ports stopped listening. No other device was operated. No private photograph, camera session, MediaStore publishing, cloud operation or NX colour-fidelity threshold was involved. The separate earlier `renderer-only` run also passed 151 checks and was preserved under its own RunId.

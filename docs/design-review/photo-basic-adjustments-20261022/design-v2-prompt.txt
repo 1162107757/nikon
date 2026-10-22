@@ -1,0 +1,46 @@
+Use case: ui-mockup
+Asset type: high fidelity mobile Android photo editor DESIGN REVIEW BOARD, revision 2 for Huevia.
+Primary request: Redesign Huevia's existing preset application / basic adjustment editor to prioritize the PHOTO CANVAS. The user rejected a tall multi-layer tool panel. Learn the very compact toolbar proportions and understated black chrome from the two provided Xingtu screenshots. Make a decisive structural change to a shallow, flat bottom toolbar. Show TWO states of the SAME editor side by side: filter application and brightness adjustment. This is a design proposal, not a screenshot of an implemented product.
+
+Input roles, in order:
+Image 1 = Xingtu filter screenshot: reference for SCREEN PROPORTIONS, large unobstructed image canvas, compact filter strip and understated black chrome only. Do NOT copy its lime green brand, its private office photograph, premium badges, its extra product features, or its navigation labels.
+Image 2 = Xingtu adjustment screenshot: reference for a single slim slider, one horizontally scrolling parameter row, and bottom mode navigation only. Do NOT copy its office photograph, AI/HD features, lime green color or layer tools.
+Image 3 = actual current Huevia editor screenshot: reference ONLY for Huevia's pale blue accent, simple typography, existing online/my preset functionality, and the lakeside cafe sample photograph. The large rounded sheet in this image is the specific problem to remove, NOT a layout reference.
+Use the lakeside cafe photo of the adult brunette woman in white with a rust scarf, cup of coffee, lemon, lake and mountains, from Image 3 in BOTH phone screens and ALL filter thumbnails. Preserve the complete photograph composition and aspect ratio; do not crop, stretch, reshape the person, beautify the face or replace the scene. Do not use any office photo from images 1 or 2.
+
+Board:
+Near-white neutral presentation background, restrained heading at the top: "Huevia · 照片优先"
+Small subtitle: "预设打底，轻量调节"
+Two equal-size tall 9:20 Android viewport rectangles, straight-on, no perspective, no oversized device bezel, no decorative shadows. Comfortable outer margin, narrow center gap, high legibility Chinese typography. Each screen should be visibly tall and slender like the attached phone screenshots, not a short 9:16 phone. Captions above screens "01 预设套用" and "02 基础调节".
+Footer outside screens: "界面设计示意 · 照片与数值为示意"
+Avoid a big marketing poster heading; most of the board area belongs to the two tall phone UI comps.
+
+CRITICAL layout geometry within EACH screen:
+- The ENTIRE bottom persistent tools including bottom mode navigation occupy ONLY 22% to 25% of the total screen height. Upper photo canvas and slim header get the remaining 75% to 78%.
+- The canvas is a continuous flat near-black surface. Photo is fitted uncropped edge-to-edge at full screen width, vertically centered in the large canvas; landscape photo retains natural letterboxing. The canvas is a functional neutral image work area, not a decorative card. Do not invent a portrait crop or stretch the source just to fill vertical space.
+- A slim unobtrusive top bar: back arrow at left, small "DSC_000A.JPG" with tiny "3 / 12" beneath centered, small pale-blue "导出" button at right. File header must not consume a large block.
+- Tiny current preset text "清透人像 · 70%" can sit quietly at top-left of canvas below header. No full-width preset card, no second large title, no multiple metadata rows.
+- Small star and overflow icons at top canvas edge may retain existing photo actions. They must not create another horizontal toolbar region.
+- A tiny outlined compare icon in the lower-right corner of the canvas; press-hold original comparison lives here. It does not get a dedicated full-width row.
+- Flat BLACK bottom tools, not a floating rounded sheet. A single subtle separator. No handle, no glass blur, no enclosing rounded card, no gradient dock, no shadow.
+- Bottom-most mode navigation has only two text labels "滤镜" and "调节", centered with a modest gap. Selected label pale blue with a short thin underline. Dark inactive label. Normal native touch targets are retained through invisible padding; compact does not mean illegible text or tiny hit targets.
+- Both screens use the exact SAME canvas bounds, same image scale, same image location and same screen chrome, to prove switching tools does not make the photo jump.
+
+Left screen / filter mode:
+The compact tool region, from top to bottom:
+1. ONE 28dp source/category row: "在线" selected in pale blue, "我的" unselected at left; "全部⌄" and a small grid icon at right. Categories move behind this dropdown; do not add a separate row of 人像/风景/胶片.
+2. ONE horizontally scrolling strip of small photo filter thumbnails with short captions beneath. 5 visible plus a partially visible sixth to indicate scrolling. Names: "无滤镜", "清透人像", "暖阳", "胶片", "冷调". Thin pale blue selection outline on 清透人像. Small nearly square thumbnails ~52dp, low corner radius, no huge check-circle badges or large cards. All thumbnails contain the same full sample photo. Total row INCLUDING captions approximately 70dp.
+3. ONE slim strength row about 32dp: small "强度", thin slider, small "70%". No helper paragraphs or status footer.
+4. The bottom 滤镜/调节 mode navigation, filter selected.
+Keep the total tool region within the quarter-screen cap; do not enlarge thumbnails to fill space.
+
+Right screen / adjustment mode:
+The compact tool region, from top to bottom:
+1. ONE shallow horizontal slider row (~42dp): undo and redo small line icons at left, a thin neutral-centered slider with a small pale-blue thumb toward right, small numeric "+12" at the right. This is current brightness value. No large separate parameter card. Compare button stays in photo canvas. The number may be clickable for precise entry.
+2. ONE horizontally scrolling parameter icon strip (~76dp), visually like the attached reference: simple thin white line icons with captions "亮度", "曝光", "对比度", "高光", "阴影", and a partially visible "色温" on the right to indicate scrolling. "亮度" is selected with a pale blue icon and label. A tiny "+12" under the selected parameter may be omitted since slider already shows the number; do not duplicate numbers everywhere.
+3. Bottom mode navigation 滤镜/调节, 调节 selected.
+No group tabs, no preset context card, no repeated "光线/色彩/细节" row, no adjustment count footer. All 13 adjustments are reached by horizontal scrolling in the same row; reset actions live in overflow/long press rather than occupying permanent rows. Deliberately allow adjustment mode to be no taller than filter mode; keep the same shared canvas bounds, unused tool-space remains quiet black rather than inventing extra controls.
+The current preset is still active underneath these manual changes, indicated only by tiny "清透人像 · 70%" at the top.
+
+Visual language:
+Quiet charcoal canvas #191919, true-black bottom tools #050505, soft white labels, dim gray secondary labels, existing Huevia pale-blue #8DBBFF accent ONLY. Simple Android sans-serif Chinese, clean thin line icons. Small local radii only on export button and thumbnails. Photo is the sole visual focus; control chrome should feel almost absent. No bright lime. No AI, beauty tools, face HD, curves, HSL, crop, text/stickers, layer merge, quality chooser or premium upsells. No large floating rounded sheet. Do not reproduce the rejected hierarchy of category tabs + big preset card + group tabs + multiple values + footer status.

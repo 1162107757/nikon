@@ -6,10 +6,11 @@ public class ConnectivityManager {
         public void onUnavailable() { }
         public void onBlockedStatusChanged(Network network, boolean blocked) { }
     }
-    public int requests, releases;
-    public NetworkRequest lastRequest;
-    public NetworkCallback lastCallback, releasedCallback;
-    public RuntimeException requestFailure, releaseFailure;
+    public int requests, observations, releases;
+    public NetworkRequest lastRequest, lastObservation;
+    public NetworkCallback lastCallback, lastObserver, releasedCallback;
+    public RuntimeException requestFailure, observationFailure, releaseFailure;
+    public final java.util.List<NetworkCallback> releasedCallbacks = new java.util.ArrayList<>();
     public Network active;
     public Network[] networks = new Network[0];
     public final java.util.Map<Network, LinkProperties> properties = new java.util.HashMap<>();
@@ -33,8 +34,13 @@ public class ConnectivityManager {
         lastRequest = request; lastCallback = callback;
     }
     public void requestNetwork(NetworkRequest request, NetworkCallback callback, android.os.Handler handler) { requestNetwork(request, callback); }
+    public void registerNetworkCallback(NetworkRequest request, NetworkCallback callback, android.os.Handler handler) {
+        observations++;
+        if (observationFailure != null) throw observationFailure;
+        lastObservation = request; lastObserver = callback;
+    }
     public void unregisterNetworkCallback(NetworkCallback callback) {
-        releases++; releasedCallback = callback;
+        releases++; releasedCallback = callback; releasedCallbacks.add(callback);
         if (releaseFailure != null) throw releaseFailure;
     }
 }

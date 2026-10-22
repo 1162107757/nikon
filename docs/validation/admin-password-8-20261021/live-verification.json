@@ -1,0 +1,53 @@
+{
+  "environment": "nikon-d8girdjsr252fd90e",
+  "origin": "https://huevia.cc",
+  "verifiedAt": "2026-10-21T06:04:21.745Z",
+  "passed": true,
+  "cleanupComplete": true,
+  "checks": [
+    {
+      "name": "Primary and legacy HTTPS origins report the configured target environment",
+      "passed": true
+    },
+    {
+      "name": "All four published UI files exactly match the reviewed source",
+      "passed": true
+    },
+    {
+      "name": "Anonymous password changes require administrator authentication",
+      "passed": true
+    },
+    {
+      "name": "Temporary administrator signs in with distinct secure sessions",
+      "passed": true
+    },
+    {
+      "name": "Foreign origins and missing CSRF cannot change passwords",
+      "passed": true
+    },
+    {
+      "name": "Wrong current password, short new password and mismatched confirmation retain the current session",
+      "passed": true
+    },
+    {
+      "name": "Successful password change expires the cookie and revokes both old sessions",
+      "passed": true
+    },
+    {
+      "name": "Exactly eight digits are accepted without character-combination rules; old password fails and the new password signs in",
+      "passed": true
+    },
+    {
+      "name": "Fresh verification session logs out",
+      "passed": true
+    },
+    {
+      "name": "Temporary administrator, sessions and attempts removed and verified absent",
+      "passed": true
+    },
+    {
+      "name": "Public preset catalog remains byte-for-byte unchanged",
+      "passed": true
+    }
+  ]
+}

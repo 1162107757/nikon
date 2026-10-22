@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "verifiedAt": "2026-10-21T09:27:19.747Z",
+  "checks": [
+    "Default download page falls back to the clearly labelled 0.13.8-beta and uses the current domain",
+    "The visible download button delivers the exact signed 0.13.8-beta APK (3,434,093 bytes; SHA-256 matches)",
+    "Channel switching shows no stable release and returns to the current beta",
+    "390px mobile page shows the same beta with no horizontal overflow"
+  ],
+  "errors": []
+}

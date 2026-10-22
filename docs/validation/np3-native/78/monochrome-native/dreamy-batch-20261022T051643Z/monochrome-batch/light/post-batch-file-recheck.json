@@ -1,0 +1,31 @@
+{
+  "allPassed": true,
+  "scope": "Read-only SHA recheck after both filter jobs, before owned emulator shutdown",
+  "checks": [
+    {
+      "asset": "dreamy-mono.np3",
+      "role": "source",
+      "unchanged": true,
+      "sha256": "21f1a944ecfb6b390765e1dd7f507d08452aa5ce338bed61d4ad1b6deae7e242"
+    },
+    {
+      "asset": "dreamy-mono.np3",
+      "role": "output",
+      "unchanged": true,
+      "sha256": "1d628cfc1ddfbd785987f75619a8e2e13e3a01cc77db8b31a0ae5d584b680359"
+    },
+    {
+      "asset": "dreamy-peep.np3",
+      "role": "source",
+      "unchanged": true,
+      "sha256": "21f1a944ecfb6b390765e1dd7f507d08452aa5ce338bed61d4ad1b6deae7e242"
+    },
+    {
+      "asset": "dreamy-peep.np3",
+      "role": "output",
+      "unchanged": true,
+      "sha256": "143c8133f428df12121f1c8ea72e2524fca7b7c1096cd7b9ba260b2df9ae567a"
+    }
+  ],
+  "recordedAt": "2026-10-22T05:18:01.4721860Z"
+}

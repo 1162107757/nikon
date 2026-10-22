@@ -1,0 +1,99 @@
+{
+  "origin": "https://huevia.cc",
+  "environmentId": "nikon-d8girdjsr252fd90e",
+  "verifiedAt": "2026-10-21T04:28:43.232Z",
+  "passed": true,
+  "checks": [
+    {
+      "name": "HTTPS service healthy",
+      "passed": true,
+      "origin": "https://huevia.cc"
+    },
+    {
+      "name": "HTTPS service healthy",
+      "passed": true,
+      "origin": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com"
+    },
+    {
+      "name": "HTTP redirects to HTTPS",
+      "passed": true
+    },
+    {
+      "name": "Domain root reaches management entry",
+      "passed": true
+    },
+    {
+      "name": "Page or module accessible",
+      "passed": true,
+      "path": "/admin/"
+    },
+    {
+      "name": "Page or module accessible",
+      "passed": true,
+      "path": "/download/"
+    },
+    {
+      "name": "Page or module accessible",
+      "passed": true,
+      "path": "/download/download.js"
+    },
+    {
+      "name": "Page or module accessible",
+      "passed": true,
+      "path": "/admin/assets.js"
+    },
+    {
+      "name": "New and legacy catalogs match",
+      "passed": true,
+      "presets": 241
+    },
+    {
+      "name": "Anonymous administration denied",
+      "passed": true
+    },
+    {
+      "name": "Missing and foreign browser origins rejected",
+      "passed": true
+    },
+    {
+      "name": "New origin accepted without granting authentication",
+      "passed": true
+    },
+    {
+      "name": "Release channel available",
+      "passed": true,
+      "channel": "stable",
+      "release": null
+    },
+    {
+      "name": "Same-origin APK download matches published metadata",
+      "passed": true,
+      "channel": "beta",
+      "versionCode": 73,
+      "bytes": 3389037,
+      "sha256": "f6464b04ed13e749537030e62c087c40dc0a7aae9ee129f2fe703110e1e74f25",
+      "legacyMetadataPreserved": true
+    },
+    {
+      "name": "Administrator login uses secure host-only session",
+      "passed": true
+    },
+    {
+      "name": "Authenticated management read works",
+      "passed": true,
+      "count": 241
+    },
+    {
+      "name": "Authenticated writes still require CSRF",
+      "passed": true
+    },
+    {
+      "name": "Verification session logged out",
+      "passed": true
+    },
+    {
+      "name": "Revoked session cannot be reused",
+      "passed": true
+    }
+  ]
+}

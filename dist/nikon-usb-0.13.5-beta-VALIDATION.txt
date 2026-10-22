@@ -1,0 +1,34 @@
+Huevia 0.13.5-beta / versionCode 73
+Package: com.nikonpreset.usbprobe
+Artifact: nikon-usb-0.13.5-beta-debug.apk
+Bytes: 3389037
+SHA-256: f6464b04ed13e749537030e62c087c40dc0a7aae9ee129f2fe703110e1e74f25
+Signing: existing debug release identity; APK v2/v3 verification passed.
+
+Host verification passed:
+- PTP/IP: 4800 checks, including shared original-download idle/absolute deadlines and half-frame retry without resending requests.
+- Album: 1379 checks, including the 42 new interrupted-download recovery checks.
+- Connection runtime: 22 checks.
+- RAW: 126 checks; explicit NEF selection after safe JPEG matching rejection, unchanged original-byte validation.
+- Connection preferences: 71 checks.
+- FujifilmPhotoClient synthetic-camera suite: passed.
+
+Final APK native UI evidence:
+- phone: 62 PASS, actual portrait, 1080x2424.
+- large-font: 62 PASS, actual portrait at 1.3 font scale, 1080x2424.
+- true landscape: 113 PASS, Activity orientation 2, 2424x1080.
+- Total: 237; all reports record the final artifact SHA-256 above.
+Probe APK SHA-256: bfc6eaa6b4a1a4411d618e0519a4401dae1a6e441c3fc941110e99b651460e60.
+An earlier landscape-labelled run remained portrait; archived as landscape-portrait-invalid and excluded. Historical *-initial results belong to a prior candidate only.
+Native fixtures do not establish camera sockets, perform real transfers, or certify background retention.
+Z6II standby/RAW inventory issues still require real-camera feedback. The app does not remotely change camera standby settings. Interrupted individual photos restart from byte zero; the unfinished queue is process-memory only.
+
+Publication: published to existing beta channel, 2026-10-21.
+Release ID: dbe0c6c8-cbda-43db-9c2c-80c85f51031b
+Public APK verified by publication script and independent full-byte download: exact byte length and SHA-256 above.
+Independent verifiedAt: 2026-10-21T01:19:52.193Z
+Beta query versionCode72/sdk35 offers73; versionCode73/sdk35 offers no update.
+Public download page HTTP200: https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/download/
+Public APK: https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/releases/dbe0c6c8-cbda-43db-9c2c-80c85f51031b/file
+In-app update channel: select 测试版. Stable channel and backend deployment were not changed.
+Independent read-only review confirmed all final native reports and portrait/landscape layouts; no material defect found.

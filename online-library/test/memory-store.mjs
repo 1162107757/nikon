@@ -9,10 +9,26 @@ export class MemoryStore {
   publicAssetOrigin = '';
   userRows = new Map(); userIdentities = new Map(); userSessions = new Map();
   passwordCredentials = new Map(); passwordAttempts = new Map();
-  async findAdmin(username) { return this.admins.get(username) || null; }
+  async findAdmin(username) { return structuredClone(this.admins.get(username) || null); }
   async loginAllowed(key) { const count = (this.attempts.get(key) || 0) + 1; this.attempts.set(key, count); return count <= 8; }
   async clearAttempts(key) { this.attempts.delete(key); }
   async createSession(session) { this.sessions.set(session.token_hash, structuredClone(session)); }
+  async signInAdmin(session, verifiedHash) {
+    const admin = this.admins.get(session.username);
+    if (!admin || admin.disabled || admin.password_hash !== verifiedHash) throw new ServiceError(401, 'LOGIN_FAILED', '账号或密码不正确。');
+    this.sessions.set(session.token_hash, structuredClone(session));
+    return { ok: true };
+  }
+  async changeAdminPassword(username, sessionHash, verifiedHash, passwordHash) {
+    const admin = this.admins.get(username), session = this.sessions.get(sessionHash);
+    if (!admin || admin.disabled || !session || session.username !== username || Date.parse(session.expires_at) <= Date.now()) {
+      throw new ServiceError(401, 'LOGIN_REQUIRED', '登录已失效，请重新登录。');
+    }
+    if (admin.password_hash !== verifiedHash) throw new ServiceError(409, 'PASSWORD_CONFLICT', '密码已被修改，请重新登录后再试。');
+    admin.password_hash = passwordHash;
+    for (const [hash, row] of this.sessions) if (row.username === username) this.sessions.delete(hash);
+    return { ok: true };
+  }
   async session(hash) {
     const row = this.sessions.get(hash);
     return row && Date.parse(row.expires_at) > Date.now() && !this.admins.get(row.username)?.disabled ? structuredClone(row) : null;

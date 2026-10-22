@@ -16,12 +16,12 @@ if (-not $JdkHome -or -not $AndroidJar) { throw 'Specify -JdkHome and -AndroidJa
 $classes = Join-Path $PSScriptRoot '.build\photo-dates\classes'
 $scratch = Join-Path $PSScriptRoot '.build\photo-dates\files'
 New-Item -ItemType Directory -Force -Path $classes, $scratch | Out-Null
-$album = Join-Path $projectRoot 'app\src\main\java\com\nikonpreset\usbprobe\album'
+$album = Join-Path $projectRoot 'app\src\main\java\cc\huevia\album'
 $sources = @('DownloadedPhoto', 'PhotoDateGroups', 'PhotoDateReader') | ForEach-Object { Join-Path $album ($_.ToString() + '.java') }
 $sources += @(Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot 'date-java') -Recurse -Filter '*.java' | ForEach-Object FullName)
 & (Join-Path $JdkHome 'bin\javac.exe') --release 17 -encoding UTF-8 -cp $AndroidJar -d $classes @sources
 if ($LASTEXITCODE -ne 0) { throw 'Photo-date focused compilation failed.' }
 foreach ($test in @('PhotoDateGroupsTest', 'PhotoDateReaderTest')) {
-    & (Join-Path $JdkHome 'bin\java.exe') ('-Djava.io.tmpdir=' + $scratch) -cp ($classes + [IO.Path]::PathSeparator + $AndroidJar) ('com.nikonpreset.usbprobe.album.' + $test)
+    & (Join-Path $JdkHome 'bin\java.exe') ('-Djava.io.tmpdir=' + $scratch) -cp ($classes + [IO.Path]::PathSeparator + $AndroidJar) ('cc.huevia.album.' + $test)
     if ($LASTEXITCODE -ne 0) { throw ($test + ' failed.') }
 }

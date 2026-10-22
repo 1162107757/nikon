@@ -1,0 +1,24 @@
+{
+  "checkedAt": "2026-10-21T15:38:31.237Z",
+  "command": "node --test .tooling/huevia77-archive.test.mjs",
+  "exitCode": 0,
+  "tests": 8,
+  "pass": 8,
+  "fail": 0,
+  "skipped": 0,
+  "durationMs": 12034.3072,
+  "observedFromCompletedToolRun": true,
+  "offlineOnly": true,
+  "noCloudRequestOrMutationExecuted": true,
+  "testSourceSha256": "d9844748496ff3dee20af031ac5b7a2451457fff9ea12171ef273ae15c12a8a2",
+  "identity": {
+    "requestArchiveSha256": "0a95c79840fbd72ba1137ec157bdc77b98a01964347a796fc5d6e2ab7f7c49d9",
+    "observedArchiveSha256": "279ce4378019ccb63496cdd9efde48c14b1498575226aa8bf48c4f6d68d052a4",
+    "contentIdentitySha256": "02f26c44f75b3762a6e2520da6402ad8b00184397a0386320e91d08d1ddeb151",
+    "memberContentAndModesVerified": true,
+    "files": 39,
+    "requestArchiveBytes": 8162141,
+    "observedArchiveBytes": 8162189,
+    "zipContainerBytesIdentical": false
+  }
+}

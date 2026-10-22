@@ -1,0 +1,51 @@
+{
+  "environment": "nikon-d8girdjsr252fd90e",
+  "functionName": "nikon-preset-library",
+  "inspectedAt": "2026-10-21T05:43:48.930Z",
+  "status": "Active",
+  "configurationSha256": "ca5207b66e5bead65ccb2a7e88b290b2d93bc8974cdec9c80e07b2822ec7f078",
+  "previousArchiveSha256": "b8371012dd43c4f885ee714f4ea9fdd77acfe3792c36c124bfbab092e20158a8",
+  "nextArchiveSha256": "248866209260e5b03d1f59535f0448ae6e7322d9919ce773cdd0f3c30e13bd47",
+  "previousFiles": 37,
+  "nextFiles": 37,
+  "changes": [
+    {
+      "path": "server/app.mjs",
+      "before": "343259cb6a0451b5b0f3053e0300ee43e4561725c678c8845b65b14be10f6799",
+      "after": "c5a8c74402ecd4cca406816c017e6e561bf70f04cb2db6a049661082cc961bde"
+    },
+    {
+      "path": "server/cloudbase.mjs",
+      "before": "45e0ee05c4cb1efac393edc99d1d8d4154ce4d807df977a87d7df4fa8b362dc2",
+      "after": "6fe4bd394e1b0cfdbc6fe1f4a87da34a4370493e465d6dc77fb170d9fe930765"
+    },
+    {
+      "path": "admin/api.js",
+      "before": "437635210575f5684877c67ef9f7463c0f08b6ba44800d789b0f6e6e3142ed1d",
+      "after": "cfb018a6a0d14a4bd299f504f6de31550b090ad49e597c7e88541512d4e119bb"
+    },
+    {
+      "path": "admin/app.js",
+      "before": "cdcdb12ced627c573510eae7b082b255ba46513d47189f1f6a1f79036f27cd75",
+      "after": "6ca19b48e84a0a37b5b5d809c40003f462b7a8b283f31cd48a079e9ee5283acd"
+    },
+    {
+      "path": "admin/index.html",
+      "before": "5d9f57f871f484e0f268207470d5295499a53c94e47de3ef78f2e69be602aae0",
+      "after": "817b00b2a303e7a0533459b67f0688d27cd0742cf44c0829d1201ae96aa2aef8"
+    },
+    {
+      "path": "admin/styles.css",
+      "before": "8291ae59ee66f3758dc2d605cc478c8ec30cf8e596daaee40b9b65defa843e01",
+      "after": "58996489ace2bf6cfe97b26cf807e473c67364e5d0ce3e26659b60554bb01b84"
+    }
+  ],
+  "scoped": true,
+  "source": "production-baseline-plus-password-only",
+  "excludedWorkspaceChanges": [
+    "server/apk.mjs",
+    "server/releases.mjs",
+    "download/download.js"
+  ],
+  "isolatedRuntimeTestsPassed": true
+}

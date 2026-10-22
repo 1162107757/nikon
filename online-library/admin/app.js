@@ -2,9 +2,11 @@ import { api, ApiError } from './api.js';
 import { SUGGESTED_CATEGORIES, normalizeCategory, categoryNames, categoryOptions, categoryLabel, categoryMatches } from './categories.js';
 import { mountReleases } from './releases.js';
 import { mountCommunity } from './community.js';
+import { adminPreviewUrl as previewUrl } from './assets.js';
 
 const $ = selector => document.querySelector(selector);
 const main = $('#main'), editor = $('#editor'), confirmBox = $('#confirm'), userDetail = $('#user-detail');
+const passwordDialog = $('#password-dialog');
 const state = { session: null, items: [], loaded: false, loading: false, error: '', query: '', status: 'all', category: null, sort: 'updated', page: 1 };
 const users = { items: [], total: 0, loaded: false, loading: false, error: '', query: '', status: 'all', page: 1, pageSize: 20, summary: null, qqLogin: null };
 const pageSize = 20;
@@ -38,7 +40,6 @@ function presetFormat(preset) { return preset?.file?.fileFormat === 'NP3' || pre
 function presetFileLabel(preset) { return `${presetFormat(preset)} · ${preset.file.originalName} · ${fileSize(preset.file.byteLength)}`; }
 function date(value) { if (!value) return '尚未记录'; const parsed = new Date(value); return Number.isNaN(parsed.getTime()) ? '时间未知' : new Intl.DateTimeFormat('zh-CN', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }).format(parsed); }
 function safeUrl(value) { try { const url = new URL(value, location.href); return ['http:', 'https:'].includes(url.protocol) ? url.href : ''; } catch { return ''; } }
-function previewUrl(asset) { return asset?.adminUrl || asset?.url ? safeUrl(asset.adminUrl || asset.url) : ''; }
 function status(preset) { const names = { draft: '草稿', published: '已上架', unpublished: '已下架' }; return h('span', { class: `status ${['draft', 'published', 'unpublished'].includes(preset.status) ? preset.status : ''}` }, `${names[preset.status] || '未知状态'}${preset.hasUnpublishedChanges && preset.status === 'published' ? ' · 待更新' : ''}`); }
 function empty(title, detail, action, actionText = '重试', glyph = 'library') { return h('div', { class: 'empty-state' }, h('div', { class: 'empty-symbol' }, icon(glyph)), h('h2', {}, title), h('p', {}, detail), action ? button(actionText, action) : null); }
 function banner(title, detail) { return h('div', { class: 'error-banner', role: 'alert' }, icon('alert'), h('div', {}, h('strong', {}, title), h('p', {}, detail))); }
@@ -48,6 +49,8 @@ function setSession(value) {
   document.body.classList.toggle('authenticated', authenticated);
   $('#sidebar').hidden = !authenticated; $('#workspace-location').hidden = !authenticated;
   $('#account').textContent = value?.user?.username || '管理员'; $('#account').hidden = !authenticated; $('#logout').hidden = !authenticated;
+  $('#change-password').hidden = !authenticated;
+  if (!authenticated && passwordDialog.open) passwordDialog.close();
   $('#environment').textContent = value?.environmentId || '';
   for (const item of document.querySelectorAll('[data-admin-only]')) item.hidden = !authenticated;
   if (!authenticated) { mountedModule?.destroy(); mountedModule = null; }
@@ -75,12 +78,12 @@ async function boot() {
   }
   catch (error) { renderLogin(message(error)); }
 }
-function renderLogin(problem = '') {
+function renderLogin(problem = '', success = '') {
   const username = h('input', { id: 'username', name: 'username', autocomplete: 'username', required: true, maxlength: 64, placeholder: '管理员账号' });
   const password = h('input', { id: 'password', name: 'password', type: 'password', autocomplete: 'current-password', required: true });
   const feedback = h('div', { class: 'field-error', role: 'alert' });
   const submit = h('button', { type: 'submit', class: 'button' }, '登录');
-  const form = h('form', { class: 'login-card' }, field('账号', username), field('密码', password), feedback, submit);
+  const form = h('form', { class: 'login-card' }, success ? h('p', { class: 'login-success', role: 'status' }, success) : null, field('账号', username), field('密码', password), feedback, submit);
   form.addEventListener('submit', async event => {
     event.preventDefault(); if (!form.reportValidity()) return; submit.disabled = true; submit.textContent = '正在登录…'; feedback.textContent = '';
     try {
@@ -91,10 +94,58 @@ function renderLogin(problem = '') {
     catch (error) { feedback.textContent = message(error); password.value = ''; password.focus(); }
     finally { submit.disabled = false; submit.textContent = '登录'; }
   });
-  main.replaceChildren(h('section', { class: 'login-wrap' }, h('div', { class: 'login-intro' }, h('img', { src: './mark.svg', alt: '', width: 52, height: 52 }), h('h1', {}, '登录管理后台'), h('p', {}, '管理预设、用户、社区与 App 版本。')), problem ? banner(problem.startsWith('登录已过期') ? '需要重新登录' : '管理服务暂不可用', problem) : null, form,
-    problem ? button('重新连接', boot, 'quiet') : null, h('p', { class: 'login-foot' }, '仅限管理员访问。登录状态由当前站点安全保存。')));
+  main.replaceChildren(h('section', { class: 'login-wrap' }, h('div', { class: 'login-intro' }, h('img', { src: './mark.svg', alt: '', width: 52, height: 52 }), h('h1', {}, '登录管理后台')), problem ? banner(problem.startsWith('登录已过期') ? '需要重新登录' : '管理服务暂不可用', problem) : null, form,
+    problem ? button('重新连接', boot, 'quiet') : null, h('p', { class: 'login-foot' }, '仅限管理员访问。登录状态由当前站点安全保存。'), h('p', { class: 'login-filing' }, h('a', { href: 'https://beian.miit.gov.cn/', target: '_blank', rel: 'noopener noreferrer' }, '备案号蜀ICP备2026041231号-4'))));
 }
 $('#logout').addEventListener('click', async () => { if (editor.open && !(await dismissEditor())) return; try { await api.logout(); state.items = []; state.loaded = false; users.items = []; users.loaded = false; setSession(null); renderLogin(); notice('已退出登录'); } catch (error) { if (!sessionExpired(error)) notice(message(error), true); } });
+$('#change-password').addEventListener('click', () => {
+  if (!state.session?.authenticated || passwordDialog.open) return;
+  const username = state.session.user.username;
+  const current = h('input', { id: 'current-password', name: 'currentPassword', type: 'password', autocomplete: 'current-password', required: true, maxlength: 256 });
+  const next = h('input', { id: 'new-password', name: 'newPassword', type: 'password', autocomplete: 'new-password', required: true, minlength: 8, maxlength: 256, 'aria-describedby': 'new-password-help' });
+  const repeat = h('input', { id: 'confirm-password', name: 'confirmPassword', type: 'password', autocomplete: 'new-password', required: true, minlength: 8, maxlength: 256 });
+  const nextField = field('新密码', next, '至少 8 个字符，无需特定字符组合。');
+  nextField.querySelector('small').id = 'new-password-help';
+  const feedback = h('div', { class: 'field-error', role: 'alert' });
+  const submit = h('button', { type: 'submit', class: 'button' }, '保存新密码');
+  const cancel = button('取消', () => passwordDialog.close(), 'secondary');
+  const form = h('form', {}, h('input', { type: 'text', name: 'username', autocomplete: 'username', value: username, hidden: true }),
+    field('当前密码', current), nextField, field('确认新密码', repeat), feedback,
+    h('div', { class: 'password-actions' }, cancel, submit));
+  let busy = false;
+  const validate = () => {
+    next.setCustomValidity(next.value && next.value === current.value ? '新密码不能与当前密码相同。' : '');
+    repeat.setCustomValidity(repeat.value && repeat.value !== next.value ? '两次输入的新密码不一致，请重新输入。' : '');
+  };
+  for (const input of [current, next, repeat]) input.addEventListener('input', validate);
+  form.addEventListener('submit', async event => {
+    event.preventDefault(); if (busy) return;
+    validate(); if (!form.reportValidity()) return;
+    busy = true; form.setAttribute('aria-busy', 'true'); feedback.textContent = ''; submit.textContent = '正在保存…';
+    const controls = [current, next, repeat, submit, cancel];
+    controls.forEach(control => { control.disabled = true; });
+    try {
+      await api.changePassword(current.value, next.value, repeat.value);
+      passwordDialog.close(); state.items = []; state.loaded = false; setSession(null);
+      renderLogin('', '密码已修改，请使用新密码重新登录。其他设备上的登录也已退出。');
+      $('#username').value = username; $('#password').focus();
+    } catch (error) {
+      if (!sessionExpired(error)) {
+        feedback.textContent = message(error);
+        if (error.code === 'CURRENT_PASSWORD_INCORRECT') current.value = '';
+      }
+    } finally {
+      busy = false; form.removeAttribute('aria-busy'); submit.textContent = '保存新密码';
+      controls.forEach(control => { control.disabled = false; });
+      if (passwordDialog.open && !current.value) current.focus();
+    }
+  });
+  passwordDialog.oncancel = event => { if (busy) event.preventDefault(); };
+  passwordDialog.onclose = () => { form.reset(); passwordDialog.replaceChildren(); };
+  passwordDialog.replaceChildren(h('h2', { id: 'password-title' }, '修改密码'),
+    h('p', { id: 'password-description' }, '修改后，所有设备上的后台登录都会退出，请使用新密码重新登录。'), form);
+  passwordDialog.showModal(); current.focus();
+});
 
 async function showPage(page) {
   if (!state.session?.authenticated) return;

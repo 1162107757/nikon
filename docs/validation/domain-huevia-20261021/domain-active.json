@@ -1,0 +1,42 @@
+{
+  "checkedAt": "2026-10-21T04:28:35.976Z",
+  "functionStatus": "Active",
+  "otherFunctionVariablesUnchanged": true,
+  "previousGatewayDomainsUnchanged": true,
+  "domain": {
+    "Domain": "huevia.cc",
+    "DomainType": "HTTPSERVICE",
+    "AccessType": "DIRECT",
+    "CertId": "bjxjYb4F",
+    "Protocol": "HTTP_TO_HTTPS",
+    "Cname": "huevia.cc.tcbaccess.tencentcloudbase.com",
+    "IsDefault": false,
+    "Enable": true,
+    "Status": "SUCCESS",
+    "DNSStatus": "OK",
+    "PlatformCnameDNSStatus": "OK",
+    "Routes": [
+      {
+        "Path": "/",
+        "PathRewrite": {},
+        "UpstreamResourceType": "WEB_SCF",
+        "UpstreamResourceName": "nikon-preset-library",
+        "EnableSafeDomain": false,
+        "EnableAuth": false,
+        "EnablePathTransmission": true,
+        "QPSPolicy": {
+          "QPSTotal": 100,
+          "QPSPerClient": {
+            "LimitBy": "ClientIP",
+            "LimitValue": 20
+          }
+        },
+        "Enable": true,
+        "CreateTime": "2026-10-21T12:20:18+08:00",
+        "UpdateTime": "2026-10-21T12:20:18+08:00"
+      }
+    ],
+    "CreateTime": "2026-10-21T12:20:16+08:00",
+    "UpdateTime": "2026-10-21T12:20:17+08:00"
+  }
+}

@@ -10,9 +10,9 @@ if (-not $JdkHome) { throw 'Specify -JdkHome for project-preset checks.' }
 $classes = Join-Path $PSScriptRoot '.build\project-presets\classes'
 $scratch = Join-Path $PSScriptRoot '.build\project-presets\files'
 New-Item -ItemType Directory -Force -Path $classes, $scratch | Out-Null
-$source = Join-Path $projectRoot 'app\src\main\java\com\nikonpreset\usbprobe\album\PhotoProjectPresetStore.java'
+$source = Join-Path $projectRoot 'app\src\main\java\cc\huevia\album\PhotoProjectPresetStore.java'
 $tests = @(Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot 'project-preset-java') -Recurse -Filter '*.java' | ForEach-Object FullName)
 & (Join-Path $JdkHome 'bin\javac.exe') --release 17 -encoding UTF-8 -d $classes $source @tests
 if ($LASTEXITCODE -ne 0) { throw 'Project-preset focused compilation failed.' }
-& (Join-Path $JdkHome 'bin\java.exe') ('-Djava.io.tmpdir=' + $scratch) -cp $classes com.nikonpreset.usbprobe.album.PhotoProjectPresetStoreTest
+& (Join-Path $JdkHome 'bin\java.exe') ('-Djava.io.tmpdir=' + $scratch) -cp $classes cc.huevia.album.PhotoProjectPresetStoreTest
 if ($LASTEXITCODE -ne 0) { throw 'Project-preset persistence checks failed.' }

@@ -1,3 +1,5 @@
+import { communityAssetUrl as assetUrl } from './assets.js';
+
 const labels={submissions:'投稿审核',comments:'评论管理',reports:'举报处理',settings:'风控规则',audit:'操作审计'};
 const statusNames={draft:'草稿',pending:'待审核',published:'已通过',rejected:'已退回',withdrawn:'已下架',visible:'可见',hidden:'已隐藏',deleted:'已删除',open:'待处理',resolved:'已处理',dismissed:'已忽略',all:'全部状态'};
 const statusOptions={submissions:['pending','published','rejected','withdrawn','draft','all'],comments:['pending','visible','hidden','deleted','all'],reports:['open','resolved','dismissed','all']};
@@ -15,7 +17,6 @@ export function mountCommunity(container,{api,onError=()=>{}}={}){
   for(const [key,label]of Object.entries(labels)){const tab=button(label,()=>{active=key;page=1;status=statusOptions[key]?.[0]||'all';load();},'community-tab');tab.dataset.tab=key;tabs.append(tab);}shell.append(tabs);
   const error=node('div','error-banner');error.hidden=true;error.setAttribute('role','alert');const body=node('div','community-body');shell.append(error,body);container.replaceChildren(shell);
   function report(err){if(destroyed)return;error.hidden=false;error.textContent=err.message||'暂时无法读取，请重试。';onError(err);}
-  function assetUrl(id){return /^(ncp|preview)-[a-f0-9]{64}$/.test(id||'')?new URL(`../api/community/assets/${id}/content`,import.meta.url).href:'';}
   function authorName(item){return item.author?.nickname||'未命名用户';}
   function authorButton(item){const name=node('span','community-author',authorName(item));if(item.author?.id) return button(authorName(item),()=>restrictions(item.author.id),'community-author-link');return name;}
   async function load(){

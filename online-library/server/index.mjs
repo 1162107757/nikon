@@ -8,6 +8,7 @@ const publicBaseUrl = process.env.PUBLIC_BASE_URL || 'https://nikon-d8girdjsr252
 const store = new CloudBaseStore({ environmentId, serviceKey: process.env.CLOUDBASE_SERVICE_KEY, apiOrigin: process.env.CLOUDBASE_API_ORIGIN });
 const storage = new CloudBaseStorage(store, process.env.CLOUDBASE_STORAGE_BUCKET || 'nikon-presets');
 const handler = createHandler({ store, storage, environmentId, publicBaseUrl,
+  allowedBrowserOrigins: process.env.ALLOWED_BROWSER_ORIGINS ? process.env.ALLOWED_BROWSER_ORIGINS.split(',').map(value => value.trim()) : [],
   basePath: process.env.BASE_PATH || '/preset-library', secureCookies: new URL(publicBaseUrl).protocol === 'https:',
   challengeSecret: process.env.CHALLENGE_SECRET, trustedProxyHops: Number(process.env.TRUSTED_PROXY_HOPS || 0),
   trustedProxyAddresses: process.env.TRUSTED_PROXY_ADDRESSES ? process.env.TRUSTED_PROXY_ADDRESSES.split(',').map(value=>value.trim()).filter(Boolean) : undefined,

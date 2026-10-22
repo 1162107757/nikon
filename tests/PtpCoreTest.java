@@ -1,4 +1,4 @@
-package com.nikonpreset.usbprobe.ptp;
+package cc.huevia.ptp;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

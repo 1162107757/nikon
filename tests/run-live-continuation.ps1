@@ -13,10 +13,10 @@ if (-not $JdkHome) { throw 'Specify -JdkHome for the pure-Java live-continuation
 $classes = Join-Path $PSScriptRoot '.build\live-continuation\classes'
 New-Item -ItemType Directory -Force -Path $classes | Out-Null
 $sources = @(
-    (Join-Path $projectRoot 'app\src\main\java\com\nikonpreset\usbprobe\connection\PhotoLiveContinuation.java'),
-    (Join-Path $PSScriptRoot 'live-continuation-java\com\nikonpreset\usbprobe\connection\PhotoLiveContinuationTest.java')
+    (Join-Path $projectRoot 'app\src\main\java\cc\huevia\connection\PhotoLiveContinuation.java'),
+    (Join-Path $PSScriptRoot 'live-continuation-java\cc\huevia\connection\PhotoLiveContinuationTest.java')
 )
 & (Join-Path $JdkHome 'bin\javac.exe') --release 17 -encoding UTF-8 -d $classes @sources
 if ($LASTEXITCODE -ne 0) { throw 'Photo-live continuation compilation failed.' }
-& (Join-Path $JdkHome 'bin\java.exe') -cp $classes com.nikonpreset.usbprobe.connection.PhotoLiveContinuationTest
+& (Join-Path $JdkHome 'bin\java.exe') -cp $classes cc.huevia.connection.PhotoLiveContinuationTest
 if ($LASTEXITCODE -ne 0) { throw 'Photo-live continuation checks failed.' }

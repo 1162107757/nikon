@@ -52,5 +52,5 @@ Invoke-ProbeTool (Join-Path $JdkRoot 'bin\java.exe') @('-jar', (Join-Path $build
 $apkHash = (Get-FileHash -LiteralPath $finalApk -Algorithm SHA256).Hash.ToLowerInvariant()
 [IO.File]::WriteAllText($finalApk + '.sha256', $apkHash + '  qq-device-probe.apk' + [Environment]::NewLine, [Text.UTF8Encoding]::new($false))
 Write-Output ('Instrumentation APK: ' + $finalApk)
-Write-Output ('Runner: com.nikonpreset.usbprobe.qqqa/.QqAccountProbe')
+Write-Output ('Runner: cc.huevia.qqqa/.QqAccountProbe')
 Write-Output ('SHA-256: ' + $apkHash)

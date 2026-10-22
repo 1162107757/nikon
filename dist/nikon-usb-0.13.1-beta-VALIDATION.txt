@@ -1,0 +1,60 @@
+Huevia 0.13.1-beta / versionCode 69 — 2026-10-20
+
+APK: nikon-usb-0.13.1-beta-debug.apk
+Bytes: 3413613
+SHA-256: dc58bb8d3609f3793f4d04d337447fd00468752f04a74112d2076bd877ef943b
+Package: com.nikonpreset.usbprobe
+minSdk: 26; targetSdk/compileSdk: 35
+APK v2/v3 signatures: verified
+
+Delivered:
+- Production 241 presets categorized: portrait 27, landscape 79, film 52,
+  monochrome 21, daily 54, night 8. 240 categories changed; manual category,
+  all recipe bytes, non-category metadata and original published_at retained.
+  Original 242 history rows retained verbatim; 240 audited versions appended.
+- Editor defaults to online catalog, supports online/my sources and real
+  category filters. Lazy SHA/length/format-verified recipe access, same-origin
+  offline cache, visible retry. Online application does not import into My.
+- Preset strip cards update selection/thumbnails in place. Strip clicks retain
+  scrollX; full thumbnail queue has bounded admission retries and stale guards.
+- Photo-derived dark glass, rounded panel/card geometry, stable status lines.
+  Fixed enlarged-font source labels and landscape full photo-and-label row.
+
+Host checks run this cycle: PASS 4440 total
+  Library 524 + editor catalog 53
+  Editor/draft 2144
+  Photo batch 300 + source links 82
+  Album controller 826 + camera capability 33 + gateway 22
+  Project store 356 + project folders 100
+Classification tools: Node 119/119; source checks 56 modules; PostgreSQL 23.
+
+Final native confirmation on dedicated emulator-5582 (ranchu), same APK hash:
+  phone, actual font_scale 1.0: PASS 317
+  large-font, actual font_scale 1.3: PASS 317
+  landscape, actual font_scale 1.0: PASS 317
+  Total: 951. Final screenshots reviewed; one correction batch completed.
+  Each mode restores font_scale 1.0. Actual font readbacks are retained.
+  Actual Android JPEG/EXIF/MediaStore, original-byte preservation, individual
+  versus batch rendering, draft and saved-version regression included.
+  Offline online-UI fixture: explicitly seeded 23 entries from existing real
+  and hand-authored test recipes; not a live 241-entry device catalog claim.
+
+Production independently verified: anonymous catalog and all six paginated
+category feeds agree for all 241 entries; file length/hash samples 6/6.
+219 recipes classified using current preview model; 22 use explicit metadata
+fallback. Classification is a browsing aid, not a photographic restriction.
+
+Evidence:
+  docs/validation/photo-editor-categories-69/README.md
+  docs/validation/photo-editor-categories-69/{phone,large-font,landscape}/
+  docs/preset-category-classification-20261020.md
+Initial candidate findings retained under *-initial; old version 68 evidence
+retains its original scope and does not certify version 69.
+
+Limits: No physical phone/camera operation this cycle. No new certification
+of camera downloads, TalkBack, tablets, physical multitouch, sustained blur
+performance, or NX Studio-equivalent color. Camera and earlier protocol
+changes retain their separately documented validation boundaries.
+
+Verdict: SHIP for the requested online categorization/editor interaction and
+the tested native phone layouts. Database backup/rollback audit retained.

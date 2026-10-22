@@ -1,0 +1,21 @@
+Huevia 0.13.9-beta / versionCode 77 - PUBLISHED AND PUBLIC BYTES VERIFIED
+Package: cc.huevia
+APK: huevia-0.13.9-beta-debug.apk
+Bytes: 3438189
+SHA-256: 88d284ffadb92c8ce15c1e5833f00c9fb25a8608b8071557c6464f4c7e6d5ec5
+Existing certificate: APK v2/v3 verified; 04db0f9d3d76c9831a0778cfabc1a0aaab984e05398da16eb644950ccfa0ae31.
+
+NP3 model: np3-0310-encoded-hsl-zones-spatial-v3.
+Adds shared encoded-luma contrast offset and original-input HSL-saturation weighting of Color Blender brightness. Keeps v2 three-scale spatial approximation and verified Quick sharp +/-1 tuples. Full-result strength mixing, v1/v2 original associations and old output bytes preserved; new output cache identity.
+Known corpus: 141/142 supported; one Creative profile explicitly rejected.
+
+Current host verification: NP3 synthetic24829, corpus648268, editor34780, batch609, source-links82; 16 spatial cases / 41534647 assertions.
+Two independent NEFs in the same indoor environment were compared against actual NX Studio 1.11.0 TIFF16 exports. Candidate was frozen before opening DSC_6184 for validation. Rendering is full 6048x4024; error metrics use 61206 fixed grid points. DSC_6184 complete u7: RGB MAE19.697->4.792/255; median DE00 6.379->2.241; P95 9.292->4.752. Not a full-colour-calibration PASS. No private images included in APK or public evidence.
+Product v3 and locked private candidate have identical full decoded RGB for the 24337152-pixel validation render. Desktop render timing is not physical-phone performance evidence.
+
+Final native: 58 renderer-only/light Android checks, including 8 v3 colour/alpha checks, real JPEG/EXIF/sRGB, Quick sharp consistency, same-size complete spatial effect and 37%/0% strength. Report and source/signature bindings: docs/validation/np3-native/77/colour-v3-verified/.
+Native full batch/MediaStore/UI branches were not run on this revision. No physical phone/camera verification. Disposable emulator stopped.
+
+Known limitations: residual tone/colour errors; NX spatial-linked brightness response not reproduced; complete-recipe improvement may include error cancellation. Both NEFs share indoor lighting. Creative unsupported; no camera NP3 import or RAW demosaicing. Fixed spatial radii do not guarantee resize-independent preview appearance.
+Earlier 77 candidate APKs and their 42/50-check native reports are historical; their hashes must not be mixed with this final artifact.
+Publication: 0.13.9-beta/77 published. Both huevia.cc and CloudBase domains served the exact signed APK and matching update metadata. Previous release rows including published76 preserved. Evidence: docs/validation/huevia-release-77-20261021/public-verification.json.

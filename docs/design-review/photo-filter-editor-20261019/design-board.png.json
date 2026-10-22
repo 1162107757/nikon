@@ -1,0 +1,23 @@
+{
+  "title": "Huevia 单张照片滤镜编辑",
+  "date": "2026-10-19",
+  "status": "approved_design",
+  "approved": true,
+  "approvedAt": "2026-10-19",
+  "approvalQuote": "可以就这样设计",
+  "approvedImageSha256": "0aa69199f04704a0fe236ad41aa7eb6ee0820cf0666ffe42c3c8977747a10719",
+  "scope": "filters-strength-export",
+  "batchExportRequired": true,
+  "batchExportBehavior": "Export selected photos using each photo's own saved filter and strength draft; do not replace all settings with one shared preset.",
+  "batchExportConfirmationQuote": "记住噢每张图设置好滤镜后也要支持批量导出",
+  "image": "design-board.png",
+  "primaryPromptFile": "design-prompt.txt",
+  "prompt": "Edit this existing Huevia three-screen design review board with only these small corrections. Preserve the entire board, its three screens, layout, scale, colors, all text, all photographs and people's identities, filter thumbnails, strength slider, selected filter, all controls and typography unchanged. On the RIGHTMOST phone only, remove the small right-facing chevron from the right side of the JPG value in the 格式 row, and remove the small right-facing chevron from the right side of 6000 × 4000 in the 尺寸 row. These are read-only information rows, not settings. Keep values right-aligned and all other row content and separator rules unchanged. On BOTH the LEFT and MIDDLE phones, make the category 全部 the selected blue-underlined category and change 风景 to normal muted text, since the visible thumbnails span multiple categories. Do not alter the selected 冷杉绿调 thumbnail. Do not add, remove or change anything else.",
+  "sourceImages": [
+    "User-supplied PixelCake layout screenshot: codex-clipboard-a4c15086-2421-4c43-96c1-4f1137fb54bb.jpg",
+    "Existing Huevia palette reference: docs/validation/np3-native/dark/detail-supported.png"
+  ],
+  "baseGeneratedImage": "exec-73124014-4ac2-4f4f-b5ca-c21e160853f2.png",
+  "finalGeneratedImage": "exec-0fb89f2c-8e64-43fb-871b-1b687c97f225.png",
+  "notes": "Generated visual concept; photograph/filter names/effects are illustrative, not a pixel-accuracy or device-verification claim. No production files changed."
+}

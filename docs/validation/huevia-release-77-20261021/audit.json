@@ -1,0 +1,102 @@
+{
+  "schema": "huevia.bundled-release-preparation.v1",
+  "preparedAt": "2026-10-21T15:19:26.361Z",
+  "environment": "nikon-d8girdjsr252fd90e",
+  "functionName": "nikon-preset-library",
+  "versionCode": 77,
+  "versionName": "0.13.9-beta",
+  "packageName": "cc.huevia",
+  "apkSha256": "88d284ffadb92c8ce15c1e5833f00c9fb25a8608b8071557c6464f4c7e6d5ec5",
+  "apkBytes": 3438189,
+  "minSdk": 26,
+  "signerSha256": "04db0f9d3d76c9831a0778cfabc1a0aaab984e05398da16eb644950ccfa0ae31",
+  "signatureSchemes": [
+    2,
+    3
+  ],
+  "notesSha256": "7100f17415e5334f8f91566bd1483dc9df4784acdd0d761547c4cc1984473f1b",
+  "previousArchiveSha256": "988fa367e38c2f80cd0ac0a33b01db17fd96ea58fc703cdcf18ccca376a05339",
+  "archiveSha256": "0a95c79840fbd72ba1137ec157bdc77b98a01964347a796fc5d6e2ab7f7c49d9",
+  "configurationSha256": "feaf078296f56adf1378068ad1a56a47a7aba62ca0ab17754860ebb41229df8e",
+  "filesBefore": 38,
+  "filesAfter": 39,
+  "changes": [
+    {
+      "path": "server/bundled-apks/88d284ffadb92c8ce15c1e5833f00c9fb25a8608b8071557c6464f4c7e6d5ec5.apk",
+      "before": null,
+      "after": "88d284ffadb92c8ce15c1e5833f00c9fb25a8608b8071557c6464f4c7e6d5ec5"
+    }
+  ],
+  "old76BundlePreserved": true,
+  "existingRuntimeBytesAndModesPreserved": true,
+  "syntaxChecks": 22,
+  "testsPassed": true,
+  "testSummary": [
+    "# tests 57",
+    "# pass 57",
+    "# fail 0",
+    "# skipped 0"
+  ],
+  "scoped": true,
+  "cloudActionsUsed": [
+    "GetFunction",
+    "GetFunctionAddress"
+  ],
+  "deployed": false,
+  "releaseRecordCreated": false,
+  "published": false,
+  "testAndPackagingInputs": [
+    {
+      "path": "scripts/package.mjs",
+      "sha256": "a73f0a4b10f6224b671f2782a433f70025a0cc0b7679677006eaa87a1562774c"
+    },
+    {
+      "path": "test/admin-api.test.mjs",
+      "sha256": "9db3203b8f6c7fe4fc95d5d091911880e38bc287d0bb94f52c978dc95eaa0ce1"
+    },
+    {
+      "path": "test/admin-password.test.mjs",
+      "sha256": "b7917c3d685ab8fb5a601e73cabd8f14b73158616f6f89be918fdf403e67a15f"
+    },
+    {
+      "path": "test/apk.test.mjs",
+      "sha256": "5488bcfa4d72189b0d0b35f2bde76d890973bd13d8e2aded9b285713ed8fcd21"
+    },
+    {
+      "path": "test/auth.test.mjs",
+      "sha256": "849d677436245d5b877aca031fdbb6c5aa4196ba4cb355d2d5f863157094b014"
+    },
+    {
+      "path": "test/download-page.test.mjs",
+      "sha256": "fb35a088c277b3defdadad0d7e196bd211c3e06286a9d30829928a246720b760"
+    },
+    {
+      "path": "test/http.test.mjs",
+      "sha256": "a8d66d87ae4197e81989380afc3babe5e7de50f1db83a720c57e19527178f378"
+    },
+    {
+      "path": "test/huevia77-staged.test.mjs",
+      "sha256": "93198a1873c74c200d5dab369a649c48bb2a6616d83f127c250124b099d93b7d"
+    },
+    {
+      "path": "test/memory-store.mjs",
+      "sha256": "079f71f13cfc624202fa9176274e6806b939a7b6b7cf4358fd299ff5b1369950"
+    },
+    {
+      "path": "test/package-identity.test.mjs",
+      "sha256": "e4437c31a1362b5ca414c87f5c8c2465e7b4a0ede2c89b42780db42eeef0c08d"
+    },
+    {
+      "path": "test/password-auth.test.mjs",
+      "sha256": "4cbe051af63e0bf24453616cceedee9f41582898c15e05f59a70bd5efaeafad1"
+    },
+    {
+      "path": "test/release-memory-store.mjs",
+      "sha256": "9957646bd7f42627211a1c09a18ad3e78833f1f7d2655795741d44e8eb5146d3"
+    },
+    {
+      "path": "test/releases.test.mjs",
+      "sha256": "08c3404a34aa2be992c0532bfcdbd6e9370544d95c6bd389055b983ee12ed5e7"
+    }
+  ]
+}

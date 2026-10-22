@@ -1,0 +1,47 @@
+Huevia 0.13.8-beta / versionCode 76
+2026-10-21 (Asia/Shanghai)
+
+APK: huevia-0.13.8-beta-debug.apk
+Application ID / source namespace: cc.huevia
+Bytes: 3434093
+SHA-256: cf74460f3a01ca29250a1c77f8a051bc0cf7e3439df20bb91c9b6b2b33b5fa95
+Signing: v2 and v3 verified; the existing pinned certificate is unchanged.
+
+Actual APK checks:
+- Android manifest package is cc.huevia, versionCode 76, versionName 0.13.8-beta.
+- Launcher class is cc.huevia.MainActivity.
+- Service is cc.huevia.connection.CameraConnectionService.
+- Provider is cc.huevia.updates.UpdatePackageProvider, authority cc.huevia.updates.
+- DEX has 1610 application class definitions under cc/huevia/.
+- DEX has zero class definitions under com/nikonpreset/usbprobe/.
+- DEX has zero occurrences of the old package's dotted or slash-separated string.
+- Machine-readable DEX report: huevia-0.13.8-beta-DEX.json.
+- DEX checks inspect the APK class_def/type_id/string_id tables, not just source files
+  or the manifest package. Third-party class namespaces are preserved.
+
+Migration:
+- Java packages, imports, fully qualified names and generated resource namespace migrated.
+- Source tree is app/src/main/java/cc/huevia/.
+- Test sources, Android stubs, instrumentation targets and runner paths migrated as well.
+- Other-package update responses are ignored without embedding an old install ID in the APK.
+- Same application ID and signer as 75: 76 can update the cc.huevia 75 installation.
+- No photo, preset, preference or account file format was changed by this namespace migration.
+- 75's original download changes and downloaded-photo single/batch filter editing remain.
+
+Completed local checks:
+- Signed APK and DEX verification passed.
+- Android update policy: 42 host checks.
+- USB/read-only/slot-copy/wireless wrappers: 685 + 453 + 1253 + 9698 checks.
+- Album controller/capability/gateway/project store/project folders: 877 + 33 + 22 + 356 + 100 checks.
+- Photo editor strength/drafts: 2144 checks.
+- Current APK metadata/signature and server package isolation: 2 Node tests.
+- tests/run.ps1 completed successfully under the new namespaces, including PTP core,
+  NCP/NP3 approximation, 4800 PTP/IP checks, Fuji, connection preferences, album,
+  gallery/deletion/original identity, batch presets, and photo-date suites.
+- The core runner's PhotoFormat source dependency is now listed explicitly.
+
+Scope:
+Local compilation and synthetic host validation. No device installation, real-camera
+transfer, production server/database deployment, app publication or QQ-console change.
+Historical 75 artifacts retain their original source namespace and hashes; use this 76 APK
+when inspecting the fully migrated DEX namespace.

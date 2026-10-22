@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.nikonpreset.usbprobe.np3qa">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="cc.huevia.np3qa">
     <application android:label="NP3 native QA" android:allowBackup="false" android:debuggable="false" />
-    <instrumentation android:name=".Np3NativeProbe" android:targetPackage="com.nikonpreset.usbprobe" android:functionalTest="true" android:handleProfiling="false" />
+    <instrumentation android:name=".Np3NativeProbe" android:targetPackage="cc.huevia" android:functionalTest="true" android:handleProfiling="false" />
 </manifest>

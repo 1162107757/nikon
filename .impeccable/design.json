@@ -377,6 +377,36 @@
         "purpose": "HoldToCompare在已准备的效果与原图间直接切换，保持同一CENTER_CROP视图；DOWN无图片I/O，UP、移出、取消或失焦等释放路径恢复效果。"
       }
     ],
+    "photoFilterEditor": {
+      "scope": "0.13.0-beta / 68; native PhotoFilterEditor and AlbumPanel integration only; existing primitives remain normative",
+      "directionContract": ".impeccable/surfaces/photo-filter-editor.md",
+      "approvedComposition": "docs/design-review/photo-filter-editor-20261019/design-board.png",
+      "implementation": "docs/photo-filter-editor.md",
+      "nativeGeometry": {
+        "units": "dp geometry, sp system typography",
+        "controlTarget": "48dp",
+        "collapsedCard": "78 x 104dp; image 72dp; label 26dp",
+        "expandedGrid": "3 columns; image 82dp; label 26dp",
+        "pickerHeight": "portrait 68% of display height; landscape 90%",
+        "landscapeDock": "right, 300dp wide, vertically scrollable",
+        "jpgConfirmation": "scrollable; measured content capped at 90% of display height"
+      },
+      "stateRules": [
+        "Restore only pending drafts; show 未导出 even on single-original cards.",
+        "Honor explicit original/older/newer saved-version selection; retain pending edits behind a recovery note. Without pending edits export the selected saved version.",
+        "Remember a successful single export's displayed saved result; flush pending drafts at pause without claiming arbitrary process-termination durability.",
+        "Keep the selected recipe visible in the collapsed strip and restore the expanded picker by row, not exact pixel offset.",
+        "Evict bitmap, recipe bytes and parsed profile together at 48 cached entries; selected recipe ownership is separate.",
+        "Freeze per-photo recipe and strength at batch start, at most 100 photos."
+      ],
+      "assets": "Canvas AppIcon extensions; no new product raster. QA uses the existing built-in template and hand-authored fixtures.",
+      "evidence": {
+        "candidateSha256": "a042c85f59d3fd8166c518eb3486250b59aad5eeefded497cd8bbe6b405ba5ee",
+        "nativeReports": "docs/validation/photo-editor-native/README.md; portrait, font 1.3 and landscape each PASS 144",
+        "focusedVerdict": "docs/validation/photo-editor-native/FIX-VERDICT.md; SHIP only for the five original findings, all resolved",
+        "limits": "Native Views; HTML/CSS detector inapplicable. No camera, TalkBack, tablet, hardware gesture, sustained performance or NX Studio color certification."
+      }
+    },
     "breakpoints": [
       {
         "name": "bounded-native-content",

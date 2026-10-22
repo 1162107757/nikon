@@ -1,0 +1,9 @@
+{
+  "versionCode": 79,
+  "versionName": "0.13.11-beta",
+  "byteLength": 3442285,
+  "sha256": "81ce86556a10a828a71412a2d06e86bb260b42266ad42737292bddf7c270a1a0",
+  "sourceCount": 152,
+  "sourceStableDuringBuild": true,
+  "scope": "Observed source hashes immediately before and after local compilation; no claim that source files are embedded in the APK."
+}

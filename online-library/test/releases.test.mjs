@@ -2,12 +2,39 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
 import { hashPassword } from '../server/auth.mjs';
 import { createHandler } from '../server/app.mjs';
 import { selectRelease, createReleaseRoutes } from '../server/releases.mjs';
 import { ReleaseMemoryStore } from './release-memory-store.mjs';
 
 let apk;try{apk=await readFile(new URL('../../dist/nikon-usb-0.9.14-beta-debug.apk',import.meta.url));}catch{}
+
+test('bundled signed APKs retain publication, integrity, budgets and withdrawal checks; other files use private storage', {skip:!apk}, async t => {
+  const sha256=createHash('sha256').update(apk).digest('hex'),id='12345678-1234-4234-8234-123456789abc';
+  const store=new ReleaseMemoryStore();
+  const row={id,status:'published',sha256,byte_length:apk.length,storage_path:`app-releases/${sha256}.apk`,version_code:53};
+  store.releaseRows.push(row);
+  let mode='bundled',reads=0,remoteReads=0;
+  const routes=createReleaseRoutes({store,publicBaseUrl:'https://updates.test',storage:{get:async()=>{remoteReads++;return apk;}},readBundledApk:async name=>{
+    reads++;assert.equal(name,`${sha256}.apk`);
+    if(mode==='missing')throw Object.assign(new Error('No bundled file'),{code:'ENOENT'});
+    if(mode==='io-error')throw Object.assign(new Error('Unreadable bundled file'),{code:'EACCES'});
+    if(mode==='withdraw-during-read')row.status='withdrawn';
+    if(mode==='corrupt'){const changed=Buffer.from(apk);changed[500]^=1;return changed;}
+    return apk;
+  }});
+  const server=createServer(async(req,res)=>{try{const url=new URL(req.url,'http://localhost');await routes.publicRoute(req,res,{path:url.pathname,url,json:(response,value)=>response.end(JSON.stringify(value))});}catch(error){res.writeHead(error.status||500);res.end(error.code||'ERROR');}});
+  await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));t.after(()=>{server.closeAllConnections();server.close();});
+  const url=`http://127.0.0.1:${server.address().port}/releases/${id}/file`;
+  let r=await fetch(url);assert.equal(r.status,200);assert.deepEqual(Buffer.from(await r.arrayBuffer()),apk);assert.equal(remoteReads,0);
+  mode='missing';r=await fetch(url);assert.equal(r.status,200);await r.arrayBuffer();assert.equal(remoteReads,1);
+  mode='corrupt';assert.equal((await fetch(url)).status,503);assert.equal(remoteReads,1,'do not substitute another copy for a corrupt bundled artifact');
+  mode='io-error';assert.equal((await fetch(url)).status,503);
+  store.releaseBudgetDenied=true;const priorReads=reads;assert.equal((await fetch(url)).status,429);assert.equal(reads,priorReads);store.releaseBudgetDenied=false;
+  mode='withdraw-during-read';assert.equal((await fetch(url)).status,404);
+  assert.equal((await fetch(url,{headers:{'If-None-Match':`"sha256-${sha256}"`}})).status,404);assert.equal(remoteReads,1);
+});
 test('update contract never downgrades or silently chooses an older version after withdrawal',()=>{
   const row={id:'test',status:'published',version_code:53,min_sdk:26};
   assert.equal(selectRelease(row,{versionCode:54}).reason,'client_newer');assert.equal(selectRelease(row,{versionCode:53}).reason,'current');

@@ -1,4 +1,27 @@
 const base = new URL('../', import.meta.url), byId = id => document.getElementById(id);
+const legacyOrigin = 'https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com';
+const UUID = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/;
+
+export function releaseDownloadUrl(release, currentBase = base) {
+  if (!release || !/^[a-f0-9]{64}$/.test(release.sha256) || !/^[a-f0-9]{64}$/.test(release.signerSha256)
+      || !Number.isSafeInteger(release.versionCode) || release.versionCode < 1
+      || !Number.isSafeInteger(release.byteLength) || release.byteLength < 1 || release.byteLength > 4 * 1024 * 1024) {
+    throw new Error('版本信息不完整，请稍后重试。');
+  }
+  try {
+    if (typeof release.id !== 'string' || !UUID.test(release.id) || typeof release.downloadUrl !== 'string') throw new Error();
+    const current = new URL(currentBase), canonical = new URL(release.downloadUrl);
+    const path = `releases/${release.id}/file`;
+    const currentRoute = canonical.origin === current.origin && canonical.pathname === current.pathname + path;
+    const legacyRoute = canonical.origin === legacyOrigin && canonical.pathname === '/preset-library/' + path;
+    if (!['http:', 'https:'].includes(current.protocol) || current.username || current.password || current.search || current.hash
+        || !current.pathname.endsWith('/') || canonical.username || canonical.password || canonical.search || canonical.hash
+        || release.downloadUrl.includes('?') || release.downloadUrl.includes('#')
+        || release.downloadUrl !== canonical.href || !(currentRoute || legacyRoute)) throw new Error();
+    // Follow only the current site's validated release route; canonical metadata stays compatible with old Android builds.
+    return new URL(path, current);
+  } catch { throw new Error('下载地址校验失败，请稍后重试。'); }
+}
 let activeChannel = new URL(location.href).searchParams.get('channel') === 'beta' ? 'beta' : 'stable';
 let serial = 0;
 const android = sdk => ({24:'7.0',25:'7.1',26:'8.0',27:'8.1',28:'9',29:'10',30:'11',31:'12',32:'12L',33:'13',34:'14',35:'15',36:'16',37:'17'}[sdk] || `API ${sdk}`);
@@ -13,7 +36,7 @@ function drawQr() {
   path.setAttribute('d', d); path.setAttribute('fill', '#20242B'); svg.append(path); target.append(svg);
 }
 async function latest(channel) {
-  const response = await fetch(new URL(`releases/latest?channel=${channel}`, base), { credentials:'omit', cache:'no-store', headers:{Accept:'application/json'} });
+  const response = await fetch(new URL(`releases/latest?channel=${channel}&packageName=cc.huevia`, base), { credentials:'omit', cache:'no-store', headers:{Accept:'application/json'} });
   const value = await response.json(); if (!response.ok) throw new Error(value?.error?.message || '版本暂时无法读取，请稍后重试。');
   return value;
 }
@@ -30,9 +53,7 @@ function render(data, fallback = false) {
     byId('empty-title').textContent = data.reason === 'withdrawn' ? '当前版本已撤回' : `暂未发布${activeChannel === 'beta' ? '测试版' : '正式版'}`;
     byId('empty-copy').textContent = data.reason === 'withdrawn' ? '请等待修复版本上架。已下载的旧包不会被自动替换。' : '安装包上架后，会显示在这里。'; return;
   }
-  if (!/^[a-f0-9]{64}$/.test(release.sha256) || !Number.isInteger(release.versionCode) || !release.downloadUrl) throw new Error('版本信息不完整，请稍后重试。');
-  const download = new URL(release.downloadUrl);
-  if (download.origin !== location.origin || !download.pathname.startsWith(base.pathname + 'releases/')) throw new Error('下载地址校验失败，请稍后重试。');
+  const download = releaseDownloadUrl(release);
   byId('version').textContent = `Huevia ${release.versionName}`; byId('channel-label').textContent = activeChannel === 'beta' ? '测试版' : '正式版';
   byId('download-button').href = download.href;
   const time = new Intl.DateTimeFormat('zh-CN', {year:'numeric',month:'long',day:'numeric'}).format(new Date(release.publishedAt));

@@ -5,7 +5,7 @@ $classesDirectory = if ($ClassesDirectory) { $ClassesDirectory } else { Join-Pat
 New-Item -ItemType Directory -Force -Path $classesDirectory | Out-Null
 if ($JdkHome) { $compilerPath = Join-Path $JdkHome 'bin\javac.exe'; $runtimePath = Join-Path $JdkHome 'bin\java.exe' }
 else { $compilerPath = (Get-Command javac -ErrorAction Stop).Source; $runtimePath = (Get-Command java -ErrorAction Stop).Source }
-$javaRoot = Join-Path $projectRoot 'app\src\main\java\com\nikonpreset\usbprobe'
+$javaRoot = Join-Path $projectRoot 'app\src\main\java\cc\huevia'
 $sourcePaths = @(Get-ChildItem -LiteralPath (Join-Path $javaRoot 'ptp') -Filter '*.java' | ForEach-Object FullName)
 foreach ($name in @('PhotoItem', 'PhotoFormat', 'PhotoPreview', 'PhotoPreviewCache', 'DownloadedPhoto', 'PhotoLiveProject', 'PhotoLiveProjectStore', 'PhotoLiveProjectFolders', 'PhotoLiveGallery', 'PhotoAlbumSaver', 'PhotoLocalTasks', 'PhotoDeleteResult', 'PhotoAlbumDeletion', 'PhotoOriginalStore', 'PhotoLiveLedger', 'PhotoPresetSources')) {
     $sourcePaths += Join-Path $javaRoot ('album\' + $name + '.java')
@@ -15,9 +15,9 @@ $sourcePaths += @(Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot 'deletion-
 $sourcePaths += @(Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot 'gallery-java') -Recurse -Filter '*.java' | ForEach-Object FullName)
 & $compilerPath --release 17 -encoding UTF-8 -d $classesDirectory @sourcePaths
 if ($LASTEXITCODE -ne 0) { throw 'Photo album saver host compilation failed.' }
-& $runtimePath -cp $classesDirectory com.nikonpreset.usbprobe.album.PhotoAlbumSaverHostTest
+& $runtimePath -cp $classesDirectory cc.huevia.album.PhotoAlbumSaverHostTest
 if ($LASTEXITCODE -ne 0) { throw 'Photo album saver host checks failed.' }
-& $runtimePath -cp $classesDirectory com.nikonpreset.usbprobe.album.PhotoAlbumDeletionHostTest
+& $runtimePath -cp $classesDirectory cc.huevia.album.PhotoAlbumDeletionHostTest
 if ($LASTEXITCODE -ne 0) { throw 'Local photo deletion host checks failed.' }
-& $runtimePath -cp $classesDirectory com.nikonpreset.usbprobe.album.PhotoOriginalStoreHostTest
+& $runtimePath -cp $classesDirectory cc.huevia.album.PhotoOriginalStoreHostTest
 if ($LASTEXITCODE -ne 0) { throw 'Original byte identity host checks failed.' }

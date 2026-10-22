@@ -1,0 +1,11 @@
+{
+  "durationMs": 12045.221,
+  "skipped": 0,
+  "pass": 8,
+  "tests": 8,
+  "scope": "Offline archive content identity and rejection cases after final transport changes; no cloud request or mutation",
+  "fail": 0,
+  "actualToolExitCode": 0,
+  "command": "node --test .tooling/huevia77-archive.test.mjs",
+  "checkedAtUtc": "2026-10-21T16:07:33.1564038Z"
+}

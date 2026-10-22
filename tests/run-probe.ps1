@@ -17,7 +17,7 @@ if (-not $AndroidJar) {
 }
 if (-not (Test-Path -LiteralPath $AndroidJar)) { throw 'Pass -AndroidJar with an existing Android platform jar.' }
 $AndroidJar = [System.IO.Path]::GetFullPath($AndroidJar)
-$javaRoot = Join-Path $projectRoot 'app\src\main\java\com\nikonpreset\usbprobe'
+$javaRoot = Join-Path $projectRoot 'app\src\main\java\cc\huevia'
 $probeSourcePath = Join-Path $javaRoot 'usb\UsbProbe.java'
 $commonSourcePaths = @(Get-ChildItem -LiteralPath (Join-Path $javaRoot 'ptp') -Filter '*.java' | ForEach-Object FullName)
 $commonSourcePaths += Join-Path $javaRoot 'usb\StorageAssessment.java'
@@ -34,8 +34,8 @@ $commonSourcePaths += Join-Path $javaRoot 'album\PtpIpClient.java'
 $commonSourcePaths += Join-Path $javaRoot 'album\ConnectionTrace.java'
 $commonSourcePaths += @(Get-ChildItem -LiteralPath (Join-Path $javaRoot 'picturecontrol') -Filter '*.java' | ForEach-Object FullName)
 $commonSourcePaths += @(Get-ChildItem -LiteralPath (Join-Path $javaRoot 'ncp') -Filter '*.java' | ForEach-Object FullName)
-$commonSourcePaths += Join-Path $PSScriptRoot 'java\com\nikonpreset\usbprobe\ncp\NcpCompatibilityFixtures.java'
-$commonSourcePaths += Join-Path $PSScriptRoot 'stubs\com\nikonpreset\usbprobe\usb\UsbNcpTransfer.java'
+$commonSourcePaths += Join-Path $PSScriptRoot 'java\cc\huevia\ncp\NcpCompatibilityFixtures.java'
+$commonSourcePaths += Join-Path $PSScriptRoot 'stubs\cc\huevia\usb\UsbNcpTransfer.java'
 $commonSourcePaths += @(Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot 'android-stubs') -Recurse -Filter '*.java' | ForEach-Object FullName)
 $commonSourcePaths += @(Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot 'probe-java') -Recurse -Filter '*.java' | ForEach-Object FullName)
 
@@ -45,17 +45,17 @@ function Invoke-ProbeTest([string]$SourcePath, [string]$OutputPath, [string]$Tes
     if ($LASTEXITCODE -ne 0) { throw 'Production UsbProbe host compilation failed.' }
     $testClassPath = $OutputPath + [System.IO.Path]::PathSeparator + $AndroidJar
     if (-not $OnlyCopy) {
-        & $runtimePath -cp $testClassPath com.nikonpreset.usbprobe.usb.UsbProbeHostTest $TestMode
+        & $runtimePath -cp $testClassPath cc.huevia.usb.UsbProbeHostTest $TestMode
         if ($LASTEXITCODE -ne 0) { throw 'Production UsbProbe host regression failed.' }
     }
     if ($TestMode -eq 'fixed') {
         if (-not $OnlyCopy) {
-            & $runtimePath -cp $testClassPath com.nikonpreset.usbprobe.usb.UsbPictureControlProbeHostTest
+            & $runtimePath -cp $testClassPath cc.huevia.usb.UsbPictureControlProbeHostTest
             if ($LASTEXITCODE -ne 0) { throw 'Production Picture Control read-only host tests failed.' }
         }
-        & $runtimePath -cp $testClassPath com.nikonpreset.usbprobe.usb.UsbPictureControlImportHostTest
+        & $runtimePath -cp $testClassPath cc.huevia.usb.UsbPictureControlImportHostTest
         if ($LASTEXITCODE -ne 0) { throw 'Production Picture Control empty-slot copy host tests failed.' }
-        & $runtimePath -cp $testClassPath com.nikonpreset.usbprobe.usb.UsbWirelessPictureControlHostTest
+        & $runtimePath -cp $testClassPath cc.huevia.usb.UsbWirelessPictureControlHostTest
         if ($LASTEXITCODE -ne 0) { throw 'Production wireless Picture Control host tests failed.' }
     }
 }

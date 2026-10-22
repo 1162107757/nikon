@@ -1,0 +1,51 @@
+{
+  "createdUtc": "2026-10-21T15:15:36.7311658Z",
+  "apkSha256": "88d284ffadb92c8ce15c1e5833f00c9fb25a8608b8071557c6464f4c7e6d5ec5",
+  "scope": "Host regression results; native evidence is separate; no NX calibration acceptance",
+  "np3Synthetic": {
+    "reportedBy": "np3_local_audit",
+    "checks": 24829,
+    "passed": true
+  },
+  "corpus": {
+    "passed": true,
+    "checks": 648268,
+    "customCurves": 47,
+    "recipes": 142,
+    "distinctOutputs": 135,
+    "explicitlyRejected": 1,
+    "supported": 141
+  },
+  "batch": {
+    "checks": 609,
+    "command": "tests/run-photo-presets.ps1",
+    "passed": true
+  },
+  "sourceLinks": {
+    "checks": 82,
+    "includesHistoricV1V2ExactRecovery": true,
+    "passed": true
+  },
+  "editor": {
+    "checks": 34780,
+    "command": "tests/run-photo-editor.ps1",
+    "passed": true
+  },
+  "spatial": {
+    "assertions": 41534647,
+    "passed": true,
+    "command": "tests/run-np3-spatial.ps1",
+    "cases": 16
+  },
+  "album": {
+    "passed": true,
+    "capabilities": 33,
+    "projectStore": 356,
+    "controller": 877,
+    "gateway": 22,
+    "command": "tests/run-album.ps1 -JdkHome D:\\dev\\Java\\jdk-17.0.19",
+    "projectFolders": 100
+  },
+  "priorAlbumAttempt": "Default system Java passed controller/capability/gateway/projectStore, then failed the subprocess Chinese-output comparison. Exact folder test and complete suite reran successfully with the configured JDK17; no product change or weakened assertion.",
+  "privateNxEvidence": ".research/np3-calibration/nx-1.11.0-DSC6182/diagnostic/product-v3-review-run1/review-report.json"
+}

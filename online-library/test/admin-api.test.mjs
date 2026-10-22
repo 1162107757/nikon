@@ -28,6 +28,20 @@ async function fixture(prefix) {
 
 for (const prefix of ['/preset-library', '']) {
   const deployment = prefix || 'site-root';
+  test(`${deployment}: changing password uses CSRF, preserves exact text and clears authority only on success`, async () => {
+    const f = await fixture(prefix); await f.api.session();
+    const current = '  current password  ', next = '  my own new password  ';
+    f.reply({ error: { code: 'CURRENT_PASSWORD_INCORRECT', message: '当前密码不正确' } }, 400);
+    await assert.rejects(f.api.changePassword(current, next, next), error => error.code === 'CURRENT_PASSWORD_INCORRECT');
+    assert.equal(f.calls.at(-1).options.headers['X-CSRF-Token'], 'csrf-first');
+    f.reply({ ok: true }); await f.api.changePassword(current, next, next);
+    const call = f.calls.at(-1);
+    assert.equal(call.path, `${prefix}/api/password`); assert.equal(call.options.method, 'POST');
+    assert.deepEqual(JSON.parse(call.options.body), { currentPassword: current, newPassword: next, confirmPassword: next });
+    const before = f.calls.length;
+    await assert.rejects(f.api.publish('id', 1), error => error.code === 'SESSION_REQUIRED');
+    assert.equal(f.calls.length, before);
+  });
   test(`${deployment}: session/login use the deployment route and login bypasses CSRF`, async () => {
     const f = await fixture(prefix);
     await f.api.session();

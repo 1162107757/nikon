@@ -1,0 +1,52 @@
+Huevia 0.13.7-beta / versionCode 75
+2026-10-21 (Asia/Shanghai)
+
+APK: huevia-0.13.7-beta-debug.apk
+Install package: cc.huevia
+Java source/resource namespace: com.nikonpreset.usbprobe
+Bytes: 3434093
+SHA-256: 3f364b7f3bdf11a3bed5559272fab07e3deed62087be1e758e27f53ee12a37f2
+APK signing: v2 and v3 verified; existing pinned signing certificate retained.
+Manifest inspected: launcher and service/provider classes retain their full source names;
+update content authority is cc.huevia.updates.
+
+Changes:
+- Camera selection and un-downloaded viewer expose download actions.
+- Camera JPG batches bypass preset/export processing and download exact originals.
+- Camera selection no longer exposes preset application.
+- Downloaded single-photo editing and batch preset/export remain available.
+- Downloads retire queued browse/preview work, draining any in-flight protocol frame.
+- JPEG, live original and NEF receiving use 256 KiB buffered disk output, flushed before fsync.
+- PTP/IP streaming uses up to 256 KiB working buffers without buffering the full object.
+- A bounded gallery queue can save previous originals while the next camera read proceeds.
+- Batch tokens prevent late gallery callbacks from altering a later download batch.
+- Release handling accepts fixed legacy/new install IDs and isolates latest-release queries.
+- New installs safely ignore legacy-package responses from a server awaiting migration.
+
+Local validation:
+- PTP/IP: 4800 checks passed, including streaming, timeout, cancellation and frame integrity.
+- Existing album suite: 868 controller + 33 capabilities + 22 gateway + 356 project store
+  + 100 project folder checks passed.
+- Updated download recovery/priority scope: 51 checks passed, including an in-flight
+  thumbnail and queued thumbnail/page retirement before an exact original download.
+- Fujifilm synthetic camera suite passed.
+- Photo editor strength/draft: 2144 checks passed.
+- Photo-preset batch/source-link: 300 + 82 checks passed.
+- RAW structure, provenance, controller and paired transport: 60 + 8 + 39 + 19 checks passed.
+- Update policy: 41 checks passed, including legacy-server responses and package isolation.
+- Release/APK/download-page scopes: 13 Node tests passed with experimental VM modules;
+  the final frozen APK's install identity, signer and update isolation were checked again.
+
+Scope:
+Local build and synthetic host validation only. No Android device was attached during
+this run. No real-camera throughput measurement or new native interaction certification.
+No app installation, user-data migration, production database change, server deployment,
+APK publication or QQ-console update was performed by this change.
+
+Migration before online publication:
+Apply online-library/database/012-huevia-package.sql and deploy corresponding server
+code before uploading/publishing this APK. The new app and download page explicitly
+query packageName=cc.huevia; older clients retain the legacy package's update stream.
+Changing applicationId creates a separate Android app: preserve the old installation
+until its photos/presets have been exported or otherwise intentionally migrated.
+QQ Connect Android package registration must be updated to cc.huevia by its owner.

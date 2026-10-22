@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { ServiceError } from './cloudbase.mjs';
-import { inspectApk, MAX_APK_BYTES, APK_PACKAGE, APK_SIGNER_SHA256 } from './apk.mjs';
+import { inspectApk, MAX_APK_BYTES, APK_PACKAGE, LEGACY_APK_PACKAGE, APK_PACKAGES, APK_SIGNER_SHA256 } from './apk.mjs';
 import { createAbuseContext } from './abuse.mjs';
 
 export const APK_CHUNK_BYTES = 512 * 1024;
@@ -24,9 +24,9 @@ export class ReleaseStore {
   }
   async rows() { return this.store.rest('nikon_app_releases?select=*&order=version_code.desc&limit=200'); }
   async row(id) { return (await this.store.rest(`nikon_app_releases?id=eq.${id}&select=*&limit=1`))[0] || null; }
-  async latest(channel) {
+  async latest(channel, packageName = LEGACY_APK_PACKAGE) {
     // A withdrawal is a high-water mark. Never substitute an older release silently.
-    return (await this.store.rest(`nikon_app_releases?channel=eq.${channel}&status=in.(published,withdrawn)&select=*&order=version_code.desc&limit=1`))[0] || null;
+    return (await this.store.rest(`nikon_app_releases?channel=eq.${channel}&package_name=eq.${packageName}&status=in.(published,withdrawn)&select=*&order=version_code.desc&limit=1`))[0] || null;
   }
   async audit(id) { return this.store.rest(`nikon_app_release_audit?release_id=eq.${id}&select=id,action,actor,created_at,details&order=created_at.desc&limit=100`); }
 }
@@ -57,7 +57,8 @@ export function selectRelease(row, { channel = 'stable', versionCode = 0, sdk = 
   }
   return { schemaVersion: 1, channel, release, updateAvailable: reason === 'available', reason };
 }
-export function createReleaseRoutes({ store, storage, publicBaseUrl, basePath = '/preset-library', trustedProxyHops = 0, trustedProxyAddresses }) {
+export function createReleaseRoutes({ store, storage, publicBaseUrl, basePath = '/preset-library', trustedProxyHops = 0, trustedProxyAddresses,
+  readBundledApk = name => readFile(new URL(`./bundled-apks/${name}`, import.meta.url)) }) {
   const releases = new ReleaseStore(store), prefix = basePath.replace(/\/$/, ''), base = new URL(publicBaseUrl).origin + prefix;
   const source = createAbuseContext({ store, secret: store.serviceKey || 'app-releases-local-source-budget-v1', trustedProxyHops, trustedProxyAddresses });
   const staticFiles = { 'index.html': 'text/html; charset=utf-8', 'download.js': 'text/javascript; charset=utf-8', 'download.css': 'text/css; charset=utf-8', 'tokens.css': 'text/css; charset=utf-8', 'icon.png': 'image/png', 'qr.js': 'text/javascript; charset=utf-8', 'preview-community.png':'image/png', 'preview-submission.png':'image/png', 'preview-messages.png':'image/png' };
@@ -79,10 +80,13 @@ export function createReleaseRoutes({ store, storage, publicBaseUrl, basePath = 
     if (path === '/releases/latest') {
       if (req.method !== 'GET') throw new ServiceError(405, 'METHOD_NOT_ALLOWED', '请使用 GET 查询版本。');
       const channel = channelOf(url.searchParams.get('channel') || 'stable');
+      // Pre-migration Android builds do not send this parameter and must only see their own install ID.
+      const packageName = url.searchParams.get('packageName') ?? LEGACY_APK_PACKAGE;
+      if (!APK_PACKAGES.includes(packageName)) throw new ServiceError(400, 'INVALID_PACKAGE', '应用包名不正确。');
       const versionCode = integerQuery(url.searchParams, 'versionCode', 0), sdk = integerQuery(url.searchParams, 'sdk', 2147483647);
       await budget(req, 'metadata');
       res.setHeader('Cache-Control', 'no-store');
-      json(res, selectRelease(await releases.latest(channel), { channel, versionCode, sdk, base })); return true;
+      json(res, selectRelease(await releases.latest(channel, packageName), { channel, versionCode, sdk, base })); return true;
     }
     const file = /^\/releases\/([a-f0-9-]+)\/file$/.exec(path);
     if (!file) return false;
@@ -96,7 +100,14 @@ export function createReleaseRoutes({ store, storage, publicBaseUrl, basePath = 
     const etag = `"sha256-${row.sha256}"`;
     if (req.headers['if-none-match'] === etag) { res.writeHead(304, { ETag: etag }); res.end(); return true; }
     if (!/^app-releases\/[a-f0-9]{64}\.apk$/.test(row.storage_path)) throw new ServiceError(503, 'RELEASE_FILE_INVALID', '安装包位置校验失败。');
-    const data = await storage.get(row.storage_path, MAX_APK_BYTES);
+    // A reviewed APK may ship with the function when the object store is unavailable.
+    // It follows the same publication, budget, integrity and withdrawal checks.
+    let data;
+    try { data = await readBundledApk(row.storage_path.slice('app-releases/'.length)); }
+    catch (error) {
+      if (error?.code !== 'ENOENT') throw new ServiceError(503, 'RELEASE_FILE_UNAVAILABLE', '安装包暂时无法读取，请稍后重试。');
+      data = await storage.get(row.storage_path, MAX_APK_BYTES);
+    }
     if (data.length !== row.byte_length || digest(data) !== row.sha256) throw new ServiceError(503, 'RELEASE_FILE_CHANGED', '安装包校验失败，请联系管理员。');
     // Re-check after remote I/O so withdrawal during a read prevents a new download response.
     if ((await releases.row(row.id))?.status !== 'published') throw new ServiceError(404, 'RELEASE_NOT_FOUND', '这个版本已下架。');

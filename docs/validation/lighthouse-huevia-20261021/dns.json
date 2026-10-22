@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-10-21T10:04:03.082Z",
+  "resolver": "Google Public DNS over HTTPS",
+  "status": 0,
+  "answers": [
+    {
+      "name": "huevia.cc.",
+      "type": 1,
+      "data": "118.24.164.117",
+      "ttl": 600
+    }
+  ]
+}

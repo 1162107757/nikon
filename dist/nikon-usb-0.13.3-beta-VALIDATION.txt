@@ -1,0 +1,34 @@
+Huevia 0.13.3-beta / versionCode 71 — 2026-10-20
+APK: nikon-usb-0.13.3-beta-debug.apk
+Bytes: 3417709
+SHA-256: 7507bd9556c0254395d5d50350f9d88a1cc90578ba5798ffc4d0c8517eb95265
+Package: com.nikonpreset.usbprobe; minSdk 26; compile/targetSdk 35
+Build and APK v2/v3 signatures: PASS
+
+Polish:
+- Online/My share a 32dp visual segmented track and 28dp neutral selection.
+  The buttons retain 48dp touch bounds. Source-to-all spacing is 12dp.
+- Categories use blue text and an 18x2dp underline, with 6dp row/item gaps.
+  Constant typography and padding keep selected controls from changing size.
+- Expanded picker shares the style and retains category View identities.
+- Prior complete-local-original editing eligibility and 原图 label retained.
+
+Native selection-polish scope, dedicated emulator-5582 / ranchu:
+phone (actual font_scale 1.0): PASS 282
+large-font (actual font_scale 1.3): PASS 282
+landscape (actual font_scale 1.0): PASS 282
+Total: 846. All reports record the exact final APK hash above.
+Actual font readbacks retained; scripts restore font_scale 1.0.
+First-batch screenshots reviewed; no correction round was needed.
+
+Scope includes actual touch/spacing geometry, unchanged category children and
+bounds, source/category changes, full-queue selection and stable strip callbacks,
+offline-cache failure/retry recovery and unchanged local classifications.
+Uses a clearly marked 23-entry offline catalog from existing real/hand-authored
+recipe fixtures and actual Android rendering. No physical phone, camera,
+sustained frame-rate or live-production-device certification. Previous version
+69/70 results remain historical and are not counted as version 71 tests.
+No database migration or service deployment in this patch.
+
+Evidence: docs/validation/photo-selection-polish-71/README.md and mode folders.
+Verdict: SHIP within the requested selection-style and interaction scope.

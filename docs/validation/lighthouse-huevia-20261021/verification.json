@@ -1,0 +1,71 @@
+{
+  "origin": "https://huevia.cc",
+  "edge": "lighthouse-118.24.164.117",
+  "verifiedAt": "2026-10-21T10:03:23.889Z",
+  "passed": true,
+  "checks": [
+    {
+      "name": "Root redirects within huevia.cc",
+      "passed": true
+    },
+    {
+      "name": "Browser navigation reaches application through Lighthouse",
+      "passed": true,
+      "path": "/admin/",
+      "bytes": 3735
+    },
+    {
+      "name": "Browser navigation reaches application through Lighthouse",
+      "passed": true,
+      "path": "/admin/app.js",
+      "bytes": 51834
+    },
+    {
+      "name": "Browser navigation reaches application through Lighthouse",
+      "passed": true,
+      "path": "/admin/styles.css",
+      "bytes": 29030
+    },
+    {
+      "name": "Browser navigation reaches application through Lighthouse",
+      "passed": true,
+      "path": "/download/",
+      "bytes": 4668
+    },
+    {
+      "name": "Browser navigation reaches application through Lighthouse",
+      "passed": true,
+      "path": "/health",
+      "bytes": 71
+    },
+    {
+      "name": "Public catalog is available",
+      "passed": true,
+      "presets": 241
+    },
+    {
+      "name": "Browser navigation reaches application through Lighthouse",
+      "passed": true,
+      "path": "/catalog.json",
+      "bytes": 186585
+    },
+    {
+      "name": "Unauthenticated administration remains denied",
+      "passed": true
+    },
+    {
+      "name": "Published APK download retains its exact bytes",
+      "passed": true,
+      "packageName": "cc.huevia",
+      "versionCode": 76,
+      "bytes": 3434093,
+      "sha256": "cf74460f3a01ca29250a1c77f8a051bc0cf7e3439df20bb91c9b6b2b33b5fa95"
+    },
+    {
+      "name": "Release metadata is accessible",
+      "passed": true,
+      "packageName": "com.nikonpreset.usbprobe",
+      "release": null
+    }
+  ]
+}

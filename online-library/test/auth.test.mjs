@@ -11,6 +11,8 @@ test('scrypt uses random salts and treats missing/corrupt/incorrect credentials 
   assert.equal(await verifyPassword(password, null), false);
   assert.equal(await verifyPassword(password, 'scrypt:1:2:3:broken'), false);
   await assert.rejects(hashPassword('short'));
+  await assert.rejects(hashPassword('1234567'));
+  assert.equal(await verifyPassword('12345678', await hashPassword('12345678')), true);
 });
 test('login work is bounded even when attackers keep changing usernames', () => {
   let now = 0;

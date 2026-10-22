@@ -45,7 +45,7 @@
             android:screenOrientation="behind" android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <service android:name=".connection.CameraConnectionService" android:exported="false"
             android:foregroundServiceType="connectedDevice|dataSync|mediaProcessing" android:stopWithTask="false" />
-        <provider android:name=".updates.UpdatePackageProvider" android:authorities="com.nikonpreset.usbprobe.updates"
+        <provider android:name=".updates.UpdatePackageProvider" android:authorities="${applicationId}.updates"
             android:exported="false" android:grantUriPermissions="true" />
         <activity android:name=".DiagnosticsActivity" android:exported="false" android:theme="@style/DiagnosticTheme" />
         <activity android:name=".MainActivity" android:exported="true" android:configChanges="orientation|screenSize|uiMode|fontScale">

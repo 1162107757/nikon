@@ -10,7 +10,7 @@ if ($JdkHome) {
     $compilerPath = (Get-Command javac -ErrorAction Stop).Source
     $runtimePath = (Get-Command java -ErrorAction Stop).Source
 }
-$javaRoot = Join-Path $projectRoot 'app\src\main\java\com\nikonpreset\usbprobe'
+$javaRoot = Join-Path $projectRoot 'app\src\main\java\cc\huevia'
 $sourcePaths = @(Get-ChildItem -LiteralPath (Join-Path $javaRoot 'ptp') -Filter '*.java' | ForEach-Object FullName)
 $sourcePaths += @(Get-ChildItem -LiteralPath (Join-Path $javaRoot 'picturecontrol') -Filter '*.java' | ForEach-Object FullName)
 $sourcePaths += @(Get-ChildItem -LiteralPath (Join-Path $javaRoot 'ncp') -Filter '*.java' | ForEach-Object FullName)
@@ -20,5 +20,5 @@ foreach ($name in @('PhotoCameraClient', 'PtpIpClient', 'ConnectionTrace', 'Fuji
 $sourcePaths += @(Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot 'fuji-java') -Recurse -Filter '*.java' | ForEach-Object FullName)
 & $compilerPath --release 17 -encoding UTF-8 -d $classesDirectory @sourcePaths
 if ($LASTEXITCODE -ne 0) { throw 'Fujifilm transport compilation failed.' }
-& $runtimePath -cp $classesDirectory com.nikonpreset.usbprobe.album.FujifilmPhotoClientTest
+& $runtimePath -cp $classesDirectory cc.huevia.album.FujifilmPhotoClientTest
 if ($LASTEXITCODE -ne 0) { throw 'Fujifilm transport tests failed.' }

@@ -29,7 +29,7 @@ export function mountReleases(container, { api, onError = () => {} } = {}) {
   function report(err){if(destroyed)return;error.hidden=false;error.textContent=err.message||'操作未完成，请重试。';onError(err);}
   async function refresh(){
     error.hidden=true;message.textContent='正在读取版本…';
-    try{const result=await request('/api/releases');if(destroyed)return;data=result;downloadLink.href=result.downloadPageUrl;renderList();message.textContent='';}
+    try{const result=await request('/api/releases');if(destroyed)return;data=result;downloadLink.href=new URL('../download/',import.meta.url).href;renderList();message.textContent='';}
     catch(err){message.textContent='';report(err);}
   }
   function renderList(){

@@ -1,0 +1,82 @@
+Huevia 0.12.5-beta (67) — Fujifilm original read timeout handling
+Date: 2026-10-19, Asia/Shanghai
+
+Package: com.nikonpreset.usbprobe
+APK: dist/nikon-usb-0.12.5-beta-debug.apk
+Bytes: 3376749
+SHA-256: b2e1577685c5cf89100bc6b8d623357f5e779720c976c3e28b27b45f8530be91
+minSdk26 / targetSdk35
+Android35/JDK17 manual build: PASS
+APK Signature Scheme v2/v3: PASS
+aapt2 versionCode67/versionName0.12.5-beta: PASS
+DEX contains responseTimeout; attribution asset present at canonical path.
+No publication or physical-phone installation performed.
+
+USER EVIDENCE
+User confirms v66 connects and views photos quickly. Next screenshot shows
+DSCF9186.JPG (listed655.6 KB) fails export with 'Read timed out',0 saved/1 failed.
+This establishes a read timeout, not its precise command or byte position.
+There is no real-camera completed-original or new-build export evidence yet.
+
+CHANGES
+Fuji original downloads request at most256 KiB instead of1 MiB per chunk,
+retaining exact offset, response-size and complete-file checks.
+GetPartialObject0x101B waits up to90 seconds for its first response byte.
+After received bytes, a continuous30-second idle period ends the transaction.
+Each original chunk still has an absolute180-second budget, preventing an
+indefinite slow stream. Other metadata/preview transactions retain30 seconds.
+One-second socket timeout polls retain the exact partial frame and wait within
+those budgets. They never resend a command or treat an incomplete frame as
+successful. Actual timeout/ambiguous partial-transfer exceptions close every
+channel; existing controller cleanup and original JPEG verification remain.
+Close/cancel remains independent of the API monitor and interrupts reads.
+
+Timeout errors identify actual operation, property or original chunk handle,
+offset/request length, header/body stage and response bytes received. This
+replaces the uninformative raw English SocketTimeoutException message.
+Response byte counts include PTP framing, not just original JPEG bytes.
+
+VALIDATION
+tests/run-fuji.ps1: PASS, including new virtual-clock scenarios:
+  -45-second preparation plus2200 ms between16 KiB fragments: transfer passes,
+   although individual chunks take more than the old30-second total budget.
+  -Exact1 MiB+37-byte original delivered as256 KiB*4+37, with offsets
+   0/262144/524288/786432/1048576 and no duplicate commands after socket polls.
+  -No first byte fails at90 seconds; mid-frame stall fails at30 seconds idle;
+   repeated20-second slow fragments fail at180 seconds absolute budget.
+  -Metadata0x1008 still fails at30 seconds and is named correctly.
+  -Failures close every channel, never output incomplete frames or resend.
+  -Cancel during a socket poll stops immediately, before transfer budgets.
+  -Existing JPEG suffix handling, cache, properties, framing, exact download,
+   wrong identity/transaction, oversize/short data and cancellation tests pass.
+The scripted socket and clock simulate timing; these are not hardware or
+wall-clock throughput measurements.
+tests/run-album.ps1: PASS
+  826 production album controller checks
+  28 camera capability controller checks
+  22 gateway connection controller checks
+  356 photo-live project store checks
+  100 photo-live project folder checks
+  Total1332 checks.
+APK compile/signing, version, hash and bundled-fix checks: PASS.
+git diff --check: PASS (normal repository LF/CRLF notices only).
+
+LIMITS
+The old screenshot lacks the failed operation and received-byte count, so it
+does not prove the exact device-side cause. This build corrects the rigid
+30-second original deadline and exposes remaining failures precisely; actual
+X-T20 export must still be checked. The raw file is not re-encoded or replaced
+by its preview. No live/RAF capability, native Android UI acceptance, phone
+installation or publication is claimed. Prior validation records/APKs remain.
+Unchanged Wi-Fi/preferences suites are not claimed rerun this round.
+
+PROTOCOL REFERENCES CONSULTED
+https://github.com/petabyt/libfuji/blob/master/lib/fuji.c
+  fuji_download_file_ex uses indexed partial-object reads and correct-size mode.
+https://github.com/petabyt/libfuji/blob/master/lib/fuji.h
+  FUJI_MAX_PARTIAL_OBJECT is1 MiB; new requests remain below that maximum.
+
+RETRY
+Install0.12.5 over the current app. Reopen X-T20 Wireless Communication,
+connect and confirm the phone, then retry the affected JPEG export.
+If it still fails, the new message identifies the actual command and progress.

@@ -22,15 +22,16 @@
 | --- | --- |
 | CloudBase 环境 ID | `nikon-d8girdjsr252fd90e` |
 | 地域 | 上海，`ap-shanghai` |
+| 正式访问域名 | `https://huevia.cc` |
 | 公开网关 Origin | `https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com` |
 | 数据库/存储 API Origin | `https://nikon-d8girdjsr252fd90e.api.tcloudbasegateway.com` |
 | HTTP 路径前缀 | `/preset-library` |
 | PostgreSQL 对象存储 bucket | `nikon-presets`，须保持私有 |
 
-已公开的后台入口：
+已公开的后台入口（主域名根路径也会进入后台）：
 
 ```text
-https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/admin/
+https://huevia.cc/preset-library/admin/
 ```
 
 App 使用的公开目录地址：
@@ -43,7 +44,11 @@ https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset
 
 初始管理员账号为 `admin`，随机密码保存在本机 Git 忽略的 `online-library/.local/initial-admin.json`。请在本机查看交付文件，勿将其内容写入 Git、部署包、截图或共享日志；App 浏览和下载公开预设不需要该账号。
 
-当前使用腾讯云默认测试域名。浏览器首次访问可能先显示平台的“确定访问”中间页，确认后再进入后台；这属于[默认域名访问机制](https://docs.cloudbase.net/service/alias)。正式对外服务可绑定自定义域名。
+2026-10-21 已绑定正式域名 `huevia.cc`，HTTP 自动跳转 HTTPS；[测试版下载页](https://huevia.cc/preset-library/download/?channel=beta)与[公开目录](https://huevia.cc/preset-library/catalog.json)可直接访问。当日随后将 DNSPod 的 `@` 改为 `A 118.24.164.117`，由备案轻量服务器的 Caddy 代理到原 CloudBase 正式域名网关，浏览器保持 `huevia.cc`。前端证书由 Caddy 自动续期；CloudBase 上游独立证书 `bjxjYb4F` 仍于北京时间 **2027-01-19 10:59:59** 到期，须在到期前更新网关绑定。未绑定 `www.huevia.cc`。详见[轻量服务器配置与验收](../docs/validation/lighthouse-huevia-20261021/README.md)。
+
+云函数增加 `ALLOWED_BROWSER_ORIGINS=https://huevia.cc`，仅允许精确 HTTPS Origin，不支持通配符或路径；原 Origin 仍可用。`PUBLIC_BASE_URL` 保持原值，兼容已安装 Android 的更新下载与头像地址，公开资产和既有数据库快照链接保持稳定。后台私有预览与网页 APK 下载使用当前访问域名，避免跨域 Cookie 和下载地址校验失败。此次未重新构建或发布 Android 安装包。
+
+本地完整测试 **138 项**、语法检查 **58 模块**通过；线上 **19 项**检查通过，包括 241 款新旧域名目录一致、管理员登录及会话撤销、CSRF、HTTP 跳转，以及测试版 APK 完整字节与 SHA-256。详见[域名配置与验收](../docs/validation/domain-huevia-20261021/README.md)。旧默认域名仍遵循平台的[默认域名访问机制](https://docs.cloudbase.net/service/alias)。
 
 ## 日常使用与发布规则
 
@@ -70,6 +75,14 @@ bucket 保持私有，不给匿名用户直接读取、列举或写入权限。�
 - 下架不会撤回已发布文件，也不会清除 App 已缓存的目录或已下载的本地预设。旧文件链接继续可读，以免破坏旧目录与历史版本。
 
 因此，发布代表允许公开分发对应文件。需要彻底撤回文件时，不能把“下架”等同于撤销访问，须另行设计撤回与缓存处理流程。
+
+## Android 包名迁移（75 起）
+
+Android 75 / 0.13.7-beta 起安装包名为 `cc.huevia`。新 APK 发布前先应用 `database/012-huevia-package.sql`，再部署对应服务代码。服务端校验同时接受新旧两种固定包名及原签名证书；`/releases/latest` 按 `packageName` 隔离查询，未传包名的旧客户端仍只返回 `com.nikonpreset.usbprobe` 的版本。新客户端和新版下载页明确查询 `cc.huevia`，撤回记录仍在各自包名内阻止回退。
+
+2026-10-21 已按用户要求应用迁移 012，并发布 **0.13.8-beta（76）**；17:25:17（北京时间）下载服务为 Active。原有 8 个测试版本均已撤回，旧下载链接返回 404，仅新版保持上架。正式渠道仍为空，下载首页明确回退到标注的测试版。新旧包名的应用可共存，旧包名的数据不自动迁移；已有 `cc.huevia` 安装可覆盖升级。
+
+本次 COS 写入持续出现 TLS 握手超时，因此将同一份已验证 v2/v3 签名的 APK 随下载服务发布。文件位于 `server/bundled-apks/<sha256>.apk`，通过原有版本下载路由读取，仍执行上架状态、流量预算、长度、哈希与读后撤回检查；没有随包文件时继续读取原私有对象存储。**76 仍上架期间，后续服务发布必须保留这份 APK。** 普通后台上传流程不变。151 项服务测试、55 项隔离发布运行测试及 63 模块语法检查通过；生产 14 项检查通过，详见[发布验证](../docs/validation/huevia-release-76-20261021/README.md)。
 
 ## 用户管理与 QQ 登录边界
 
@@ -181,7 +194,15 @@ node scripts/setup-cloud.mjs --deploy --allow-service-credential
 
 数据库、私有 bucket、初始管理员与函数代码/配置已由上述流程完成。**`--deploy` 不会自动创建或放行公网网关路由。** `/preset-library` 路由在用户明确授权后单独创建；后台 1.1.0 当时已部署为 Active，线上用户接口 16 项与重新执行的文件流程 76 项检查通过，生产 Java 数据层 HTTPS 探针 11 项通过。上述历史验收时 QQ 未配置；本次 AppID `1105984855` 已启用并通过 5 项无凭据公网检查，手机验收仍待进行，见独立的 [QQ 登录说明](../docs/qq-login.md)。
 
-管理员密码须为 16 至 256 字符。脚本应避免把明文密码放进命令参数、代码或日志；密码重置后应清理该管理员的既有会话。浏览器使用有限期的 HttpOnly 会话 Cookie，写操作另外检查同源和 CSRF Token。
+管理员密码须为 8 至 256 字符，不要求字母、数字或符号组合。脚本应避免把明文密码放进命令参数、代码或日志；密码重置后应清理该管理员的既有会话。浏览器使用有限期的 HttpOnly 会话 Cookie，写操作另外检查同源和 CSRF Token。
+
+后台顶部提供“修改密码”：填写当前密码、新密码和确认新密码，新密码至少 8 个字符且与当前密码不同，不要求字符组合，空格和符号原样保留。修改成功后，该管理员在所有设备上的会话都会退出，使用新密码重新登录；其他管理员及 App 用户不受影响。当前密码错误保留登录，连续尝试受账号限频保护。
+
+用户追加要求的最少 8 位策略已于 2026-10-21 14:01:45（北京时间）上线，仅更新三处密码相关运行文件，无需数据库迁移；150 项服务测试、63 模块语法检查及浏览器 8 位纯数字操作通过。14:04:21 完成线上 11 项检查并清理临时测试账号，见[8 位密码验证](../docs/validation/admin-password-8-20261021/README.md)。
+
+2026-10-21 经用户明确批准，迁移 013 与改密功能已上线；13:47:18（北京时间）函数为 Active，现有环境配置保持。发布以原线上代码为基线，仅替换六个改密相关文件，排除工作区其他待发改动。149 项服务测试、34 项隔离 PostgreSQL 检查、63 模块语法／源码检查通过；13:54:23 线上 11 项验收通过，临时测试管理员及其会话／尝试记录已清理，现有真实管理员密码未改变。见[修改密码验证记录](../docs/validation/admin-password-20261021/README.md)。
+
+部署此功能时，获批后先运行 `node scripts/apply-admin-password.mjs --apply` 执行 `database/013-admin-password.sql` 并核对函数权限，再发布服务端与后台静态文件。迁移仅新增服务端专用事务函数，不修改现有密码或会话；管理员登录和改密在同一账号行锁下核对已验证的密码哈希，防止并发旧密码登录或覆盖新密码。迁移执行与代码部署仍遵循下方云端变更批准流程。
 
 ### 预期部署顺序
 
@@ -205,6 +226,7 @@ node scripts/setup-cloud.mjs --deploy --allow-service-credential
 | `GET` | `/files/{asset-id}.{extension}` | 匿名读取曾发布的不可变文件 |
 | `GET` | `/api/session` | 当前登录信息与 CSRF Token |
 | `POST` | `/api/login`, `/api/logout` | 登录、退出；变更请求检查同源 |
+| `POST` | `/api/password` | 修改当前管理员密码；`currentPassword`、`newPassword`、`confirmPassword`，须登录与 CSRF；成功后撤销该管理员全部会话 |
 | `GET`, `POST` | `/api/presets` | 管理员列出预设、创建草稿 |
 | `PUT` | `/api/presets/{id}` | 管理员更新草稿，需当前版本号 |
 | `GET` | `/api/presets/{id}/versions` | 管理员查看版本 |

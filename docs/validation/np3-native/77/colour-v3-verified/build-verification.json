@@ -1,0 +1,124 @@
+{
+  "createdUtc": "2026-10-21T15:04:58.5245265Z",
+  "status": "candidate-native-pass",
+  "publication": "not-published",
+  "package": "cc.huevia",
+  "versionCode": 77,
+  "versionName": "0.13.9-beta",
+  "apkPath": "dist/huevia-0.13.9-beta-debug.apk",
+  "apkBytes": 3438189,
+  "apkSha256": "88d284ffadb92c8ce15c1e5833f00c9fb25a8608b8071557c6464f4c7e6d5ec5",
+  "probePath": ".tooling/np3-native/np3-probe.apk",
+  "probeBytes": 33440,
+  "probeSha256": "aaba9f35d09ac1469de77a358a46859d0a81bb1b95304b4cbf84826db8d144ef",
+  "signatureSchemes": [
+    "v2",
+    "v3"
+  ],
+  "signerCertificateSha256": "04db0f9d3d76c9831a0778cfabc1a0aaab984e05398da16eb644950ccfa0ae31",
+  "priorCandidatePath": ".tooling/np3-native/77-pre-colour-v3/3f02b740928f2aa156133ef9a74d7d6c73b9547ba9714a0165f87b52bf37a3cd.apk",
+  "priorCandidateSha256": "3f02b740928f2aa156133ef9a74d7d6c73b9547ba9714a0165f87b52bf37a3cd",
+  "sourceInventoryPath": "source-inventory.json",
+  "sourceInventorySha256": "0d8a05cff0349d861d73f4d54f64ae0a503bb223fac3112de01c2dde73b1eaa4",
+  "frozenSourceFileCount": 174,
+  "frozenSourceHashesReverified": true,
+  "sourceHashes": {
+    "app/src/main/java/cc/huevia/ncp/Np3PreviewProfile.java": "c7bb716430cc634817a700447287a7d7dad404ccf7b6f7d3202c2058a3b9dc4d",
+    "app/src/main/java/cc/huevia/ncp/SpatialPreviewFilter.java": "0da638c62338f212dd241989e44e1fb1f75dceffc872a105c4be2da61be8d941",
+    "app/src/main/java/cc/huevia/ncp/StrengthPreviewProfile.java": "e5ec8500a6e51f3bd42c95d13abe60244913a02939fbe1c6027329af12a0b537",
+    "app/src/main/java/cc/huevia/album/PhotoPresetRenderer.java": "de81030d9c4cc672fafc6eaf647e34e42359a1cfc7f898063e9c308894469830",
+    "app/src/main/java/cc/huevia/album/PhotoPresetSources.java": "9212717c9a60d6d06815de56246cbba9c2e098e3de806f618a57942f12bf6233",
+    "tests/np3-device-probe/src/cc/huevia/np3qa/Np3NativeProbe.java": "bbe0291a90eee110e2270bf70272e2fb3884fc7593d19f6b0f497e3e8761628c",
+    "tests/np3-device-probe/build.ps1": "a0a8a152cf83eb131bf3f77de8d17e7f13ee20dca1e76f1b16e68d363f397a87",
+    "tests/np3-device-probe/run.ps1": "39e9b4663bd99d663bafb69086bedd8e37feed506f5ae4be859e3221c492c2fc",
+    "tests/java/cc/huevia/ncp/Np3PreviewProfileTest.java": "bc4efbb4f0dbd068f985cfa8a245fd50ab7f80f2cfe3a8ce5757e32db887a21d"
+  },
+  "modelVersion": "np3-0310-encoded-hsl-zones-spatial-v3",
+  "nativeScope": "renderer-only",
+  "nativeTheme": "light",
+  "nativeChecks": 58,
+  "newV3ColourChecks": 8,
+  "nativeReportPath": "light/report.json",
+  "nativeReportSha256": "ae89da25e9f59bc88627804623fa841dd2b0703467c76cb3db018995689e2dff",
+  "oldReports": [
+    {
+      "path": "docs/validation/np3-native/77/renderer-only/light/report.json",
+      "sha256": "40180e5393f72643f24fac3ea3384d28326ad479209ce66a23c65444111de372"
+    },
+    {
+      "path": "docs/validation/np3-native/77/quick-sharp-verified/light/report.json",
+      "sha256": "48e89f02dcd9e2c1e1ee2a5168f7754029a059c2078cc19416948bce94d417e5"
+    }
+  ],
+  "oldNativeReportsUnchanged": true,
+  "serial": "emulator-5582",
+  "avd": "Pixel_9",
+  "emulatorParentPid": 12008,
+  "emulatorChildPid": 43708,
+  "emulatorFlags": [
+    "-read-only",
+    "-no-window",
+    "-no-audio",
+    "-no-boot-anim",
+    "-no-snapshot-load",
+    "-no-snapshot-save",
+    "-gpu swiftshader",
+    "-dns-server 127.0.0.1"
+  ],
+  "networkIsolation": "airplane mode enabled, Wi-Fi and mobile data disabled",
+  "preexistingDeviceCount": 0,
+  "productBuildSeconds": 21.4016248,
+  "probeBuildSeconds": 4.5754316,
+  "installAndIsolationSeconds": 6.2170883,
+  "nativeInstrumentationSeconds": 22.8146478,
+  "ownedEmulatorClosedAndPortsReleased": true,
+  "imageReview": {
+    "files": [
+      "light/standalone-source.jpg",
+      "light/standalone-np3.jpg",
+      "light/standalone-np3-strength37.jpg",
+      "light/template-original.jpg",
+      "light/template-np3.jpg"
+    ],
+    "observation": "All five JPEGs decoded and were visually inspected. Six-patch synthetic source, full effect and 37% strength retained geometry and legible lettering; 37% effect is visibly intermediate. Template preserves composition and exhibits the BleachBypass recipe darkening/desaturation without corruption.",
+    "limit": "Visual smoke review; no NX Studio colour-fidelity certification"
+  },
+  "scope": "Actual Android real-corpus parser acceptance and Creative rejection, two verified Quick Sharp tuples, synthetic v3 colour and alpha behaviour, template immutability, 1800x1200 JPEG with sRGB/capture EXIF/orientation, pre-cancellation, shared spatial rendering and exact strength mixing. UI, full batch, MediaStore and camera operations not rerun.",
+  "evidenceFiles": [
+    {
+      "path": "light/instrumentation.txt",
+      "bytes": 124,
+      "sha256": "e9c3a44ff672bbbc31d3cb70c1fb5e066cf6529d085072464c4b1d7ee8526e4f"
+    },
+    {
+      "path": "light/report.json",
+      "bytes": 4852,
+      "sha256": "ae89da25e9f59bc88627804623fa841dd2b0703467c76cb3db018995689e2dff"
+    },
+    {
+      "path": "light/standalone-np3-strength37.jpg",
+      "bytes": 48587,
+      "sha256": "dcdbc8ea294c70ae1e3f1baedcddf5913486e8f7389759c8a138b638c288e2eb"
+    },
+    {
+      "path": "light/standalone-np3.jpg",
+      "bytes": 50310,
+      "sha256": "31e75519d1b9f6d17f186475a09adbd4f3710de5a84ecaf757862293d9841378"
+    },
+    {
+      "path": "light/standalone-source.jpg",
+      "bytes": 46576,
+      "sha256": "9e99d68303af59333019624839faff3e02d360731dbb62319103a9a2f25b884e"
+    },
+    {
+      "path": "light/template-np3.jpg",
+      "bytes": 196869,
+      "sha256": "9a8c91b036cb4b251476eec9f247bb744b5758df4c25cf6f21a74941f3c34bec"
+    },
+    {
+      "path": "light/template-original.jpg",
+      "bytes": 196856,
+      "sha256": "6c486267f13abc183fd82af8d6618bdadc1790e667aaca1a324845e98d1fa063"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+mode=phone
+font_scale_expected=1.0
+font_scale_observed=1.0
+immersive_mode_confirmations=confirmed

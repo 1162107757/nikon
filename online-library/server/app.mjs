@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises';
 import { resolve, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { randomToken, sha256, readCookie, equalToken, verifyPassword, hashUserPassword, LoginGate } from './auth.mjs';
+import { randomToken, sha256, readCookie, equalToken, verifyPassword, hashPassword, hashUserPassword, LoginGate } from './auth.mjs';
 import { ServiceError } from './cloudbase.mjs';
 import { validatePresetFile, presetFilename, validatePreview, validatePresetInput, buildCatalog } from './validation.mjs';
 import { createCommunityRoutes } from './community.mjs';
@@ -82,9 +82,25 @@ function bearerToken(req) {
   return /^Bearer ([A-Za-z0-9_-]{43})$/.exec(authorization)?.[1] || '';
 }
 
-export function createHandler({ store, storage, environmentId, publicBaseUrl, basePath = '/preset-library', secureCookies = true, adminDir = ADMIN_DIR, qqVerifier = null, challengeService = null, challengeSecret, trustedProxyHops = 0, trustedProxyAddresses }) {
+function browserOrigins(publicOrigin, additionalOrigins) {
+  if (!Array.isArray(additionalOrigins)) throw new TypeError('ALLOWED_BROWSER_ORIGINS must be a list of exact HTTPS origins.');
+  const origins = new Set([publicOrigin]);
+  for (const value of additionalOrigins) {
+    let url;
+    try { url = new URL(value); } catch { /* Invalid configuration must stop startup. */ }
+    if (typeof value !== 'string' || !url || url.protocol !== 'https:' || url.origin !== value || url.hostname.includes('*')) {
+      throw new TypeError('ALLOWED_BROWSER_ORIGINS entries must be exact HTTPS origins without credentials, paths or wildcards.');
+    }
+    origins.add(value);
+  }
+  return origins;
+}
+
+export function createHandler({ store, storage, environmentId, publicBaseUrl, allowedBrowserOrigins = [], basePath = '/preset-library', secureCookies = true, adminDir = ADMIN_DIR, qqVerifier = null, challengeService = null, challengeSecret, trustedProxyHops = 0, trustedProxyAddresses }) {
   const prefix = basePath.replace(/\/$/, '');
   const publicBase = new URL(publicBaseUrl);
+  // Explicit browser entrypoints do not change canonical asset URLs or trust request Host headers.
+  const allowedOrigins = browserOrigins(publicBase.origin, allowedBrowserOrigins);
   const cookieName = secureCookies ? '__Host-nikon_session' : 'nikon_session';
   const cookie = (value, expired = false) => `${cookieName}=${value}; Path=/; HttpOnly; SameSite=Strict${secureCookies ? '; Secure' : ''}; Max-Age=${expired ? 0 : 28800}`;
   const catalogUrl = `${publicBase.origin}${prefix}/catalog.json`;
@@ -146,8 +162,8 @@ export function createHandler({ store, storage, environmentId, publicBaseUrl, ba
       }
       if (path === '/health' && req.method === 'GET') return json(res, { ok: true, configured: store.configured, environmentId });
       if (path.startsWith('/auth/')) {
-        // Android SDK requests have no Origin. Browser callers must still use our own origin.
-        if (req.headers.origin && req.headers.origin !== publicBase.origin) {
+        // Android SDK requests have no Origin. Browser callers need an explicitly configured origin.
+        if (req.headers.origin && !allowedOrigins.has(req.headers.origin)) {
           throw new ServiceError(403, 'ORIGIN_REJECTED', '请从 App 发起登录操作。');
         }
         if (path === '/auth/challenge' && req.method === 'GET') return json(res, await challenge.issue(req, url.searchParams.get('installationId')));
@@ -235,7 +251,7 @@ export function createHandler({ store, storage, environmentId, publicBaseUrl, ba
       }
       if (path.startsWith('/api/')) {
         const mutating = !['GET', 'HEAD', 'OPTIONS'].includes(req.method);
-        if (mutating && req.headers.origin !== publicBase.origin) {
+        if (mutating && !allowedOrigins.has(req.headers.origin)) {
           throw new ServiceError(403, 'ORIGIN_REJECTED', '请从后台页面发起操作。');
         }
         const token = readCookie(req.headers.cookie, cookieName);
@@ -257,7 +273,7 @@ export function createHandler({ store, storage, environmentId, publicBaseUrl, ba
           if (token) await store.deleteSession(sha256(token));
           const freshToken = randomToken();
           const nextSession = { token_hash: sha256(freshToken), username, csrf_token: randomToken(), expires_at: new Date(Date.now() + 28800000).toISOString() };
-          await store.createSession(nextSession);
+          await store.signInAdmin(nextSession, admin.password_hash);
           await store.clearAttempts(sha256(username));
           res.setHeader('Set-Cookie', cookie(freshToken));
           return json(res, sessionView(nextSession));
@@ -266,6 +282,34 @@ export function createHandler({ store, storage, environmentId, publicBaseUrl, ba
         if (!session) throw new ServiceError(401, 'LOGIN_REQUIRED', '登录已失效，请重新登录。');
         if (mutating && !equalToken(session.csrf_token, req.headers['x-csrf-token'])) {
           throw new ServiceError(403, 'CSRF_REJECTED', '页面已失效，请刷新后重试。');
+        }
+        if (path === '/api/password' && req.method === 'POST') {
+          // Login and password changes share the same bounded scrypt concurrency budget.
+          const release = loginGate.acquire();
+          if (!release) throw new ServiceError(429, 'LOGIN_BUSY', '密码操作较多，请稍后再试。');
+          try {
+            const body = await readJson(req, 4 * 1024);
+            if (typeof body.currentPassword !== 'string' || !body.currentPassword.length || body.currentPassword.length > 256) {
+              throw new ServiceError(400, 'CURRENT_PASSWORD_REQUIRED', '请输入当前密码，最多 256 个字符。');
+            }
+            if (typeof body.newPassword !== 'string' || body.newPassword.length < 8 || body.newPassword.length > 256) {
+              throw new ServiceError(400, 'INVALID_PASSWORD', '新密码须为 8 至 256 个字符。');
+            }
+            if (body.newPassword !== body.confirmPassword) throw new ServiceError(400, 'PASSWORD_MISMATCH', '两次输入的新密码不一致，请重新输入。');
+            if (body.newPassword === body.currentPassword) throw new ServiceError(400, 'PASSWORD_UNCHANGED', '新密码不能与当前密码相同。');
+            if (!await store.loginAllowed(sha256('admin-password:' + session.username))) {
+              throw new ServiceError(429, 'PASSWORD_THROTTLED', '尝试次数较多，请 15 分钟后再试。');
+            }
+            const admin = await store.findAdmin(session.username);
+            const matches = await verifyPassword(body.currentPassword, admin?.password_hash);
+            if (!admin || admin.disabled) throw new ServiceError(401, 'LOGIN_REQUIRED', '登录已失效，请重新登录。');
+            if (!matches) throw new ServiceError(400, 'CURRENT_PASSWORD_INCORRECT', '当前密码不正确，请重新输入。');
+            const passwordHash = await hashPassword(body.newPassword);
+            // Recheck the session and verified hash, update the password and revoke all sessions in one transaction.
+            await store.changeAdminPassword(session.username, sha256(token), admin.password_hash, passwordHash);
+            res.setHeader('Set-Cookie', cookie('', true));
+            return json(res, { ok: true });
+          } finally { release(); }
         }
         const adminContext = { ...routeContext, session };
         if (await releaseRoutes.adminRoute(req, res, adminContext)) return;

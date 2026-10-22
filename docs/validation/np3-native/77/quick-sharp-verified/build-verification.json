@@ -1,0 +1,48 @@
+{
+  "createdUtc": "2026-10-21T12:30:09.2608722Z",
+  "package": "cc.huevia",
+  "versionCode": 77,
+  "versionName": "0.13.9-beta",
+  "apkPath": "dist/huevia-0.13.9-beta-debug.apk",
+  "apkBytes": 3438189,
+  "apkSha256": "3f02b740928f2aa156133ef9a74d7d6c73b9547ba9714a0165f87b52bf37a3cd",
+  "probeBytes": 33440,
+  "probeSha256": "fff712215dec2771a7df13022d7d6165b2f6f7fa576e543ee7dffbb6cca7647e",
+  "signatureSchemes": [
+    "v2",
+    "v3"
+  ],
+  "oldCandidateSha256": "7fe08415ee23284cb015e46bc86ee39a032e5b90183dba29d3ca8af7bd232469",
+  "oldReportPath": "docs/validation/np3-native/77/renderer-only/light/report.json",
+  "oldReportSha256": "40180e5393f72643f24fac3ea3384d28326ad479209ce66a23c65444111de372",
+  "sourceHashes": {
+    "tests/np3-device-probe/src/cc/huevia/np3qa/Np3NativeProbe.java": "20a5610effea25b74c3f8b45848ab778ce3a9b7927ac188e8b40cfeac5e046e4",
+    "app/src/main/java/cc/huevia/ncp/Np3PreviewProfile.java": "c571ba5f00972e4242cc704685cc2ebee8ba52fc07d29dfbaaa9b88bbff9e040",
+    "tests/np3-java/cc/huevia/ncp/Np3CorpusTest.java": "44dea5d87037b247fb09f465ba434c61739cdefc630862463907d8182faedce8",
+    "tests/np3-device-probe/build.ps1": "a0a8a152cf83eb131bf3f77de8d17e7f13ee20dca1e76f1b16e68d363f397a87",
+    "tests/java/cc/huevia/ncp/Np3PreviewProfileTest.java": "4a148b60e238c8ced971835a414e132c9c54dadb21e3f08af9a26d8b01da7bd1",
+    "tests/np3-device-probe/run.ps1": "39e9b4663bd99d663bafb69086bedd8e37feed506f5ae4be859e3221c492c2fc"
+  },
+  "review": "No substantive issues. Only exact newly verified Quick -1/zero and Quick +1/3.5,1.5,3 tuples added. Previously supported ff01/8001 unchanged; Quick is validated only and never added to colour/spatial processing. Negative type/value/tuple tests and original corpus identity retained.",
+  "status": "candidate-native-pass",
+  "publication": "not-published",
+  "nativeScope": "renderer-only",
+  "serial": "emulator-5582",
+  "avd": "Pixel_9",
+  "emulatorFlags": [
+    "-read-only",
+    "-no-window",
+    "-no-snapshot-load",
+    "-no-snapshot-save",
+    "-gpu swiftshader",
+    "-dns-server 127.0.0.1"
+  ],
+  "completedUtc": "2026-10-21T12:32:19.691835Z",
+  "nativeChecks": 50,
+  "nativeReportPath": "light/report.json",
+  "nativeReportSha256": "48e89f02dcd9e2c1e1ee2a5168f7754029a059c2078cc19416948bce94d417e5",
+  "frozenSourceHashesReverified": true,
+  "oldNativeReportUnchanged": true,
+  "ownedEmulatorShutdownRequested": true,
+  "ownedEmulatorClosedAndPortsReleased": true
+}

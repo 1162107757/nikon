@@ -10,7 +10,7 @@ if (-not $JdkHome) { throw 'Specify -JdkHome for photo-live receipt checks.' }
 $classes = Join-Path $PSScriptRoot '.build\photo-live-receipts\classes'
 $scratch = Join-Path $PSScriptRoot '.build\photo-live-receipts\files'
 New-Item -ItemType Directory -Force -Path $classes, $scratch | Out-Null
-$javaRoot = Join-Path $projectRoot 'app\src\main\java\com\nikonpreset\usbprobe'
+$javaRoot = Join-Path $projectRoot 'app\src\main\java\cc\huevia'
 $sources = @(Get-ChildItem -LiteralPath (Join-Path $javaRoot 'ptp') -Filter '*.java' | ForEach-Object FullName)
 foreach ($name in @('DownloadedPhoto', 'PhotoItem', 'PhotoFormat', 'PhotoPreview', 'PhotoPreviewCache', 'PhotoLiveLedger', 'PhotoLiveReceipt', 'PhotoLiveReceiptStore', 'PhotoOriginalStore')) {
     $sources += Join-Path $javaRoot ('album\' + $name + '.java')
@@ -18,5 +18,5 @@ foreach ($name in @('DownloadedPhoto', 'PhotoItem', 'PhotoFormat', 'PhotoPreview
 $sources += @(Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot 'receipt-java') -Recurse -Filter '*.java' | ForEach-Object FullName)
 & (Join-Path $JdkHome 'bin\javac.exe') --release 17 -encoding UTF-8 -d $classes @sources
 if ($LASTEXITCODE -ne 0) { throw 'Photo-live receipt focused compilation failed.' }
-& (Join-Path $JdkHome 'bin\java.exe') ('-Djava.io.tmpdir=' + $scratch) -cp $classes com.nikonpreset.usbprobe.album.PhotoLiveReceiptStoreTest
+& (Join-Path $JdkHome 'bin\java.exe') ('-Djava.io.tmpdir=' + $scratch) -cp $classes cc.huevia.album.PhotoLiveReceiptStoreTest
 if ($LASTEXITCODE -ne 0) { throw 'Photo-live receipt persistence checks failed.' }

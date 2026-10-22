@@ -1,0 +1,2719 @@
+{
+  "version": "0.13.6-beta",
+  "versionCode": 74,
+  "apkSha256": "bd8c0516cb8e03c370ebf2d08cf25229296588a5bed4ca9dcb5ec76940c8fa62",
+  "scope": "Selection-surface polish on isolated offline emulator. Runs real existing queue\/source\/category selection regression, then measures actual native touch bounds, spacing and unchanged category children. Catalog and recipes are explicit validated local fixtures; no live production catalog, camera or physical frame-rate claim.",
+  "mode": "landscape",
+  "fontScale": 1,
+  "orientation": 2,
+  "displayWidthPixels": 2424,
+  "displayHeightPixels": 1080,
+  "density": 2.625,
+  "screenWidthDp": 923,
+  "screenHeightDp": 411,
+  "windowWidthPixels": 2424,
+  "windowHeightPixels": 1080,
+  "fixtureCatalogSha256": "27ea2a2ce402d971ff0e4325f9edb9395ec17220593130f5c0b8bd2f2c802d16",
+  "fixtureCatalogEntries": 23,
+  "fixtureRecipes": "Two existing NP3 research sources and hand-authored NCP fixtures already used by the local editor probe; no product download state is fabricated.",
+  "catalogStatusLayouts": {
+    "source-cached-catalog": {
+      "text": "离线缓存 · 23 款 · 轻点刷新",
+      "visibleRect": [
+        1673,
+        599,
+        2387,
+        673
+      ],
+      "lineCount": 1,
+      "ellipsisCounts": [
+        0
+      ]
+    },
+    "source-no-cache-error": {
+      "text": "在线滤镜加载失败 · 轻点重试",
+      "visibleRect": [
+        1673,
+        599,
+        2387,
+        673
+      ],
+      "lineCount": 1,
+      "ellipsisCounts": [
+        0
+      ]
+    },
+    "picker-no-cache-error": {
+      "text": "在线滤镜加载失败 · 轻点重试",
+      "visibleRect": [
+        53,
+        302,
+        2229,
+        365
+      ],
+      "lineCount": 1,
+      "ellipsisCounts": [
+        0
+      ]
+    },
+    "picker-retry-cache": {
+      "text": "离线缓存 · 23 款 · 轻点刷新",
+      "visibleRect": [
+        53,
+        302,
+        2229,
+        365
+      ],
+      "lineCount": 1,
+      "ellipsisCounts": [
+        0
+      ]
+    },
+    "source-retry-cache": {
+      "text": "离线缓存 · 23 款 · 轻点刷新",
+      "visibleRect": [
+        1673,
+        599,
+        2387,
+        673
+      ],
+      "lineCount": 1,
+      "ellipsisCounts": [
+        0
+      ]
+    },
+    "source-empty-cached-catalog": {
+      "text": "离线缓存 · 0 款 · 轻点刷新",
+      "visibleRect": [
+        1673,
+        599,
+        2387,
+        673
+      ],
+      "lineCount": 1,
+      "ellipsisCounts": [
+        0
+      ]
+    },
+    "picker-empty-cached-catalog": {
+      "text": "离线缓存 · 0 款 · 轻点刷新",
+      "visibleRect": [
+        53,
+        302,
+        2229,
+        365
+      ],
+      "lineCount": 1,
+      "ellipsisCounts": [
+        0
+      ]
+    }
+  },
+  "screenshots": {
+    "online-portrait": {
+      "width": 2424,
+      "height": 1080,
+      "orientation": 2,
+      "fontScale": 1
+    },
+    "online-default-categories": {
+      "width": 2424,
+      "height": 1080,
+      "orientation": 2,
+      "fontScale": 1
+    },
+    "online-pending-choice": {
+      "width": 2424,
+      "height": 1080,
+      "orientation": 2,
+      "fontScale": 1
+    },
+    "online-selected-stable": {
+      "width": 2424,
+      "height": 1080,
+      "orientation": 2,
+      "fontScale": 1
+    },
+    "my-landscape": {
+      "width": 2424,
+      "height": 1080,
+      "orientation": 2,
+      "fontScale": 1
+    },
+    "online-no-cache": {
+      "width": 2424,
+      "height": 1080,
+      "orientation": 2,
+      "fontScale": 1
+    },
+    "online-no-cache-picker": {
+      "width": 2424,
+      "height": 1080,
+      "orientation": 2,
+      "fontScale": 1
+    },
+    "online-retry-cache-picker": {
+      "width": 2424,
+      "height": 1080,
+      "orientation": 2,
+      "fontScale": 1
+    },
+    "online-retry-cache": {
+      "width": 2424,
+      "height": 1080,
+      "orientation": 2,
+      "fontScale": 1
+    },
+    "online-empty-cache": {
+      "width": 2424,
+      "height": 1080,
+      "orientation": 2,
+      "fontScale": 1
+    },
+    "online-empty-cache-picker": {
+      "width": 2424,
+      "height": 1080,
+      "orientation": 2,
+      "fontScale": 1
+    },
+    "selection-portrait": {
+      "width": 2424,
+      "height": 1080,
+      "orientation": 2,
+      "fontScale": 1
+    },
+    "selection-black-white": {
+      "width": 2424,
+      "height": 1080,
+      "orientation": 2,
+      "fontScale": 1
+    },
+    "selection-expanded": {
+      "width": 2424,
+      "height": 1080,
+      "orientation": 2,
+      "fontScale": 1
+    }
+  },
+  "stripGeometryBeforeClick": [
+    {
+      "tag": "",
+      "left": 0,
+      "top": 2,
+      "width": 221,
+      "height": 289,
+      "globalRect": [
+        789,
+        675,
+        1010,
+        964
+      ],
+      "visible": false,
+      "visibleRect": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "tag": "d64de018e668077a350de019c7ae70fc55e173e0141d46a71a27a2b3ce5e65af",
+      "left": 221,
+      "top": 2,
+      "width": 221,
+      "height": 289,
+      "globalRect": [
+        1010,
+        675,
+        1231,
+        964
+      ],
+      "visible": false,
+      "visibleRect": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "tag": "714ff8bb2a928b5dcfeb763f41546250326012e257bfd94165f2ae2eae5a34ee",
+      "left": 442,
+      "top": 2,
+      "width": 221,
+      "height": 289,
+      "globalRect": [
+        1231,
+        675,
+        1452,
+        964
+      ],
+      "visible": false,
+      "visibleRect": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "tag": "1cea7a90bfa80fdd3d68b7e6dbe371a5993447a12be85026eca4251f0a273999",
+      "left": 663,
+      "top": 2,
+      "width": 221,
+      "height": 289,
+      "globalRect": [
+        1452,
+        675,
+        1673,
+        964
+      ],
+      "visible": false,
+      "visibleRect": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "tag": "61fcb8d05e566af0284cf17b1198b5bf4684fb0bb4e391da1aaf1c3beca2698d",
+      "left": 884,
+      "top": 2,
+      "width": 221,
+      "height": 289,
+      "globalRect": [
+        1673,
+        675,
+        1894,
+        964
+      ],
+      "visible": true,
+      "visibleRect": [
+        1673,
+        675,
+        1894,
+        964
+      ]
+    },
+    {
+      "tag": "06e81bd3059875f7c213bbc9f8ffb52491ae990e93ce934e59b2d2f0b1f6a6ac",
+      "left": 1105,
+      "top": 2,
+      "width": 221,
+      "height": 289,
+      "globalRect": [
+        1894,
+        675,
+        2115,
+        964
+      ],
+      "visible": true,
+      "visibleRect": [
+        1894,
+        675,
+        2115,
+        964
+      ]
+    },
+    {
+      "tag": "87f7a05e0c3e717bcc82a8cd2e0de72797c8c30fd93a07b108c815614b78b465",
+      "left": 1326,
+      "top": 2,
+      "width": 221,
+      "height": 289,
+      "globalRect": [
+        2115,
+        675,
+        2336,
+        964
+      ],
+      "visible": true,
+      "visibleRect": [
+        2115,
+        675,
+        2336,
+        964
+      ]
+    },
+    {
+      "tag": "525b53593ed6c9594a38941a6f8457389e59f6678cc6f4234e6070197bc0e814",
+      "left": 1547,
+      "top": 2,
+      "width": 221,
+      "height": 289,
+      "globalRect": [
+        2336,
+        675,
+        2557,
+        964
+      ],
+      "visible": true,
+      "visibleRect": [
+        2336,
+        675,
+        2387,
+        964
+      ]
+    },
+    {
+      "tag": "38c8ff6655eb5b1c9ab4e9ba5cc4fdd344a4255f3d9258e63e982d6c9b9862f3",
+      "left": 1768,
+      "top": 2,
+      "width": 221,
+      "height": 289,
+      "globalRect": [
+        2557,
+        675,
+        2778,
+        964
+      ],
+      "visible": false,
+      "visibleRect": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "tag": "e95fccaf00866eeefc8cd1be1f24917633c20795db3cbad3d78a735b4988c950",
+      "left": 1989,
+      "top": 2,
+      "width": 221,
+      "height": 289,
+      "globalRect": [
+        2778,
+        675,
+        2999,
+        964
+      ],
+      "visible": false,
+      "visibleRect": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "tag": "88344f10d3664e0c5c3a816937233bfcf7982ed97a058212140555f2ad10db45",
+      "left": 2210,
+      "top": 2,
+      "width": 221,
+      "height": 289,
+      "globalRect": [
+        2999,
+        675,
+        3220,
+        964
+      ],
+      "visible": false,
+      "visibleRect": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "tag": "8ac3ba897b2349f311830a89039065f66ffb654d74f771862179f76274b9c15a",
+      "left": 2431,
+      "top": 2,
+      "width": 221,
+      "height": 289,
+      "globalRect": [
+        3220,
+        675,
+        3441,
+        964
+      ],
+      "visible": false,
+      "visibleRect": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "tag": "35a90d8f2813b5f07413fa06aaf89bde246335a110f4c02bb9f75f8efc759e4f",
+      "left": 2652,
+      "top": 2,
+      "width": 221,
+      "height": 289,
+      "globalRect": [
+        3441,
+        675,
+        3662,
+        964
+      ],
+      "visible": false,
+      "visibleRect": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "tag": "5b52c83ca5955c29bc3792042326c44e610d2b7842865453ca2c94442124d05a",
+      "left": 2873,
+      "top": 2,
+      "width": 221,
+      "height": 289,
+      "globalRect": [
+        3662,
+        675,
+        3883,
+        964
+      ],
+      "visible": false,
+      "visibleRect": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "tag": "cb16af479cb162addfe8cde0d60ca9b1a5bfc9b727dcb9d9a5a16eea4c4db151",
+      "left": 3094,
+      "top": 2,
+      "width": 221,
+      "height": 289,
+      "globalRect": [
+        3883,
+        675,
+        4104,
+        964
+      ],
+      "visible": false,
+      "visibleRect": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "tag": "88b37040ba01509d8421e093068821fc819129b368c39a6c90c8e75ee4e66c01",
+      "left": 3315,
+      "top": 2,
+      "width": 221,
+      "height": 289,
+      "globalRect": [
+        4104,
+        675,
+        4325,
+        964
+      ],
+      "visible": false,
+      "visibleRect": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "tag": "3b70dfdf10b193374f3776abe8bf8286e564027356b991002617bc8e0e614474",
+      "left": 3536,
+      "top": 2,
+      "width": 221,
+      "height": 289,
+      "globalRect": [
+        4325,
+        675,
+        4546,
+        964
+      ],
+      "visible": false,
+      "visibleRect": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "tag": "fa08e248f81dc410e4253b6fe76ae3f38471c1107f10a2c05048e96518a6cc31",
+      "left": 3757,
+      "top": 2,
+      "width": 221,
+      "height": 289,
+      "globalRect": [
+        4546,
+        675,
+        4767,
+        964
+      ],
+      "visible": false,
+      "visibleRect": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "tag": "6863ac269ab4c9716337dcdaaca27d0dfb74cc5c519f3ca92ab5bd329992cd96",
+      "left": 3978,
+      "top": 2,
+      "width": 221,
+      "height": 289,
+      "globalRect": [
+        4767,
+        675,
+        4988,
+        964
+      ],
+      "visible": false,
+      "visibleRect": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "tag": "fd6a6d3c23df6d0e9d2075469fbd9706bfd02d129d95f2aaea59427da4727e1c",
+      "left": 4199,
+      "top": 2,
+      "width": 221,
+      "height": 289,
+      "globalRect": [
+        4988,
+        675,
+        5209,
+        964
+      ],
+      "visible": false,
+      "visibleRect": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "tag": "ecd34484204b8d34bb2d53e389d505f2f39d624113e4401d2e3f16a4fb1b1a50",
+      "left": 4420,
+      "top": 2,
+      "width": 221,
+      "height": 289,
+      "globalRect": [
+        5209,
+        675,
+        5430,
+        964
+      ],
+      "visible": false,
+      "visibleRect": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "tag": "932866353b4ff85ae752378f92c3089f3a36f92abc09a59b90466a1acb6ca1a8",
+      "left": 4641,
+      "top": 2,
+      "width": 221,
+      "height": 289,
+      "globalRect": [
+        5430,
+        675,
+        5651,
+        964
+      ],
+      "visible": false,
+      "visibleRect": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "tag": "af60a7eb2305b3e70f42744b56d016f76791c785f65c2da874dc70d15160dd39",
+      "left": 4862,
+      "top": 2,
+      "width": 221,
+      "height": 289,
+      "globalRect": [
+        5651,
+        675,
+        5872,
+        964
+      ],
+      "visible": false,
+      "visibleRect": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "tag": "04a3fc0d2b6f42254960181d7d004c640c696e03e1a36ac7b2af8c96244fca73",
+      "left": 5083,
+      "top": 2,
+      "width": 221,
+      "height": 289,
+      "globalRect": [
+        5872,
+        675,
+        6093,
+        964
+      ],
+      "visible": false,
+      "visibleRect": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "stripGeometryAfterClick": {
+    "pending-tap": [
+      {
+        "tag": "",
+        "left": 0,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          789,
+          675,
+          1010,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "d64de018e668077a350de019c7ae70fc55e173e0141d46a71a27a2b3ce5e65af",
+        "left": 221,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          1010,
+          675,
+          1231,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "714ff8bb2a928b5dcfeb763f41546250326012e257bfd94165f2ae2eae5a34ee",
+        "left": 442,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          1231,
+          675,
+          1452,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "1cea7a90bfa80fdd3d68b7e6dbe371a5993447a12be85026eca4251f0a273999",
+        "left": 663,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          1452,
+          675,
+          1673,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "61fcb8d05e566af0284cf17b1198b5bf4684fb0bb4e391da1aaf1c3beca2698d",
+        "left": 884,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          1673,
+          675,
+          1894,
+          964
+        ],
+        "visible": true,
+        "visibleRect": [
+          1673,
+          675,
+          1894,
+          964
+        ]
+      },
+      {
+        "tag": "06e81bd3059875f7c213bbc9f8ffb52491ae990e93ce934e59b2d2f0b1f6a6ac",
+        "left": 1105,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          1894,
+          675,
+          2115,
+          964
+        ],
+        "visible": true,
+        "visibleRect": [
+          1894,
+          675,
+          2115,
+          964
+        ]
+      },
+      {
+        "tag": "87f7a05e0c3e717bcc82a8cd2e0de72797c8c30fd93a07b108c815614b78b465",
+        "left": 1326,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          2115,
+          675,
+          2336,
+          964
+        ],
+        "visible": true,
+        "visibleRect": [
+          2115,
+          675,
+          2336,
+          964
+        ]
+      },
+      {
+        "tag": "525b53593ed6c9594a38941a6f8457389e59f6678cc6f4234e6070197bc0e814",
+        "left": 1547,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          2336,
+          675,
+          2557,
+          964
+        ],
+        "visible": true,
+        "visibleRect": [
+          2336,
+          675,
+          2387,
+          964
+        ]
+      },
+      {
+        "tag": "38c8ff6655eb5b1c9ab4e9ba5cc4fdd344a4255f3d9258e63e982d6c9b9862f3",
+        "left": 1768,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          2557,
+          675,
+          2778,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "e95fccaf00866eeefc8cd1be1f24917633c20795db3cbad3d78a735b4988c950",
+        "left": 1989,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          2778,
+          675,
+          2999,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "88344f10d3664e0c5c3a816937233bfcf7982ed97a058212140555f2ad10db45",
+        "left": 2210,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          2999,
+          675,
+          3220,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "8ac3ba897b2349f311830a89039065f66ffb654d74f771862179f76274b9c15a",
+        "left": 2431,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          3220,
+          675,
+          3441,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "35a90d8f2813b5f07413fa06aaf89bde246335a110f4c02bb9f75f8efc759e4f",
+        "left": 2652,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          3441,
+          675,
+          3662,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "5b52c83ca5955c29bc3792042326c44e610d2b7842865453ca2c94442124d05a",
+        "left": 2873,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          3662,
+          675,
+          3883,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "cb16af479cb162addfe8cde0d60ca9b1a5bfc9b727dcb9d9a5a16eea4c4db151",
+        "left": 3094,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          3883,
+          675,
+          4104,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "88b37040ba01509d8421e093068821fc819129b368c39a6c90c8e75ee4e66c01",
+        "left": 3315,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          4104,
+          675,
+          4325,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "3b70dfdf10b193374f3776abe8bf8286e564027356b991002617bc8e0e614474",
+        "left": 3536,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          4325,
+          675,
+          4546,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "fa08e248f81dc410e4253b6fe76ae3f38471c1107f10a2c05048e96518a6cc31",
+        "left": 3757,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          4546,
+          675,
+          4767,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "6863ac269ab4c9716337dcdaaca27d0dfb74cc5c519f3ca92ab5bd329992cd96",
+        "left": 3978,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          4767,
+          675,
+          4988,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "fd6a6d3c23df6d0e9d2075469fbd9706bfd02d129d95f2aaea59427da4727e1c",
+        "left": 4199,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          4988,
+          675,
+          5209,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "ecd34484204b8d34bb2d53e389d505f2f39d624113e4401d2e3f16a4fb1b1a50",
+        "left": 4420,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          5209,
+          675,
+          5430,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "932866353b4ff85ae752378f92c3089f3a36f92abc09a59b90466a1acb6ca1a8",
+        "left": 4641,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          5430,
+          675,
+          5651,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "af60a7eb2305b3e70f42744b56d016f76791c785f65c2da874dc70d15160dd39",
+        "left": 4862,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          5651,
+          675,
+          5872,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "04a3fc0d2b6f42254960181d7d004c640c696e03e1a36ac7b2af8c96244fca73",
+        "left": 5083,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          5872,
+          675,
+          6093,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "pending-after-next-layout": [
+      {
+        "tag": "",
+        "left": 0,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          789,
+          675,
+          1010,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "d64de018e668077a350de019c7ae70fc55e173e0141d46a71a27a2b3ce5e65af",
+        "left": 221,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          1010,
+          675,
+          1231,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "714ff8bb2a928b5dcfeb763f41546250326012e257bfd94165f2ae2eae5a34ee",
+        "left": 442,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          1231,
+          675,
+          1452,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "1cea7a90bfa80fdd3d68b7e6dbe371a5993447a12be85026eca4251f0a273999",
+        "left": 663,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          1452,
+          675,
+          1673,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "61fcb8d05e566af0284cf17b1198b5bf4684fb0bb4e391da1aaf1c3beca2698d",
+        "left": 884,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          1673,
+          675,
+          1894,
+          964
+        ],
+        "visible": true,
+        "visibleRect": [
+          1673,
+          675,
+          1894,
+          964
+        ]
+      },
+      {
+        "tag": "06e81bd3059875f7c213bbc9f8ffb52491ae990e93ce934e59b2d2f0b1f6a6ac",
+        "left": 1105,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          1894,
+          675,
+          2115,
+          964
+        ],
+        "visible": true,
+        "visibleRect": [
+          1894,
+          675,
+          2115,
+          964
+        ]
+      },
+      {
+        "tag": "87f7a05e0c3e717bcc82a8cd2e0de72797c8c30fd93a07b108c815614b78b465",
+        "left": 1326,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          2115,
+          675,
+          2336,
+          964
+        ],
+        "visible": true,
+        "visibleRect": [
+          2115,
+          675,
+          2336,
+          964
+        ]
+      },
+      {
+        "tag": "525b53593ed6c9594a38941a6f8457389e59f6678cc6f4234e6070197bc0e814",
+        "left": 1547,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          2336,
+          675,
+          2557,
+          964
+        ],
+        "visible": true,
+        "visibleRect": [
+          2336,
+          675,
+          2387,
+          964
+        ]
+      },
+      {
+        "tag": "38c8ff6655eb5b1c9ab4e9ba5cc4fdd344a4255f3d9258e63e982d6c9b9862f3",
+        "left": 1768,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          2557,
+          675,
+          2778,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "e95fccaf00866eeefc8cd1be1f24917633c20795db3cbad3d78a735b4988c950",
+        "left": 1989,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          2778,
+          675,
+          2999,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "88344f10d3664e0c5c3a816937233bfcf7982ed97a058212140555f2ad10db45",
+        "left": 2210,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          2999,
+          675,
+          3220,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "8ac3ba897b2349f311830a89039065f66ffb654d74f771862179f76274b9c15a",
+        "left": 2431,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          3220,
+          675,
+          3441,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "35a90d8f2813b5f07413fa06aaf89bde246335a110f4c02bb9f75f8efc759e4f",
+        "left": 2652,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          3441,
+          675,
+          3662,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "5b52c83ca5955c29bc3792042326c44e610d2b7842865453ca2c94442124d05a",
+        "left": 2873,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          3662,
+          675,
+          3883,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "cb16af479cb162addfe8cde0d60ca9b1a5bfc9b727dcb9d9a5a16eea4c4db151",
+        "left": 3094,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          3883,
+          675,
+          4104,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "88b37040ba01509d8421e093068821fc819129b368c39a6c90c8e75ee4e66c01",
+        "left": 3315,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          4104,
+          675,
+          4325,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "3b70dfdf10b193374f3776abe8bf8286e564027356b991002617bc8e0e614474",
+        "left": 3536,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          4325,
+          675,
+          4546,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "fa08e248f81dc410e4253b6fe76ae3f38471c1107f10a2c05048e96518a6cc31",
+        "left": 3757,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          4546,
+          675,
+          4767,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "6863ac269ab4c9716337dcdaaca27d0dfb74cc5c519f3ca92ab5bd329992cd96",
+        "left": 3978,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          4767,
+          675,
+          4988,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "fd6a6d3c23df6d0e9d2075469fbd9706bfd02d129d95f2aaea59427da4727e1c",
+        "left": 4199,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          4988,
+          675,
+          5209,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "ecd34484204b8d34bb2d53e389d505f2f39d624113e4401d2e3f16a4fb1b1a50",
+        "left": 4420,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          5209,
+          675,
+          5430,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "932866353b4ff85ae752378f92c3089f3a36f92abc09a59b90466a1acb6ca1a8",
+        "left": 4641,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          5430,
+          675,
+          5651,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "af60a7eb2305b3e70f42744b56d016f76791c785f65c2da874dc70d15160dd39",
+        "left": 4862,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          5651,
+          675,
+          5872,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "04a3fc0d2b6f42254960181d7d004c640c696e03e1a36ac7b2af8c96244fca73",
+        "left": 5083,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          5872,
+          675,
+          6093,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "after-all-thumbnail-callbacks": [
+      {
+        "tag": "",
+        "left": 0,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          789,
+          675,
+          1010,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "d64de018e668077a350de019c7ae70fc55e173e0141d46a71a27a2b3ce5e65af",
+        "left": 221,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          1010,
+          675,
+          1231,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "714ff8bb2a928b5dcfeb763f41546250326012e257bfd94165f2ae2eae5a34ee",
+        "left": 442,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          1231,
+          675,
+          1452,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "1cea7a90bfa80fdd3d68b7e6dbe371a5993447a12be85026eca4251f0a273999",
+        "left": 663,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          1452,
+          675,
+          1673,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "61fcb8d05e566af0284cf17b1198b5bf4684fb0bb4e391da1aaf1c3beca2698d",
+        "left": 884,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          1673,
+          675,
+          1894,
+          964
+        ],
+        "visible": true,
+        "visibleRect": [
+          1673,
+          675,
+          1894,
+          964
+        ]
+      },
+      {
+        "tag": "06e81bd3059875f7c213bbc9f8ffb52491ae990e93ce934e59b2d2f0b1f6a6ac",
+        "left": 1105,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          1894,
+          675,
+          2115,
+          964
+        ],
+        "visible": true,
+        "visibleRect": [
+          1894,
+          675,
+          2115,
+          964
+        ]
+      },
+      {
+        "tag": "87f7a05e0c3e717bcc82a8cd2e0de72797c8c30fd93a07b108c815614b78b465",
+        "left": 1326,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          2115,
+          675,
+          2336,
+          964
+        ],
+        "visible": true,
+        "visibleRect": [
+          2115,
+          675,
+          2336,
+          964
+        ]
+      },
+      {
+        "tag": "525b53593ed6c9594a38941a6f8457389e59f6678cc6f4234e6070197bc0e814",
+        "left": 1547,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          2336,
+          675,
+          2557,
+          964
+        ],
+        "visible": true,
+        "visibleRect": [
+          2336,
+          675,
+          2387,
+          964
+        ]
+      },
+      {
+        "tag": "38c8ff6655eb5b1c9ab4e9ba5cc4fdd344a4255f3d9258e63e982d6c9b9862f3",
+        "left": 1768,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          2557,
+          675,
+          2778,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "e95fccaf00866eeefc8cd1be1f24917633c20795db3cbad3d78a735b4988c950",
+        "left": 1989,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          2778,
+          675,
+          2999,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "88344f10d3664e0c5c3a816937233bfcf7982ed97a058212140555f2ad10db45",
+        "left": 2210,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          2999,
+          675,
+          3220,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "8ac3ba897b2349f311830a89039065f66ffb654d74f771862179f76274b9c15a",
+        "left": 2431,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          3220,
+          675,
+          3441,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "35a90d8f2813b5f07413fa06aaf89bde246335a110f4c02bb9f75f8efc759e4f",
+        "left": 2652,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          3441,
+          675,
+          3662,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "5b52c83ca5955c29bc3792042326c44e610d2b7842865453ca2c94442124d05a",
+        "left": 2873,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          3662,
+          675,
+          3883,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "cb16af479cb162addfe8cde0d60ca9b1a5bfc9b727dcb9d9a5a16eea4c4db151",
+        "left": 3094,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          3883,
+          675,
+          4104,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "88b37040ba01509d8421e093068821fc819129b368c39a6c90c8e75ee4e66c01",
+        "left": 3315,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          4104,
+          675,
+          4325,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "3b70dfdf10b193374f3776abe8bf8286e564027356b991002617bc8e0e614474",
+        "left": 3536,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          4325,
+          675,
+          4546,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "fa08e248f81dc410e4253b6fe76ae3f38471c1107f10a2c05048e96518a6cc31",
+        "left": 3757,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          4546,
+          675,
+          4767,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "6863ac269ab4c9716337dcdaaca27d0dfb74cc5c519f3ca92ab5bd329992cd96",
+        "left": 3978,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          4767,
+          675,
+          4988,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "fd6a6d3c23df6d0e9d2075469fbd9706bfd02d129d95f2aaea59427da4727e1c",
+        "left": 4199,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          4988,
+          675,
+          5209,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "ecd34484204b8d34bb2d53e389d505f2f39d624113e4401d2e3f16a4fb1b1a50",
+        "left": 4420,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          5209,
+          675,
+          5430,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "932866353b4ff85ae752378f92c3089f3a36f92abc09a59b90466a1acb6ca1a8",
+        "left": 4641,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          5430,
+          675,
+          5651,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "af60a7eb2305b3e70f42744b56d016f76791c785f65c2da874dc70d15160dd39",
+        "left": 4862,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          5651,
+          675,
+          5872,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tag": "04a3fc0d2b6f42254960181d7d004c640c696e03e1a36ac7b2af8c96244fca73",
+        "left": 5083,
+        "top": 2,
+        "width": 221,
+        "height": 289,
+        "globalRect": [
+          5872,
+          675,
+          6093,
+          964
+        ],
+        "visible": false,
+        "visibleRect": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ]
+  },
+  "loadingStatusText": "正在加载在线滤镜…",
+  "sourceTouchBounds": [
+    1848,
+    331,
+    1990,
+    457
+  ],
+  "categoryVisibleBounds": [
+    1673,
+    473,
+    2387,
+    599
+  ],
+  "selectionFontScale": 1,
+  "sourceMaterialOutlineBounds": [
+    1840,
+    352,
+    2140,
+    436
+  ],
+  "status": "PASS",
+  "checks": 567,
+  "assertions": [
+    "dedicated-emulator-only",
+    "version-74",
+    "supported-probe-scope",
+    "activity-ready",
+    "actual-configuration-and-window-match-requested-orientation",
+    "actual-configuration-font-scale-matches-mode",
+    "actual-display-dimensions-match-orientation",
+    "offline-editing-no-camera",
+    "seed-recipe-real-sha-0",
+    "seed-recipe-real-sha-1",
+    "seed-recipe-real-sha-2",
+    "seed-recipe-real-sha-3",
+    "seed-recipe-real-sha-4",
+    "seed-recipe-real-sha-5",
+    "seed-recipe-real-sha-6",
+    "seed-recipe-real-sha-7",
+    "seed-recipe-real-sha-8",
+    "seed-recipe-real-sha-9",
+    "seed-recipe-real-sha-10",
+    "seed-recipe-real-sha-11",
+    "seed-recipe-real-sha-12",
+    "seed-recipe-real-sha-13",
+    "seed-recipe-real-sha-14",
+    "seed-recipe-real-sha-15",
+    "seed-recipe-real-sha-16",
+    "seed-recipe-real-sha-17",
+    "seed-recipe-real-sha-18",
+    "seed-recipe-real-sha-19",
+    "seed-recipe-real-sha-20",
+    "seed-recipe-real-sha-21",
+    "seed-recipe-real-sha-22",
+    "catalog-photo-group-ready",
+    "current-photo-editor-ready",
+    "editor-default-source-is-online",
+    "offline-validated-online-catalog-visible",
+    "online-offline-cache-warning-visible",
+    "catalog-status-entire-view-visible-source-cached-catalog",
+    "catalog-status-required-action-readable-source-cached-catalog",
+    "catalog-status-has-real-text-layout-source-cached-catalog",
+    "catalog-status-zero-ellipsis-source-cached-catalog-0",
+    "catalog-status-entire-text-laid-out-source-cached-catalog",
+    "catalog-status-entire-text-height-visible-source-cached-catalog",
+    "online-categories-include-publisher-and-uncategorized-labels",
+    "online-portrait-chip-changes-active-category",
+    "online-portrait-strip-contains-matching-recipes",
+    "online-portrait-strip-contains-matching-recipes",
+    "online-portrait-strip-contains-matching-recipes",
+    "online-portrait-strip-contains-matching-recipes",
+    "online-portrait-strip-contains-matching-recipes",
+    "online-portrait-strip-contains-matching-recipes",
+    "native-screenshot-online-portrait",
+    "native-screenshot-orientation-online-portrait",
+    "native-screenshot-online-default-categories",
+    "native-screenshot-orientation-online-default-categories",
+    "initial-visible-thumbnail-work-completes",
+    "thumbnail-worker-gated-for-real-pending-click",
+    "offscreen-online-recipe-has-not-been-rendered",
+    "thumbnail-queue-deliberately-full-with-real-preview-work",
+    "pending-thumbnail-target-visible-away-from-first-card",
+    "tap-waits-for-the-real-recipe-without-rebuilding-strip",
+    "strip-child-count-stable-pending-tap",
+    "strip-child-reference-stable-pending-tap-0",
+    "strip-card-local-geometry-stable-pending-tap-0",
+    "strip-card-global-rect-stable-pending-tap-0",
+    "strip-card-visible-rect-stable-pending-tap-0",
+    "strip-child-reference-stable-pending-tap-1",
+    "strip-card-local-geometry-stable-pending-tap-1",
+    "strip-card-global-rect-stable-pending-tap-1",
+    "strip-card-visible-rect-stable-pending-tap-1",
+    "strip-child-reference-stable-pending-tap-2",
+    "strip-card-local-geometry-stable-pending-tap-2",
+    "strip-card-global-rect-stable-pending-tap-2",
+    "strip-card-visible-rect-stable-pending-tap-2",
+    "strip-child-reference-stable-pending-tap-3",
+    "strip-card-local-geometry-stable-pending-tap-3",
+    "strip-card-global-rect-stable-pending-tap-3",
+    "strip-card-visible-rect-stable-pending-tap-3",
+    "strip-child-reference-stable-pending-tap-4",
+    "strip-card-local-geometry-stable-pending-tap-4",
+    "strip-card-global-rect-stable-pending-tap-4",
+    "strip-card-visible-rect-stable-pending-tap-4",
+    "strip-child-reference-stable-pending-tap-5",
+    "strip-card-local-geometry-stable-pending-tap-5",
+    "strip-card-global-rect-stable-pending-tap-5",
+    "strip-card-visible-rect-stable-pending-tap-5",
+    "strip-child-reference-stable-pending-tap-6",
+    "strip-card-local-geometry-stable-pending-tap-6",
+    "strip-card-global-rect-stable-pending-tap-6",
+    "strip-card-visible-rect-stable-pending-tap-6",
+    "strip-child-reference-stable-pending-tap-7",
+    "strip-card-local-geometry-stable-pending-tap-7",
+    "strip-card-global-rect-stable-pending-tap-7",
+    "strip-card-visible-rect-stable-pending-tap-7",
+    "strip-child-reference-stable-pending-tap-8",
+    "strip-card-local-geometry-stable-pending-tap-8",
+    "strip-card-global-rect-stable-pending-tap-8",
+    "strip-card-visible-rect-stable-pending-tap-8",
+    "strip-child-reference-stable-pending-tap-9",
+    "strip-card-local-geometry-stable-pending-tap-9",
+    "strip-card-global-rect-stable-pending-tap-9",
+    "strip-card-visible-rect-stable-pending-tap-9",
+    "strip-child-reference-stable-pending-tap-10",
+    "strip-card-local-geometry-stable-pending-tap-10",
+    "strip-card-global-rect-stable-pending-tap-10",
+    "strip-card-visible-rect-stable-pending-tap-10",
+    "strip-child-reference-stable-pending-tap-11",
+    "strip-card-local-geometry-stable-pending-tap-11",
+    "strip-card-global-rect-stable-pending-tap-11",
+    "strip-card-visible-rect-stable-pending-tap-11",
+    "strip-child-reference-stable-pending-tap-12",
+    "strip-card-local-geometry-stable-pending-tap-12",
+    "strip-card-global-rect-stable-pending-tap-12",
+    "strip-card-visible-rect-stable-pending-tap-12",
+    "strip-child-reference-stable-pending-tap-13",
+    "strip-card-local-geometry-stable-pending-tap-13",
+    "strip-card-global-rect-stable-pending-tap-13",
+    "strip-card-visible-rect-stable-pending-tap-13",
+    "strip-child-reference-stable-pending-tap-14",
+    "strip-card-local-geometry-stable-pending-tap-14",
+    "strip-card-global-rect-stable-pending-tap-14",
+    "strip-card-visible-rect-stable-pending-tap-14",
+    "strip-child-reference-stable-pending-tap-15",
+    "strip-card-local-geometry-stable-pending-tap-15",
+    "strip-card-global-rect-stable-pending-tap-15",
+    "strip-card-visible-rect-stable-pending-tap-15",
+    "strip-child-reference-stable-pending-tap-16",
+    "strip-card-local-geometry-stable-pending-tap-16",
+    "strip-card-global-rect-stable-pending-tap-16",
+    "strip-card-visible-rect-stable-pending-tap-16",
+    "strip-child-reference-stable-pending-tap-17",
+    "strip-card-local-geometry-stable-pending-tap-17",
+    "strip-card-global-rect-stable-pending-tap-17",
+    "strip-card-visible-rect-stable-pending-tap-17",
+    "strip-child-reference-stable-pending-tap-18",
+    "strip-card-local-geometry-stable-pending-tap-18",
+    "strip-card-global-rect-stable-pending-tap-18",
+    "strip-card-visible-rect-stable-pending-tap-18",
+    "strip-child-reference-stable-pending-tap-19",
+    "strip-card-local-geometry-stable-pending-tap-19",
+    "strip-card-global-rect-stable-pending-tap-19",
+    "strip-card-visible-rect-stable-pending-tap-19",
+    "strip-child-reference-stable-pending-tap-20",
+    "strip-card-local-geometry-stable-pending-tap-20",
+    "strip-card-global-rect-stable-pending-tap-20",
+    "strip-card-visible-rect-stable-pending-tap-20",
+    "strip-child-reference-stable-pending-tap-21",
+    "strip-card-local-geometry-stable-pending-tap-21",
+    "strip-card-global-rect-stable-pending-tap-21",
+    "strip-card-visible-rect-stable-pending-tap-21",
+    "strip-child-reference-stable-pending-tap-22",
+    "strip-card-local-geometry-stable-pending-tap-22",
+    "strip-card-global-rect-stable-pending-tap-22",
+    "strip-card-visible-rect-stable-pending-tap-22",
+    "strip-child-reference-stable-pending-tap-23",
+    "strip-card-local-geometry-stable-pending-tap-23",
+    "strip-card-global-rect-stable-pending-tap-23",
+    "strip-card-visible-rect-stable-pending-tap-23",
+    "strip-scroll-position-stable-pending-tap",
+    "native-screenshot-online-pending-choice",
+    "native-screenshot-orientation-online-pending-choice",
+    "strip-child-count-stable-pending-after-next-layout",
+    "strip-child-reference-stable-pending-after-next-layout-0",
+    "strip-card-local-geometry-stable-pending-after-next-layout-0",
+    "strip-card-global-rect-stable-pending-after-next-layout-0",
+    "strip-card-visible-rect-stable-pending-after-next-layout-0",
+    "strip-child-reference-stable-pending-after-next-layout-1",
+    "strip-card-local-geometry-stable-pending-after-next-layout-1",
+    "strip-card-global-rect-stable-pending-after-next-layout-1",
+    "strip-card-visible-rect-stable-pending-after-next-layout-1",
+    "strip-child-reference-stable-pending-after-next-layout-2",
+    "strip-card-local-geometry-stable-pending-after-next-layout-2",
+    "strip-card-global-rect-stable-pending-after-next-layout-2",
+    "strip-card-visible-rect-stable-pending-after-next-layout-2",
+    "strip-child-reference-stable-pending-after-next-layout-3",
+    "strip-card-local-geometry-stable-pending-after-next-layout-3",
+    "strip-card-global-rect-stable-pending-after-next-layout-3",
+    "strip-card-visible-rect-stable-pending-after-next-layout-3",
+    "strip-child-reference-stable-pending-after-next-layout-4",
+    "strip-card-local-geometry-stable-pending-after-next-layout-4",
+    "strip-card-global-rect-stable-pending-after-next-layout-4",
+    "strip-card-visible-rect-stable-pending-after-next-layout-4",
+    "strip-child-reference-stable-pending-after-next-layout-5",
+    "strip-card-local-geometry-stable-pending-after-next-layout-5",
+    "strip-card-global-rect-stable-pending-after-next-layout-5",
+    "strip-card-visible-rect-stable-pending-after-next-layout-5",
+    "strip-child-reference-stable-pending-after-next-layout-6",
+    "strip-card-local-geometry-stable-pending-after-next-layout-6",
+    "strip-card-global-rect-stable-pending-after-next-layout-6",
+    "strip-card-visible-rect-stable-pending-after-next-layout-6",
+    "strip-child-reference-stable-pending-after-next-layout-7",
+    "strip-card-local-geometry-stable-pending-after-next-layout-7",
+    "strip-card-global-rect-stable-pending-after-next-layout-7",
+    "strip-card-visible-rect-stable-pending-after-next-layout-7",
+    "strip-child-reference-stable-pending-after-next-layout-8",
+    "strip-card-local-geometry-stable-pending-after-next-layout-8",
+    "strip-card-global-rect-stable-pending-after-next-layout-8",
+    "strip-card-visible-rect-stable-pending-after-next-layout-8",
+    "strip-child-reference-stable-pending-after-next-layout-9",
+    "strip-card-local-geometry-stable-pending-after-next-layout-9",
+    "strip-card-global-rect-stable-pending-after-next-layout-9",
+    "strip-card-visible-rect-stable-pending-after-next-layout-9",
+    "strip-child-reference-stable-pending-after-next-layout-10",
+    "strip-card-local-geometry-stable-pending-after-next-layout-10",
+    "strip-card-global-rect-stable-pending-after-next-layout-10",
+    "strip-card-visible-rect-stable-pending-after-next-layout-10",
+    "strip-child-reference-stable-pending-after-next-layout-11",
+    "strip-card-local-geometry-stable-pending-after-next-layout-11",
+    "strip-card-global-rect-stable-pending-after-next-layout-11",
+    "strip-card-visible-rect-stable-pending-after-next-layout-11",
+    "strip-child-reference-stable-pending-after-next-layout-12",
+    "strip-card-local-geometry-stable-pending-after-next-layout-12",
+    "strip-card-global-rect-stable-pending-after-next-layout-12",
+    "strip-card-visible-rect-stable-pending-after-next-layout-12",
+    "strip-child-reference-stable-pending-after-next-layout-13",
+    "strip-card-local-geometry-stable-pending-after-next-layout-13",
+    "strip-card-global-rect-stable-pending-after-next-layout-13",
+    "strip-card-visible-rect-stable-pending-after-next-layout-13",
+    "strip-child-reference-stable-pending-after-next-layout-14",
+    "strip-card-local-geometry-stable-pending-after-next-layout-14",
+    "strip-card-global-rect-stable-pending-after-next-layout-14",
+    "strip-card-visible-rect-stable-pending-after-next-layout-14",
+    "strip-child-reference-stable-pending-after-next-layout-15",
+    "strip-card-local-geometry-stable-pending-after-next-layout-15",
+    "strip-card-global-rect-stable-pending-after-next-layout-15",
+    "strip-card-visible-rect-stable-pending-after-next-layout-15",
+    "strip-child-reference-stable-pending-after-next-layout-16",
+    "strip-card-local-geometry-stable-pending-after-next-layout-16",
+    "strip-card-global-rect-stable-pending-after-next-layout-16",
+    "strip-card-visible-rect-stable-pending-after-next-layout-16",
+    "strip-child-reference-stable-pending-after-next-layout-17",
+    "strip-card-local-geometry-stable-pending-after-next-layout-17",
+    "strip-card-global-rect-stable-pending-after-next-layout-17",
+    "strip-card-visible-rect-stable-pending-after-next-layout-17",
+    "strip-child-reference-stable-pending-after-next-layout-18",
+    "strip-card-local-geometry-stable-pending-after-next-layout-18",
+    "strip-card-global-rect-stable-pending-after-next-layout-18",
+    "strip-card-visible-rect-stable-pending-after-next-layout-18",
+    "strip-child-reference-stable-pending-after-next-layout-19",
+    "strip-card-local-geometry-stable-pending-after-next-layout-19",
+    "strip-card-global-rect-stable-pending-after-next-layout-19",
+    "strip-card-visible-rect-stable-pending-after-next-layout-19",
+    "strip-child-reference-stable-pending-after-next-layout-20",
+    "strip-card-local-geometry-stable-pending-after-next-layout-20",
+    "strip-card-global-rect-stable-pending-after-next-layout-20",
+    "strip-card-visible-rect-stable-pending-after-next-layout-20",
+    "strip-child-reference-stable-pending-after-next-layout-21",
+    "strip-card-local-geometry-stable-pending-after-next-layout-21",
+    "strip-card-global-rect-stable-pending-after-next-layout-21",
+    "strip-card-visible-rect-stable-pending-after-next-layout-21",
+    "strip-child-reference-stable-pending-after-next-layout-22",
+    "strip-card-local-geometry-stable-pending-after-next-layout-22",
+    "strip-card-global-rect-stable-pending-after-next-layout-22",
+    "strip-card-visible-rect-stable-pending-after-next-layout-22",
+    "strip-child-reference-stable-pending-after-next-layout-23",
+    "strip-card-local-geometry-stable-pending-after-next-layout-23",
+    "strip-card-global-rect-stable-pending-after-next-layout-23",
+    "strip-card-visible-rect-stable-pending-after-next-layout-23",
+    "strip-scroll-position-stable-pending-after-next-layout",
+    "full-queue-pending-retry-is-bounded",
+    "pending-tap-applies-after-async-thumbnail-completion",
+    "post-click-visible-thumbnail-callbacks-complete",
+    "strip-child-count-stable-after-all-thumbnail-callbacks",
+    "strip-child-reference-stable-after-all-thumbnail-callbacks-0",
+    "strip-card-local-geometry-stable-after-all-thumbnail-callbacks-0",
+    "strip-card-global-rect-stable-after-all-thumbnail-callbacks-0",
+    "strip-card-visible-rect-stable-after-all-thumbnail-callbacks-0",
+    "strip-child-reference-stable-after-all-thumbnail-callbacks-1",
+    "strip-card-local-geometry-stable-after-all-thumbnail-callbacks-1",
+    "strip-card-global-rect-stable-after-all-thumbnail-callbacks-1",
+    "strip-card-visible-rect-stable-after-all-thumbnail-callbacks-1",
+    "strip-child-reference-stable-after-all-thumbnail-callbacks-2",
+    "strip-card-local-geometry-stable-after-all-thumbnail-callbacks-2",
+    "strip-card-global-rect-stable-after-all-thumbnail-callbacks-2",
+    "strip-card-visible-rect-stable-after-all-thumbnail-callbacks-2",
+    "strip-child-reference-stable-after-all-thumbnail-callbacks-3",
+    "strip-card-local-geometry-stable-after-all-thumbnail-callbacks-3",
+    "strip-card-global-rect-stable-after-all-thumbnail-callbacks-3",
+    "strip-card-visible-rect-stable-after-all-thumbnail-callbacks-3",
+    "strip-child-reference-stable-after-all-thumbnail-callbacks-4",
+    "strip-card-local-geometry-stable-after-all-thumbnail-callbacks-4",
+    "strip-card-global-rect-stable-after-all-thumbnail-callbacks-4",
+    "strip-card-visible-rect-stable-after-all-thumbnail-callbacks-4",
+    "strip-child-reference-stable-after-all-thumbnail-callbacks-5",
+    "strip-card-local-geometry-stable-after-all-thumbnail-callbacks-5",
+    "strip-card-global-rect-stable-after-all-thumbnail-callbacks-5",
+    "strip-card-visible-rect-stable-after-all-thumbnail-callbacks-5",
+    "strip-child-reference-stable-after-all-thumbnail-callbacks-6",
+    "strip-card-local-geometry-stable-after-all-thumbnail-callbacks-6",
+    "strip-card-global-rect-stable-after-all-thumbnail-callbacks-6",
+    "strip-card-visible-rect-stable-after-all-thumbnail-callbacks-6",
+    "strip-child-reference-stable-after-all-thumbnail-callbacks-7",
+    "strip-card-local-geometry-stable-after-all-thumbnail-callbacks-7",
+    "strip-card-global-rect-stable-after-all-thumbnail-callbacks-7",
+    "strip-card-visible-rect-stable-after-all-thumbnail-callbacks-7",
+    "strip-child-reference-stable-after-all-thumbnail-callbacks-8",
+    "strip-card-local-geometry-stable-after-all-thumbnail-callbacks-8",
+    "strip-card-global-rect-stable-after-all-thumbnail-callbacks-8",
+    "strip-card-visible-rect-stable-after-all-thumbnail-callbacks-8",
+    "strip-child-reference-stable-after-all-thumbnail-callbacks-9",
+    "strip-card-local-geometry-stable-after-all-thumbnail-callbacks-9",
+    "strip-card-global-rect-stable-after-all-thumbnail-callbacks-9",
+    "strip-card-visible-rect-stable-after-all-thumbnail-callbacks-9",
+    "strip-child-reference-stable-after-all-thumbnail-callbacks-10",
+    "strip-card-local-geometry-stable-after-all-thumbnail-callbacks-10",
+    "strip-card-global-rect-stable-after-all-thumbnail-callbacks-10",
+    "strip-card-visible-rect-stable-after-all-thumbnail-callbacks-10",
+    "strip-child-reference-stable-after-all-thumbnail-callbacks-11",
+    "strip-card-local-geometry-stable-after-all-thumbnail-callbacks-11",
+    "strip-card-global-rect-stable-after-all-thumbnail-callbacks-11",
+    "strip-card-visible-rect-stable-after-all-thumbnail-callbacks-11",
+    "strip-child-reference-stable-after-all-thumbnail-callbacks-12",
+    "strip-card-local-geometry-stable-after-all-thumbnail-callbacks-12",
+    "strip-card-global-rect-stable-after-all-thumbnail-callbacks-12",
+    "strip-card-visible-rect-stable-after-all-thumbnail-callbacks-12",
+    "strip-child-reference-stable-after-all-thumbnail-callbacks-13",
+    "strip-card-local-geometry-stable-after-all-thumbnail-callbacks-13",
+    "strip-card-global-rect-stable-after-all-thumbnail-callbacks-13",
+    "strip-card-visible-rect-stable-after-all-thumbnail-callbacks-13",
+    "strip-child-reference-stable-after-all-thumbnail-callbacks-14",
+    "strip-card-local-geometry-stable-after-all-thumbnail-callbacks-14",
+    "strip-card-global-rect-stable-after-all-thumbnail-callbacks-14",
+    "strip-card-visible-rect-stable-after-all-thumbnail-callbacks-14",
+    "strip-child-reference-stable-after-all-thumbnail-callbacks-15",
+    "strip-card-local-geometry-stable-after-all-thumbnail-callbacks-15",
+    "strip-card-global-rect-stable-after-all-thumbnail-callbacks-15",
+    "strip-card-visible-rect-stable-after-all-thumbnail-callbacks-15",
+    "strip-child-reference-stable-after-all-thumbnail-callbacks-16",
+    "strip-card-local-geometry-stable-after-all-thumbnail-callbacks-16",
+    "strip-card-global-rect-stable-after-all-thumbnail-callbacks-16",
+    "strip-card-visible-rect-stable-after-all-thumbnail-callbacks-16",
+    "strip-child-reference-stable-after-all-thumbnail-callbacks-17",
+    "strip-card-local-geometry-stable-after-all-thumbnail-callbacks-17",
+    "strip-card-global-rect-stable-after-all-thumbnail-callbacks-17",
+    "strip-card-visible-rect-stable-after-all-thumbnail-callbacks-17",
+    "strip-child-reference-stable-after-all-thumbnail-callbacks-18",
+    "strip-card-local-geometry-stable-after-all-thumbnail-callbacks-18",
+    "strip-card-global-rect-stable-after-all-thumbnail-callbacks-18",
+    "strip-card-visible-rect-stable-after-all-thumbnail-callbacks-18",
+    "strip-child-reference-stable-after-all-thumbnail-callbacks-19",
+    "strip-card-local-geometry-stable-after-all-thumbnail-callbacks-19",
+    "strip-card-global-rect-stable-after-all-thumbnail-callbacks-19",
+    "strip-card-visible-rect-stable-after-all-thumbnail-callbacks-19",
+    "strip-child-reference-stable-after-all-thumbnail-callbacks-20",
+    "strip-card-local-geometry-stable-after-all-thumbnail-callbacks-20",
+    "strip-card-global-rect-stable-after-all-thumbnail-callbacks-20",
+    "strip-card-visible-rect-stable-after-all-thumbnail-callbacks-20",
+    "strip-child-reference-stable-after-all-thumbnail-callbacks-21",
+    "strip-card-local-geometry-stable-after-all-thumbnail-callbacks-21",
+    "strip-card-global-rect-stable-after-all-thumbnail-callbacks-21",
+    "strip-card-visible-rect-stable-after-all-thumbnail-callbacks-21",
+    "strip-child-reference-stable-after-all-thumbnail-callbacks-22",
+    "strip-card-local-geometry-stable-after-all-thumbnail-callbacks-22",
+    "strip-card-global-rect-stable-after-all-thumbnail-callbacks-22",
+    "strip-card-visible-rect-stable-after-all-thumbnail-callbacks-22",
+    "strip-child-reference-stable-after-all-thumbnail-callbacks-23",
+    "strip-card-local-geometry-stable-after-all-thumbnail-callbacks-23",
+    "strip-card-global-rect-stable-after-all-thumbnail-callbacks-23",
+    "strip-card-visible-rect-stable-after-all-thumbnail-callbacks-23",
+    "strip-scroll-position-stable-after-all-thumbnail-callbacks",
+    "native-screenshot-online-selected-stable",
+    "native-screenshot-orientation-online-selected-stable",
+    "current-photo-editor-ready",
+    "switch-photo-b-binds-correct-source",
+    "switch-photo-does-not-reuse-previous-photo-card",
+    "switch-photo-does-not-reuse-previous-photo-card",
+    "switch-photo-does-not-reuse-previous-photo-card",
+    "switch-photo-does-not-reuse-previous-photo-card",
+    "switch-photo-does-not-reuse-previous-photo-card",
+    "switch-photo-does-not-reuse-previous-photo-card",
+    "switch-photo-does-not-reuse-previous-photo-card",
+    "switch-photo-does-not-reuse-previous-photo-card",
+    "switch-photo-does-not-reuse-previous-photo-card",
+    "switch-photo-does-not-reuse-previous-photo-card",
+    "switch-photo-does-not-reuse-previous-photo-card",
+    "switch-photo-does-not-reuse-previous-photo-card",
+    "switch-photo-does-not-reuse-previous-photo-card",
+    "switch-photo-does-not-reuse-previous-photo-card",
+    "switch-photo-does-not-reuse-previous-photo-card",
+    "switch-photo-does-not-reuse-previous-photo-card",
+    "switch-photo-does-not-reuse-previous-photo-card",
+    "switch-photo-does-not-reuse-previous-photo-card",
+    "switch-photo-does-not-reuse-previous-photo-card",
+    "switch-photo-does-not-reuse-previous-photo-card",
+    "switch-photo-does-not-reuse-previous-photo-card",
+    "switch-photo-does-not-reuse-previous-photo-card",
+    "switch-photo-does-not-reuse-previous-photo-card",
+    "switch-photo-does-not-reuse-previous-photo-card",
+    "switch-photo-has-fresh-entry-identities",
+    "explicit-my-source-for-local-recipes",
+    "my-source-retains-existing-59-local-recipes",
+    "my-categories-come-from-local-library",
+    "my-landscape-category-selects-independently",
+    "native-screenshot-my-landscape",
+    "native-screenshot-orientation-my-landscape",
+    "source-switch-resets-category-filter",
+    "online-catalog-idle-before-empty-cache-case",
+    "catalog-loading-status-visible-before-async-completion",
+    "offline-no-catalog-cache-displays-failure",
+    "catalog-status-entire-view-visible-source-no-cache-error",
+    "catalog-status-required-action-readable-source-no-cache-error",
+    "catalog-status-has-real-text-layout-source-no-cache-error",
+    "catalog-status-zero-ellipsis-source-no-cache-error-0",
+    "catalog-status-entire-text-laid-out-source-no-cache-error",
+    "catalog-status-entire-text-height-visible-source-no-cache-error",
+    "offline-no-cache-keeps-only-original-card",
+    "native-screenshot-online-no-cache",
+    "native-screenshot-orientation-online-no-cache",
+    "no-cache-picker-status-laid-out",
+    "catalog-status-entire-view-visible-picker-no-cache-error",
+    "catalog-status-required-action-readable-picker-no-cache-error",
+    "catalog-status-has-real-text-layout-picker-no-cache-error",
+    "catalog-status-zero-ellipsis-picker-no-cache-error-0",
+    "catalog-status-entire-text-laid-out-picker-no-cache-error",
+    "catalog-status-entire-text-height-visible-picker-no-cache-error",
+    "native-screenshot-online-no-cache-picker",
+    "native-screenshot-orientation-online-no-cache-picker",
+    "visible-retry-recovers-validated-cached-categories",
+    "retry-keeps-clear-offline-cache-warning",
+    "catalog-status-entire-view-visible-picker-retry-cache",
+    "catalog-status-required-action-readable-picker-retry-cache",
+    "catalog-status-has-real-text-layout-picker-retry-cache",
+    "catalog-status-zero-ellipsis-picker-retry-cache-0",
+    "catalog-status-entire-text-laid-out-picker-retry-cache",
+    "catalog-status-entire-text-height-visible-picker-retry-cache",
+    "native-screenshot-online-retry-cache-picker",
+    "native-screenshot-orientation-online-retry-cache-picker",
+    "catalog-status-entire-view-visible-source-retry-cache",
+    "catalog-status-required-action-readable-source-retry-cache",
+    "catalog-status-has-real-text-layout-source-retry-cache",
+    "catalog-status-zero-ellipsis-source-retry-cache-0",
+    "catalog-status-entire-text-laid-out-source-retry-cache",
+    "catalog-status-entire-text-height-visible-source-retry-cache",
+    "native-screenshot-online-retry-cache",
+    "native-screenshot-orientation-online-retry-cache",
+    "validated-empty-cached-catalog-loads-zero-recipes",
+    "catalog-status-entire-view-visible-source-empty-cached-catalog",
+    "catalog-status-required-action-readable-source-empty-cached-catalog",
+    "catalog-status-has-real-text-layout-source-empty-cached-catalog",
+    "catalog-status-zero-ellipsis-source-empty-cached-catalog-0",
+    "catalog-status-entire-text-laid-out-source-empty-cached-catalog",
+    "catalog-status-entire-text-height-visible-source-empty-cached-catalog",
+    "validated-empty-catalog-preserves-original-choice",
+    "native-screenshot-online-empty-cache",
+    "native-screenshot-orientation-online-empty-cache",
+    "empty-catalog-picker-laid-out",
+    "catalog-status-entire-view-visible-picker-empty-cached-catalog",
+    "catalog-status-required-action-readable-picker-empty-cached-catalog",
+    "catalog-status-has-real-text-layout-picker-empty-cached-catalog",
+    "catalog-status-zero-ellipsis-picker-empty-cached-catalog-0",
+    "catalog-status-entire-text-laid-out-picker-empty-cached-catalog",
+    "catalog-status-entire-text-height-visible-picker-empty-cached-catalog",
+    "validated-empty-catalog-picker-offers-only-original",
+    "native-screenshot-online-empty-cache-picker",
+    "native-screenshot-orientation-online-empty-cache-picker",
+    "empty-catalog-test-restores-23-recipe-fixture",
+    "online-browsing-and-applying-do-not-import-local-presets",
+    "online-category-does-not-overwrite-same-sha-local-category",
+    "current-photo-editor-ready",
+    "selection-polish-online-catalog-ready",
+    "selection-polish-native-controls-laid-out",
+    "black-white-category-present-in-explicit-fixture",
+    "category-count-stable-portrait",
+    "category-child-reference-stable-portrait-0",
+    "category-position-stable-portrait-0",
+    "category-48dp-touch-target-portrait-0",
+    "category-child-reference-stable-portrait-1",
+    "category-position-stable-portrait-1",
+    "category-48dp-touch-target-portrait-1",
+    "category-six-dp-gap-portrait-1",
+    "category-child-reference-stable-portrait-2",
+    "category-position-stable-portrait-2",
+    "category-48dp-touch-target-portrait-2",
+    "category-six-dp-gap-portrait-2",
+    "category-child-reference-stable-portrait-3",
+    "category-position-stable-portrait-3",
+    "category-48dp-touch-target-portrait-3",
+    "category-six-dp-gap-portrait-3",
+    "category-child-reference-stable-portrait-4",
+    "category-position-stable-portrait-4",
+    "category-48dp-touch-target-portrait-4",
+    "category-six-dp-gap-portrait-4",
+    "category-child-reference-stable-portrait-5",
+    "category-position-stable-portrait-5",
+    "category-48dp-touch-target-portrait-5",
+    "category-six-dp-gap-portrait-5",
+    "category-child-reference-stable-portrait-6",
+    "category-position-stable-portrait-6",
+    "category-48dp-touch-target-portrait-6",
+    "category-six-dp-gap-portrait-6",
+    "category-child-reference-stable-portrait-7",
+    "category-position-stable-portrait-7",
+    "category-48dp-touch-target-portrait-7",
+    "category-six-dp-gap-portrait-7",
+    "category-child-reference-stable-portrait-8",
+    "category-position-stable-portrait-8",
+    "category-48dp-touch-target-portrait-8",
+    "category-six-dp-gap-portrait-8",
+    "native-screenshot-selection-portrait",
+    "native-screenshot-orientation-selection-portrait",
+    "selection-polish-black-white-active",
+    "category-count-stable-black-white",
+    "category-child-reference-stable-black-white-0",
+    "category-position-stable-black-white-0",
+    "category-48dp-touch-target-black-white-0",
+    "category-child-reference-stable-black-white-1",
+    "category-position-stable-black-white-1",
+    "category-48dp-touch-target-black-white-1",
+    "category-six-dp-gap-black-white-1",
+    "category-child-reference-stable-black-white-2",
+    "category-position-stable-black-white-2",
+    "category-48dp-touch-target-black-white-2",
+    "category-six-dp-gap-black-white-2",
+    "category-child-reference-stable-black-white-3",
+    "category-position-stable-black-white-3",
+    "category-48dp-touch-target-black-white-3",
+    "category-six-dp-gap-black-white-3",
+    "category-child-reference-stable-black-white-4",
+    "category-position-stable-black-white-4",
+    "category-48dp-touch-target-black-white-4",
+    "category-six-dp-gap-black-white-4",
+    "category-child-reference-stable-black-white-5",
+    "category-position-stable-black-white-5",
+    "category-48dp-touch-target-black-white-5",
+    "category-six-dp-gap-black-white-5",
+    "category-child-reference-stable-black-white-6",
+    "category-position-stable-black-white-6",
+    "category-48dp-touch-target-black-white-6",
+    "category-six-dp-gap-black-white-6",
+    "category-child-reference-stable-black-white-7",
+    "category-position-stable-black-white-7",
+    "category-48dp-touch-target-black-white-7",
+    "category-six-dp-gap-black-white-7",
+    "category-child-reference-stable-black-white-8",
+    "category-position-stable-black-white-8",
+    "category-48dp-touch-target-black-white-8",
+    "category-six-dp-gap-black-white-8",
+    "source-segment-labels-stay-single-line",
+    "source-segments-retain-48dp-touch-targets",
+    "source-and-category-controls-visible",
+    "source-touch-row-and-category-row-separated-by-six-dp",
+    "source-track-material-visual-height-is-compact",
+    "source-material-and-category-controls-do-not-crowd",
+    "native-screenshot-selection-black-white",
+    "native-screenshot-orientation-selection-black-white",
+    "selection-polish-expanded-grid-ready",
+    "selection-polish-expanded-grid-fits-complete-photo-and-label-row",
+    "expanded-category-count-stable-on-selection",
+    "expanded-category-child-stable-0",
+    "expanded-category-position-stable-0",
+    "expanded-category-child-stable-1",
+    "expanded-category-position-stable-1",
+    "expanded-category-child-stable-2",
+    "expanded-category-position-stable-2",
+    "expanded-category-child-stable-3",
+    "expanded-category-position-stable-3",
+    "expanded-category-child-stable-4",
+    "expanded-category-position-stable-4",
+    "expanded-category-child-stable-5",
+    "expanded-category-position-stable-5",
+    "expanded-category-child-stable-6",
+    "expanded-category-position-stable-6",
+    "expanded-category-child-stable-7",
+    "expanded-category-position-stable-7",
+    "expanded-category-child-stable-8",
+    "expanded-category-position-stable-8",
+    "native-screenshot-selection-expanded",
+    "native-screenshot-orientation-selection-expanded"
+  ]
+}

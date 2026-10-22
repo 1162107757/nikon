@@ -1,0 +1,4 @@
+INSTRUMENTATION_RESULT: status=FAIL
+INSTRUMENTATION_RESULT: stream=Photo editor native FAIL; native-screenshot-failure; java.lang.IllegalStateException: picker-fits-complete-photo-and-label-row
+
+INSTRUMENTATION_CODE: 0

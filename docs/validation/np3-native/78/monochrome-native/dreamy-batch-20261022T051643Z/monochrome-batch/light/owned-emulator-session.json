@@ -1,0 +1,28 @@
+{
+  "startedAt": "2026-10-22T05:04:14.2637089Z",
+  "pid": 44160,
+  "serial": "emulator-5582",
+  "avd": "Pixel_9",
+  "arguments": [
+    "-avd",
+    "Pixel_9",
+    "-port",
+    "5582",
+    "-read-only",
+    "-no-window",
+    "-no-snapshot-load",
+    "-no-snapshot-save",
+    "-gpu",
+    "swiftshader",
+    "-no-audio",
+    "-no-boot-anim",
+    "-netdelay",
+    "none",
+    "-netspeed",
+    "full"
+  ],
+  "readOnly": true,
+  "noWindow": true,
+  "productInstalled": false,
+  "sessionDirectory": "D:\\dev\\ai-project\\nikon\\.tooling\\np3-native\\78-mono-20261022T050414Z"
+}

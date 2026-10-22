@@ -1,0 +1,46 @@
+{
+  "checkedAt": "2026-10-21T15:37:53.788Z",
+  "noCloudRequestOrMutationExecuted": true,
+  "checks": [
+    {
+      "path": ".tooling/huevia77-common.mjs",
+      "sha256": "e2a375fa67ded8a88be3c0c3f2e91ae63ee16d9e23928703c9e2bd9cf9d311e4",
+      "syntax": true
+    },
+    {
+      "path": ".tooling/huevia77-prepare.mjs",
+      "sha256": "d46c52b02b6a06b00107a97fcf2b0fc4db638baf7efeb15395de0ea62f5fb7f0",
+      "syntax": true
+    },
+    {
+      "path": ".tooling/huevia77-deploy.mjs",
+      "sha256": "afc44d73dcfa72244a3d3fce01e12296fe798e50741e81bec08479e8000e937f",
+      "syntax": true
+    },
+    {
+      "path": ".tooling/huevia77-publish.mjs",
+      "sha256": "4596e1a70ae48cf508edada076d9e7bb09463d2e926910f16c0eb43daf33e174",
+      "syntax": true
+    },
+    {
+      "path": ".tooling/huevia77-staged.test.mjs",
+      "sha256": "93198a1873c74c200d5dab369a649c48bb2a6616d83f127c250124b099d93b7d",
+      "syntax": true
+    },
+    {
+      "path": ".tooling/huevia77-archive.test.mjs",
+      "sha256": "d9844748496ff3dee20af031ac5b7a2451457fff9ea12171ef273ae15c12a8a2",
+      "syntax": true
+    },
+    {
+      "path": ".tooling/huevia77-deploy.mjs",
+      "missingExplicitActionRejected": true,
+      "exitCode": 1
+    },
+    {
+      "path": ".tooling/huevia77-publish.mjs",
+      "missingExplicitActionRejected": true,
+      "exitCode": 1
+    }
+  ]
+}

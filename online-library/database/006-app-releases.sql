@@ -3,7 +3,7 @@
 BEGIN;
 CREATE TABLE IF NOT EXISTS public.nikon_app_releases (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  package_name text NOT NULL CHECK(package_name='com.nikonpreset.usbprobe'),
+  package_name text NOT NULL CHECK(package_name IN ('com.nikonpreset.usbprobe','cc.huevia')),
   version_name text NOT NULL CHECK(length(version_name) BETWEEN 1 AND 100),
   version_code integer NOT NULL UNIQUE CHECK(version_code>0),
   min_sdk integer NOT NULL CHECK(min_sdk BETWEEN 24 AND 100),

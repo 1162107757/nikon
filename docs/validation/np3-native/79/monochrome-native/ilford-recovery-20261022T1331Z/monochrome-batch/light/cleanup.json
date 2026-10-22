@@ -1,0 +1,11 @@
+{
+  "ownedQemuPid": 14484,
+  "temporaryAvdPreserved": "D:\\dev\\ai-project\\nikon\\.tooling\\np3-native\\79-monochrome\\ilford-20261022T092350Z\\avd\\Huevia79API36.avd",
+  "ownedStarterPid": 13296,
+  "ownedProcessesExited": true,
+  "ownedSerialPresent": false,
+  "capturedAt": "2026-10-22T13:34:06.8260502Z",
+  "terminationMethod": "adb -s emulator-5582 emu kill",
+  "otherDevicesAndAvdsModified": false,
+  "serial": "emulator-5582"
+}

@@ -1,0 +1,4 @@
+mode=large-font
+font_scale_expected=1.3
+font_scale_observed=1.3
+immersive_mode_confirmations=confirmed

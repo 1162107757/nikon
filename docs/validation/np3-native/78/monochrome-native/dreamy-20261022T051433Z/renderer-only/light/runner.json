@@ -1,0 +1,11 @@
+{
+  "scope": "renderer-only",
+  "expectedVersion": 78,
+  "serial": "emulator-5582",
+  "theme": "light",
+  "instrumentationElapsedSeconds": 15.4112859,
+  "runId": "dreamy-20261022T051433Z",
+  "probeSha256": "82c9d6095f14f8b70c64c2c4eef648471de1be038d3bfc498c48e2cbcab6f4ab",
+  "expectedApkSha256": "0b1767980b10b467a34464015c15090951401c6d4300c9bb64a3a61fd7ea88e5",
+  "productInstalledByThisRunner": false
+}

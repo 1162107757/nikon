@@ -1,0 +1,41 @@
+Huevia 0.13.4-beta / versionCode 72
+APK: nikon-usb-0.13.4-beta-debug.apk
+Bytes: 3425901
+SHA-256: e563135f99857a19938d3a49ef7fceeab587250a843fd43dde8ed0ff161202b7
+Package: com.nikonpreset.usbprobe; minSdk 26; compile/targetSdk 35
+Build and APK v2/v3 signatures: PASS
+
+Requested album changes:
+- Upper-right editor export: 64x36dp visual, 13sp, 64x48dp touch bounds.
+- Pull down at the top to refresh camera/downloaded lists; no heading refresh button.
+- Camera pagination: bottom loading spinner, retry on failure, exhausted label.
+  Existing grid and scroll position survive append/failure/retry. Compact-height
+  viewports place the 48dp footer at the bottom right.
+- Prior completed-local-original editing boundary and preset selection style retained.
+
+Final-APK album-refresh native scope on dedicated emulator-5582 / ranchu:
+phone (actual font_scale 1.0): PASS 136
+large-font (actual font_scale 1.3): PASS 136
+landscape (actual font_scale 1.0): PASS 155
+Total: 427. All three reports record the exact final APK SHA-256 above.
+Actual gestures/local worker, compact export geometry/text, synthetic camera
+pagination failure/retry/append/end and retained grid identity were checked.
+Landscape uses actual upward MotionEvents; screenshots reviewed. Font reset 1.0.
+Host pull gesture decisions: PASS 927, separate from native rendering checks.
+
+Coordinated Wi-Fi simplification is included: reuse existing Wi-Fi, system picker
+as primary flow, optional manual credentials. Host/runtime checks: PASS 1200.
+Wi-Fi native checks: PASS 216 on earlier same-version verification candidate
+9053c6b32eec3750c13da46800b03fb0e7517c55c4d04c78626bb10c8f585721.
+Only AlbumPanel pagination footer layout changed after that Wi-Fi run; the Wi-Fi
+sources are unchanged. Original Wi-Fi report hashes are retained, not relabelled
+as final-APK executions. Details: docs/camera-wifi-simplify-72.md.
+
+Scope limits: offline fixtures and controlled typed PhotoCameraClient metadata
+exercise actual Android UI/controller code. No camera network or original-photo
+transfer is claimed; no physical phone/X-T20 hardware certification. Historical
+69/70/71 checks are not counted as 72 results. No new database migration/deployment.
+Probe premise/measurement failures remain archived and excluded from pass totals.
+
+Evidence: docs/validation/photo-album-refresh-72/README.md and mode folders.
+Verdict: PASS within the requested album UI and interaction scope.

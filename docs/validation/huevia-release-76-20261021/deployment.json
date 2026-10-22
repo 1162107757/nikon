@@ -1,0 +1,41 @@
+{
+  "environment": "nikon-d8girdjsr252fd90e",
+  "functionName": "nikon-preset-library",
+  "preparedAt": "2026-10-21T09:23:04.281Z",
+  "previousArchiveSha256": "0952ff375a1871357de3d7c5acbf4d7f3873f30fb03c6a838d603ab19d10c17a",
+  "archiveSha256": "8eb27c84fa723390d3664fbbfed865c82fb63583a2d214cef7626d22802aae50",
+  "configurationSha256": "ca5207b66e5bead65ccb2a7e88b290b2d93bc8974cdec9c80e07b2822ec7f078",
+  "files": 38,
+  "changes": [
+    {
+      "path": "server/apk.mjs",
+      "before": "df103f582aa98858626b9c1fcef89177effbe261b07fa606224873c387c25fc9",
+      "after": "356e81a772e9eb936d94cca17062db1fe9d7c1ea89d343905aec48b347266bed"
+    },
+    {
+      "path": "server/bundled-apks/cf74460f3a01ca29250a1c77f8a051bc0cf7e3439df20bb91c9b6b2b33b5fa95.apk",
+      "after": "cf74460f3a01ca29250a1c77f8a051bc0cf7e3439df20bb91c9b6b2b33b5fa95"
+    },
+    {
+      "path": "server/releases.mjs",
+      "before": "f77912a5eabf2de283016659e057a2cc9b8cfb6e8fd4339d0e105bc2363ac3d4",
+      "after": "f1c05fa0feedab24b9fb4a63f7ad94cf01be78bfc9b1b7ee44f3955e7a535ecb"
+    },
+    {
+      "path": "download/download.js",
+      "before": "699870fecffad86b45deb8a0a3baf3178ef433808aeeb3699f592ff4233dc02a",
+      "after": "335e1432947a6b365206ef50f6a2169cdd8ada4c0a4f8dfe4504f51fc6d0ac85"
+    }
+  ],
+  "testsPassed": true,
+  "scoped": true,
+  "testSummary": [
+    "# tests 55",
+    "# pass 55",
+    "# fail 0",
+    "# skipped 0"
+  ],
+  "deployedAt": "2026-10-21T09:25:17.066Z",
+  "status": "Active",
+  "configurationPreserved": true
+}

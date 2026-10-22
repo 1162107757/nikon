@@ -1,0 +1,54 @@
+Huevia 0.13.6-beta / versionCode 74 - 2026-10-21
+Package: com.nikonpreset.usbprobe
+Artifact: nikon-usb-0.13.6-beta-debug.apk
+Bytes: 3434093
+SHA-256: bd8c0516cb8e03c370ebf2d08cf25229296588a5bed4ca9dcb5ec76940c8fa62
+Signing: existing local debug identity, APK v2/v3 verification passed.
+minSdk 26; targetSdk/compileSdk 35; JDK 17.0.19; build-tools 35.0.0.
+
+Current patch:
+- Short, shared source/picker catalog failure and cached-status labels keep retry/refresh readable.
+- Long network diagnostics and cache limitations remain available through tooltips.
+- Existing 73 camera recovery/RAW fixes and 69-72 classification/editor behavior retained.
+- Test-only obsolete unsupported NCP fixture changed from modification state 1 to 3;
+  accepted states 0/1/2 and all import guards remain unchanged.
+- Added complete immutable-history and manual-edit conflict coverage for category rollback.
+
+Actual checks in this continuation:
+- Relevant host suites: library 524 + editor catalog 53 + editor/draft 2144
+  + batch 300 + source links 82 + project-auto 48 = 3151 PASS.
+- Full USB/wireless probe: 685 + 453 + 1253 + 9698 = 12089 PASS.
+  Original outdated fixture failure was reproduced before the test-only correction.
+- Classification/plan Node tests: 7/7 PASS; source check: 56 modules PASS.
+- Isolated in-memory PostgreSQL: 46 assertions PASS; no production SQL executed.
+- Backup/plan/file/SQL audit: all 241 local recipe hashes and six recorded backup
+  hashes match; v2 classification and SQL generation reproduce the reviewed plan.
+- Anonymous public catalog: 241 IDs/categories/file SHA values match the plan.
+  Portrait 27, landscape 79, film 52, monochrome 21, daily 54, night 8.
+  This run did not re-fetch category feeds or public recipe file bytes.
+
+Same final APK native selection/status verification on dedicated emulator-5582:
+- phone: 567 PASS, font 1.0, orientation 1, window 1080x2424.
+- large-font: 567 PASS, font approximately 1.3, orientation 1, 1080x2424.
+- landscape: 567 PASS, font 1.0, orientation 2, 2424x1080.
+- Total: 1701 assertion records, including per-card repeated checks.
+- Source and picker error/cache/empty labels visible with zero ellipsis.
+- Child View identity, scrollX, local bounds, screen bounds and clipped visibility
+  unchanged across selection and asynchronous thumbnail completion; queue retry covered.
+- Actual loading, valid empty cache and retry recovery covered with explicit offline fixtures.
+- Font and rotation settings restored after every mode; restoration reports PASS.
+- Final screenshots inspected against the existing design board.
+
+Probe SHA-256: f92441f322ddd7894de144b20e465e036210b6b170d2ccecb4876500c0077693
+Evidence: docs/validation/photo-selection-polish-74/{phone,large-font,landscape}/
+Source/script/probe provenance included per mode. Host/build/audit logs:
+tests/.build/resume-audit-20261021/
+
+Limits: Native UI uses an explicitly seeded 23-entry offline catalog with existing
+real and hand-authored recipes, not live production reads on user hardware.
+No new physical-phone/camera, frame-rate, TalkBack, tablet, sustained blur or NX Studio
+calibration certification. Existing earlier-version evidence is not counted as rerun.
+Compilation retained three optional Tencent support-annotation warnings; no errors.
+
+Delivery: local APK only. No production migration, rollback, service deployment,
+credential change, external publication or Git push in this continuation.

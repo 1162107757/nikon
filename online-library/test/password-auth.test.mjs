@@ -35,7 +35,7 @@ test('ordinary password hashing has an independent policy and preserves every pa
   assert.match(first, /^scrypt:32768:8:1:[a-f0-9]{32}:[a-f0-9]{128}$/); assert.notEqual(first, second);
   assert.equal(await verifyPassword('12345678', first), true);
   await assert.rejects(hashUserPassword('1234567')); await assert.rejects(hashUserPassword('x'.repeat(129)));
-  await assert.rejects(hashPassword('12345678'), /管理员密码/);
+  await assert.rejects(hashPassword('1234567'), /管理员密码/);
   const spaced = await hashUserPassword(password);
   assert.equal(await verifyPassword(password, spaced), true);
   assert.equal(await verifyPassword(password.trim(), spaced), false);

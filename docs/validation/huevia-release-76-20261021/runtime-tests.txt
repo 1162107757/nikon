@@ -1,0 +1,289 @@
+TAP version 13
+# (node:38140) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: /preset-library: changing password uses CSRF, preserves exact text and clears authority only on success
+ok 1 - /preset-library: changing password uses CSRF, preserves exact text and clears authority only on success
+  ---
+  duration_ms: 4.8697
+  ...
+# Subtest: /preset-library: session/login use the deployment route and login bypasses CSRF
+ok 2 - /preset-library: session/login use the deployment route and login bypasses CSRF
+  ---
+  duration_ms: 1.7359
+  ...
+# Subtest: /preset-library: replacing draft assets preserves revision and uses the reauthenticated CSRF
+ok 3 - /preset-library: replacing draft assets preserves revision and uses the reauthenticated CSRF
+  ---
+  duration_ms: 2.8556
+  ...
+# Subtest: /preset-library: uploads use raw files and preserve private preview metadata
+ok 4 - /preset-library: uploads use raw files and preserve private preview metadata
+  ---
+  duration_ms: 2.2182
+  ...
+# Subtest: /preset-library: file bounds reject before network and the exact preview bound is allowed
+ok 5 - /preset-library: file bounds reject before network and the exact preview bound is allowed
+  ---
+  duration_ms: 4.7834
+  ...
+# Subtest: /preset-library: logout drops mutation authority and backend/config failures stay explicit
+ok 6 - /preset-library: logout drops mutation authority and backend/config failures stay explicit
+  ---
+  duration_ms: 1.9348
+  ...
+# Subtest: /preset-library: users preserve query boundaries, cancellation and status concurrency
+ok 7 - /preset-library: users preserve query boundaries, cancellation and status concurrency
+  ---
+  duration_ms: 1.7403
+  ...
+# Subtest: site-root: changing password uses CSRF, preserves exact text and clears authority only on success
+ok 8 - site-root: changing password uses CSRF, preserves exact text and clears authority only on success
+  ---
+  duration_ms: 1.7274
+  ...
+# Subtest: site-root: session/login use the deployment route and login bypasses CSRF
+ok 9 - site-root: session/login use the deployment route and login bypasses CSRF
+  ---
+  duration_ms: 1.8978
+  ...
+# Subtest: site-root: replacing draft assets preserves revision and uses the reauthenticated CSRF
+ok 10 - site-root: replacing draft assets preserves revision and uses the reauthenticated CSRF
+  ---
+  duration_ms: 4.7719
+  ...
+# Subtest: site-root: uploads use raw files and preserve private preview metadata
+ok 11 - site-root: uploads use raw files and preserve private preview metadata
+  ---
+  duration_ms: 1.8053
+  ...
+# Subtest: site-root: file bounds reject before network and the exact preview bound is allowed
+ok 12 - site-root: file bounds reject before network and the exact preview bound is allowed
+  ---
+  duration_ms: 7.1554
+  ...
+# Subtest: site-root: logout drops mutation authority and backend/config failures stay explicit
+ok 13 - site-root: logout drops mutation authority and backend/config failures stay explicit
+  ---
+  duration_ms: 2.1894
+  ...
+# Subtest: site-root: users preserve query boundaries, cancellation and status concurrency
+ok 14 - site-root: users preserve query boundaries, cancellation and status concurrency
+  ---
+  duration_ms: 2.1512
+  ...
+# Subtest: admin password change persists only a hash, preserves whitespace and revokes every own session
+ok 15 - admin password change persists only a hash, preserves whitespace and revokes every own session
+  ---
+  duration_ms: 908.357
+  ...
+# Subtest: admin password changes require a live admin cookie, allowed Origin and exact CSRF
+ok 16 - admin password changes require a live admin cookie, allowed Origin and exact CSRF
+  ---
+  duration_ms: 95.1475
+  ...
+# Subtest: exactly eight digits are enough for an administrator password; seven characters are rejected
+ok 17 - exactly eight digits are enough for an administrator password; seven characters are rejected
+  ---
+  duration_ms: 321.1797
+  ...
+# Subtest: password policy, confirmation and body bounds fail without changing credentials or logging out
+ok 18 - password policy, confirmation and body bounds fail without changing credentials or logging out
+  ---
+  duration_ms: 173.3188
+  ...
+# Subtest: current-password guessing is persistently limited across sessions, independently of admin login
+ok 19 - current-password guessing is persistently limited across sessions, independently of admin login
+  ---
+  duration_ms: 839.5975
+  ...
+# Subtest: a login verified against a replaced credential cannot issue a fresh admin session
+ok 20 - a login verified against a replaced credential cannot issue a fresh admin session
+  ---
+  duration_ms: 77.273
+  ...
+# Subtest: a password change cannot overwrite concurrent credentials or proceed with a revoked session
+ok 21 - a password change cannot overwrite concurrent credentials or proceed with a revoked session
+  ---
+  duration_ms: 363.776
+  ...
+# Subtest: CloudBase admin password RPCs send only hashes and map transactional conflicts safely
+ok 22 - CloudBase admin password RPCs send only hashes and map transactional conflicts safely
+  ---
+  duration_ms: 2.0861
+  ...
+# Subtest: existing signed APK yields server-parsed manifest, pinned identity, full-file SHA and both verified schemes
+ok 23 - existing signed APK yields server-parsed manifest, pinned identity, full-file SHA and both verified schemes
+  ---
+  duration_ms: 31.4298
+  ...
+# Subtest: valid certificate is insufficient: modifications to protected content, v2 signature and v3 signature fail
+ok 24 - valid certificate is insufficient: modifications to protected content, v2 signature and v3 signature fail
+  ---
+  duration_ms: 18.336
+  ...
+# Subtest: v3 stripping, unpinned signer, wrong package, oversized input and truncated archives are rejected
+ok 25 - v3 stripping, unpinned signer, wrong package, oversized input and truncated archives are rejected
+  ---
+  duration_ms: 29.0958
+  ...
+# Subtest: scrypt uses random salts and treats missing/corrupt/incorrect credentials uniformly
+ok 26 - scrypt uses random salts and treats missing/corrupt/incorrect credentials uniformly
+  ---
+  duration_ms: 749.7972
+  ...
+# Subtest: login work is bounded even when attackers keep changing usernames
+ok 27 - login work is bounded even when attackers keep changing usernames
+  ---
+  duration_ms: 0.3209
+  ...
+# Subtest: session cookies reject duplicate/malformed tokens and CSRF requires an exact match
+ok 28 - session cookies reject duplicate/malformed tokens and CSRF requires an exact match
+  ---
+  duration_ms: 0.3328
+  ...
+# (node:42488) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com: real download page keeps legacy metadata and renders a current-origin APK link
+ok 29 - https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com: real download page keeps legacy metadata and renders a current-origin APK link
+  ---
+  duration_ms: 33.8564
+  ...
+# Subtest: https://custom.example.test: real download page keeps legacy metadata and renders a current-origin APK link
+ok 30 - https://custom.example.test: real download page keeps legacy metadata and renders a current-origin APK link
+  ---
+  duration_ms: 4.7275
+  ...
+# Subtest: download routes support root deployment and canonical URLs already using the custom domain
+ok 31 - download routes support root deployment and canonical URLs already using the custom domain
+  ---
+  duration_ms: 3.7334
+  ...
+# Subtest: download page rejects arbitrary external links, mismatched paths, credentials and invalid release IDs
+ok 32 - download page rejects arbitrary external links, mismatched paths, credentials and invalid release IDs
+  ---
+  duration_ms: 4.89
+  ...
+# Subtest: download page retains bounded byte lengths, versions and SHA checks and hides failed releases
+ok 33 - download page retains bounded byte lengths, versions and SHA checks and hides failed releases
+  ---
+  duration_ms: 7.5846
+  ...
+# Subtest: HTTP admin enforces sessions/CSRF and publishes immutable validated snapshots
+ok 34 - HTTP admin enforces sessions/CSRF and publishes immutable validated snapshots
+  ---
+  duration_ms: 405.7865
+  ...
+# Subtest: CloudBase adapter uses documented PG REST/storage paths without leaking credentials
+ok 35 - CloudBase adapter uses documented PG REST/storage paths without leaking credentials
+  ---
+  duration_ms: 2.5755
+  ...
+# Subtest: optional previews publish without samples and change only through explicit published snapshots
+ok 36 - optional previews publish without samples and change only through explicit published snapshots
+  ---
+  duration_ms: 235.7068
+  ...
+# Subtest: current APK uses the Huevia install ID with the existing pinned signing certificate
+ok 37 - current APK uses the Huevia install ID with the existing pinned signing certificate
+  ---
+  duration_ms: 31.9821
+  ...
+# Subtest: legacy and Huevia update queries preserve their own release and withdrawal boundaries
+ok 38 - legacy and Huevia update queries preserve their own release and withdrawal boundaries
+  ---
+  duration_ms: 117.0581
+  ...
+# Subtest: ordinary password hashing has an independent policy and preserves every password character
+ok 39 - ordinary password hashing has an independent policy and preserves every password character
+  ---
+  duration_ms: 562.2238
+  ...
+# Subtest: registration signs in a lowercase username and never exposes or stores plaintext passwords/tokens
+ok 40 - registration signs in a lowercase username and never exposes or stores plaintext passwords/tokens
+  ---
+  duration_ms: 170.7586
+  ...
+# Subtest: case-insensitive duplicate registration is atomic and does not create extra profiles or sessions
+ok 41 - case-insensitive duplicate registration is atomic and does not create extra profiles or sessions
+  ---
+  duration_ms: 111.4065
+  ...
+# Subtest: registration validates username/password without trimming and rejects oversized or foreign requests
+ok 42 - registration validates username/password without trimming and rejects oversized or foreign requests
+  ---
+  duration_ms: 54.7529
+  ...
+# Subtest: unknown user and wrong password share one error while a successful login rotates token and increments count
+ok 43 - unknown user and wrong password share one error while a successful login rotates token and increments count
+  ---
+  duration_ms: 543.6973
+  ...
+# Subtest: disabled accounts conceal status for wrong passwords and revoke every old bearer session
+ok 44 - disabled accounts conceal status for wrong passwords and revoke every old bearer session
+  ---
+  duration_ms: 325.3618
+  ...
+# Subtest: password verification cannot mint a session when the credential hash changes during verification
+ok 45 - password verification cannot mint a session when the credential hash changes during verification
+  ---
+  duration_ms: 229.1645
+  ...
+# Subtest: ordinary sessions are capped at ten, expire, log out and cannot authorize administrator routes
+ok 46 - ordinary sessions are capped at ten, expire, log out and cannot authorize administrator routes
+  ---
+  duration_ms: 961.1887
+  ...
+# Subtest: administrator search matches username and safe user views exclude credentials from every response
+ok 47 - administrator search matches username and safe user views exclude credentials from every response
+  ---
+  duration_ms: 76.237
+  ...
+# Subtest: persistent per-account throttling applies to registrations and login without consuming admin attempts
+ok 48 - persistent per-account throttling applies to registrations and login without consuming admin attempts
+  ---
+  duration_ms: 577.3887
+  ...
+# Subtest: new usernames share the same per-instance attempt budget
+ok 49 - new usernames share the same per-instance attempt budget
+  ---
+  duration_ms: 38.0815
+  ...
+# Subtest: registration and login share a two-operation concurrency cap
+ok 50 - registration and login share a two-operation concurrency cap
+  ---
+  duration_ms: 85.5943
+  ...
+# Subtest: CloudBase password adapter only queries server credentials and sends opaque hashes to transactional RPCs
+ok 51 - CloudBase password adapter only queries server credentials and sends opaque hashes to transactional RPCs
+  ---
+  duration_ms: 1.4553
+  ...
+# Subtest: bundled signed APKs retain publication, integrity, budgets and withdrawal checks; other files use private storage
+ok 52 - bundled signed APKs retain publication, integrity, budgets and withdrawal checks; other files use private storage
+  ---
+  duration_ms: 314.2987
+  ...
+# Subtest: update contract never downgrades or silently chooses an older version after withdrawal
+ok 53 - update contract never downgrades or silently chooses an older version after withdrawal
+  ---
+  duration_ms: 0.5535
+  ...
+# Subtest: release HTTP: active administrators/CSRF, bounded durable chunks, actual metadata, immutable versions, public integrity and withdrawal
+ok 54 - release HTTP: active administrators/CSRF, bounded durable chunks, actual metadata, immutable versions, public integrity and withdrawal
+  ---
+  duration_ms: 612.1628
+  ...
+# Subtest: upload conflict and zero-byte requests are bounded before storage; reservations preserve task ownership and readiness
+ok 55 - upload conflict and zero-byte requests are bounded before storage; reservations preserve task ownership and readiness
+  ---
+  duration_ms: 4.6839
+  ...
+1..55
+# tests 55
+# suites 0
+# pass 55
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4032.0629

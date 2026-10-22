@@ -1,0 +1,16 @@
+{
+  "processExited": true,
+  "portsNoLongerListening": true,
+  "processCommandLineAndReadOnlyFlagsVerified": true,
+  "serial": "emulator-5582",
+  "closedAt": "2026-10-22T05:19:09.8500418Z",
+  "shutdownCommand": "adb -s emulator-5582 emu kill",
+  "serialAbsent": true,
+  "productWasInstalledOnlyInTemporaryLayer": true,
+  "hardwareVerified": "ranchu",
+  "ownedPid": 44160,
+  "observation": "First immediate post-shutdown check still saw the ADB serial; subsequent read-only observation confirmed process and serial gone. No second kill or other device command was sent.",
+  "userDevicesTouched": false,
+  "shutdownAcknowledged": true,
+  "privatePhotographsUsed": false
+}

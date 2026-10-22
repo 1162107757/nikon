@@ -1,0 +1,17 @@
+Verifies
+Verified using v1 scheme (JAR signing): false
+Verified using v2 scheme (APK Signature Scheme v2): true
+Verified using v3 scheme (APK Signature Scheme v3): true
+Verified using v3.1 scheme (APK Signature Scheme v3.1): false
+Verified using v4 scheme (APK Signature Scheme v4): false
+Verified for SourceStamp: false
+Number of signers: 1
+Signer #1 certificate DN: CN=Nikon USB Debug, OU=Development, O=Local, C=CN
+Signer #1 certificate SHA-256 digest: 04db0f9d3d76c9831a0778cfabc1a0aaab984e05398da16eb644950ccfa0ae31
+Signer #1 certificate SHA-1 digest: f867798b3814ab374d0234148e50c5e8477d7d2a
+Signer #1 certificate MD5 digest: 945aa44a13dd8c10155ad0078edf698e
+Signer #1 key algorithm: RSA
+Signer #1 key size (bits): 2048
+Signer #1 public key SHA-256 digest: 11a7f998a2df77f4622355408d4764ba9349f1c6e36241702bf2d9d0f37ec72c
+Signer #1 public key SHA-1 digest: 30757f8481e4bfbd3cad3b2d46ddfeaeee08c026
+Signer #1 public key MD5 digest: 757136592c1c45370cd6828fee14702a

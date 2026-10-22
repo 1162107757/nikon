@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "builtAtUtc": "2026-10-21T01:27:54.0579128Z",
+  "expectedVersion": 74,
+  "buildScope": "selection-polish",
+  "probeSource": "tests/photo-editor-device-probe/src/com/nikonpreset/usbprobe/editorqa/EditorNativeProbe.java",
+  "probeJavaSha256": "9ee190391a7d7f9d1680d026632ea83b3b742ee005f0ca59cf67152186f883cd",
+  "buildScriptSha256": "69518e8e355f4f28eca2ad5c6b662a5aa966a32273c9cbca682d16b922ab3586",
+  "runScriptSha256": "05845f258c729f56c716d63d858f31571f1d3acab4f6207a8e692a40af86dbce",
+  "probeApkSha256": "f92441f322ddd7894de144b20e465e036210b6b170d2ccecb4876500c0077693"
+}

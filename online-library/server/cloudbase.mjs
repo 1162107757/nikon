@@ -3,6 +3,9 @@ export class ServiceError extends Error {
 }
 
 const databaseErrors = {
+  LOGIN_FAILED: [401, 'LOGIN_FAILED', '账号或密码不正确。'],
+  LOGIN_REQUIRED: [401, 'LOGIN_REQUIRED', '登录已失效，请重新登录。'],
+  PASSWORD_CONFLICT: [409, 'PASSWORD_CONFLICT', '密码已被修改，请重新登录后再试。'],
   NOT_FOUND: [404, 'NOT_FOUND', '这份预设不存在，请刷新列表。'],
   REVISION_CONFLICT: [409, 'REVISION_CONFLICT', '预设已被更新，请刷新后再保存。'],
   CATALOG_FULL: [409, 'CATALOG_FULL', '在线库最多上架 256 份预设，请先下架部分内容。'],
@@ -89,6 +92,14 @@ export class CloudBaseStore {
   async createSession(session) {
     await this.rest('nikon_sessions', { method: 'POST', body: session });
     await this.rest(`nikon_sessions?expires_at=lt.${encodeURIComponent(new Date().toISOString())}`, { method: 'DELETE' });
+  }
+  signInAdmin(session, verifiedHash) {
+    return this.rpc('nikon_sign_in_admin', { p_username: session.username, p_verified_hash: verifiedHash,
+      p_token_hash: session.token_hash, p_csrf_token: session.csrf_token, p_expires_at: session.expires_at });
+  }
+  changeAdminPassword(username, sessionHash, verifiedHash, passwordHash) {
+    return this.rpc('nikon_change_admin_password', { p_username: username, p_session_hash: sessionHash,
+      p_verified_hash: verifiedHash, p_password_hash: passwordHash });
   }
   async session(tokenHash) {
     const rows = await this.rest(`nikon_sessions?token_hash=eq.${tokenHash}&expires_at=gt.${encodeURIComponent(new Date().toISOString())}&select=username,csrf_token,expires_at,nikon_admins!inner(disabled)&limit=1`);

@@ -16,12 +16,12 @@ if (-not $JdkHome -or -not $AndroidJar) { throw 'Specify -JdkHome and -AndroidJa
 $classes = Join-Path $PSScriptRoot '.build\photo-presets\classes'
 $scratch = Join-Path $PSScriptRoot '.build\photo-presets\files'
 New-Item -ItemType Directory -Force -Path $classes, $scratch | Out-Null
-$javaRoot = Join-Path $projectRoot 'app\src\main\java\com\nikonpreset\usbprobe'
-$sources = @()
+$javaRoot = Join-Path $projectRoot 'app\src\main\java\cc\huevia'
+$sources = @((Join-Path $javaRoot 'account\AccountJson.java'))
 foreach ($package in @('ptp', 'picturecontrol', 'ncp', 'library')) {
-    $sources += @(Get-ChildItem -LiteralPath (Join-Path $javaRoot $package) -Filter '*.java' | ForEach-Object FullName)
+    $sources += @(Get-ChildItem -LiteralPath (Join-Path $javaRoot $package) -Filter '*.java' | Where-Object { $_.Name -notin @('PersonalPresetApi.java') } | ForEach-Object FullName)
 }
-foreach ($name in @('PhotoPresetBatch', 'PhotoPresetBatchState', 'PhotoPresetRenderer', 'PhotoPresetSources', 'PhotoLocalTasks', 'PhotoItem', 'PhotoFormat', 'DownloadedPhoto', 'PhotoPreview', 'PhotoPreviewCache')) {
+foreach ($name in @('PhotoEditStore', 'PhotoPresetBatch', 'PhotoPresetBatchState', 'PhotoPresetRenderer', 'PhotoPresetSources', 'PhotoLocalTasks', 'PhotoItem', 'PhotoFormat', 'DownloadedPhoto', 'PhotoPreview', 'PhotoPreviewCache')) {
     $sources += Join-Path $javaRoot ('album\' + $name + '.java')
 }
 # These facades explicitly isolate batch control/strip logic. The Android bitmap
@@ -31,12 +31,12 @@ $sources += Join-Path $PSScriptRoot 'album-stubs\android\os\Handler.java'
 $sources += Join-Path $PSScriptRoot 'album-stubs\android\os\Environment.java'
 $sources += Join-Path $PSScriptRoot 'android-stubs\android\os\Looper.java'
 $sources += Join-Path $PSScriptRoot 'gallery-stubs\android\util\AtomicFile.java'
-$sources += Join-Path $PSScriptRoot 'java\com\nikonpreset\usbprobe\ncp\NcpCompatibilityFixtures.java'
+$sources += Join-Path $PSScriptRoot 'java\cc\huevia\ncp\NcpCompatibilityFixtures.java'
 $sources += @(Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot 'batch-stubs') -Recurse -Filter '*.java' | ForEach-Object FullName)
 $sources += @(Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot 'batch-java') -Recurse -Filter '*.java' | ForEach-Object FullName)
 & (Join-Path $JdkHome 'bin\javac.exe') --release 17 -encoding UTF-8 -cp $AndroidJar -d $classes @sources
 if ($LASTEXITCODE -ne 0) { throw 'Photo-preset focused compilation failed.' }
-& (Join-Path $JdkHome 'bin\java.exe') ('-Djava.io.tmpdir=' + $scratch) -cp ($classes + [IO.Path]::PathSeparator + $AndroidJar) com.nikonpreset.usbprobe.album.PhotoPresetBatchTest
+& (Join-Path $JdkHome 'bin\java.exe') ('-Djava.io.tmpdir=' + $scratch) -cp ($classes + [IO.Path]::PathSeparator + $AndroidJar) cc.huevia.album.PhotoPresetBatchTest
 if ($LASTEXITCODE -ne 0) { throw 'Photo-preset focused tests failed.' }
-& (Join-Path $JdkHome 'bin\java.exe') ('-Djava.io.tmpdir=' + $scratch) -cp ($classes + [IO.Path]::PathSeparator + $AndroidJar) com.nikonpreset.usbprobe.album.PhotoPresetSourcesTest
+& (Join-Path $JdkHome 'bin\java.exe') ('-Djava.io.tmpdir=' + $scratch) -cp ($classes + [IO.Path]::PathSeparator + $AndroidJar) cc.huevia.album.PhotoPresetSourcesTest
 if ($LASTEXITCODE -ne 0) { throw 'Photo-preset source-link tests failed.' }

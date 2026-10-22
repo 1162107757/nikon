@@ -1,0 +1,10 @@
+{
+  "parentPid": 12008,
+  "childPid": 43708,
+  "serial": "emulator-5582",
+  "avd": "Pixel_9",
+  "gracefulShutdownRequested": true,
+  "closedAndPortsReleased": true,
+  "seconds": 4.4951158,
+  "completedUtc": "2026-10-21T15:04:21.2977364Z"
+}

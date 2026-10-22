@@ -1,0 +1,28 @@
+{
+  "checkedAt": "2026-10-22T05:16:40.056Z",
+  "mode": "sign",
+  "apkSha256": "0b1767980b10b467a34464015c15090951401c6d4300c9bb64a3a61fd7ea88e5",
+  "byteLength": 3442285,
+  "latestBefore": {
+    "httpStatus": 200,
+    "versionCode": 77,
+    "sha256": "88d284ffadb92c8ce15c1e5833f00c9fb25a8608b8071557c6464f4c7e6d5ec5",
+    "reason": "current"
+  },
+  "objectHeadStatus": 404,
+  "authenticatedGetStatus": 200,
+  "storedByteLength": 3442285,
+  "storedSha256": "0b1767980b10b467a34464015c15090951401c6d4300c9bb64a3a61fd7ea88e5",
+  "signStatus": 200,
+  "signedGetStatus": 200,
+  "signedByteLength": 3442285,
+  "signedSha256": "0b1767980b10b467a34464015c15090951401c6d4300c9bb64a3a61fd7ea88e5",
+  "verifiedDownloadUrl": "https://nikon-d8girdjsr252fd90e.api.tcloudbasegateway.com/v1/storages/object/sign/nikon-presets/app-tests/0b1767980b10b467a34464015c15090951401c6d4300c9bb64a3a61fd7ea88e5/Huevia-0.13.10-beta-test.apk?token=eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3OTI4MTkwMDIsImlhdCI6MTc5MjY0NjIwMiwidXJsIjoibmlrb24tcHJlc2V0cy9hcHAtdGVzdHMvMGIxNzY3OTgwYjEwYjQ2N2EzNDQ2NDAxNWMxNTA5MDk1MTQwMWM2ZDQzMDBjOWJiNjRhM2E2MWZkN2VhODhlNS9IdWV2aWEtMC4xMy4xMC1iZXRhLXRlc3QuYXBrIn0.WGZrY1PEANxJu6bkyvKQOlYvYn3KO25ezDc5yu5tqRk&download=Huevia-0.13.10-beta-test.apk",
+  "expiresAt": "2026-10-24T05:16:41.796Z",
+  "latestAfter": {
+    "httpStatus": 200,
+    "versionCode": 77,
+    "sha256": "88d284ffadb92c8ce15c1e5833f00c9fb25a8608b8071557c6464f4c7e6d5ec5",
+    "reason": "current"
+  }
+}

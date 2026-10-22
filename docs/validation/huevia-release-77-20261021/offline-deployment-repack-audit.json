@@ -1,0 +1,72 @@
+{
+  "status": "independent_offline_zip_content_and_mode_identity_verified_not_publication",
+  "archive_sha256": {
+    "baseline": "988fa367e38c2f80cd0ac0a33b01db17fd96ea58fc703cdcf18ccca376a05339",
+    "request": "0a95c79840fbd72ba1137ec157bdc77b98a01964347a796fc5d6e2ab7f7c49d9",
+    "observed": "279ce4378019ccb63496cdd9efde48c14b1498575226aa8bf48c4f6d68d052a4"
+  },
+  "archive_bytes": {
+    "baseline": 4732270,
+    "request": 8162141,
+    "observed": 8162189
+  },
+  "crc_all_members_verified": true,
+  "member_counts": {
+    "baseline": 38,
+    "request": 39,
+    "observed": 39
+  },
+  "request_observed_all_paths_bytes_sha_crc_unix_modes_identical": true,
+  "all_baseline_members_preserved": true,
+  "added": [
+    "server/bundled-apks/88d284ffadb92c8ce15c1e5833f00c9fb25a8608b8071557c6464f4c7e6d5ec5.apk"
+  ],
+  "directory_order_identical": true,
+  "zip_metadata_differences": {
+    "scf_bootstrap": {
+      "date_time": {
+        "request": [
+          1980,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "observed": [
+          1980,
+          1,
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "create_version": {
+        "request": 20,
+        "observed": 30
+      },
+      "internal_attr": {
+        "request": 0,
+        "observed": 1
+      },
+      "extra": {
+        "request": "",
+        "observed": "555405000300e4cc1275780b000104102700000410270000"
+      },
+      "compress_size": {
+        "request": 82,
+        "observed": 78
+      }
+    }
+  },
+  "zip_comments": {
+    "baseline": "",
+    "request": "",
+    "observed": ""
+  },
+  "limits": [
+    "Offline files only. No cloud request or mutation.",
+    "Content/mode identity is established; different container SHA values remain recorded separately."
+  ]
+}

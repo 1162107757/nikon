@@ -1,0 +1,25 @@
+{
+  "independentReadOnlyReviewPassed": true,
+  "readOnlyRetries": "GetFunction/GetFunctionAddress max3; HTTP archive TimeoutError/TypeError max2 with120s total timeout; no write retry",
+  "checksUnchanged": "Pinned artifact, enabled operator, full archive members/path/SHA/size/mode, Active/config, prior release rows, RPC audit, public bytes and latest metadata",
+  "syntaxChecksPassed": 4,
+  "createdUtc": "2026-10-21T16:05:14.7446198Z",
+  "files": [
+    {
+      "path": ".tooling/huevia77-common.mjs",
+      "sha256": "9d5c9f641c1564ecaeac9bdcc108ed4e06f81befa1669bac9ef9ff82d9ac71d8"
+    },
+    {
+      "path": ".tooling/huevia77-publish.mjs",
+      "sha256": "a8301ccc207805739a163d3a8df02ee935f0942e7405c21b8644b130900011c6"
+    },
+    {
+      "path": ".tooling/huevia77-deploy.mjs",
+      "sha256": "afc44d73dcfa72244a3d3fce01e12296fe798e50741e81bec08479e8000e937f"
+    },
+    {
+      "path": ".tooling/huevia77-archive.test.mjs",
+      "sha256": "d9844748496ff3dee20af031ac5b7a2451457fff9ea12171ef273ae15c12a8a2"
+    }
+  ]
+}

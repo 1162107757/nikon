@@ -1,0 +1,14 @@
+{
+  "versionCode": 73,
+  "versionName": "0.13.5-beta",
+  "channel": "beta",
+  "bytes": 3389037,
+  "sha256": "f6464b04ed13e749537030e62c087c40dc0a7aae9ee129f2fe703110e1e74f25",
+  "verifiedAt": "2026-10-21T01:19:52.193Z",
+  "publicApkVerified": true,
+  "version72Receives73": true,
+  "version73OffersNoUpdate": true,
+  "downloadPageStatus": 200,
+  "downloadPage": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/download/",
+  "downloadUrl": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/releases/dbe0c6c8-cbda-43db-9c2c-80c85f51031b/file"
+}

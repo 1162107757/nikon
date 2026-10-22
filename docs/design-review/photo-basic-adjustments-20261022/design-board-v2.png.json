@@ -1,0 +1,42 @@
+{
+  "title": "Huevia · 照片优先",
+  "revision": 2,
+  "created": "2026-10-22",
+  "approved": false,
+  "status": "待用户审核",
+  "tool": "image_gen.imagegen",
+  "mode": "built-in",
+  "prompt": "Edit the provided Huevia UI design board with ONE targeted geometry refinement: compress the persistent bottom tools so they occupy no more than 24% of each phone screen, making the photo canvas larger. Keep the existing two-state concept, flat black material, pale-blue accent, exact Chinese labels, header, source/category consolidation, compact thumbnail strip, single adjustment slider, and bottom 滤镜/调节 navigation unchanged in character. Do not add features or rows.\n\nImage 1 is the EDIT TARGET: current two-phone board. Each screen extends approximately from y=220 to y=1428 on this 1024x1536 board. Its current tool boundary at y≈1060 is too high. Move this shared boundary down to y≈1140. Reduce vertical padding between source row / thumbnails / strength / bottom mode navigation to make everything fit between y≈1140 and y≈1428. Both phones MUST share identical canvas bounds and photo placement. Keep comfortably legible text and simple line icons. The two bottom modes can have less vertical padding. No rounded enclosing panel. No cards. No extra metadata.\n\nImage 2 is the source-photo and brand reference, NOT a layout reference. Restore the displayed lakeside cafe photograph to the ORIGINAL COMPLETE 4:3 aspect ratio from that screenshot: include the full source composition including the left cafe umbrella, woman's full visible seated pose, coffee cup and lemon on the table, right lake and plants. The current board made the image too tall and cropped the sides. Fit the uncropped 4:3 landscape image full-width and vertically centered in the newly enlarged neutral charcoal canvas. Do not stretch or crop it. Keep both phones' photograph identical in size and position, and do not apply beauty alterations. Dark letterboxing above/below is intentional for a landscape photo in a tall screen.\n\nKeep board title \"Huevia · 照片优先\", subtitle \"预设打底，轻量调节\", state captions \"01 预设套用\" and \"02 基础调节\", footer \"界面设计示意 · 照片与数值为示意\", and all UI text accurate. Everything else remains the same.",
+  "prompt_file": "design-v2-edit-prompt.txt",
+  "initial_prompt_file": "design-v2-prompt.txt",
+  "generated_source": "C:/Users/11621/.codex/generated_images/01a15ceb-c0f6-7990-b475-87e67a89b6ae/exec-40a7f194-ef49-41c1-904a-107f4b8610bd.png",
+  "edit_target": "C:/Users/11621/.codex/generated_images/01a15ceb-c0f6-7990-b475-87e67a89b6ae/exec-95bdffc8-02e3-483e-badb-738834d9655c.png",
+  "sha256": "b74123d56b93d0dfc16f16a712354eec207b5c8a0ed6e9d7ca649b1802bc8bf4",
+  "reference_images": [
+    {
+      "path": "C:/Users/11621/AppData/Local/Temp/codex-clipboard-1445ebec-2fd3-4a05-b0e2-11a55771e1c5.jpg",
+      "role": "用户提供的醒图滤镜布局参考，仅借鉴工具密度与画布比例"
+    },
+    {
+      "path": "C:/Users/11621/AppData/Local/Temp/codex-clipboard-54bc8d83-de9a-4cb7-b676-f8ecf15f8ade.jpg",
+      "role": "用户提供的醒图调节布局参考，仅借鉴单滑杆与横向参数栏"
+    },
+    {
+      "path": "D:/dev/ai-project/nikon/docs/validation/photo-selection-polish-74/phone/online-selected-stable.png",
+      "role": "Huevia 既有功能、蓝色强调及湖畔咖啡示例照片参考"
+    }
+  ],
+  "changes": [
+    "改为平面黑色贴底工具栏",
+    "在线／我的、分类与全部合并一行",
+    "移除大预设卡片、分组标签与常驻状态页脚",
+    "预设与调节共用稳定画布",
+    "预设叠加手动调整的处理范围不变"
+  ],
+  "limitations": [
+    "设计示意，尚未实施",
+    "实际触摸目标与工具占比须按目标设备验证",
+    "照片、滤镜效果与数值为生成示意，不能视为图像处理或源照片保真验收证据"
+  ],
+  "supersedes": "design-board.png"
+}

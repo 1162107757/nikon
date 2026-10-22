@@ -3,7 +3,9 @@ import { inflateRawSync } from 'node:zlib';
 import { ServiceError } from './cloudbase.mjs';
 
 export const MAX_APK_BYTES = 4 * 1024 * 1024;
-export const APK_PACKAGE = 'com.nikonpreset.usbprobe';
+export const APK_PACKAGE = 'cc.huevia';
+export const LEGACY_APK_PACKAGE = 'com.nikonpreset.usbprobe';
+export const APK_PACKAGES = Object.freeze([APK_PACKAGE, LEGACY_APK_PACKAGE]);
 export const APK_SIGNER_SHA256 = '04db0f9d3d76c9831a0778cfabc1a0aaab984e05398da16eb644950ccfa0ae31';
 const ANDROID_NS = 'http://schemas.android.com/apk/res/android';
 const fail = (message = 'APK 结构或签名校验未通过，请上传完整的已签名安装包。') => { throw new ServiceError(400, 'INVALID_APK', message); };
@@ -205,12 +207,12 @@ function binaryManifest(data) {
  * Format: https://source.android.com/docs/security/features/apksigning/v2 and /v3.
  * Intentionally accepts one pinned signer, no key rotation, v1-only or split APKs.
  */
-export function inspectApk(input, { packageName = APK_PACKAGE, signerSha256 = APK_SIGNER_SHA256 } = {}) {
+export function inspectApk(input, { packageName, signerSha256 = APK_SIGNER_SHA256 } = {}) {
   try {
     const apk = Buffer.isBuffer(input) ? input : Buffer.from(input);
     if (!apk.length || apk.length > MAX_APK_BYTES) fail('请选择不超过 4 MiB 的 APK 安装包。');
     const parsed = zip(apk), metadata = binaryManifest(parsed.manifest);
-    if (metadata.packageName !== packageName) fail('APK 包名与现有 Huevia 不兼容。');
+    if (!(packageName ? [packageName] : APK_PACKAGES).includes(metadata.packageName)) fail('APK 包名与现有 Huevia 不兼容。');
     if (parsed.signature.signerSha256 !== signerSha256) fail('APK 签名与现有 Huevia 不兼容，无法覆盖升级。');
     return { ...metadata, ...parsed.signature, byteLength: apk.length, sha256: hash(apk).toString('hex') };
   } catch (error) { if (error instanceof ServiceError) throw error; fail(); }

@@ -1,0 +1,17 @@
+{
+  "environment": "nikon-d8girdjsr252fd90e",
+  "functionName": "nikon-preset-library",
+  "status": "Active",
+  "deployedAt": "2026-10-21T05:47:18.941Z",
+  "archiveSha256": "248866209260e5b03d1f59535f0448ae6e7322d9919ce773cdd0f3c30e13bd47",
+  "previousArchiveSha256": "b8371012dd43c4f885ee714f4ea9fdd77acfe3792c36c124bfbab092e20158a8",
+  "changedFiles": [
+    "server/app.mjs",
+    "server/cloudbase.mjs",
+    "admin/api.js",
+    "admin/app.js",
+    "admin/index.html",
+    "admin/styles.css"
+  ],
+  "configurationPreserved": true
+}

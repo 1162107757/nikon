@@ -1,0 +1,23 @@
+{
+  "apk": "huevia-0.13.8-beta-debug.apk",
+  "sha256": "cf74460f3a01ca29250a1c77f8a051bc0cf7e3439df20bb91c9b6b2b33b5fa95",
+  "packageName": "cc.huevia",
+  "applicationClassCount": 1610,
+  "legacyClassCount": 0,
+  "legacyStringOccurrences": 0,
+  "requiredClasses": [
+    "Lcc/huevia/DiagnosticsActivity;",
+    "Lcc/huevia/MainActivity;",
+    "Lcc/huevia/connection/CameraConnectionService;",
+    "Lcc/huevia/updates/UpdatePackageProvider;"
+  ],
+  "dexFiles": [
+    {
+      "name": "classes.dex",
+      "classCount": 1791,
+      "applicationClassCount": 1610,
+      "legacyClassCount": 0,
+      "legacyStringOccurrences": 0
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+Huevia 0.13.2-beta / versionCode 70 — 2026-10-20
+
+APK: nikon-usb-0.13.2-beta-debug.apk
+Bytes: 3417709
+SHA-256: c1872bf77d9cfaa7439211fd86c3fb6a65acd0a5c73607f9325a0962d9ec7cca
+Package: com.nikonpreset.usbprobe
+minSdk: 26; targetSdk/compileSdk: 35
+APK v2/v3 signatures: verified
+
+Changes:
+- Camera-preview-only photos use the prior full-screen viewer: back, star,
+  size and export, paging, and preview reason/retry. No editor dock or editor
+  catalog worker is created for a remote preview.
+- A committed local JPEG enables the existing filter editor regardless of
+  camera/download/live source. File existence, non-empty bytes and JPEG name
+  are checked on the UI; the DownloadedPhoto completion contract is retained.
+  Preview caches and .part downloads do not qualify as local originals.
+- Status updates re-render when local-original eligibility changes. Returning
+  to a remote preview unbinds old editor work; old images/export state cannot
+  replace the current viewer.
+- The hold-to-compare visible label is now 原图. Touch behavior and accessible
+  instructions remain unchanged.
+
+Build/signatures/version metadata: PASS.
+Focused Android viewer-boundary verification: PASS 122 on dedicated
+emulator-5582 (ranchu), actual font_scale 1.0, same final APK SHA-256.
+Four screenshots reviewed: remote-preview, local-editor, return-remote,
+remote-saved-editor. Original JPEG bytes preserved. No corrective round needed.
+Script restores standard font_scale 1.0.
+
+Scope: Actual JPEGs from the existing template and typed synthetic camera
+descriptors exercise UI eligibility. A short-lived synthetic connected flag
+and rejecting PhotoCameraClient exercise the real error/retry UI. No real
+camera connection or network image transfer occurs. Not physical phone,
+camera download, protocol, accessibility or sustained performance certification.
+
+No database migration or service deployment in this patch. Version 69's
+951 native and 4440 host checks retain their historical scope and were not
+rerun or counted as version 70 checks.
+
+Evidence: docs/validation/photo-viewer-boundary-70/README.md and phone/.
+Verdict: SHIP within the requested viewer/editor boundary and label scope.

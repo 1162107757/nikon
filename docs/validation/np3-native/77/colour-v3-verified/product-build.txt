@@ -1,0 +1,19 @@
+����: δ֪��ö�ٳ��� Scope.LIBRARY_GROUP
+  ԭ��: �Ҳ���android.support.annotation.RestrictTo$Scope�����ļ�
+����: δ֪��ö�ٳ��� Scope.LIBRARY_GROUP
+����: δ֪��ö�ٳ��� Scope.LIBRARY_GROUP
+ע: ĳЩ�����ļ�ʹ�û򸲸����ѹ�ʱ�� API��
+ע: �й���ϸ��Ϣ, ��ʹ�� -Xlint:deprecation ���±��롣
+ע: ĳЩ�����ļ�ʹ����δ�����򲻰�ȫ�Ĳ�����
+ע: �й���ϸ��Ϣ, ��ʹ�� -Xlint:unchecked ���±��롣
+3 ������
+Verifies
+Verified using v1 scheme (JAR signing): false
+Verified using v2 scheme (APK Signature Scheme v2): true
+Verified using v3 scheme (APK Signature Scheme v3): true
+Verified using v3.1 scheme (APK Signature Scheme v3.1): false
+Verified using v4 scheme (APK Signature Scheme v4): false
+Verified for SourceStamp: false
+Number of signers: 1
+APK: D:\dev\ai-project\nikon\dist\huevia-0.13.9-beta-debug.apk
+SHA-256: 88d284ffadb92c8ce15c1e5833f00c9fb25a8608b8071557c6464f4c7e6d5ec5

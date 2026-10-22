@@ -1,0 +1,11 @@
+{
+  "serial": "emulator-5582",
+  "productInstalledByThisRunner": false,
+  "probeSha256": "f592bfd1bf64c37e48cbebdd05b612e9705c99379088fee82569d2543938cbc5",
+  "theme": "light",
+  "runId": "ilford-recovery-20261022T1331Z",
+  "expectedApkSha256": "81ce86556a10a828a71412a2d06e86bb260b42266ad42737292bddf7c270a1a0",
+  "instrumentationElapsedSeconds": 27.6911564,
+  "scope": "monochrome-batch",
+  "expectedVersion": 79
+}

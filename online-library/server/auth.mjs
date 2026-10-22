@@ -6,8 +6,8 @@ export const sha256 = value => createHash('sha256').update(value).digest('hex');
 export const randomToken = () => randomBytes(32).toString('base64url');
 
 export async function hashPassword(password) {
-  if (typeof password !== 'string' || password.length < 16 || password.length > 256) {
-    throw new Error('管理员密码须为 16 至 256 个字符。');
+  if (typeof password !== 'string' || password.length < 8 || password.length > 256) {
+    throw new Error('管理员密码须为 8 至 256 个字符。');
   }
   return derivePassword(password);
 }

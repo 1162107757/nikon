@@ -1,0 +1,769 @@
+TAP version 13
+# (node:34364) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: /preset-library: changing password uses CSRF, preserves exact text and clears authority only on success
+ok 1 - /preset-library: changing password uses CSRF, preserves exact text and clears authority only on success
+  ---
+  duration_ms: 3.4637
+  ...
+# Subtest: /preset-library: session/login use the deployment route and login bypasses CSRF
+ok 2 - /preset-library: session/login use the deployment route and login bypasses CSRF
+  ---
+  duration_ms: 1.7373
+  ...
+# Subtest: /preset-library: replacing draft assets preserves revision and uses the reauthenticated CSRF
+ok 3 - /preset-library: replacing draft assets preserves revision and uses the reauthenticated CSRF
+  ---
+  duration_ms: 2.3794
+  ...
+# Subtest: /preset-library: uploads use raw files and preserve private preview metadata
+ok 4 - /preset-library: uploads use raw files and preserve private preview metadata
+  ---
+  duration_ms: 1.8831
+  ...
+# Subtest: /preset-library: file bounds reject before network and the exact preview bound is allowed
+ok 5 - /preset-library: file bounds reject before network and the exact preview bound is allowed
+  ---
+  duration_ms: 4.3392
+  ...
+# Subtest: /preset-library: logout drops mutation authority and backend/config failures stay explicit
+ok 6 - /preset-library: logout drops mutation authority and backend/config failures stay explicit
+  ---
+  duration_ms: 1.9429
+  ...
+# Subtest: /preset-library: users preserve query boundaries, cancellation and status concurrency
+ok 7 - /preset-library: users preserve query boundaries, cancellation and status concurrency
+  ---
+  duration_ms: 1.3748
+  ...
+# Subtest: site-root: changing password uses CSRF, preserves exact text and clears authority only on success
+ok 8 - site-root: changing password uses CSRF, preserves exact text and clears authority only on success
+  ---
+  duration_ms: 1.1728
+  ...
+# Subtest: site-root: session/login use the deployment route and login bypasses CSRF
+ok 9 - site-root: session/login use the deployment route and login bypasses CSRF
+  ---
+  duration_ms: 1.5339
+  ...
+# Subtest: site-root: replacing draft assets preserves revision and uses the reauthenticated CSRF
+ok 10 - site-root: replacing draft assets preserves revision and uses the reauthenticated CSRF
+  ---
+  duration_ms: 3.3763
+  ...
+# Subtest: site-root: uploads use raw files and preserve private preview metadata
+ok 11 - site-root: uploads use raw files and preserve private preview metadata
+  ---
+  duration_ms: 1.6618
+  ...
+# Subtest: site-root: file bounds reject before network and the exact preview bound is allowed
+ok 12 - site-root: file bounds reject before network and the exact preview bound is allowed
+  ---
+  duration_ms: 4.6728
+  ...
+# Subtest: site-root: logout drops mutation authority and backend/config failures stay explicit
+ok 13 - site-root: logout drops mutation authority and backend/config failures stay explicit
+  ---
+  duration_ms: 1.5911
+  ...
+# Subtest: site-root: users preserve query boundaries, cancellation and status concurrency
+ok 14 - site-root: users preserve query boundaries, cancellation and status concurrency
+  ---
+  duration_ms: 1.5636
+  ...
+# Subtest: site-root: saved legacy asset links use the current admin origin and deployment path
+ok 15 - site-root: saved legacy asset links use the current admin origin and deployment path
+  ---
+  duration_ms: 1.3232
+  ...
+# Subtest: /preset-library: saved legacy asset links use the current admin origin and deployment path
+ok 16 - /preset-library: saved legacy asset links use the current admin origin and deployment path
+  ---
+  duration_ms: 0.1557
+  ...
+# Subtest: stored URLs never choose the private preview destination, even when malicious or malformed
+ok 17 - stored URLs never choose the private preview destination, even when malicious or malformed
+  ---
+  duration_ms: 1.1132
+  ...
+# Subtest: invalid asset IDs cannot fall back to external URLs or escape either private API route
+ok 18 - invalid asset IDs cannot fall back to external URLs or escape either private API route
+  ---
+  duration_ms: 0.305
+  ...
+# Subtest: preview URLs permit local HTTP review and reject malformed or credential-bearing module bases
+ok 19 - preview URLs permit local HTTP review and reject malformed or credential-bearing module bases
+  ---
+  duration_ms: 0.3256
+  ...
+# Subtest: admin password change persists only a hash, preserves whitespace and revokes every own session
+ok 20 - admin password change persists only a hash, preserves whitespace and revokes every own session
+  ---
+  duration_ms: 1043.5247
+  ...
+# Subtest: admin password changes require a live admin cookie, allowed Origin and exact CSRF
+ok 21 - admin password changes require a live admin cookie, allowed Origin and exact CSRF
+  ---
+  duration_ms: 111.956
+  ...
+# Subtest: exactly eight digits are enough for an administrator password; seven characters are rejected
+ok 22 - exactly eight digits are enough for an administrator password; seven characters are rejected
+  ---
+  duration_ms: 313.4342
+  ...
+# Subtest: password policy, confirmation and body bounds fail without changing credentials or logging out
+ok 23 - password policy, confirmation and body bounds fail without changing credentials or logging out
+  ---
+  duration_ms: 177.4353
+  ...
+# Subtest: current-password guessing is persistently limited across sessions, independently of admin login
+ok 24 - current-password guessing is persistently limited across sessions, independently of admin login
+  ---
+  duration_ms: 853.637
+  ...
+# Subtest: a login verified against a replaced credential cannot issue a fresh admin session
+ok 25 - a login verified against a replaced credential cannot issue a fresh admin session
+  ---
+  duration_ms: 84.8641
+  ...
+# Subtest: a password change cannot overwrite concurrent credentials or proceed with a revoked session
+ok 26 - a password change cannot overwrite concurrent credentials or proceed with a revoked session
+  ---
+  duration_ms: 386.182
+  ...
+# Subtest: CloudBase admin password RPCs send only hashes and map transactional conflicts safely
+ok 27 - CloudBase admin password RPCs send only hashes and map transactional conflicts safely
+  ---
+  duration_ms: 2.4804
+  ...
+# Subtest: existing signed APK yields server-parsed manifest, pinned identity, full-file SHA and both verified schemes
+ok 28 - existing signed APK yields server-parsed manifest, pinned identity, full-file SHA and both verified schemes
+  ---
+  duration_ms: 20.19
+  ...
+# Subtest: valid certificate is insufficient: modifications to protected content, v2 signature and v3 signature fail
+ok 29 - valid certificate is insufficient: modifications to protected content, v2 signature and v3 signature fail
+  ---
+  duration_ms: 15.9301
+  ...
+# Subtest: v3 stripping, unpinned signer, wrong package, oversized input and truncated archives are rejected
+ok 30 - v3 stripping, unpinned signer, wrong package, oversized input and truncated archives are rejected
+  ---
+  duration_ms: 24.9508
+  ...
+# Subtest: scrypt uses random salts and treats missing/corrupt/incorrect credentials uniformly
+ok 31 - scrypt uses random salts and treats missing/corrupt/incorrect credentials uniformly
+  ---
+  duration_ms: 835.6832
+  ...
+# Subtest: login work is bounded even when attackers keep changing usernames
+ok 32 - login work is bounded even when attackers keep changing usernames
+  ---
+  duration_ms: 0.8639
+  ...
+# Subtest: session cookies reject duplicate/malformed tokens and CSRF requires an exact match
+ok 33 - session cookies reject duplicate/malformed tokens and CSRF requires an exact match
+  ---
+  duration_ms: 0.9446
+  ...
+# Subtest: HTTP category updates require admin/CSRF/revision and publish only explicit immutable snapshots
+ok 34 - HTTP category updates require admin/CSRF/revision and publish only explicit immutable snapshots
+  ---
+  duration_ms: 519.6712
+  ...
+# Subtest: server: categories are optional NFC text with a 24 code-point limit
+ok 35 - server: categories are optional NFC text with a 24 code-point limit
+  ---
+  duration_ms: 2.055
+  ...
+# Subtest: server: all raw C0/C1 controls are rejected even when trim would remove them
+ok 36 - server: all raw C0/C1 controls are rejected even when trim would remove them
+  ---
+  duration_ms: 2.4806
+  ...
+# Subtest: admin: categories are optional NFC text with a 24 code-point limit
+ok 37 - admin: categories are optional NFC text with a 24 code-point limit
+  ---
+  duration_ms: 0.3479
+  ...
+# Subtest: admin: all raw C0/C1 controls are rejected even when trim would remove them
+ok 38 - admin: all raw C0/C1 controls are rejected even when trim would remove them
+  ---
+  duration_ms: 1.4615
+  ...
+# Subtest: category validation participates in preset metadata and uses the established error shape
+ok 39 - category validation participates in preset metadata and uses the established error shape
+  ---
+  duration_ms: 0.7983
+  ...
+# Subtest: admin category filters do not confuse uncategorized, all, free-text, or disappeared categories
+ok 40 - admin category filters do not confuse uncategorized, all, free-text, or disappeared categories
+  ---
+  duration_ms: 25.1343
+  ...
+# Subtest: public categories come only from immutable published snapshots and legacy entries default to empty
+ok 41 - public categories come only from immutable published snapshots and legacy entries default to empty
+  ---
+  duration_ms: 1.5307
+  ...
+# Subtest: normal photography comments including criticism and QQ support are allowed
+ok 42 - normal photography comments including criticism and QQ support are allowed
+  ---
+  duration_ms: 3.8793
+  ...
+# Subtest: contact obfuscation, links, ads, strong insults and flooding queue for human review
+ok 43 - contact obfuscation, links, ads, strong insults and flooding queue for human review
+  ---
+  duration_ms: 1.4979
+  ...
+# Subtest: invalid input defaults to human review and source text is never rewritten
+ok 44 - invalid input defaults to human review and source text is never rewritten
+  ---
+  duration_ms: 0.3174
+  ...
+# Subtest: challenge is a valid raster PNG, short lived and exposes no answer or hash
+ok 45 - challenge is a valid raster PNG, short lived and exposes no answer or hash
+  ---
+  duration_ms: 18.0115
+  ...
+# Subtest: challenge binds source and installation and is consumed once even on a wrong answer
+ok 46 - challenge binds source and installation and is consumed once even on a wrong answer
+  ---
+  duration_ms: 6.2183
+  ...
+# Subtest: abuse identity ignores forged XFF by default and trusts only configured valid hops; IPv6 /64 groups rotate-resistant
+ok 47 - abuse identity ignores forged XFF by default and trusts only configured valid hops; IPv6 /64 groups rotate-resistant
+  ---
+  duration_ms: 1.5378
+  ...
+# Subtest: optional hop probes hash one diagnostic XFF position without changing the effective production identity
+ok 48 - optional hop probes hash one diagnostic XFF position without changing the effective production identity
+  ---
+  duration_ms: 0.9771
+  ...
+# Subtest: registration fails before credential hashing/account creation without a valid persistent challenge
+ok 49 - registration fails before credential hashing/account creation without a valid persistent challenge
+  ---
+  duration_ms: 121.204
+  ...
+# Subtest: valid account-create challenge completes registration and cannot create a second account on replay
+ok 50 - valid account-create challenge completes registration and cannot create a second account on replay
+  ---
+  duration_ms: 159.3867
+  ...
+# Subtest: QQ requires a challenge only before first account creation; existing identity keeps its opaque session flow
+ok 51 - QQ requires a challenge only before first account creation; existing identity keeps its opaque session flow
+  ---
+  duration_ms: 30.937
+  ...
+# Subtest: community anonymous reads, bearer ownership and admin CSRF remain separate
+ok 52 - community anonymous reads, bearer ownership and admin CSRF remain separate
+  ---
+  duration_ms: 67.9709
+  ...
+# Subtest: reply target is passed separately from the thread root and validated before persistence
+ok 53 - reply target is passed separately from the thread root and validated before persistence
+  ---
+  duration_ms: 38.4746
+  ...
+# Subtest: community validates Unicode/plaintext, idempotency, rights and transport bounds before persistence
+ok 54 - community validates Unicode/plaintext, idempotency, rights and transport bounds before persistence
+  ---
+  duration_ms: 60.7593
+  ...
+# Subtest: every comment is classified server-side and client moderation flags cannot bypass review
+ok 55 - every comment is classified server-side and client moderation flags cannot bypass review
+  ---
+  duration_ms: 16.7069
+  ...
+# Subtest: message read-batch validates IDs and binds the authenticated owner
+ok 56 - message read-batch validates IDs and binds the authenticated owner
+  ---
+  duration_ms: 32.7718
+  ...
+# Subtest: HTTP preserves queued comment status and the existing administrator review contract
+ok 57 - HTTP preserves queued comment status and the existing administrator review contract
+  ---
+  duration_ms: 24.2293
+  ...
+# Subtest: CloudBase community and challenge adapters send service-only RPC JSON with hashed identities
+ok 58 - CloudBase community and challenge adapters send service-only RPC JSON with hashed identities
+  ---
+  duration_ms: 2.1304
+  ...
+# Subtest: default browser policy still trusts only the canonical public origin
+ok 59 - default browser policy still trusts only the canonical public origin
+  ---
+  duration_ms: 135.4126
+  ...
+# Subtest: explicit custom and legacy browser origins can log in with unchanged secure cookies and canonical URLs
+ok 60 - explicit custom and legacy browser origins can log in with unchanged secure cookies and canonical URLs
+  ---
+  duration_ms: 244.9723
+  ...
+# Subtest: browser origins match exactly and cannot be admitted through Host or forwarding headers
+ok 61 - browser origins match exactly and cannot be admitted through Host or forwarding headers
+  ---
+  duration_ms: 72.3822
+  ...
+# Subtest: custom browser entrypoints still require authenticated sessions and exact CSRF for admin writes
+ok 62 - custom browser entrypoints still require authenticated sessions and exact CSRF for admin writes
+  ---
+  duration_ms: 24.0953
+  ...
+# Subtest: native authentication without Origin remains supported alongside both configured browser origins
+ok 63 - native authentication without Origin remains supported alongside both configured browser origins
+  ---
+  duration_ms: 17.9878
+  ...
+# Subtest: domain onboarding preserves canonical upload and APK update URLs for existing Android clients
+ok 64 - domain onboarding preserves canonical upload and APK update URLs for existing Android clients
+  ---
+  duration_ms: 17.4014
+  ...
+# Subtest: custom-domain sessions preview draft and published assets through their own private API route
+ok 65 - custom-domain sessions preview draft and published assets through their own private API route
+  ---
+  duration_ms: 20.7034
+  ...
+# Subtest: invalid custom-origin configuration fails closed before creating a request handler
+ok 66 - invalid custom-origin configuration fails closed before creating a request handler
+  ---
+  duration_ms: 1.5611
+  ...
+# Subtest: environment origin lists reject malformed entries and trailing commas during startup
+ok 67 - environment origin lists reject malformed entries and trailing commas during startup
+  ---
+  duration_ms: 392.1887
+  ...
+# (node:36480) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com: real download page keeps legacy metadata and renders a current-origin APK link
+ok 68 - https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com: real download page keeps legacy metadata and renders a current-origin APK link
+  ---
+  duration_ms: 31.4184
+  ...
+# Subtest: https://custom.example.test: real download page keeps legacy metadata and renders a current-origin APK link
+ok 69 - https://custom.example.test: real download page keeps legacy metadata and renders a current-origin APK link
+  ---
+  duration_ms: 4.1292
+  ...
+# Subtest: download routes support root deployment and canonical URLs already using the custom domain
+ok 70 - download routes support root deployment and canonical URLs already using the custom domain
+  ---
+  duration_ms: 3.3939
+  ...
+# Subtest: download page rejects arbitrary external links, mismatched paths, credentials and invalid release IDs
+ok 71 - download page rejects arbitrary external links, mismatched paths, credentials and invalid release IDs
+  ---
+  duration_ms: 4.4485
+  ...
+# Subtest: download page retains bounded byte lengths, versions and SHA checks and hides failed releases
+ok 72 - download page retains bounded byte lengths, versions and SHA checks and hides failed releases
+  ---
+  duration_ms: 5.6636
+  ...
+# Subtest: HTTP admin enforces sessions/CSRF and publishes immutable validated snapshots
+ok 73 - HTTP admin enforces sessions/CSRF and publishes immutable validated snapshots
+  ---
+  duration_ms: 461.4659
+  ...
+# Subtest: CloudBase adapter uses documented PG REST/storage paths without leaking credentials
+ok 74 - CloudBase adapter uses documented PG REST/storage paths without leaking credentials
+  ---
+  duration_ms: 1.9304
+  ...
+# Subtest: optional previews publish without samples and change only through explicit published snapshots
+ok 75 - optional previews publish without samples and change only through explicit published snapshots
+  ---
+  duration_ms: 260.2793
+  ...
+# Subtest: current APK uses the Huevia install ID with the existing pinned signing certificate
+ok 76 - current APK uses the Huevia install ID with the existing pinned signing certificate
+  ---
+  duration_ms: 41.3828
+  ...
+# Subtest: legacy and Huevia update queries preserve their own release and withdrawal boundaries
+ok 77 - legacy and Huevia update queries preserve their own release and withdrawal boundaries
+  ---
+  duration_ms: 143.9846
+  ...
+# Subtest: ordinary password hashing has an independent policy and preserves every password character
+ok 78 - ordinary password hashing has an independent policy and preserves every password character
+  ---
+  duration_ms: 675.496
+  ...
+# Subtest: registration signs in a lowercase username and never exposes or stores plaintext passwords/tokens
+ok 79 - registration signs in a lowercase username and never exposes or stores plaintext passwords/tokens
+  ---
+  duration_ms: 189.1398
+  ...
+# Subtest: case-insensitive duplicate registration is atomic and does not create extra profiles or sessions
+ok 80 - case-insensitive duplicate registration is atomic and does not create extra profiles or sessions
+  ---
+  duration_ms: 103.5039
+  ...
+# Subtest: registration validates username/password without trimming and rejects oversized or foreign requests
+ok 81 - registration validates username/password without trimming and rejects oversized or foreign requests
+  ---
+  duration_ms: 71.4768
+  ...
+# Subtest: unknown user and wrong password share one error while a successful login rotates token and increments count
+ok 82 - unknown user and wrong password share one error while a successful login rotates token and increments count
+  ---
+  duration_ms: 540.3184
+  ...
+# Subtest: disabled accounts conceal status for wrong passwords and revoke every old bearer session
+ok 83 - disabled accounts conceal status for wrong passwords and revoke every old bearer session
+  ---
+  duration_ms: 315.5662
+  ...
+# Subtest: password verification cannot mint a session when the credential hash changes during verification
+ok 84 - password verification cannot mint a session when the credential hash changes during verification
+  ---
+  duration_ms: 229.1622
+  ...
+# Subtest: ordinary sessions are capped at ten, expire, log out and cannot authorize administrator routes
+ok 85 - ordinary sessions are capped at ten, expire, log out and cannot authorize administrator routes
+  ---
+  duration_ms: 1013.8029
+  ...
+# Subtest: administrator search matches username and safe user views exclude credentials from every response
+ok 86 - administrator search matches username and safe user views exclude credentials from every response
+  ---
+  duration_ms: 81.6384
+  ...
+# Subtest: persistent per-account throttling applies to registrations and login without consuming admin attempts
+ok 87 - persistent per-account throttling applies to registrations and login without consuming admin attempts
+  ---
+  duration_ms: 621.4682
+  ...
+# Subtest: new usernames share the same per-instance attempt budget
+ok 88 - new usernames share the same per-instance attempt budget
+  ---
+  duration_ms: 45.8205
+  ...
+# Subtest: registration and login share a two-operation concurrency cap
+ok 89 - registration and login share a two-operation concurrency cap
+  ---
+  duration_ms: 91.0192
+  ...
+# Subtest: CloudBase password adapter only queries server credentials and sends opaque hashes to transactional RPCs
+ok 90 - CloudBase password adapter only queries server credentials and sends opaque hashes to transactional RPCs
+  ---
+  duration_ms: 1.9446
+  ...
+# Subtest: personal library requires user bearer, rejects duplicate headers and hostile write origins
+ok 91 - personal library requires user bearer, rejects duplicate headers and hostile write origins
+  ---
+  duration_ms: 4.5748
+  ...
+# Subtest: personal files and metadata bind to session owner, stay private and validate original bytes
+ok 92 - personal files and metadata bind to session owner, stay private and validate original bytes
+  ---
+  duration_ms: 5.3346
+  ...
+# Subtest: bad content, digest, filename or revision never writes a private object
+ok 93 - bad content, digest, filename or revision never writes a private object
+  ---
+  duration_ms: 2.9449
+  ...
+# Subtest: private deletion is owner and revision bound; lists are cursor bounded
+ok 94 - private deletion is owner and revision bound; lists are cursor bounded
+  ---
+  duration_ms: 1.2091
+  ...
+# Subtest: reviewed change list must exactly match every backed-up identity, file, and assignment
+ok 95 - reviewed change list must exactly match every backed-up identity, file, and assignment
+  ---
+  duration_ms: 2.5138
+  ...
+# Subtest: preset byte detection preserves exact NCP 0100 and every audited NP3 0310 record combination
+ok 96 - preset byte detection preserves exact NCP 0100 and every audited NP3 0310 record combination
+  ---
+  duration_ms: 7.7241
+  ...
+# Subtest: NP3 strict structure rejects truncation, duplicate/missing/unknown records and malformed lengths/versions/notes
+ok 97 - NP3 strict structure rejects truncation, duplicate/missing/unknown records and malformed lengths/versions/notes
+  ---
+  duration_ms: 26.6945
+  ...
+# Subtest: catalog reports detected format, defaults legacy files to NCP and rejects mismatched metadata
+ok 98 - catalog reports detected format, defaults legacy files to NCP and rejects mismatched metadata
+  ---
+  duration_ms: 2.5058
+  ...
+# Subtest: admin uploads, publishes and downloads exact NP3 bytes with canonical extension and format metadata
+ok 99 - admin uploads, publishes and downloads exact NP3 bytes with canonical extension and format metadata
+  ---
+  duration_ms: 191.0914
+  ...
+# Subtest: community NP3 upload retains legacy asset kind, checks actual bytes and serves only the canonical approved URL
+ok 100 - community NP3 upload retains legacy asset kind, checks actual bytes and serves only the canonical approved URL
+  ---
+  duration_ms: 39.0624
+  ...
+# Subtest: explicit monochrome, night and portrait subjects beat general film labels
+ok 101 - explicit monochrome, night and portrait subjects beat general film labels
+  ---
+  duration_ms: 2.7102
+  ...
+# Subtest: measured bright gentle styles and dark punchy styles follow the requested grouping
+ok 102 - measured bright gentle styles and dark punchy styles follow the requested grouping
+  ---
+  duration_ms: 1.8177
+  ...
+# Subtest: v2 does not infer landscape from high saturation or high contrast alone
+ok 103 - v2 does not infer landscape from high saturation or high contrast alone
+  ---
+  duration_ms: 0.4218
+  ...
+# Subtest: semantic intent can use descriptions but attribution URLs never become a subject
+ok 104 - semantic intent can use descriptions but attribution URLs never become a subject
+  ---
+  duration_ms: 0.5514
+  ...
+# Subtest: rule configuration rejects unknown or non-finite thresholds and invalid category overrides
+ok 105 - rule configuration rejects unknown or non-finite thresholds and invalid category overrides
+  ---
+  duration_ms: 0.459
+  ...
+# Subtest: unsupported colour models never fabricate measurements and source directories are not categories
+ok 106 - unsupported colour models never fabricate measurements and source directories are not categories
+  ---
+  duration_ms: 0.3627
+  ...
+# Subtest: avatar validation rejects other MIME types, truncated/trailing files, non-square and huge dimensions
+ok 107 - avatar validation rejects other MIME types, truncated/trailing files, non-square and huge dimensions
+  ---
+  duration_ms: 8.5502
+  ...
+# Subtest: upload authenticates account, commits owned UUID path and serves only that avatar with safe media headers
+ok 108 - upload authenticates account, commits owned UUID path and serves only that avatar with safe media headers
+  ---
+  duration_ms: 179.6734
+  ...
+# Subtest: invalid auth/origin/revision and JSON URL injection never reach object storage
+ok 109 - invalid auth/origin/revision and JSON URL injection never reach object storage
+  ---
+  duration_ms: 31.6916
+  ...
+# Subtest: failed and oversized uploads consume reservation while quota failures precede storage
+ok 110 - failed and oversized uploads consume reservation while quota failures precede storage
+  ---
+  duration_ms: 36.1688
+  ...
+# Subtest: a concurrent profile change or disable rejects upload commit without publishing an orphan
+ok 111 - a concurrent profile change or disable rejects upload commit without publishing an orphan
+  ---
+  duration_ms: 20.9687
+  ...
+# Subtest: CloudBase avatar RPC parameters keep identity separate from untrusted body metadata
+ok 112 - CloudBase avatar RPC parameters keep identity separate from untrusted body metadata
+  ---
+  duration_ms: 0.8145
+  ...
+# Subtest: QQ configuration preserves every existing opaque variable and does not mutate its input
+ok 113 - QQ configuration preserves every existing opaque variable and does not mutate its input
+  ---
+  duration_ms: 2.6845
+  ...
+# Subtest: QQ configuration refuses malformed AppIDs or ambiguous environments without exposing values
+ok 114 - QQ configuration refuses malformed AppIDs or ambiguous environments without exposing values
+  ---
+  duration_ms: 0.9934
+  ...
+# Subtest: QQ stays explicitly unavailable without an actual AppID; no network or synthetic login fallback
+ok 115 - QQ stays explicitly unavailable without an actual AppID; no network or synthetic login fallback
+  ---
+  duration_ms: 5.0504
+  ...
+# Subtest: QQ derives identity from Tencent, validates AppID, and retrieves only the verified openid profile
+ok 116 - QQ derives identity from Tencent, validates AppID, and retrieves only the verified openid profile
+  ---
+  duration_ms: 42.808
+  ...
+# Subtest: QQ validates opaque token bounds and encodes reserved characters before transport
+ok 117 - QQ validates opaque token bounds and encodes reserved characters before transport
+  ---
+  duration_ms: 5.5081
+  ...
+# Subtest: QQ rejects tokens for another AppID and provider identity errors before profile lookup
+ok 118 - QQ rejects tokens for another AppID and provider identity errors before profile lookup
+  ---
+  duration_ms: 9.8782
+  ...
+# Subtest: QQ never accepts a failed or partially lost profile and excludes additional personal attributes
+ok 119 - QQ never accepts a failed or partially lost profile and excludes additional personal attributes
+  ---
+  duration_ms: 8.606
+  ...
+# Subtest: QQ nickname validation rejects control characters, invalid Unicode, oversized or missing profile values
+ok 120 - QQ nickname validation rejects control characters, invalid Unicode, oversized or missing profile values
+  ---
+  duration_ms: 10.7117
+  ...
+# Subtest: QQ avatar selection only permits HTTPS qlogo URLs with a safe HTTP upgrade and small-avatar fallback
+ok 121 - QQ avatar selection only permits HTTPS qlogo URLs with a safe HTTP upgrade and small-avatar fallback
+  ---
+  duration_ms: 19.3127
+  ...
+# Subtest: QQ rejects redirects, failing HTTP statuses, malformed JSON/UTF-8, and excessive response sizes
+ok 122 - QQ rejects redirects, failing HTTP statuses, malformed JSON/UTF-8, and excessive response sizes
+  ---
+  duration_ms: 5.5302
+  ...
+# Subtest: QQ sanitizes transport exceptions and bounds both the request and a slow streamed response
+ok 123 - QQ sanitizes transport exceptions and bounds both the request and a slow streamed response
+  ---
+  duration_ms: 27.894
+  ...
+# Subtest: bundled signed APKs retain publication, integrity, budgets and withdrawal checks; other files use private storage
+ok 124 - bundled signed APKs retain publication, integrity, budgets and withdrawal checks; other files use private storage
+  ---
+  duration_ms: 333.5354
+  ...
+# Subtest: update contract never downgrades or silently chooses an older version after withdrawal
+ok 125 - update contract never downgrades or silently chooses an older version after withdrawal
+  ---
+  duration_ms: 0.8213
+  ...
+# Subtest: release HTTP: active administrators/CSRF, bounded durable chunks, actual metadata, immutable versions, public integrity and withdrawal
+ok 126 - release HTTP: active administrators/CSRF, bounded durable chunks, actual metadata, immutable versions, public integrity and withdrawal
+  ---
+  duration_ms: 587.1636
+  ...
+# Subtest: upload conflict and zero-byte requests are bounded before storage; reservations preserve task ownership and readiness
+ok 127 - upload conflict and zero-byte requests are bounded before storage; reservations preserve task ownership and readiness
+  ---
+  duration_ms: 4.4986
+  ...
+# Subtest: unconfigured QQ is explicitly unavailable and empty real-user administration stays protected
+ok 128 - unconfigured QQ is explicitly unavailable and empty real-user administration stays protected
+  ---
+  duration_ms: 135.2589
+  ...
+# Subtest: QQ identity comes only from verifier and user bearer sessions cannot become administrator sessions
+ok 129 - QQ identity comes only from verifier and user bearer sessions cannot become administrator sessions
+  ---
+  duration_ms: 41.243
+  ...
+# Subtest: disabling a user uses version and CSRF checks, revokes all sessions and blocks future QQ login
+ok 130 - disabling a user uses version and CSRF checks, revokes all sessions and blocks future QQ login
+  ---
+  duration_ms: 47.1417
+  ...
+# Subtest: user search is literal, pagination bounded and totals distinguish filtered matches from global summary
+ok 131 - user search is literal, pagination bounded and totals distinguish filtered matches from global summary
+  ---
+  duration_ms: 46.7325
+  ...
+# Subtest: normal user logout/expiry and QQ body/attempt bounds never affect admin login
+ok 132 - normal user logout/expiry and QQ body/attempt bounds never affect admin login
+  ---
+  duration_ms: 54.1209
+  ...
+# Subtest: CloudBase user adapter sends bounded queries as RPC JSON and preserves microsecond conflict values
+ok 133 - CloudBase user adapter sends bounded queries as RPC JSON and preserves microsecond conflict values
+  ---
+  duration_ms: 2.3709
+  ...
+# Subtest: NCP envelope agrees with supported 0100 structure and hashes the exact uploaded bytes
+ok 134 - NCP envelope agrees with supported 0100 structure and hashes the exact uploaded bytes
+  ---
+  duration_ms: 8.8514
+  ...
+# Subtest: unknown NCP signatures and versions never default to a supported preset
+ok 135 - unknown NCP signatures and versions never default to a supported preset
+  ---
+  duration_ms: 2.2102
+  ...
+# Subtest: NCP record truncation, duplicate preset, lengths, missing terminator and trailing bytes are rejected
+ok 136 - NCP record truncation, duplicate preset, lengths, missing terminator and trailing bytes are rejected
+  ---
+  duration_ms: 1.7117
+  ...
+# Subtest: complete synthetic png preview is recognized by its bytes and yields immutable metadata
+ok 137 - complete synthetic png preview is recognized by its bytes and yields immutable metadata
+  ---
+  duration_ms: 1.3998
+  ...
+# Subtest: complete synthetic jpg preview is recognized by its bytes and yields immutable metadata
+ok 138 - complete synthetic jpg preview is recognized by its bytes and yields immutable metadata
+  ---
+  duration_ms: 0.9885
+  ...
+# Subtest: complete synthetic gif preview is recognized by its bytes and yields immutable metadata
+ok 139 - complete synthetic gif preview is recognized by its bytes and yields immutable metadata
+  ---
+  duration_ms: 1.0577
+  ...
+# Subtest: complete synthetic webp preview is recognized by its bytes and yields immutable metadata
+ok 140 - complete synthetic webp preview is recognized by its bytes and yields immutable metadata
+  ---
+  duration_ms: 1.2261
+  ...
+# Subtest: preview size, body type, forged magic and dimension abuse fail before publication
+ok 141 - preview size, body type, forged magic and dimension abuse fail before publication
+  ---
+  duration_ms: 1.176
+  ...
+# Subtest: the 8 MiB preview boundary is exact and does not substitute the smaller HTTP transport limit
+ok 142 - the 8 MiB preview boundary is exact and does not substitute the smaller HTTP transport limit
+  ---
+  duration_ms: 18.473
+  ...
+# Subtest: PNG integrity includes CRC, chunk ordering, palette requirements and exact IEND
+ok 143 - PNG integrity includes CRC, chunk ordering, palette requirements and exact IEND
+  ---
+  duration_ms: 0.893
+  ...
+# Subtest: JPEG needs bounded frame/scans rather than a signature around arbitrary data
+ok 144 - JPEG needs bounded frame/scans rather than a signature around arbitrary data
+  ---
+  duration_ms: 0.4323
+  ...
+# Subtest: GIF requires complete color tables and pixel-counted LZW frames
+ok 145 - GIF requires complete color tables and pixel-counted LZW frames
+  ---
+  duration_ms: 0.4175
+  ...
+# Subtest: WebP container lengths, extension canvas and animation frame dimensions are checked
+ok 146 - WebP container lengths, extension canvas and animation frame dimensions are checked
+  ---
+  duration_ms: 1.3943
+  ...
+# Subtest: preset metadata is normalized with client-compatible limits and no mass-assigned fields
+ok 147 - preset metadata is normalized with client-compatible limits and no mass-assigned fields
+  ---
+  duration_ms: 1.1812
+  ...
+# Subtest: catalog uses published snapshots only, strips administration data, and sorts deterministically
+ok 148 - catalog uses published snapshots only, strips administration data, and sorts deterministically
+  ---
+  duration_ms: 1.8767
+  ...
+# Subtest: publishing checks duplicate IDs, count and actual UTF-8 manifest byte limit
+ok 149 - publishing checks duplicate IDs, count and actual UTF-8 manifest byte limit
+  ---
+  duration_ms: 14.0151
+  ...
+# Subtest: catalog rejects unpublished/unsupported file metadata and preview mismatches
+ok 150 - catalog rejects unpublished/unsupported file metadata and preview mismatches
+  ---
+  duration_ms: 1.0447
+  ...
+# Subtest: catalog requires stable credential-free HTTPS URLs the Android parser can read
+ok 151 - catalog requires stable credential-free HTTPS URLs the Android parser can read
+  ---
+  duration_ms: 3.5056
+  ...
+1..151
+# tests 151
+# suites 0
+# pass 151
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4349.5052

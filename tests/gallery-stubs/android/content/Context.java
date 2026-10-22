@@ -10,6 +10,6 @@ public final class Context {
     public File getFilesDir() { return new File(root, "files"); }
     public File getExternalFilesDir(String type) { return new File(root, "external/" + type); }
     public ContentResolver getContentResolver() { return resolver; }
-    public String getPackageName() { return "com.nikonpreset.usbprobe"; }
+    public String getPackageName() { return "cc.huevia"; }
     public int checkSelfPermission(String permission) { return permissionGranted ? 0 : -1; }
 }

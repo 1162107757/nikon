@@ -1,0 +1,21 @@
+{
+  "checkedAt": "2026-10-22T09:22:43.838Z",
+  "mode": "upload",
+  "apkSha256": "81ce86556a10a828a71412a2d06e86bb260b42266ad42737292bddf7c270a1a0",
+  "byteLength": 3442285,
+  "latestBefore": {
+    "httpStatus": 200,
+    "versionCode": 77,
+    "sha256": "88d284ffadb92c8ce15c1e5833f00c9fb25a8608b8071557c6464f4c7e6d5ec5",
+    "reason": "current"
+  },
+  "objectHeadStatus": 404,
+  "uploadStatus": 200,
+  "publicGetStatus": 404,
+  "latestAfter": {
+    "httpStatus": 200,
+    "versionCode": 77,
+    "sha256": "88d284ffadb92c8ce15c1e5833f00c9fb25a8608b8071557c6464f4c7e6d5ec5",
+    "reason": "current"
+  }
+}

@@ -1,0 +1,41 @@
+Use case: ui-mockup.
+Create a high-fidelity Chinese Android photo editor DESIGN REVIEW BOARD for the existing Huevia app. This is an extension of the existing preset-application screen, not a new app or different design identity.
+Input image 1 (actual Android screenshot) is the PRIMARY reference for all chrome, palette, photo content, contained image proportions, typography scale, online/my source selector, filter category navigation, current-photo filter thumbnails, strength slider, and the rounded dark bottom dock. Input image 2 (previous approved design board) is a SECONDARY reference for the clean review-board presentation and consistency of the three phone screens. Do not reproduce the secondary image's different group portrait. Use the adult woman seated at a lakeside cafe from image 1 as the SAME illustrative photo in every main preview and every thumbnail. Preserve her face, pose, attire and the photo's composition; no beauty edits.
+Deliver one landscape board, approximately 1800 by 1250 pixels, with three equally sized upright Android screen mockups side by side, all shown full and perfectly front-on. Warm off-white board background, modest simple title and clear Chinese screen captions. Thin neutral phone outlines, no ornamental device hardware or perspective, no cast shadows or floating decorative elements. All UI text sharp and readable, professional Chinese system sans serif, no gibberish. Each phone has the same proportions, photo canvas height, top app bar, and bottom dock height.
+Board title exactly: "Huevia · 预设与基础调整"
+Subtitle exactly: "选好预设，继续调整明暗与色彩"
+Phone captions, left to right: "01 预设套用", "02 光线调整", "03 色彩调整".
+The three phones depict THREE STATES OF THE SAME EDITOR, not three alternative apps.
+
+Shared UI:
+Native dark graphite screen (#101113), dark charcoal rounded bottom control dock (#22252A to #30353D), very restrained real photo-derived translucent material, pale blue accent #8DBBFF, primary text #F4F5F7, muted text #ADB6C3. The reference's existing dark image editor is authoritative. Keep the photo the dominant element with uncropped full-proportion main preview and matte letterboxing. Do not shrink it to make a large settings form. Same large photo canvas in all three screens.
+Top app bar: left back arrow; center "DSC_000A.JPG" with small "3 / 12" underneath; right pale blue rounded "导出" button with dark text. Above it a small native status bar.
+Under the photo: a compact "原图" press-and-hold compare pill on the left and existing star and versions icons on the right. No bottom app-wide navigation bar. Android gesture navigation area at the bottom.
+Bottom dock first row: local editing mode labels "滤镜" and "调整" at left; selected one brighter with a small blue underline. Undo and redo outline arrows at right, each with generous touch space. Maintain hierarchy and photo focus.
+
+LEFT phone, existing preset application extended:
+"滤镜" selected. Keep online/my selector "在线" / "我的" and grid icon plus "全部" next to it.
+One small category row with "全部", "人像", "风景", "胶片", "黑白", with blue underline on "人像".
+A horizontally scrollable strip of current-photo filter thumbnails with the SAME cafe-woman photo, four readable names "无滤镜", "清透人像", "暖阳胶片", "冷杉绿调". "清透人像" selected using blue outline and a blue check.
+Existing "强度" slider, blue track and round thumb at 70%, show "70%" at right.
+At bottom a short muted status "清透人像 · 70% · 未导出".
+The new "调整" tab is visible and easy to discover, integrated in this existing editor, not a new detached screen.
+
+MIDDLE phone, light adjustments on top of that preset:
+"调整" selected. Show a compact preset-context row: small current-photo thumbnail, "清透人像", secondary "强度 70%", small "更换" action on the right. This row must make it unmistakable the chosen preset remains applied.
+Next group tabs "光线", "色彩", "细节", with "光线" active blue underline.
+One horizontal parameter row of small consistent monochrome line icons, Chinese labels, and tiny numeric values: "曝光" +0.7 selected blue, "亮度" 0, "对比度" +10, "高光" -20, "阴影" +15; hint of further items beyond the right edge.
+Below, one large clear active-control row "曝光" left, "+0.7 EV" near right, and a small reset-arrow icon. A fine horizontal slider with neutral center tick and thumb modestly right of center. End labels "-3.0" and "+3.0".
+Muted bottom status "滤镜 70% · 调整 4 项 · 未导出"; a small secondary text action "重置调整" is visible.
+The photo may look gently brighter than the left preview, consistent with illustrative adjustment only. Do not add artificial glow or change the woman's identity.
+
+RIGHT phone, color adjustments with the same preset and retained light adjustments:
+"调整" selected; the same preset-context row "清透人像" / "强度 70%" / "更换".
+Group tabs "光线", "色彩", "细节", "色彩" selected blue underline.
+Parameter row: "色温" +12 selected, "色调" 0, "饱和度" 0, "自然饱和度" 0. Use simple outline parameter icons and readable Chinese labels, including the long name.
+Active control "色温" and "+12", small reset arrow, a cool blue-to-neutral-to-warm amber slider with a neutral center mark, thumb only slightly right of midpoint, endpoints "冷" and "暖". No temperature in Kelvin.
+Muted bottom status "滤镜 70% · 调整 5 项 · 未导出" and the same small "重置调整" action.
+Photo only subtly warmer than the middle phone, still photographic and natural.
+
+Board footer, small but readable, exactly: "界面设计稿 · 照片、滤镜名称与数值为示意"
+Constraints: faithfully extend the current preset application UI. Keep the large photo, online/my source, categories, thumbnails and strength recognizable in the first state; preserve visible preset identity and its 70% strength in both adjustment states. No face beauty controls, crop tool, AI labels, histogram, curves, HSL panels, fake logos, marketing copy, or web UI inside the screens. Design practical tap targets and spacing. The finished image must read as a real implementable native Android editor, not a promotional poster.

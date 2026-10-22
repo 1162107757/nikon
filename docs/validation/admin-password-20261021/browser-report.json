@@ -1,0 +1,11 @@
+{
+  "scope": "Headless Edge, isolated localhost HTTP server, MemoryStore and synthetic administrator; no cloud writes or real password changes.",
+  "checks": [
+    "Current-password error remains in the dialog, clears the incorrect field and preserves the authenticated workspace.",
+    "Mismatched confirmation is rejected before the network; Escape closes and reopening clears all passwords.",
+    "Desktop, 390px light and 320px dark layouts have no horizontal overflow, overlapping header controls, or clipped dialog actions.",
+    "While saving, duplicate submission/cancellation are blocked; success clears the form, logs out both browser contexts and explains reauthentication.",
+    "The old password fails and the exact new password including spaces and Chinese characters signs in successfully."
+  ],
+  "errors": []
+}

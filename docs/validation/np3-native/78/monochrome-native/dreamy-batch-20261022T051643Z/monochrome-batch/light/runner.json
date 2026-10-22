@@ -1,0 +1,11 @@
+{
+  "expectedApkSha256": "0b1767980b10b467a34464015c15090951401c6d4300c9bb64a3a61fd7ea88e5",
+  "serial": "emulator-5582",
+  "instrumentationElapsedSeconds": 16.6674107,
+  "probeSha256": "c0ce8ccf7fcf1e000355b21b91625c927cab9452fea9efc54d0c5159cc519a00",
+  "theme": "light",
+  "productInstalledByThisRunner": false,
+  "scope": "monochrome-batch",
+  "runId": "dreamy-batch-20261022T051643Z",
+  "expectedVersion": 78
+}

@@ -1,0 +1,35 @@
+{
+  "checkedAtUtc": "2026-10-22T13:31:11.894872+00:00",
+  "purpose": "Read-only verification that the public online Scott LO preset is the exact NP3 fixture supported by test build 79.",
+  "authentication": "none; anonymous HTTPS GET only",
+  "catalog": {
+    "url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/catalog.json",
+    "finalUrl": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/catalog.json",
+    "status": 200,
+    "byteLength": 186585,
+    "sha256": "cf5cb93e7e83454cefb9a249c053a6697c7a89f6c955876fa6c041c5d35ae026",
+    "maximumResponseBytes": 524288
+  },
+  "preset": {
+    "id": "744c3353-43ce-489b-b057-5c0b9e33ac5a",
+    "name": "Scott's Ilford 400 LO",
+    "fileUrl": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-ff57c07d5c7df1b6f6ffe031ada0b987f6242043c28a2837dc40e3ebdd14561f.np3",
+    "sha256": "ff57c07d5c7df1b6f6ffe031ada0b987f6242043c28a2837dc40e3ebdd14561f",
+    "byteLength": 1036
+  },
+  "download": {
+    "url": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-ff57c07d5c7df1b6f6ffe031ada0b987f6242043c28a2837dc40e3ebdd14561f.np3",
+    "finalUrl": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com/preset-library/files/ncp-ff57c07d5c7df1b6f6ffe031ada0b987f6242043c28a2837dc40e3ebdd14561f.np3",
+    "status": 200,
+    "byteLength": 1036,
+    "sha256": "ff57c07d5c7df1b6f6ffe031ada0b987f6242043c28a2837dc40e3ebdd14561f",
+    "maximumResponseBytes": 1048576
+  },
+  "expectedFixture": {
+    "byteLength": 1036,
+    "sha256": "ff57c07d5c7df1b6f6ffe031ada0b987f6242043c28a2837dc40e3ebdd14561f"
+  },
+  "catalogMetadataMatchesFixture": true,
+  "downloadMatchesFixture": true,
+  "scope": "This verifies public bytes at the observation time; no cloud data, application source, preset metadata, or release channel was changed."
+}

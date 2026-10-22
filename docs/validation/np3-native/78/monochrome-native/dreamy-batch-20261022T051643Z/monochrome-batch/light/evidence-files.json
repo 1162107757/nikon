@@ -1,0 +1,130 @@
+{
+  "files": [
+    {
+      "sha256": "078e465f9487ad8130e10a4bf36368872d8f6e6f3621e4a424d1b3680c9f9f88",
+      "bytes": 987,
+      "file": "apk-signature.txt"
+    },
+    {
+      "sha256": "f5817807d03e7f513160a68a218b2da3703b09501386f9e8d62308e18d941762",
+      "bytes": 32677,
+      "file": "artifact-binding.json"
+    },
+    {
+      "sha256": "21f1a944ecfb6b390765e1dd7f507d08452aa5ce338bed61d4ad1b6deae7e242",
+      "bytes": 46488,
+      "file": "dreamy-batch-source.jpg"
+    },
+    {
+      "sha256": "1d628cfc1ddfbd785987f75619a8e2e13e3a01cc77db8b31a0ae5d584b680359",
+      "bytes": 44149,
+      "file": "dreamy-mono-batch-reference.jpg"
+    },
+    {
+      "sha256": "1d628cfc1ddfbd785987f75619a8e2e13e3a01cc77db8b31a0ae5d584b680359",
+      "bytes": 44149,
+      "file": "dreamy-mono-batch100.jpg"
+    },
+    {
+      "sha256": "dcc7ec1b3343d2f449ec884af95373fcef8ff0aa3c692046e25771acdd00d54a",
+      "bytes": 45025,
+      "file": "dreamy-mono-strength0.jpg"
+    },
+    {
+      "sha256": "ec9b7a887fcb208cd0aa2062548ae042979005dc540035cb5067d02f51a6b0d9",
+      "bytes": 44367,
+      "file": "dreamy-mono-strength100.jpg"
+    },
+    {
+      "sha256": "6e73de19098f7bc066ddf7936c9422db518433fe69216dbb8afa12d232c9ee6a",
+      "bytes": 48285,
+      "file": "dreamy-mono-strength37.jpg"
+    },
+    {
+      "sha256": "143c8133f428df12121f1c8ea72e2524fca7b7c1096cd7b9ba260b2df9ae567a",
+      "bytes": 46814,
+      "file": "dreamy-peep-batch-reference.jpg"
+    },
+    {
+      "sha256": "143c8133f428df12121f1c8ea72e2524fca7b7c1096cd7b9ba260b2df9ae567a",
+      "bytes": 46814,
+      "file": "dreamy-peep-batch100.jpg"
+    },
+    {
+      "sha256": "dcc7ec1b3343d2f449ec884af95373fcef8ff0aa3c692046e25771acdd00d54a",
+      "bytes": 45025,
+      "file": "dreamy-peep-strength0.jpg"
+    },
+    {
+      "sha256": "0b51632e4df0704a9e43173590505a9272de41248380cb9ac4713115c9b285cd",
+      "bytes": 46840,
+      "file": "dreamy-peep-strength100.jpg"
+    },
+    {
+      "sha256": "64d1bc75f18353c9c72aa169274f28b3dde063c86c6eb179b3cbe458f1f68ce3",
+      "bytes": 50446,
+      "file": "dreamy-peep-strength37.jpg"
+    },
+    {
+      "sha256": "bdffd2a67b01206fdea183265a01e1c495aed81e379e5c0502f5a28b20fe275d",
+      "bytes": 125,
+      "file": "instrumentation.txt"
+    },
+    {
+      "sha256": "9cc8fcaf73dfdda7bf60680a1ac15f1cfa9df0939e5612e69d948dbbbbf1f78e",
+      "bytes": 598,
+      "file": "owned-emulator-session.json"
+    },
+    {
+      "sha256": "689c34f326311ae06a3227b1ed07bcb2608c9e183d7f106e08846ad692a52cf6",
+      "bytes": 928,
+      "file": "post-batch-file-recheck.json"
+    },
+    {
+      "sha256": "7939b7ef9b7035e828bc041804b224bfbf35373e4fdf1f6b32c8ebb9f9579962",
+      "bytes": 17360,
+      "file": "report.json"
+    },
+    {
+      "sha256": "0056a10121af4cf73fb3aded8f68fa288e5f5dc18e3b0458ea35618710edf963",
+      "bytes": 427,
+      "file": "runner.json"
+    },
+    {
+      "sha256": "af78114a5b97f84beb5484a0b0f4ed2e5bcf5848667b0a98d3994f819d091be5",
+      "bytes": 48759,
+      "file": "standalone-np3-strength37.jpg"
+    },
+    {
+      "sha256": "965c390352968dfa826180854ec557c45a3cbbf7703266a13cffb31891039f34",
+      "bytes": 50457,
+      "file": "standalone-np3.jpg"
+    },
+    {
+      "sha256": "42c01ee7ace5ec2cddd59e81284d9074a87987c37584797149febaa0d0106eda",
+      "bytes": 46785,
+      "file": "standalone-source.jpg"
+    },
+    {
+      "sha256": "aca23f5c263d9e4bc23d10e0a7dd7fca4966aa06de938d74ec6663c94f093587",
+      "bytes": 179124,
+      "file": "template-dreamy-mono.jpg"
+    },
+    {
+      "sha256": "a433ae9aac2ad5318acda6a2b10324839b1e0a47283e2687847deb88b461ce7a",
+      "bytes": 185805,
+      "file": "template-dreamy-peep.jpg"
+    },
+    {
+      "sha256": "9a8c91b036cb4b251476eec9f247bb744b5758df4c25cf6f21a74941f3c34bec",
+      "bytes": 196869,
+      "file": "template-np3.jpg"
+    },
+    {
+      "sha256": "6c486267f13abc183fd82af8d6618bdadc1790e667aaca1a324845e98d1fa063",
+      "bytes": 196856,
+      "file": "template-original.jpg"
+    }
+  ],
+  "recordedAt": "2026-10-22T05:18:01.4966807Z"
+}

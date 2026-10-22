@@ -1,0 +1,30 @@
+Huevia 0.13.0-beta / versionCode 68
+APK: nikon-usb-0.13.0-beta-debug.apk
+SHA-256: a042c85f59d3fd8166c518eb3486250b59aad5eeefded497cd8bbe6b405ba5ee
+Build: Android 35, Java 17; APK signatures v2/v3 verified.
+
+Implemented approved current-photo bottom filter dock, categories/search/grid,
+shared 0–100 strength, per-account/per-photo durable drafts, explicit full-size
+JPEG export, and independent per-photo frozen settings for batch export/retry.
+Originals and existing saved versions retained. NP3/NCP effects remain the
+existing phone approximations; this release does not establish NX Studio parity.
+
+Focused JVM checks PASS: editor 2144; batch 300; source links 82;
+photo grouping/version regression 36; project automatic presets 48.
+Native Pixel 9 / Android 17 / isolated emulator-5582:
+portrait 144 PASS; font 1.3 portrait 144 PASS; landscape 144 PASS.
+All native reports record the exact SHA-256 above.
+Includes actual JPEG/full pixel dimensions/source preservation/MediaStore bytes,
+batch vs single JPEG equality, per-photo settings, saved-version switching,
+single-original draft badge, 59-preset selection/scroll, bounded48 recipe cache
+with reload, and pause-boundary draft flush.
+
+Includes shared Fuji JPG-only RAW capability guard and 0x2013 interpretation.
+Other task's host verification: album 1337 PASS; RAW105 PASS.
+No actual camera or user phone was operated in this editor verification.
+Hardware gesture performance, TalkBack, tablets and OEM/background retention
+are outside this release's editor UI verification.
+
+Evidence: docs/validation/photo-editor-native/README.md
+Independent initial review and focused verdict are stored beside that README.
+Usage: docs/photo-filter-editor.md

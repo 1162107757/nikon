@@ -1,0 +1,17 @@
+# Focused correction verdict
+
+2026-10-19. Candidate: `0.13.0-beta`; APK SHA-256 `a042c85f59d3fd8166c518eb3486250b59aad5eeefded497cd8bbe6b405ba5ee`.
+
+**Disposition: SHIP within the five-finding scope of FINISH-REVIEW.md.** All five original findings are resolved. This verdict supersedes the initial FIX disposition for these findings on this candidate only.
+
+| Original finding | Score | Focused evidence |
+| --- | --- | --- |
+| Exported draft overrides selected saved version | **Resolved** | `PhotoFilterEditor.bind` now restores only unexported drafts; `bindSavedVersion` honors explicit menu selection while retaining pending edits with a recovery note. `PhotoEditStore.readPending` excludes exported history from batch preparation; `freeze` preserves a saved selection with a null draft. Album integration updates and remembers a successful single export's display. All three reports assert original/older/newer saved pixels, actual version-menu behavior and saved-version export preservation. `phone-saved-version.png` shows the saved-version state and disabled strength consistently. |
+| Single-original photo hides 未导出 | **Resolved** | Album integration uses the shared draft-badge helper in the relevant adapters. `phone-draft-badge.png` visibly shows 未导出 on adjusted originals. Reports explicitly verify both single-original state and actual badge visibility. |
+| Later-than-24 selection absent; picker position lost | **Resolved** | `buildStrip` includes the selected recipe within the bounded list and scrolls it into view. Picker dismissal retains the first visible position; reopening restores that row. Thumbnail completion updates visible grid images without resetting its adapter. All three reports exercise position 59 in the 59-preset library, one-tap selection, full collapsed-card visibility and restored picker position. `phone-library-late.png` shows the reopened late-library area. Restoration is row-based, not a claim of exact pixel-offset preservation. |
+| Cache retains unbounded recipe bytes/profiles | **Resolved** | The 48-entry eviction clears image, bytes and parsed profile together; selected recipe ownership remains separate. KNOWN stores bounded Boolean flags rather than full drafts. All three reports verify all three cache bounds and successful reload of an evicted recipe. |
+| Landscape picker cannot show a complete row | **Resolved** | Compact-height picker expands to 90% of available screen height. The recaptured `landscape-all-filters.png` presents a complete three-column photo-and-label row; each report also asserts that geometry. Portrait enlarged-text capture retains readable labels. |
+
+The optional pause concern is also addressed: the existing `AlbumPanel.releasePhotoComparison` boundary calls `filterEditor.flushDraft`; all three reports assert the latest filter choice is flushed at pause. This establishes the save handoff, not immunity to arbitrary process termination during asynchronous disk I/O.
+
+Reviewed only the relevant changed methods, five focused screenshots and all three final reports. Each report records **PASS, 144 checks**, with the same final candidate hash. No tests were rerun, builds made, devices operated or implementation edited by this reviewer. The initial candidate remains separately archived. Existing limits on physical hardware, TalkBack, tablets, sustained performance and camera behavior remain; this is not whole-product certification. Keep this verdict beside the original review and native reports as the final correction handoff.

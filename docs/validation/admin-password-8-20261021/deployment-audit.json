@@ -1,0 +1,36 @@
+{
+  "environment": "nikon-d8girdjsr252fd90e",
+  "functionName": "nikon-preset-library",
+  "inspectedAt": "2026-10-21T06:01:04.958Z",
+  "status": "Active",
+  "configurationSha256": "ca5207b66e5bead65ccb2a7e88b290b2d93bc8974cdec9c80e07b2822ec7f078",
+  "previousArchiveSha256": "6006ded5b5180e6e7cb09b433e2686dc03dbc8504adb7aeece170a69b5d2aad4",
+  "nextArchiveSha256": "9740594322f20f359cce5ed062b98d1f1465f071b30b9935fe3db101ee4a5e2c",
+  "previousFiles": 37,
+  "nextFiles": 37,
+  "changes": [
+    {
+      "path": "server/app.mjs",
+      "before": "c5a8c74402ecd4cca406816c017e6e561bf70f04cb2db6a049661082cc961bde",
+      "after": "3aff5865e238136dc58af2e4d3e238ad46d0742a9bc848bda6e63179135e2337"
+    },
+    {
+      "path": "server/auth.mjs",
+      "before": "7598775cb47d54057cdf212881a962a1509f23f9cbfb7377ffc66abc38e5612c",
+      "after": "30f3670f4ece470213d131db992212a654aa075200c3f57b5e90f63975f5bd9a"
+    },
+    {
+      "path": "admin/app.js",
+      "before": "6ca19b48e84a0a37b5b5d809c40003f462b7a8b283f31cd48a079e9ee5283acd",
+      "after": "5751224d00115127c9f66ea254b445fdb0c9f02d9e8ff88bafc50f5c2b889381"
+    }
+  ],
+  "scoped": true,
+  "source": "production-baseline-plus-password-only",
+  "excludedWorkspaceChanges": [
+    "server/apk.mjs",
+    "server/releases.mjs",
+    "download/download.js"
+  ],
+  "isolatedRuntimeTestsPassed": true
+}

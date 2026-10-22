@@ -1,14 +1,14 @@
 plugins { id 'com.android.application' }
 
 android {
-    namespace 'com.nikonpreset.usbprobe'
+    namespace 'cc.huevia'
     compileSdk 35
     defaultConfig {
-        applicationId 'com.nikonpreset.usbprobe'
+        applicationId 'cc.huevia'
         minSdk 26
         targetSdk 35
-        versionCode 66
-        versionName '0.12.4-beta'
+        versionCode 79
+        versionName '0.13.11-beta'
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17

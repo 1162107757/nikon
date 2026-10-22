@@ -30,6 +30,7 @@
     <div class="top-actions">
       <label class="theme-control"><span class="sr-only">外观</span><select id="theme" aria-label="外观"><option value="system">跟随系统</option><option value="light">浅色</option><option value="dark">深色</option></select></label>
       <span id="account" class="account" hidden></span>
+      <button id="change-password" class="button quiet" hidden>修改密码</button>
       <button id="logout" class="button quiet" hidden>退出登录</button>
     </div>
   </header>
@@ -38,6 +39,7 @@
   <dialog id="editor" class="editor" aria-labelledby="editor-title"></dialog>
   <dialog id="user-detail" class="editor user-detail" aria-labelledby="user-detail-title"></dialog>
   <dialog id="confirm" class="confirm" aria-labelledby="confirm-title"></dialog>
+  <dialog id="password-dialog" class="password-dialog" aria-labelledby="password-title" aria-describedby="password-description"></dialog>
   <noscript><div class="noscript">请启用 JavaScript 后使用管理后台。</div></noscript>
   <script type="module" src="./app.js"></script>
 </body>

@@ -7,7 +7,12 @@ $projectRoot = Split-Path -Parent $PSScriptRoot
 $appBuildDefinition = Get-Content -LiteralPath (Join-Path $projectRoot 'app\build.gradle') -Raw
 $appVersionMatch = [regex]::Match($appBuildDefinition, "versionName\s+'([0-9A-Za-z.\-]+)'")
 $appCodeMatch = [regex]::Match($appBuildDefinition, 'versionCode\s+(\d+)')
+$appIdMatch = [regex]::Match($appBuildDefinition, "applicationId\s+'([A-Za-z][A-Za-z0-9_.]+)'")
+$namespaceMatch = [regex]::Match($appBuildDefinition, "namespace\s+'([A-Za-z][A-Za-z0-9_.]+)'")
 if (-not $appVersionMatch.Success -or -not $appCodeMatch.Success) { throw 'Cannot read app version from app/build.gradle.' }
+if (-not $appIdMatch.Success -or -not $namespaceMatch.Success) { throw 'Cannot read applicationId or namespace from app/build.gradle.' }
+$appId = $appIdMatch.Groups[1].Value
+$appNamespace = $namespaceMatch.Groups[1].Value
 $appVersionName = $appVersionMatch.Groups[1].Value
 $appVersionCode = $appCodeMatch.Groups[1].Value
 if (-not $SdkRoot) {
@@ -55,13 +60,24 @@ function Invoke-Checked([string]$Executable, [string[]]$Arguments) {
 
 # aapt2 receives the same application ID that Gradle normally adds to the manifest.
 [xml]$manifest = Get-Content -LiteralPath (Join-Path $projectRoot 'app\src\main\AndroidManifest.xml') -Raw
-$manifest.manifest.SetAttribute('package', 'com.nikonpreset.usbprobe')
+$manifest.manifest.SetAttribute('package', $appId)
+# Android component classes belong to the source namespace, independently of the install ID.
+$androidNamespace = 'http://schemas.android.com/apk/res/android'
+$namespaceManager = [Xml.XmlNamespaceManager]::new($manifest.NameTable)
+$namespaceManager.AddNamespace('android', $androidNamespace)
+foreach ($component in $manifest.SelectNodes('//*[@android:name]', $namespaceManager)) {
+    $componentName = $component.GetAttribute('name', $androidNamespace)
+    if ($componentName.StartsWith('.')) { $component.SetAttribute('name', $androidNamespace, $appNamespace + $componentName) | Out-Null }
+}
+foreach ($attribute in $manifest.SelectNodes('//@*')) {
+    $attribute.Value = $attribute.Value.Replace('${applicationId}', $appId)
+}
 $manifestPath = Join-Path $outputRoot 'AndroidManifest.xml'
 $manifest.Save($manifestPath)
 $resourcesZip = Join-Path $outputRoot 'resources.zip'
 Invoke-Checked (Join-Path $toolsRoot 'aapt2.exe') @('compile', '--dir', (Join-Path $projectRoot 'app\src\main\res'), '-o', $resourcesZip)
 $unsignedApk = Join-Path $outputRoot 'unsigned.apk'
-Invoke-Checked (Join-Path $toolsRoot 'aapt2.exe') @('link', '-I', $androidJar, '--manifest', $manifestPath,
+Invoke-Checked (Join-Path $toolsRoot 'aapt2.exe') @('link', '-I', $androidJar, '--manifest', $manifestPath, '--custom-package', $appNamespace,
     '-A', (Join-Path $projectRoot 'app\src\main\assets'),
     '--java', $generatedRoot, '--min-sdk-version', '26', '--target-sdk-version', '35',
     '--version-code', $appVersionCode, '--version-name', $appVersionName, '-o', $unsignedApk, $resourcesZip)
@@ -132,7 +148,7 @@ if (-not (Test-Path -LiteralPath $debugKey)) {
         '-storepass', 'android', '-keypass', 'android', '-alias', 'androiddebugkey', '-keyalg', 'RSA', '-keysize', '2048',
         '-validity', '10000', '-dname', 'CN=Nikon USB Debug,OU=Development,O=Local,C=CN')
 }
-$finalApk = Join-Path $distRoot ('nikon-usb-' + $appVersionName + '-debug.apk')
+$finalApk = Join-Path $distRoot ('huevia-' + $appVersionName + '-debug.apk')
 Invoke-Checked (Join-Path $toolsRoot 'apksigner.bat') @('sign', '--ks', $debugKey, '--ks-pass', 'pass:android',
     '--key-pass', 'pass:android', '--ks-key-alias', 'androiddebugkey', '--out', $finalApk, $alignedApk)
 Invoke-Checked (Join-Path $toolsRoot 'apksigner.bat') @('verify', '--verbose', $finalApk)

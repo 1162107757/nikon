@@ -1,1 +1,1 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.nikonpreset.usbprobe.entryqa"><application android:label="Huevia入口隔离验证"/><instrumentation android:name=".EntryProbe" android:targetPackage="com.nikonpreset.usbprobe"/></manifest>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="cc.huevia.entryqa"><application android:label="Huevia入口隔离验证"/><instrumentation android:name=".EntryProbe" android:targetPackage="cc.huevia"/></manifest>

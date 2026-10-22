@@ -1,0 +1,42 @@
+{
+  "checkedAt": "2026-10-21T15:50:20.077Z",
+  "noCloudRequestOrMutationExecuted": true,
+  "syntheticObservabilityTests": {
+    "tests": 2,
+    "pass": 2,
+    "fail": 0,
+    "skipped": 0,
+    "preflightInterceptedAllRpcSqlAndFileWrites": true,
+    "providerPayloadNotReflected": true
+  },
+  "checks": [
+    {
+      "path": ".tooling/huevia77-common.mjs",
+      "sha256": "687f712fbe209034d4be81d59f6e3e22a9c903b07171c49aaaf1c89bcb16b7df",
+      "syntax": true
+    },
+    {
+      "path": ".tooling/huevia77-publish.mjs",
+      "sha256": "a8301ccc207805739a163d3a8df02ee935f0942e7405c21b8644b130900011c6",
+      "syntax": true
+    },
+    {
+      "path": ".tooling/huevia77-deploy.mjs",
+      "sha256": "afc44d73dcfa72244a3d3fce01e12296fe798e50741e81bec08479e8000e937f",
+      "syntax": true
+    },
+    {
+      "path": ".tooling/huevia77-observability.test.mjs",
+      "sha256": "cc92c21e27f3bb327fcf73e06ab99349b08043a8b21bdce3d2b239183b890af9",
+      "syntax": true
+    },
+    {
+      "path": ".tooling/huevia77-deploy.mjs",
+      "noExplicitActionRejected": true
+    },
+    {
+      "path": ".tooling/huevia77-publish.mjs",
+      "noExplicitActionRejected": true
+    }
+  ]
+}

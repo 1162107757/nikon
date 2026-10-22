@@ -21,3 +21,7 @@
 .preset-toolbar{flex-wrap:wrap}.preset-toolbar .search{min-width:min(100%,220px)}.preset-toolbar select{max-width:100%}.preset-category{font-size:11px;line-height:1.5;color:var(--accent);margin-top:5px;overflow-wrap:anywhere}.preset-copy{min-width:0}
 main:focus{outline:none}
 @media(max-width:760px){.side-nav{overflow-x:auto;scrollbar-width:thin;scrollbar-color:var(--line) transparent;gap:5px}.side-nav a{flex:1;min-width:0;padding-inline:8px;gap:6px}.side-nav a span{white-space:nowrap}.side-nav svg{display:none}}
+
+.login-filing{text-align:center;font-size:12px;margin:8px 15px 0}
+.password-dialog{width:min(460px,calc(100% - 32px));max-height:calc(100dvh - 32px);margin:auto;padding:28px;border-radius:16px;overflow-y:auto}.password-dialog h2{font-size:20px}.password-dialog>p{margin:12px 0 26px;font-size:13px;line-height:1.7;color:var(--label-secondary)}.password-dialog .field{margin-bottom:20px}.password-dialog input{width:100%;min-width:0}.password-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:24px}.password-actions .button{min-height:44px}.login-success{color:var(--success);font-size:14px;line-height:1.7;margin-bottom:22px}
+@media(max-width:480px){.authenticated .top-brand span{display:none}.password-dialog{padding:24px}.password-actions .button{flex:1}}

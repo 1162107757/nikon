@@ -1,0 +1,23 @@
+# Import from the existing /etc/caddy/Caddyfile; retain its other sites.
+# DNS: huevia.cc A 118.24.164.117; inbound TCP 80 and 443 must be allowed.
+(huevia_cloudbase) {
+	# A fixed upstream avoids resolving huevia.cc back to this proxy.
+	header X-Huevia-Edge "lighthouse-118.24.164.117"
+	# Use the existing CloudBase custom-domain binding for browser navigation.
+	reverse_proxy https://huevia.cc.tcbaccess.tencentcloudbase.com {
+		header_up Host huevia.cc
+		header_up X-Forwarded-Host huevia.cc
+		header_up X-Forwarded-Proto https
+		header_down Location "^https://nikon-d8girdjsr252fd90e-1252602548\\.ap-shanghai\\.app\\.tcloudbase\\.com(.*)$" "https://huevia.cc${1}"
+		transport http {
+			tls_server_name huevia.cc
+			dial_timeout 10s
+			response_header_timeout 45s
+		}
+	}
+}
+
+huevia.cc {
+	# Caddy obtains and renews the public certificate automatically.
+	import huevia_cloudbase
+}

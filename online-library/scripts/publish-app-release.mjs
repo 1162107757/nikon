@@ -19,7 +19,7 @@ async function request(path,method='GET',body){
  let result=await response.json();if(!response.ok)throw Error('Release API '+response.status+' '+result.error?.code);return result;
 }
 const save=()=>writeFile(stateFile,JSON.stringify(state,null,2),{mode:0o600});
-state={...state,sha256:metadata.sha256,versionCode:metadata.versionCode,versionName:metadata.versionName,channel};await save();
+state={...state,sha256:metadata.sha256,packageName:metadata.packageName,versionCode:metadata.versionCode,versionName:metadata.versionName,channel};await save();
 let listing=await request('/api/releases'),existing=listing.items.find(row=>row.sha256===metadata.sha256);
 if(existing){state.release=existing;await save();}
 if(!state.release){
@@ -36,7 +36,7 @@ if(state.release.status==='draft'){
 if(state.release.status!=='published')throw Error('Release is withdrawn; never republish it implicitly.');
 const publicResponse=await fetch(state.release.downloadUrl),file=Buffer.from(await publicResponse.arrayBuffer());
 if(!publicResponse.ok||file.length!==apk.length||createHash('sha256').update(file).digest('hex')!==metadata.sha256)throw Error('Public APK bytes do not match signed artifact.');
-const latest=await(await fetch(base+'/releases/latest?channel='+channel+'&versionCode=53&sdk=35')).json();
-if(!latest.updateAvailable||latest.release?.sha256!==metadata.sha256)throw Error('Published update metadata mismatch.');
+const latest=await(await fetch(base+'/releases/latest?channel='+channel+'&versionCode=53&sdk=35&packageName='+encodeURIComponent(metadata.packageName))).json();
+if(!latest.updateAvailable||latest.release?.sha256!==metadata.sha256||latest.release?.packageName!==metadata.packageName)throw Error('Published update metadata mismatch.');
 state.verifiedAt=new Date().toISOString();state.publicBytesVerified=true;await save();
-console.log(JSON.stringify({published:true,version:metadata.versionName,versionCode:metadata.versionCode,channel,bytes:apk.length,sha256:metadata.sha256,downloadPage:base+'/download/'},null,2));
+console.log(JSON.stringify({published:true,packageName:metadata.packageName,version:metadata.versionName,versionCode:metadata.versionCode,channel,bytes:apk.length,sha256:metadata.sha256,downloadPage:base+'/download/'},null,2));

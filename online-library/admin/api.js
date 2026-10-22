@@ -30,6 +30,10 @@ export const api = {
   session: async () => session(await request('/api/session')),
   login: async (username, password) => session(await request('/api/login', { method: 'POST', body: { username, password } })),
   logout: async () => { const result = await request('/api/logout', { method: 'POST', body: {} }); csrfToken = ''; return result; },
+  changePassword: async (currentPassword, newPassword, confirmPassword) => {
+    const result = await request('/api/password', { method: 'POST', body: { currentPassword, newPassword, confirmPassword } });
+    csrfToken = ''; return result;
+  },
   presets: () => request('/api/presets'),
   users: ({ q = '', status = 'all', page = 1, pageSize = 20 } = {}, { signal } = {}) => request(`/api/users?q=${encodeURIComponent(q)}&status=${encodeURIComponent(status)}&page=${encodeURIComponent(page)}&pageSize=${encodeURIComponent(pageSize)}`, { signal }),
   user: (id, { signal } = {}) => request(`/api/users/${encodeURIComponent(id)}`, { signal }),

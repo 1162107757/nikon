@@ -6,7 +6,7 @@ export class ReleaseMemoryStore extends MemoryStore {
     const url=new URL(path,'https://test.invalid/'),params=url.searchParams;
     if(url.pathname==='nikon_app_release_audit'||url.pathname==='/nikon_app_release_audit')return this.releaseAudits.filter(row=>row.release_id===params.get('release_id')?.slice(3));
     if(url.pathname.endsWith('nikon_app_releases')){
-      let rows=this.releaseRows.filter(row=>(!params.has('id')||row.id===params.get('id').slice(3))&&(!params.has('channel')||row.channel===params.get('channel').slice(3))&&(!params.has('status')||['published','withdrawn'].includes(row.status)));
+      let rows=this.releaseRows.filter(row=>(!params.has('id')||row.id===params.get('id').slice(3))&&(!params.has('channel')||row.channel===params.get('channel').slice(3))&&(!params.has('package_name')||row.package_name===params.get('package_name').slice(3))&&(!params.has('status')||['published','withdrawn'].includes(row.status)));
       return rows.sort((a,b)=>b.version_code-a.version_code).slice(0,Number(params.get('limit')||200)).map(row=>({...row}));
     }throw new Error(`unexpected REST ${path}`);
   }
