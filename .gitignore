@@ -1,12 +1,62 @@
+# Local configuration and credentials (keep safe templates versioned).
+local.properties
+keystore.properties
+signing.properties
+.env
+.env.*
+!.env.example
+!.env.sample
+!.env.template
+.local/
+*.jks
+*.keystore
+*.p12
+*.pfx
+
+# Build outputs and local tooling.
 .gradle/
+**/build/
 .tooling/
 .research/
 .community-pg-test/
-local.properties
-**/build/
-*.jks
-*.keystore
+/tests/.build/
+/tests/.build-*/
+/tests/*-device-probe/.build/
+/tests/*-device-probe/*.apk
+/tests/*-device-probe/*.apk.idsig
+/tests/*-device-probe/*.apk.sha256
+/tests/personal-device-probe/*.apk*
+
+# Generated release packages. Keep dist notes, icons and ZIP test fixtures.
+# server/bundled-apks is required by service packaging and stays versioned.
+/dist/*.apk
+/dist/*.apk.idsig
+/dist/*.apk.sha256
+/dist/*.aab
+/dist/*.aab.sha256
+
+# Dependency caches and Python virtual environments.
+node_modules/
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# IDE, OS and crash scratch files. Keep curated validation logs/screenshots.
 .idea/
-tests/.build/
-tests/.build-ptpip/
-tests/personal-device-probe/*.apk*
+*.iml
+.DS_Store
+Thumbs.db
+[Dd]esktop.ini
+*.swp
+*.swo
+*~
+/*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.hprof
+hs_err_pid*.log
+replay_pid*.log
