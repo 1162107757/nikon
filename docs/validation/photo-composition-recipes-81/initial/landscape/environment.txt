@@ -1,0 +1,13 @@
+mode=landscape
+scope=composition-recipes
+expected_version=81
+run_started_utc=2026-10-23T02:14:10.6597061Z
+font_scale_expected=1.0
+font_scale_observed=1.0
+accelerometer_rotation_observed=0
+user_rotation_expected=1
+user_rotation_observed=1
+font_scale_before=1.0
+accelerometer_rotation_before=1
+user_rotation_before=0
+immersive_mode_confirmations=confirmed

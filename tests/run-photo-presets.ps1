@@ -21,7 +21,7 @@ $sources = @((Join-Path $javaRoot 'account\AccountJson.java'))
 foreach ($package in @('ptp', 'picturecontrol', 'ncp', 'library')) {
     $sources += @(Get-ChildItem -LiteralPath (Join-Path $javaRoot $package) -Filter '*.java' | Where-Object { $_.Name -notin @('PersonalPresetApi.java') } | ForEach-Object FullName)
 }
-foreach ($name in @('PhotoEditStore', 'PhotoPresetBatch', 'PhotoPresetBatchState', 'PhotoPresetRenderer', 'PhotoPresetSources', 'PhotoLocalTasks', 'PhotoItem', 'PhotoFormat', 'DownloadedPhoto', 'PhotoPreview', 'PhotoPreviewCache')) {
+foreach ($name in @('PhotoSaveTarget', 'PhotoEditStore', 'PhotoComposition', 'PhotoRecipeStore', 'PhotoPresetBatch', 'PhotoPresetBatchState', 'PhotoPresetRenderer', 'PhotoPresetSources', 'PhotoLocalTasks', 'PhotoItem', 'PhotoFormat', 'DownloadedPhoto', 'PhotoPreview', 'PhotoPreviewCache')) {
     $sources += Join-Path $javaRoot ('album\' + $name + '.java')
 }
 # These facades explicitly isolate batch control/strip logic. The Android bitmap

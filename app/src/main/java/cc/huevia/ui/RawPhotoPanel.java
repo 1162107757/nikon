@@ -27,6 +27,7 @@ import cc.huevia.album.PhotoFormat;
 import cc.huevia.album.PhotoItem;
 import cc.huevia.album.PhotoLiveState;
 import cc.huevia.album.PhotoPage;
+import cc.huevia.album.PhotoSaveTarget;
 import cc.huevia.album.RawPhotoDownload;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -46,8 +47,9 @@ public final class RawPhotoPanel implements AutoCloseable {
         void onFeedback(String title, String text);
         void onConnectionRequired(String operation);
         void beforeSavePhotos(Runnable save);
+        default void beforeSavePhotos(PhotoSaveTarget target, Runnable save) { beforeSavePhotos(save); }
         boolean isOtherPhotoWorkBusy();
-        /** Runtime foreground-service ownership for the complete download -> system-gallery chain. */
+        /** Runtime foreground-service ownership until the chosen destination is complete. */
         default AutoCloseable beginPhotoWork() { return () -> { }; }
     }
 
@@ -79,15 +81,17 @@ public final class RawPhotoPanel implements AutoCloseable {
     private static final class Operation {
         final PhotoItem remote;
         final DownloadedPhoto original;
+        final PhotoSaveTarget saveTarget;
         String filename;
         RawPhotoDownload saved;
         Batch batch;
-        boolean busy = true, complete, selectionRequired;
+        boolean busy = true, complete, selectionRequired, validatedSnapshot;
         long received, total;
         double progress;
         String stage = "准备 RAW 原文件", error = "";
-        Operation(PhotoItem remote, DownloadedPhoto original, RawPhotoDownload saved) {
+        Operation(PhotoItem remote, DownloadedPhoto original, RawPhotoDownload saved, PhotoSaveTarget saveTarget) {
             this.remote = remote; this.original = original; this.saved = saved;
+            this.saveTarget = java.util.Objects.requireNonNull(saveTarget, "saveTarget");
             filename = saved != null ? saved.filename() : remote != null ? remote.filename() : original != null ? original.filename() : "RAW 原文件";
         }
     }
@@ -151,7 +155,7 @@ public final class RawPhotoPanel implements AutoCloseable {
             if (remote == null && original == null) {
                 feedback("请明确选择 RAW 原文件", "这张照片没有可核对的相机来源，请在 RAW 文件列表选择 NEF 原文件。"); open(false); return;
             }
-            host.beforeSavePhotos(() -> beginDownload(remote, original));
+            chooseDestination(target -> beginDownload(remote, original, target));
         }));
         AlertDialog dialog = dialog().setTitle(cameraDownload ? "下载格式" : "导出格式").setView(choices).setNegativeButton("取消", null).create();
         formatDialog = dialog; dialog.setOnDismissListener(ignored -> { if (formatDialog == dialog) formatDialog = null; });
@@ -170,10 +174,10 @@ public final class RawPhotoPanel implements AutoCloseable {
         choices.addView(formatChoice("RAW 原文件（NEF）", "逐张核对并保存相机 NEF，不包含手机预设效果", () -> {
             dismissFormat();
             if (selection.size() > 100 || selection.contains(null)) { feedback("请分批导出 RAW", "每批可选择 1–100 张照片；只有相机实际拍摄的 NEF 原文件可以导出。"); return; }
-            host.beforeSavePhotos(() -> {
+            chooseDestination(target -> {
                 if (closed || !rawReadAllowed(true)) return;
                 if (!controller.hasLiveSession()) { host.onConnectionRequired("批量下载 RAW 原文件"); return; }
-                List<Operation> inputs = new ArrayList<>(); for (PhotoItem source : selection) inputs.add(new Operation(source, null, null));
+                List<Operation> inputs = new ArrayList<>(); for (PhotoItem source : selection) inputs.add(new Operation(source, null, null, target));
                 beginBatch(inputs);
             });
         }));
@@ -326,20 +330,25 @@ public final class RawPhotoPanel implements AutoCloseable {
         if (saved != null) metadata += " · 保存于 " + date(saved.savedAt());
         else if (!captureDate(remote.captureDate()).isEmpty()) metadata += " · " + captureDate(remote.captureDate());
         AlertDialog next = dialog().setTitle(clean(filename)).setMessage(metadata + "\n\n保留相机原始 NEF 数据，不包含手机预设效果。")
-                .setPositiveButton(saved != null ? "保存到系统相册" : "下载原文件", (dialog, which) -> {
+                .setPositiveButton(saved != null ? "保存原文件" : "下载原文件", (dialog, which) -> {
                     if (closed) return;
-                    host.beforeSavePhotos(() -> { if (saved != null) beginPublish(saved); else beginDownload(remote, null); });
+                    chooseDestination(target -> { if (saved != null) beginPublish(saved, target); else beginDownload(remote, null, target); });
                 }).setNegativeButton("取消", null).create();
         fileDialog = next; next.setOnDismissListener(ignored -> { if (fileDialog == next) fileDialog = null; }); show(next);
     }
 
-    private void beginDownload(PhotoItem remote, DownloadedPhoto original) {
+    private void chooseDestination(java.util.function.Consumer<PhotoSaveTarget> selected) {
+        if (closed || !canShow()) return;
+        PhotoSaveChoice.show(activity, "RAW 保存位置", "sync-raw", PhotoSaveTarget.APP_ONLY, false,
+                (target, ignored) -> host.beforeSavePhotos(target, () -> { if (!closed) selected.accept(target); }));
+    }
+    private void beginDownload(PhotoItem remote, DownloadedPhoto original, PhotoSaveTarget target) {
         if (closed || !rawReadAllowed(true)) return;
         // Local lookup may find a previously saved NEF without a network. The core still refuses an
         // uncached remote read without a current matching camera and uniquely verified source evidence.
         if (remote != null && !controller.hasLiveSession()) { host.onConnectionRequired("下载 RAW 原文件"); return; }
         if (!retainPhotoWork()) return;
-        batch = null; Operation next = new Operation(remote, original, null); runDownload(next);
+        batch = null; Operation next = new Operation(remote, original, null, target); runDownload(next);
     }
     private void runDownload(Operation next) {
         try { start(next); }
@@ -363,7 +372,7 @@ public final class RawPhotoPanel implements AutoCloseable {
             public void onSuccess(RawPhotoDownload saved) {
                 if (!current(next)) return;
                 if (saved == null) { failed(next, "未取得可核对的 NEF 原文件，请稍后重试。"); return; }
-                next.saved = saved; next.filename = saved.filename(); next.received = next.total = saved.byteSize(); next.progress = Math.max(next.progress, .95); publish(next);
+                next.saved = saved; next.validatedSnapshot = true; next.filename = saved.filename(); next.received = next.total = saved.byteSize(); next.progress = Math.max(next.progress, .95); publish(next);
             }
             public void onError(String error) { failed(next, error); }
             public void onSelectionRequired(String error) {
@@ -378,10 +387,10 @@ public final class RawPhotoPanel implements AutoCloseable {
             else failed(next, "未找到可核对的相机照片，请在 RAW 文件列表明确选择 NEF 原文件。");
         } catch (RuntimeException failure) { failed(next, failure.getMessage()); }
     }
-    private void beginPublish(RawPhotoDownload saved) {
+    private void beginPublish(RawPhotoDownload saved, PhotoSaveTarget target) {
         if (closed || !canStart()) return;
         if (!retainPhotoWork()) return;
-        batch = null; Operation next = new Operation(null, null, saved); next.received = next.total = saved.byteSize(); next.progress = .95;
+        batch = null; Operation next = new Operation(null, null, saved, target); next.received = next.total = saved.byteSize(); next.progress = .95;
         try { start(next); publish(next); }
         catch (RuntimeException failure) { failed(next, failure.getMessage()); }
     }
@@ -392,6 +401,7 @@ public final class RawPhotoPanel implements AutoCloseable {
     }
     private void publish(Operation next) {
         if (!current(next)) return;
+        if (next.saveTarget == PhotoSaveTarget.APP_ONLY) { completeAppOnly(next); return; }
         next.stage = "保存到系统相册"; next.progress = Math.max(next.progress, .97); updateProgress();
         try { controller.publishRaw(next.saved, new AlbumController.Callback<String>() {
             public void onSuccess(String uri) {
@@ -408,10 +418,36 @@ public final class RawPhotoPanel implements AutoCloseable {
             public void onError(String error) { failed(next, "NEF 原文件已保留在手机，保存到系统相册未完成。" + clean(error)); }
         }); } catch (RuntimeException failure) { failed(next, failure.getMessage()); }
     }
+    private void completeAppOnly(Operation next) {
+        if (!current(next)) return;
+        if (!next.validatedSnapshot) {
+            next.stage = "核对 App 内原文件"; updateProgress();
+            controller.findRawDownload(next.saved.sourceIdentity(), new AlbumController.Callback<RawPhotoDownload>() {
+                public void onSuccess(RawPhotoDownload verified) {
+                    if (!current(next)) return;
+                    RawPhotoDownload expected = next.saved;
+                    if (verified == null || !verified.file().equals(expected.file()) || verified.byteSize() != expected.byteSize()
+                            || !verified.sha256().equals(expected.sha256()) || !verified.filename().equals(expected.filename()) || verified.savedAt() != expected.savedAt()) {
+                        failed(next, "App 内原文件已移除或变化，请重新核对后重试。"); return;
+                    }
+                    next.validatedSnapshot = true; completeAppOnly(next);
+                }
+                public void onError(String error) { failed(next, error); }
+            });
+            return;
+        }
+        next.busy = false; next.complete = true; next.progress = 1; next.stage = "已保存在 App 内";
+        if (next.batch != null) { batchFinishedInput(next, true); return; }
+        releasePhotoWork(); updateProgress();
+        if (closed) return;
+        if (adapter != null) adapter.notifyDataSetChanged();
+        if (open && local && !loading) loadPage(true);
+        host.onChanged(); feedback("RAW 已保存在 App 内", "完整 NEF 原文件已保留，手机相册未新增文件。可稍后再保存到手机相册。");
+    }
     private boolean current(Operation expected) { return operation == expected && expected.busy; }
     private void failed(Operation next, String error) {
         if (!current(next)) return;
-        next.busy = false; next.error = clean(error); next.stage = next.saved != null ? "原文件已保留，保存相册待重试" : "RAW 未完成"; updateProgress();
+        next.busy = false; next.error = clean(error); next.stage = next.saved != null ? next.saveTarget == PhotoSaveTarget.PHONE_ALBUM ? "原文件已保留，保存相册待重试" : "App 内原文件待核对" : "RAW 未完成"; updateProgress();
         if (next.batch != null) { batchFinishedInput(next, false); return; }
         releasePhotoWork();
         if (closed) return;
@@ -419,17 +455,17 @@ public final class RawPhotoPanel implements AutoCloseable {
     }
     private void retry() {
         Operation previous = operation; if (closed || previous == null || previous.busy || previous.complete) return;
-        host.beforeSavePhotos(() -> {
+        host.beforeSavePhotos(previous.saveTarget, () -> {
             if (closed || operation != previous || previous.busy) return;
             dismissProgress();
             if (previous.batch != null) {
                 Batch old = previous.batch; if (old.active || !canStart()) return;
                 List<Operation> inputs = new ArrayList<>();
-                for (Operation failed : old.failedInputs) inputs.add(new Operation(failed.remote, failed.original, failed.saved));
-                for (int i = old.index; i < old.inputs.size(); i++) { Operation waiting = old.inputs.get(i); inputs.add(new Operation(waiting.remote, waiting.original, waiting.saved)); }
+                for (Operation failed : old.failedInputs) inputs.add(new Operation(failed.remote, failed.original, failed.saved, failed.saveTarget));
+                for (int i = old.index; i < old.inputs.size(); i++) { Operation waiting = old.inputs.get(i); inputs.add(new Operation(waiting.remote, waiting.original, waiting.saved, waiting.saveTarget)); }
                 if (!inputs.isEmpty()) beginBatch(inputs); return;
             }
-            if (previous.saved != null) beginPublish(previous.saved); else beginDownload(previous.remote, previous.original);
+            if (previous.saved != null) beginPublish(previous.saved, previous.saveTarget); else beginDownload(previous.remote, previous.original, previous.saveTarget);
         });
     }
 
@@ -466,7 +502,8 @@ public final class RawPhotoPanel implements AutoCloseable {
         releasePhotoWork();
         Operation last = operation;
         int remaining = current.inputs.size() - current.index;
-        String summary = "已保存 " + current.completed + " 份" + (current.failed > 0 ? " · " + current.failed + " 份待重试" : "") + (remaining > 0 ? " · " + remaining + " 份未开始" : "");
+        boolean appOnly = current.inputs.stream().allMatch(input -> input.saveTarget == PhotoSaveTarget.APP_ONLY);
+        String summary = (appOnly ? "App 内已保留 " : "已存入手机相册 ") + current.completed + " 份" + (current.failed > 0 ? " · " + current.failed + " 份待重试" : "") + (remaining > 0 ? " · " + remaining + " 份未开始" : "");
         if (last != null) {
             last.busy = false; last.complete = current.failed == 0 && remaining == 0;
             last.stage = summary;
@@ -476,7 +513,7 @@ public final class RawPhotoPanel implements AutoCloseable {
         }
         updateProgress(); if (closed) return;
         if (adapter != null) adapter.notifyDataSetChanged(); if (open && local && !loading) loadPage(true);
-        host.onChanged(); feedback(current.stop ? "已停止后续 RAW" : "RAW 批量导出完成", summary + (current.reason.isEmpty() ? "。原始 NEF 不包含手机预设效果。" : "。" + current.reason));
+        host.onChanged(); feedback(current.stop ? "已停止后续 RAW" : "RAW 批量导出完成", summary + (appOnly ? "。手机相册未新增文件。" : "。") + (current.reason.isEmpty() ? "原始 NEF 不包含手机预设效果。" : current.reason));
     }
     private void stopRemaining() {
         if (batch == null || !batch.active || batch.stop) return;
@@ -616,7 +653,7 @@ public final class RawPhotoPanel implements AutoCloseable {
             TextView label = text(local && published.contains(savedFiles.get(position).sourceIdentity()) ? "已存相册" : "NEF", 12, palette.secondary, true);
             label.setGravity(Gravity.CENTER); label.setPadding(dp(8), dp(5), dp(8), dp(5)); label.setBackground(shape(palette.container, 8));
             LinearLayout.LayoutParams badge = new LinearLayout.LayoutParams(-2, -2); badge.setMarginStart(dp(10)); row.addView(label, badge);
-            row.setContentDescription(clean(filename) + "，NEF 原文件，" + metadata + "，" + (local ? "点击保存到系统相册" : "点击下载原文件")); return row;
+            row.setContentDescription(clean(filename) + "，NEF 原文件，" + metadata + "，" + (local ? "点击选择保存位置" : "点击下载原文件")); return row;
         }
     }
 
@@ -673,7 +710,7 @@ public final class RawPhotoPanel implements AutoCloseable {
     @Override public void close() {
         if (closed) return;
         closed = true; open = false; pageEpoch++; loading = false; dismissFormat(); dismissFile(); dismissProgress(); clearPage();
-        // An accepted download continues to its verified private copy and gallery publication.
+        // An accepted download continues to its verified private copy and chosen destination.
         // Its callbacks keep their operation identity, but no longer touch this Activity or Host.
     }
 }

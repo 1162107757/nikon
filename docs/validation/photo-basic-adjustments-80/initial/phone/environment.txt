@@ -1,0 +1,13 @@
+mode=phone
+scope=basic-adjustments
+expected_version=80
+run_started_utc=2026-10-22T14:47:43.1127994Z
+font_scale_expected=1.0
+font_scale_observed=1.0
+accelerometer_rotation_observed=0
+user_rotation_expected=0
+user_rotation_observed=0
+font_scale_before=1.0
+accelerometer_rotation_before=1
+user_rotation_before=0
+immersive_mode_confirmations=confirmed

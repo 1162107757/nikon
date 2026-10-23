@@ -128,10 +128,7 @@ public final class CameraConnectionRuntime {
         album.setPhotoLiveOriginalObserver(projectPresets::onOriginalSaved);
         album.setOriginalDownloadIdentityObserver(PhotoStars.get(context)::bindDownloaded);
         album.setPhotoLiveAsyncPublisher(photoSaver::save);
-        album.setOriginalDownloadObserver(photo -> photoSaver.save(photo, new AlbumController.Callback<String>() {
-            @Override public void onSuccess(String uri) { }
-            @Override public void onError(String error) { }
-        }));
+        // Ordinary downloads finish as durable app originals. Explicit UI save tasks own publication.
         photoPresets.setLifecycleObserver(() -> {
             boolean active = photoPresets.isActive();
             if (active != photoPresetActive) { photoPresetActive = active; changed(); }

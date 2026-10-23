@@ -93,6 +93,7 @@ public final class AlbumController implements AutoCloseable {
     private volatile Runnable photoLiveListener;
     private final Set<Runnable> photoLiveObservers = new HashSet<>();
     private volatile PhotoLivePublisher photoLivePublisher;
+    private volatile PhotoSaveTarget photoLiveSaveTarget = PhotoSaveTarget.APP_ONLY;
     private volatile PhotoLiveAsyncPublisher photoLiveAsyncPublisher;
     private volatile PhotoLiveOriginalObserver photoLiveOriginalObserver;
     private volatile java.util.function.Consumer<DownloadedPhoto> originalDownloadObserver;
@@ -119,6 +120,9 @@ public final class AlbumController implements AutoCloseable {
     public void addPhotoLiveObserver(Runnable observer) { if (observer != null) synchronized (lifecycle) { photoLiveObservers.add(observer); } }
     public void removePhotoLiveObserver(Runnable observer) { synchronized (lifecycle) { photoLiveObservers.remove(observer); } }
     public void setPhotoLivePublisher(PhotoLivePublisher publisher) { photoLivePublisher = publisher; }
+    /** Changes only newly accepted live photos; queued entries retain their original destination. */
+    public void setPhotoLiveSaveTarget(PhotoSaveTarget target) { photoLiveSaveTarget = java.util.Objects.requireNonNull(target, "target"); }
+    public PhotoSaveTarget photoLiveSaveTarget() { return photoLiveSaveTarget; }
     /** Dispatches completed originals to a separate local queue without holding the camera worker. */
     public void setPhotoLiveAsyncPublisher(PhotoLiveAsyncPublisher publisher) { photoLiveAsyncPublisher = publisher; }
     public void setPhotoLiveOriginalObserver(PhotoLiveOriginalObserver observer) { photoLiveOriginalObserver = observer; }
@@ -348,12 +352,13 @@ public final class AlbumController implements AutoCloseable {
     }
     private static final class LiveCandidate {
         final String identity; final PhotoItem photo;
+        final PhotoSaveTarget saveTarget;
         long createdAt = System.currentTimeMillis(), updatedAt;
         DownloadedPhoto saved; String status = "queued", error = "", galleryUri = "", galleryError = "", transferStage = "";
         boolean previewDone, galleryRetry, galleryPublishing, projectRecorded, originalNotified; int attempts; long ready;
-        LiveCandidate(String identity, PhotoItem photo) { this.identity = identity; this.photo = photo; }
+        LiveCandidate(String identity, PhotoItem photo, PhotoSaveTarget saveTarget) { this.identity = identity; this.photo = photo; this.saveTarget = saveTarget; }
         PhotoLiveState.LivePhoto snapshot() {
-            return new PhotoLiveState.LivePhoto(identity, photo, saved, status, error, galleryUri, galleryError);
+            return new PhotoLiveState.LivePhoto(identity, photo, saved, status, error, galleryUri, galleryError, saveTarget);
         }
     }
     private final class LiveStartCompletion {
@@ -590,7 +595,7 @@ public final class AlbumController implements AutoCloseable {
         String error = item.error;
         if (!item.galleryError.isEmpty()) error += (error.isEmpty() ? "" : "\n") + item.galleryError;
         else if (item.galleryPublishing) error += (error.isEmpty() ? "" : "\n") + "系统相册保存待核对，可继续接收项目后重试。";
-        return new PhotoLiveReceipt(run.projectId, item.identity, item.status, item.photo, item.saved, error, item.createdAt, item.updatedAt);
+        return new PhotoLiveReceipt(run.projectId, item.identity, item.status, item.photo, item.saved, error, item.createdAt, item.updatedAt, item.saveTarget);
     }
 
     /** Only structural state changes enqueue metadata; byte progress does not touch disk. */
@@ -598,7 +603,7 @@ public final class AlbumController implements AutoCloseable {
         if (run.projectId.isEmpty()) return;
         for (LiveCandidate item : run.recent.values()) {
             String signature = item.status + "\n" + item.error + "\n" + item.galleryError + "\n" + item.galleryPublishing
-                    + "\n" + (item.saved == null ? "" : item.saved.file().getAbsolutePath());
+                    + "\n" + item.saveTarget + "\n" + (item.saved == null ? "" : item.saved.file().getAbsolutePath());
             if (!signature.equals(run.receiptSignatures.get(item.identity))) {
                 run.receiptSignatures.put(item.identity, signature);
                 run.receiptUpdates.put(item.identity, receiptSnapshotLocked(run, item, true));
@@ -824,7 +829,7 @@ public final class AlbumController implements AutoCloseable {
                 run.resumeReceipts.addLast(receipt); continue;
             }
             PhotoItem photo = new PhotoItem(run.photoSession, receipt.photo.handle(), receipt.photo.objectInfo());
-            LiveCandidate item = new LiveCandidate(receipt.identity, photo); item.createdAt = receipt.createdAt;
+            LiveCandidate item = new LiveCandidate(receipt.identity, photo, receipt.saveTarget); item.createdAt = receipt.createdAt;
             if (receipt.saved != null) {
                 item.saved = new DownloadedPhoto(receipt.saved.file(), receipt.saved.filename(), run.projectId, run.projectName);
                 item.status = "saved"; item.galleryRetry = true;
@@ -950,9 +955,10 @@ public final class AlbumController implements AutoCloseable {
         if (info.objectFormat() != 0x3801) { run.known.put(handle, identity); return; }
         if (info.compressedSize() < 4) throw new LiveWait("照片尚未写完，等待相机完成。");
         Long created = run.receiptCreatedTimes.get(identity);
-        if (created == null && !run.projectId.isEmpty()) {
+        PhotoSaveTarget saveTarget = photoLiveSaveTarget;
+        if (!run.projectId.isEmpty()) {
             PhotoLiveReceipt previousReceipt = receiptStore().get(run.projectId, identity, run.projectName);
-            if (previousReceipt != null) created = previousReceipt.createdAt;
+            if (previousReceipt != null) { created = previousReceipt.createdAt; saveTarget = previousReceipt.saveTarget; }
         }
         synchronized (lifecycle) {
             if (run.recent.containsKey(identity)) { run.known.put(handle, identity); return; }
@@ -960,7 +966,7 @@ public final class AlbumController implements AutoCloseable {
             trimLiveRecent(run);
             if (run.recent.size() >= 256) throw new LiveQueueFull("直播待处理记录已满，请先重试未保存的照片。");
             PhotoItem photo = new PhotoItem(run.photoSession, handle, info);
-            LiveCandidate candidate = new LiveCandidate(identity, photo);
+            LiveCandidate candidate = new LiveCandidate(identity, photo, saveTarget);
             if (created != null) candidate.createdAt = created;
             run.receiptCreatedTimes.put(identity, candidate.createdAt);
             run.known.put(handle, identity);
@@ -1085,6 +1091,13 @@ public final class AlbumController implements AutoCloseable {
             item.originalNotified = true;
             try { observer.onOriginalSaved(run.projectId, item.identity, item.saved); }
             catch (RuntimeException ignored) { /* Effect queues must never invalidate an acquired original. */ }
+        }
+        if (item.saveTarget == PhotoSaveTarget.APP_ONLY) {
+            synchronized (lifecycle) {
+                item.galleryRetry = false; item.galleryUri = ""; item.galleryError = ""; item.transferStage = "";
+                publishLiveLocked(run);
+            }
+            return;
         }
         PhotoLiveAsyncPublisher asynchronous = photoLiveAsyncPublisher;
         if (asynchronous != null) {

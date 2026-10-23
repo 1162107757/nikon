@@ -44,14 +44,20 @@ public final class PhotoLiveState {
     public static final class LivePhoto {
         public final PhotoItem photo;
         public final DownloadedPhoto saved;
+        public final PhotoSaveTarget saveTarget;
         /** queued, preview, receiving, saved, error, or stopped. */
         public final String identity, status, error, galleryUri, galleryError;
         LivePhoto(String identity, PhotoItem photo, DownloadedPhoto saved, String status, String error,
                   String galleryUri, String galleryError) {
+            this(identity, photo, saved, status, error, galleryUri, galleryError, PhotoSaveTarget.PHONE_ALBUM);
+        }
+        LivePhoto(String identity, PhotoItem photo, DownloadedPhoto saved, String status, String error,
+                  String galleryUri, String galleryError, PhotoSaveTarget saveTarget) {
             this.identity = identity; this.photo = photo; this.saved = saved; this.status = status;
             this.error = error == null ? "" : error;
             this.galleryUri = galleryUri == null ? "" : galleryUri;
             this.galleryError = galleryError == null ? "" : galleryError;
+            this.saveTarget = java.util.Objects.requireNonNull(saveTarget, "saveTarget");
         }
     }
 }

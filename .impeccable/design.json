@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-16T23:55:48Z",
+  "generatedAt": "2026-10-23T14:18:59Z",
   "title": "Design System: 相机预设",
   "extensions": {
     "colorMeta": {
@@ -311,12 +311,27 @@
           "#FEB3AA",
           "#FFD8CF"
         ]
+      },
+      "editor-canvas": {
+        "role": "neutral",
+        "displayName": "照片编辑石墨画布",
+        "purpose": "Scoped native editor role; normative value lives in DESIGN.md frontmatter."
+      },
+      "editor-tools": {
+        "role": "neutral",
+        "displayName": "照片编辑平面工具",
+        "purpose": "Scoped native editor role; normative value lives in DESIGN.md frontmatter."
+      },
+      "editor-divider": {
+        "role": "neutral",
+        "displayName": "照片编辑分隔",
+        "purpose": "Scoped native editor role; normative value lives in DESIGN.md frontmatter."
       }
     },
     "typographyMeta": {
       "page-title": {
         "displayName": "根页面标题",
-        "purpose": "三个根目的地的32sp原生标题。"
+        "purpose": "当前四根目的地常规32sp原生标题；本地相册紧凑横屏用既有20sp二级标题尺度。"
       },
       "secondary-page-title": {
         "displayName": "二级标题",
@@ -353,6 +368,11 @@
         "name": "selected-source-elevation",
         "value": "1dp (Android View.elevation)",
         "purpose": "MainActivity选中来源标签的轻微抬升。"
+      },
+      {
+        "name": "local-photo-picker-elevation",
+        "value": "4dp (Android View.elevation)",
+        "purpose": "本地相册56dp选图FAB；静态HTML仅作形状/颜色标本，不认证原生阴影或系统选图交互。"
       }
     ],
     "motion": [
@@ -378,34 +398,740 @@
       }
     ],
     "photoFilterEditor": {
-      "scope": "0.13.0-beta / 68; native PhotoFilterEditor and AlbumPanel integration only; existing primitives remain normative",
+      "scope": "0.16.0-beta / 83; reuse incumbent 80/81/82 native editor for local photos and explicit save targets/reuse/new-copy. Preserve flat tool geometry, manual controls, composition, recipes, drafts and 82 category/live-preview fixes.",
+      "primaryTarget": "app/src/main/java/cc/huevia/ui/PhotoFilterEditor.java",
+      "relatedTargets": [
+        "app/src/main/java/cc/huevia/ui/PresetSelectionPage.java",
+        "app/src/main/java/cc/huevia/ui/PhotoCropDialog.java",
+        "app/src/main/java/cc/huevia/ui/AlbumPanel.java",
+        "app/src/main/java/cc/huevia/ncp/PhotoGeometry.java",
+        "app/src/main/java/cc/huevia/ncp/GeometryPreviewProfile.java",
+        "app/src/main/java/cc/huevia/ncp/PhotoAdjustments.java",
+        "app/src/main/java/cc/huevia/ncp/AdjustedPreviewProfile.java",
+        "app/src/main/java/cc/huevia/album/PhotoComposition.java",
+        "app/src/main/java/cc/huevia/album/PhotoRecipeStore.java",
+        "app/src/main/java/cc/huevia/album/PhotoEffectGallery.java",
+        "app/src/main/java/cc/huevia/album/PhotoEditStore.java",
+        "app/src/main/java/cc/huevia/album/PhotoPresetRenderer.java",
+        "app/src/main/java/cc/huevia/album/PhotoLiveGallery.java",
+        "app/src/main/java/cc/huevia/album/PhotoPresetBatch.java",
+        "app/src/main/java/cc/huevia/ui/LocalAlbumPanel.java",
+        "app/src/main/java/cc/huevia/ui/PhotoSaveChoice.java",
+        "app/src/main/java/cc/huevia/album/LocalPhotoRepository.java",
+        "app/src/main/java/cc/huevia/album/LocalPhotoOrigin.java",
+        "app/src/main/java/cc/huevia/album/PhotoSaveTarget.java"
+      ],
       "directionContract": ".impeccable/surfaces/photo-filter-editor.md",
-      "approvedComposition": "docs/design-review/photo-filter-editor-20261019/design-board.png",
+      "approvedComposition": "docs/design-review/photo-basic-adjustments-20261022/design-board-v2.png; inherited photo hierarchy, material and density only; no new visual world/comp.",
+      "requirements": "docs/design-review/local-album-20261023/REQUIREMENTS.md",
+      "approval": {
+        "status": "approved",
+        "implementation": "implemented",
+        "humanInstruction": "可以，开始实现; later floating ＋ photo picker, centered 点击获取授权, and simpler page controls.",
+        "betaAuthorization": "改好了你直接上传测试版就行",
+        "publicationStatus": "Published beta release 5e67b2cd-d628-46c0-b80f-ad4d2c1f4af1 revision 2. docs/validation/photo-local-album-83/publication.json and PUBLICATION.md confirm exact final APK bytes/latest metadata at primary and CloudBase origins; all prior release rows and five local bundles preserved. Actual download HTML/script/exact page metadata query verified over HTTP; no rendered-browser claim. Dedicated ranchu emulator-5582 closed after review; emulator-cleanup.json records cleanup."
+      },
       "implementation": "docs/photo-filter-editor.md",
       "nativeGeometry": {
-        "units": "dp geometry, sp system typography",
-        "controlTarget": "48dp",
-        "collapsedCard": "78 x 104dp; image 72dp; label 26dp",
-        "expandedGrid": "3 columns; image 82dp; label 26dp",
-        "pickerHeight": "portrait 68% of display height; landscape 90%",
-        "landscapeDock": "right, 300dp wide, vertically scrollable",
-        "jpgConfirmation": "scrollable; measured content capped at 90% of display height"
+        "units": "dp geometry, sp native system typography",
+        "controlTarget": "48dp minimum; export visible 64 x 36dp within 64 x 48dp target",
+        "dock": "224dp content + 1dp divider; unchanged flat surface and elevation 0; 176dp panel + 48dp four-action row: 滤镜/调节/构图/配方. Composition opens on demand.",
+        "filterMode": "One 48dp header: leftmost GRID/full-picker, online/my, short portrait status, horizontally scrolling category labels; 80dp thumbnail strip; 48dp strength row.",
+        "adjustmentMode": "one slider/value with undo/redo and one horizontally scrolling icon/label parameter strip; no permanent group headings",
+        "collapsedCard": "66 x 80dp; image 52dp; label 22dp",
+        "expandedGrid": "3 columns; image 86dp; label 26dp",
+        "pickerHeight": "portrait 72% of display height; landscape 90%",
+        "landscapeDock": "Right, 300dp wide, vertically scrollable. Hide short inline status only; preserve full status in picker, source/category tooltip and accessibility descriptions.",
+        "canvas": "same bounds/zoom/position across filter, adjustment and recipe panels; contain true source aspect until the user applies composition, then contain the result; thumbnails may crop.",
+        "presetContext": "small native text on restrained dark supporting surface, readable over light photographs",
+        "jpgConfirmation": "Existing scrollable settings/dimensions confirmation, followed by scrollable native App-only/phone destination dialog. Same-version verified reuse by default; unchecked explicit extra-copy control where allowed. 81/82 unconditional-new-copy text is historical.",
+        "recipeMode": "176dp panel: 48dp header with single-line 保存当前, 96dp scrolling recipe list, 32dp local-account note; save remains one line at actual font scale 1.3.",
+        "compositionWorkspace": "Full-screen tentative workspace; Cancel/title/Apply header; corner handles, thirds grid, masked excluded area, ratios/rotate/reset/straighten; landscape controls in scrollable 300dp right region."
+      },
+      "material": {
+        "dock": "Flat real native Views; editor-dock token refers to frontmatter. Supersedes old tall photo-sampled glass dock only on this surface.",
+        "transientPanels": "Existing EditorGlassDrawable is confined to selectors/confirmation sheets; no permanent dock blur.",
+        "icons": "83 adds no production icon or raster. Reuse existing Canvas PLUS/MORE/ALBUM/CAMERA and editor GRID/manual/composition/recipe family."
+      },
+      "manualParameters": {
+        "order": [
+          "亮度",
+          "曝光",
+          "对比度",
+          "高光",
+          "阴影",
+          "白色",
+          "黑色",
+          "色温",
+          "色调",
+          "饱和度",
+          "自然饱和度",
+          "清晰度",
+          "锐化"
+        ],
+        "neutral": 0,
+        "exposure": "-3.0 to +3.0 EV, step 0.1",
+        "sharpening": "0 to 100, step 1",
+        "others": "-100 to +100, step 1",
+        "initialParameter": "曝光",
+        "help": "PhotoAdjustments.Parameter.help(); More → 参数说明 or long-press numeric value. Explains tone-range distinctions and JPEG relative temperature with current photo/compare context.",
+        "modifiedState": "dot plus value/selected semantic description",
+        "history": "32 current-photo session steps; one continuous drag, applied composition or single-photo recipe application is one step; unchanged settings are no-ops."
       },
       "stateRules": [
-        "Restore only pending drafts; show 未导出 even on single-original cards.",
-        "Honor explicit original/older/newer saved-version selection; retain pending edits behind a recovery note. Without pending edits export the selected saved version.",
-        "Remember a successful single export's displayed saved result; flush pending drafts at pause without claiming arbitrary process-termination durability.",
-        "Keep the selected recipe visible in the collapsed strip and restore the expanded picker by row, not exact pixel offset.",
-        "Evict bitmap, recipe bytes and parsed profile together at 48 cached entries; selected recipe ownership is separate.",
-        "Freeze per-photo recipe and strength at batch start, at most 100 photos."
+        "Verified complete private JPEG is required, including exact imported JPEG or explicitly confirmed PNG white-background working JPEG. Preview-only camera photos remain pure browsing; photo/account epochs reject old work.",
+        "Preserve default filters/online, actual categories, independent verified online catalog/cache, source reset and stable card/scroll identities from 80.",
+        "No-filter, zero preset strength and selecting a different preset preserve manual values and geometry; neutral manual/geometry preserve prior model identities.",
+        "Verified original → preset/strength → manual colour → resolution-scaled clarity/sharpening → normalized rotation/straighten/crop; never accumulate over prior preview or JPEG.",
+        "PED3 immutable account/photo drafts include preset bytes, strength, all manual values, geometry and model. PED1/PED2 missing geometry migrates neutral; PED1 missing manual values migrate zero.",
+        "Honor explicit saved versions and parked pending drafts. Fully matching latest exported drafts can restore saved editing settings; missing historical geometry is not reconstructed from pixels.",
+        "Neutral manual resets and unchanged exact input are true no-ops; reset adjustments retains preset/geometry, reset all clears preset/manual/geometry while preserving saved versions.",
+        "Flush drafts at leave/pause. Full identities and completion checks include non-neutral geometry; late exports cannot mark newer edits exported.",
+        "Keep 32 current-session undo steps; composition Apply and single-photo recipe apply are one step. Cancel/Back in crop never mutates the draft.",
+        "Recipes reuse colour snapshots only, preserving every target geometry. Batch recipe apply updates drafts before separate explicit export.",
+        "Freeze at most 100 full per-photo export snapshots; retry only failed/unprocessed entries. Full-pixel JPEG 95/sRGB; no silent downscale.",
+        "83 destination contract: camera/sync-effects/live initially APP_ONLY, edited export initially PHONE_ALBUM; remember accepted scene/project choice. Freeze target/extra-copy through task/retry. App-only creates no MediaStore row. First new phone publication is dated now. With an effective exact verified same-version public copy, reuse by default; explicit extra-copy is required to add another. New publication changes staged JPEG date metadata without pixel recompression; preserve old public copies/render-cache bytes/original bytes and time, and update local effect mtime after successful publication.",
+        "Private exact published-byte receipts support pending recovery. Exclusive local deletion validates all receipts/content/ownership before removal; modified or foreign public copies block deletion.",
+        "No NCP/NP3, camera-slot, live-default or NEF mutation; no new curves/HSL, beauty, generation, RAW development or auto-enhance entry.",
+        "Photo-live with initialized storage and no selected project skips project-config lookup instead of passing an empty ID to UUID parsing; storage validation remains strict.",
+        "Queued recipe clicks use latest-request identity; held-IO A→B regression confirms B wins, target geometry persists and only one undo step is committed.",
+        "Inline/picker categories share selectCategory: synchronize both selection strips, actual filtered grid/count and scroll reset; title shows source/category/actual count. Category choice preserves applied edits.",
+        "Live preview completion updates only attached matching Entry cards; card-local READY image survives LRU pressure/rebind for same entry/key; normal note line reserves row height.",
+        "ERROR/UNSUPPORTED override cached/retained imagery: clear old image and disable content; ERROR retry remains visible. Account/page/generation guards remain.",
+        "Actual category/GRID/swipe MotionEvents verify results. None only uses explicit bound performClick and single callback; pointer injection was inconclusive. Old81 offline category taps passed; no physical user-fault reproduction is claimed.",
+        "Phone browsing is authorized read-only paging/thumbnail loading; explicit chosen import creates durable private data, never a full-library copy or automatic upload. PNG source retained after explicit white-background JPEG confirmation.",
+        "Unchanged imported JPEG may reuse its exact readable MediaStore original as read-only provenance, never owned deletion authority. Missing/changed differs from unavailable verification; uncertainty requires recovery or explicit new copy. PNG working JPEG needs separate publication.",
+        "Accept configured /data/user/0 versus /data/data private-root aliases while retaining traversal, child-symlink, containment and ownership checks. Stale app-owned publication receipts are handled under exact-byte/ownership guards."
       ],
-      "assets": "Canvas AppIcon extensions; no new product raster. QA uses the existing built-in template and hand-authored fixtures.",
+      "assets": "83 adds 0 production rasters/icons. Runtime gallery photos are authorized phone media or durable private originals/versions. Generated JPEG/transparent PNG and structural NEF are QA fixtures only. No new comp or visual world.",
       "evidence": {
-        "candidateSha256": "a042c85f59d3fd8166c518eb3486250b59aad5eeefded497cd8bbe6b405ba5ee",
-        "nativeReports": "docs/validation/photo-editor-native/README.md; portrait, font 1.3 and landscape each PASS 144",
-        "focusedVerdict": "docs/validation/photo-editor-native/FIX-VERDICT.md; SHIP only for the five original findings, all resolved",
-        "limits": "Native Views; HTML/CSS detector inapplicable. No camera, TalkBack, tablet, hardware gesture, sustained performance or NX Studio color certification."
-      }
+        "versionCode": 83,
+        "versionName": "0.16.0-beta",
+        "apkPath": "dist/huevia-0.16.0-beta-debug.apk",
+        "apkBytes": 3528301,
+        "apkSha256": "f320eef5e6068e94fff54f37509374d09f723492f6fb3077052d727e55d79ebd",
+        "signerSha256": "04db0f9d3d76c9831a0778cfabc1a0aaab984e05398da16eb644950ccfa0ae31",
+        "nativeMatrix": "docs/validation/photo-local-album-83/native-matrix.json",
+        "nativeReports": "phone/large-font/landscape/dark each PASS 300; restoration PASS in all modes.",
+        "assertionsPerMode": [
+          300,
+          300,
+          300,
+          300
+        ],
+        "totalAssertionExecutions": 1200,
+        "countBoundary": "The same 300 assertions repeat across four native configurations; 1200 executions are not independent scenarios. Older versions/candidates and overlapping host subsets are not added.",
+        "observedFontScale": [
+          1,
+          1.2999999523162842,
+          1,
+          1
+        ],
+        "observedOrientation": [
+          1,
+          1,
+          2,
+          1
+        ],
+        "screenshots": [
+          "local-app.png",
+          "local-denied.png",
+          "phone-authorized.png",
+          "editor-jpeg.png",
+          "editor-png-adjustments.png",
+          "destination-sheet.png",
+          "app-only-results.png"
+        ],
+        "captureProvenance": ".impeccable/review/local-album-83/fix-confirmation/capture-manifest.json binds 28 raw states and review copies plus hero to origins/APK. PNG-editor captures show filters after assertions, not a visible adjustments-tab certification.",
+        "reviewStatus": "Same reviewer M1 resolved / remaining clear / disposition ship; scope is compact-height correction, later floating-picker/center-authorization/closed-overflow arrangement and recorded regression batch. All 28 plus hero opened; no correction-batch regression found. M2 absent-picker was withdrawn reviewer factual error, not product fix.",
+        "reviewFix": {
+          "initialReview": ".impeccable/review/local-album-83/finish-review.md",
+          "fixVerdict": ".impeccable/review/local-album-83/FIX-VERDICT.md",
+          "finding": "M1 compact landscape crowded out identifiable photographs and denied guidance.",
+          "correction": "Compact title/source information row; measured grid columns, reserved FAB/nav space, scrollable guidance. Later user-requested FAB/central authorization/overflow implemented.",
+          "verdict": "M1 resolved; M2 withdrawn; remaining clear; ship within stated scope."
+        },
+        "sourcePins": "docs/validation/photo-local-album-83/final-source-pins.json: 189 unchanged build/probe inputs across 10 phase observations and final snapshot; source stability, not reproducible-build proof.",
+        "sourceSnapshot": "docs/validation/photo-local-album-83/source-snapshot.json: 374 post-build source files; ZIP 6c6f71092c712c5b5286a675ccbced002f9fb125874f1b375b049af1a8642a62; not historical compiler-input attestation.",
+        "hostFinal": "docs/validation/photo-local-album-83/host-gallery-final-provenance.json: 69 unchanged before/after inputs; 250 gallery + 86 origin + 36 deletion + 18 identity = 389 checks. Host covers harmless dot-path normalization and stale-owned-receipt regression, not Android private-root alias proof; native reports separately exercise /data/user/0 versus /data/data.",
+        "hostHistorical": "host-provenance.json preserves actual prior outputs with later input snapshot, not historical before-run pins. Property loops are not independent scenarios; 12 target-controller checks are included in 889. Keep distinct groups/units.",
+        "preparation": "Read-only final 57 runtime, 22 production syntax, 8 archive, 2 diagnostic PASS; 9 operator/helper syntax listed separately. Sole APK 42→43; old five packages/runtime/Unix modes/configuration preserved.",
+        "publicationStatus": "Published beta release 5e67b2cd-d628-46c0-b80f-ad4d2c1f4af1 revision 2. docs/validation/photo-local-album-83/publication.json and PUBLICATION.md confirm exact final APK bytes/latest metadata at primary and CloudBase origins; all prior release rows and five local bundles preserved. Actual download HTML/script/exact page metadata query verified over HTTP; no rendered-browser claim. Dedicated ranchu emulator-5582 closed after review; emulator-cleanup.json records cleanup.",
+        "historicalCandidate": "fix-before-fcd0 preserves earlier 273-per-mode candidate/probe. Failed/restoration/diagnostic candidates retain forensic scope and are excluded from final 300.",
+        "limits": "Isolated native emulator; real MediaStore/private files with generated JPEG/transparent PNG and repository sample. A hand-authored 512-byte TIFF/NEF tests save wrapper/frozen retry only. Actual native View authorization/FAB clicks reach monitored platform dispatch then cancel; external DocumentsUI/permission-controller rendering/text excluded. Notification permission pregranted. Host boundaries use provider/codec/acquisition substitutes. No physical camera/live transport, sensor RAW fidelity, FPS/throughput, calibration, TalkBack or prolonged phone-use claim. Native Views skip HTML/CSS detector.",
+        "publication": {
+          "status": "published",
+          "channel": "beta",
+          "releaseId": "5e67b2cd-d628-46c0-b80f-ad4d2c1f4af1",
+          "revision": 2,
+          "publishedAt": "2026-10-23T22:15:55.718624+08:00",
+          "publicBytesVerifiedAt": "2026-10-23T14:16:33.061Z",
+          "receipt": "docs/validation/photo-local-album-83/publication.json",
+          "summary": "docs/validation/photo-local-album-83/PUBLICATION.md",
+          "downloadUrl": "https://huevia.cc/preset-library/download/?channel=beta",
+          "origins": "Primary and CloudBase each returned exact final signed APK bytes and matching latest beta metadata; all previous release rows preserved.",
+          "deployment": "Sole new APK42→43 members; existing runtime bytes, Unix modes and configuration preserved; all five previous local bundles retained.",
+          "downloadPage": "Actual HTTP HTML/script and exact page metadata query verified; no rendered-browser claim.",
+          "environment": "Dedicated task-owned ranchu emulator-5582 closed after native capture/review; docs/validation/photo-local-album-83/emulator-cleanup.json."
+        }
+      },
+      "handoff": "docs/design-review/local-album-20261023/README.md",
+      "composition": {
+        "ratios": [
+          "原比例",
+          "自由",
+          "1:1",
+          "4:3",
+          "3:2",
+          "9:16"
+        ],
+        "controls": "Corner drag changes crop; inside-frame drag moves it; clockwise 90-degree rotation; straighten -45.0 to +45.0 degrees in 0.1-degree steps, enlarged to cover black corners.",
+        "commit": "Cancel/Android Back/close does not mutate drafts; Apply commits one undo step only when changed. Workspace reset is also tentative until Apply.",
+        "output": "PhotoGeometry and PhotoComposition share preview/full-pixel geometry. Normalize all eight EXIF orientations; output orientation 1. Crop reduces retained pixels; no silent downscale.",
+        "historicalSavedVersions": "Recover only fully matching latest exported-draft settings; missing old geometry produces an explicit original/recover-draft route rather than guessing from pixels."
+      },
+      "recipes": {
+        "storage": "Local-only and account-isolated, including separate guest scope; no automatic cloud sync or publication.",
+        "snapshot": "Immutable preset bytes, preset name, strength, all 13 manual values and model; no photo or geometry.",
+        "management": "Create, apply, rename and confirmed delete; 1-40 Unicode code points after trim, no line breaks/control characters, case-insensitive duplicate rejection, maximum 100 per account.",
+        "validation": "Invalid names keep the form open, retain input and show inline error. 保存当前 remains one line at font scale 1.3.",
+        "application": "Single apply preserves target geometry and adds one undo step. Latest-request sequence makes the last queued choice win; earlier callbacks cannot mutate state/undo, with existing photo/account/starting-snapshot guards retained. Delete does not alter applied drafts/photos.",
+        "batch": "套用效果 → 我的配方 writes pending per-photo drafts while retaining each geometry; separate explicit export; partial completion counts and retry."
+      },
+      "liveDefaultPresetPreview": {
+        "targetedCompletion": "Only rebind attached cards matching Entry.",
+        "retention": "Same entry and preview key only; READY image survives LRU eviction/rebind; different identity clears image.",
+        "layout": "Normal note line remains visible/reserved so normal loading/ready row height stays stable.",
+        "failure": "ERROR/UNSUPPORTED are authoritative and clear image/disable content. ERROR retry stays visible.",
+        "guards": "Account/source/page generation and post-dismiss callback guards retained."
+      },
+      "historicalVersions": [
+        {
+          "scope": "0.15.1-beta / 82; narrow native filter-navigation and live-default-preset preview correction. Preserve incumbent 80/81 visual world, tool geometry, composition/recipes/export and unrelated surfaces.",
+          "primaryTarget": "app/src/main/java/cc/huevia/ui/PhotoFilterEditor.java",
+          "relatedTargets": [
+            "app/src/main/java/cc/huevia/ui/PresetSelectionPage.java",
+            "app/src/main/java/cc/huevia/ui/PhotoCropDialog.java",
+            "app/src/main/java/cc/huevia/ui/AlbumPanel.java",
+            "app/src/main/java/cc/huevia/ncp/PhotoGeometry.java",
+            "app/src/main/java/cc/huevia/ncp/GeometryPreviewProfile.java",
+            "app/src/main/java/cc/huevia/ncp/PhotoAdjustments.java",
+            "app/src/main/java/cc/huevia/ncp/AdjustedPreviewProfile.java",
+            "app/src/main/java/cc/huevia/album/PhotoComposition.java",
+            "app/src/main/java/cc/huevia/album/PhotoRecipeStore.java",
+            "app/src/main/java/cc/huevia/album/PhotoEffectGallery.java",
+            "app/src/main/java/cc/huevia/album/PhotoEditStore.java",
+            "app/src/main/java/cc/huevia/album/PhotoPresetRenderer.java",
+            "app/src/main/java/cc/huevia/album/PhotoLiveGallery.java",
+            "app/src/main/java/cc/huevia/album/PhotoPresetBatch.java"
+          ],
+          "directionContract": ".impeccable/surfaces/photo-filter-editor.md",
+          "approvedComposition": "docs/design-review/photo-basic-adjustments-20261022/design-board-v2.png; inherited photo hierarchy, material and density only; no new visual world/comp.",
+          "requirements": "docs/design-review/photo-filter-navigation-20261023/REQUIREMENTS.md",
+          "approval": {
+            "status": "approved",
+            "implementation": "implemented",
+            "humanInstruction": "Fix live default-preset preview flicker; show multiple horizontally sliding editor category labels; retain leftmost GRID opening the full picker; correct full-picker category response.",
+            "betaAuthorization": "改好了你直接上传测试版就行",
+            "publicationStatus": "Published beta release 4c9aee32-1c86-4482-a68e-9c16f583406a revision 2; primary and CloudBase exact final APK bytes/latest metadata verified; all previous release rows preserved. Authority: docs/validation/photo-filter-navigation-82/publication.json and PUBLICATION.md."
+          },
+          "implementation": "docs/photo-filter-editor.md",
+          "nativeGeometry": {
+            "units": "dp geometry, sp native system typography",
+            "controlTarget": "48dp minimum; export visible 64 x 36dp within 64 x 48dp target",
+            "dock": "224dp content + 1dp divider; unchanged flat surface and elevation 0; 176dp panel + 48dp four-action row: 滤镜/调节/构图/配方. Composition opens on demand.",
+            "filterMode": "One 48dp header: leftmost GRID/full-picker, online/my, short portrait status, horizontally scrolling category labels; 80dp thumbnail strip; 48dp strength row.",
+            "adjustmentMode": "one slider/value with undo/redo and one horizontally scrolling icon/label parameter strip; no permanent group headings",
+            "collapsedCard": "66 x 80dp; image 52dp; label 22dp",
+            "expandedGrid": "3 columns; image 86dp; label 26dp",
+            "pickerHeight": "portrait 72% of display height; landscape 90%",
+            "landscapeDock": "Right, 300dp wide, vertically scrollable. Hide short inline status only; preserve full status in picker, source/category tooltip and accessibility descriptions.",
+            "canvas": "same bounds/zoom/position across filter, adjustment and recipe panels; contain true source aspect until the user applies composition, then contain the result; thumbnails may crop.",
+            "presetContext": "small native text on restrained dark supporting surface, readable over light photographs",
+            "jpgConfirmation": "scrollable and capped at 90% display height; actual output dimensions, non-neutral composition and explicit new-copy/current-export-time text.",
+            "recipeMode": "176dp panel: 48dp header with single-line 保存当前, 96dp scrolling recipe list, 32dp local-account note; save remains one line at actual font scale 1.3.",
+            "compositionWorkspace": "Full-screen tentative workspace; Cancel/title/Apply header; corner handles, thirds grid, masked excluded area, ratios/rotate/reset/straighten; landscape controls in scrollable 300dp right region."
+          },
+          "material": {
+            "dock": "Flat real native Views; editor-dock token refers to frontmatter. Supersedes old tall photo-sampled glass dock only on this surface.",
+            "transientPanels": "Existing EditorGlassDrawable is confined to selectors/confirmation sheets; no permanent dock blur.",
+            "icons": "82 adds no icon: reuse existing Canvas AppIcon GRID and established family. The five crop/rotate/straighten/recipe/save icons from 81 remain unchanged."
+          },
+          "manualParameters": {
+            "order": [
+              "亮度",
+              "曝光",
+              "对比度",
+              "高光",
+              "阴影",
+              "白色",
+              "黑色",
+              "色温",
+              "色调",
+              "饱和度",
+              "自然饱和度",
+              "清晰度",
+              "锐化"
+            ],
+            "neutral": 0,
+            "exposure": "-3.0 to +3.0 EV, step 0.1",
+            "sharpening": "0 to 100, step 1",
+            "others": "-100 to +100, step 1",
+            "initialParameter": "曝光",
+            "help": "PhotoAdjustments.Parameter.help(); More → 参数说明 or long-press numeric value. Explains tone-range distinctions and JPEG relative temperature with current photo/compare context.",
+            "modifiedState": "dot plus value/selected semantic description",
+            "history": "32 current-photo session steps; one continuous drag, applied composition or single-photo recipe application is one step; unchanged settings are no-ops."
+          },
+          "stateRules": [
+            "Completed local JPEG is required. Preview-only photos remain pure browsing; photo/account epochs reject old work.",
+            "Preserve default filters/online, actual categories, independent verified online catalog/cache, source reset and stable card/scroll identities from 80.",
+            "No-filter, zero preset strength and selecting a different preset preserve manual values and geometry; neutral manual/geometry preserve prior model identities.",
+            "Verified original → preset/strength → manual colour → resolution-scaled clarity/sharpening → normalized rotation/straighten/crop; never accumulate over prior preview or JPEG.",
+            "PED3 immutable account/photo drafts include preset bytes, strength, all manual values, geometry and model. PED1/PED2 missing geometry migrates neutral; PED1 missing manual values migrate zero.",
+            "Honor explicit saved versions and parked pending drafts. Fully matching latest exported drafts can restore saved editing settings; missing historical geometry is not reconstructed from pixels.",
+            "Neutral manual resets and unchanged exact input are true no-ops; reset adjustments retains preset/geometry, reset all clears preset/manual/geometry while preserving saved versions.",
+            "Flush drafts at leave/pause. Full identities and completion checks include non-neutral geometry; late exports cannot mark newer edits exported.",
+            "Keep 32 current-session undo steps; composition Apply and single-photo recipe apply are one step. Cancel/Back in crop never mutates the draft.",
+            "Recipes reuse colour snapshots only, preserving every target geometry. Batch recipe apply updates drafts before separate explicit export.",
+            "Freeze at most 100 full per-photo export snapshots; retry only failed/unprocessed entries. Full-pixel JPEG95/sRGB; no silent downscale.",
+            "Each explicit effect export creates a new current-time gallery copy through JPEG metadata-only change, even when render bytes are reused. Preserve old public copies, render-cache bytes and original bytes/time; update local effect mtime after successful publication.",
+            "Private exact published-byte receipts support pending recovery. Exclusive local deletion validates all receipts/content/ownership before removal; modified or foreign public copies block deletion.",
+            "No NCP/NP3, camera-slot, live-default or NEF mutation; no new curves/HSL, beauty, generation, RAW development or auto-enhance entry.",
+            "Photo-live with initialized storage and no selected project skips project-config lookup instead of passing an empty ID to UUID parsing; storage validation remains strict.",
+            "Queued recipe clicks use latest-request identity; held-IO A→B regression confirms B wins, target geometry persists and only one undo step is committed.",
+            "Inline/picker categories share selectCategory: synchronize both selection strips, actual filtered grid/count and scroll reset; title shows source/category/actual count. Category choice preserves applied edits.",
+            "Live preview completion updates only attached matching Entry cards; card-local READY image survives LRU pressure/rebind for same entry/key; normal note line reserves row height.",
+            "ERROR/UNSUPPORTED override cached/retained imagery: clear old image and disable content; ERROR retry remains visible. Account/page/generation guards remain.",
+            "Actual category/GRID/swipe MotionEvents verify results. None only uses explicit bound performClick and single callback; pointer injection was inconclusive. Old81 offline category taps passed; no physical user-fault reproduction is claimed."
+          ],
+          "assets": "82 adds 0 production rasters and 0 icons. Existing UiPalette/Canvas GRID and other icons are reused. User screenshots are defect evidence only. Existing application template and offline research/hand-authored preset fixtures are QA only.",
+          "evidence": {
+            "versionCode": 82,
+            "versionName": "0.15.1-beta",
+            "apkPath": "dist/huevia-0.15.1-beta-debug.apk",
+            "apkBytes": 3487341,
+            "apkSha256": "2543241174c2c7b6656b08b4142d3c3812d095b2ecd732836a11ab9a3c173987",
+            "signerSha256": "04db0f9d3d76c9831a0778cfabc1a0aaab984e05398da16eb644950ccfa0ae31",
+            "nativeReports": "docs/validation/photo-filter-navigation-82/{phone,large-font,landscape,dark}/report.json; PASS163/163/155/163 = 644, all on final SHA.",
+            "observedFontScale": [
+              1,
+              1.2999999523162842,
+              1,
+              1
+            ],
+            "observedOrientation": [
+              1,
+              1,
+              2,
+              1
+            ],
+            "environment": "Each final mode retains environment/restoration records; dark is a separate native theme mode.",
+            "screenshots": [
+              "inline-categories.png",
+              "inline-scrolled.png",
+              "picker-portrait.png",
+              "picker-black-white.png",
+              "picker-local.png",
+              "live-loading.png",
+              "live-stable.png"
+            ],
+            "captureProvenance": "28 final raw native states; 29 review rasters including hero. .impeccable/review/photo-filter-navigation-82/capture-manifest.json records same final SHA and raw-origin hashes.",
+            "regression": "Real MotionEvents cover categories/GRID/horizontal swipe and exact result identities/counts. Held real worker/LRU eviction/adapter rebind verifies same displayed Drawable/card position. Old81 reproduces cache image loss; old81 offline category touches passed.",
+            "reviewStatus": "Same reviewer FIX-VERDICT.md: M1 resolved, remaining clear, disposition ship, limited to M1 and its recorded regression batch. All 28 final captures plus hero reopened; no correction-induced regression found. No enlarged native/hardware scope.",
+            "reviewFix": {
+              "finding": "Retained READY thumbnail promoted ERROR/UNSUPPORTED back to READY after actual confirmation failure.",
+              "correction": "Failure states gate cache/retention, clear card-held image and disable content. ERROR shows retry.",
+              "validation": "Actual choose/read failure and restored-preset real retry; actual profile confirmation failure through explicitly injected stale-READY thumbnail offline fixture. Fixture injection does not certify supported rendering.",
+              "initialReview": "docs/validation/photo-filter-navigation-82/FINISH-REVIEW.md",
+              "fixVerdict": "docs/validation/photo-filter-navigation-82/FIX-VERDICT.md",
+              "verdict": "M1 resolved / remaining clear / disposition ship; only M1 and recorded regression batch. All 28 captures plus hero reopened; no correction-induced regression found."
+            },
+            "noneSelection": "Explicit bound performClick + one callback only. Physical pointer injection inconclusive and excluded from touch claims.",
+            "preparation": "Read-only huevia-82-reviewed pins final SHA: 57 runtime/artifact + 22 syntax + 8 archive + 2 diagnostic guards. Actual deployment/publication is separately confirmed by publication.json/PUBLICATION.md.",
+            "publicationStatus": "Published beta release 4c9aee32-1c86-4482-a68e-9c16f583406a revision 2; primary and CloudBase exact final APK bytes/latest metadata verified; all previous release rows preserved. Authority: docs/validation/photo-filter-navigation-82/publication.json and PUBLICATION.md.",
+            "historicalCandidate": "Initial finish review 61d8ae4da3712e98ba612b4e2ad25e34dfad05ab23759ee7de5335fa217dae42 / 560 assertions is pre-M1. Earlier probes remain candidate scope, excluded from final644.",
+            "limits": "Isolated read-only native emulator, existing application template and offline real research/hand-authored presets. No physical phone/camera, live catalog, FPS, TalkBack or colour-calibration certification. No 81/80/older host-suite counts accumulated. Native Views skip HTML/CSS detector.",
+            "publication": {
+              "status": "published",
+              "channel": "beta",
+              "releaseId": "4c9aee32-1c86-4482-a68e-9c16f583406a",
+              "revision": 2,
+              "publishedAt": "2026-10-23T18:26:18.4845+08:00",
+              "publicBytesVerifiedAt": "2026-10-23T10:27:07.230Z",
+              "receipt": "docs/validation/photo-filter-navigation-82/publication.json",
+              "summary": "docs/validation/photo-filter-navigation-82/PUBLICATION.md",
+              "downloadUrl": "https://huevia.cc/preset-library/download/?channel=beta",
+              "origins": "Primary huevia.cc and CloudBase each returned exact final signed APK bytes and matching latest beta metadata; previous release rows preserved.",
+              "deployment": "Sole APK addition 41 to 42 runtime members; complete existing bytes/Unix modes and function configuration preserved.",
+              "downloadPage": "Actual HTML/download.js/exact page metadata query HTTP200 verified. Browser visual unavailable due CUA initialization failure; no rendered-browser claim.",
+              "environment": "Task-owned read-only isolated emulator closed after final review."
+            }
+          },
+          "handoff": "docs/design-review/photo-filter-navigation-20261023/README.md",
+          "composition": {
+            "ratios": [
+              "原比例",
+              "自由",
+              "1:1",
+              "4:3",
+              "3:2",
+              "9:16"
+            ],
+            "controls": "Corner drag changes crop; inside-frame drag moves it; clockwise 90-degree rotation; straighten -45.0 to +45.0 degrees in 0.1-degree steps, enlarged to cover black corners.",
+            "commit": "Cancel/Android Back/close does not mutate drafts; Apply commits one undo step only when changed. Workspace reset is also tentative until Apply.",
+            "output": "PhotoGeometry and PhotoComposition share preview/full-pixel geometry. Normalize all eight EXIF orientations; output orientation 1. Crop reduces retained pixels; no silent downscale.",
+            "historicalSavedVersions": "Recover only fully matching latest exported-draft settings; missing old geometry produces an explicit original/recover-draft route rather than guessing from pixels."
+          },
+          "recipes": {
+            "storage": "Local-only and account-isolated, including separate guest scope; no automatic cloud sync or publication.",
+            "snapshot": "Immutable preset bytes, preset name, strength, all 13 manual values and model; no photo or geometry.",
+            "management": "Create, apply, rename and confirmed delete; 1-40 Unicode code points after trim, no line breaks/control characters, case-insensitive duplicate rejection, maximum 100 per account.",
+            "validation": "Invalid names keep the form open, retain input and show inline error. 保存当前 remains one line at font scale 1.3.",
+            "application": "Single apply preserves target geometry and adds one undo step. Latest-request sequence makes the last queued choice win; earlier callbacks cannot mutate state/undo, with existing photo/account/starting-snapshot guards retained. Delete does not alter applied drafts/photos.",
+            "batch": "套用效果 → 我的配方 writes pending per-photo drafts while retaining each geometry; separate explicit export; partial completion counts and retry."
+          },
+          "liveDefaultPresetPreview": {
+            "targetedCompletion": "Only rebind attached cards matching Entry.",
+            "retention": "Same entry and preview key only; READY image survives LRU eviction/rebind; different identity clears image.",
+            "layout": "Normal note line remains visible/reserved so normal loading/ready row height stays stable.",
+            "failure": "ERROR/UNSUPPORTED are authoritative and clear image/disable content. ERROR retry stays visible.",
+            "guards": "Account/source/page generation and post-dismiss callback guards retained."
+          }
+        },
+        {
+          "scope": "0.15.0-beta / 81; historical approved scoped native photo-editor composition/recipe/export-time extension, implemented. Preserve global primitives, navigation and unrelated surfaces.",
+          "primaryTarget": "app/src/main/java/cc/huevia/ui/PhotoFilterEditor.java",
+          "relatedTargets": [
+            "app/src/main/java/cc/huevia/ui/PhotoCropDialog.java",
+            "app/src/main/java/cc/huevia/ui/AlbumPanel.java",
+            "app/src/main/java/cc/huevia/ncp/PhotoGeometry.java",
+            "app/src/main/java/cc/huevia/ncp/GeometryPreviewProfile.java",
+            "app/src/main/java/cc/huevia/ncp/PhotoAdjustments.java",
+            "app/src/main/java/cc/huevia/ncp/AdjustedPreviewProfile.java",
+            "app/src/main/java/cc/huevia/album/PhotoComposition.java",
+            "app/src/main/java/cc/huevia/album/PhotoRecipeStore.java",
+            "app/src/main/java/cc/huevia/album/PhotoEffectGallery.java",
+            "app/src/main/java/cc/huevia/album/PhotoEditStore.java",
+            "app/src/main/java/cc/huevia/album/PhotoPresetRenderer.java",
+            "app/src/main/java/cc/huevia/album/PhotoLiveGallery.java",
+            "app/src/main/java/cc/huevia/album/PhotoPresetBatch.java"
+          ],
+          "directionContract": ".impeccable/surfaces/photo-filter-editor.md",
+          "approvedComposition": "docs/design-review/photo-basic-adjustments-20261022/design-board-v2.png; inherited photo hierarchy, material and density only; no new visual world/comp.",
+          "requirements": "docs/design-review/photo-composition-recipes-20261023/REQUIREMENTS.md",
+          "approval": {
+            "status": "approved",
+            "implementation": "implemented",
+            "humanInstruction": "80试用好像没啥问题；批准裁剪/旋转/拉直与可复用我的配方，并要求修改照片导出使用最新时间。",
+            "betaAuthorization": "改好了你直接上传测试版就行",
+            "publicationStatus": "Published beta release 8448462f-6610-4800-b057-6f045ce03cda revision 2; primary and CloudBase public APK bytes and latest metadata verified against final signed artifact; all previous release rows preserved."
+          },
+          "implementation": "docs/photo-filter-editor.md",
+          "nativeGeometry": {
+            "units": "dp geometry, sp native system typography",
+            "controlTarget": "48dp minimum; export visible 64 x 36dp within 64 x 48dp target",
+            "dock": "224dp content + 1dp divider; unchanged flat surface and elevation 0; 176dp panel + 48dp four-action row: 滤镜/调节/构图/配方. Composition opens on demand.",
+            "filterMode": "48dp source/category/grid row; 80dp thumbnail strip; 48dp strength row",
+            "adjustmentMode": "one slider/value with undo/redo and one horizontally scrolling icon/label parameter strip; no permanent group headings",
+            "collapsedCard": "66 x 80dp; image 52dp; label 22dp",
+            "expandedGrid": "3 columns; image 86dp; label 26dp",
+            "pickerHeight": "portrait 72% of display height; landscape 90%",
+            "landscapeDock": "right, 300dp wide, vertically scrollable",
+            "canvas": "same bounds/zoom/position across filter, adjustment and recipe panels; contain true source aspect until the user applies composition, then contain the result; thumbnails may crop.",
+            "presetContext": "small native text on restrained dark supporting surface, readable over light photographs",
+            "jpgConfirmation": "scrollable and capped at 90% display height; actual output dimensions, non-neutral composition and explicit new-copy/current-export-time text.",
+            "recipeMode": "176dp panel: 48dp header with single-line 保存当前, 96dp scrolling recipe list, 32dp local-account note; save remains one line at actual font scale 1.3.",
+            "compositionWorkspace": "Full-screen tentative workspace; Cancel/title/Apply header; corner handles, thirds grid, masked excluded area, ratios/rotate/reset/straighten; landscape controls in scrollable 300dp right region."
+          },
+          "material": {
+            "dock": "Flat real native Views; editor-dock token refers to frontmatter. Supersedes old tall photo-sampled glass dock only on this surface.",
+            "transientPanels": "Existing EditorGlassDrawable is confined to selectors/confirmation sheets; no permanent dock blur.",
+            "icons": "Five Canvas AppIcon additions: crop, clockwise rotate, straighten, recipe, save. Existing 24dp canvas / 1.8 rounded stroke family, system typography, no new product raster."
+          },
+          "manualParameters": {
+            "order": [
+              "亮度",
+              "曝光",
+              "对比度",
+              "高光",
+              "阴影",
+              "白色",
+              "黑色",
+              "色温",
+              "色调",
+              "饱和度",
+              "自然饱和度",
+              "清晰度",
+              "锐化"
+            ],
+            "neutral": 0,
+            "exposure": "-3.0 to +3.0 EV, step 0.1",
+            "sharpening": "0 to 100, step 1",
+            "others": "-100 to +100, step 1",
+            "initialParameter": "曝光",
+            "help": "PhotoAdjustments.Parameter.help(); More → 参数说明 or long-press numeric value. Explains tone-range distinctions and JPEG relative temperature with current photo/compare context.",
+            "modifiedState": "dot plus value/selected semantic description",
+            "history": "32 current-photo session steps; one continuous drag, applied composition or single-photo recipe application is one step; unchanged settings are no-ops."
+          },
+          "stateRules": [
+            "Completed local JPEG is required. Preview-only photos remain pure browsing; photo/account epochs reject old work.",
+            "Preserve default filters/online, actual categories, independent verified online catalog/cache, source reset and stable card/scroll identities from 80.",
+            "No-filter, zero preset strength and selecting a different preset preserve manual values and geometry; neutral manual/geometry preserve prior model identities.",
+            "Verified original → preset/strength → manual colour → resolution-scaled clarity/sharpening → normalized rotation/straighten/crop; never accumulate over prior preview or JPEG.",
+            "PED3 immutable account/photo drafts include preset bytes, strength, all manual values, geometry and model. PED1/PED2 missing geometry migrates neutral; PED1 missing manual values migrate zero.",
+            "Honor explicit saved versions and parked pending drafts. Fully matching latest exported drafts can restore saved editing settings; missing historical geometry is not reconstructed from pixels.",
+            "Neutral manual resets and unchanged exact input are true no-ops; reset adjustments retains preset/geometry, reset all clears preset/manual/geometry while preserving saved versions.",
+            "Flush drafts at leave/pause. Full identities and completion checks include non-neutral geometry; late exports cannot mark newer edits exported.",
+            "Keep 32 current-session undo steps; composition Apply and single-photo recipe apply are one step. Cancel/Back in crop never mutates the draft.",
+            "Recipes reuse colour snapshots only, preserving every target geometry. Batch recipe apply updates drafts before separate explicit export.",
+            "Freeze at most 100 full per-photo export snapshots; retry only failed/unprocessed entries. Full-pixel JPEG95/sRGB; no silent downscale.",
+            "Each explicit effect export creates a new current-time gallery copy through JPEG metadata-only change, even when render bytes are reused. Preserve old public copies, render-cache bytes and original bytes/time; update local effect mtime after successful publication.",
+            "Private exact published-byte receipts support pending recovery. Exclusive local deletion validates all receipts/content/ownership before removal; modified or foreign public copies block deletion.",
+            "No NCP/NP3, camera-slot, live-default or NEF mutation; no new curves/HSL, beauty, generation, RAW development or auto-enhance entry.",
+            "Photo-live with initialized storage and no selected project skips project-config lookup instead of passing an empty ID to UUID parsing; storage validation remains strict.",
+            "Queued recipe clicks use latest-request identity; held-IO A→B regression confirms B wins, target geometry persists and only one undo step is committed."
+          ],
+          "assets": "0 new production rasters. Five control icons extend existing Canvas AppIcon. Runtime photos/previews/thumbnails derive from verified originals. Synthetic template and offline real/hand-authored recipe fixtures are QA only; inherited comp is not production photo geometry.",
+          "evidence": {
+            "versionCode": 81,
+            "versionName": "0.15.0-beta",
+            "apkBytes": 3487341,
+            "apkSha256": "7861ae7163d17a5651a8c41b25ddf1b368e868cd326bdcc04a2bd72d5df7aa80",
+            "signerSha256": "04db0f9d3d76c9831a0778cfabc1a0aaab984e05398da16eb644950ccfa0ae31",
+            "nativeReports": "docs/validation/photo-composition-recipes-81/{phone,large-font,landscape}/report.json; each PASS 172 on final SHA, 516 assertion records total.",
+            "observedFontScale": [
+              1,
+              1.3,
+              1
+            ],
+            "observedOrientation": [
+              1,
+              1,
+              2
+            ],
+            "environment": "environment.txt and restoration.txt in each final mode directory; actual font/orientation/window measurements recorded.",
+            "screenshots": [
+              "photo-live-no-project.png",
+              "editor.png",
+              "crop-original.png",
+              "crop-square.png",
+              "recipes.png",
+              "recipe-name-error.png",
+              "composition-export.png",
+              "batch-effects.png",
+              "batch-recipes.png",
+              "recipe-applied.png"
+            ],
+            "hostLogs": {
+              "host-editor.txt": "34780 strength/draft, 644888 manual behaviour/migration/identity, 1158 composition/recipes checks",
+              "host-batch.txt": "609 batch and 82 source-link checks",
+              "host-project-auto.txt": "48 project-auto checks"
+            },
+            "reviewStatus": "FINISH-REVIEW.md retains original M1 queued-recipe finding. Same reviewer FIX-VERDICT.md: M1 resolved, remaining clear, disposition ship. SHIP covers only M1 and its regression batch, not a new whole-surface review. All 30 required screenshots plus hero reopened, hashes/pixels match final manifest.",
+            "publicationStatus": "Published beta release 8448462f-6610-4800-b057-6f045ce03cda revision 2; primary and CloudBase public APK bytes and latest metadata verified against final signed artifact; all previous release rows preserved.",
+            "historicalCandidate": "before-review-fix/{phone,large-font,landscape} each PASS 167 on f5b34441b4616c4ebd9a9fcaad135f258e0ba87d85be146c347e73d57f9bdd03; pre-photo-live-fix/ each PASS 150 on 936b31b4136cd4e305e67c90e4a587324792bf2a137c63f85486f51915d18b12; initial/ each PASS 146 on af0b41fe33c814c6d470845290c828801934819ac4c1db78eb46ef227e31f067. All retain candidate scope and are excluded from final 516.",
+            "limits": "Isolated read-only native Android emulator; existing synthetic template and 23 offline real/hand-authored local recipes; actual gestures/Canvas/JPEG/EXIF/drafts/MediaStore. No physical phone/camera, live catalog, FPS, TalkBack or colour-calibration certification. Native Views: HTML/CSS detector inapplicable.",
+            "photoLiveRegression": {
+              "beforeFix": "docs/validation/photo-composition-recipes-81/photo-live-crash/before-fix.txt; real click on 936b candidate reproduced Invalid UUID string from empty selectedLiveProjectId in AlbumPanel.updateLivePresetProgress.",
+              "fix": "Skip project-config lookup without a selected project, retaining strict storage UUID validation.",
+              "finalScope": "17 extra assertions per mode: initialize actual project storage, no selected project, real entry/return repeated three times, disabled default preset and Activity/store preservation. No project creation, live reception or camera.",
+              "supplementaryManual": "photo-live-crash/after-fix-main-navigation.json: real main-navigation entry and cold-process-restart restoration visually confirmed from settled screenshots/live processes. UIAutomator idle/text assertion inconclusive. Separate evidence, not added to 516."
+            },
+            "reviewFix": {
+              "finding": "Queued recipe A could commit before B, causing B to fail the starting-snapshot guard and discard the latest user selection.",
+              "correction": "Main-thread latest-request sequence checks success/error callbacks before mutation, retaining photo/account/starting-snapshot guards.",
+              "regression": "Five added assertions per mode hold real editor IO, queue A then B, release, confirm B wins with unchanged target geometry and exactly one undo step. Included in 172 per mode / 516 total.",
+              "verdict": "M1 resolved / remaining clear / disposition ship; scoped to M1 and fix-batch regression.",
+              "initialReview": "docs/validation/photo-composition-recipes-81/FINISH-REVIEW.md",
+              "fixVerdict": "docs/validation/photo-composition-recipes-81/FIX-VERDICT.md"
+            },
+            "publication": {
+              "status": "published",
+              "channel": "beta",
+              "releaseId": "8448462f-6610-4800-b057-6f045ce03cda",
+              "revision": 2,
+              "publishedAt": "2026-10-23T13:04:03.603357+08:00",
+              "publicBytesVerifiedAt": "2026-10-23T05:04:38.046Z",
+              "receipt": "docs/validation/photo-composition-recipes-81/publication.json",
+              "summary": "docs/validation/photo-composition-recipes-81/PUBLICATION.md",
+              "downloadUrl": "https://huevia.cc/preset-library/download/?channel=beta",
+              "origins": "Primary huevia.cc and CloudBase origins each returned final signed APK bytes and matching latest beta metadata; old release rows retained.",
+              "deployment": "Only current APK added to downloaded production archive 40→41 files; complete prior runtime member bytes/Unix modes and function configuration verified unchanged.",
+              "preparation": "huevia81-reviewed: 57 runtime/artifact, 22 syntax, 8 archive guard and 2 diagnostic checks. Same 57 tests serialized to avoid host malloc exhaustion from discarded parallel-password-test preparation; no production runtime change.",
+              "downloadPage": "HTML/script HTTP200 and exact page metadata query verified. CUA initialization failed; no browser visual review claimed.",
+              "authority": "online-library/build/huevia-81-reviewed/{audit,deployment,public-verification}.json; sanitized publication receipt above."
+            }
+          },
+          "handoff": "docs/design-review/photo-composition-recipes-20261023/README.md",
+          "composition": {
+            "ratios": [
+              "原比例",
+              "自由",
+              "1:1",
+              "4:3",
+              "3:2",
+              "9:16"
+            ],
+            "controls": "Corner drag changes crop; inside-frame drag moves it; clockwise 90-degree rotation; straighten -45.0 to +45.0 degrees in 0.1-degree steps, enlarged to cover black corners.",
+            "commit": "Cancel/Android Back/close does not mutate drafts; Apply commits one undo step only when changed. Workspace reset is also tentative until Apply.",
+            "output": "PhotoGeometry and PhotoComposition share preview/full-pixel geometry. Normalize all eight EXIF orientations; output orientation 1. Crop reduces retained pixels; no silent downscale.",
+            "historicalSavedVersions": "Recover only fully matching latest exported-draft settings; missing old geometry produces an explicit original/recover-draft route rather than guessing from pixels."
+          },
+          "recipes": {
+            "storage": "Local-only and account-isolated, including separate guest scope; no automatic cloud sync or publication.",
+            "snapshot": "Immutable preset bytes, preset name, strength, all 13 manual values and model; no photo or geometry.",
+            "management": "Create, apply, rename and confirmed delete; 1-40 Unicode code points after trim, no line breaks/control characters, case-insensitive duplicate rejection, maximum 100 per account.",
+            "validation": "Invalid names keep the form open, retain input and show inline error. 保存当前 remains one line at font scale 1.3.",
+            "application": "Single apply preserves target geometry and adds one undo step. Latest-request sequence makes the last queued choice win; earlier callbacks cannot mutate state/undo, with existing photo/account/starting-snapshot guards retained. Delete does not alter applied drafts/photos.",
+            "batch": "套用效果 → 我的配方 writes pending per-photo drafts while retaining each geometry; separate explicit export; partial completion counts and retry."
+          }
+        },
+        {
+          "scope": "0.14.0-beta / 80; historical approved scoped native photo-editor extension, implemented. Global primitives/navigation remain normative for other surfaces.",
+          "primaryTarget": "app/src/main/java/cc/huevia/ui/PhotoFilterEditor.java",
+          "relatedTargets": [
+            "app/src/main/java/cc/huevia/ui/AlbumPanel.java",
+            "app/src/main/java/cc/huevia/ncp/PhotoAdjustments.java",
+            "app/src/main/java/cc/huevia/ncp/AdjustedPreviewProfile.java",
+            "app/src/main/java/cc/huevia/album/PhotoEditStore.java",
+            "app/src/main/java/cc/huevia/album/PhotoPresetBatch.java"
+          ],
+          "directionContract": ".impeccable/surfaces/photo-filter-editor.md",
+          "approvedComposition": "docs/design-review/photo-basic-adjustments-20261022/design-board-v2.png",
+          "requirements": "docs/design-review/photo-basic-adjustments-20261022/REQUIREMENTS.md",
+          "approval": {
+            "status": "approved",
+            "implementation": "implemented",
+            "humanInstruction": "开始实现，我睡觉去了",
+            "betaAuthorization": "改好了你直接上传测试版就行",
+            "publicationStatus": "Pending final finish review and separate release record; authorization alone is not upload/publication evidence."
+          },
+          "implementation": "docs/photo-filter-editor.md",
+          "nativeGeometry": {
+            "units": "dp geometry, sp native system typography",
+            "controlTarget": "48dp minimum; export visible 64 x 36dp within 64 x 48dp target",
+            "dock": "224dp tool content + 1dp divider; flat solid tool surface; elevation 0; 176dp mode area + 48dp mode choices",
+            "filterMode": "48dp source/category/grid row; 80dp thumbnail strip; 48dp strength row",
+            "adjustmentMode": "one slider/value with undo/redo and one horizontally scrolling icon/label parameter strip; no permanent group headings",
+            "collapsedCard": "66 x 80dp; image 52dp; label 22dp",
+            "expandedGrid": "3 columns; image 86dp; label 26dp",
+            "pickerHeight": "portrait 72% of display height; landscape 90%",
+            "landscapeDock": "right, 300dp wide, vertically scrollable",
+            "canvas": "same exact photo bounds/zoom/position in filter and adjustment modes; contain true source aspect; thumbnails may crop",
+            "presetContext": "small native text on restrained dark supporting surface, readable over light photographs",
+            "jpgConfirmation": "scrollable; measured content capped at 90% of display height"
+          },
+          "material": {
+            "dock": "Flat real native Views; editor-dock token refers to frontmatter. Supersedes old tall photo-sampled glass dock only on this surface.",
+            "transientPanels": "Existing EditorGlassDrawable is confined to selectors/confirmation sheets; no permanent dock blur.",
+            "icons": "Canvas AppIcon extensions; system native typography; no new product raster."
+          },
+          "manualParameters": {
+            "order": [
+              "亮度",
+              "曝光",
+              "对比度",
+              "高光",
+              "阴影",
+              "白色",
+              "黑色",
+              "色温",
+              "色调",
+              "饱和度",
+              "自然饱和度",
+              "清晰度",
+              "锐化"
+            ],
+            "neutral": 0,
+            "exposure": "-3.0 to +3.0 EV, step 0.1",
+            "sharpening": "0 to 100, step 1",
+            "others": "-100 to +100, step 1",
+            "initialParameter": "曝光",
+            "help": "PhotoAdjustments.Parameter.help(); More → 参数说明 or long-press numeric value. Explains tone-range distinctions and JPEG relative temperature with current photo/compare context.",
+            "modifiedState": "dot plus value/selected semantic description",
+            "history": "32 steps for the current photo session; one continuous drag is one step; exact input validates before mutation"
+          },
+          "stateRules": [
+            "Completed local JPEG original is required; preview-only photos remain pure browsing and unbind old editor work.",
+            "Default to filters/online; sources clear category/search/position. Compact category control discloses catalog status and refresh; full diagnostics stay in tooltip.",
+            "No-filter and zero preset strength retain manual values. Selecting another preset preserves manual values. Neutral manual values return prior model unchanged.",
+            "Verified original → full preset/strength → manual colour → resolution-scaled manual clarity/sharpening. Never accumulate over saved JPEG or prior preview.",
+            "Immutable account/photo drafts include original identity, recipe bytes, strength, all manual values and model. Legacy v1 new values migrate to zero.",
+            "Restore pending drafts only. Honor explicit saved-version selection and retain parked drafts recoverable from More.",
+            "Already-neutral manual resets and unchanged exact input are true no-ops on saved effects with or without a parked draft.",
+            "Remember successful single export display; flush drafts at leave/pause. Late export cannot mark newer edits exported; photo/account epochs reject stale results.",
+            "Preserve card identity and scrollX across selection/thumbnail completion. Expanded picker restores by row; 48-entry bitmap/bytes/profile eviction; at most four delayed selection retries.",
+            "Explicit separate full-size JPEG 95/sRGB preserves original bytes. Dedupe identity includes all manual values; batch freezes each photo recipe/strength/manual settings, at most 100, and retries failed/unprocessed snapshot entries only.",
+            "Manual settings do not modify NCP/NP3, camera slots, live defaults or NEF. No batch-copy, geometry, beauty, generation, RAW development or auto-enhance entries in this scope."
+          ],
+          "assets": "0 new production rasters. Runtime main photo/thumbnails derive from verified current original. Existing synthetic template and real/hand-authored recipe fixtures are QA only. Comp recomposes photo; real source aspect remains authoritative.",
+          "evidence": {
+            "versionCode": 80,
+            "versionName": "0.14.0-beta",
+            "apkBytes": 3458669,
+            "apkSha256": "4aea78f19ddc4e245e27470b29c9f111674f74c2e22b3229d03a2ec5fd6834bb",
+            "signerSha256": "04db0f9d3d76c9831a0778cfabc1a0aaab984e05398da16eb644950ccfa0ae31",
+            "nativeReports": "docs/validation/photo-basic-adjustments-80/{phone,large-font,landscape}/report.json; each PASS 157 on final SHA, 471 assertion records total",
+            "observedFontScale": [
+              1,
+              1.3,
+              1
+            ],
+            "observedOrientation": [
+              1,
+              1,
+              2
+            ],
+            "environment": "environment.txt and restoration.txt in each final mode directory",
+            "screenshots": [
+              "filters.png",
+              "adjustments.png",
+              "colour.png",
+              "exact-value.png",
+              "parameter-help.png",
+              "export.png"
+            ],
+            "hostLogs": {
+              "host-editor.txt": "34780 strength/draft checks and 644888 manual behaviour/migration/identity checks",
+              "host-spatial.txt": "16 cases; 41534647 assertions",
+              "host-batch.txt": "609 batch checks and 82 source-link checks"
+            },
+            "reviewStatus": "Initial FINISH-REVIEW.md is a fix report for earlier 132-check candidate. Final independent verdict is recorded separately after scoped documentation handoff.",
+            "historicalCandidate": "initial/ holds the earlier 132-check candidate; it is not final-SHA validation.",
+            "limits": "Isolated native Android emulator; synthetic template photos and 23 offline real/hand-authored recipes; actual JPEG/EXIF/draft/MediaStore. No physical-phone/camera, live-catalog, FPS, TalkBack or NX Studio colour certification. Native Views: HTML/CSS detector inapplicable."
+          }
+        },
+        {
+          "scope": "0.13.0-beta / 68; native PhotoFilterEditor and AlbumPanel integration only; existing primitives remain normative",
+          "directionContract": ".impeccable/surfaces/photo-filter-editor.md",
+          "approvedComposition": "docs/design-review/photo-filter-editor-20261019/design-board.png",
+          "implementation": "docs/photo-filter-editor.md",
+          "nativeGeometry": {
+            "units": "dp geometry, sp system typography",
+            "controlTarget": "48dp",
+            "collapsedCard": "78 x 104dp; image 72dp; label 26dp",
+            "expandedGrid": "3 columns; image 82dp; label 26dp",
+            "pickerHeight": "portrait 68% of display height; landscape 90%",
+            "landscapeDock": "right, 300dp wide, vertically scrollable",
+            "jpgConfirmation": "scrollable; measured content capped at 90% of display height"
+          },
+          "stateRules": [
+            "Restore only pending drafts; show 未导出 even on single-original cards.",
+            "Honor explicit original/older/newer saved-version selection; retain pending edits behind a recovery note. Without pending edits export the selected saved version.",
+            "Remember a successful single export's displayed saved result; flush pending drafts at pause without claiming arbitrary process-termination durability.",
+            "Keep the selected recipe visible in the collapsed strip and restore the expanded picker by row, not exact pixel offset.",
+            "Evict bitmap, recipe bytes and parsed profile together at 48 cached entries; selected recipe ownership is separate.",
+            "Freeze per-photo recipe and strength at batch start, at most 100 photos."
+          ],
+          "assets": "Canvas AppIcon extensions; no new product raster. QA uses the existing built-in template and hand-authored fixtures.",
+          "evidence": {
+            "candidateSha256": "a042c85f59d3fd8166c518eb3486250b59aad5eeefded497cd8bbe6b405ba5ee",
+            "nativeReports": "docs/validation/photo-editor-native/README.md; portrait, font 1.3 and landscape each PASS 144",
+            "focusedVerdict": "docs/validation/photo-editor-native/FIX-VERDICT.md; SHIP only for the five original findings, all resolved",
+            "limits": "Native Views; HTML/CSS detector inapplicable. No camera, TalkBack, tablet, hardware gesture, sustained performance or NX Studio color certification."
+          }
+        }
+      ]
     },
     "breakpoints": [
       {
@@ -413,7 +1139,55 @@
         "value": "600dp",
         "purpose": "MainActivity从该宽度起将内容限制在720dp。"
       }
-    ]
+    ],
+    "localAlbum": {
+      "scope": "83 native local-photo root and explicit destination extension inside incumbent cloud-white/graphite world.",
+      "primaryTarget": "app/src/main/java/cc/huevia/ui/LocalAlbumPanel.java",
+      "relatedTargets": [
+        "app/src/main/java/cc/huevia/MainActivity.java",
+        "app/src/main/java/cc/huevia/ui/AlbumPanel.java",
+        "app/src/main/java/cc/huevia/ui/PhotoSaveChoice.java",
+        "app/src/main/java/cc/huevia/album/LocalPhotoRepository.java",
+        "app/src/main/java/cc/huevia/album/LocalPhotoOrigin.java"
+      ],
+      "directionContract": ".impeccable/surfaces/local-album.md",
+      "requirements": "docs/design-review/local-album-20261023/REQUIREMENTS.md",
+      "handoff": "docs/design-review/local-album-20261023/README.md",
+      "authority": "Approved merged requirements, 可以，开始实现, and later floating-plus/center-authorization/simplification. Narrow code-led extension, no new comp/world/raster/icon.",
+      "rootNavigation": {
+        "visual": [
+          "预设",
+          "同步",
+          "相册",
+          "设置"
+        ],
+        "internalIds": {
+          "presets": 0,
+          "sync": 1,
+          "settings": 2,
+          "localAlbum": 3
+        },
+        "preservation": "Old camera/live/downloaded roots and data remain in 同步; switching roots does not close shared controller or stop live."
+      },
+      "firstViewport": "App 内 default then 手机; lazy date-grouped real-photo grid. Single 56dp floating PLUS/content description选择照片. 48dp native overflow owns refresh/select/access; denied centered点击获取授权 guidance; no persistent action toolbar.",
+      "geometry": {
+        "typography": "Native sp: regular root 32, compact title 20, tabs 14, scope/status 13, date 14 / compact 12, filename 12 single-line; empty heading 20 / body 15.",
+        "grid": "Normal 3 columns; noncompact width>=600dp 5; compact-height width>height and height<480dp derives columns from actual body width/height, fontScale, nav reserve and photo edge. Full first-row thumbnails/filenames remain identifiable.",
+        "compact": "Minimum 48dp title then one source/info/progress/status/menu row; right-side FAB reservation; empty guidance scrolls.",
+        "navigationReserve": "92dp+round(max(0,fontScale-1.2)*20); list bottom reserve+8; FAB bottom reserve+12/right12; empty guidance bottom reserve.",
+        "fab": "56dp circular plus,16dp padding, native 4dp elevation/Ripple. Hide during selection/import.",
+        "controls": "Native 48dp minimum; selection count/cancel/batch row on demand."
+      },
+      "access": "Explicit API 34+ images+selected-images permissions; API 33 images; older external read. Entering phone alone never requests. Partial/denied/revoked states explicit; resume invalidates phone list/thumbnails and rechecks. App photos stay usable.",
+      "picker": "ACTION_OPEN_DOCUMENT/CATEGORY_OPENABLE/image/* with JPEG/PNG MIME array; multiple selection; cancellation imports nothing.",
+      "browsing": "Phone pages <=120 ordered added-time descending and ID tie-break; App original/effect date groups; separate source scroll states; sampled thumbnails and bounded cache; no automatic full copy/upload.",
+      "import": "Only chosen content JPEG/PNG. Metadata/structure/image/repeated-hash checks; 96MiB/photo, 50 million pixels, 1 GiB batch plus memory guard. JPEG exact private bytes. PNG confirmation retains source and creates white JPEG 95/sRGB working copy. Identity URIhash+sourcehash, not cross-URI pixel dedup. Formal private files/provenance/drafts are not preview cache.",
+      "saveTargets": "Sync/sync-effects/live fallback APP_ONLY; edited fallback PHONE_ALBUM. Accepted positive choice remembered per scene/live project; cancel not committed. Target and extra-copy frozen through retry. App-only zero MediaStore rows. First new phone publication dated now; with a valid same-version public copy reuse by default, and require explicit extra-copy to add another. Preserve source/cache bytes and original time; update local effect mtime after successful publication.",
+      "ownership": "Foreign imported JPEG origin is read-only proof, never deletion ownership. Missing/changed differs from unavailable; PNG working JPEG is new. Android root aliases accepted with child containment/traversal/symlink/ownership guards retained.",
+      "evidenceRef": "extensions.photoFilterEditor.evidence; full authority in native-matrix/final-source-pins/host-gallery-final-provenance/source-snapshot and scoped FIX-VERDICT.",
+      "limits": "Isolated native emulator; real MediaStore/private files with generated JPEG/transparent PNG and repository sample. A hand-authored 512-byte TIFF/NEF tests save wrapper/frozen retry only. Actual native View authorization/FAB clicks reach monitored platform dispatch then cancel; external DocumentsUI/permission-controller rendering/text excluded. Notification permission pregranted. Host boundaries use provider/codec/acquisition substitutes. No physical camera/live transport, sensor RAW fidelity, FPS/throughput, calibration, TalkBack or prolonged phone-use claim. Native Views skip HTML/CSS detector.",
+      "publicationRef": "extensions.photoFilterEditor.evidence.publication; docs/validation/photo-local-album-83/publication.json confirms published beta83 revision2 and exact public bytes. Closed task-owned QA emulator is recorded in emulator-cleanup.json."
+    }
   },
   "components": [
     {
@@ -452,8 +1226,8 @@
       "name": "Floating Navigation",
       "kind": "nav",
       "refersTo": "navigation",
-      "description": "Native three-destination navigation specimen. This HTML preview uses its opaque fallback; actual API31+ sampling is documented in DESIGN.md.",
-      "html": "<nav class=\"ds-nav\" aria-label=\"主导航\"><button class=\"ds-nav-item ds-current\" aria-current=\"page\"><svg viewBox=\"0 0 24 24\" width=\"23\" height=\"23\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"2\"/><circle cx=\"8\" cy=\"8\" r=\"1.6\"/><path d=\"m4 18 6-6 4 4 3-4 4 5\"/></svg><span>预设</span></button><button class=\"ds-nav-item\"><svg viewBox=\"0 0 24 24\" width=\"23\" height=\"23\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"6\" y=\"6\" width=\"16\" height=\"16\" rx=\"2\"/><path d=\"M3 17H2V2h15v1m-10 15 5-5 4 4 3-3 3 4\"/></svg><span>相册</span></button><button class=\"ds-nav-item\"><svg viewBox=\"0 0 24 24\" width=\"23\" height=\"23\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"3.2\"/><path d=\"m9 3-1 3-3 1-2 2 2 3-2 3 2 2 3 1 1 3h6l1-3 3-1 2-2-2-3 2-3-2-2-3-1-1-3Z\"/></svg><span>设置</span></button></nav>",
+      "description": "Native four-destination navigation specimen for83: 预设/同步/相册/设置. This static HTML uses the opaque fallback; actual GlassBar sampling/native behavior remains in DESIGN.md.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"主导航\"><button class=\"ds-nav-item ds-current\" aria-current=\"page\"><svg viewBox=\"0 0 24 24\" width=\"23\" height=\"23\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"2\"/><circle cx=\"8\" cy=\"8\" r=\"1.6\"/><path d=\"m4 18 6-6 4 4 3-4 4 5\"/></svg><span>预设</span></button><button class=\"ds-nav-item\"><svg viewBox=\"0 0 24 24\" width=\"23\" height=\"23\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 7h4l2-3h6l2 3h4v14H3Z\"/><circle cx=\"12\" cy=\"13\" r=\"4\"/></svg><span>同步</span></button><button class=\"ds-nav-item\"><svg viewBox=\"0 0 24 24\" width=\"23\" height=\"23\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"6\" y=\"6\" width=\"16\" height=\"16\" rx=\"2\"/><path d=\"M3 17H2V2h15v1m-10 15 5-5 4 4 3-3 3 4\"/></svg><span>相册</span></button><button class=\"ds-nav-item\"><svg viewBox=\"0 0 24 24\" width=\"23\" height=\"23\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"3.2\"/><path d=\"m9 3-1 3-3 1-2 2 2 3-2 3 2 2 3 1 1 3h6l1-3 3-1 2-2-2-3 2-3-2-2-3-1-1-3Z\"/></svg><span>设置</span></button></nav>",
       "css": ".ds-nav{display:flex;gap:2px;box-sizing:border-box;width:360px;max-width:100%;min-height:68px;padding:5px;border-radius:34px;background:#FFFFFF;border:1px solid #D9DEE6}.ds-nav-item{flex:1;min-height:58px;display:grid;place-content:center;justify-items:center;gap:3px;padding:7px 8px;border:0;border-radius:30px;color:#626B78;background:transparent;font:10px system-ui,sans-serif;cursor:pointer}.ds-current{background:#E9F1FF;color:#0065DC;font-weight:700}.ds-nav-item:hover,.ds-nav-item:active{background:#E9F1FF}.ds-nav-item:focus-visible{outline:2px solid #0065DC;outline-offset:1px}@media(prefers-color-scheme:dark){.ds-nav{background:#2A2E34;border-color:#474E58}.ds-nav-item{color:#ADB6C3}.ds-current,.ds-nav-item:hover,.ds-nav-item:active{background:#263D5A;color:#8DBBFF}}"
     },
     {
@@ -487,11 +1261,19 @@
       "description": "Static visual specimen using all 257 actual samples from the hand-authored PreviewTone NCP fixture (tests/tools/SyntheticPresetPreview.java), never bundled as a preset. Native ToneCurveView reads the selected hash-verified NCP, grows from 188dp with font scale and has real loading/retry states; this fixed-size HTML specimen does not implement parsing or state behavior. Both dashed reference strokes match native alpha 200.",
       "html": "<figure class=\"ds-tone\"><svg viewBox=\"0 0 300 188\" role=\"img\" aria-label=\"合成 PreviewTone NCP 的257个实际采样点，输入0、128、255的代表输出为10、172、240。蓝色实线为预设曲线，虚线为线性参考。\"><text class=\"ds-tone-title\" x=\"16\" y=\"27\">色调曲线</text><text class=\"ds-tone-sub\" x=\"284\" y=\"28\" text-anchor=\"end\">NCP</text><g class=\"ds-tone-grid\" fill=\"none\"><path d=\"M45 47V139M45 47H283\"/><path d=\"M104.5 47V139M45 70H283\"/><path d=\"M164 47V139M45 93H283\"/><path d=\"M223.5 47V139M45 116H283\"/><path d=\"M283 47V139M45 139H283\"/></g><path class=\"ds-tone-reference\" d=\"M45 139L283 47\" fill=\"none\"/><polyline class=\"ds-tone-line\" points=\"45.000,135.319 45.930,130.145 46.859,128.002 47.789,126.357 48.719,124.970 49.648,123.749 50.578,122.645 51.508,121.629 52.438,120.683 53.367,119.795 54.297,118.956 55.227,118.156 56.156,117.392 57.086,116.662 58.016,115.957 58.945,115.278 59.875,114.621 60.805,113.983 61.734,113.366 62.664,112.762 63.594,112.178 64.523,111.605 65.453,111.047 66.383,110.502 67.312,109.968 68.242,109.446 69.172,108.932 70.102,108.430 71.031,107.936 71.961,107.453 72.891,106.975 73.820,106.506 74.750,106.046 75.680,105.591 76.609,105.145 77.539,104.704 78.469,104.269 79.398,103.842 80.328,103.418 81.258,103.002 82.188,102.590 83.117,102.183 84.047,101.781 84.977,101.385 85.906,100.992 86.836,100.605 87.766,100.223 88.695,99.841 89.625,99.468 90.555,99.094 91.484,98.726 92.414,98.364 93.344,98.002 94.273,97.645 95.203,97.292 96.133,96.941 97.062,96.592 97.992,96.250 98.922,95.907 99.852,95.570 100.781,95.234 101.711,94.902 102.641,94.571 103.570,94.245 104.500,93.920 105.430,93.597 106.359,93.279 107.289,92.962 108.219,92.645 109.148,92.333 110.078,92.022 111.008,91.715 111.938,91.409 112.867,91.103 113.797,90.803 114.727,90.503 115.656,90.205 116.586,89.910 117.516,89.615 118.445,89.323 119.375,89.034 120.305,88.745 121.234,88.459 122.164,88.172 123.094,87.891 124.023,87.608 124.953,87.330 125.883,87.052 126.812,86.774 127.742,86.499 128.672,86.226 129.602,85.954 130.531,85.685 131.461,85.415 132.391,85.145 133.320,84.882 134.250,84.615 135.180,84.351 136.109,84.090 137.039,83.829 137.969,83.570 138.898,83.312 139.828,83.054 140.758,82.798 141.688,82.546 142.617,82.293 143.547,82.040 144.477,81.790 145.406,81.540 146.336,81.290 147.266,81.043 148.195,80.799 149.125,80.552 150.055,80.308 150.984,80.066 151.914,79.825 152.844,79.583 153.773,79.345 154.703,79.106 155.633,78.867 156.562,78.632 157.492,78.396 158.422,78.160 159.352,77.927 160.281,77.694 161.211,77.461 162.141,77.231 163.070,77.000 164.000,76.773 164.930,76.543 165.859,76.315 166.789,76.091 167.719,75.863 168.648,75.639 169.578,75.414 170.508,75.192 171.438,74.970 172.367,74.749 173.297,74.527 174.227,74.308 175.156,74.089 176.086,73.870 177.016,73.654 177.945,73.437 178.875,73.221 179.805,73.005 180.734,72.792 181.664,72.575 182.594,72.365 183.523,72.151 184.453,71.941 185.383,71.727 186.312,71.520 187.242,71.309 188.172,71.101 189.102,70.891 190.031,70.683 190.961,70.478 191.891,70.270 192.820,70.065 193.750,69.860 194.680,69.655 195.609,69.453 196.539,69.251 197.469,69.049 198.398,68.847 199.328,68.645 200.258,68.445 201.188,68.243 202.117,68.044 203.047,67.847 203.977,67.648 204.906,67.451 205.836,67.255 206.766,67.058 207.695,66.862 208.625,66.665 209.555,66.471 210.484,66.278 211.414,66.084 212.344,65.890 213.273,65.696 214.203,65.506 215.133,65.315 216.062,65.124 216.992,64.933 217.922,64.742 218.852,64.554 219.781,64.363 220.711,64.175 221.641,63.987 222.570,63.801 223.500,63.613 224.430,63.428 225.359,63.240 226.289,63.054 227.219,62.869 228.148,62.687 229.078,62.501 230.008,62.319 230.938,62.134 231.867,61.951 232.797,61.769 233.727,61.589 234.656,61.406 235.586,61.227 236.516,61.044 237.445,60.864 238.375,60.685 239.305,60.505 240.234,60.328 241.164,60.148 242.094,59.972 243.023,59.795 243.953,59.615 244.883,59.441 245.812,59.264 246.742,59.087 247.672,58.913 248.602,58.736 249.531,58.562 250.461,58.388 251.391,58.214 252.320,58.040 253.250,57.869 254.180,57.695 255.109,57.523 256.039,57.352 256.969,57.178 257.898,57.007 258.828,56.838 259.758,56.667 260.688,56.496 261.617,56.327 262.547,56.159 263.477,55.987 264.406,55.819 265.336,55.651 266.266,55.485 267.195,55.316 268.125,55.148 269.055,54.982 269.984,54.817 270.914,54.651 271.844,54.483 272.773,54.320 273.703,54.154 274.633,53.988 275.562,53.823 276.492,53.660 277.422,53.497 278.352,53.331 279.281,53.169 280.211,53.006 281.141,52.843 282.070,52.683 283.000,52.520\" fill=\"none\"/><g class=\"ds-tone-axis\"><text x=\"37\" y=\"50\" text-anchor=\"end\">255</text><text x=\"37\" y=\"142\" text-anchor=\"end\">0</text><text x=\"16\" y=\"96\">输出</text><text x=\"45\" y=\"156\" text-anchor=\"middle\">0</text><text x=\"283\" y=\"156\" text-anchor=\"middle\">255</text><text x=\"164\" y=\"156\" text-anchor=\"middle\">输入</text></g><path class=\"ds-tone-line\" d=\"M59 174H73\"/><text class=\"ds-tone-legend\" x=\"79\" y=\"178\">预设曲线</text><path class=\"ds-tone-reference\" d=\"M163 174H177\"/><text class=\"ds-tone-legend\" x=\"183\" y=\"178\">线性参考</text></svg></figure>",
       "css": ".ds-tone{width:300px;max-width:100%;margin:0;border-radius:16px;background:#FFFFFF;color:#20242B;font-family:system-ui,sans-serif}.ds-tone svg{display:block;width:100%;height:auto}.ds-tone-title{fill:currentColor;font-size:13px;font-weight:500}.ds-tone-sub{fill:#626B78;font-size:11px}.ds-tone-axis{fill:#626B78;font-size:9px}.ds-tone-legend{fill:#626B78;font-size:10px}.ds-tone-grid{stroke:#D9DEE6;stroke-opacity:.6274509804;stroke-width:.7}.ds-tone-reference{stroke:#626B78;stroke-opacity:.7843137255;stroke-width:1;stroke-dasharray:4 4}.ds-tone-line{stroke:#0065DC;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}@media(prefers-color-scheme:dark){.ds-tone{background:#2A2E34;color:#F4F5F7}.ds-tone-sub,.ds-tone-axis,.ds-tone-legend{fill:#ADB6C3}.ds-tone-grid{stroke:#474E58;stroke-opacity:.5882352941}.ds-tone-reference{stroke:#ADB6C3}.ds-tone-line{stroke:#8DBBFF}}"
+    },
+    {
+      "name": "Local Photo Picker FAB",
+      "kind": "button",
+      "refersTo": "local-picker-fab",
+      "description": "Static specimen of 83 native 56dp plus/content description选择照片. Native source performs system document dispatch; this HTML does not implement picker or permissions.",
+      "html": "<button class=\"ds-local-picker\" aria-label=\"选择照片\"><svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M12 5v14M5 12h14\"/></svg></button>",
+      "css": ".ds-local-picker{width:56px;height:56px;display:grid;place-content:center;padding:16px;border:0;border-radius:28px;background:#0065DC;color:#FFFFFF;cursor:pointer}.ds-local-picker:hover{filter:brightness(.97)}.ds-local-picker:focus-visible{outline:2px solid #0065DC;outline-offset:3px}.ds-local-picker:active{filter:brightness(.92)}.ds-local-picker:disabled{opacity:.5;cursor:default}@media(prefers-color-scheme:dark){.ds-local-picker{background:#8DBBFF;color:#07244A}}"
     }
   ],
   "narrative": {
     "northStar": "云白与石墨",
-    "overview": "0.4.0-beta 已实现用户批准的 Apple 风格方案：云白背景、白色分组、石墨文字、蓝色操作和悬浮毛玻璃导航。视觉参考为 [已确认的设置页](docs/design-review/apple-glass/preview-settings-light.jpg)；用户在三目的地设置架构确认后说“开始实现”。这里记录实际原生 Android Java / Views 的实现，代码来源是 `UiPalette`、`MainActivity`、`AlbumPanel`、`GlassBar` 和 `AppIcon`。\n\n界面以安静的内容层次和原生文字为基础。照片承担内容展示，连接操作集中在设置，预设库与相册只显示简短连接状态。深色使用独立石墨配色；按钮、系统返回、对话框和文件选择仍遵循 Android 行为。\n\n0.5.0-beta（versionCode 17）沿用这一世界，扩展持久化外观选择、独立无线预设检测、模板模拟主图和轻量页面过渡。已下载主图（含在线卡片）明确标注手机近似，未下载在线项保留发布者样片，配套实拍独立展示。扩展继续由原生代码和既有语义角色主导。\n\n0.5.1-beta（versionCode 18）仅扩展详情主图的原图对比：右下角安静的深色胶囊在按住时显示模板原图，松开恢复模拟效果；裁切与图像位置固定，角标明确当前状态。它延续既有摄影内容层次，不改变视觉世界与导航。\n\n0.5.2-beta（versionCode 19）沿用同一世界，在已下载详情的照片下方加入紧凑的只读色调曲线卡；蓝色实际曲线与次要色虚线参考共享明确的输入、输出与图例。照片上的对比按钮缩短为“原图”，保持原有命中区域和交互说明。",
+    "overview": "0.4.0-beta 已实现用户批准的 Apple 风格方案：云白背景、白色分组、石墨文字、蓝色操作和悬浮毛玻璃导航。视觉参考为 [已确认的设置页](docs/design-review/apple-glass/preview-settings-light.jpg)；用户在三目的地设置架构确认后说“开始实现”。这里记录实际原生 Android Java / Views 的实现，代码来源是 `UiPalette`、`MainActivity`、`AlbumPanel`、`GlassBar` 和 `AppIcon`。\n\n界面以安静的内容层次和原生文字为基础。照片承担内容展示，连接操作集中在设置，预设库与相册只显示简短连接状态。深色使用独立石墨配色；按钮、系统返回、对话框和文件选择仍遵循 Android 行为。\n\n0.5.0-beta（versionCode 17）沿用这一世界，扩展持久化外观选择、独立无线预设检测、模板模拟主图和轻量页面过渡。已下载主图（含在线卡片）明确标注手机近似，未下载在线项保留发布者样片，配套实拍独立展示。扩展继续由原生代码和既有语义角色主导。\n\n0.5.1-beta（versionCode 18）仅扩展详情主图的原图对比：右下角安静的深色胶囊在按住时显示模板原图，松开恢复模拟效果；裁切与图像位置固定，角标明确当前状态。它延续既有摄影内容层次，不改变视觉世界与导航。\n\n0.5.2-beta（versionCode 19）沿用同一世界，在已下载详情的照片下方加入紧凑的只读色调曲线卡；蓝色实际曲线与次要色虚线参考共享明确的输入、输出与图例。照片上的对比按钮缩短为“原图”，保持原有命中区域和交互说明。\n\n83 / `0.16.0-beta` 在相同世界内将根目的地扩为“预设／同步／相册／设置”：同步保留相机流程，相册承载授权手机照片与正式 App 内照片；清晰选图、权限恢复和明确保存位置服务照片主体，不改变既有编辑器材料。",
     "keyCharacteristics": [
       "云白背景、石墨文字和白色分组。",
       "蓝色操作、小胶囊来源切换与悬浮导航。",

@@ -1,0 +1,92 @@
+{
+  "version": "0.16.0-beta",
+  "versionCode": 83,
+  "apkSha256": "7bfb908b8303b0be469440b569e407945f57fbb851d3c1a87452280cf4dc25e1",
+  "scope": "Read-only origin forensic query on existing private files\/provider rows; no seed, import, editor, publication or deletion.",
+  "originDiagnostics": [
+    {
+      "expectedSourceUri": "content:\/\/media\/external_primary\/images\/media\/42",
+      "providedContextPackage": "cc.huevia",
+      "providedContextFilesDir": "\/data\/data\/cc.huevia\/files",
+      "applicationContextPackage": "cc.huevia",
+      "applicationContextFilesDir": "\/data\/data\/cc.huevia\/files",
+      "privateAbsolutePath": "\/data\/user\/0\/cc.huevia\/files\/pictures\/camera-album\/phone-615eb47ef161dd61bec691b70ae1c584bb829e1cd132657a6dd44fa1601ecac9-f0487f378f4b5ee509dce8c8e49addb11185177e916592dc02663310e1b7c050__QA_LOCAL_efe09321.jpg",
+      "privatePath": "\/data\/data\/cc.huevia\/files\/pictures\/camera-album\/phone-615eb47ef161dd61bec691b70ae1c584bb829e1cd132657a6dd44fa1601ecac9-f0487f378f4b5ee509dce8c8e49addb11185177e916592dc02663310e1b7c050__QA_LOCAL_efe09321.jpg",
+      "privateFilename": "phone-615eb47ef161dd61bec691b70ae1c584bb829e1cd132657a6dd44fa1601ecac9-f0487f378f4b5ee509dce8c8e49addb11185177e916592dc02663310e1b7c050__QA_LOCAL_efe09321.jpg",
+      "privateBytes": 613734,
+      "privateModified": 1792759208000,
+      "privateSha256": "f0487f378f4b5ee509dce8c8e49addb11185177e916592dc02663310e1b7c050",
+      "originState": "UNAVAILABLE",
+      "originUri": "",
+      "originMessage": "无法核对手机原照片，未新增副本。请重新授权或选择原照片，或勾选“另存新副本”。",
+      "publicationStatus": "UNAVAILABLE",
+      "publicationUri": "",
+      "publicationMessage": "无法核对手机原照片，未新增副本。请重新授权或选择原照片，或勾选“另存新副本”。",
+      "exactStatus": "MISSING",
+      "exactUri": "",
+      "exactMessage": "",
+      "sourceRecord": {
+        "path": "\/data\/data\/cc.huevia\/files\/local-photo-sources\/phone-615eb47ef161dd61bec691b70ae1c584bb829e1cd132657a6dd44fa1601ecac9-f0487f378f4b5ee509dce8c8e49addb11185177e916592dc02663310e1b7c050.source",
+        "exists": true,
+        "bytes": 239,
+        "sha256": "b8ec77b9b2f423fc0c64c5fbe21b50165f73a1e09fb3245d9ff9abae01b845f9",
+        "magic": "4c505332",
+        "uri": "content:\/\/media\/external\/images\/media\/42",
+        "filename": "QA_LOCAL_efe09321.jpg",
+        "mime": "image\/jpeg",
+        "sourceSha256": "f0487f378f4b5ee509dce8c8e49addb11185177e916592dc02663310e1b7c050",
+        "retained": "",
+        "sourceBytes": 613734,
+        "date": 1792759208000,
+        "workingSha256": "f0487f378f4b5ee509dce8c8e49addb11185177e916592dc02663310e1b7c050",
+        "workingBytes": 613734
+      },
+      "publicationJournalFiles": [
+        {
+          "directory": "photo-effect-gallery",
+          "name": "987b92d0e2beefad59720b59c3e9afb988ebae756edf68656267f1670d820da4.record",
+          "bytes": 276,
+          "sha256": "850c69dfe25622e8b2637c6dd8816cbaa522bd399452d7f47c8d2c49b389cd48"
+        },
+        {
+          "directory": "photo-effect-gallery",
+          "name": "9738dfc0bbabb7ea6718e11d5b4f411f116c5ca371f6344a16e7729b2d21e8bb.record",
+          "bytes": 142,
+          "sha256": "5e83c2e5ebee99df6051c6812df61969aa0316dfa38bd2318b5a86b13eb419e4"
+        },
+        {
+          "directory": "photo-live-gallery",
+          "name": ".publisher.lock",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "directory": "photo-live-gallery",
+          "name": "09d1a4b2922466cb51cb316388c02b1f018b4e66a1da3a7dbde009ddc5527587.record",
+          "bytes": 129,
+          "sha256": "ae9c3ac6287e2a7b933b34ad100ffcf547f0fc35383197514be0912720d73ed0"
+        },
+        {
+          "directory": "photo-live-gallery",
+          "name": "9434408ab3ded30f6aa08174e3935e304dca973dd1d6a4ee7d15b59413456212.record",
+          "bytes": 129,
+          "sha256": "2c33a28d368a782e9fb8a1a4ddc4241365cd3ad8276281d899184dccffb4b646"
+        },
+        {
+          "directory": "photo-live-gallery",
+          "name": "8b9d9ea44f5213b8afab82ff310f93074418b4efedc7f27cd4fda87f1560d6c2.record",
+          "bytes": 129,
+          "sha256": "cd88a581424f96e792608070fd4815f3b9d3ac4f0c8bfe8084d3dcb5fbac807d"
+        }
+      ]
+    }
+  ],
+  "status": "PASS",
+  "checks": 4,
+  "assertions": [
+    "dedicated-emulator-only",
+    "version-83",
+    "supported-probe-scope",
+    "existing-imported-fixture-found-for-origin-diagnostic"
+  ]
+}

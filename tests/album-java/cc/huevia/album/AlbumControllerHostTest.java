@@ -31,6 +31,10 @@ public final class AlbumControllerHostTest {
     public static void main(String[] args) throws Exception {
         Path root = Files.createTempDirectory("album-controller-host-");
         try {
+            if (args.length > 0 && args[0].equals("save-targets")) {
+                liveDestinationsDefaultToAppAndRemainFrozenAcrossRetry(root.resolve("save-targets"));
+                System.out.println("PASS: " + checks + " photo save destination controller checks"); return;
+            }
             if (args.length > 0 && args[0].equals("download-recovery")) {
                 originalDownloadSkipsQueuedBrowseWithoutClosingTheSession(root.resolve("download-priority"));
                 interruptedDownloadRecoveryRebindsOnlyVerifiedPendingOriginals(root.resolve("recovery"));
@@ -61,6 +65,7 @@ public final class AlbumControllerHostTest {
                 liveResumeContinuesPastArchivedFailureWindow(root.resolve("live-receipt-window"));
                 System.out.println("PASS: " + checks + " production photo-live receipt checks"); return;
             }
+            liveDestinationsDefaultToAppAndRemainFrozenAcrossRetry(root.resolve("save-targets"));
             previewAndOriginalStaySeparate(root.resolve("normal"));
             largeOriginalDoesNotBlockThumbnail(root.resolve("large-original"));
             missingThumbnailDoesNotFetchOriginal(root.resolve("unsupported"));
@@ -1377,6 +1382,7 @@ public final class AlbumControllerHostTest {
         Peer peer = new Peer(); peer.pauseOriginal = true; byte[] secondOriginal = jpeg(5056, 9); peer.originals.put(44L, secondOriginal);
         List<DownloadedPhoto> published = new java.util.concurrent.CopyOnWriteArrayList<>();
         try (AlbumController controller = connected(root, peer)) {
+            controller.setPhotoLiveSaveTarget(PhotoSaveTarget.PHONE_ALBUM);
             controller.setPhotoLivePublisher(photo -> { published.add(photo); return "content://synthetic/" + photo.filename(); });
             AlbumControllerHostTest.<Void>call(callback -> controller.startPhotoLive("活动旧名", callback));
             String projectId = controller.photoLiveState().projectId;
@@ -1793,6 +1799,7 @@ public final class AlbumControllerHostTest {
         var observed = new java.util.concurrent.CopyOnWriteArrayList<PhotoLiveState>();
         try (AlbumController controller = connected(root, peer)) {
             controller.addPhotoLiveObserver(() -> observed.add(controller.photoLiveState()));
+            controller.setPhotoLiveSaveTarget(PhotoSaveTarget.PHONE_ALBUM);
             controller.setPhotoLiveAsyncPublisher((photo, callback) -> publications.add(callback));
             AlbumControllerHostTest.<Void>call(controller::startPhotoLive);
             check(controller.photoLiveState().transferStage.isEmpty() && controller.photoLiveState().currentIdentity.isEmpty(),
@@ -1899,13 +1906,13 @@ public final class AlbumControllerHostTest {
             var queue = (Deque<Object>) privateField(run, "queue").get(run);
             Class<?> candidateType = Arrays.stream(AlbumController.class.getDeclaredClasses())
                     .filter(type -> type.getSimpleName().equals("LiveCandidate")).findFirst().orElseThrow();
-            var candidateConstructor = candidateType.getDeclaredConstructor(String.class, PhotoItem.class);
+            var candidateConstructor = candidateType.getDeclaredConstructor(String.class, PhotoItem.class, PhotoSaveTarget.class);
             candidateConstructor.setAccessible(true);
             PhotoItem placeholder = new PhotoItem((String) privateField(controller, "session").get(controller), 42,
                     new PtpObjectInfo.Builder().storageId(1).objectFormat(0x3801).compressedSize(peer.original.length)
                             .filename("SYNTHETIC.JPG").build());
             for (int i = 0; i < 128; i++) {
-                Object waiting = candidateConstructor.newInstance("waiting-" + i, placeholder);
+                Object waiting = candidateConstructor.newInstance("waiting-" + i, placeholder, PhotoSaveTarget.APP_ONLY);
                 privateField(waiting, "ready").setLong(waiting, Long.MAX_VALUE);
                 queue.addLast(waiting);
             }
@@ -1959,7 +1966,7 @@ public final class AlbumControllerHostTest {
             var queue = (Deque<Object>) privateField(run, "queue").get(run);
             Class<?> candidateType = Arrays.stream(AlbumController.class.getDeclaredClasses())
                     .filter(type -> type.getSimpleName().equals("LiveCandidate")).findFirst().orElseThrow();
-            var candidateConstructor = candidateType.getDeclaredConstructor(String.class, PhotoItem.class);
+            var candidateConstructor = candidateType.getDeclaredConstructor(String.class, PhotoItem.class, PhotoSaveTarget.class);
             candidateConstructor.setAccessible(true);
             PhotoItem photo = new PhotoItem((String) privateField(controller, "session").get(controller), 42,
                     new PtpObjectInfo.Builder().storageId(1).objectFormat(0x3801).compressedSize(peer.original.length)
@@ -1968,7 +1975,7 @@ public final class AlbumControllerHostTest {
             Path completedFile = root.resolve("completed.jpg"); Files.write(completedFile, peer.original);
             DownloadedPhoto completed = new DownloadedPhoto(completedFile.toFile(), "completed.jpg");
             for (String identity : List.of("queued", "current", "failed", "gallery-failed", "pending")) {
-                Object candidate = candidateConstructor.newInstance(identity, photo);
+                Object candidate = candidateConstructor.newInstance(identity, photo, PhotoSaveTarget.APP_ONLY);
                 if (!identity.equals("pending")) privateField(candidate, "saved").set(candidate, completed);
                 if (identity.equals("queued")) queue.add(candidate);
                 if (identity.equals("current")) privateField(run, "current").set(run, candidate);
@@ -1977,7 +1984,7 @@ public final class AlbumControllerHostTest {
                 recent.put(identity, candidate);
             }
             for (int i = 0; i < 125; i++) {
-                Object candidate = candidateConstructor.newInstance("success-" + i, photo);
+                Object candidate = candidateConstructor.newInstance("success-" + i, photo, PhotoSaveTarget.APP_ONLY);
                 privateField(candidate, "saved").set(candidate, completed); recent.put("success-" + i, candidate);
             }
             var trim = AlbumController.class.getDeclaredMethod("trimLiveRecent", runType); trim.setAccessible(true);
@@ -1988,7 +1995,7 @@ public final class AlbumControllerHostTest {
             check(recent.size() == 120 && !recent.containsKey("success-0") && !recent.containsKey("success-9")
                             && recent.containsKey("success-10") && recent.containsKey("success-124"),
                     "Only oldest completed successes are retired when mixed history exceeds its ordinary bound");
-            Object publishing = candidateConstructor.newInstance("gallery-publishing", photo);
+            Object publishing = candidateConstructor.newInstance("gallery-publishing", photo, PhotoSaveTarget.PHONE_ALBUM);
             privateField(publishing, "saved").set(publishing, completed);
             privateField(publishing, "galleryPublishing").setBoolean(publishing, true);
             recent.put("gallery-publishing", publishing); trim.invoke(controller, run);
@@ -1997,7 +2004,7 @@ public final class AlbumControllerHostTest {
 
             recent.clear(); queue.clear(); privateField(run, "current").set(run, null);
             for (int i = 0; i < 256; i++) {
-                Object failed = candidateConstructor.newInstance("failed-" + i, photo);
+                Object failed = candidateConstructor.newInstance("failed-" + i, photo, PhotoSaveTarget.APP_ONLY);
                 privateField(failed, "error").set(failed, "Synthetic original error"); recent.put("failed-" + i, failed);
             }
             var references = (Map<Long, Long>) privateField(run, "references").get(run); references.put(43L, 1L);
@@ -2140,6 +2147,7 @@ public final class AlbumControllerHostTest {
     private static void liveGalleryPublicationRetriesWithoutDownloadingAgain(Path root) throws Exception {
         Peer peer = new Peer(); AtomicInteger publishes = new AtomicInteger();
         try (AlbumController controller = connected(root, peer)) {
+            controller.setPhotoLiveSaveTarget(PhotoSaveTarget.PHONE_ALBUM);
             controller.setPhotoLivePublisher(photo -> { if (publishes.incrementAndGet() == 1) throw new IOException("Synthetic gallery unavailable"); return "content://synthetic/gallery/43"; });
             AlbumControllerHostTest.<Void>call(controller::startPhotoLive); peer.setHandles(42, 43); peer.objectAdded(43);
             awaitCondition(() -> !controller.photoLiveState().photos.isEmpty() && !controller.photoLiveState().photos.get(0).galleryError.isEmpty(),
@@ -2164,7 +2172,9 @@ public final class AlbumControllerHostTest {
         var publications = new java.util.concurrent.LinkedBlockingQueue<AlbumController.Callback<String>>();
         AtomicInteger publishes = new AtomicInteger(), fallback = new AtomicInteger();
         try (AlbumController controller = connected(root, peer)) {
+            controller.setPhotoLiveSaveTarget(PhotoSaveTarget.PHONE_ALBUM);
             controller.setPhotoLivePublisher(photo -> { fallback.incrementAndGet(); return "content://sync/unused"; });
+            controller.setPhotoLiveSaveTarget(PhotoSaveTarget.PHONE_ALBUM);
             controller.setPhotoLiveAsyncPublisher((photo, callback) -> { publishes.incrementAndGet(); publications.add(callback); });
             AlbumControllerHostTest.<Void>call(controller::startPhotoLive); peer.setHandles(42, 43); peer.objectAdded(43);
             AlbumController.Callback<String> first = publications.poll(10, TimeUnit.SECONDS);
@@ -2203,6 +2213,7 @@ public final class AlbumControllerHostTest {
     private static void liveAsyncPublisherSettlesThrowsAndCallbacksExactlyOnce(Path root) throws Exception {
         Peer peer = new Peer(); AtomicInteger publications = new AtomicInteger();
         try (AlbumController controller = connected(root, peer)) {
+            controller.setPhotoLiveSaveTarget(PhotoSaveTarget.PHONE_ALBUM);
             controller.setPhotoLiveAsyncPublisher((photo, callback) -> {
                 if (publications.incrementAndGet() == 1) throw new IllegalStateException("synthetic enqueue rejection");
                 callback.onSuccess("content://async/gallery/settled");
@@ -2223,6 +2234,7 @@ public final class AlbumControllerHostTest {
     private static void liveAsyncCompletionCannotReplaceANewerRun(Path root) throws Exception {
         Peer peer = new Peer(); var publications = new java.util.concurrent.LinkedBlockingQueue<AlbumController.Callback<String>>();
         try (AlbumController controller = connected(root, peer)) {
+            controller.setPhotoLiveSaveTarget(PhotoSaveTarget.PHONE_ALBUM);
             controller.setPhotoLiveAsyncPublisher((photo, callback) -> publications.add(callback));
             AlbumControllerHostTest.<Void>call(callback -> controller.startPhotoLive("旧项目", callback));
             peer.setHandles(42, 43); peer.objectAdded(43);
@@ -2589,6 +2601,7 @@ public final class AlbumControllerHostTest {
                 check(setups.get() == 1 && !project.isEmpty() && identity.length() == 64 && photo.file().isFile(), "Original observer runs after setup and completed source classification");
                 originals.incrementAndGet(); throw new IllegalStateException("effect queue unavailable");
             });
+            controller.setPhotoLiveSaveTarget(PhotoSaveTarget.PHONE_ALBUM);
             controller.setPhotoLivePublisher(photo -> { throw new IOException("gallery unavailable"); });
             AlbumControllerHostTest.<Void>call(callback -> controller.startPhotoLive("Configured", project -> { setups.incrementAndGet(); check(peer.count(0x1009) == 0, "Project setup precedes all original acquisition"); }, callback));
             peer.setHandles(42, 43); peer.objectAdded(43);
@@ -2604,6 +2617,43 @@ public final class AlbumControllerHostTest {
         }
     }
 
+    private static void liveDestinationsDefaultToAppAndRemainFrozenAcrossRetry(Path root) throws Exception {
+        Peer peer = new Peer(); peer.pauseOriginal = true; Arrays.fill(peer.cameraGuid, (byte) 7);
+        AtomicInteger publications = new AtomicInteger(); String project;
+        try (AlbumController controller = connected(root, peer)) {
+            check(controller.photoLiveSaveTarget() == PhotoSaveTarget.APP_ONLY, "A fresh live controller defaults to App-only retention");
+            controller.setPhotoLivePublisher(photo -> { if (publications.incrementAndGet() == 1) throw new IOException("synthetic phone publication failure"); return "content://synthetic/target"; });
+            AlbumControllerHostTest.<Void>call(callback -> controller.startPhotoLive("Destinations", callback)); project = controller.photoLiveState().projectId;
+            peer.setHandles(42, 43); peer.objectAdded(43);
+            check(peer.originalPaused.await(5, TimeUnit.SECONDS), "The first App-only original is in flight before changing the next destination");
+            controller.setPhotoLiveSaveTarget(PhotoSaveTarget.PHONE_ALBUM); peer.releaseOriginal.countDown();
+            awaitCondition(() -> livePhoto(controller, 43) != null && livePhoto(controller, 43).status.equals("saved"), "App-only incoming photo completes durably");
+            PhotoLiveState.LivePhoto app = livePhoto(controller, 43);
+            check(app.saveTarget == PhotoSaveTarget.APP_ONLY && app.galleryUri.isEmpty() && app.galleryError.isEmpty() && publications.get() == 0,
+                    "An accepted App-only photo ignores later choices and never enters the publisher");
+            check(Arrays.equals(Files.readAllBytes(app.saved.file().toPath()), peer.original) && peer.count(0x1009, 43) == 1,
+                    "App-only retains complete original bytes exactly once");
+            peer.setHandles(42, 43, 44); peer.objectAdded(44);
+            awaitCondition(() -> livePhoto(controller, 44) != null && !livePhoto(controller, 44).galleryError.isEmpty(), "Explicit phone target reports its publication failure");
+            check(livePhoto(controller, 44).saveTarget == PhotoSaveTarget.PHONE_ALBUM && publications.get() == 1,
+                    "Only the next incoming photo captures the explicit phone destination");
+            controller.setPhotoLiveSaveTarget(PhotoSaveTarget.APP_ONLY); controller.retryPhotoLive();
+            awaitCondition(() -> !livePhoto(controller, 44).galleryUri.isEmpty() && livePhoto(controller, 44).galleryError.isEmpty(), "Explicit retry completes the frozen phone target");
+            check(publications.get() == 2 && peer.count(0x1009, 44) == 1 && livePhoto(controller, 43).galleryUri.isEmpty(),
+                    "Retry publishes only the failed photo, preserves target, and never downloads either original again");
+            controller.stopPhotoLive(); call(controller::listDownloads);
+            List<PhotoLiveReceipt> receipts = call(callback -> controller.listPhotoLiveReceipts(project, callback));
+            check(receipts.size() == 2 && receipts.stream().anyMatch(row -> row.saveTarget == PhotoSaveTarget.APP_ONLY)
+                            && receipts.stream().anyMatch(row -> row.saveTarget == PhotoSaveTarget.PHONE_ALBUM),
+                    "Receive receipts persist each accepted destination independently");
+        } finally { peer.releaseOriginal.countDown(); }
+        try (AlbumController recreated = new AlbumController(new Context(root.toFile()))) {
+            List<PhotoLiveReceipt> receipts = call(callback -> recreated.listPhotoLiveReceipts(project, callback));
+            check(receipts.size() == 2 && receipts.stream().anyMatch(row -> row.saveTarget == PhotoSaveTarget.APP_ONLY)
+                            && receipts.stream().anyMatch(row -> row.saveTarget == PhotoSaveTarget.PHONE_ALBUM),
+                    "Offline recreation preserves mixed destination receipts");
+        }
+    }
     private static PhotoPreview preview(AlbumController controller, PhotoItem photo) throws Exception {
         PreviewResult result = new PreviewResult(); controller.loadPreview(photo, result); return result.value();
     }

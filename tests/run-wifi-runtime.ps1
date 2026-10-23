@@ -5,7 +5,7 @@ $classes = Join-Path $PSScriptRoot '.build\wifi-runtime\classes'
 New-Item -ItemType Directory -Force -Path $classes | Out-Null
 $sources = @()
 foreach ($name in @('CameraWifiSession', 'CameraConnectionRuntime')) { $sources += Join-Path $projectRoot ('app\src\main\java\cc\huevia\connection\' + $name + '.java') }
-foreach ($name in @('CameraWifiNetwork', 'ConnectionTrace', 'PhotoLiveState', 'CameraProtocol', 'ConnectionInfo')) { $sources += Join-Path $projectRoot ('app\src\main\java\cc\huevia\album\' + $name + '.java') }
+foreach ($name in @('PhotoSaveTarget', 'CameraWifiNetwork', 'ConnectionTrace', 'PhotoLiveState', 'CameraProtocol', 'ConnectionInfo')) { $sources += Join-Path $projectRoot ('app\src\main\java\cc\huevia\album\' + $name + '.java') }
 foreach ($directory in @('wifi-retention-stubs', 'wifi-runtime-stubs', 'wifi-runtime-java')) { $sources += @(Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot $directory) -Recurse -Filter '*.java' | ForEach-Object FullName) }
 $compilePath = $AndroidJar + [IO.Path]::PathSeparator + (Join-Path $projectRoot 'app\build\manual\classes')
 & (Join-Path $JdkHome 'bin\javac.exe') --release 17 -encoding UTF-8 -cp $compilePath -d $classes @sources

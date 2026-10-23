@@ -1,0 +1,7 @@
+{"phase":"read-deployed-configuration-before-archive"}
+{"phase":"request-cloud-archive-address"}
+{"phase":"download-cloud-archive"}
+{"phase":"read-cloud-archive-response"}
+{"phase":"read-deployed-configuration-after-archive"}
+{"phase":"compare-deployed-members"}
+{"failed":true,"code":"PREPARATION_OR_RELEASE_CHECK_FAILED","checkCode":"DEPLOYED_MEMBER_COUNT_MISMATCH","errorType":"Error","phase":"compare-deployed-members"}

@@ -1,0 +1,7 @@
+All files should be loaded. Notifying the device.
+INSTRUMENTATION_RESULT: status=PASS
+INSTRUMENTATION_RESULT: stream=Photo editor native PASS; checks=273
+
+INSTRUMENTATION_CODE: -1
+/sdcard/Android/data/cc.huevia/files/photo-local-album-83/large-font/./: 11 files pulled, 0 skipped. 11.1 MB/s (5004886 bytes in 0.430s)
+Evidence: D:\dev\ai-project\nikon\docs\validation\photo-local-album-83\large-font

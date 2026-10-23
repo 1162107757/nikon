@@ -218,7 +218,7 @@ public final class PhotoProjectPresets {
                     try {
                     for (PhotoLiveReceipt receipt : receipts) if (receipt.identity.equals(identity)) {
                         if (receipt.createdAt < fixed.enabledSince) return;
-                        try { enqueue(fixed, identity, original); rebuild(); wake(); }
+                        try { enqueue(fixed, identity, original, receipt.saveTarget); rebuild(); wake(); }
                         catch (Exception failure) { enqueueFailed(projectId, identity, failure); }
                         return;
                     }
@@ -296,7 +296,7 @@ public final class PhotoProjectPresets {
         return preset;
     }
 
-    private void enqueue(PhotoProjectPresetStore.Config fixed, String identity, DownloadedPhoto original) throws IOException {
+    private void enqueue(PhotoProjectPresetStore.Config fixed, String identity, DownloadedPhoto original, PhotoSaveTarget target) throws IOException {
         PhotoProjectPresetStore current = requireStore();
         // A resumed/repeated original cannot acquire a new preset after the default changed.
         for (PhotoProjectPresetStore.Task previous : current.tasks(fixed.projectId)) if (previous.identity.equals(identity)) return;
@@ -304,7 +304,7 @@ public final class PhotoProjectPresets {
         if (!original.projectName().isEmpty()) projectNames.put(fixed.projectId, original.projectName());
         String display = basename(original.filename(), source.getName());
         PhotoProjectPresetStore.Task task = new PhotoProjectPresetStore.Task(fixed.projectId, identity, fixed.presetId,
-                fixed.presetName, source.getName(), display, source.length(), "queued", "", "", System.currentTimeMillis());
+                fixed.presetName, source.getName(), display, source.length(), "queued", "", "", System.currentTimeMillis(), target);
         current.queue(task); enqueueErrors.remove(pair(fixed.projectId, identity));
         if (paused) current.update(task.withStatus("error", "", pauseReason));
     }
@@ -335,7 +335,7 @@ public final class PhotoProjectPresets {
                     PhotoProjectPresetStore.Config actual = store.config(projectId);
                     if (!actual.presetId.equals(fixed.presetId) || actual.enabledSince != fixed.enabledSince) return;
                     for (PhotoLiveReceipt receipt : receipts) if (receipt.saved != null && receipt.createdAt >= fixed.enabledSince) {
-                        try { enqueue(fixed, receipt.identity, receipt.saved); }
+                        try { enqueue(fixed, receipt.identity, receipt.saved, receipt.saveTarget); }
                         catch (Exception failure) { fail(failure); }
                     }
                     rebuild(); wake();
@@ -373,6 +373,7 @@ public final class PhotoProjectPresets {
             current.update(processing); active = processing;
             this.processing = new Processing(processing, 0, "准备原图"); rebuild();
             batch.startTracked(Collections.singletonList(PhotoPresetBatch.Source.local(source)), processing.presetId,
+                    processing.saveTarget, false,
                     new AlbumController.Callback<Void>() {
                         @Override public void onSuccess(Void ignored) { }
                         @Override public void onError(String text) { worker.execute(() -> startFailed(processing, text)); }

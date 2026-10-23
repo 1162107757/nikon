@@ -1,0 +1,69 @@
+{
+  "status": "PREPARED_READ_ONLY_FINAL_CANDIDATE_AWAITING_ROOT_REVIEW",
+  "versionCode": 83,
+  "versionName": "0.16.0-beta",
+  "candidateApkSha256": "f320eef5e6068e94fff54f37509374d09f723492f6fb3077052d727e55d79ebd",
+  "candidateApkBytes": 3528301,
+  "notesSha256": "16e200a4a4a26ac2c71c504e6ed25d39228138b6d6848d2a3e12e3c21930491b",
+  "signerSha256": "04db0f9d3d76c9831a0778cfabc1a0aaab984e05398da16eb644950ccfa0ae31",
+  "signatureSchemes": [
+    2,
+    3
+  ],
+  "minSdk": 26,
+  "work": "online-library/build/huevia-83-final-reviewed",
+  "archiveSha256": "7a44057f762b195a6d35d00e3e6a8b646025c8f6b145c581f1bb02e7983b86bd",
+  "archiveBytes": 22084895,
+  "filesBefore": 42,
+  "filesAfter": 43,
+  "previousArchiveSha256": "59474d236d32ec3dfc9cb827d186689a58f157e38bdc5775ff860ff9924f3eaf",
+  "configurationSha256": "feaf078296f56adf1378068ad1a56a47a7aba62ca0ab17754860ebb41229df8e",
+  "productionSyntaxChecks": 22,
+  "operatorAndHelperSyntaxChecks": 9,
+  "runtimeArtifactTests": {
+    "skipped": 0,
+    "tests": 57,
+    "fail": 0,
+    "pass": 57
+  },
+  "archiveGuardTests": {
+    "skipped": 0,
+    "tests": 8,
+    "fail": 0,
+    "pass": 8
+  },
+  "diagnosticPreflightTests": {
+    "skipped": 0,
+    "tests": 2,
+    "fail": 0,
+    "pass": 2
+  },
+  "semanticCloneChecks": 7,
+  "helperCloneChecks": 2,
+  "zipStructuralOffsetPreserved": true,
+  "existingRuntimeBytesAndModesPreserved": true,
+  "preservedPriorBundledApks": 5,
+  "cachedBaselineFallbackUsed": false,
+  "deployed": false,
+  "releaseRecordCreated": false,
+  "published": false,
+  "provisionalStagePreserved": {
+    "archive": true,
+    "baseline": true,
+    "notes": true
+  },
+  "auditPath": "docs/validation/photo-local-album-83/operator83-final-stage-audit.json",
+  "auditSha256": "7ff6b7935d6aa246d9054815abc0e4f740968cbee51f07b899389c9b6f89b471",
+  "sourcePinsPath": "docs/validation/photo-local-album-83/operator83-final-source-pins.json",
+  "sourcePinsSha256": "fbf30d7af8ba3dcdf2b4179c4288298b2da08c5160ccfaf07cc8e3c3ef188b50",
+  "commands": [
+    "node --max-old-space-size=256 .tooling/prepare-huevia83-final-reviewed-operator.mjs",
+    "node --max-old-space-size=256 .tooling/huevia83-final-reviewed-baseline-check.mjs",
+    "$env:NODE_OPTIONS='--max-old-space-size=256'; node --max-old-space-size=256 .tooling/huevia83-final-reviewed-prepare.mjs",
+    "node --max-old-space-size=256 --experimental-vm-modules --test --test-concurrency=1 .tooling/huevia83-final-reviewed-observability.test.mjs",
+    "node --max-old-space-size=256 --test --test-concurrency=1 .tooling/huevia83-final-reviewed-archive.test.mjs",
+    "node --max-old-space-size=256 .tooling/huevia83-final-reviewed-staging-check.mjs"
+  ],
+  "logProvenance": "operator83-final-log-provenance.json",
+  "note": "All requested focused staging checks passed once. Preparation downloaded the live production baseline; its bounded read-only retry succeeded. No cached fallback, broad host tests, cloud mutation, deployment, release DB or device actions."
+}

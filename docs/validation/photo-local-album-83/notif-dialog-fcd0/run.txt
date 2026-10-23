@@ -1,0 +1,6 @@
+All files should be loaded. Notifying the device.
+INSTRUMENTATION_RESULT: status=FAIL
+INSTRUMENTATION_RESULT: stream=Photo editor native FAIL; native-screenshot-orientation-failure; java.lang.IllegalStateException: actual-RAW-row-opens-original-file-action-timeout
+
+INSTRUMENTATION_CODE: 0
+/sdcard/Android/data/cc.huevia/files/photo-local-album-83/phone/./: 12 files pulled, 0 skipped. 11.8 MB/s (6661979 bytes in 0.538s)

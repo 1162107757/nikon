@@ -49,6 +49,8 @@ public final class PhotoPresetBatchTest {
             cancelledRootResolutionAndDeletedEffectRecovery(root.resolve("cancel-root"));
             crossDirectoryOriginalAliasesReuseOneEffect(root.resolve("cross-directory"));
             individualDraftExports(root.resolve("individual-edits"));
+            explicitDestinationsAndFrozenRetry(root.resolve("save-destinations"));
+            newCopyRetryAfterDraftWriteFailureDoesNotPublishAgain(root.resolve("post-publication-retry"));
             System.out.println("PASS: " + checks + " photo-preset batch checks");
         } finally {
             try (var paths = Files.walk(root)) { for (Path path : paths.sorted(Comparator.reverseOrder()).toList()) Files.deleteIfExists(path); }
@@ -275,7 +277,7 @@ public final class PhotoPresetBatchTest {
         DownloadedPhoto compared = new PhotoPresetBatch(f.context, new AlbumController()).sourceFor(f.batch.state().results.get(0));
         check(compared.file().equals(source.file().getCanonicalFile()), "Verified cache hits backfill a source link usable by a fresh application batch instance");
         PhotoLiveGallery.failDerived=false; f.start(List.of(PhotoPresetBatch.Source.local(source))); f.await();
-        check(f.batch.state().completed==1 && f.batch.state().failed==0 && PhotoLiveGallery.rows.size()==2, "Retry reuses one derived copy and coalesces original/derived publication");
+        check(f.batch.state().completed==1 && f.batch.state().failed==0 && PhotoLiveGallery.rows.size()==1, "Retry reuses one derived copy and coalesces its publication");
         check(Arrays.equals(before,Files.readAllBytes(source.file().toPath())) && source.file().lastModified()==modified, "Original content and modification time are never changed");
         check(Arrays.equals(derived,Files.readAllBytes(output.toPath())), "Reapplying identical source/preset validates and reuses derived bytes");
         DownloadedPhoto alias=f.original("same-bytes-other-name.jpg"); f.start(List.of(PhotoPresetBatch.Source.local(alias))); f.await();
@@ -380,28 +382,28 @@ public final class PhotoPresetBatchTest {
         f.resetObservations(); f.start(mixed); f.await();
         PhotoPresetBatchState state = f.batch.state();
         check(state.total == 4 && state.completed == 4 && state.failed == 0 && state.merged == 3 && state.reused == 1, "Original, effect, byte alias and repeated input merge while accounting for all four selections");
-        check(state.results.size() == 1 && PhotoLiveGallery.publications.size() == 2 && android.graphics.BitmapFactory.decodedPaths.isEmpty(), "A merged job returns one result and publishes its original/effect once each");
+        check(state.results.size() == 1 && PhotoLiveGallery.publications.size() == 1 && android.graphics.BitmapFactory.decodedPaths.isEmpty(), "A merged job returns one result and publishes only its effect once");
         f.resetObservations(); PhotoLiveGallery.failDerived = true; f.start(mixed); f.await(); state = f.batch.state();
         check(state.failed == 4 && state.completed == 0 && state.cancelled == 0 && state.merged == 3 && state.results.size() == 1,
                 "Duplicate inputs inherit the first failed publication outcome without becoming false successes");
-        check(PhotoLiveGallery.publications.size() == 2 && f.effectCount() == 1, "A failed derived publish is attempted once in the job, not retried secretly by aliases");
+        check(PhotoLiveGallery.publications.size() == 1 && f.effectCount() == 1, "A failed derived publish is attempted once in the job, not retried secretly by aliases");
         PhotoLiveGallery.failDerived = false; f.resetObservations(); f.start(List.of(PhotoPresetBatch.Source.local(effect))); f.await();
-        check(f.batch.state().completed == 1 && f.batch.state().reused == 1 && f.batch.state().merged == 0 && PhotoLiveGallery.publications.size() == 2,
+        check(f.batch.state().completed == 1 && f.batch.state().reused == 1 && f.batch.state().merged == 0 && PhotoLiveGallery.publications.size() == 1,
                 "A new explicit batch retries publication while reusing the already complete output");
-        check(PhotoLiveGallery.rows.size() == 2 && f.effectCount() == 1, "Explicit retry does not multiply private or synthetic gallery copies");
+        check(PhotoLiveGallery.rows.size() == 1 && f.effectCount() == 1, "Explicit retry does not multiply private or synthetic gallery copies");
         byte[] freshNcp = NcpCompatibilityFixtures.ncp(); freshNcp[44] = (byte) 0x7d;
         PresetRecord fresh = new PresetLibrary(f.context.getFilesDir()).importFile("fresh-mixed.ncp", freshNcp).record;
         f.resetObservations(); f.start(mixed, fresh.id); f.await(); state = f.batch.state();
         check(state.completed == 4 && state.merged == 3 && state.reused == 0 && state.results.size() == 1 && f.effectCount() == 2,
                 "A new preset applied to mixed original/effect/aliases creates exactly one fresh result");
-        check(android.graphics.BitmapFactory.decodedPaths.equals(List.of(original.file().getCanonicalPath())) && PhotoLiveGallery.publications.size() == 2,
-                "A fresh mixed job performs one original decode and one publication for each original/effect pair");
+        check(android.graphics.BitmapFactory.decodedPaths.equals(List.of(original.file().getCanonicalPath())) && PhotoLiveGallery.publications.size() == 1,
+                "A fresh mixed job performs one original decode and one effect publication");
         f.resetObservations(); android.graphics.BitmapFactory.failDecode = true;
         byte[] alternate = NcpCompatibilityFixtures.ncp(); alternate[43] = (byte) 0x81;
         PresetRecord badRun = new PresetLibrary(f.context.getFilesDir()).importFile("decode-test.ncp", alternate).record;
         f.start(mixed, badRun.id); f.await(); state = f.batch.state();
         check(state.failed == 4 && state.merged == 3 && state.results.isEmpty() && state.reused == 0, "A failed unique render is inherited by every merged input and exposes no partial result");
-        check(android.graphics.BitmapFactory.decodedPaths.equals(List.of(original.file().getCanonicalPath())) && PhotoLiveGallery.publications.size() == 1,
+        check(android.graphics.BitmapFactory.decodedPaths.equals(List.of(original.file().getCanonicalPath())) && PhotoLiveGallery.publications.isEmpty(),
                 "A render failure is attempted once from the root and publishes no effect");
         android.graphics.BitmapFactory.failDecode = false;
     }
@@ -485,7 +487,7 @@ public final class PhotoPresetBatchTest {
         check(store.read(da.sourceSha).strength==20&&!store.read(da.sourceSha).exported,"Finishing older frozen draft cannot mark newer settings exported");
         PhotoLiveGallery.failDerived=true;PhotoEditStore.Draft alternate=new PhotoEditStore.Draft(da.sourceSha,ncp,"A 30",30,false);
         PhotoPresetBatch.Edit fail=PhotoPresetBatch.Edit.draft(PhotoPresetBatch.Source.local(a),alternate,"owner-a");accepted=new Result<>();f.batch.startEdits(List.of(fail,edits.get(2)),accepted,null);accepted.await();f.await();
-        check(f.batch.state().completed==1&&f.batch.state().failed==1&&f.batch.retryEdits().size()==1&&f.batch.retryEdits().get(0)==fail,"Partial failure retains only unfinished immutable per-photo choice");
+        check(f.batch.state().completed==1&&f.batch.state().failed==1&&f.batch.retryEdits().size()==1&&f.batch.retryEdits().get(0).draft==fail.draft&&f.batch.retryEdits().get(0).source==fail.source,"Partial failure retains only unfinished immutable per-photo choice");
         PhotoLiveGallery.failDerived=false;accepted=new Result<>();f.batch.startEdits(f.batch.retryEdits(),accepted,null);accepted.await();f.await();
         check(f.batch.state().completed==1&&f.batch.state().reused==1&&f.batch.retryEdits().isEmpty(),"Retry publishes completed pixels without rerendering or repeating successful photos");
         Runnable cancel=()->{if(f.batch.state().active&&!f.batch.state().currentFilename.isEmpty())f.batch.cancel();};f.batch.addObserver(cancel);
@@ -494,6 +496,63 @@ public final class PhotoPresetBatchTest {
         PhotoEditStore.Draft wrong=new PhotoEditStore.Draft("f".repeat(64),ncp,"wrong source",70,false);accepted=new Result<>();
         f.resetObservations();f.batch.startEdits(List.of(PhotoPresetBatch.Edit.draft(PhotoPresetBatch.Source.local(a),wrong,"owner-a")),accepted,null);accepted.await();f.await();
         check(f.batch.state().failed==1&&PhotoLiveGallery.publications.isEmpty()&&android.graphics.BitmapFactory.decodedPaths.isEmpty(),"Mismatched original identity is rejected before rendering or publication");
+    }
+    private static void explicitDestinationsAndFrozenRetry(Path root) throws Exception {
+        Fixture f = new Fixture(root); DownloadedPhoto source = f.original("APP-ONLY.JPG"), other = f.original("SECOND.JPG");
+        byte[] secondBytes = JPEG.clone(); secondBytes[4] ^= 31; Files.write(other.file().toPath(), secondBytes);
+        byte[] originalBytes = Files.readAllBytes(source.file().toPath()); long originalModified = source.file().lastModified();
+        PhotoEditStore.Draft draft = new PhotoEditStore.Draft(PhotoEditStore.hashFile(source.file()), NcpCompatibilityFixtures.ncp(), "Local", 64, false);
+        PhotoPresetBatch.Edit local = PhotoPresetBatch.Edit.draft(PhotoPresetBatch.Source.local(source), draft, "target-owner");
+        Result<Void> accepted = new Result<>();
+        f.batch.startEdits(List.of(local, PhotoPresetBatch.Edit.saved(PhotoPresetBatch.Source.local(other))), PhotoSaveTarget.APP_ONLY, false, accepted, null);
+        accepted.await(); f.await();
+        check(f.batch.state().completed == 2 && f.batch.state().failed == 0 && f.batch.state().results.size() == 2,
+                "APP_ONLY commits both edited and unchanged selections as durable local results");
+        check(PhotoLiveGallery.publications.isEmpty() && PhotoLiveGallery.rows.isEmpty(), "APP_ONLY never calls the publication boundary");
+        DownloadedPhoto effect = f.batch.state().results.get(0); byte[] pixels = Files.readAllBytes(effect.file().toPath());
+        f.resetObservations(); accepted = new Result<>(); f.batch.startEdits(List.of(local), accepted, null); accepted.await(); f.await();
+        check(f.batch.state().reused == 1 && PhotoLiveGallery.publications.equals(List.of(effect.file().getAbsolutePath())),
+                "Edited export defaults to phone album and publishes only its derived result");
+        check(PhotoLiveGallery.rows.size() == 1 && Arrays.equals(pixels, Files.readAllBytes(effect.file().toPath())),
+                "Publishing an app-only result reuses its verified pixels");
+        accepted = new Result<>(); f.batch.startEdits(List.of(local), accepted, null); accepted.await(); f.await();
+        check(PhotoLiveGallery.rows.size() == 1, "Same frozen edit publication reuses its existing row");
+        accepted = new Result<>(); f.batch.startEdits(List.of(local), PhotoSaveTarget.PHONE_ALBUM, true, accepted, null); accepted.await(); f.await();
+        check(PhotoLiveGallery.rows.size() == 2 && f.batch.state().reused == 1, "Explicit new copy adds one phone row without rerendering");
+        PhotoEditStore.Draft alternate = new PhotoEditStore.Draft(draft.sourceSha, NcpCompatibilityFixtures.ncp(), "Failed phone target", 37, false);
+        PhotoPresetBatch.Edit fail = PhotoPresetBatch.Edit.draft(PhotoPresetBatch.Source.local(source), alternate, "target-owner");
+        PhotoLiveGallery.failDerived = true; accepted = new Result<>();
+        f.batch.startEdits(List.of(fail, PhotoPresetBatch.Edit.saved(PhotoPresetBatch.Source.local(other))), PhotoSaveTarget.PHONE_ALBUM, false, accepted, null);
+        accepted.await(); f.await();
+        List<PhotoPresetBatch.Edit> retry = f.batch.retryEdits();
+        check(f.batch.state().completed == 1 && f.batch.state().failed == 1 && retry.size() == 1,
+                "Partial publication failure retains only the failed selection");
+        check(retry.get(0).saveTarget == PhotoSaveTarget.PHONE_ALBUM && !retry.get(0).forceNewCopy,
+                "Failed selection captures its accepted destination and copy policy");
+        PhotoLiveGallery.failDerived = false; f.resetObservations(); accepted = new Result<>();
+        f.batch.startEdits(retry, PhotoSaveTarget.APP_ONLY, true, accepted, null); accepted.await(); f.await();
+        check(f.batch.state().completed == 1 && f.batch.state().reused == 1 && PhotoLiveGallery.publications.size() == 1,
+                "Retry preserves phone destination despite a different current UI choice");
+        check(f.batch.retryEdits().isEmpty() && Arrays.equals(originalBytes, Files.readAllBytes(source.file().toPath()))
+                        && originalModified == source.file().lastModified() && Arrays.equals(secondBytes, Files.readAllBytes(other.file().toPath())),
+                "Destination changes and retries preserve every original byte and source modification time");
+    }
+    private static void newCopyRetryAfterDraftWriteFailureDoesNotPublishAgain(Path root) throws Exception {
+        Fixture f = new Fixture(root); DownloadedPhoto source = f.original("AFTER-COMMIT.JPG");
+        PhotoEditStore.Draft draft = new PhotoEditStore.Draft(PhotoEditStore.hashFile(source.file()), NcpCompatibilityFixtures.ncp(), "Committed copy", 58, false);
+        PhotoEditStore store = new PhotoEditStore(f.context.getFilesDir(), "copy-owner"); store.save(draft);
+        Path path; try (var files = Files.walk(f.context.getFilesDir().toPath())) { path = files.filter(file -> file.getFileName().toString().equals(draft.sourceSha + ".draft")).findFirst().orElseThrow(); }
+        byte[] valid = Files.readAllBytes(path); PhotoPresetBatch.Edit edit = PhotoPresetBatch.Edit.draft(PhotoPresetBatch.Source.local(source), draft, "copy-owner");
+        PhotoLiveGallery.beforePublish = photo -> { try { Files.write(path, new byte[]{1}); } catch (IOException failure) { throw new RuntimeException(failure); } };
+        try {
+            Result<Void> accepted = new Result<>(); f.batch.startEdits(List.of(edit), PhotoSaveTarget.PHONE_ALBUM, true, accepted, null); accepted.await(); f.await();
+            check(f.batch.state().failed == 1 && PhotoLiveGallery.rows.size() == 1 && f.batch.retryEdits().size() == 1,
+                    "A history-write failure after a confirmed new copy retains the exact failed edit for retry");
+            Files.write(path, valid); PhotoLiveGallery.beforePublish = null; accepted = new Result<>();
+            f.batch.startEdits(f.batch.retryEdits(), PhotoSaveTarget.PHONE_ALBUM, true, accepted, null); accepted.await(); f.await();
+            check(f.batch.state().completed == 1 && f.batch.state().reused == 1 && PhotoLiveGallery.rows.size() == 1 && store.read(draft.sourceSha).exported,
+                    "Retry completes draft history without making a second explicit new phone copy");
+        } finally { PhotoLiveGallery.beforePublish = null; }
     }
     private static final class Fixture {
         final Context context; final AlbumController album=new AlbumController(); final PhotoPresetBatch batch; final PresetRecord preset; final Path originals;

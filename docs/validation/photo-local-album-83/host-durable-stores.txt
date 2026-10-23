@@ -1,0 +1,6 @@
+Picked up JAVA_TOOL_OPTIONS: -Xmx256m
+Picked up JAVA_TOOL_OPTIONS: -Xmx256m
+PASS: 117 photo-live receipt store checks
+Picked up JAVA_TOOL_OPTIONS: -Xmx256m
+Picked up JAVA_TOOL_OPTIONS: -Xmx256m
+PASS: 227 project-preset store checks

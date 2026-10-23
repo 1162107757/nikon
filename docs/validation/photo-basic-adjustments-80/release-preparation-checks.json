@@ -1,0 +1,25 @@
+{
+  "recordedAtUtc": "2026-10-22T15:30:24.3394447Z",
+  "apkSha256": "4aea78f19ddc4e245e27470b29c9f111674f74c2e22b3229d03a2ec5fd6834bb",
+  "preparationAudit": "online-library/build/huevia-80-final/audit.json",
+  "productionArchiveIncrement": "one final signed APK; all 39 previous members and Unix modes preserved",
+  "syntaxChecks": 22,
+  "productionStageRuntimeTests": {
+    "passed": 57,
+    "failed": 0,
+    "skipped": 0,
+    "log": "online-library/build/huevia-80-final/runtime-tests.txt"
+  },
+  "offlineArchiveGuardTests": {
+    "passed": 8,
+    "failed": 0,
+    "command": "node --test .tooling/huevia80-final-archive.test.mjs",
+    "scope": "offline repack fixture and tamper/path/mode/member checks; not evidence of deployment"
+  },
+  "safeDiagnosticTests": {
+    "passed": 2,
+    "failed": 0,
+    "command": "node --test .tooling/huevia80-final-observability.test.mjs",
+    "scope": "fixed safe diagnostics and inspection write guards"
+  }
+}

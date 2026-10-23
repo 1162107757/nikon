@@ -69,12 +69,15 @@ import cc.huevia.library.PresetRecord;
 import cc.huevia.library.PresetCategories;
 import cc.huevia.library.PresetDownloadTasks;
 import cc.huevia.album.PhotoProjectPresets;
+import cc.huevia.album.DownloadedPhoto;
+import cc.huevia.album.PhotoSaveTarget;
 import cc.huevia.ncp.NcpFile;
 import cc.huevia.ncp.NcpPictureControlConverter;
 import cc.huevia.ncp.PresetPreviewProfile;
 import cc.huevia.ncp.PresetPreviewProfiles;
 import cc.huevia.picturecontrol.PictureControlData;
 import cc.huevia.ui.AlbumPanel;
+import cc.huevia.ui.LocalAlbumPanel;
 import cc.huevia.ui.AccountPanel;
 import cc.huevia.ui.CommunityPanel;
 import cc.huevia.ui.PersonalPresetPanel;
@@ -144,6 +147,7 @@ public final class MainActivity extends Activity {
     private CameraConnectionRuntime.ImportStatus shownImportStatus;
     private ConnectionUiState renderedConnectionState;
     private final Runnable connectionObserver = this::syncConnectionState;
+    private final Runnable localPhotoLibraryObserver = this::refreshLocalPhotoLibrary;
     private final ExecutorService images = Executors.newFixedThreadPool(2);
     private final ExecutorService presetImages = Executors.newFixedThreadPool(2);
     private final Map<String, PreviewJob> previewJobs = new HashMap<>();
@@ -175,6 +179,9 @@ public final class MainActivity extends Activity {
     private PresetLibrary library;
     private OnlinePresetRepository online;
     private AlbumPanel album;
+    private LocalAlbumPanel localAlbum;
+    private AlbumPanel localPhotoEditor;
+    private boolean localAlbumTab;
     private AccountPanel account;
     private CommunityPanel community;
     private View settingsUnreadDot, settingsNavigationItem, settingsMessageEntry;
@@ -374,7 +381,7 @@ public final class MainActivity extends Activity {
             @Override public void onLoginRequired() { account.open(); }
             @Override public void onDownloadPreset(OnlinePreset preset) { downloadPreset(preset); }
             @Override public void onOpenPreset(OnlinePreset preset, String focusCommentId) {
-                albumTab = false; settingsTab = false; wirelessGuide = false; confirmation = null; importOutcome = null;
+                albumTab = false; localAlbumTab = false; settingsTab = false; wirelessGuide = false; confirmation = null; importOutcome = null;
                 community.focusInlineComment(focusCommentId); openPreset(preset, false);
             }
         });
@@ -387,6 +394,8 @@ public final class MainActivity extends Activity {
         });
         if (state != null) {
             localTab = state.getBoolean("local", true); albumTab = state.getBoolean("album"); settingsTab = state.getBoolean("settings");
+            localAlbumTab = state.getBoolean("localAlbumTab");
+            if (localAlbumTab) { albumTab = false; settingsTab = false; }
             localCategoryFilter = state.getString("localPresetCategory", PresetCategories.ALL);
             onlineCategoryFilter = state.getString("onlinePresetCategory", PresetCategories.ALL);
             settingsReturnToPreset = state.getBoolean("settingsReturnToPreset");
@@ -407,12 +416,13 @@ public final class MainActivity extends Activity {
         album = new AlbumPanel(this, new AlbumPanel.Host() {
             @Override public AutoCloseable beginPhotoWork() { return connections.beginPhotoOperation(); }
             @Override public void beforePhotoLive(Runnable start) {
-                preparePhotoSave(() -> preparePhotoLive(start));
+                preparePhotoSave(connections.album.photoLiveSaveTarget(), () -> preparePhotoLive(start));
             }
             @Override public void beforePhotoLiveProject(String id, Runnable start) {
-                preparePhotoSave(() -> preparePhotoLive(start, id));
+                preparePhotoSave(connections.album.photoLiveSaveTarget(), () -> preparePhotoLive(start, id));
             }
             @Override public void beforeSavePhotos(Runnable save) { preparePhotoSave(save); }
+            @Override public void beforeSavePhotos(PhotoSaveTarget target, Runnable save) { preparePhotoSave(target, save); }
             @Override public void beforeConnect(Runnable connect) {
                 if (!canChangeConnection()) { album.connectionStartFailed("请完成或取消当前照片任务后再更改连接。", connect); return; }
                 pendingConnectionAccepted = !pendingImportId.isEmpty();
@@ -429,7 +439,7 @@ public final class MainActivity extends Activity {
                 ensureCameraWifi(() -> continueAlbumConnection(connect), error -> album.connectionStartFailed(error, connect));
             }
             @Override public void onChanged() {
-                if (!destroyed) { render(); resumePendingImport(); resumePendingPhotoLive(); }
+                if (!destroyed) { if (!localAlbumTab) render(); resumePendingImport(); resumePendingPhotoLive(); }
             }
             @Override public void onConnectionCancelled() {
                 cancelPendingCameraWifi();
@@ -438,19 +448,46 @@ public final class MainActivity extends Activity {
                 pendingImportId = ""; pendingConnectionAccepted = false;
                 if (returnToLive) {
                     if (album.isConnectionGuide()) album.goBack();
-                    settingsTab = false; albumTab = true; wirelessGuide = false; message = ""; render();
+                    settingsTab = false; localAlbumTab = false; albumTab = true; wirelessGuide = false; message = ""; render();
                 } else if (settingsReturnToPreset) returnToPreset();
             }
             @Override public void onConnectionRequired(String operation) { showConnectionRequired(operation); }
             @Override public void onPhotoLiveConnectionRequired() { showPhotoLiveConnectionRequired(); }
             @Override public void onPhotoLiveProjectConnectionRequired(String id) { showPhotoLiveProjectConnectionRequired(id); }
             @Override public void onPresetRequired() { showPresetRequired(); }
+            @Override public void onProcessPhoto(DownloadedPhoto photo) { openLocalPhoto(photo); }
             @Override public void onMessage(String title, String text) { notice(title, text); }
             @Override public void onFeedback(String title, String text) { feedback(title, text); }
             @Override public void onActionFeedback(String title, String text, String action, Runnable task) {
                 feedback(title, text, action, task);
             }
         }, connections.album, connections.photoPresets, connections.projectPresets);
+        localPhotoEditor = new AlbumPanel(this, new AlbumPanel.Host() {
+            @Override public boolean isLocalWorkspaceVisible() { return localAlbumTab && activityVisible && !destroyed && !account.isOpen() && !community.isOpen() && !updates.isOpen(); }
+            @Override public AutoCloseable beginPhotoWork() { return connections.beginPhotoOperation(); }
+            @Override public void beforeSavePhotos(Runnable save) { preparePhotoSave(save); }
+            @Override public void beforeSavePhotos(PhotoSaveTarget target, Runnable save) { preparePhotoSave(target, save); }
+            @Override public void onChanged() {
+                if (!destroyed && localAlbumTab && localPhotoEditor != null) {
+                    if (!localPhotoEditor.canGoBack() && localAlbum != null) localAlbum.refresh();
+                    render();
+                }
+            }
+            @Override public void onPresetRequired() { switchRoot(0); }
+            @Override public void onProcessPhoto(DownloadedPhoto photo) { openLocalPhoto(photo); }
+            @Override public void onMessage(String heading, String detail) { notice(heading, detail); }
+            @Override public void onFeedback(String heading, String detail) { feedback(heading, detail); }
+            @Override public void onActionFeedback(String heading, String detail, String label, Runnable action) { feedback(heading, detail, label, action); }
+        }, connections.album, connections.photoPresets, connections.projectPresets, true);
+        localAlbum = new LocalAlbumPanel(this, connections.photoPresets, new LocalAlbumPanel.Host() {
+            @Override public void changed() { if (!destroyed && ready && localAlbumTab) render(); }
+            @Override public void open(DownloadedPhoto photo) { openLocalPhoto(photo); }
+            @Override public void batch(List<DownloadedPhoto> photos) { localPhotoEditor.chooseLocalWorkspaceAction(photos); }
+            @Override public void feedback(String heading, String detail) { MainActivity.this.feedback(heading, detail); }
+            @Override public void addFilters() { switchRoot(0); }
+        });
+        if (state != null) localAlbum.restoreState(state);
+        connections.album.addPhotoLibraryObserver(localPhotoLibraryObserver);
         connections.addObserver(connectionObserver);
         syncConnectionState();
         IntentFilter filter = new IntentFilter(USB_PERMISSION);
@@ -464,9 +501,9 @@ public final class MainActivity extends Activity {
             try {
                 library = new PresetLibrary(getFilesDir());
                 try { personal=new PersonalPresetPanel(this,library,new PersonalPresetPanel.Host(){
-                    @Override public void changed(){if(!destroyed&&ready&&!busy&&!albumTab&&!settingsTab&&!account.isOpen()&&!community.isOpen()&&detailId.isEmpty()&&detailOnline==null)render();}
+                    @Override public void changed(){if(!destroyed&&ready&&!busy&&!albumTab&&!localAlbumTab&&!settingsTab&&!account.isOpen()&&!community.isOpen()&&detailId.isEmpty()&&detailOnline==null)render();}
                     @Override public void login(){account.open();}
-                    @Override public boolean canPrompt(){return activityVisible&&ready&&!busy&&!destroyed&&!albumTab&&!settingsTab&&!account.isOpen()&&!community.isOpen()&&detailId.isEmpty()&&detailOnline==null;}
+                    @Override public boolean canPrompt(){return activityVisible&&ready&&!busy&&!destroyed&&!albumTab&&!localAlbumTab&&!settingsTab&&!account.isOpen()&&!community.isOpen()&&detailId.isEmpty()&&detailOnline==null;}
                 });}catch(IOException syncFailure){message="个人云端同步记录暂不可读取，本机预设仍可使用。";}
                 online = new OnlinePresetRepository(getFilesDir(), library);
                 try { online.useManagedEndpoint(DEFAULT_CATALOG_URL); }
@@ -488,7 +525,7 @@ public final class MainActivity extends Activity {
                     updates.automaticCheck(); community.refreshUnread();if(personal!=null)personal.resumed();
                     syncConnectionState();
                     if (deferredResult != null) { Intent savedResult = deferredResult; int request = deferredRequest; deferredResult = null; onActivityResult(request, RESULT_OK, savedResult); }
-                    else if (!localTab && !albumTab && !settingsTab) loadCatalog(false);
+                    else if (!localTab && !albumTab && !localAlbumTab && !settingsTab) loadCatalog(false);
                 });
             } catch (Exception e) { onUi(() -> { initializationError = readable(e); ready = true; render(); }); }
         });
@@ -507,7 +544,7 @@ public final class MainActivity extends Activity {
         if (destroyed) return;
         if (community != null) {
             community.setInlineVisible(false);
-            if (albumTab || settingsTab || wirelessGuide || confirmation != null || importOutcome != null
+            if (albumTab || localAlbumTab || settingsTab || wirelessGuide || confirmation != null || importOutcome != null
                     || (detailId.isEmpty() && detailOnline == null)) community.detachInlineComments();
         }
         if (activeComparison != null) activeComparison.release();
@@ -526,13 +563,14 @@ public final class MainActivity extends Activity {
                     connections.prepareAlbumFromCurrent(true);
                 });
         renderedConnectionState = new ConnectionUiState(connections, album, preparedWireless);
-        if (ready && albumTab && !wirelessGuide && album.isImmersive()) {
+        AlbumPanel activeAlbumPanel = activeAlbumPanel();
+        if (ready && activeAlbumPanel != null && !wirelessGuide && activeAlbumPanel.isImmersive()) {
             getWindow().setStatusBarColor(Color.BLACK); getWindow().setNavigationBarColor(Color.BLACK);
             decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                     | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
             shell = vertical(); shell.setBackgroundColor(Color.BLACK);
-            View viewerContent = album.createView();
+            View viewerContent = activeAlbumPanel.createView();
             shell.addView(viewerContent, new LinearLayout.LayoutParams(-1, -1));
             setContentView(shell); shell.requestApplyInsets();
             transitionTo(viewerContent);
@@ -572,25 +610,30 @@ public final class MainActivity extends Activity {
         boolean communityPage = !accountPage && community.isOpen();
         boolean updatePage = !accountPage && !communityPage && updates.isOpen();
         boolean settingsGuide = settingsTab && !accountPage && !communityPage && !updatePage && album.isConnectionGuide();
-        boolean presetPage = !albumTab && !settingsTab;
+        boolean presetPage = !albumTab && !localAlbumTab && !settingsTab;
         boolean detailPage = presetPage && !wirelessGuide && confirmation == null && importOutcome == null
                 && (!detailId.isEmpty() || detailOnline != null);
         community.setInlineVisible(detailPage && !accountPage && !communityPage && !updatePage);
         if (!detailPage) community.detachInlineComments();
         boolean back = accountPage || communityPage || updatePage || wirelessGuide || settingsGuide || confirmation != null || importOutcome != null
-                || (presetPage && (!detailId.isEmpty() || detailOnline != null)) || (albumTab && album.canGoBack());
-        LinearLayout bar = horizontal(); bar.setPadding(dp(back ? 10 : 22), dp(back ? 8 : 17), dp(16), dp(8));
+                || (presetPage && (!detailId.isEmpty() || detailOnline != null)) || (albumTab && album.canGoBack())
+                || (localAlbumTab && (localPhotoEditor.canGoBack() || localAlbum.canGoBack()));
+        boolean compactLocalAlbum = localAlbumTab && !localPhotoEditor.isImmersive() && !accountPage && !communityPage && !updatePage
+                && getResources().getConfiguration().screenHeightDp < 480
+                && getResources().getConfiguration().screenWidthDp > getResources().getConfiguration().screenHeightDp;
+        LinearLayout bar = horizontal(); bar.setPadding(dp(back ? 10 : compactLocalAlbum ? 16 : 22), dp(compactLocalAlbum ? 0 : back ? 8 : 17), dp(16), dp(compactLocalAlbum ? 0 : 8));
+        if (compactLocalAlbum) bar.setMinimumHeight(dp(48));
         if (back) bar.addView(iconButton(AppIcon.Kind.BACK, "返回", this::goBack));
         title = text(accountPage ? account.title() : communityPage ? community.title() : updatePage ? "应用更新" : wirelessGuide ? (wirelessRecovery ? "无线核对预设" : wirelessSettingsProbe ? "预设支持检测" : "读取相机预设")
-                : settingsGuide ? "Wi-Fi 无线连接" : settingsTab ? "设置" : albumTab ? album.title()
+                : settingsGuide ? "Wi-Fi 无线连接" : settingsTab ? "设置" : localAlbumTab ? localAlbum.title() : albumTab ? "同步"
                 : importOutcome != null ? "导入结果" : confirmation != null ? "确认导入"
-                : (!detailId.isEmpty() || detailOnline != null ? "预设详情" : "预设库"), back ? 20 : 32, true);
+                : (!detailId.isEmpty() || detailOnline != null ? "预设详情" : "预设库"), back || compactLocalAlbum ? 20 : 32, true);
         title.setLetterSpacing(back ? -.015f : -.03f);
         title.setMaxLines(1);title.setEllipsize(TextUtils.TruncateAt.END);
         bar.addView(title, new LinearLayout.LayoutParams(0, -2, 1));
         View accountAction = accountPage ? account.createHeaderAction(colors) : null;
         if (accountAction != null) bar.addView(accountAction);
-        if (!back && !settingsTab) {
+        if (!back && !settingsTab && !localAlbumTab) {
             bar.addView(connectionIndicator(albumTab));
         }
         pane.addView(bar);
@@ -608,16 +651,22 @@ public final class MainActivity extends Activity {
         else if (wirelessGuide) renderWirelessGuide();
         else if (settingsGuide) renderCameraConnectionGuide();
         else if (settingsTab) renderSettings();
+        else if (localAlbumTab) {
+            View content = localPhotoEditor.isImmersive() ? localPhotoEditor.createView() : localAlbum.createView();
+            if (content.getParent() instanceof ViewGroup) ((ViewGroup) content.getParent()).removeView(content);
+            body.addView(content, new LinearLayout.LayoutParams(-1, -1));
+        }
         else if (albumTab) body.addView(album.createView(), new LinearLayout.LayoutParams(-1, -1));
         else if (importOutcome != null) renderImportOutcome();
         else if (confirmation != null) renderConfirmation();
         else if (!detailId.isEmpty() || detailOnline != null) renderDetail();
         else renderHome();
-        if (!back && !(albumTab && album.isTransferBusy())) {
+        if (!back || albumTab && !album.isImmersive() && !accountPage && !communityPage && !updatePage && !wirelessGuide) {
             GlassBar material = new GlassBar(this); material.setBackdrop(pane);
             LinearLayout navigation = horizontal(); navigation.setPadding(dp(5), dp(5), dp(5), dp(5));
             nav(navigation, "预设", AppIcon.Kind.PRESETS, presetPage, () -> switchRoot(0));
-            nav(navigation, "相册", AppIcon.Kind.ALBUM, albumTab, () -> switchRoot(1));
+            nav(navigation, "同步", AppIcon.Kind.CAMERA, albumTab, () -> switchRoot(1));
+            nav(navigation, "相册", AppIcon.Kind.ALBUM, localAlbumTab, () -> switchRoot(3));
             nav(navigation, "设置", AppIcon.Kind.SETTINGS, settingsTab, () -> switchRoot(2));
             material.addView(navigation, new FrameLayout.LayoutParams(-1, -2));
             int navWidth = dp(Math.min(360, Math.min(getResources().getConfiguration().screenWidthDp, 720) - 48));
@@ -639,12 +688,29 @@ public final class MainActivity extends Activity {
         if(personal!=null)personal.offerConsent();
     }
 
+    private void openLocalPhoto(DownloadedPhoto photo) {
+        if (destroyed || photo == null || localPhotoEditor == null || waitForCurrentTask()) return;
+        switchRoot(3);
+        if (!localAlbumTab) return;
+        localPhotoEditor.openLocalWorkspace(java.util.Collections.singletonList(photo), 0);
+        render();
+    }
+
+    private void refreshLocalPhotoLibrary() {
+        runOnUiThread(() -> { if (!destroyed && activityVisible && localAlbumTab && localAlbum != null && localPhotoEditor != null && !localPhotoEditor.isImmersive()) localAlbum.refresh(); });
+    }
+    private AlbumPanel activeAlbumPanel() {
+        if (localAlbumTab && localPhotoEditor != null && localPhotoEditor.isImmersive()) return localPhotoEditor;
+        return albumTab ? album : null;
+    }
+
     private String navigationRoute() {
         if (account != null && account.isOpen()) return account.navigationKey();
         if (community != null && community.isOpen()) return community.navigationKey();
         if (updates != null && updates.isOpen()) return "settings:updates";
         if (wirelessGuide) return "wireless:" + wirelessSettingsProbe + ":" + wirelessRecovery;
         if (settingsTab) return account.isOpen() ? account.navigationKey() : album.isConnectionGuide() ? "settings:wifi" : "settings";
+        if (localAlbumTab) return "local-album:" + (localPhotoEditor != null && localPhotoEditor.isImmersive() ? localPhotoEditor.navigationKey() : localAlbum.title());
         if (albumTab) return "album:" + album.navigationKey();
         if (importOutcome != null) return "preset:result";
         if (confirmation != null) return "preset:confirmation";
@@ -654,7 +720,7 @@ public final class MainActivity extends Activity {
 
     private void transitionTo(View content) {
         String route = navigationRoute();
-        int root = settingsTab ? 2 : albumTab ? 1 : 0;
+        int root = settingsTab ? 3 : localAlbumTab ? 2 : albumTab ? 1 : 0;
         if (ready && !lastRoute.isEmpty() && !lastRoute.equals(route)) {
             topNotice.dismiss();
             boolean photo = route.contains("DETAIL") || lastRoute.contains("DETAIL");
@@ -859,9 +925,13 @@ public final class MainActivity extends Activity {
     }
 
     private void preparePhotoSave(Runnable save) {
+        preparePhotoSave(PhotoSaveTarget.PHONE_ALBUM, save);
+    }
+
+    private void preparePhotoSave(PhotoSaveTarget target, Runnable save) {
         if (destroyed || isFinishing() || save == null) return;
         if (waitForCurrentTask()) return;
-        if (Build.VERSION.SDK_INT <= 28 && checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        if (target == PhotoSaveTarget.PHONE_ALBUM && Build.VERSION.SDK_INT <= 28 && checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != android.content.pm.PackageManager.PERMISSION_GRANTED) {
             if (pendingPhotoSave != null) { feedback("正在等待存储权限", "请先完成系统存储权限选择，再继续保存照片。"); return; }
             pendingPhotoSave = save;
@@ -869,7 +939,7 @@ public final class MainActivity extends Activity {
             return;
         }
         final CameraConnectionRuntime.OperationLease lease;
-        try { requestConnectionNotification(); lease = connections.beginPhotoOperation(); }
+        try { if (target == PhotoSaveTarget.PHONE_ALBUM) requestConnectionNotification(); lease = connections.beginPhotoOperation(); }
         catch (RuntimeException unavailable) { feedback("照片任务未开始", readable(unavailable)); return; }
         try { save.run(); }
         finally { lease.close(); }
@@ -877,6 +947,7 @@ public final class MainActivity extends Activity {
 
     @Override public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (localAlbum != null && localAlbum.onRequestPermissionsResult(requestCode, permissions, grantResults)) return;
         if (requestCode == CAMERA_WIFI_PERMISSION) {
             Runnable connect = pendingWifiConnect;
             Consumer<String> failure = pendingWifiFailure;
@@ -1356,7 +1427,7 @@ public final class MainActivity extends Activity {
         if (!canChangeConnection()) return;
         if (album.hasCameraConnection()) album.configureConnection(album.connectionHost(), album.connectionPort());
         else if (hasPreparedWireless()) album.configureConnection(preparedWirelessHost, preparedWirelessPort);
-        settingsTab = true; albumTab = false; wirelessGuide = false; message = "";
+        settingsTab = true; albumTab = false; localAlbumTab = false; wirelessGuide = false; message = "";
         album.openConnectionSettings(); render();
     }
 
@@ -1453,7 +1524,7 @@ public final class MainActivity extends Activity {
                 // Account overlays and a different preset may have replaced this mount while the read ran.
                 String current = detailOnline != null ? detailOnline.sha256 : detailId;
                 if (detailCommentsMount == null || detailScroll == null || !sha.equals(current)
-                        || account.isOpen() || community.isOpen() || albumTab || settingsTab) return;
+                        || account.isOpen() || community.isOpen() || albumTab || localAlbumTab || settingsTab) return;
                 if (match != null) {
                     int position = detailScroll.getScrollY(); ScrollView scroll = detailScroll;
                     detailCommentsMount.removeAllViews();
@@ -1924,7 +1995,7 @@ public final class MainActivity extends Activity {
     private void loadCatalog(boolean cached) {
         if (!ready || online == null || busy || loadingCatalog) return;
         if (!cached) { catalogPage = 0; catalogHasMore = false; loadCatalogPage(false); return; }
-        loadingCatalog = true; if (!albumTab && detailOnline == null && detailId.isEmpty()) render();
+        loadingCatalog = true; if (!albumTab && !localAlbumTab && detailOnline == null && detailId.isEmpty()) render();
         worker.execute(() -> {
             try { online.useManagedEndpoint(DEFAULT_CATALOG_URL); }
             catch (IOException ignored) { /* Repository reports the failure and never requests a legacy endpoint. */ }
@@ -1939,7 +2010,7 @@ public final class MainActivity extends Activity {
         final int next = append ? catalogPage + 1 : 1, token = ++catalogEpoch;
         final String category = PresetCategories.ALL.equals(onlineCategoryFilter) ? "" : onlineCategoryFilter.isEmpty() ? "__uncategorized__" : onlineCategoryFilter;
         loadingCatalog = true;
-        if (!append && !albumTab && !settingsTab && detailOnline == null && detailId.isEmpty()) render();
+        if (!append && !albumTab && !localAlbumTab && !settingsTab && detailOnline == null && detailId.isEmpty()) render();
         images.execute(() -> {
             try {
                 OnlinePresetRepository.PageResult result = online.fetchPage(next, 20, category);
@@ -2045,7 +2116,7 @@ public final class MainActivity extends Activity {
     private void applyRefreshedPresetLibrary() {
         for (List<PresetDownloadTarget> targets : presetDownloadTargets.values())
             for (PresetDownloadTarget target : targets) if (target.epoch == imageEpoch) updatePresetDownloadTarget(target);
-        if (busy || albumTab || settingsTab || account.isOpen() || community.isOpen() || updates.isOpen()) return;
+        if (busy || albumTab || localAlbumTab || settingsTab || account.isOpen() || community.isOpen() || updates.isOpen()) return;
         if (!detailPresetSha.isEmpty() && detailPresetFooter != null) {
             PresetRecord local = library.findBySha256(detailPresetSha);
             if (local == null && detailOnline == null) { detailId = ""; render(); return; }
@@ -2126,6 +2197,7 @@ public final class MainActivity extends Activity {
 
     @Override protected void onActivityResult(int request, int result, Intent data) {
         super.onActivityResult(request, result, data);
+        if (localAlbum != null && localAlbum.onActivityResult(request, result, data)) return;
         if (request == CAMERA_WIFI_SYSTEM_SETTINGS) {
             Runnable resume = pendingSystemWifiReturn; pendingSystemWifiReturn = null;
             if (!destroyed && resume != null) resume.run();
@@ -2142,7 +2214,7 @@ public final class MainActivity extends Activity {
             }
             return;
         }
-        if (request == AlbumPanel.REQUEST_EXPORT) { album.onActivityResult(request, result, data); return; }
+        if (request == AlbumPanel.REQUEST_EXPORT) { (localAlbumTab ? localPhotoEditor : album).onActivityResult(request, result, data); return; }
         if (result != RESULT_OK || data == null || data.getData() == null) return;
         if (!ready && (request == PICK_NCP || request == PICK_SAMPLE)) { deferredRequest = request; deferredResult = data; return; }
         Uri uri = data.getData();
@@ -2151,7 +2223,7 @@ public final class MainActivity extends Activity {
             final String owner=personal==null?"":personal.owner();final boolean shouldImport = importAfterPick; importAfterPick = false; startBusy("正在添加预设…");
             worker.execute(() -> { try {
                 PresetLibrary.AddResult added = library.importFile(documentName(uri), readBounded(uri, NcpFile.MAX_BYTES));
-                onUi(() -> { busy = false; localTab = true; albumTab = false; settingsTab = false; detailId = added.record.id; detailOnline = null;
+                onUi(() -> { busy = false; localTab = true; albumTab = false; localAlbumTab = false; settingsTab = false; detailId = added.record.id; detailOnline = null;
                     message = added.added ? "已加入我的预设，正在生成模板效果主图。" : "相同预设已在本地，可直接使用。"; render();if(personal!=null)personal.added(added.record,owner); if (shouldImport) beginImport(added.record); });
             } catch (Exception e) { onUi(() -> { finishBusy("预设未添加。"); notice("无法添加这份文件", readable(e)); }); } });
         } else if (request == PICK_SAMPLE) {
@@ -2196,7 +2268,7 @@ public final class MainActivity extends Activity {
         new AlertDialog.Builder(this).setTitle("核对上次使用的相机")
                 .setMessage("请确认当前连接的是上次导入的同一台相机。应用无法区分同型号的不同机身。\n\n接下来只读取相机中的预设，不会写入或覆盖。")
                 .setNegativeButton("取消", null).setPositiveButton("已确认，继续核对", (d, w) -> {
-                    settingsTab = false; albumTab = false; settingsReturnToPreset = false;
+                    settingsTab = false; albumTab = false; localAlbumTab = false; settingsReturnToPreset = false;
                     if ("wifi".equals(pendingJournal.optString("transport"))) openWirelessGuide(true);
                     else findCamera(true);
                 }).show();
@@ -2231,7 +2303,7 @@ public final class MainActivity extends Activity {
         if (selected == null) { finishBusy("请重新选择要导入的预设。"); showPresetSelectionRequired(); return; }
         pendingImportId = selected.id;
         pendingConnectionAccepted = false;
-        settingsReturnToPreset = true; settingsTab = true; albumTab = false; wirelessGuide = false;
+        settingsReturnToPreset = true; settingsTab = true; albumTab = false; localAlbumTab = false; wirelessGuide = false;
         confirmation = null; importOutcome = null;
         message = "连接相机后，将继续导入「" + selected.displayName + "」。";
         busy = false; progress = "";
@@ -2255,7 +2327,7 @@ public final class MainActivity extends Activity {
                     || connections.photoPresets.state().active || !currentConnectionReady(false)) return;
             PresetRecord record = library.findBySha256(pendingImportId);
             pendingImportId = ""; pendingConnectionAccepted = false; settingsReturnToPreset = false;
-            settingsTab = false; albumTab = false;
+            settingsTab = false; albumTab = false; localAlbumTab = false;
             if (record == null) { finishBusy("这份预设已不存在，请重新选择。"); return; }
             // Read the persisted source again after Activity recreation; connection never writes by itself.
             beginImport(record);
@@ -2305,7 +2377,7 @@ public final class MainActivity extends Activity {
                 String projectId = pendingLiveProjectId; pendingLiveProjectId = "";
                 livePreparationRequested = livePreparationPrompted = false;
                 settingsReturnToPreset = false; pendingImportId = ""; pendingConnectionAccepted = false;
-                settingsTab = false; albumTab = true; wirelessGuide = false; message = "";
+                settingsTab = false; albumTab = true; localAlbumTab = false; wirelessGuide = false; message = "";
                 if (projectId.isEmpty()) album.resumePhotoLiveAfterConnection();
                 else album.resumePhotoLiveProjectAfterConnection(projectId);
             } finally {
@@ -2344,7 +2416,7 @@ public final class MainActivity extends Activity {
         topNotice.dismiss();
         pendingImportId = ""; settingsReturnToPreset = false;
         if (album.isConnectionGuide()) { if (album.isConnecting()) album.disconnect(); album.goBack(); }
-        settingsTab = false; albumTab = false; wirelessGuide = false; message = ""; render();
+        settingsTab = false; albumTab = false; localAlbumTab = false; wirelessGuide = false; message = ""; render();
     }
 
     private void showCameraDetails() {
@@ -2408,7 +2480,7 @@ public final class MainActivity extends Activity {
                 content.addView(button(wirelessSettingsProbe ? "重新检测" : "重试读取", AppIcon.Kind.REFRESH, true, this::scanWirelessSlots));
                 content.addView(textLink("相机连接设置", () -> {
                     if (!wirelessSettingsProbe && selected != null) requestImportConnection();
-                    else { wirelessGuide = false; settingsTab = true; albumTab = false; message = ""; render(); }
+                    else { wirelessGuide = false; settingsTab = true; albumTab = false; localAlbumTab = false; message = ""; render(); }
                     openCameraSettings();
                 }));
             }
@@ -2454,7 +2526,7 @@ public final class MainActivity extends Activity {
         } else content.addView(button(wirelessRecovery ? "只读核对相机" : wirelessSettingsProbe ? "检测预设导入" : "读取能力与槽位", AppIcon.Kind.REFRESH, true, this::scanWirelessSlots));
         if (!wirelessRecovery) content.addView(button("返回设置", AppIcon.Kind.SETTINGS, false, () -> {
             if (!wirelessSettingsProbe) settingsReturnToPreset = true;
-            wirelessGuide = false; settingsTab = true; albumTab = false; render();
+            wirelessGuide = false; settingsTab = true; albumTab = false; localAlbumTab = false; render();
         }));
     }
 
@@ -3094,12 +3166,15 @@ public final class MainActivity extends Activity {
 
     private void switchRoot(int destination) {
         if (waitForCurrentTask()) return;
-        if (destination == (settingsTab ? 2 : albumTab ? 1 : 0)) return;
+        if (destination == (settingsTab ? 2 : localAlbumTab ? 3 : albumTab ? 1 : 0)) return;
+        if (localAlbum != null && localAlbumTab) localAlbum.pause();
+        if (localPhotoEditor != null) localPhotoEditor.releasePhotoComparison();
         topNotice.dismiss();
         clearPendingPhotoLive();
         connections.clearImportStatus(); shownImportStatus = null;
         confirmation = null; importOutcome = null; wirelessGuide = false;
-        albumTab = destination == 1; settingsTab = destination == 2; settingsReturnToPreset = false; pendingImportId = "";
+        albumTab = destination == 1; localAlbumTab = destination == 3; settingsTab = destination == 2; settingsReturnToPreset = false; pendingImportId = "";
+        if (localAlbumTab && localAlbum != null) localAlbum.resume();
         detailId = ""; detailOnline = null; message = ""; render();
         if (destination == 0 && !localTab && !catalogLoaded) loadCatalog(false);
     }
@@ -3114,7 +3189,7 @@ public final class MainActivity extends Activity {
         if (settingsTab && photoLiveContinuation.isPending()) {
             clearPendingPhotoLive();
             if (album.isConnectionGuide()) { if (album.isConnecting()) album.disconnect(); album.goBack(); }
-            settingsTab = false; albumTab = true; wirelessGuide = false; message = ""; render(); return;
+            settingsTab = false; albumTab = true; localAlbumTab = false; wirelessGuide = false; message = ""; render(); return;
         }
         if (wirelessGuide) { wirelessGuide = false; message = ""; render(); }
         else if (settingsTab && album.isConnectionGuide()) {
@@ -3125,6 +3200,9 @@ public final class MainActivity extends Activity {
         else if (settingsTab && settingsReturnToPreset) returnToPreset();
         else if (settingsTab) switchRoot(0);
         else if (importOutcome != null || confirmation != null) finishImportScreen();
+        else if (localAlbumTab && localPhotoEditor.canGoBack()) { localPhotoEditor.goBack(); if (!localPhotoEditor.canGoBack()) localAlbum.refresh(); render(); }
+        else if (localAlbumTab && localAlbum.goBack()) { render(); }
+        else if (localAlbumTab) switchRoot(0);
         else if (albumTab && album.canGoBack()) { album.goBack(); render(); }
         else if (!detailId.isEmpty() || detailOnline != null) { detailId = ""; detailOnline = null; message = ""; render(); }
         else if (albumTab) switchRoot(0);
@@ -3135,6 +3213,7 @@ public final class MainActivity extends Activity {
         out.putString("localPresetCategory", localCategoryFilter);
         out.putString("onlinePresetCategory", onlineCategoryFilter);
         out.putBoolean("local", localTab); out.putBoolean("album", albumTab);
+        out.putBoolean("localAlbumTab", localAlbumTab); if (localAlbum != null) localAlbum.saveState(out);
         out.putBoolean("settings", settingsTab); out.putBoolean("settingsReturnToPreset", settingsReturnToPreset);
         out.putString("pendingImportId", pendingImportId);
         out.putBoolean("pendingConnectionAccepted", pendingConnectionAccepted);
@@ -3162,6 +3241,8 @@ public final class MainActivity extends Activity {
         if (topNotice != null) topNotice.onHostPaused();
         if (activeComparison != null) activeComparison.release();
         if (album != null) album.releasePhotoComparison();
+        if (localAlbum != null) localAlbum.pause();
+        if (localPhotoEditor != null) localPhotoEditor.releasePhotoComparison();
         super.onPause();
     }
 
@@ -3177,6 +3258,8 @@ public final class MainActivity extends Activity {
         if (community != null) community.onHostResumed();
         if (updates != null) { updates.onResume(); updates.automaticCheck(); }
         if (album != null) album.refreshGalleryStatus();
+        if (localAlbum != null && localAlbumTab) localAlbum.resume();
+        if (localPhotoEditor != null) localPhotoEditor.refreshGalleryStatus();
         // OS battery/notification settings have no useful result payload. Refresh their actual state.
         if (connections != null) connections.changed();
         if (ready && settingsTab && !destroyed) render();
@@ -3484,12 +3567,15 @@ public final class MainActivity extends Activity {
         clearPendingPhotoLive();
         PageTransitions.cancel(transitioningContent);
         connections.removeObserver(connectionObserver);
+        connections.album.removePhotoLibraryObserver(localPhotoLibraryObserver);
         pendingProtectedPhotoLive = null;
         pendingProtectedLiveProjectId = "";
         pendingPhotoSave = null;
         destroyed = true; if (activeProbe != null) activeProbe.close(); if (activeImport != null) activeImport.close();
         // The connected-device service owns wireless sessions and the serial worker.
         // Recreating or removing this screen only detaches its UI.
+        if (localAlbum != null) localAlbum.close();
+        if (localPhotoEditor != null) localPhotoEditor.close();
         if (album != null) album.close(); images.shutdownNow();
         for (PreviewJob job : previewJobs.values()) job.cancelled = true;
         previewQueue.clear(); presetImages.shutdownNow(); imageCache.evictAll();

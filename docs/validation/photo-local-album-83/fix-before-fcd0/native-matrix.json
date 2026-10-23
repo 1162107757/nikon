@@ -1,0 +1,294 @@
+{
+  "schemaVersion": 1,
+  "verifiedAtUtc": "2026-10-23T13:18:28.1982292Z",
+  "status": "PASS",
+  "candidateApkSha256": "fcd0b31a7d4e201a195af070c0889bbf598fbc354f57709ff80b36f95b100550",
+  "probe": {
+    "schemaVersion": 1,
+    "builtAtUtc": "2026-10-23T13:16:28.4855164Z",
+    "expectedVersion": 83,
+    "buildScope": "local-album",
+    "probeSource": "tests/photo-editor-device-probe/src/cc/huevia/editorqa/EditorNativeProbe.java",
+    "probeJavaSha256": "cf4caed4b0573a3ff0fc0e1c8d8939267949d52657c3b62e31220427019b8641",
+    "buildScriptSha256": "9cf9f4ba5b8927206ef43379ecd95d129839e2a40387d5becbf7640e660763c8",
+    "runScriptSha256": "d7a8f31734cb7589b81cc5a76039775b8fd4d0a79eefef7d1356f11ad17a729e",
+    "probeApkSha256": "4165adbc0932762eb6ed8038aed00ad500e11bc789be2060f4da2844705ca406"
+  },
+  "modeCount": 4,
+  "assertionsPerMode": 273,
+  "totalAssertionExecutions": 1092,
+  "assertionCountBoundary": "The same 273 assertions repeat across four configurations; 1092 is the number of assertion executions, not independent behavioral scenarios.",
+  "screenshotCount": 28,
+  "scope": "Isolated offline dedicated emulator only. Real MediaStore/permission/JPEG/PNG/editor/batch/destination/RAW wrapper execution with generated image and hand-authored structural NEF fixtures. Notification permission pregranted; notification permission UX, camera hardware, sensor RAW fidelity, live production catalog, FPS, colour calibration and TalkBack not certified.",
+  "historicalFailureBoundary": "Earlier failed runs are archived separately. notif-dialog-fcd0/fixture-state.txt records that its interrupted fault was not restored. Each current mode rawFaultRestoration records measured restoration of only its own generated fixture.",
+  "modes": [
+    {
+      "mode": "phone",
+      "status": "PASS",
+      "assertions": 273,
+      "restoration": "PASS",
+      "apkSha256": "fcd0b31a7d4e201a195af070c0889bbf598fbc354f57709ff80b36f95b100550",
+      "reportSha256": "caa914ff0bb6ab5116675346fe0703237b688f3d8dd655c8c72390aec95a14cd",
+      "environmentSha256": "b6835fbc85f4605b28d403f76b461bbe64866e4d61f8778f79c2329757ce91a2",
+      "restorationSha256": "7df75172d14b254acb258d4bb01e2afe04c2a1d39bded38f9872d035afd25d0c",
+      "screenshots": [
+        {
+          "name": "app-only-results.png",
+          "sha256": "c475be1b315fd56bdfa05912a5ba63ab7f04e88dbd07c0615fa1d8c79f652934"
+        },
+        {
+          "name": "destination-sheet.png",
+          "sha256": "024e0526094fdefc52ff6740c5e293af92f397382d14884f1dab7612ea66722b"
+        },
+        {
+          "name": "editor-jpeg.png",
+          "sha256": "b668595ef808feac0838ff019b49918d6c49c2fe4a70a5461942f53130ca0a7f"
+        },
+        {
+          "name": "editor-png-adjustments.png",
+          "sha256": "954e2ace93a419ce8be6c58e76a84e50948242552774e3b64b333011ae578f7a"
+        },
+        {
+          "name": "local-app.png",
+          "sha256": "12d37091a54cc762b99ef5e5a550f4bb3505233a3e6d698126bcf4d44523228b"
+        },
+        {
+          "name": "local-denied.png",
+          "sha256": "8a46296b7f08be43661dde843a4023883f2b2e9033771bd3936e66c24e1c2a7f"
+        },
+        {
+          "name": "phone-authorized.png",
+          "sha256": "f062fd4be0692eb505ecef0afd412b3195f7b667bd78396dc14dc2228b55d181"
+        }
+      ],
+      "rawFaultRestoration": {
+        "scope": "Only the current run's generated structural NEF fixture",
+        "sourceIdentity": "11a16113542c6bdd64115b093f0b0a0cfe0647d3b0ac52a4ee8453d6138076db",
+        "expectedSha256": "0028578123b127b5730d167634678d4228c350c9809265a1e5a7a32c45e18c37",
+        "actualSha256": "0028578123b127b5730d167634678d4228c350c9809265a1e5a7a32c45e18c37",
+        "expectedModified": 1792761408044,
+        "actualModified": 1792761408044
+      },
+      "rawFixture": {
+        "kind": "Hand-authored 512-byte TIFF/NEF structure fixture; not captured sensor data or a camera certification",
+        "sha256": "0028578123b127b5730d167634678d4228c350c9809265a1e5a7a32c45e18c37",
+        "sourceIdentity": "11a16113542c6bdd64115b093f0b0a0cfe0647d3b0ac52a4ee8453d6138076db",
+        "phoneUri": "content://media/external_primary/images/media/59",
+        "rowsBefore": 20,
+        "rowsAfterAppOnly": 20,
+        "rowsAfterPhoneAndRetry": 21
+      },
+      "mediaFixtures": {
+        "jpegUri": "content://media/external_primary/images/media/54",
+        "jpegSha256": "2b5ee870e37098c85388008ca8d236ab09282fa19e8229e88f32bd83ff00640f",
+        "pngUri": "content://media/external_primary/images/media/55",
+        "pngSha256": "9addfe4a1ee6861cecc91988b5413a727f838c85f7ffeb1bbb74e70bf8565930"
+      },
+      "publicationRowsBeforeLocal": 17,
+      "publicationRowsAfterAppOnly": 17,
+      "publicationRowsAfterDefault": 19,
+      "publicationRowsAfterNewCopy": 20
+    },
+    {
+      "mode": "large-font",
+      "status": "PASS",
+      "assertions": 273,
+      "restoration": "PASS",
+      "apkSha256": "fcd0b31a7d4e201a195af070c0889bbf598fbc354f57709ff80b36f95b100550",
+      "reportSha256": "d58a3965b201486dda4df92ae28ccad96b2a4b43c0a03c39f2c32825add60b0b",
+      "environmentSha256": "cd845511e890efa8311e6ab6ce3e2b427ba579bc8c29468a53510ea465bcda9a",
+      "restorationSha256": "7df75172d14b254acb258d4bb01e2afe04c2a1d39bded38f9872d035afd25d0c",
+      "screenshots": [
+        {
+          "name": "app-only-results.png",
+          "sha256": "6df43d71917326b3fb16b63278d41abe7c48f48f286928626c9d8ba1df7af394"
+        },
+        {
+          "name": "destination-sheet.png",
+          "sha256": "e15e73c137e0385892ac1bebc96d51534ca5cb5b0046ee65dbdbb455f4443386"
+        },
+        {
+          "name": "editor-jpeg.png",
+          "sha256": "1edd80f960f7a38de26974bed11e5809835fb1f9d249e67a559c11704a0442fd"
+        },
+        {
+          "name": "editor-png-adjustments.png",
+          "sha256": "e89ed9a5fb7b694d9762984fac70b37399b169819a4f3061a335a7404757ea5a"
+        },
+        {
+          "name": "local-app.png",
+          "sha256": "63ea0c30a42b2461e312e61b74e6191dd904f5115ccf9937611d9388677d66ea"
+        },
+        {
+          "name": "local-denied.png",
+          "sha256": "bbcc85bb9f1cc2ba1f80361e7d3032d7ed857bb93b980aebcd8f31ad69989706"
+        },
+        {
+          "name": "phone-authorized.png",
+          "sha256": "a3dc9ea9a3a79b7e1411142bf4e3e9ceeb774dd56f5aa4c28be78672f9c9645e"
+        }
+      ],
+      "rawFaultRestoration": {
+        "scope": "Only the current run's generated structural NEF fixture",
+        "sourceIdentity": "1b587f29e5efd1db853ef1095c74e70c029633c0fee515010e714942974a845e",
+        "expectedSha256": "278bfed5f6f9053ec061726cf89ec98026285e3b324db05fa3515504f5ce843a",
+        "actualSha256": "278bfed5f6f9053ec061726cf89ec98026285e3b324db05fa3515504f5ce843a",
+        "expectedModified": 1792761432540,
+        "actualModified": 1792761432540
+      },
+      "rawFixture": {
+        "kind": "Hand-authored 512-byte TIFF/NEF structure fixture; not captured sensor data or a camera certification",
+        "sha256": "278bfed5f6f9053ec061726cf89ec98026285e3b324db05fa3515504f5ce843a",
+        "sourceIdentity": "1b587f29e5efd1db853ef1095c74e70c029633c0fee515010e714942974a845e",
+        "phoneUri": "content://media/external_primary/images/media/65",
+        "rowsBefore": 26,
+        "rowsAfterAppOnly": 26,
+        "rowsAfterPhoneAndRetry": 27
+      },
+      "mediaFixtures": {
+        "jpegUri": "content://media/external_primary/images/media/60",
+        "jpegSha256": "0d089ad46ab2acdc258b1d720c978ab2da21ee76c331c53c858b1a14f7ee557a",
+        "pngUri": "content://media/external_primary/images/media/61",
+        "pngSha256": "b46c13bd206125001f5a90a8e2664e48912df9149d2ef20feae3317d5fcc42f8"
+      },
+      "publicationRowsBeforeLocal": 23,
+      "publicationRowsAfterAppOnly": 23,
+      "publicationRowsAfterDefault": 25,
+      "publicationRowsAfterNewCopy": 26
+    },
+    {
+      "mode": "landscape",
+      "status": "PASS",
+      "assertions": 273,
+      "restoration": "PASS",
+      "apkSha256": "fcd0b31a7d4e201a195af070c0889bbf598fbc354f57709ff80b36f95b100550",
+      "reportSha256": "834646a7ca63d21a49a6a57651b3e4e133fd91de651c797add90d3a2d2fe51f2",
+      "environmentSha256": "275a7a14c8ee93e152725986a37ae28e3461e9bb747ce9b144cf62434a74b60f",
+      "restorationSha256": "7df75172d14b254acb258d4bb01e2afe04c2a1d39bded38f9872d035afd25d0c",
+      "screenshots": [
+        {
+          "name": "app-only-results.png",
+          "sha256": "a2a5288fbd483ffd81da471c60484892eadc5022da57a83de1460b3dc0859b6b"
+        },
+        {
+          "name": "destination-sheet.png",
+          "sha256": "5a440570b951afa1c96dc63835380836d67197242cb9730ea611487abc642ce5"
+        },
+        {
+          "name": "editor-jpeg.png",
+          "sha256": "4544b8028bad81028eef070b3d44a0aa500c324c44ecabbe6e253f3248bf2d78"
+        },
+        {
+          "name": "editor-png-adjustments.png",
+          "sha256": "4b11636258b6fc3433ca2852beeef33e8434be62f09449a3a02b7f6d8a168700"
+        },
+        {
+          "name": "local-app.png",
+          "sha256": "545c0e77491aa907c864aa7daa34126a2c02ad4d894e26cd0bb4ad338e59812c"
+        },
+        {
+          "name": "local-denied.png",
+          "sha256": "4e01329330bb1d81019b8301af42adf1759f5030b8a0465e685441e12b659004"
+        },
+        {
+          "name": "phone-authorized.png",
+          "sha256": "ac445533533fe6bf853b73373edcb0a7171db640110d45de885988204970c72b"
+        }
+      ],
+      "rawFaultRestoration": {
+        "scope": "Only the current run's generated structural NEF fixture",
+        "sourceIdentity": "972168c2fa5ea35629708449c5637319d405d3fc91c11f52622b67939815e2dd",
+        "expectedSha256": "ffb585eb72cea1d19f85884ae996ee48245c8f834c5e9a4e91ce1d77ec1dd83d",
+        "actualSha256": "ffb585eb72cea1d19f85884ae996ee48245c8f834c5e9a4e91ce1d77ec1dd83d",
+        "expectedModified": 1792761456988,
+        "actualModified": 1792761456988
+      },
+      "rawFixture": {
+        "kind": "Hand-authored 512-byte TIFF/NEF structure fixture; not captured sensor data or a camera certification",
+        "sha256": "ffb585eb72cea1d19f85884ae996ee48245c8f834c5e9a4e91ce1d77ec1dd83d",
+        "sourceIdentity": "972168c2fa5ea35629708449c5637319d405d3fc91c11f52622b67939815e2dd",
+        "phoneUri": "content://media/external_primary/images/media/71",
+        "rowsBefore": 32,
+        "rowsAfterAppOnly": 32,
+        "rowsAfterPhoneAndRetry": 33
+      },
+      "mediaFixtures": {
+        "jpegUri": "content://media/external_primary/images/media/66",
+        "jpegSha256": "30b3a14728b2a8c77e28582b4618fd8f0dc2ab8a1a75632270eb847307deab97",
+        "pngUri": "content://media/external_primary/images/media/67",
+        "pngSha256": "aa89e86a161f3fd4e774b62082da1e67cc77e4d08916be01dc65d83404b0cc65"
+      },
+      "publicationRowsBeforeLocal": 29,
+      "publicationRowsAfterAppOnly": 29,
+      "publicationRowsAfterDefault": 31,
+      "publicationRowsAfterNewCopy": 32
+    },
+    {
+      "mode": "dark",
+      "status": "PASS",
+      "assertions": 273,
+      "restoration": "PASS",
+      "apkSha256": "fcd0b31a7d4e201a195af070c0889bbf598fbc354f57709ff80b36f95b100550",
+      "reportSha256": "9289cfc4cb8020472e175c6d35c2b5e07ac54b368453e9d2bb07fc32c54aed73",
+      "environmentSha256": "617093c4ff486bf311dbbef0ea7bdb437680b636c771dc702596cbb625302400",
+      "restorationSha256": "7df75172d14b254acb258d4bb01e2afe04c2a1d39bded38f9872d035afd25d0c",
+      "screenshots": [
+        {
+          "name": "app-only-results.png",
+          "sha256": "8aa115d86fc03a75ef9284d3a0aa7ac75843ebe182a103ad90ad600668c13f38"
+        },
+        {
+          "name": "destination-sheet.png",
+          "sha256": "8a1848a89c11af2cc537fe0fb6d612770ee551020c78fc54e94db8acee815a26"
+        },
+        {
+          "name": "editor-jpeg.png",
+          "sha256": "81f32216266a1cf5ce4b18fdab0284a18b2ce4fd1f60336972dd7e82c6d0a4c4"
+        },
+        {
+          "name": "editor-png-adjustments.png",
+          "sha256": "19c4abcb27e0c99ca4b3f6e7698fc812dbaea77ee449fbe18eded3c6a031ea95"
+        },
+        {
+          "name": "local-app.png",
+          "sha256": "ac3210de461be6d5e38f12f28a6d7c757fa67ebdb028499cd510e1e8351389f6"
+        },
+        {
+          "name": "local-denied.png",
+          "sha256": "fd2757d7c7f3912700ca78f135213d461109c6773586a1a33a1a2c2816a62016"
+        },
+        {
+          "name": "phone-authorized.png",
+          "sha256": "020f6eaa519a2b1b7e21dbf79e415864be68b646c2d2297d08a33648b2953553"
+        }
+      ],
+      "rawFaultRestoration": {
+        "scope": "Only the current run's generated structural NEF fixture",
+        "sourceIdentity": "459866b8255b24903a31d61ac3cbe32a29ad24420e8b729f94842a218e2669a8",
+        "expectedSha256": "e2919343f91a4fcf415f662d76270c86f4660f7b30ade2d0f017081e5869bfbd",
+        "actualSha256": "e2919343f91a4fcf415f662d76270c86f4660f7b30ade2d0f017081e5869bfbd",
+        "expectedModified": 1792761481720,
+        "actualModified": 1792761481720
+      },
+      "rawFixture": {
+        "kind": "Hand-authored 512-byte TIFF/NEF structure fixture; not captured sensor data or a camera certification",
+        "sha256": "e2919343f91a4fcf415f662d76270c86f4660f7b30ade2d0f017081e5869bfbd",
+        "sourceIdentity": "459866b8255b24903a31d61ac3cbe32a29ad24420e8b729f94842a218e2669a8",
+        "phoneUri": "content://media/external_primary/images/media/77",
+        "rowsBefore": 38,
+        "rowsAfterAppOnly": 38,
+        "rowsAfterPhoneAndRetry": 39
+      },
+      "mediaFixtures": {
+        "jpegUri": "content://media/external_primary/images/media/72",
+        "jpegSha256": "0471f8e8ef579a89085bdaa358d4e1edb5c2da944166779ebfa274f33a33aa04",
+        "pngUri": "content://media/external_primary/images/media/73",
+        "pngSha256": "b9563d718e8173a6ebc8cf001526eba754890623291a5db84fb6159756541762"
+      },
+      "publicationRowsBeforeLocal": 35,
+      "publicationRowsAfterAppOnly": 35,
+      "publicationRowsAfterDefault": 37,
+      "publicationRowsAfterNewCopy": 38
+    }
+  ]
+}

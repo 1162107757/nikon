@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "apkSha256": "7861ae7163d17a5651a8c41b25ddf1b368e868cd326bdcc04a2bd72d5df7aa80",
+  "method": "Supplementary manual visual confirmation after real main-navigation taps on isolated offline emulator; separate from the 516 native assertion records.",
+  "entryViaMainNavigation": true,
+  "restoredLiveTabAfterColdProcessRestart": true,
+  "firstSurvivingPid": 1024,
+  "restoredSurvivingPid": 12229,
+  "automationLimitation": "uiautomator idle detection failed on live screen; automated text assertion was inconclusive. Actual displayed no-project state was confirmed from settled screenshots, with live app processes.",
+  "captures": [
+    {
+      "path": "docs/validation/photo-composition-recipes-81/photo-live-crash/main-entry.png",
+      "sha256": "c1c7dcd19e355a93c819e58d884a469d11158b01040cba27292324823fd6a6c8"
+    },
+    {
+      "path": "docs/validation/photo-composition-recipes-81/photo-live-crash/restored-entry.png",
+      "sha256": "e5237d7421477d25e2fe2b2a2c2ad24f5f8917c521214f5d2be159104eafdc9a"
+    }
+  ]
+}

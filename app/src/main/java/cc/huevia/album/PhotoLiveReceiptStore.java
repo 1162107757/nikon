@@ -10,7 +10,8 @@ import java.util.*;
 /** Per-entry atomic metadata, shared by worker instances. JPEG files and completion ledger are untouched. */
 final class PhotoLiveReceiptStore {
     private static final Object LOCK = new Object();
-    private static final int BIND_MAGIC = 0x504c4231, RECORD_MAGIC = 0x504c5231, CONTENT_RECORD_MAGIC = 0x504c5232, MAX_RECORDS = 20000;
+    private static final int BIND_MAGIC = 0x504c4231, RECORD_MAGIC = 0x504c5231, CONTENT_RECORD_MAGIC = 0x504c5232,
+            TARGET_RECORD_MAGIC = 0x504c5233, MAX_RECORDS = 20000;
     private static final Set<String> STATUSES = new HashSet<>(Arrays.asList("queued", "preview", "receiving", "saved", "error", "stopped"));
     private final File root, photos;
     interface AtomicReplace { void replace(File source, File target) throws IOException; }
@@ -80,6 +81,7 @@ final class PhotoLiveReceiptStore {
                 if (target.exists()) {
                     PhotoLiveReceipt previous = readReceipt(target, projectId, "", new Binding(camera, trusted));
                     if (previous.createdAt != receipt.createdAt) throw new IOException("接收记录的首次发现时间不能更改。");
+                    if (previous.saveTarget != receipt.saveTarget) throw new IOException("已接收照片的保存位置不能更改。");
                     if (previous.updatedAt > receipt.updatedAt) continue;
                 }
                 if (!target.exists()) {
@@ -103,11 +105,12 @@ final class PhotoLiveReceiptStore {
                 if (info.length > 65536) throw new IOException("照片元数据过大。");
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                 try (DataOutputStream out = new DataOutputStream(bytes)) {
-                    out.writeInt(CONTENT_RECORD_MAGIC); out.writeUTF(projectId); out.writeUTF(receipt.identity);
+                    out.writeInt(TARGET_RECORD_MAGIC); out.writeUTF(projectId); out.writeUTF(receipt.identity);
                     out.writeLong(receipt.photo.handle()); out.writeInt(info.length); out.write(info);
                     out.writeUTF(receipt.status); out.writeLong(receipt.updatedAt); out.writeLong(receipt.createdAt);
                     out.writeUTF(shortError(receipt.error)); out.writeUTF(savedName);
                     out.writeLong(savedBytes); out.writeUTF(savedSha); out.writeUTF(savedDisplayName);
+                    out.writeUTF(receipt.saveTarget.name());
                 }
                 atomic(target, bytes.toByteArray());
             }
@@ -142,18 +145,24 @@ final class PhotoLiveReceiptStore {
                 if (!source.getCanonicalFile().getParentFile().equals(folder(projectId, false)) || Files.isSymbolicLink(source.toPath())) throw new IOException("接收记录路径无效。");
                 try (DataInputStream in = read(source)) {
                     int format = in.readInt();
-                    if (format != RECORD_MAGIC && format != CONTENT_RECORD_MAGIC || !projectId.equals(in.readUTF())) throw new IOException("接收记录格式无效。");
+                    if (format != RECORD_MAGIC && format != CONTENT_RECORD_MAGIC && format != TARGET_RECORD_MAGIC || !projectId.equals(in.readUTF())) throw new IOException("接收记录格式无效。");
                     String identity = in.readUTF(); long handle = in.readLong(); int length = in.readInt();
                     if (!identity.matches("[0-9a-f]{64}") || !source.getName().equals(identity + ".receipt")
                             || handle <= 0 || handle >= 0xffffffffL || length < 1 || length > 65536) throw new IOException("接收记录照片无效。");
                     byte[] bytes = new byte[length]; in.readFully(bytes); PtpObjectInfo info = PtpObjectInfo.parse(bytes);
                     if (!identity.equals(PhotoLiveLedger.identity(binding.camera, handle, info))) throw new IOException("接收记录校验失败。");
                     String status = in.readUTF(); long time = in.readLong(), created = in.readLong(); String error = in.readUTF(), savedName = in.readUTF();
-                    long savedBytes = format == CONTENT_RECORD_MAGIC ? in.readLong() : 0;
-                    String savedSha = format == CONTENT_RECORD_MAGIC ? in.readUTF() : "";
-                    String savedDisplayName = format == CONTENT_RECORD_MAGIC ? in.readUTF() : info.filename();
+                    boolean contentRecord = format == CONTENT_RECORD_MAGIC || format == TARGET_RECORD_MAGIC;
+                    long savedBytes = contentRecord ? in.readLong() : 0;
+                    String savedSha = contentRecord ? in.readUTF() : "";
+                    String savedDisplayName = contentRecord ? in.readUTF() : info.filename();
+                    PhotoSaveTarget saveTarget = PhotoSaveTarget.PHONE_ALBUM;
+                    if (format == TARGET_RECORD_MAGIC) {
+                        try { saveTarget = PhotoSaveTarget.valueOf(in.readUTF()); }
+                        catch (IllegalArgumentException invalid) { throw new IOException("接收记录保存位置无效。", invalid); }
+                    }
                     if (!STATUSES.contains(status) || created < 0 || time < created || error.length() > 2000 || in.read() != -1) throw new IOException("接收记录状态无效。");
-                    if (format == CONTENT_RECORD_MAGIC && (savedName.isEmpty() ? savedBytes != 0 || !savedSha.isEmpty() || !savedDisplayName.isEmpty()
+                    if (contentRecord && (savedName.isEmpty() ? savedBytes != 0 || !savedSha.isEmpty() || !savedDisplayName.isEmpty()
                             : savedBytes != info.compressedSize() || savedBytes < 4 || savedBytes > 512L * 1024 * 1024 || !savedSha.matches("[0-9a-f]{64}") || savedDisplayName.length() > 256)) throw new IOException("接收记录原图身份无效。");
                     DownloadedPhoto saved = null;
                     if (!savedName.isEmpty()) {
@@ -162,7 +171,7 @@ final class PhotoLiveReceiptStore {
                                 || !savedName.equals(target.getName()) || Files.isSymbolicLink(target.toPath())) throw new IOException("接收记录原图路径无效。");
                         if (target.isFile()) {
                             boolean valid = true;
-                            if (format == CONTENT_RECORD_MAGIC) {
+                            if (contentRecord) {
                                 try { valid = target.length() == savedBytes && savedSha.equals(PhotoOriginalStore.contentId(target)); }
                                 catch (IOException changed) { valid = false; }
                             }
@@ -171,7 +180,7 @@ final class PhotoLiveReceiptStore {
                         }
                         else if (status.equals("saved") && error.isEmpty()) error = "本机原图已移除。";
                     }
-                    return new PhotoLiveReceipt(projectId, identity, status, new PhotoItem("", handle, info), saved, error, created, time);
+                    return new PhotoLiveReceipt(projectId, identity, status, new PhotoItem("", handle, info), saved, error, created, time, saveTarget);
                 }
     }
 

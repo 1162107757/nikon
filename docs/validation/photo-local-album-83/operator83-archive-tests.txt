@@ -1,0 +1,50 @@
+TAP version 13
+# Subtest: offline repack fixture retains all members and records distinct request/observed SHA
+ok 1 - offline repack fixture retains all members and records distinct request/observed SHA
+  ---
+  duration_ms: 1690.7381
+  ...
+# Subtest: different compression and ordering preserve strict content identity
+ok 2 - different compression and ordering preserve strict content identity
+  ---
+  duration_ms: 2827.0702
+  ...
+# Subtest: valid CRC cannot hide a changed member byte
+ok 3 - valid CRC cannot hide a changed member byte
+  ---
+  duration_ms: 1661.9759
+  ...
+# Subtest: changed Unix mode is rejected with unchanged member bytes
+ok 4 - changed Unix mode is rejected with unchanged member bytes
+  ---
+  duration_ms: 1663.4006
+  ...
+# Subtest: missing added APK or an unexpected extra runtime member is rejected
+ok 5 - missing added APK or an unexpected extra runtime member is rejected
+  ---
+  duration_ms: 2739.063
+  ...
+# Subtest: renamed and duplicated archive member paths are rejected
+ok 6 - renamed and duplicated archive member paths are rejected
+  ---
+  duration_ms: 3324.8773
+  ...
+# Subtest: invalid CRC and path traversal remain rejected before content comparison
+ok 7 - invalid CRC and path traversal remain rejected before content comparison
+  ---
+  duration_ms: 2766.7432
+  ...
+# Subtest: directory members cannot be hidden from the complete member set or mode comparison
+ok 8 - directory members cannot be hidden from the complete member set or mode comparison
+  ---
+  duration_ms: 4995.2632
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 22945.339

@@ -18,29 +18,32 @@ import java.util.concurrent.TimeUnit;
 /** File-backed provider double; deliberate failures preserve rows exactly like a provider crash gap. */
 public final class ContentResolver {
     public static final class Row {
-        public long id; public String name, path, owner, uri; public int pending; public File file;
+        public long id; public String name, path, owner, uri, mime; public int pending; public File file;
     }
     private final File root;
     private final String owner;
     public final Map<Long, Row> rows = new LinkedHashMap<>();
     public int inserts, writes, updates, deletes, queries;
     public boolean failAfterInsert, failBeforePublish, nullQuery, failDelete, deleteNoOp, failReadMemory;
+    public final java.util.Set<String> unreadableUris = java.util.concurrent.ConcurrentHashMap.newKeySet();
     public volatile CountDownLatch writeStarted, allowWrite;
     private long nextId = 1;
     public ContentResolver(File root, String owner) { this.root = root; this.owner = owner; root.mkdirs(); }
     public synchronized Uri insert(Uri collection, ContentValues values) {
         Row row = new Row(); row.id = nextId++; row.name = (String) values.get(MediaStore.Images.Media.DISPLAY_NAME);
         row.path = (String) values.get(MediaStore.Images.Media.RELATIVE_PATH); row.pending = (Integer) values.get(MediaStore.Images.Media.IS_PENDING);
+        row.mime = values.containsKey(MediaStore.Images.Media.MIME_TYPE) ? (String) values.get(MediaStore.Images.Media.MIME_TYPE) : "image/jpeg";
         row.owner = owner; row.uri = collection + "/" + row.id; row.file = new File(root, row.id + ".jpg"); rows.put(row.id, row); inserts++;
         if (failAfterInsert) { failAfterInsert = false; throw new IllegalStateException("synthetic insert response lost"); }
         return Uri.parse(row.uri);
     }
     public synchronized Uri scan(File file) {
         for (Row row : rows.values()) if (row.file.equals(file)) return Uri.parse(row.uri);
-        Row row = new Row(); row.id = nextId++; row.name = file.getName(); row.path = ""; row.owner = owner; row.file = file;
+        Row row = new Row(); row.id = nextId++; row.name = file.getName(); row.path = ""; row.owner = owner; row.file = file; row.mime = "image/jpeg";
         row.uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI + "/" + row.id; rows.put(row.id, row); return Uri.parse(row.uri);
     }
     public synchronized Cursor query(Uri uri, String[] projection, String selection, String[] arguments, String order) {
+        if (unreadableUris.contains(uri.toString())) throw new SecurityException("synthetic revoked source permission");
         queries++; if (nullQuery) return null;
         List<Object[]> values = new ArrayList<>();
         for (Row row : rows.values()) {
@@ -51,7 +54,8 @@ public final class ContentResolver {
             Object[] columns = new Object[projection.length];
             for (int i = 0; i < projection.length; i++) columns[i] = switch (projection[i]) {
                 case "_id" -> row.id; case "_display_name" -> row.name; case "relative_path" -> row.path;
-                case "owner_package_name" -> row.owner; case "is_pending" -> row.pending; case "_data" -> row.file.getAbsolutePath(); default -> null;
+                case "owner_package_name" -> row.owner; case "is_pending" -> row.pending; case "_data" -> row.file.getAbsolutePath();
+                case "mime_type" -> row.mime; case "_size" -> row.file.length(); default -> null;
             };
             values.add(columns);
         }
@@ -66,8 +70,13 @@ public final class ContentResolver {
         };
     }
     public synchronized InputStream openInputStream(Uri uri) throws FileNotFoundException {
+        if (unreadableUris.contains(uri.toString())) throw new SecurityException("synthetic revoked source permission");
         if (failReadMemory) { failReadMemory = false; throw new OutOfMemoryError("synthetic gallery memory pressure"); }
         return new FileInputStream(find(uri).file);
+    }
+    public synchronized String getType(Uri uri) {
+        if (unreadableUris.contains(uri.toString())) throw new SecurityException("synthetic revoked source permission");
+        return find(uri).mime;
     }
     public ParcelFileDescriptor openFileDescriptor(Uri uri, String mode) throws FileNotFoundException {
         CountDownLatch began = writeStarted, release = allowWrite;

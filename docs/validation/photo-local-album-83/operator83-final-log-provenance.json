@@ -1,0 +1,11 @@
+{
+  "schema": "huevia.operator-validation-log-provenance.v1",
+  "candidateApkSha256": "f320eef5e6068e94fff54f37509374d09f723492f6fb3077052d727e55d79ebd",
+  "runtimeEvidenceOriginal": "online-library/build/huevia-83-final-reviewed/runtime-tests.txt",
+  "originalUntouched": true,
+  "sharedRuntimeCopy": "docs/validation/photo-local-album-83/operator83-final-runtime-tests.txt",
+  "providerUrlRedactions": 2,
+  "redactionScope": "Two public provider-origin strings in download-page test titles only; all assertions and totals retained.",
+  "otherLogs": "Generation, baseline, prepare, archive and observability process output logs retain actual captured output.",
+  "provisionalStagePreserved": true
+}

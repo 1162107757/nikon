@@ -116,7 +116,24 @@ public final class SpatialPreviewFilter {
         int slots = Math.min(height, RING_ROWS);
         checkWorkingBytes((32L * slots + 60L) * width + ARRAY_OVERHEAD_ALLOWANCE);
         new Filter(pixels, settings, colourTransform, strengthPercent, cancel, progress,
-                width, height, slots).apply();
+                width, height, slots, RADII).apply();
+    }
+
+    /** Manual details use the same normalized image scale in a small preview and a full export.
+     * Legacy preset radii and identities remain unchanged. */
+    public static void applyScaled(Pixels pixels, Settings settings, IntUnaryOperator transform,
+            BooleanSupplier cancel, DoubleConsumer progress) throws IOException {
+        Objects.requireNonNull(pixels);Objects.requireNonNull(settings);Objects.requireNonNull(transform);
+        int width=pixels.width(),height=pixels.height();
+        if(width<=0||height<=0)throw new IllegalArgumentException("Invalid pixel dimensions");
+        checkCancelled(cancel);
+        if(settings.isNone()){checkWorkingBytes(4L*width+ARRAY_OVERHEAD_ALLOWANCE);applyColourOnly(pixels,transform,100,cancel,progress,width,height);return;}
+        double scale=Math.max(width,height)/1600.0;
+        int[] radii={Math.max(1,(int)Math.round(scale)),Math.max(1,(int)Math.round(4*scale)),Math.max(1,(int)Math.round(12*scale))};
+        int slots=Math.min(height,2*radii[2]+1);
+        checkWorkingBytes((32L*slots+60L)*width+ARRAY_OVERHEAD_ALLOWANCE);
+        if(progress!=null)progress.accept(0);
+        new Filter(pixels,settings,transform,100,cancel,progress,width,height,slots,radii).apply();
     }
 
     private static void applyColourOnly(Pixels pixels, IntUnaryOperator transform, int strength,
@@ -171,6 +188,8 @@ public final class SpatialPreviewFilter {
         private final Pixels pixels;
         private final IntUnaryOperator transform;
         private final int strength, width, height, slots;
+        private final int[] radii;
+        private final int maxRadius;
         private final BooleanSupplier cancel;
         private final DoubleConsumer progress;
         private final double[] amounts;
@@ -182,7 +201,7 @@ public final class SpatialPreviewFilter {
         private int loadedThrough = -1;
 
         Filter(Pixels pixels, Settings settings, IntUnaryOperator transform, int strength,
-                BooleanSupplier cancel, DoubleConsumer progress, int width, int height, int slots) {
+                BooleanSupplier cancel, DoubleConsumer progress, int width, int height, int slots, int[] radii) {
             this.pixels = pixels;
             this.transform = transform;
             this.strength = strength;
@@ -191,6 +210,7 @@ public final class SpatialPreviewFilter {
             this.width = width;
             this.height = height;
             this.slots = slots;
+            this.radii = radii; this.maxRadius=radii[2];
             amounts = new double[] {settings.sharpening, settings.midRangeSharpening, settings.clarity};
             original = new int[slots][width];
             coloured = new int[slots][width];
@@ -204,9 +224,9 @@ public final class SpatialPreviewFilter {
         }
 
         void apply() throws IOException {
-            loadThrough(Math.min(height - 1, MAX_RADIUS));
-            for (int scale = 0; scale < RADII.length; scale++) {
-                for (int dy = -RADII[scale]; dy <= RADII[scale]; dy++) {
+            loadThrough(Math.min(height - 1, maxRadius));
+            for (int scale = 0; scale < radii.length; scale++) {
+                for (int dy = -radii[scale]; dy <= radii[scale]; dy++) {
                     addRow(scale, clampRow(dy), 1);
                 }
             }
@@ -219,12 +239,12 @@ public final class SpatialPreviewFilter {
                 if (progress != null) progress.accept((y + 1.0) / height);
                 if (y == height - 1) return;
                 // Remove all uses of the oldest slot before loadThrough can reuse it.
-                for (int scale = 0; scale < RADII.length; scale++) {
-                    addRow(scale, clampRow(y - RADII[scale]), -1);
+                for (int scale = 0; scale < radii.length; scale++) {
+                    addRow(scale, clampRow(y - radii[scale]), -1);
                 }
-                loadThrough((int) Math.min((long) height - 1, (long) y + MAX_RADIUS + 1));
-                for (int scale = 0; scale < RADII.length; scale++) {
-                    addRow(scale, clampRow((long) y + RADII[scale] + 1), 1);
+                loadThrough((int) Math.min((long) height - 1, (long) y + maxRadius + 1));
+                for (int scale = 0; scale < radii.length; scale++) {
+                    addRow(scale, clampRow((long) y + radii[scale] + 1), 1);
                 }
             }
         }
@@ -251,14 +271,14 @@ public final class SpatialPreviewFilter {
                     alpha[x] = (argb >>> 24) / 255f;
                     premultLuma[x] = (float) (luma(converted) * alpha[x]);
                 }
-                for (int scale = 0; scale < RADII.length; scale++) {
+                for (int scale = 0; scale < radii.length; scale++) {
                     horizontalSums(scale, slot);
                 }
             }
         }
 
         private void horizontalSums(int scale, int slot) throws IOException {
-            int radius = RADII[scale];
+            int radius = radii[scale];
             double sumL = 0, sumA = 0;
             for (int dx = -radius; dx <= radius; dx++) {
                 int column = clampColumn(dx);

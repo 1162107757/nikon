@@ -246,9 +246,23 @@ public final class PresetSelectionPage implements AutoCloseable {
                 if (skipped) entry.state = State.IDLE;
                 else if (image != null) { cache.put(key, image); entry.state = State.READY; entry.error = ""; }
                 else { entry.state = invalid ? State.UNSUPPORTED : State.ERROR; entry.error = detail; }
-                if (adapter != null) adapter.notifyDataSetChanged();
+                updatePreviewCard(entry);
+                updateVisible();
             });
         }, () -> { pending.remove(entry.preset.id); entry.state = State.IDLE; });
+    }
+
+    /** Preview completion changes only its own attached cards, never the entire scrolling list. */
+    private void updatePreviewCard(Entry entry) {
+        if (list == null) return;
+        for (int i = 0; i < list.getChildCount(); i++) {
+            View child = list.getChildAt(i);
+            if (child instanceof CardRow) {
+                CardRow row = (CardRow) child;
+                if (row.first.entry == entry) row.first.bind(entry);
+                if (row.second.entry == entry) row.second.bind(entry);
+            } else if (child instanceof Card && ((Card) child).entry == entry) ((Card) child).bind(entry);
+        }
     }
 
     private void choose(Entry entry) {
@@ -331,6 +345,8 @@ public final class PresetSelectionPage implements AutoCloseable {
         final Button retry;
         final boolean gridCard;
         Entry entry;
+        Bitmap boundPreview;
+        String boundPreviewKey = "";
         Card() { this(false); }
         Card(boolean gridCard) {
             super(activity); this.gridCard = gridCard; setOrientation(VERTICAL);
@@ -346,7 +362,7 @@ public final class PresetSelectionPage implements AutoCloseable {
             LinearLayout labels = new LinearLayout(activity); labels.setOrientation(VERTICAL); info.addView(labels, new LinearLayout.LayoutParams(0, -2, 1));
             name = text("", gridCard ? 14 : 18, true); name.setMaxLines(2); if (gridCard) name.setMinLines(2);
             name.setEllipsize(TextUtils.TruncateAt.END); labels.addView(name);
-            note = text("", gridCard ? 11 : 13, false); note.setPadding(0, dp(6), 0, 0); if (gridCard) note.setMaxLines(3); labels.addView(note);
+            note = text("", gridCard ? 11 : 13, false); note.setPadding(0, dp(6), 0, 0); if (gridCard) { note.setMinLines(1); note.setMaxLines(1); note.setEllipsize(TextUtils.TruncateAt.END); } labels.addView(note);
             check = new ImageView(activity); int inset = dp(gridCard ? 5 : 10); check.setPadding(inset, inset, inset, inset);
             check.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
             LinearLayout.LayoutParams selected = new LinearLayout.LayoutParams(dp(gridCard ? 26 : 44), dp(gridCard ? 26 : 44)); selected.setMarginStart(dp(gridCard ? 4 : 10)); info.addView(check, selected);
@@ -360,7 +376,9 @@ public final class PresetSelectionPage implements AutoCloseable {
             });
         }
         void bind(Entry next) {
-            entry = next; boolean none = entry == null, current = none ? selected.isEmpty() : selected.equals(entry.preset.id);
+            String nextKey = next == null ? "" : key(next);
+            if (entry != next || !boundPreviewKey.equals(nextKey)) { boundPreview = null; image.setImageDrawable(null); }
+            entry = next; boundPreviewKey = nextKey; boolean none = entry == null, current = none ? selected.isEmpty() : selected.equals(entry.preset.id);
             content.setBackground(ripple(palette.card, gridCard ? 16 : 24)); photo.setBackgroundColor(palette.container);
             retry.setTextColor(palette.primary); retry.setBackground(ripple(palette.primaryContainer, 18));
             name.setTextSize(gridCard ? 14 : 18); name.setTextColor(palette.text); note.setTextSize(gridCard ? 11 : 13); note.setTextColor(palette.secondary); placeholder.setTextSize(gridCard ? 12 : 14); placeholder.setTextColor(palette.secondary);
@@ -368,11 +386,14 @@ public final class PresetSelectionPage implements AutoCloseable {
             check.setVisibility(current ? VISIBLE : GONE);
             check.setImageDrawable(icon(AppIcon.Kind.CHECK, gridCard ? palette.primary : palette.onPrimary));
             check.setBackground(gridCard ? null : shape(palette.primary, 22));
-            image.setImageDrawable(null); retry.setVisibility(GONE);
+            retry.setVisibility(GONE);
             if (none) note.setText("仅保存原图");
             else {
-                Bitmap bitmap = cache.get(key(entry));
-                if (bitmap != null) { image.setImageBitmap(bitmap); entry.state = State.READY; }
+                boolean failed = entry.state == State.ERROR || entry.state == State.UNSUPPORTED;
+                Bitmap bitmap = failed ? null : cache.get(key(entry));
+                if (bitmap == null && entry.state == State.READY && boundPreview != null && !boundPreview.isRecycled()) bitmap = boundPreview;
+                if (failed) { boundPreview = null; image.setImageDrawable(null); }
+                if (bitmap != null) { if (boundPreview != bitmap) image.setImageBitmap(bitmap); boundPreview = bitmap; entry.state = State.READY; }
                 else if (entry.state == State.READY) entry.state = State.IDLE;
                 switch (entry.state) {
                     case READY: note.setText(current ? "当前选择" : "轻点使用这个预设"); break;
@@ -382,7 +403,7 @@ public final class PresetSelectionPage implements AutoCloseable {
                 }
                 placeholder.setVisibility(bitmap == null ? VISIBLE : GONE);
             }
-            note.setVisibility(gridCard && !none && entry.state == State.READY ? GONE : VISIBLE);
+            note.setVisibility(VISIBLE); note.setTooltipText(note.getText());
             boolean enabled = !selecting && (none || entry.state == State.READY);
             retry.setEnabled(!selecting);
             content.setEnabled(enabled); content.setClickable(enabled); content.setOnClickListener(enabled ? view -> choose(entry) : null);

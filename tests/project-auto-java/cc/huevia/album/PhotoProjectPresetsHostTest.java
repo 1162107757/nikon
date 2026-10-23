@@ -38,6 +38,7 @@ public final class PhotoProjectPresetsHostTest {
             discoveryCutoffAndInterruptedRecovery(root.resolve("recover"));
             changedSourceAndServiceFailureDoNotLoop(root.resolve("guard"));
             np3AutomaticQueueRetainsOriginalAndReuses(root.resolve("np3"));
+            appOnlyReceiptSurvivesFailureRetryAndRestart(root.resolve("app-only"));
             System.out.println("PASS: " + checks + " project automatic-preset checks");
         } finally {
             try (var paths = Files.walk(root)) { for (Path path : paths.sorted(Comparator.reverseOrder()).toList()) Files.deleteIfExists(path); }
@@ -96,7 +97,7 @@ public final class PhotoProjectPresetsHostTest {
         until(() -> f.auto.statusFor(f.id, identity).startsWith("已套用")); f.idle();
         check(f.auto.statusFor(f.id, identity).contains(np3.displayName) && f.batch.state().reused == 1, "Retry keeps the queued NP3 snapshot after the project default changes to NCP");
         int rows = PhotoLiveGallery.rows.size(); f.auto.onOriginalSaved(f.id, identity, source); f.barrier(); f.idle();
-        check(PhotoLiveGallery.rows.size() == rows && rows == 2 && f.album.downloads == 0, "Repeated automatic NP3 events neither duplicate publications nor download originals");
+        check(PhotoLiveGallery.rows.size() == rows && rows == 1 && f.album.downloads == 0, "Repeated automatic NP3 events neither duplicate publications nor download originals");
         check(Arrays.equals(sourceBefore, Files.readAllBytes(source.file().toPath())) && Arrays.equals(outputBefore, Files.readAllBytes(effect.toPath())) && f.work.open.get() == 0,
                 "NP3 automatic reuse and retry preserve source/output bytes and release the service lease");
     }
@@ -193,7 +194,7 @@ public final class PhotoProjectPresetsHostTest {
         check(f.work.started.get() == attempts, "Repeated original events do not automatically retry an error task");
         PhotoLiveGallery.failDerived = false; f.auto.retryProject(f.id);
         until(() -> f.auto.statusFor(f.id, identity).startsWith("已套用")); f.idle();
-        check(PhotoLiveGallery.rows.size() == 2 && Arrays.equals(Files.readAllBytes(effect.toPath()), JPEG), "Explicit retry reuses the complete derived copy and publishes without duplicating rows");
+        check(PhotoLiveGallery.rows.size() == 1 && Arrays.equals(Files.readAllBytes(effect.toPath()), JPEG), "Explicit retry reuses the complete derived copy and publishes without duplicating rows");
         check(f.album.downloads == 0 && Arrays.equals(Files.readAllBytes(source.file().toPath()), JPEG), "Automatic publication retry never reads the camera or modifies the original");
     }
 
@@ -213,7 +214,7 @@ public final class PhotoProjectPresetsHostTest {
         until(() -> restored.auto.statusFor(restored.id, "4".repeat(64)).startsWith("已套用")); restored.idle();
         check(restored.auto.config(restored.id).presetId.equals(restored.b.id) && restored.auto.statusFor(restored.id, "4".repeat(64)).contains(restored.a.displayName),
                 "A recovered processing task resumes its persisted preset despite a different current default");
-        check(restored.album.downloads == 0 && PhotoLiveGallery.rows.size() == 2, "Process-recovery work uses owned local bytes and existing effect publication");
+        check(restored.album.downloads == 0 && PhotoLiveGallery.rows.size() == 1, "Process-recovery work uses owned local bytes and existing effect publication");
     }
 
     private static void changedSourceAndServiceFailureDoNotLoop(Path root) throws Exception {
@@ -234,6 +235,32 @@ public final class PhotoProjectPresetsHostTest {
         check(denied.work.open.get() == 0, "User retry after service recovery completes and releases the new reservation");
     }
 
+    private static void appOnlyReceiptSurvivesFailureRetryAndRestart(Path root) throws Exception {
+        Fixture f = new Fixture(root.resolve("retry")); f.configure(f.a); DownloadedPhoto source = f.original("LOCAL-LIVE.JPG"); f.seed(source, f.a);
+        String identity = "a".repeat(64); long accepted = f.auto.config(f.id).enabledSince;
+        f.album.receipts.put(f.id, List.of(new PhotoLiveReceipt(f.id, identity, "saved", f.remote(source.filename()), source, "", accepted, accepted, PhotoSaveTarget.APP_ONLY)));
+        PhotoLiveGallery.publications.clear(); PhotoLiveGallery.failDerived = true; f.work.reject = true;
+        f.auto.onOriginalSaved(f.id, identity, source); until(() -> f.auto.needsRetry(f.id, identity)); f.idle();
+        PhotoProjectPresetStore disk = new PhotoProjectPresetStore(new File(f.context.getFilesDir(), "photo-project-presets"));
+        PhotoProjectPresetStore.Task failed = disk.tasks(f.id).get(0);
+        check(failed.saveTarget == PhotoSaveTarget.APP_ONLY && failed.status.equals("error"), "Automatic task freezes the receive receipt's App-only destination before failure");
+        f.configure(f.b); f.work.reject = false; f.auto.retryProject(f.id); until(() -> f.auto.statusFor(f.id, identity).startsWith("已套用")); f.idle();
+        check(PhotoLiveGallery.publications.isEmpty() && PhotoLiveGallery.rows.isEmpty() && f.batch.state().completed == 1,
+                "Explicit retry keeps App-only destination despite changed project defaults and unavailable phone publisher");
+        disk = new PhotoProjectPresetStore(new File(f.context.getFilesDir(), "photo-project-presets"));
+        check(disk.tasks(f.id).get(0).saveTarget == PhotoSaveTarget.APP_ONLY && disk.tasks(f.id).get(0).presetId.equals(f.a.id),
+                "Completed automatic task retains its accepted destination and preset in the durable journal");
+        Fixture restored = new Fixture(root.resolve("restart"), false); DownloadedPhoto incoming = restored.original("RESTORE-LOCAL.JPG"); restored.seed(incoming, restored.a);
+        PhotoProjectPresetStore seed = new PhotoProjectPresetStore(new File(restored.context.getFilesDir(), "photo-project-presets"));
+        PhotoProjectPresetStore.Task task = new PhotoProjectPresetStore.Task(restored.id, "b".repeat(64), restored.a.id, restored.a.displayName,
+                incoming.file().getName(), incoming.filename(), JPEG.length, "queued", "", "", 1, PhotoSaveTarget.APP_ONLY);
+        seed.queue(task); seed.update(task.withStatus("processing", "", "")); PhotoLiveGallery.publications.clear(); restored.start();
+        until(() -> restored.auto.statusFor(restored.id, "b".repeat(64)).startsWith("已套用")); restored.idle();
+        check(restored.batch.state().completed == 1 && PhotoLiveGallery.publications.isEmpty() && PhotoLiveGallery.rows.isEmpty(),
+                "Process restart replays only local rendering and never promotes an App-only task into a phone export");
+        check(Arrays.equals(JPEG, Files.readAllBytes(source.file().toPath())) && Arrays.equals(JPEG, Files.readAllBytes(incoming.file().toPath()))
+                        && f.album.downloads == 0 && restored.album.downloads == 0, "Automatic destination recovery preserves originals without camera reads");
+    }
     private static final class Fixture {
         final Context context; final AlbumController album = new AlbumController(); final PhotoPresetBatch batch; final Work work = new Work();
         final String id = UUID.randomUUID().toString(); final Path originals; final PresetRecord a, b; PhotoProjectPresets auto;

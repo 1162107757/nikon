@@ -1,0 +1,4 @@
+{"phase":"request-cloud-archive-address"}
+{"phase":"download-cloud-archive"}
+{"phase":"read-cloud-archive-response"}
+{"failed":true,"code":"PREPARATION_OR_RELEASE_CHECK_FAILED","checkCode":"CLOUD_API_TRANSPORT_OR_RESPONSE_FAILED","errorType":"Error","phase":"read-cloud-archive-response"}

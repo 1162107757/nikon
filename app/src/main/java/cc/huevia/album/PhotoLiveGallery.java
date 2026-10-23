@@ -49,7 +49,7 @@ public final class PhotoLiveGallery {
         this.context = application == null ? context : application;
     }
 
-    public enum PublicationStatus { PUBLISHED, MISSING, PENDING, UNAVAILABLE }
+    public enum PublicationStatus { PUBLISHED, EXISTING_SOURCE, MISSING, PENDING, UNAVAILABLE }
     public static final class PublicationState {
         public final PublicationStatus status;
         public final String uri, message;
@@ -58,7 +58,14 @@ public final class PhotoLiveGallery {
 
     /** Read-only worker query. Missing/modified/foreign provider copies are never reported as saved. */
     public PublicationState publicationStatus(DownloadedPhoto photo) {
-        try (PhotoLocalTasks.Lease ignoredTask = PhotoLocalTasks.use()) {
+        return new PhotoEffectGallery(context).status(photo);
+    }
+    PublicationState exactPublicationStatus(DownloadedPhoto photo) {
+        return exactPublicationStatus(photo,true);
+    }
+    /** Deletion already owns the exclusive lease; its read-only preflight must not reserve another user. */
+    PublicationState exactPublicationStatus(DownloadedPhoto photo,boolean reserve) {
+        try (PhotoLocalTasks.Lease ignoredTask = reserve?PhotoLocalTasks.use():null) {
             File source = ownedSource(photo); long bytes = source.length(); String sha = PhotoOriginalStore.contentId(source);
             String id = sourceId(source, sha);
             synchronized (LOCK) {
@@ -90,7 +97,7 @@ public final class PhotoLiveGallery {
                         verifyContent(context.getContentResolver(), candidate.uri, bytes, sha);
                         return new PublicationState(PublicationStatus.PUBLISHED, candidate.uri.toString(), "");
                     }
-                    if (!PhotoPresetSources.isEffect(source)) {
+                    if (!PhotoPresetSources.isEffect(source) && !isExportStaging(source)) {
                         Row alias = existingPublishedAlias(context.getContentResolver(), MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY), directory, bytes, sha, id);
                         if (alias != null) return new PublicationState(PublicationStatus.PUBLISHED, alias.uri.toString(), "");
                     } else {
@@ -110,11 +117,21 @@ public final class PhotoLiveGallery {
                 verifyContent(context.getContentResolver(), uri, bytes, sha);
                 return new PublicationState(PublicationStatus.PUBLISHED, uri.toString(), "");
             }
-        } catch (Exception | OutOfMemoryError failure) { return new PublicationState(PublicationStatus.UNAVAILABLE, "", failure.getMessage() == null ? "系统相册状态暂不可用。" : failure.getMessage()); }
+        } catch (OutOfMemoryError memory) { return new PublicationState(PublicationStatus.UNAVAILABLE, "", "系统相册核对内存不足，应用内照片已保留，请重试。"); }
+        catch (Exception failure) { return new PublicationState(PublicationStatus.UNAVAILABLE, "", failure.getMessage() == null ? "系统相册状态暂不可用。" : failure.getMessage()); }
     }
 
     /** Call from a local saving worker; completed source bytes and EXIF are copied without recompression. */
     public String publish(DownloadedPhoto photo) throws IOException {
+        return publish(photo, false);
+    }
+    /** The explicit extra-copy action changes JPEG metadata only, leaving the app result immutable. */
+    public String publishNewCopy(DownloadedPhoto photo) throws IOException { return publish(photo, true); }
+    public String publish(DownloadedPhoto photo, boolean forceNewCopy) throws IOException {
+        return new PhotoEffectGallery(context).publish(photo, forceNewCopy);
+    }
+    /** Byte-exact publication used by the dated-copy journal after it freezes a temporary source. */
+    String publishExact(DownloadedPhoto photo) throws IOException {
         try (PhotoLocalTasks.Lease ignoredTask = PhotoLocalTasks.use()) {
             if (Build.VERSION.SDK_INT < 29 && context.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 throw new IOException("请允许保存照片到系统相册后重试，原图仍保留在应用内。");
@@ -146,6 +163,7 @@ public final class PhotoLiveGallery {
 
     /** Local deletion transaction owns the exclusive PhotoLocalTasks lease; never removes the app original. */
     public void deletePublished(DownloadedPhoto photo) throws IOException {
+        if(new PhotoEffectGallery(context).delete(photo))return;
         try {
             if (Build.VERSION.SDK_INT < 29 && context.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 throw new IOException("请允许访问系统相册后重试，应用内照片尚未删除。");
@@ -173,6 +191,7 @@ public final class PhotoLiveGallery {
         } catch (IOException failure) { throw failure; }
         catch (RuntimeException failure) { throw new IOException("系统相册副本删除未完成，应用内照片尚未删除。", failure); }
     }
+    File checkedEffectSource(DownloadedPhoto photo)throws IOException{return ownedSource(photo);}
 
     private static void rejectChangedSourceHistory(File source, long bytes, String sha, File directory) throws IOException {
         File[] files = directory.listFiles(); if (files == null) throw new IOException("无法核对历史相册保存记录。");
@@ -353,7 +372,7 @@ public final class PhotoLiveGallery {
             if (row != null && row.pending && matchesName(row.name, oldPrefix)) prefix = oldPrefix;
         }
         if (row == null) {
-            if (!PhotoPresetSources.isEffect(source)) {
+            if (!PhotoPresetSources.isEffect(source) && !isExportStaging(source)) {
                 Row alias = existingPublishedAlias(resolver, collection, directory, bytes, sha, id);
                 if (alias != null) { writeRecord(journal, new Record(bytes, sha, alias.uri.toString(), true)); return alias.uri.toString(); }
             } else {
@@ -424,11 +443,15 @@ public final class PhotoLiveGallery {
         File internal = new File(new File(context.getFilesDir(), "pictures"), "camera-album").getCanonicalFile();
         File external = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         boolean owned = internal.equals(source.getParentFile());
+        owned |= new File(context.getFilesDir(),"photo-export-staging").getCanonicalFile().equals(source.getParentFile())&&source.getName().matches("export-[0-9a-f]{32}\\.JPG");
         if (external != null) owned |= new File(external, "camera-album").getCanonicalFile().equals(source.getParentFile());
         if (!owned || !source.isFile() || !source.getName().toLowerCase(Locale.ROOT).matches(".*\\.jpe?g")) {
             throw new IOException("仅可保存应用内已完成的直播 JPEG 原图。");
         }
         return source;
+    }
+    private boolean isExportStaging(File source) throws IOException {
+        return new File(context.getFilesDir(), "photo-export-staging").getCanonicalFile().equals(source.getParentFile());
     }
 
     private File privateJournalDirectory() throws IOException {

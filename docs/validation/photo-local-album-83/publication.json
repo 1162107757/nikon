@@ -1,0 +1,84 @@
+{
+  "versionCode": 83,
+  "versionName": "0.16.0-beta",
+  "packageName": "cc.huevia",
+  "apkSha256": "f320eef5e6068e94fff54f37509374d09f723492f6fb3077052d727e55d79ebd",
+  "apkBytes": 3528301,
+  "signerSha256": "04db0f9d3d76c9831a0778cfabc1a0aaab984e05398da16eb644950ccfa0ae31",
+  "channel": "beta",
+  "releaseId": "5e67b2cd-d628-46c0-b80f-ad4d2c1f4af1",
+  "status": "published",
+  "revision": 2,
+  "publishedAt": "2026-10-23T22:15:55.718624+08:00",
+  "publicBytesVerifiedAt": "2026-10-23T14:16:33.061Z",
+  "checks": [
+    {
+      "origin": "https://huevia.cc",
+      "publicBytesVerified": true,
+      "latestMetadataVerified": true
+    },
+    {
+      "origin": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com",
+      "publicBytesVerified": true,
+      "latestMetadataVerified": true
+    }
+  ],
+  "allPreviousReleaseRowsPreserved": true,
+  "deployment": {
+    "requestArchiveSha256": "7a44057f762b195a6d35d00e3e6a8b646025c8f6b145c581f1bb02e7983b86bd",
+    "observedArchiveSha256": "968788d46d3b3952bf2a203a25e795a57222d8fa10302e5f086b7f6e3e62773e",
+    "contentIdentitySha256": "2a53a948b8b6a9c09f3f319d2ae368f40effc2b746df269c0d9a5fde82c7c2b7",
+    "configurationPreserved": true,
+    "memberContentAndModesVerified": true,
+    "filesBefore": 42,
+    "filesAfter": 43,
+    "changes": [
+      {
+        "path": "server/bundled-apks/f320eef5e6068e94fff54f37509374d09f723492f6fb3077052d727e55d79ebd.apk",
+        "before": null,
+        "after": "f320eef5e6068e94fff54f37509374d09f723492f6fb3077052d727e55d79ebd"
+      }
+    ]
+  },
+  "validation": {
+    "assertionsPerNativeMode": [
+      300,
+      300,
+      300,
+      300
+    ],
+    "nativeAssertionExecutions": 1200,
+    "nativeModes": 4,
+    "nativeScope": "Dedicated offline emulator with generated JPEG/PNG and structural NEF fixtures. Native View clicks to platform activity-start dispatch are monitored and cancelled; external picker and permission-controller rendering/text are outside scope. Notification permission is pregranted. No physical camera, live catalog, FPS, colour calibration or TalkBack certification.",
+    "syntaxChecks": 22,
+    "runtimeTests": 57,
+    "archiveGuardTests": 8,
+    "diagnosticTests": 2
+  },
+  "downloadPage": {
+    "url": "https://huevia.cc/preset-library/download/?channel=beta",
+    "htmlHttpStatus": 200,
+    "scriptHttpStatus": 200,
+    "htmlSha256": "eeeb51481732fb6fc05625c931e7c8b7dc4fd12c0df905229997cb16673c600b",
+    "scriptSha256": "335e1432947a6b365206ef50f6a2169cdd8ada4c0a4f8dfe4504f51fc6d0ac85",
+    "exactPageMetadataQueryVerified": true,
+    "scope": "HTTP HTML/script and exact page metadata query verified. No rendered-browser claim; CUA initialization was unavailable earlier in this session."
+  },
+  "auditEvidence": [
+    {
+      "id": 36,
+      "actor": "admin",
+      "action": "publish",
+      "sha256": "f320eef5e6068e94fff54f37509374d09f723492f6fb3077052d727e55d79ebd",
+      "versionCode": 83,
+      "revision": 2
+    },
+    {
+      "id": 35,
+      "actor": "admin",
+      "action": "upload_verified",
+      "sha256": "f320eef5e6068e94fff54f37509374d09f723492f6fb3077052d727e55d79ebd",
+      "versionCode": 83
+    }
+  ]
+}

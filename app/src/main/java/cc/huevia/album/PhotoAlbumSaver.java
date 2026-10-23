@@ -28,9 +28,13 @@ public final class PhotoAlbumSaver {
 
     private static final class Pending {
         final DownloadedPhoto photo;
+        final PhotoSaveTarget saveTarget;
+        final boolean forceNewCopy;
         final PhotoLocalTasks.Lease lease;
         final List<AlbumController.Callback<String>> callbacks = new ArrayList<>();
-        Pending(DownloadedPhoto photo, PhotoLocalTasks.Lease lease) { this.photo = photo; this.lease = lease; }
+        Pending(DownloadedPhoto photo, PhotoLocalTasks.Lease lease, PhotoSaveTarget target, boolean forceNewCopy) {
+            this.photo = photo; this.lease = lease; this.saveTarget = target; this.forceNewCopy = forceNewCopy;
+        }
     }
 
     public static synchronized PhotoAlbumSaver get(Context context) {
@@ -55,11 +59,22 @@ public final class PhotoAlbumSaver {
 
     /** Concurrent requests for one immutable source share one publication and all receive a main-thread result. */
     public void save(DownloadedPhoto photo, AlbumController.Callback<String> callback) {
+        save(photo, PhotoSaveTarget.PHONE_ALBUM, false, callback);
+    }
+    public void save(DownloadedPhoto photo, PhotoSaveTarget target, AlbumController.Callback<String> callback) {
+        save(photo, target, false, callback);
+    }
+    public void saveNewCopy(DownloadedPhoto photo, AlbumController.Callback<String> callback) {
+        save(photo, PhotoSaveTarget.PHONE_ALBUM, true, callback);
+    }
+    /** The destination is immutable for this queued request. APP_ONLY success intentionally returns no URI. */
+    public void save(DownloadedPhoto photo, PhotoSaveTarget target, boolean forceNewCopy, AlbumController.Callback<String> callback) {
         if (callback == null) throw new IllegalArgumentException("callback");
+        if (target == null) throw new IllegalArgumentException("target");
         final String key;
         try {
             if (photo == null || photo.file() == null) throw new IOException("原图信息无效。");
-            key = photo.file().getCanonicalPath();
+            key = photo.file().getCanonicalPath() + ":" + target + (forceNewCopy && target == PhotoSaveTarget.PHONE_ALBUM ? ":" + java.util.UUID.randomUUID() : "");
         } catch (IOException | RuntimeException failure) { fail(callback, failure); return; }
         Pending request;
         synchronized (this) {
@@ -73,7 +88,7 @@ public final class PhotoAlbumSaver {
             PhotoLocalTasks.Lease lease;
             try { lease = PhotoLocalTasks.use(); }
             catch (IOException busy) { fail(callback, busy); return; }
-            request = new Pending(photo, lease); request.callbacks.add(callback); pending.put(key, request);
+            request = new Pending(photo, lease, target, forceNewCopy); request.callbacks.add(callback); pending.put(key, request);
         }
         changed();
         Pending queued = request;
@@ -83,7 +98,14 @@ public final class PhotoAlbumSaver {
 
     private void publish(String key, Pending request) {
         String uri = ""; Exception failure = null; boolean success = false;
-        try { uri = gallery.publish(request.photo); success = true; }
+        try {
+            if (request.saveTarget == PhotoSaveTarget.PHONE_ALBUM) uri = gallery.publish(request.photo, request.forceNewCopy);
+            else {
+                java.io.File source = gallery.checkedEffectSource(request.photo);
+                PhotoPreviewCache.validateJpeg(source, source.length());
+            }
+            success = true;
+        }
         catch (Exception problem) { failure = problem; }
         catch (OutOfMemoryError memory) { failure = new IOException("系统相册保存内存不足，应用内原图已保留，请重试。", memory); }
         finally {

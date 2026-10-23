@@ -1,0 +1,4 @@
+INSTRUMENTATION_RESULT: status=PASS
+INSTRUMENTATION_RESULT: stream=Read-only origin diagnostics PASS; files=1
+
+INSTRUMENTATION_CODE: -1

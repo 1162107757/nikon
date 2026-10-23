@@ -32,6 +32,7 @@ public final class PhotoLiveReceiptStoreTest {
             replacementFailuresLeaveThePriorReceipt(root.resolve("atomic"));
             concurrentWorkersRetainEachOthersEntries(root.resolve("workers"));
             sharedOriginalCompletionsUseVerifiedBytesAndPreserveTheirName(root.resolve("shared"));
+            destinationsRemainImmutableAndLegacyReceiptsRetainPhoneTarget(root.resolve("destinations"));
             System.out.println("PASS: " + checks + " photo-live receipt store checks");
         } finally {
             try (var paths = Files.walk(root)) { for (Path path : paths.sorted(Comparator.reverseOrder()).toList()) {
@@ -40,6 +41,22 @@ public final class PhotoLiveReceiptStoreTest {
         }
     }
 
+    private static void destinationsRemainImmutableAndLegacyReceiptsRetainPhoneTarget(Path root) throws Exception {
+        Path records = root.resolve("records"), photos = root.resolve("photos"); Files.createDirectories(photos);
+        PhotoLiveReceiptStore store = new PhotoLiveReceiptStore(records.toFile(), photos.toFile()); PhotoItem source = photo(65, "LOCAL.JPG");
+        String identity = PhotoLiveLedger.identity(CAMERA, source.handle(), source.objectInfo());
+        PhotoLiveReceipt app = new PhotoLiveReceipt(P1, identity, "queued", source, null, "", 10, 20, PhotoSaveTarget.APP_ONLY);
+        store.write(P1, CAMERA, true, List.of(app));
+        PhotoLiveReceipt reopened = new PhotoLiveReceiptStore(records.toFile(), photos.toFile()).list(P1, "Local").get(0);
+        equal(reopened.saveTarget, PhotoSaveTarget.APP_ONLY); equal(reopened.archived().saveTarget, PhotoSaveTarget.APP_ONLY);
+        byte[] before = Files.readAllBytes(file(records, app));
+        fails(() -> store.write(P1, CAMERA, true, List.of(new PhotoLiveReceipt(P1, identity, "error", source, null, "failed", 10, 30, PhotoSaveTarget.PHONE_ALBUM))));
+        yes(Arrays.equals(before, Files.readAllBytes(file(records, app))));
+        PhotoItem oldSource = photo(66, "HISTORIC.JPG"); PhotoLiveReceipt old = receipt(P1, oldSource, "queued", null, "", 30, 40);
+        store.write(P1, CAMERA, true, List.of(old)); Files.write(file(records, old), encoded(old, P1, old.identity, old.status, old.createdAt, old.updatedAt, false));
+        PhotoLiveReceipt historic = new PhotoLiveReceiptStore(records.toFile(), photos.toFile()).list(P1, "Local").stream().filter(row -> row.identity.equals(old.identity)).findFirst().orElseThrow();
+        equal(historic.saveTarget, PhotoSaveTarget.PHONE_ALBUM); equal(historic.createdAt, old.createdAt);
+    }
     private static void sharedOriginalCompletionsUseVerifiedBytesAndPreserveTheirName(Path root) throws Exception {
         Path records = root.resolve("records"), photos = root.resolve("photos"); Files.createDirectories(photos);
         PhotoOriginalStore originals = new PhotoOriginalStore(photos.toFile());

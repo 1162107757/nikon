@@ -1,0 +1,1516 @@
+{
+  "version": "0.16.0-beta",
+  "versionCode": 83,
+  "apkSha256": "f320eef5e6068e94fff54f37509374d09f723492f6fb3077052d727e55d79ebd",
+  "scope": "Four-root navigation and local album on isolated emulator. Real runtime permission grant\/revoke before launch, native MediaStore JPEG\/PNG query, unchanged-source reuse, exact private import, incumbent editor, 13 adjustments, crop, recipe reuse, actual batch filter draft action and durable destination export. A hand-authored structural NEF fixture exercises the real offline RAW panel, exact-byte publisher and frozen retry target. Synthetic images\/recipes and structural RAW fixture only; no physical camera, captured sensor data, live production catalog, FPS or TalkBack certification.",
+  "mode": "dark",
+  "fontScale": 1,
+  "orientation": 1,
+  "displayWidthPixels": 1080,
+  "displayHeightPixels": 2424,
+  "density": 2.625,
+  "screenWidthDp": 411,
+  "screenHeightDp": 923,
+  "windowWidthPixels": 1080,
+  "windowHeightPixels": 2424,
+  "fixtureCatalogSha256": "27ea2a2ce402d971ff0e4325f9edb9395ec17220593130f5c0b8bd2f2c802d16",
+  "fixtureCatalogEntries": 23,
+  "fixtureRecipes": "Two existing NP3 research sources and hand-authored NCP fixtures already used by the local editor probe; no product download state is fabricated.",
+  "notificationPermissionSetup": "POST_NOTIFICATIONS pregranted only to isolate the dedicated emulator run; notification permission UX is outside this scope. Media permission grant\/revoke checks remain active.",
+  "localViewportLayouts": {
+    "app": {
+      "uncoveredListBounds": [
+        0,
+        561,
+        1080,
+        2145
+      ],
+      "rows": [
+        {
+          "listPosition": 1,
+          "tiles": [
+            {
+              "filename": "QA_ALPHA_62321261_PNG白底_HOST_NCP___100____调节_13_项.JPG",
+              "image": [
+                40,
+                689,
+                362,
+                1011
+              ],
+              "filenameBounds": [
+                40,
+                1011,
+                362,
+                1081
+              ],
+              "fullyVisibleAboveNavigation": true
+            },
+            {
+              "filename": "QA_ALPHA_20fff114_PNG白底_HOST_NCP___100____调节_13_项.JPG",
+              "image": [
+                378,
+                689,
+                701,
+                1012
+              ],
+              "filenameBounds": [
+                378,
+                1012,
+                701,
+                1082
+              ],
+              "fullyVisibleAboveNavigation": true
+            },
+            {
+              "filename": "QA_ALPHA_2928802c_PNG白底_HOST_NCP___100____调节_13_项.JPG",
+              "image": [
+                717,
+                689,
+                1040,
+                1012
+              ],
+              "filenameBounds": [
+                717,
+                1012,
+                1040,
+                1082
+              ],
+              "fullyVisibleAboveNavigation": true
+            }
+          ]
+        },
+        {
+          "listPosition": 2,
+          "tiles": [
+            {
+              "filename": "QA_ALPHA_abf3a7ca_PNG白底_HOST_NCP___100____调节_13_项.JPG",
+              "image": [
+                40,
+                1229,
+                362,
+                1551
+              ],
+              "filenameBounds": [
+                40,
+                1551,
+                362,
+                1621
+              ],
+              "fullyVisibleAboveNavigation": true
+            },
+            {
+              "filename": "QA_ALPHA_ab5916d3_PNG白底_HOST_NCP___100____调节_13_项.JPG",
+              "image": [
+                378,
+                1229,
+                701,
+                1552
+              ],
+              "filenameBounds": [
+                378,
+                1552,
+                701,
+                1622
+              ],
+              "fullyVisibleAboveNavigation": true
+            },
+            {
+              "filename": "QA_ALPHA_5df7cc12_PNG白底_HOST_NCP___100____调节_13_项.JPG",
+              "image": [
+                717,
+                1229,
+                1040,
+                1552
+              ],
+              "filenameBounds": [
+                717,
+                1552,
+                1040,
+                1622
+              ],
+              "fullyVisibleAboveNavigation": true
+            }
+          ]
+        },
+        {
+          "listPosition": 3,
+          "tiles": [
+            {
+              "filename": "QA_ALPHA_5f58125c_PNG白底_HOST_NCP___100____调节_13_项.JPG",
+              "image": [
+                40,
+                1769,
+                362,
+                2091
+              ],
+              "filenameBounds": [
+                40,
+                2091,
+                362,
+                2161
+              ],
+              "fullyVisibleAboveNavigation": false
+            },
+            {
+              "filename": "QA_ALPHA_6326aba2_PNG白底_HOST_NCP___100____调节_13_项.JPG",
+              "image": [
+                378,
+                1769,
+                701,
+                2092
+              ],
+              "filenameBounds": [
+                378,
+                2092,
+                701,
+                2162
+              ],
+              "fullyVisibleAboveNavigation": false
+            },
+            {
+              "filename": "QA_ALPHA_3a829046_PNG白底.jpg",
+              "image": [
+                717,
+                1769,
+                1040,
+                2092
+              ],
+              "filenameBounds": [
+                717,
+                2092,
+                1040,
+                2162
+              ],
+              "fullyVisibleAboveNavigation": false
+            }
+          ]
+        },
+        {
+          "listPosition": 4,
+          "tiles": [
+            {
+              "filename": "QA_ALPHA_cfab90a3_PNG白底_HOST_NCP___65____调节_13_项.JPG",
+              "image": [
+                40,
+                2309,
+                362,
+                2631
+              ],
+              "filenameBounds": [
+                40,
+                2631,
+                362,
+                2701
+              ],
+              "fullyVisibleAboveNavigation": false
+            }
+          ]
+        }
+      ]
+    },
+    "phone-authorized": {
+      "uncoveredListBounds": [
+        0,
+        561,
+        1080,
+        2145
+      ],
+      "rows": [
+        {
+          "listPosition": 1,
+          "tiles": [
+            {
+              "filename": "QA_ALPHA_84cabf01.png",
+              "image": [
+                40,
+                689,
+                362,
+                1011
+              ],
+              "filenameBounds": [
+                40,
+                1011,
+                362,
+                1081
+              ],
+              "fullyVisibleAboveNavigation": true
+            },
+            {
+              "filename": "QA_LOCAL_84cabf01.jpg",
+              "image": [
+                378,
+                689,
+                701,
+                1012
+              ],
+              "filenameBounds": [
+                378,
+                1012,
+                701,
+                1082
+              ],
+              "fullyVisibleAboveNavigation": true
+            },
+            {
+              "filename": "Huevia_已构图_7515139c1cb1.jpg",
+              "image": [
+                717,
+                689,
+                1040,
+                1012
+              ],
+              "filenameBounds": [
+                717,
+                1012,
+                1040,
+                1084
+              ],
+              "fullyVisibleAboveNavigation": true
+            }
+          ]
+        },
+        {
+          "listPosition": 2,
+          "tiles": [
+            {
+              "filename": "Huevia_调节_13_项_291fcbb32ca7.jpg",
+              "image": [
+                40,
+                1105,
+                362,
+                1427
+              ],
+              "filenameBounds": [
+                40,
+                1427,
+                362,
+                1499
+              ],
+              "fullyVisibleAboveNavigation": true
+            },
+            {
+              "filename": "Huevia_已构图_042fa0a2220b.jpg",
+              "image": [
+                378,
+                1105,
+                701,
+                1428
+              ],
+              "filenameBounds": [
+                378,
+                1428,
+                701,
+                1500
+              ],
+              "fullyVisibleAboveNavigation": true
+            },
+            {
+              "filename": "QA_ALPHA_62321261.png",
+              "image": [
+                717,
+                1105,
+                1040,
+                1428
+              ],
+              "filenameBounds": [
+                717,
+                1428,
+                1040,
+                1498
+              ],
+              "fullyVisibleAboveNavigation": true
+            }
+          ]
+        },
+        {
+          "listPosition": 3,
+          "tiles": [
+            {
+              "filename": "QA_LOCAL_62321261.jpg",
+              "image": [
+                40,
+                1521,
+                362,
+                1843
+              ],
+              "filenameBounds": [
+                40,
+                1843,
+                362,
+                1913
+              ],
+              "fullyVisibleAboveNavigation": true
+            },
+            {
+              "filename": "Huevia_已构图_1b6585112ac2.jpg",
+              "image": [
+                378,
+                1521,
+                701,
+                1844
+              ],
+              "filenameBounds": [
+                378,
+                1844,
+                701,
+                1916
+              ],
+              "fullyVisibleAboveNavigation": true
+            },
+            {
+              "filename": "Huevia_调节_13_项_4a1f4f6db982.jpg",
+              "image": [
+                717,
+                1521,
+                1040,
+                1844
+              ],
+              "filenameBounds": [
+                717,
+                1844,
+                1040,
+                1916
+              ],
+              "fullyVisibleAboveNavigation": true
+            }
+          ]
+        },
+        {
+          "listPosition": 4,
+          "tiles": [
+            {
+              "filename": "Huevia_已构图_f1ec3140b069.jpg",
+              "image": [
+                40,
+                1937,
+                362,
+                2259
+              ],
+              "filenameBounds": [
+                40,
+                2259,
+                362,
+                2331
+              ],
+              "fullyVisibleAboveNavigation": false
+            },
+            {
+              "filename": "QA_ALPHA_20fff114.png",
+              "image": [
+                378,
+                1937,
+                701,
+                2260
+              ],
+              "filenameBounds": [
+                378,
+                2260,
+                701,
+                2330
+              ],
+              "fullyVisibleAboveNavigation": false
+            },
+            {
+              "filename": "QA_LOCAL_20fff114.jpg",
+              "image": [
+                717,
+                1937,
+                1040,
+                2260
+              ],
+              "filenameBounds": [
+                717,
+                2260,
+                1040,
+                2330
+              ],
+              "fullyVisibleAboveNavigation": false
+            }
+          ]
+        },
+        {
+          "listPosition": 5,
+          "tiles": [
+            {
+              "filename": "Huevia_已构图_dc55a6edc6a4.jpg",
+              "image": [
+                40,
+                2352,
+                362,
+                2674
+              ],
+              "filenameBounds": [
+                40,
+                2674,
+                362,
+                2746
+              ],
+              "fullyVisibleAboveNavigation": false
+            },
+            {
+              "filename": "Huevia_调节_13_项_dec0d594b015.jpg",
+              "image": [
+                378,
+                2352,
+                701,
+                2675
+              ],
+              "filenameBounds": [
+                378,
+                2675,
+                701,
+                2747
+              ],
+              "fullyVisibleAboveNavigation": false
+            },
+            {
+              "filename": "Huevia_已构图_8e988ea3124f.jpg",
+              "image": [
+                717,
+                2352,
+                1040,
+                2675
+              ],
+              "filenameBounds": [
+                717,
+                2675,
+                1040,
+                2747
+              ],
+              "fullyVisibleAboveNavigation": false
+            }
+          ]
+        }
+      ]
+    },
+    "app-only-results": {
+      "uncoveredListBounds": [
+        0,
+        561,
+        1080,
+        2145
+      ],
+      "rows": [
+        {
+          "listPosition": 1,
+          "tiles": [
+            {
+              "filename": "QA_ALPHA_84cabf01_PNG白底_HOST_NCP___100____调节_13_项.JPG",
+              "image": [
+                40,
+                689,
+                362,
+                1011
+              ],
+              "filenameBounds": [
+                40,
+                1011,
+                362,
+                1081
+              ],
+              "fullyVisibleAboveNavigation": true
+            },
+            {
+              "filename": "QA_ALPHA_62321261_PNG白底_HOST_NCP___100____调节_13_项.JPG",
+              "image": [
+                378,
+                689,
+                701,
+                1012
+              ],
+              "filenameBounds": [
+                378,
+                1012,
+                701,
+                1082
+              ],
+              "fullyVisibleAboveNavigation": true
+            },
+            {
+              "filename": "QA_ALPHA_20fff114_PNG白底_HOST_NCP___100____调节_13_项.JPG",
+              "image": [
+                717,
+                689,
+                1040,
+                1012
+              ],
+              "filenameBounds": [
+                717,
+                1012,
+                1040,
+                1082
+              ],
+              "fullyVisibleAboveNavigation": true
+            }
+          ]
+        },
+        {
+          "listPosition": 2,
+          "tiles": [
+            {
+              "filename": "QA_ALPHA_2928802c_PNG白底_HOST_NCP___100____调节_13_项.JPG",
+              "image": [
+                40,
+                1229,
+                362,
+                1551
+              ],
+              "filenameBounds": [
+                40,
+                1551,
+                362,
+                1621
+              ],
+              "fullyVisibleAboveNavigation": true
+            },
+            {
+              "filename": "QA_ALPHA_abf3a7ca_PNG白底_HOST_NCP___100____调节_13_项.JPG",
+              "image": [
+                378,
+                1229,
+                701,
+                1552
+              ],
+              "filenameBounds": [
+                378,
+                1552,
+                701,
+                1622
+              ],
+              "fullyVisibleAboveNavigation": true
+            },
+            {
+              "filename": "QA_ALPHA_ab5916d3_PNG白底_HOST_NCP___100____调节_13_项.JPG",
+              "image": [
+                717,
+                1229,
+                1040,
+                1552
+              ],
+              "filenameBounds": [
+                717,
+                1552,
+                1040,
+                1622
+              ],
+              "fullyVisibleAboveNavigation": true
+            }
+          ]
+        },
+        {
+          "listPosition": 3,
+          "tiles": [
+            {
+              "filename": "QA_ALPHA_5df7cc12_PNG白底_HOST_NCP___100____调节_13_项.JPG",
+              "image": [
+                40,
+                1769,
+                362,
+                2091
+              ],
+              "filenameBounds": [
+                40,
+                2091,
+                362,
+                2161
+              ],
+              "fullyVisibleAboveNavigation": false
+            },
+            {
+              "filename": "QA_ALPHA_5f58125c_PNG白底_HOST_NCP___100____调节_13_项.JPG",
+              "image": [
+                378,
+                1769,
+                701,
+                2092
+              ],
+              "filenameBounds": [
+                378,
+                2092,
+                701,
+                2162
+              ],
+              "fullyVisibleAboveNavigation": false
+            },
+            {
+              "filename": "QA_ALPHA_6326aba2_PNG白底_HOST_NCP___100____调节_13_项.JPG",
+              "image": [
+                717,
+                1769,
+                1040,
+                2092
+              ],
+              "filenameBounds": [
+                717,
+                2092,
+                1040,
+                2162
+              ],
+              "fullyVisibleAboveNavigation": false
+            }
+          ]
+        },
+        {
+          "listPosition": 4,
+          "tiles": [
+            {
+              "filename": "QA_ALPHA_3a829046_PNG白底.jpg",
+              "image": [
+                40,
+                2309,
+                362,
+                2631
+              ],
+              "filenameBounds": [
+                40,
+                2631,
+                362,
+                2701
+              ],
+              "fullyVisibleAboveNavigation": false
+            },
+            {
+              "filename": "QA_ALPHA_cfab90a3_PNG白底_HOST_NCP___65____调节_13_项.JPG",
+              "image": [
+                378,
+                2309,
+                701,
+                2632
+              ],
+              "filenameBounds": [
+                378,
+                2632,
+                701,
+                2702
+              ],
+              "fullyVisibleAboveNavigation": false
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "localActionLayouts": {
+    "picker-app": {
+      "description": "选择照片",
+      "bounds": [
+        901,
+        1941,
+        1048,
+        2088
+      ],
+      "uncoveredBounds": [
+        0,
+        329,
+        1080,
+        2145
+      ]
+    },
+    "overflow-app": {
+      "description": "相册更多操作",
+      "bounds": [
+        933,
+        340,
+        1059,
+        466
+      ],
+      "uncoveredBounds": [
+        0,
+        329,
+        1080,
+        2145
+      ]
+    },
+    "central-authorization": {
+      "bounds": [
+        400,
+        1485,
+        680,
+        1611
+      ],
+      "uncoveredBounds": [
+        0,
+        329,
+        1080,
+        2145
+      ]
+    },
+    "picker-denied": {
+      "description": "选择照片",
+      "bounds": [
+        901,
+        1941,
+        1048,
+        2088
+      ],
+      "uncoveredBounds": [
+        0,
+        329,
+        1080,
+        2145
+      ]
+    }
+  },
+  "screenshots": {
+    "local-app": {
+      "width": 1080,
+      "height": 2424,
+      "orientation": 1,
+      "fontScale": 1
+    },
+    "local-denied": {
+      "width": 1080,
+      "height": 2424,
+      "orientation": 1,
+      "fontScale": 1
+    },
+    "phone-authorized": {
+      "width": 1080,
+      "height": 2424,
+      "orientation": 1,
+      "fontScale": 1
+    },
+    "editor-jpeg": {
+      "width": 1080,
+      "height": 2424,
+      "orientation": 1,
+      "fontScale": 1
+    },
+    "editor-png-adjustments": {
+      "width": 1080,
+      "height": 2424,
+      "orientation": 1,
+      "fontScale": 1
+    },
+    "destination-sheet": {
+      "width": 1080,
+      "height": 2424,
+      "orientation": 1,
+      "fontScale": 1
+    },
+    "app-only-results": {
+      "width": 1080,
+      "height": 2424,
+      "orientation": 1,
+      "fontScale": 1
+    }
+  },
+  "localGuidanceLayouts": {
+    "denied-title": {
+      "text": "选择你想编辑的照片",
+      "bounds": [
+        84,
+        1173,
+        996,
+        1323
+      ],
+      "uncoveredBounds": [
+        0,
+        329,
+        1080,
+        2145
+      ]
+    },
+    "denied-guidance": {
+      "text": "授权后即可浏览手机照片。\n也可点击 + 只选择要编辑的照片。",
+      "bounds": [
+        84,
+        1323,
+        996,
+        1443
+      ],
+      "uncoveredBounds": [
+        0,
+        329,
+        1080,
+        2145
+      ]
+    }
+  },
+  "localPlatformActions": {
+    "boundary": "Actual native View clicks reached framework start-activity dispatch; ActivityMonitor returned RESULT_CANCELED. External document-picker and permission-controller rendering\/text are not certified.",
+    "permissionAction": "android.content.pm.action.REQUEST_PERMISSIONS",
+    "permissionNames": [
+      "android.permission.READ_MEDIA_IMAGES",
+      "android.permission.READ_MEDIA_VISUAL_USER_SELECTED"
+    ],
+    "pickerAction": "android.intent.action.OPEN_DOCUMENT",
+    "pickerMime": "image\/*",
+    "pickerMimeTypes": [
+      "image\/jpeg",
+      "image\/png"
+    ],
+    "cancelledWithoutImport": true
+  },
+  "mediaFixtures": {
+    "jpegUri": "content:\/\/media\/external_primary\/images\/media\/96",
+    "jpegSha256": "e083ce449cd97b4baaebf4ba892eb28c5e959ad81d67cb25a7863123aef5e5ca",
+    "pngUri": "content:\/\/media\/external_primary\/images\/media\/97",
+    "pngSha256": "06e5912584b199ac4874c8e1bde6af49d8f2405df563e6d383a07844ae2d0c85"
+  },
+  "neutralImportedOrigin": {
+    "expectedSourceUri": "content:\/\/media\/external_primary\/images\/media\/96",
+    "providedContextPackage": "cc.huevia",
+    "providedContextFilesDir": "\/data\/data\/cc.huevia\/files",
+    "applicationContextPackage": "cc.huevia",
+    "applicationContextFilesDir": "\/data\/data\/cc.huevia\/files",
+    "privateAbsolutePath": "\/data\/user\/0\/cc.huevia\/files\/pictures\/camera-album\/phone-9d7a2e07f139a44763b9ee9e99f3d5fd02fdf39f074d2b2442253c815b325fbc-e083ce449cd97b4baaebf4ba892eb28c5e959ad81d67cb25a7863123aef5e5ca__QA_LOCAL_84cabf01.jpg",
+    "privatePath": "\/data\/data\/cc.huevia\/files\/pictures\/camera-album\/phone-9d7a2e07f139a44763b9ee9e99f3d5fd02fdf39f074d2b2442253c815b325fbc-e083ce449cd97b4baaebf4ba892eb28c5e959ad81d67cb25a7863123aef5e5ca__QA_LOCAL_84cabf01.jpg",
+    "privateFilename": "phone-9d7a2e07f139a44763b9ee9e99f3d5fd02fdf39f074d2b2442253c815b325fbc-e083ce449cd97b4baaebf4ba892eb28c5e959ad81d67cb25a7863123aef5e5ca__QA_LOCAL_84cabf01.jpg",
+    "privateBytes": 613734,
+    "privateModified": 1792763004000,
+    "privateSha256": "e083ce449cd97b4baaebf4ba892eb28c5e959ad81d67cb25a7863123aef5e5ca",
+    "originState": "EXISTING_SOURCE",
+    "originUri": "content:\/\/media\/external\/images\/media\/96",
+    "originMessage": "原照片仍在手机相册，未新增副本。",
+    "publicationStatus": "EXISTING_SOURCE",
+    "publicationUri": "content:\/\/media\/external\/images\/media\/96",
+    "publicationMessage": "原照片仍在手机相册，未新增副本。",
+    "exactStatus": "MISSING",
+    "exactUri": "",
+    "exactMessage": "",
+    "sourceRecord": {
+      "path": "\/data\/data\/cc.huevia\/files\/local-photo-sources\/phone-9d7a2e07f139a44763b9ee9e99f3d5fd02fdf39f074d2b2442253c815b325fbc-e083ce449cd97b4baaebf4ba892eb28c5e959ad81d67cb25a7863123aef5e5ca.source",
+      "exists": true,
+      "bytes": 239,
+      "sha256": "d5977860601492cbb6df7a45c1651703c9110c60f64481164e548b4df948fe0e",
+      "magic": "4c505332",
+      "uri": "content:\/\/media\/external\/images\/media\/96",
+      "filename": "QA_LOCAL_84cabf01.jpg",
+      "mime": "image\/jpeg",
+      "sourceSha256": "e083ce449cd97b4baaebf4ba892eb28c5e959ad81d67cb25a7863123aef5e5ca",
+      "retained": "",
+      "sourceBytes": 613734,
+      "date": 1792763004000,
+      "workingSha256": "e083ce449cd97b4baaebf4ba892eb28c5e959ad81d67cb25a7863123aef5e5ca",
+      "workingBytes": 613734
+    },
+    "publicationJournalFiles": [
+      {
+        "directory": "photo-effect-gallery",
+        "name": "987b92d0e2beefad59720b59c3e9afb988ebae756edf68656267f1670d820da4.record",
+        "bytes": 276,
+        "sha256": "850c69dfe25622e8b2637c6dd8816cbaa522bd399452d7f47c8d2c49b389cd48"
+      },
+      {
+        "directory": "photo-effect-gallery",
+        "name": "9738dfc0bbabb7ea6718e11d5b4f411f116c5ca371f6344a16e7729b2d21e8bb.record",
+        "bytes": 142,
+        "sha256": "5e83c2e5ebee99df6051c6812df61969aa0316dfa38bd2318b5a86b13eb419e4"
+      },
+      {
+        "directory": "photo-effect-gallery",
+        "name": "725e55ab30d5d15141490bde126051c57a22c254a97e376235db193d9f1ba4f4.record",
+        "bytes": 276,
+        "sha256": "3b4d0a1c06f7004bda657a8a79237fb857dd902a5336d462874c830d5793f571"
+      },
+      {
+        "directory": "photo-effect-gallery",
+        "name": "524b9e566f569719e1feddd5f39ec806e43ba7adc00ab8a092764315c4b95627.record",
+        "bytes": 142,
+        "sha256": "d71812169de349bd3328e9ea360776366a9452de20601be8eac247a3336ba748"
+      },
+      {
+        "directory": "photo-effect-gallery",
+        "name": "6928139db93802bfad5eb7e7647cfbe0c38589c798107c73ac1fc71e69e4e636.record",
+        "bytes": 276,
+        "sha256": "6150e6fd7b29700df65e3002b4040a8e1320125458e041af61cfbb7bc0f512db"
+      },
+      {
+        "directory": "photo-effect-gallery",
+        "name": "020bcf361ce09b339e73f8cc2f690d61ab231aa17bb351237207db027f9782e6.record",
+        "bytes": 142,
+        "sha256": "7a88c195003584dc5eb2dcf1b5942f871acfbf48234004c7b35555e2ea7db8bb"
+      },
+      {
+        "directory": "photo-effect-gallery",
+        "name": "f021821b350dd5af6316a7c272f3cb8918d204de593b25450caa6de01cbae921.record",
+        "bytes": 276,
+        "sha256": "3f235e95cc479f0b1116f0acc4867473167b76e9bd696bd9bbfe0bd39b1f596c"
+      },
+      {
+        "directory": "photo-effect-gallery",
+        "name": "219a7403563ad203fd64a992244d1d598345eb4d0f9b6b8f7ccdbb9a7b207a1b.record",
+        "bytes": 142,
+        "sha256": "98a272ab31f0d1cccb1b1409f65a3f47e809daa9bcb941bd886ada243d14a7a8"
+      },
+      {
+        "directory": "photo-effect-gallery",
+        "name": "b77aa53b93b23e697a1f69f369579126b2621a8ae9c8b7ced33207b13ec1cb20.record",
+        "bytes": 276,
+        "sha256": "88593621e39c739b9ed3ee7f119a0d8a8bdcfb7a9e9da98aa2a7ff58b8d55974"
+      },
+      {
+        "directory": "photo-effect-gallery",
+        "name": "3cf596fabcfd36325891c403e94b8c3d95ffb120bf4f946c1fc8c29385f997e7.record",
+        "bytes": 142,
+        "sha256": "d4229410dcaaf0ebbacce0ad6375e32ff8e7029518d0c275c3db9c274b97ecd2"
+      },
+      {
+        "directory": "photo-effect-gallery",
+        "name": "fe91a1d41b957bec3a8cda455f537b7fc9a1ee2af2fbfc51381fcea7654b9349.record",
+        "bytes": 276,
+        "sha256": "a0ee24d9eef21702e9d0697626875d6ffb9543411397fa6636531f77a5da4983"
+      },
+      {
+        "directory": "photo-effect-gallery",
+        "name": "4c18e2e59009f2c8a080d37255e71c7224622d82486d743ee0d0149d9e949dec.record",
+        "bytes": 142,
+        "sha256": "55956eabc459ff855a59101042e465f455484fd1ac4436241104630429d610e5"
+      },
+      {
+        "directory": "photo-effect-gallery",
+        "name": "0a324a38bbdcc40dd7b9552f02c49976cb9d0aac2f93a3f6ed8562c76f909dd1.record",
+        "bytes": 276,
+        "sha256": "f5419b8f6a177c85c50462637eedb2ef633deac59f60ed979b8661321c732862"
+      },
+      {
+        "directory": "photo-effect-gallery",
+        "name": "2cd0d28eedf5c95da2dc15a43e817e28d2d49fb9c86d698725c5a03a9ce47e9b.record",
+        "bytes": 142,
+        "sha256": "9ceb4e8b524f74bae7cfc526d9ec918ef87a8231d66a3e472dacbdb0d10f8d3a"
+      },
+      {
+        "directory": "photo-effect-gallery",
+        "name": "62b8d5deb2dc4eedbc84f05e45c9b2750a04daf4f976b42d43554760907a4d79.record",
+        "bytes": 276,
+        "sha256": "d4fcd52fcb70c8daebd52c958f21a0cde56932a5dab2671e0102409bd766f34d"
+      },
+      {
+        "directory": "photo-effect-gallery",
+        "name": "84baa81b90b5b039da9e05aee5e1e17798599d9fe9b56c1f7de149473ea46fc6.record",
+        "bytes": 142,
+        "sha256": "bd2857bea13523369ec34bd9376494a2c5479ddad39d4303da1f538df48346f9"
+      },
+      {
+        "directory": "photo-effect-gallery",
+        "name": "c977b55ffb3bc1ff791919141745017c2113bbe80d6f2bf35c63a3583d947b6b.record",
+        "bytes": 276,
+        "sha256": "cd36bc5efe2e23d711f1d138dd1b99a3ad8aec0298e5988d3fb650bb26235fb2"
+      },
+      {
+        "directory": "photo-effect-gallery",
+        "name": "03fc0645a9d492b3739f8a8d3f62a4fd650ef78981a3755bc5ea7c75461341ae.record",
+        "bytes": 142,
+        "sha256": "1f0288d9292c98b57ea0a3dbda99867d406674565b031db62ac2114a42b75a35"
+      },
+      {
+        "directory": "photo-live-gallery",
+        "name": ".publisher.lock",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "directory": "photo-live-gallery",
+        "name": "09d1a4b2922466cb51cb316388c02b1f018b4e66a1da3a7dbde009ddc5527587.record",
+        "bytes": 129,
+        "sha256": "ae9c3ac6287e2a7b933b34ad100ffcf547f0fc35383197514be0912720d73ed0"
+      },
+      {
+        "directory": "photo-live-gallery",
+        "name": "9434408ab3ded30f6aa08174e3935e304dca973dd1d6a4ee7d15b59413456212.record",
+        "bytes": 129,
+        "sha256": "2c33a28d368a782e9fb8a1a4ddc4241365cd3ad8276281d899184dccffb4b646"
+      },
+      {
+        "directory": "photo-live-gallery",
+        "name": "8b9d9ea44f5213b8afab82ff310f93074418b4efedc7f27cd4fda87f1560d6c2.record",
+        "bytes": 129,
+        "sha256": "cd88a581424f96e792608070fd4815f3b9d3ac4f0c8bfe8084d3dcb5fbac807d"
+      },
+      {
+        "directory": "photo-live-gallery",
+        "name": "1867991f24dd0481c48f4052e6c1495c72601c3128bc56456fbeb5f94b960a9f.record",
+        "bytes": 129,
+        "sha256": "ecab26fccd4c09482aa98eeb69926dc7d3e06393056bd9748da4fcb9aaf759ed"
+      },
+      {
+        "directory": "photo-live-gallery",
+        "name": "50271c562c9e28d7eb893ec60857af0f60b5d9562310b258ab2ae2fadcd74b06.record",
+        "bytes": 129,
+        "sha256": "ec62a4930e414e8fddb53dcc8d63a665c97d51aab842bc3ba045564bc6a1f7f9"
+      },
+      {
+        "directory": "photo-live-gallery",
+        "name": "0823b8513e56764ee1bbc26582a971bca8f12eb23caa34eadeb2cefa14462d63.record",
+        "bytes": 129,
+        "sha256": "753f3c96e63539c586c0edf3b792e1f7e605a9873e3de65d10128ed842c4f30a"
+      },
+      {
+        "directory": "photo-live-gallery",
+        "name": "bdb094805eb40d7119b7f7990b301da12b0ca33ec9a5a859d78ec16f19df288c.record",
+        "bytes": 129,
+        "sha256": "fd89c38ed5ec93a1a3359e5857d375e7dcf8cd39c0e13a8b613f6893f1662fdd"
+      },
+      {
+        "directory": "photo-live-gallery",
+        "name": "e2adc512fd2a0d5bec034ade84aac507d3c75d599acdc253eaa7237ab21e9871.record",
+        "bytes": 129,
+        "sha256": "40918c5f12f86ca11d14ccfe2addf7bf9736d66c5f96d674f560c8b130401e07"
+      },
+      {
+        "directory": "photo-live-gallery",
+        "name": "690d92e8f0a0ce39c08e3672d84dfa83e80fbcc6a14b082c91e9b463044a43b9.record",
+        "bytes": 129,
+        "sha256": "6d8c468b6759d46098d5aec61b42756bd5ad38a57822d3440424735c2632c5e9"
+      },
+      {
+        "directory": "photo-live-gallery",
+        "name": "0404e77351024882aef673ee0fb1996327af50eb48145a2f80a9901596fdecc0.record",
+        "bytes": 129,
+        "sha256": "b4e87e1bf6cd2f2f1c06c7b557c48fd37d5e2b78a1c95443ca617f06cbd3f6b3"
+      },
+      {
+        "directory": "photo-live-gallery",
+        "name": "00b92d5fa596d27d988fb1fceb60760002994ebdb0add09ee93f3b500f6ae27d.record",
+        "bytes": 129,
+        "sha256": "b56f1b92b1f8b7e6b0b93293a5980b3f741db186b5f92a3695ab2db77a3cc160"
+      },
+      {
+        "directory": "photo-live-gallery",
+        "name": "2e0012a4ee09993d581071eb9ce4d85e035dbc436a1bf113d882f7a06f32167a.record",
+        "bytes": 129,
+        "sha256": "d04b18d7c0372353d36af3574d2eec0f63876d508be459f4ecf5cb34789f857b"
+      },
+      {
+        "directory": "photo-live-gallery",
+        "name": "9adda89d136fcf84760133e3d7a372b3ad2675c2403103a4a1ca3c0c63a697d7.record",
+        "bytes": 129,
+        "sha256": "24015152f63d2597e29b97ba0cce4ba3f645e3b7ae8ffb6a8c62e155d6cde0f6"
+      },
+      {
+        "directory": "photo-live-gallery",
+        "name": "c29a3daaad5038a08e53382e6abef80af3f4598bb5329848338da1d4321ce927.record",
+        "bytes": 129,
+        "sha256": "81ced0751479504bc524918dbf9d84e2cdf7bb85f97aed3b48a402ab384b5355"
+      },
+      {
+        "directory": "photo-live-gallery",
+        "name": "a63a95bf841779dedcc4714a6ae8d1919776d95321118abc8eb5dfbfeedd49f5.record",
+        "bytes": 129,
+        "sha256": "ba7405bc8e28315da4cbbbbca7782639f1fc20a2f2635651d38015313da0d0a5"
+      },
+      {
+        "directory": "photo-live-gallery",
+        "name": "08be05d9a2ca5a03884da4c6f007a3508c29c6ae93a4c8448c08cd983131b338.record",
+        "bytes": 129,
+        "sha256": "010a4ab7363e58a0431c1099776ff9ae0cba7b9ad817af7e5cb40d2bc23d45cf"
+      },
+      {
+        "directory": "photo-live-gallery",
+        "name": "ba69fd41d1d68bd433aaa2902a5f81236ec951d56723f23cef6d42aab1f9b869.record",
+        "bytes": 129,
+        "sha256": "9df0b07d9473131295675895f023f3a262360b5905ce8008bf6f1bb2a516ef89"
+      },
+      {
+        "directory": "photo-live-gallery",
+        "name": "9d6e271b95cbd13d390de5bbfc29299fab99a5a49c9fd041198b5faa01f36c5c.record",
+        "bytes": 129,
+        "sha256": "44e9020cfbc0ac9a9360e6bb8be8a452194de3733d2bfc4b62e5c2206f01606f"
+      },
+      {
+        "directory": "photo-live-gallery",
+        "name": "8e988ea3124f9cc0cbf0614679e3fd90feb30555ac83abe7faf51a2a548ce635.record",
+        "bytes": 129,
+        "sha256": "1c5c443f6a9328a83fcdbd181c06dea8b4154b863867b2540d68ffb38547a71a"
+      },
+      {
+        "directory": "photo-live-gallery",
+        "name": "dec0d594b0152b0e77b5749d4c80b2571bd7e7cf4e6cc883828ef0422f1e9215.record",
+        "bytes": 129,
+        "sha256": "6ca7216b13c48c574250b208201f6e1db06ad43da55b87702b399f17652c231a"
+      },
+      {
+        "directory": "photo-live-gallery",
+        "name": "dc55a6edc6a4b7ad75df1ebf50cf0c17923d625a633e147cf599fac3d2fc2ee5.record",
+        "bytes": 129,
+        "sha256": "a7b2bd2c3d3107d6268933c1631bcf9a16d2383aa0205e97ccaf6be918204280"
+      },
+      {
+        "directory": "photo-live-gallery",
+        "name": "f1ec3140b069466d04205e8413b23bbef76ab73f0bdbcdb58f70d0650e0bf1dd.record",
+        "bytes": 129,
+        "sha256": "8ff9c5d6803ea9acfb6466367e22fb8b2b61c71a4292244c0dcce9495d3c085c"
+      },
+      {
+        "directory": "photo-live-gallery",
+        "name": "4a1f4f6db9828434b37857a70923327dac7f571b9e2c6711499b07c28cc915e7.record",
+        "bytes": 129,
+        "sha256": "cac37b07453935e644735414d225dedd4848c7f0994105a39ded8f2b72e83010"
+      },
+      {
+        "directory": "photo-live-gallery",
+        "name": "1b6585112ac28c201ac3b6c0ebc28ff32a3eb8a6c69261ae803a6b14486d7a06.record",
+        "bytes": 129,
+        "sha256": "cca140bf9f63501dfa7f2753cfdcf98ce6738cfc1ff1ee6625f0bc659c1e15f0"
+      },
+      {
+        "directory": "photo-live-gallery",
+        "name": "042fa0a2220b22fe29d6424644d5f35b7d3db29926354ab5d2bf05957685fca2.record",
+        "bytes": 129,
+        "sha256": "d58e9dc172449754c2e96402787f6865b4198e31a66d55eb914dc47e270be610"
+      },
+      {
+        "directory": "photo-live-gallery",
+        "name": "291fcbb32ca7e651f98a19fca9736b8222561bfea15c31fe60ccde895d36215b.record",
+        "bytes": 129,
+        "sha256": "8ddc9f0989a1be9583f86c95d611e081b5adf8b976103e1248a38091b6c646cf"
+      },
+      {
+        "directory": "photo-live-gallery",
+        "name": "7515139c1cb12939d1f850f8a0c42bf52b02b85b6bb349f26f17631e14151481.record",
+        "bytes": 129,
+        "sha256": "fa547ea552220b6653f4af5f6e760a2ab08f02f4a7e385de77e858c0e320fceb"
+      }
+    ]
+  },
+  "unchangedImportedSourceUri": "content:\/\/media\/external\/images\/media\/96",
+  "localBatchSelections": [
+    {
+      "expectedAbsolutePath": "\/data\/user\/0\/cc.huevia\/files\/pictures\/camera-album\/phone-9d7a2e07f139a44763b9ee9e99f3d5fd02fdf39f074d2b2442253c815b325fbc-e083ce449cd97b4baaebf4ba892eb28c5e959ad81d67cb25a7863123aef5e5ca__QA_LOCAL_84cabf01.jpg",
+      "expectedCanonicalPath": "\/data\/data\/cc.huevia\/files\/pictures\/camera-album\/phone-9d7a2e07f139a44763b9ee9e99f3d5fd02fdf39f074d2b2442253c815b325fbc-e083ce449cd97b4baaebf4ba892eb28c5e959ad81d67cb25a7863123aef5e5ca__QA_LOCAL_84cabf01.jpg",
+      "listRows": 18,
+      "appGroups": 47,
+      "matchedRow": 15,
+      "groupId": "photo-e083ce449cd97b4baaebf4ba892eb28c5e959ad81d67cb25a7863123aef5e5ca",
+      "displayCanonicalPath": "\/data\/data\/cc.huevia\/files\/pictures\/camera-album\/phone-9d7a2e07f139a44763b9ee9e99f3d5fd02fdf39f074d2b2442253c815b325fbc-e083ce449cd97b4baaebf4ba892eb28c5e959ad81d67cb25a7863123aef5e5ca__QA_LOCAL_84cabf01.jpg"
+    },
+    {
+      "expectedAbsolutePath": "\/data\/user\/0\/cc.huevia\/files\/pictures\/camera-album\/phone-ad4dc62d2a0eb12cb1f495f8379fe966f6c6c52cd06bc8cf9d3a802839162ff3-06e5912584b199ac4874c8e1bde6af49d8f2405df563e6d383a07844ae2d0c85__QA_ALPHA_84cabf01_PNG白底.jpg",
+      "expectedCanonicalPath": "\/data\/data\/cc.huevia\/files\/pictures\/camera-album\/phone-ad4dc62d2a0eb12cb1f495f8379fe966f6c6c52cd06bc8cf9d3a802839162ff3-06e5912584b199ac4874c8e1bde6af49d8f2405df563e6d383a07844ae2d0c85__QA_ALPHA_84cabf01_PNG白底.jpg",
+      "listRows": 18,
+      "appGroups": 47,
+      "matchedRow": 1,
+      "groupId": "photo-fff43b623aaeaecc9b93e1c3f03b8b6386da1212ad0f57fde11f77a07b569386",
+      "displayCanonicalPath": "\/data\/data\/cc.huevia\/files\/pictures\/camera-album\/phone-ad4dc62d2a0eb12cb1f495f8379fe966f6c6c52cd06bc8cf9d3a802839162ff3-06e5912584b199ac4874c8e1bde6af49d8f2405df563e6d383a07844ae2d0c85__QA_ALPHA_84cabf01_PNG白底.jpg"
+    }
+  ],
+  "publicationRowsBeforeLocal": 59,
+  "publicationRowsAfterAppOnly": 59,
+  "publicationRowsAfterDefault": 61,
+  "publicationRowsAfterNewCopy": 62,
+  "firstExportUri": "content:\/\/media\/external_primary\/images\/media\/98",
+  "newCopyUri": "content:\/\/media\/external_primary\/images\/media\/100",
+  "localResultSha256": "37fb9d9c2f1784163fb450b51febbfeb273d456b14a72184328cf0ff312fafa6",
+  "rawFaultRestoration": {
+    "scope": "Only the current run's generated structural NEF fixture",
+    "sourceIdentity": "2abe5ee4a83109bbf0da57a6ac83b9e97fb5891b5908dd2203f7ef63cf8af194",
+    "expectedSha256": "6e0cdc44db796791f64b822ad16327e17e9397db933a36074262205de9d0e726",
+    "actualSha256": "6e0cdc44db796791f64b822ad16327e17e9397db933a36074262205de9d0e726",
+    "expectedModified": 1792763018960,
+    "actualModified": 1792763018960
+  },
+  "rawFixture": {
+    "kind": "Hand-authored 512-byte TIFF\/NEF structure fixture; not captured sensor data or a camera certification",
+    "sha256": "6e0cdc44db796791f64b822ad16327e17e9397db933a36074262205de9d0e726",
+    "sourceIdentity": "2abe5ee4a83109bbf0da57a6ac83b9e97fb5891b5908dd2203f7ef63cf8af194",
+    "phoneUri": "content:\/\/media\/external_primary\/images\/media\/101",
+    "rowsBefore": 62,
+    "rowsAfterAppOnly": 62,
+    "rowsAfterPhoneAndRetry": 63
+  },
+  "status": "PASS",
+  "checks": 300,
+  "assertions": [
+    "dedicated-emulator-only",
+    "version-83",
+    "supported-probe-scope",
+    "activity-ready",
+    "actual-configuration-and-window-match-requested-orientation",
+    "actual-configuration-font-scale-matches-mode",
+    "actual-display-dimensions-match-orientation",
+    "offline-editing-no-camera",
+    "seed-recipe-real-sha-0",
+    "seed-recipe-real-sha-1",
+    "seed-recipe-real-sha-2",
+    "seed-recipe-real-sha-3",
+    "seed-recipe-real-sha-4",
+    "seed-recipe-real-sha-5",
+    "seed-recipe-real-sha-6",
+    "seed-recipe-real-sha-7",
+    "seed-recipe-real-sha-8",
+    "seed-recipe-real-sha-9",
+    "seed-recipe-real-sha-10",
+    "seed-recipe-real-sha-11",
+    "seed-recipe-real-sha-12",
+    "seed-recipe-real-sha-13",
+    "seed-recipe-real-sha-14",
+    "seed-recipe-real-sha-15",
+    "seed-recipe-real-sha-16",
+    "seed-recipe-real-sha-17",
+    "seed-recipe-real-sha-18",
+    "seed-recipe-real-sha-19",
+    "seed-recipe-real-sha-20",
+    "seed-recipe-real-sha-21",
+    "seed-recipe-real-sha-22",
+    "catalog-photo-group-ready",
+    "dedicated-emulator-notification-permission-is-pregranted",
+    "actual-navigation-cell-visible-预设",
+    "actual-navigation-tap-selects-root-预设",
+    "actual-navigation-cell-visible-同步",
+    "actual-navigation-tap-selects-root-同步",
+    "actual-navigation-cell-visible-相册",
+    "actual-navigation-tap-selects-root-相册",
+    "actual-navigation-cell-visible-设置",
+    "actual-navigation-tap-selects-root-设置",
+    "actual-navigation-cell-visible-相册",
+    "actual-navigation-tap-selects-root-相册",
+    "local-album-is-an-actual-navigation-root",
+    "actual-runtime-live-receive-default-is-app-only",
+    "actual-runtime-installs-no-unconditional-original-gallery-publisher",
+    "four-root-navigation-has-separate-sync-and-local-album",
+    "actual-four-root-order-and-touch-target-预设",
+    "actual-four-root-order-and-touch-target-同步",
+    "actual-four-root-order-and-touch-target-相册",
+    "actual-four-root-order-and-touch-target-设置",
+    "actual-media-permission-is-revoked-before-launch",
+    "app-local-photo-list-works-without-media-permission",
+    "app-local-native-thumbnails-are-real-decoded-images",
+    "local-native-list-layout-ready-app",
+    "complete-native-photo-row-and-filenames-visible-above-floating-navigation-app",
+    "local-action-entire-touch-target-visible-above-navigation-picker-app",
+    "local-action-entire-touch-target-visible-above-navigation-overflow-app",
+    "local-album-actions-use-overflow-and-floating-picker",
+    "native-screenshot-local-app",
+    "native-screenshot-orientation-local-app",
+    "actual-MediaStore-row-count-readable",
+    "actual-original-save-opens-explicit-destination-choice",
+    "fresh-original-save-choice-defaults-to-app-only",
+    "preview-dialog-accessibility-root",
+    "actual-original-app-only-save-finishes-with-permission-revoked",
+    "actual-MediaStore-row-count-readable",
+    "actual-original-app-only-save-does-not-insert-MediaStore-row",
+    "native-export-accepted",
+    "native-export-completed",
+    "actual-MediaStore-row-count-readable",
+    "denied-media-permission-does-not-block-app-only-result",
+    "denied-phone-tab-settles",
+    "denied-phone-page-offers-central-authorization-and-floating-system-picker",
+    "local-guidance-entire-view-visible-above-navigation-denied-title",
+    "local-guidance-entire-text-laid-out-denied-title",
+    "local-guidance-entire-view-visible-above-navigation-denied-guidance",
+    "local-guidance-entire-text-laid-out-denied-guidance",
+    "local-action-entire-touch-target-visible-above-navigation-central-authorization",
+    "local-action-entire-touch-target-visible-above-navigation-picker-denied",
+    "native-screenshot-local-denied",
+    "native-screenshot-orientation-local-denied",
+    "actual-native-action-click-dispatched-authorization",
+    "actual-native-action-reaches-platform-start-dispatch-authorization",
+    "single-native-platform-launch-intercepted-authorization",
+    "central-authorization-requests-real-phone-image-permission",
+    "cancelled-native-authorization-restores-denied-library",
+    "actual-native-action-click-dispatched-document-picker",
+    "actual-native-action-reaches-platform-start-dispatch-document-picker",
+    "single-native-platform-launch-intercepted-document-picker",
+    "floating-picker-dispatches-openable-multiple-JPEG-PNG-document-intent",
+    "floating-picker-requests-read-and-persistable-access",
+    "cancelled-native-picker-restores-local-library",
+    "cancelled-picker-imports-nothing-and-keeps-denied-library-usable",
+    "native-provider-fixture-row-created-image\/jpeg",
+    "native-provider-fixture-committed-image\/jpeg",
+    "native-provider-fixture-row-created-image\/png",
+    "native-provider-fixture-committed-image\/png",
+    "native-shell-command-completes-grant",
+    "actual-read-media-images-grant-is-observed",
+    "actual-phone-query-lists-seeded-jpeg-and-png",
+    "repository-page-is-a-real-MediaStore-query",
+    "authorized-phone-native-JPEG-thumbnail-is-decoded",
+    "local-native-list-layout-ready-phone-authorized",
+    "complete-native-photo-row-and-filenames-visible-above-floating-navigation-phone-authorized",
+    "native-screenshot-phone-authorized",
+    "native-screenshot-orientation-phone-authorized",
+    "native-phone-item-ready-QA_LOCAL_84cabf01.jpg",
+    "phone-source-has-real-visible-thumbnail-tile-QA_LOCAL_84cabf01.jpg",
+    "actual-local-root-opens-shared-editor-QA_LOCAL_84cabf01.jpg",
+    "local-workspace-binds-the-selected-durable-photo",
+    "jpeg-import-preserves-exact-source-bytes",
+    "actual-MediaStore-row-count-readable",
+    "neutral-imported-JPEG-reports-existing-source-without-owned-publication",
+    "actual-MediaStore-row-count-readable",
+    "neutral-imported-JPEG-phone-save-reuses-actual-source-without-duplicate",
+    "explicit-my-source-for-local-recipes",
+    "real-current-photo-filter-thumbnail-ready",
+    "user-strength-65",
+    "draft-save-barrier",
+    "preview-shared-model-strength-65",
+    "native-keyboard-value-BRIGHTNESS-11",
+    "draft-save-barrier",
+    "manual-preview-settled-BRIGHTNESS",
+    "native-crop-workspace-open",
+    "crop-canvas-laid-out",
+    "crop-action-1:1",
+    "crop-action-应用",
+    "draft-save-barrier",
+    "frozen-edit-captured",
+    "imported-jpeg-uses-incumbent-crop-editor",
+    "native-screenshot-editor-jpeg",
+    "native-screenshot-orientation-editor-jpeg",
+    "back-restores-local-album-root",
+    "native-phone-item-ready-QA_ALPHA_84cabf01.png",
+    "phone-source-has-real-visible-thumbnail-tile-QA_ALPHA_84cabf01.png",
+    "PNG-white-background-disclosure-visible",
+    "preview-dialog-accessibility-root",
+    "actual-local-root-opens-shared-editor-QA_ALPHA_84cabf01.png",
+    "local-workspace-binds-the-selected-durable-photo",
+    "png-transparency-is-explicitly-flattened-on-white",
+    "jpeg-recipe-reuses-incumbent-editor-on-png-copy",
+    "recipe-does-not-copy-another-photo-crop",
+    "all-thirteen-basic-adjustments-remain-available",
+    "native-keyboard-value-BRIGHTNESS-1",
+    "draft-save-barrier",
+    "manual-preview-settled-BRIGHTNESS",
+    "native-keyboard-value-EXPOSURE-1",
+    "draft-save-barrier",
+    "manual-preview-settled-EXPOSURE",
+    "native-keyboard-value-CONTRAST-1",
+    "draft-save-barrier",
+    "manual-preview-settled-CONTRAST",
+    "native-keyboard-value-HIGHLIGHTS-1",
+    "draft-save-barrier",
+    "manual-preview-settled-HIGHLIGHTS",
+    "native-keyboard-value-SHADOWS-1",
+    "draft-save-barrier",
+    "manual-preview-settled-SHADOWS",
+    "native-keyboard-value-WHITES-1",
+    "draft-save-barrier",
+    "manual-preview-settled-WHITES",
+    "native-keyboard-value-BLACKS-1",
+    "draft-save-barrier",
+    "manual-preview-settled-BLACKS",
+    "native-keyboard-value-TEMPERATURE-1",
+    "draft-save-barrier",
+    "manual-preview-settled-TEMPERATURE",
+    "native-keyboard-value-TINT-1",
+    "draft-save-barrier",
+    "manual-preview-settled-TINT",
+    "native-keyboard-value-SATURATION-1",
+    "draft-save-barrier",
+    "manual-preview-settled-SATURATION",
+    "native-keyboard-value-VIBRANCE-1",
+    "draft-save-barrier",
+    "manual-preview-settled-VIBRANCE",
+    "native-keyboard-value-CLARITY-1",
+    "draft-save-barrier",
+    "manual-preview-settled-CLARITY",
+    "native-keyboard-value-SHARPENING-1",
+    "draft-save-barrier",
+    "manual-preview-settled-SHARPENING",
+    "draft-save-barrier",
+    "frozen-edit-captured",
+    "png-copy-keeps-thirteen-independent-adjustment-values",
+    "native-screenshot-editor-png-adjustments",
+    "native-screenshot-orientation-editor-png-adjustments",
+    "actual-MediaStore-row-count-readable",
+    "back-restores-local-album-root",
+    "local-batch-selection-has-refreshed-app-photos",
+    "local-original-has-real-gallery-row-for-batch-selection",
+    "local-gallery-batch-target-is-visible",
+    "local-original-has-real-gallery-row-for-batch-selection",
+    "local-gallery-batch-target-is-visible",
+    "native-local-gallery-selects-two-independent-originals",
+    "native-local-gallery-batch-action-menu-opens",
+    "preview-dialog-accessibility-root",
+    "detached-local-gallery-opens-real-preset-picker",
+    "batch-preset-picker-loads-actual-local-library",
+    "batch-preset-picker-contains-validated-NCP-fixture",
+    "actual-batch-preset-card-native-preview-is-ready",
+    "actual-batch-preset-card-is-visible-and-clickable",
+    "actual-batch-preset-card-opens-confirmation",
+    "preview-dialog-accessibility-root",
+    "actual-batch-filter-updates-pending-drafts",
+    "batch-filter-preserves-each-photo-manual-adjustments-and-crop-0",
+    "batch-filter-preserves-each-photo-manual-adjustments-and-crop-1",
+    "actual-MediaStore-row-count-readable",
+    "batch-filter-action-updates-drafts-without-rendering-or-MediaStore-insertion",
+    "actual-MediaStore-row-count-readable",
+    "actual-local-export-opens-save-destination-choice",
+    "fresh-edited-export-choice-defaults-to-phone-and-includes-app-only",
+    "native-screenshot-destination-sheet",
+    "native-screenshot-orientation-destination-sheet",
+    "preview-dialog-accessibility-root",
+    "actual-native-radio-selects-app-only",
+    "preview-dialog-accessibility-root",
+    "actual-local-export-UI-completes-two-independent-edits",
+    "actual-MediaStore-row-count-readable",
+    "two-photo-app-only-batch-creates-no-system-album-row",
+    "both-local-edit-results-are-durable",
+    "actual-local-export-confirms-app-only-destination",
+    "preview-dialog-accessibility-root",
+    "local-batch-equals-incumbent-single-editor-render-0",
+    "local-batch-equals-incumbent-single-editor-render-1",
+    "native-export-accepted",
+    "native-export-completed",
+    "actual-MediaStore-row-count-readable",
+    "edited-export-default-publishes-only-two-edited-results",
+    "export-time-row-readable",
+    "gallery-modified-seconds-match-export-milliseconds",
+    "first-phone-export-has-current-export-chronology",
+    "actual-MediaStore-row-count-readable",
+    "same-saved-version-default-publication-is-idempotent",
+    "actual-MediaStore-row-count-readable",
+    "export-time-row-readable",
+    "gallery-modified-seconds-match-export-milliseconds",
+    "explicit-new-copy-adds-one-freshly-dated-publication",
+    "explicit-new-copy-preserves-verified-local-render-cache-bytes",
+    "new-copy-updates-EXIF-without-recompressing-pixels",
+    "all-destinations-preserve-private-originals-and-import-times",
+    "all-edit-and-export-actions-preserve-phone-source-bytes",
+    "exact-transparent-PNG-source-remains-retained-in-App-storage",
+    "actual-MediaStore-row-count-readable",
+    "back-restores-local-album-root",
+    "local-results-refresh-in-dedicated-app-album",
+    "local-native-list-layout-ready-app-only-results",
+    "complete-native-photo-row-and-filenames-visible-above-floating-navigation-app-only-results",
+    "native-screenshot-app-only-results",
+    "native-screenshot-orientation-app-only-results",
+    "actual-MediaStore-row-count-readable",
+    "actual-offline-RAW-list-has-verified-structural-NEF-fixture",
+    "verified-RAW-source-remains-listed-for-explicit-save",
+    "actual-RAW-file-row-is-visible",
+    "actual-RAW-row-opens-original-file-action",
+    "preview-dialog-accessibility-root",
+    "actual-RAW-action-opens-destination-chooser",
+    "fresh-RAW-save-choice-defaults-to-app-only",
+    "preview-dialog-accessibility-root",
+    "actual-RAW-app-only-operation-finishes",
+    "actual-MediaStore-row-count-readable",
+    "RAW-default-app-only-validates-durable-source-without-MediaStore-insertion",
+    "RAW-app-only-progress-shows-completion",
+    "preview-dialog-accessibility-root",
+    "verified-RAW-source-remains-listed-for-explicit-save",
+    "actual-RAW-file-row-is-visible",
+    "actual-RAW-row-opens-original-file-action",
+    "preview-dialog-accessibility-root",
+    "actual-RAW-action-opens-destination-chooser",
+    "preview-dialog-accessibility-root",
+    "actual-RAW-radio-selects-explicit-phone-target",
+    "preview-dialog-accessibility-root",
+    "actual-explicit-RAW-phone-operation-finishes",
+    "actual-MediaStore-row-count-readable",
+    "explicit-RAW-phone-choice-adds-one-system-row",
+    "actual-RAW-local-publisher-callback-completes",
+    "actual-MediaStore-row-count-readable",
+    "actual-RAW-publisher-is-byte-exact-and-idempotent",
+    "preview-dialog-accessibility-root",
+    "verified-RAW-source-remains-listed-for-explicit-save",
+    "actual-RAW-file-row-is-visible",
+    "actual-RAW-row-opens-original-file-action",
+    "preview-dialog-accessibility-root",
+    "actual-RAW-action-opens-destination-chooser",
+    "preview-dialog-accessibility-root",
+    "actual-RAW-radio-selects-explicit-phone-target",
+    "preview-dialog-accessibility-root",
+    "changed-RAW-source-fails-before-publication",
+    "actual-MediaStore-row-count-readable",
+    "changed-private-RAW-is-rejected-without-rewriting-public-copy",
+    "fixture-restores-original-RAW-bytes-and-mtime-after-controlled-fault",
+    "RAW-failed-operation-offers-explicit-retry",
+    "preview-dialog-accessibility-root",
+    "RAW-explicit-retry-finishes-original-operation-target",
+    "actual-MediaStore-row-count-readable",
+    "RAW-retry-keeps-frozen-phone-target-despite-current-app-only-preference",
+    "RAW-retry-preserves-local-and-public-original-bytes-and-time",
+    "preview-dialog-accessibility-root",
+    "actual-MediaStore-row-count-readable"
+  ]
+}

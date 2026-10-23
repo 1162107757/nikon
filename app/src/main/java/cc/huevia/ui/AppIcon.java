@@ -11,7 +11,9 @@ import android.graphics.drawable.Drawable;
 /** One family of compact vector pictograms, no font/emoji-dependent navigation. */
 public final class AppIcon extends Drawable {
     public enum Kind { PRESETS, ALBUM, CAMERA, FILE, DOWNLOAD, BACK, HELP, CHECK, WIFI, ADJUST, REFRESH,
-        SETTINGS, PLUS, USB, CHEVRON, CHEVRON_DOWN, INFO, LINK, DELETE, STAR, STAR_FILLED, RECEIPTS, PERSON, EXPAND, GRID, CLOSE, SEARCH }
+        SETTINGS, PLUS, USB, CHEVRON, CHEVRON_DOWN, INFO, LINK, DELETE, STAR, STAR_FILLED, RECEIPTS, PERSON, EXPAND, GRID, CLOSE, SEARCH,
+        UNDO, REDO, COMPARE, MORE, BRIGHTNESS, EXPOSURE, CONTRAST, HIGHLIGHTS, SHADOWS, WHITES, BLACKS, TEMPERATURE, TINT, SATURATION, VIBRANCE, CLARITY, SHARPENING,
+        CROP, ROTATE, STRAIGHTEN, RECIPE, SAVE }
     private final Kind kind;
     private final Paint ink = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final int size;
@@ -24,6 +26,39 @@ public final class AppIcon extends Drawable {
         int save = canvas.save(); canvas.translate(getBounds().left, getBounds().top);
         canvas.scale(getBounds().width()/24f, getBounds().height()/24f);
         switch (kind) {
+            case CROP:
+                line(canvas,7,3,7,17,21,17); line(canvas,3,7,17,7,17,21); break;
+            case ROTATE:
+                canvas.drawArc(new RectF(3,3,21,21),45,300,false,ink);
+                line(canvas,16,10,21,10,21,5); line(canvas,12,7,17,12,12,17,7,12,12,7); break;
+            case STRAIGHTEN:
+                canvas.save(); canvas.rotate(-12,12,12);
+                canvas.drawRoundRect(new RectF(3,8,21,16),1,1,ink);
+                line(canvas,7,8,7,11); line(canvas,12,8,12,13); line(canvas,17,8,17,11);
+                canvas.restore(); line(canvas,5,21,19,21); break;
+            case RECIPE:
+                canvas.drawRoundRect(new RectF(5,3,19,21),2,2,ink);
+                line(canvas,8,9,16,9); canvas.drawCircle(11,9,1.5f,ink);
+                line(canvas,8,15,16,15); canvas.drawCircle(14,15,1.5f,ink); break;
+            case SAVE:
+                line(canvas,3,3,17,3,21,7,21,21,3,21,3,3);
+                line(canvas,7,3,7,9,16,9,16,3); line(canvas,7,21,7,14,17,14,17,21); break;
+            case UNDO: canvas.drawArc(new RectF(5,8,21,21),235,235,false,ink);line(canvas,5,5,5,11,11,11);break;
+            case REDO: canvas.save();canvas.scale(-1,1,12,12);canvas.drawArc(new RectF(5,8,21,21),235,235,false,ink);line(canvas,5,5,5,11,11,11);canvas.restore();break;
+            case COMPARE: canvas.drawRect(3,5,21,19,ink);line(canvas,12,2,12,22);break;
+            case MORE: for(int y:new int[]{5,12,19})canvas.drawCircle(12,y,1,ink);break;
+            case BRIGHTNESS: case EXPOSURE:
+                canvas.drawCircle(12,12,5,ink);for(int i=0;i<8;i++){double a=i*Math.PI/4;line(canvas,12+(float)Math.cos(a)*8,12+(float)Math.sin(a)*8,12+(float)Math.cos(a)*10,12+(float)Math.sin(a)*10);}if(kind==Kind.EXPOSURE){line(canvas,10,12,14,12);line(canvas,12,10,12,14);}break;
+            case CONTRAST: case WHITES: case BLACKS:
+                canvas.drawCircle(12,12,9,ink);canvas.save();canvas.clipRect(kind==Kind.BLACKS?3:12,3,kind==Kind.BLACKS?12:21,21);ink.setStyle(Paint.Style.FILL);canvas.drawCircle(12,12,8,ink);ink.setStyle(Paint.Style.STROKE);canvas.restore();break;
+            case HIGHLIGHTS: case SHADOWS:
+                canvas.drawCircle(12,12,8,ink);for(int y=8;y<=16;y+=4)line(canvas,kind==Kind.HIGHLIGHTS?12:6,y,kind==Kind.HIGHLIGHTS?18:12,y);line(canvas,12,4,12,20);break;
+            case TEMPERATURE: canvas.drawRoundRect(new RectF(9,3,15,17),3,3,ink);canvas.drawCircle(12,18,4,ink);line(canvas,12,7,12,18);break;
+            case TINT: {Path drop=new Path();drop.moveTo(12,2);drop.cubicTo(10,7,4,11,5,16);drop.cubicTo(6,24,19,24,19,16);drop.cubicTo(19,11,14,6,12,2);canvas.drawPath(drop,ink);break;}
+            case SATURATION: canvas.drawCircle(9,10,6,ink);canvas.drawCircle(15,10,6,ink);canvas.drawCircle(12,16,6,ink);break;
+            case VIBRANCE: line(canvas,12,3,21,20,3,20,12,3);canvas.drawCircle(12,14,3,ink);break;
+            case CLARITY: canvas.drawRect(4,4,20,20,ink);line(canvas,8,8,16,8,16,16,8,16,8,8);break;
+            case SHARPENING: line(canvas,12,3,21,21,3,21,12,3);line(canvas,12,9,12,16);break;
             case CLOSE: line(canvas,6,6,18,18);line(canvas,18,6,6,18);break;
             case GRID: canvas.drawRoundRect(new RectF(3,3,10,10),1,1,ink);canvas.drawRoundRect(new RectF(14,3,21,10),1,1,ink);canvas.drawRoundRect(new RectF(3,14,10,21),1,1,ink);canvas.drawRoundRect(new RectF(14,14,21,21),1,1,ink);break;
             case SEARCH: canvas.drawCircle(10,10,6,ink);line(canvas,15,15,21,21);break;

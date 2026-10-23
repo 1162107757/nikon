@@ -1,0 +1,216 @@
+{
+  "apkSha256": "f5b34441b4616c4ebd9a9fcaad135f258e0ba87d85be146c347e73d57f9bdd03",
+  "scope": "30 required native captures plus hero duplicate; native platform skips HTML/CSS detector.",
+  "captures": [
+    {
+      "mode": "phone",
+      "state": "editor",
+      "source": "docs/validation/photo-composition-recipes-81/phone/editor.png",
+      "rawSha256": "655043e674f8868c48412edfefebf6d895b044ae70c8c8ae91bf133a80f6be36",
+      "reviewCopy": "D:/dev/ai-project/nikon/.impeccable/review/photo-composition-recipes-81/phone-editor.png"
+    },
+    {
+      "mode": "phone",
+      "state": "crop-original",
+      "source": "docs/validation/photo-composition-recipes-81/phone/crop-original.png",
+      "rawSha256": "7b87515092b71a02c621e8af12f265e05b5daecfd990b71b726cdda0a89a309c",
+      "reviewCopy": "D:/dev/ai-project/nikon/.impeccable/review/photo-composition-recipes-81/phone-crop-original.png"
+    },
+    {
+      "mode": "phone",
+      "state": "crop-square",
+      "source": "docs/validation/photo-composition-recipes-81/phone/crop-square.png",
+      "rawSha256": "4224a9a2ffa99abdcec3e209077e3446816b4a06595830ed65cb5ddd45d2f65a",
+      "reviewCopy": "D:/dev/ai-project/nikon/.impeccable/review/photo-composition-recipes-81/phone-crop-square.png"
+    },
+    {
+      "mode": "phone",
+      "state": "recipes",
+      "source": "docs/validation/photo-composition-recipes-81/phone/recipes.png",
+      "rawSha256": "3f0f4cb225f72f2df68cb1a2ffb12b49cf00f5042a6c3879ddb3cb20038aae54",
+      "reviewCopy": "D:/dev/ai-project/nikon/.impeccable/review/photo-composition-recipes-81/phone-recipes.png"
+    },
+    {
+      "mode": "phone",
+      "state": "recipe-name-error",
+      "source": "docs/validation/photo-composition-recipes-81/phone/recipe-name-error.png",
+      "rawSha256": "489d22f053e17be262cce3169ae64d8da3a0317ecb3b4c39b7d242d4ff4a238b",
+      "reviewCopy": "D:/dev/ai-project/nikon/.impeccable/review/photo-composition-recipes-81/phone-recipe-name-error.png"
+    },
+    {
+      "mode": "phone",
+      "state": "composition-export",
+      "source": "docs/validation/photo-composition-recipes-81/phone/composition-export.png",
+      "rawSha256": "4cad9e69e4745b856faf57b3fd6d116b62edd25ef65400a8226775697d60ea84",
+      "reviewCopy": "D:/dev/ai-project/nikon/.impeccable/review/photo-composition-recipes-81/phone-composition-export.png"
+    },
+    {
+      "mode": "phone",
+      "state": "batch-effects",
+      "source": "docs/validation/photo-composition-recipes-81/phone/batch-effects.png",
+      "rawSha256": "4ab158532cee6faebc4946ed6211e2c2393a14974a2be5524d5ae5f2707cc132",
+      "reviewCopy": "D:/dev/ai-project/nikon/.impeccable/review/photo-composition-recipes-81/phone-batch-effects.png"
+    },
+    {
+      "mode": "phone",
+      "state": "batch-recipes",
+      "source": "docs/validation/photo-composition-recipes-81/phone/batch-recipes.png",
+      "rawSha256": "469802bed890c16e3f2eb192ce413d4dbd7d78cbcc28375dd35018a2d03deaa3",
+      "reviewCopy": "D:/dev/ai-project/nikon/.impeccable/review/photo-composition-recipes-81/phone-batch-recipes.png"
+    },
+    {
+      "mode": "phone",
+      "state": "recipe-applied",
+      "source": "docs/validation/photo-composition-recipes-81/phone/recipe-applied.png",
+      "rawSha256": "cec0f119f35a9fa3ebc9fe9fe638ff2d5381dffb16c032cc95fc765bbd66f4f5",
+      "reviewCopy": "D:/dev/ai-project/nikon/.impeccable/review/photo-composition-recipes-81/phone-recipe-applied.png"
+    },
+    {
+      "mode": "phone",
+      "state": "photo-live-no-project",
+      "source": "docs/validation/photo-composition-recipes-81/phone/photo-live-no-project.png",
+      "rawSha256": "b1ae4440e1c0561f20566069432377d00bea19a00ca1aa8c8afa956c501b6b2a",
+      "reviewCopy": "D:/dev/ai-project/nikon/.impeccable/review/photo-composition-recipes-81/phone-photo-live-no-project.png"
+    },
+    {
+      "mode": "large-font",
+      "state": "editor",
+      "source": "docs/validation/photo-composition-recipes-81/large-font/editor.png",
+      "rawSha256": "6a9eb34d8b5ea21941d83ac7d790245974404d65051debed4e276ecc6d8f1d69",
+      "reviewCopy": "D:/dev/ai-project/nikon/.impeccable/review/photo-composition-recipes-81/large-font-editor.png"
+    },
+    {
+      "mode": "large-font",
+      "state": "crop-original",
+      "source": "docs/validation/photo-composition-recipes-81/large-font/crop-original.png",
+      "rawSha256": "1897c6d738d7d4d160bfae3ef5570007fba4530b21bf5ead650a0399c2a194fc",
+      "reviewCopy": "D:/dev/ai-project/nikon/.impeccable/review/photo-composition-recipes-81/large-font-crop-original.png"
+    },
+    {
+      "mode": "large-font",
+      "state": "crop-square",
+      "source": "docs/validation/photo-composition-recipes-81/large-font/crop-square.png",
+      "rawSha256": "d20a1bce83bb6661bf99b34559a4e717cc3789e90c9d896bf0d290b3568d4213",
+      "reviewCopy": "D:/dev/ai-project/nikon/.impeccable/review/photo-composition-recipes-81/large-font-crop-square.png"
+    },
+    {
+      "mode": "large-font",
+      "state": "recipes",
+      "source": "docs/validation/photo-composition-recipes-81/large-font/recipes.png",
+      "rawSha256": "d7dfb3b7df078a1b9c7f649204b9a4b3ab534bc228e9f979c38a51c767b492e0",
+      "reviewCopy": "D:/dev/ai-project/nikon/.impeccable/review/photo-composition-recipes-81/large-font-recipes.png"
+    },
+    {
+      "mode": "large-font",
+      "state": "recipe-name-error",
+      "source": "docs/validation/photo-composition-recipes-81/large-font/recipe-name-error.png",
+      "rawSha256": "13f4646a9736f9dc8e50984f7993b7f2c86a404bcce3ea3be4030aec65190447",
+      "reviewCopy": "D:/dev/ai-project/nikon/.impeccable/review/photo-composition-recipes-81/large-font-recipe-name-error.png"
+    },
+    {
+      "mode": "large-font",
+      "state": "composition-export",
+      "source": "docs/validation/photo-composition-recipes-81/large-font/composition-export.png",
+      "rawSha256": "6b07f268bc0ff0eba44a5002d113086ac6e018df5bef7e71e3d1be5718b89520",
+      "reviewCopy": "D:/dev/ai-project/nikon/.impeccable/review/photo-composition-recipes-81/large-font-composition-export.png"
+    },
+    {
+      "mode": "large-font",
+      "state": "batch-effects",
+      "source": "docs/validation/photo-composition-recipes-81/large-font/batch-effects.png",
+      "rawSha256": "29fa4258d4dd7951b1d91737d91c7f037999cf7a07382a1b56ba638e260443be",
+      "reviewCopy": "D:/dev/ai-project/nikon/.impeccable/review/photo-composition-recipes-81/large-font-batch-effects.png"
+    },
+    {
+      "mode": "large-font",
+      "state": "batch-recipes",
+      "source": "docs/validation/photo-composition-recipes-81/large-font/batch-recipes.png",
+      "rawSha256": "c9adbaf69c5fc9b44d6fa954c7bc17e755f9755c04caf6722c9beccbb20099c8",
+      "reviewCopy": "D:/dev/ai-project/nikon/.impeccable/review/photo-composition-recipes-81/large-font-batch-recipes.png"
+    },
+    {
+      "mode": "large-font",
+      "state": "recipe-applied",
+      "source": "docs/validation/photo-composition-recipes-81/large-font/recipe-applied.png",
+      "rawSha256": "cebc33a4afeff7363d90af369ade9f081062ec0fded4394e278c76f57e3d5ad6",
+      "reviewCopy": "D:/dev/ai-project/nikon/.impeccable/review/photo-composition-recipes-81/large-font-recipe-applied.png"
+    },
+    {
+      "mode": "large-font",
+      "state": "photo-live-no-project",
+      "source": "docs/validation/photo-composition-recipes-81/large-font/photo-live-no-project.png",
+      "rawSha256": "19f3f5d56942106c307bbc10dcfba93e357d47875a583627837de365e4bd97b8",
+      "reviewCopy": "D:/dev/ai-project/nikon/.impeccable/review/photo-composition-recipes-81/large-font-photo-live-no-project.png"
+    },
+    {
+      "mode": "landscape",
+      "state": "editor",
+      "source": "docs/validation/photo-composition-recipes-81/landscape/editor.png",
+      "rawSha256": "9daeb83b060b02a1369504edb4e0a63d137d237c40766b51012f3fc90d2066c5",
+      "reviewCopy": "D:/dev/ai-project/nikon/.impeccable/review/photo-composition-recipes-81/landscape-editor.png"
+    },
+    {
+      "mode": "landscape",
+      "state": "crop-original",
+      "source": "docs/validation/photo-composition-recipes-81/landscape/crop-original.png",
+      "rawSha256": "cd842dc5114f9e8acb48e6d2c4d3e6c9d76f7f69c30ec65f269871b54504b1f8",
+      "reviewCopy": "D:/dev/ai-project/nikon/.impeccable/review/photo-composition-recipes-81/landscape-crop-original.png"
+    },
+    {
+      "mode": "landscape",
+      "state": "crop-square",
+      "source": "docs/validation/photo-composition-recipes-81/landscape/crop-square.png",
+      "rawSha256": "928cfbcede57d9afb871e4ae92c68224f5c78d84b0a16babcf4f2eb82d8e5eea",
+      "reviewCopy": "D:/dev/ai-project/nikon/.impeccable/review/photo-composition-recipes-81/landscape-crop-square.png"
+    },
+    {
+      "mode": "landscape",
+      "state": "recipes",
+      "source": "docs/validation/photo-composition-recipes-81/landscape/recipes.png",
+      "rawSha256": "5651b95be94b2064e92d03461606a820e135e70b59b03bc948862773eb5ce39b",
+      "reviewCopy": "D:/dev/ai-project/nikon/.impeccable/review/photo-composition-recipes-81/landscape-recipes.png"
+    },
+    {
+      "mode": "landscape",
+      "state": "recipe-name-error",
+      "source": "docs/validation/photo-composition-recipes-81/landscape/recipe-name-error.png",
+      "rawSha256": "dd6f3de9e7fc2aa7a6776fc99458897cc1a2adb89e7e04d6bd8774f11e7c1d52",
+      "reviewCopy": "D:/dev/ai-project/nikon/.impeccable/review/photo-composition-recipes-81/landscape-recipe-name-error.png"
+    },
+    {
+      "mode": "landscape",
+      "state": "composition-export",
+      "source": "docs/validation/photo-composition-recipes-81/landscape/composition-export.png",
+      "rawSha256": "19ee17415145d0ee22c826f88bddf903c4d58ab888bbdd9207ca727698251350",
+      "reviewCopy": "D:/dev/ai-project/nikon/.impeccable/review/photo-composition-recipes-81/landscape-composition-export.png"
+    },
+    {
+      "mode": "landscape",
+      "state": "batch-effects",
+      "source": "docs/validation/photo-composition-recipes-81/landscape/batch-effects.png",
+      "rawSha256": "15a9636ff00d86d9da20b316f3594557591ca0de65c054589de2185480a87d73",
+      "reviewCopy": "D:/dev/ai-project/nikon/.impeccable/review/photo-composition-recipes-81/landscape-batch-effects.png"
+    },
+    {
+      "mode": "landscape",
+      "state": "batch-recipes",
+      "source": "docs/validation/photo-composition-recipes-81/landscape/batch-recipes.png",
+      "rawSha256": "9c93f09778598ceb6d6249266d26bc65b1152bf95e284cc9e5b2703dd11dcc32",
+      "reviewCopy": "D:/dev/ai-project/nikon/.impeccable/review/photo-composition-recipes-81/landscape-batch-recipes.png"
+    },
+    {
+      "mode": "landscape",
+      "state": "recipe-applied",
+      "source": "docs/validation/photo-composition-recipes-81/landscape/recipe-applied.png",
+      "rawSha256": "004a8972ff3c3d761baf7323e658c454c51297b17a29095a50c3dd421961db45",
+      "reviewCopy": "D:/dev/ai-project/nikon/.impeccable/review/photo-composition-recipes-81/landscape-recipe-applied.png"
+    },
+    {
+      "mode": "landscape",
+      "state": "photo-live-no-project",
+      "source": "docs/validation/photo-composition-recipes-81/landscape/photo-live-no-project.png",
+      "rawSha256": "dd928af0b61507be0b206ec667caadd47318e3619776ab17f68a340e7b885eb2",
+      "reviewCopy": "D:/dev/ai-project/nikon/.impeccable/review/photo-composition-recipes-81/landscape-photo-live-no-project.png"
+    }
+  ]
+}

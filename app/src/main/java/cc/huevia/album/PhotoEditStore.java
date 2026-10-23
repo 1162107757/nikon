@@ -1,6 +1,12 @@
 package cc.huevia.album;
 
 import cc.huevia.ncp.PresetPreviewProfiles;
+import cc.huevia.ncp.PhotoAdjustments;
+import cc.huevia.ncp.PresetPreviewProfile;
+import cc.huevia.ncp.StrengthPreviewProfile;
+import cc.huevia.ncp.AdjustedPreviewProfile;
+import cc.huevia.ncp.PhotoGeometry;
+import cc.huevia.ncp.GeometryPreviewProfile;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
@@ -9,26 +15,42 @@ import java.util.Arrays;
 
 /** Worker-only, account-scoped drafts, indexed by verified original bytes rather than a filename. */
 public final class PhotoEditStore {
-    private static final int MAGIC = 0x50454431, LIMIT = 1024 * 1024;
+    private static final int LEGACY_MAGIC = 0x50454431, ADJUSTMENT_MAGIC = 0x50454432, MAGIC = 0x50454433, LIMIT = 1024 * 1024;
     private static final Object LOCK = new Object();
     private final File root;
     public static final class Draft {
         public final String sourceSha, presetSha, name;
         public final int strength;
         public final boolean exported;
+        public final PhotoAdjustments adjustments;
+        public final PhotoGeometry geometry;
         private final byte[] bytes;
         public Draft(String sourceSha, byte[] preset, String name, int strength, boolean exported) throws IOException {
+            this(sourceSha,preset,name,strength,PhotoAdjustments.NONE,exported);
+        }
+        public Draft(String sourceSha, byte[] preset, String name, int strength, PhotoAdjustments adjustments, boolean exported) throws IOException {
+            this(sourceSha,preset,name,strength,adjustments,PhotoGeometry.NONE,exported);
+        }
+        public Draft(String sourceSha, byte[] preset, String name, int strength, PhotoAdjustments adjustments, PhotoGeometry geometry, boolean exported) throws IOException {
             if (sourceSha == null || !sourceSha.matches("[0-9a-f]{64}") || strength < 0 || strength > 100)
                 throw new IOException("照片编辑身份或强度无效。");
             bytes = preset == null ? new byte[0] : preset.clone();
             if (bytes.length > LIMIT) throw new IOException("预设文件过大。");
             if (bytes.length > 0) PresetPreviewProfiles.fromPreset(bytes);
             this.sourceSha = sourceSha; presetSha = bytes.length == 0 ? "" : hash(bytes);
-            this.name = bytes.length == 0 ? "原图" : clean(name); this.strength = bytes.length == 0 ? 0 : strength; this.exported = exported;
+            if(adjustments==null||geometry==null)throw new IOException("照片调整设置无效。");
+            this.adjustments=adjustments;this.geometry=geometry;
+            this.name = bytes.length == 0 ? "无滤镜" : clean(name); this.strength = bytes.length == 0 ? 0 : strength; this.exported = exported;
         }
         public byte[] presetBytes() { return bytes.clone(); }
-        public boolean hasEffect() { return !presetSha.isEmpty() && strength > 0; }
-        public String identity() { return sourceSha + ":" + presetSha + ":" + strength; }
+        public boolean hasEffect() { return !presetSha.isEmpty() && strength > 0 || !adjustments.isNeutral() || !geometry.isNeutral(); }
+        public String identity() { return sourceSha + ":" + presetSha + ":" + strength + (adjustments.isNeutral()?"":":"+adjustments.identity())+(geometry.isNeutral()?"":":"+geometry.identity()); }
+        public String effectPresetSha(){return presetSha.isEmpty()?hash("huevia-manual-original-v1".getBytes(StandardCharsets.UTF_8)):presetSha;}
+        public PresetPreviewProfile profile() throws IOException {
+            PresetPreviewProfile preset=bytes.length==0?null:StrengthPreviewProfile.of(PresetPreviewProfiles.fromPreset(bytes),strength);
+            return GeometryPreviewProfile.of(AdjustedPreviewProfile.of(preset,adjustments),geometry);
+        }
+        public String label(){return name+(presetSha.isEmpty()?"":" · "+strength+"%")+(adjustments.isNeutral()?"":" · 调节 "+adjustments.count()+" 项")+(geometry.isNeutral()?"":" · 已构图");}
     }
     public PhotoEditStore(File files, String owner) throws IOException {
         File base = files.getCanonicalFile();
@@ -43,10 +65,24 @@ public final class PhotoEditStore {
             byte[] body = Arrays.copyOf(all, size);
             if (!MessageDigest.isEqual(digest(body), Arrays.copyOfRange(all, size, all.length))) throw new IOException("照片编辑草稿校验失败。");
             try (DataInputStream in = new DataInputStream(new ByteArrayInputStream(body))) {
-                if (in.readInt() != MAGIC || !in.readUTF().equals(sourceSha)) throw new IOException("草稿与原图不符。");
+                int magic=in.readInt();
+                if ((magic != MAGIC && magic != ADJUSTMENT_MAGIC && magic != LEGACY_MAGIC) || !in.readUTF().equals(sourceSha)) throw new IOException("草稿与原图不符。");
                 String name = in.readUTF(); int strength = in.readInt(); boolean exported = in.readBoolean(); int length = in.readInt();
-                if (length < 0 || length > LIMIT || length != in.available()) throw new IOException("草稿预设数据不完整。");
-                byte[] bytes = new byte[length]; in.readFully(bytes); return new Draft(sourceSha, bytes, name, strength, exported);
+                if (length < 0 || length > LIMIT || length > in.available()) throw new IOException("草稿预设数据不完整。");
+                byte[] bytes = new byte[length]; in.readFully(bytes);
+                PhotoAdjustments adjustments=PhotoAdjustments.NONE;
+                if(magic==MAGIC||magic==ADJUSTMENT_MAGIC){
+                    if(!PhotoAdjustments.MODEL.equals(in.readUTF())||in.readInt()!=PhotoAdjustments.Parameter.values().length)throw new IOException("无法读取此版本的基础调整。");
+                    int[] values=new int[PhotoAdjustments.Parameter.values().length];for(int i=0;i<values.length;i++)values[i]=in.readInt();
+                    try{adjustments=new PhotoAdjustments(values);}catch(IllegalArgumentException invalid){throw new IOException("基础调整草稿损坏。",invalid);}
+                }
+                PhotoGeometry geometry=PhotoGeometry.NONE;
+                if(magic==MAGIC){
+                    if(!PhotoGeometry.MODEL.equals(in.readUTF()))throw new IOException("无法读取此版本的构图。");
+                    try{geometry=new PhotoGeometry(in.readInt(),in.readInt(),in.readInt(),in.readInt(),in.readInt(),in.readInt());}catch(IllegalArgumentException invalid){throw new IOException("构图草稿损坏。",invalid);}
+                }
+                if(in.available()!=0)throw new IOException("草稿包含未知数据。");
+                return new Draft(sourceSha, bytes, name, strength, adjustments, geometry, exported);
             }
         }
     }
@@ -56,6 +92,8 @@ public final class PhotoEditStore {
             try (DataOutputStream out = new DataOutputStream(bytes)) {
                 out.writeInt(MAGIC); out.writeUTF(draft.sourceSha); out.writeUTF(draft.name);
                 out.writeInt(draft.strength); out.writeBoolean(draft.exported); out.writeInt(draft.bytes.length); out.write(draft.bytes);
+                out.writeUTF(PhotoAdjustments.MODEL);int[] values=draft.adjustments.values();out.writeInt(values.length);for(int value:values)out.writeInt(value);
+                PhotoGeometry g=draft.geometry;out.writeUTF(PhotoGeometry.MODEL);out.writeInt(g.turns);out.writeInt(g.angle);out.writeInt(g.left);out.writeInt(g.top);out.writeInt(g.right);out.writeInt(g.bottom);
             }
             byte[] body = bytes.toByteArray(); File target = file(draft.sourceSha), temp = File.createTempFile("draft-", ".part", root);
             try {
@@ -72,7 +110,7 @@ public final class PhotoEditStore {
     public void markExported(Draft frozen) throws IOException {
         synchronized (LOCK) {
             Draft live = read(frozen.sourceSha);
-            if (live != null && live.identity().equals(frozen.identity())) save(new Draft(live.sourceSha, live.bytes, live.name, live.strength, true));
+            if (live != null && live.identity().equals(frozen.identity())) save(new Draft(live.sourceSha, live.bytes, live.name, live.strength, live.adjustments, live.geometry, true));
         }
     }
     private File file(String sha) throws IOException {

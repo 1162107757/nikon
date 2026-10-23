@@ -1,0 +1,4 @@
+INSTRUMENTATION_RESULT: status=FAIL
+INSTRUMENTATION_RESULT: stream=Photo editor native FAIL; native-screenshot-orientation-failure; java.lang.IllegalStateException: visible-ready-image-survives-cache-eviction-and-rebind-0
+
+INSTRUMENTATION_CODE: 0

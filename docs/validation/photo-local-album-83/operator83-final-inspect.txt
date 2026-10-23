@@ -1,0 +1,8 @@
+{"phase":"read-local-audit"}
+{"phase":"read-initial-function-configuration"}
+{"phase":"verify-production-service-client"}
+{"phase":"read-existing-service-account"}
+{"phase":"read-active-release-administrator"}
+{"phase":"read-release-rows"}
+{"phase":"inspection-complete"}
+{"readOnly":true,"versionCode":83,"existingRelease":null,"old76Published":true}

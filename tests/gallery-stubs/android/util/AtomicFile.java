@@ -8,6 +8,7 @@ public final class AtomicFile {
     private final File base, backup;
     public AtomicFile(File file) { base = file; backup = new File(file + ".bak"); }
     public File getBaseFile() { return base; }
+    public void delete() { base.delete(); backup.delete(); }
     public FileInputStream openRead() throws IOException {
         if (backup.exists()) { Files.deleteIfExists(base.toPath()); Files.move(backup.toPath(), base.toPath()); }
         return new FileInputStream(base);

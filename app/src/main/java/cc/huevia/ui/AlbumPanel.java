@@ -62,6 +62,7 @@ import cc.huevia.album.PhotoProjectPresetStore;
 import cc.huevia.album.PhotoAlbumSaver;
 import cc.huevia.album.PhotoPresetBatch;
 import cc.huevia.album.PhotoPresetBatchState;
+import cc.huevia.album.PhotoSaveTarget;
 import cc.huevia.album.PhotoDateGroups;
 import cc.huevia.album.PhotoDateReader;
 import cc.huevia.album.PhotoDeleteResult;
@@ -100,11 +101,14 @@ public final class AlbumPanel implements AutoCloseable {
         default void onPhotoLiveConnectionRequired() { onConnectionRequired("开始照片直播"); }
         default void onPhotoLiveProjectConnectionRequired(String projectId) { onPhotoLiveConnectionRequired(); }
         default void onPresetRequired() { onFeedback("请先添加预设", "在预设库添加本地预设后，即可为照片套用效果。"); }
+        default void onProcessPhoto(DownloadedPhoto photo) { }
+        default boolean isLocalWorkspaceVisible() { return true; }
         default void beforeConnect(Runnable connect) { connect.run(); }
         default void onConnectionCancelled() { }
         default void beforePhotoLive(Runnable start) { start.run(); }
         default void beforePhotoLiveProject(String projectId, Runnable start) { beforePhotoLive(start); }
         default void beforeSavePhotos(Runnable save) { save.run(); }
+        default void beforeSavePhotos(PhotoSaveTarget target, Runnable save) { beforeSavePhotos(save); }
         default AutoCloseable beginPhotoWork() { return () -> { }; }
     }
 
@@ -128,6 +132,9 @@ public final class AlbumPanel implements AutoCloseable {
     private PresetSelectionPage presetSelectionPage;
     private int presetSelectionRequest;
     private final boolean ownsController;
+    private final boolean localWorkspace;
+    private PhotoSaveTarget batchSaveTarget = PhotoSaveTarget.APP_ONLY;
+    private DownloadedPhoto lastSavedOriginal;
     private final Runnable connectionListener;
     private final Runnable photoLiveListener;
     private final Runnable photoPresetListener;
@@ -273,7 +280,7 @@ public final class AlbumPanel implements AutoCloseable {
     private boolean preparingEditedExport;
     private Bitmap viewerPhoto;
     private View viewerTop, viewerBottom;
-    private TextView viewerStatus;
+    private TextView viewerStatus,viewerPreset;
     private Button viewerSave;
     private android.widget.ImageButton viewerStar;
     private HoldToCompare viewerComparison;
@@ -315,13 +322,22 @@ public final class AlbumPanel implements AutoCloseable {
         this(activity, host, controller, false, photoPresets, projectPresets);
     }
 
+    /** Local editing shares application workers, without taking over the Sync page's camera listeners. */
+    public AlbumPanel(Activity activity, Host host, AlbumController controller, PhotoPresetBatch photoPresets, PhotoProjectPresets projectPresets, boolean localWorkspace) {
+        this(activity, host, controller, false, photoPresets, projectPresets, localWorkspace);
+    }
+
     private AlbumPanel(Activity activity, Host host, AlbumController controller, boolean ownsController, PhotoPresetBatch photoPresets, PhotoProjectPresets projectPresets) {
+        this(activity, host, controller, ownsController, photoPresets, projectPresets, false);
+    }
+    private AlbumPanel(Activity activity, Host host, AlbumController controller, boolean ownsController, PhotoPresetBatch photoPresets, PhotoProjectPresets projectPresets, boolean localWorkspace) {
         if (controller == null) throw new IllegalArgumentException("缺少相册连接管理器。");
         this.activity = activity;
         this.host = host;
         this.controller = controller;
         this.photoPresets = photoPresets;
         this.projectPresets = projectPresets;
+        this.localWorkspace = localWorkspace;
         receipts = new PhotoReceiptPanel(activity, controller, new PhotoReceiptPanel.Host() {
             @Override public void onResumeProject(String id) { requestResumeProject(id); }
             @Override public void onRetryProject(String id) { requestRetryProject(id); }
@@ -336,6 +352,7 @@ public final class AlbumPanel implements AutoCloseable {
             @Override public void onFeedback(String title, String text) { if (!closed) host.onFeedback(title, text); }
             @Override public void onConnectionRequired(String operation) { if (!closed) host.onConnectionRequired(operation); }
             @Override public void beforeSavePhotos(Runnable save) { host.beforeSavePhotos(save); }
+            @Override public void beforeSavePhotos(PhotoSaveTarget target,Runnable save) { host.beforeSavePhotos(target,save); }
             @Override public AutoCloseable beginPhotoWork() { return host.beginPhotoWork(); }
             @Override public boolean isOtherPhotoWorkBusy() {
                 return downloading || exporting || publishingDownload || presetBusy()
@@ -353,8 +370,8 @@ public final class AlbumPanel implements AutoCloseable {
         portText = CameraConnectionPreferences.loadPortText(activity);
         addressManuallyEdited = !cameraAddress.isEmpty();
         connectionListener = this::controllerStateChanged;
-        controller.setConnectionListener(connectionListener);
-        controller.addPhotoLibraryObserver(photoLibraryListener);
+        if (!localWorkspace) controller.setConnectionListener(connectionListener);
+        if (!localWorkspace) controller.addPhotoLibraryObserver(photoLibraryListener);
         liveState = controller.photoLiveState();
         photoPresetListener = this::photoPresetChanged;
         if (photoPresets != null) { presetWasActive = photoPresets.state().active; photoPresets.addObserver(photoPresetListener); }
@@ -364,13 +381,14 @@ public final class AlbumPanel implements AutoCloseable {
         if (selectedLiveProjectId.isEmpty() && !liveState.projectId.isEmpty()) selectedLiveProjectId = liveState.projectId;
         liveTab = liveState.enabled || activity.getSharedPreferences(EXPORT_PREFERENCES, Activity.MODE_PRIVATE).getBoolean("photo-live-tab", false);
         photoLiveListener = this::photoLiveChanged;
-        controller.setPhotoLiveListener(photoLiveListener);
-        ConnectionInfo restored = controller.connectionInfo();
-        if (restored != null) restoreConnection(restored);
-        else if (controller.hasLiveSession()) restoreCameraSession(controller.sessionConnectionInfo());
-        else connecting = controller.isConnecting();
-        refreshDownloads();
-        refreshLiveProjects();
+        if (!localWorkspace) controller.setPhotoLiveListener(photoLiveListener);
+        if (!localWorkspace) {
+            ConnectionInfo restored = controller.connectionInfo();
+            if (restored != null) restoreConnection(restored);
+            else if (controller.hasLiveSession()) restoreCameraSession(controller.sessionConnectionInfo());
+            else connecting = controller.isConnecting();
+        }
+        if (!localWorkspace) { refreshDownloads(); refreshLiveProjects(); }
     }
 
     private void controllerStateChanged() {
@@ -454,7 +472,7 @@ public final class AlbumPanel implements AutoCloseable {
         if (rawPanel.isOpen()) return rawPanel.title();
         if (screen == Screen.GUIDE) return "Wi-Fi 连接";
         if (screen == Screen.DETAIL) return "照片详情";
-        return selectionMode ? "已选择 " + selectionCount() + " 张" : "相册";
+        return selectionMode ? "已选择 " + selectionCount() + " 张" : localWorkspace ? "相册" : "同步";
     }
 
     public boolean canGoBack() { return rawPanel.isOpen() || screen != Screen.OVERVIEW || selectionMode; }
@@ -1413,7 +1431,7 @@ public final class AlbumPanel implements AutoCloseable {
         liveSelectionBar.addView(liveCompactAction("全选", this::selectVisibleLivePhotos, palette.primary), new LinearLayout.LayoutParams(-2, dp(44)));
         liveSelectionBar.addView(liveCompactAction("星标", this::starSelectedLivePhotos, palette.primary), new LinearLayout.LayoutParams(-2, dp(44)));
         liveSelectionBar.addView(liveCompactAction("导出", this::exportSelectedEdits, palette.primary), new LinearLayout.LayoutParams(-2, dp(44)));
-        liveSelectionBar.addView(liveCompactAction("套用预设", this::choosePhotoPreset, palette.primary), new LinearLayout.LayoutParams(-2, dp(44)));
+        liveSelectionBar.addView(liveCompactAction("套用效果", this::choosePhotoPreset, palette.primary), new LinearLayout.LayoutParams(-2, dp(44)));
         FrameLayout.LayoutParams selectionParams = new FrameLayout.LayoutParams(-1, -2, Gravity.BOTTOM);
         selectionParams.setMargins(dp(20), 0, dp(20), dp(108)); stage.addView(liveSelectionBar, selectionParams);
         updatePhotoLiveView(); updateLiveSelection();
@@ -1555,6 +1573,8 @@ public final class AlbumPanel implements AutoCloseable {
             }
             if (showPhotoTaskBlocked("开始照片直播") || !requireCameraPhotos("开始照片直播")) return;
             dialog.dismiss();
+            PhotoSaveChoice.show(activity,"直播保存位置","live:new",PhotoSaveTarget.APP_ONLY,false,(target,extra)->{
+            controller.setPhotoLiveSaveTarget(target);
             host.beforePhotoLive(() -> {
                 if (closed || activity.isFinishing()) return;
                 if (showPhotoTaskBlocked("开始照片直播") || !requireCameraPhotos("开始照片直播")) return;
@@ -1562,13 +1582,13 @@ public final class AlbumPanel implements AutoCloseable {
                 previousLiveProjectId = controller.photoLiveState().projectId; selectNewLiveProject = true;
                 AlbumController.PhotoLiveProjectSetup setup = projectPresets == null ? null : projectPresets.setupForNewProject(defaultPreset[0], defaultPreset[1]);
                 controller.startPhotoLive(projectName, setup, new AlbumController.Callback<Void>() {
-                    @Override public void onSuccess(Void value) { if (!closed) { followStartedProject(); refreshLiveProjects(); photoLiveChanged(); } }
+                    @Override public void onSuccess(Void value) { if (!closed) { PhotoSaveChoice.remember(activity,"live:"+controller.photoLiveState().projectId,target);followStartedProject(); refreshLiveProjects(); photoLiveChanged(); } }
                     @Override public void onError(String error) {
                         selectNewLiveProject = false;
                         if (!closed) { photoLiveChanged(); feedbackDetails("照片直播未开始", "请检查相机连接与存储卡后重试。", error); }
                     }
                 });
-            });
+            });});
         }));
         dialog.show();
     }
@@ -1610,6 +1630,8 @@ public final class AlbumPanel implements AutoCloseable {
         if (state.enabled || state.receiving) { host.onFeedback("另一个项目正在直播", "请先停止当前直播，再继续这个项目。"); return; }
         if (!isConnected()) { host.onPhotoLiveProjectConnectionRequired(id); return; }
         if (showPhotoTaskBlocked("继续接收照片")) return;
+        PhotoSaveChoice.show(activity,"直播保存位置","live:"+id,PhotoSaveTarget.APP_ONLY,false,(target,extra)->{
+        controller.setPhotoLiveSaveTarget(target);
         host.beforePhotoLiveProject(id, () -> {
             if (closed) return;
             if (!isConnected()) { host.onPhotoLiveProjectConnectionRequired(id); return; }
@@ -1622,7 +1644,7 @@ public final class AlbumPanel implements AutoCloseable {
                 }
                 @Override public void onError(String error) { if (!closed) host.onMessage("暂时无法继续接收", error); }
             });
-        });
+        });});
     }
 
     private void chooseProjectPreset() {
@@ -1657,7 +1679,7 @@ public final class AlbumPanel implements AutoCloseable {
         if (!canShowProjectDialog() || presetSelectionPage != null || presetPicker != null) return;
         final int request = ++presetSelectionRequest;
         java.util.function.BooleanSupplier valid = () -> request == presetSelectionRequest && canShowProjectDialog()
-                && root != null && root.isAttachedToWindow() && root.isShown() && sourceValid.getAsBoolean();
+                && (localWorkspace ? host.isLocalWorkspaceVisible() : root != null && root.isAttachedToWindow() && root.isShown()) && sourceValid.getAsBoolean();
         if (!valid.getAsBoolean()) return;
         PresetSelectionPage page = new PresetSelectionPage(activity, liveTab);
         presetSelectionPage = page;
@@ -2060,9 +2082,9 @@ public final class AlbumPanel implements AutoCloseable {
         else if (retry && state.enabled) {
             heading = "有照片待重试"; summary = "轻点重试，详情可查看接收记录";
             for (PhotoLiveState.LivePhoto item : state.photos) if (!item.galleryError.isEmpty()) {
-                heading = "相册保存待重试"; summary = "原图已保留，重试后保存到系统相册"; break;
+                heading = item.saveTarget==PhotoSaveTarget.APP_ONLY?"项目记录待重试":"相册保存待重试"; summary = item.saveTarget==PhotoSaveTarget.APP_ONLY?"原图已保留在 App 内，可重试项目记录":"原图已保留，重试后保存到系统相册"; break;
             }
-        } else if (state.enabled) { heading = "等待拍摄"; summary = "按下相机快门，原图自动保存到手机"; }
+        } else if (state.enabled) { heading = "等待拍摄"; summary = controller.photoLiveSaveTarget()==PhotoSaveTarget.APP_ONLY?"新照片仅保存在 App 内，可选片后再导出":"新照片将保存到手机相册"; }
         else { heading = selectedLiveProjectId.isEmpty() ? "拍完，照片就到手机" : "直播已停止"; summary = selectedLiveProjectId.isEmpty() ? "开始直播，创建本次拍摄项目" : "继续接收新照片，或切换拍摄项目"; }
         if (otherProject) {
             heading = "其他项目 · " + heading; summary = state.projectName + " · " + summary;
@@ -2117,7 +2139,8 @@ public final class AlbumPanel implements AutoCloseable {
             fraction = batch.progress;
             label = "套用预设 · " + progressPercent(fraction) + "% · " + batch.currentNumber + "/" + batch.total + " 张";
         } else {
-            PhotoProjectPresetStore.Config config = projectPresets == null ? null : projectPresets.config(selectedLiveProjectId);
+            PhotoProjectPresetStore.Config config = projectPresets == null || selectedLiveProjectId.isEmpty()
+                    ? null : projectPresets.config(selectedLiveProjectId);
             label = config == null || config.presetId.isEmpty() ? "未启用自动套用" : projectPresets.failedCount() > 0
                     ? "有预设效果待重试" : projectPresets.queuedCount() > 0 ? "预设排队中 · " + projectPresets.queuedCount() + " 张"
                     : "自动套用已就绪 · 保留原图";
@@ -2139,7 +2162,7 @@ public final class AlbumPanel implements AutoCloseable {
         PhotoPresetBatchState state = photoPresets.state();
         String detail = state.presetName + "\n完成 " + state.completed + " / " + state.total + " 张 · 失败 " + state.failed
                 + (state.active ? "\n总进度 " + progressPercent(state.progress) + "% · " + state.currentStage + " " + progressPercent(state.currentProgress) + "%\n" + state.currentFilename : state.failed == 0 && state.cancelled == 0 && state.completed > 0 && state.errors.isEmpty()
-                        ? "\n效果图已保存到「已下载」和系统相册。" : "\n处理已结束，未完成项见下方；原图仍保留。")
+                        ? "\n效果图已保留在 App 内；手机相册保存遵循该照片接收时的选择。" : "\n处理已结束，未完成项见下方；原图仍保留。")
                 + (state.reused > 0 ? "\n已复用 " + state.reused + " 张现有效果。" : "");
         for (int i=0; i<Math.min(5, state.errors.size()); i++) detail += "\n" + state.errors.get(i);
         AlertDialog.Builder builder = new AlertDialog.Builder(activity).setTitle(state.active ? "正在套用预设" : "预设处理详情").setMessage(detail).setNegativeButton("关闭", null);
@@ -2471,8 +2494,8 @@ public final class AlbumPanel implements AutoCloseable {
     }
 
     private String livePhotoStatus(PhotoLiveState.LivePhoto entry) {
-        if (entry.saved != null) return !entry.galleryError.isEmpty() ? "原图已保留，系统相册待重试"
-                : !entry.galleryUri.isEmpty() ? "已存入系统相册" : "原图已保存";
+        if (entry.saved != null) return !entry.galleryError.isEmpty() ? entry.saveTarget==PhotoSaveTarget.APP_ONLY?"原图已保留，项目记录待重试":"原图已保留，系统相册待重试"
+                : !entry.galleryUri.isEmpty() ? "已存入系统相册" : "已保存在 App 内";
         if (!entry.error.isEmpty()) return "接收待重试";
         switch (entry.status) {
             case "preview": return "预览已就绪";
@@ -2879,7 +2902,7 @@ public final class AlbumPanel implements AutoCloseable {
         }
         if (!camera && photoPresets != null) { actions.addView(textAction("批量导出", this::exportSelectedEdits), new LinearLayout.LayoutParams(-2, dp(48))); }
         if (!camera && photoPresets != null) {
-            Button apply = textAction("套用预设", this::choosePhotoPreset);
+            Button apply = textAction("套用效果", this::choosePhotoPreset);
             apply.setBackground(interactive(palette.primaryContainer, 14));
             LinearLayout.LayoutParams params = stacked ? new LinearLayout.LayoutParams(0, -2, 1) : new LinearLayout.LayoutParams(-2, -2);
             params.leftMargin = dp(8); actions.addView(apply, params);
@@ -3033,6 +3056,27 @@ public final class AlbumPanel implements AutoCloseable {
     }
 
     private void choosePhotoPreset() {
+        if(!requirePhotoSelection("套用效果")||!requirePhotoProcessingIdle("套用效果"))return;
+        new AlertDialog.Builder(activity).setTitle("为所选照片套用效果").setItems(new String[]{"滤镜预设","我的配方"},(d,index)->{if(index==0)chooseFilterPreset();else chooseBatchRecipe();}).setNegativeButton("取消",null).show();
+    }
+    private void chooseBatchRecipe(){
+        if(photoPresets==null||preparingEditedExport||!requirePhotoSelection("套用配方")||!requirePhotoProcessingIdle("套用配方"))return;
+        final List<PhotoPresetBatch.Source> sources=selectedPresetSources();
+        if(sources.isEmpty()||sources.size()>PhotoPresetBatch.MAX_BATCH){host.onMessage("请分批处理","每次请选择 1–"+PhotoPresetBatch.MAX_BATCH+" 张照片。");return;}
+        for(PhotoPresetBatch.Source source:sources)if(source.localPhoto()==null){host.onMessage("先下载原图","配方需要完整本地原图，请先下载所选照片。");return;}
+        final String owner=PhotoFilterEditor.accountOwner(activity);preparingEditedExport=true;
+        dates.execute(()->{try{List<cc.huevia.album.PhotoRecipeStore.Recipe> recipes=new cc.huevia.album.PhotoRecipeStore(activity.getFilesDir(),owner).list();main.post(()->{preparingEditedExport=false;if(closed||!owner.equals(PhotoFilterEditor.accountOwner(activity)))return;if(recipes.isEmpty()){host.onMessage("还没有配方","先打开一张照片，在“配方”中保存当前滤镜和调节，再回来批量套用。");return;}String[] names=new String[recipes.size()];for(int i=0;i<names.length;i++)names[i]=recipes.get(i).name+" · "+recipes.get(i).summary();new AlertDialog.Builder(activity).setTitle("我的配方 · "+sources.size()+" 张照片").setItems(names,(d,index)->{cc.huevia.album.PhotoRecipeStore.Recipe recipe=recipes.get(index);new AlertDialog.Builder(activity).setTitle("套用“"+recipe.name+"”？").setMessage("将替换所选 "+sources.size()+" 张照片的滤镜、强度和调节，保留每张照片已有的构图。\n只更新草稿；检查效果后再批量导出。\n"+recipe.summary()).setNegativeButton("取消",null).setPositiveButton("应用配方",(dialog,which)->applySelectedRecipe(sources,recipe,owner)).show();}).setNegativeButton("取消",null).show();});}catch(Exception failure){main.post(()->{preparingEditedExport=false;if(!closed)host.onMessage("无法读取配方",failure.getMessage());});}});
+    }
+    private void applySelectedRecipe(List<PhotoPresetBatch.Source> sources,cc.huevia.album.PhotoRecipeStore.Recipe recipe,String owner){
+        if(closed||preparingEditedExport||!owner.equals(PhotoFilterEditor.accountOwner(activity))||!requirePhotoProcessingIdle("套用配方"))return;preparingEditedExport=true;
+        Runnable apply=()->dates.execute(()->{int applied=0;try{
+            cc.huevia.album.PhotoEditStore store=new cc.huevia.album.PhotoEditStore(activity.getFilesDir(),owner);
+            for(PhotoPresetBatch.Source source:sources){if(closed||!owner.equals(PhotoFilterEditor.accountOwner(activity)))throw new java.io.IOException("账号或页面已变化，剩余照片未处理。");DownloadedPhoto photo=source.localPhoto();DownloadedPhoto original=photoPresets.processingOriginalFor(photo);String sha=cc.huevia.album.PhotoEditStore.hashFile(original.file());cc.huevia.album.PhotoEditStore.Draft stored=store.read(sha);if(PhotoPresetBatch.isSavedEffect(photo)&&(stored==null||stored.exported&&!PhotoPresetBatch.matchesSavedDraft(photo,stored)))throw new java.io.IOException("此保存版本的构图暂不可恢复，请先选择原图或恢复草稿。");cc.huevia.ncp.PhotoGeometry composition=stored!=null&&(!stored.exported||PhotoPresetBatch.matchesSavedDraft(photo,stored))?stored.geometry:cc.huevia.ncp.PhotoGeometry.NONE;store.save(recipe.apply(sha,composition));applied++;}
+            final int count=applied;main.post(()->{preparingEditedExport=false;if(closed||!owner.equals(PhotoFilterEditor.accountOwner(activity)))return;thumbs.evictAll();refreshDownloads();if(liveTab)updatePhotoLiveView();host.onMessage("已套用配方",count+" 张照片已更新草稿，原图不变。可以逐张检查，再点“批量导出”。");});
+        }catch(Exception failure){final int count=applied;main.post(()->{preparingEditedExport=false;if(!closed&&owner.equals(PhotoFilterEditor.accountOwner(activity)))host.onMessage("配方套用未全部完成","已更新 "+count+" / "+sources.size()+" 张；其余未处理，可重试。\n"+failure.getMessage());});}});
+        if(filterEditor!=null)filterEditor.afterPendingSaves(apply);else apply.run();
+    }
+    private void chooseFilterPreset() {
         if (!liveTab && !downloadedTab) return;
         if (!canShowProjectDialog() || presetPicker != null || presetSelectionPage != null) return;
         if (photoPresets == null) { host.onFeedback("预设处理尚未就绪", "请返回相册后重试。"); return; }
@@ -3055,19 +3099,20 @@ public final class AlbumPanel implements AutoCloseable {
     private void confirmPhotoPreset(List<PhotoPresetBatch.Source> sources, PresetRecord preset) {
         if (!canShowProjectDialog()) return;
         AlertDialog dialog = new AlertDialog.Builder(activity).setTitle("套用「" + preset.displayName + "」")
-                .setMessage("已选 " + sources.size() + " 张照片\n\n从原图生成效果，相同预设不重复生成。\n保留原图，效果图自动保存到相册。")
+                .setMessage("已选 " + sources.size() + " 张照片\n\n本地照片只更新滤镜草稿，保留调节和构图。\n相机照片先保存原图，再按所选位置保留效果。")
                 .setNegativeButton("取消", null).setPositiveButton("开始处理", null).create();
         presetPicker = dialog;
         dialog.setOnShowListener(ignored -> dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(view -> {
             if (!requirePhotoProcessingIdle("套用预设")) return;
             for (PhotoPresetBatch.Source source : sources) if (source.requiresCamera() && !requireCameraPhotos("下载照片并套用预设")) return;
             dialog.dismiss();
-            host.beforeSavePhotos(() -> {
+            if(sources.stream().allMatch(source->source.localPhoto()!=null)){applySelectedFilter(sources,preset);return;}
+            PhotoSaveChoice.show(activity,"套用预设并保存","sync-effects",PhotoSaveTarget.APP_ONLY,false,(target,extra)->host.beforeSavePhotos(target,() -> {
                 if (closed || !requirePhotoProcessingIdle("套用预设")) return;
                 for (PhotoPresetBatch.Source source : sources) if (source.requiresCamera() && !requireCameraPhotos("下载照片并套用预设")) return;
                 presetCancelRequested = false;
                 if (!liveTab && !downloadedTab) cancelCameraBrowse();
-                photoPresets.start(new ArrayList<>(sources), preset.id, new AlbumController.Callback<Void>() {
+                photoPresets.startTracked(new ArrayList<>(sources), preset.id,target,false,new AlbumController.Callback<Void>() {
                     @Override public void onSuccess(Void value) {
                         if (!closed) {
                             batchMessage = ""; downloadErrors.clear(); selectionMode = false; clearSelection();
@@ -3075,11 +3120,23 @@ public final class AlbumPanel implements AutoCloseable {
                         }
                     }
                     @Override public void onError(String error) { if (!closed) feedbackDetails("未开始套用预设", "请检查所选照片和预设后重试。", error); }
-                });
-            });
+                },null);
+            }));
         }));
         dialog.setOnDismissListener(ignored -> { if (presetPicker == dialog) presetPicker = null; }); dialog.show();
     }
+
+    private void applySelectedFilter(List<PhotoPresetBatch.Source> sources,PresetRecord preset){
+        final String owner=PhotoFilterEditor.accountOwner(activity);if(preparingEditedExport||closed)return;preparingEditedExport=true;
+        Runnable apply=()->dates.execute(()->{int count=0;try{
+            byte[] bytes=new cc.huevia.library.PresetLibrary(activity.getFilesDir()).readPreset(preset.id);cc.huevia.ncp.PresetPreviewProfiles.fromPreset(bytes);
+            cc.huevia.album.PhotoEditStore store=new cc.huevia.album.PhotoEditStore(activity.getFilesDir(),owner);
+            for(PhotoPresetBatch.Source source:sources){if(closed||!owner.equals(PhotoFilterEditor.accountOwner(activity)))throw new IOException("页面或账号已变化，其余照片未处理。");DownloadedPhoto photo=source.localPhoto(),original=photoPresets.processingOriginalFor(photo);String sha=cc.huevia.album.PhotoEditStore.hashFile(original.file());cc.huevia.album.PhotoEditStore.Draft previous=store.read(sha);boolean usable=previous!=null&&(!previous.exported||PhotoPresetBatch.matchesSavedDraft(photo,previous));if(PhotoPresetBatch.isSavedEffect(photo)&&!usable)throw new IOException("该保存版本的编辑设置暂不可恢复，请先选择原图。");store.save(new cc.huevia.album.PhotoEditStore.Draft(sha,bytes,preset.displayName,100,usable?previous.adjustments:cc.huevia.ncp.PhotoAdjustments.NONE,usable?previous.geometry:cc.huevia.ncp.PhotoGeometry.NONE,false));count++;}
+            final int done=count;main.post(()->{preparingEditedExport=false;if(closed)return;thumbs.evictAll();host.onActionFeedback("已更新 "+done+" 张照片","滤镜已写入各照片草稿，手动调节和构图保留；手机相册未新增照片。","导出设置",()->exportEditsForSources(sources));refreshDownloads();});
+        }catch(Exception failure){final int done=count;main.post(()->{preparingEditedExport=false;if(!closed)host.onMessage("部分照片未处理","已更新 "+done+" 张，其余可重试。\n"+failure.getMessage());});}});
+        if(filterEditor!=null)filterEditor.afterPendingSaves(apply);else apply.run();
+    }
+    private void exportEditsForSources(List<PhotoPresetBatch.Source> sources){List<DownloadedPhoto> photos=new ArrayList<>();for(PhotoPresetBatch.Source source:sources)if(source.localPhoto()!=null)photos.add(source.localPhoto());exportLocalWorkspace(photos);}
 
     private void renderPresetBatchStatus(LinearLayout parent) {
         if (photoPresets == null || photoPresets.state().total == 0) return;
@@ -3130,7 +3187,7 @@ public final class AlbumPanel implements AutoCloseable {
         String detail = "完成 " + state.completed + " / " + state.total + " 张" + (state.failed > 0 ? " · 失败 " + state.failed : "") + (state.cancelled > 0 ? " · 已停止 " + state.cancelled : "");
         if (state.active && !state.currentFilename.isEmpty()) detail = "第 " + state.currentNumber + " / " + state.total + " 张 · "
                 + state.currentStage + " " + progressPercent(state.currentProgress) + "%\n" + state.currentFilename;
-        else if (!state.active && state.failed == 0 && state.completed > 0 && state.reused == 0 && state.merged == 0) detail += " · 已保存到相册";
+        else if (!state.active && state.failed == 0 && state.completed > 0 && state.reused == 0 && state.merged == 0) detail += " · 结果已保留";
         if (state.reused > 0 || state.merged > 0) detail += "\n" + (state.reused > 0 ? "复用 " + state.reused + " 张" : "")
                 + (state.reused > 0 && state.merged > 0 ? " · " : "") + (state.merged > 0 ? "合并 " + state.merged + " 项" : "");
         presetBatchDetail.setText(detail);
@@ -3179,6 +3236,31 @@ public final class AlbumPanel implements AutoCloseable {
         localDetail = photo;
         screen = Screen.DETAIL;
         changed();
+    }
+
+    /** Opens a frozen local selection without changing the Sync page's selected project or source. */
+    public void openLocalWorkspace(List<DownloadedPhoto> photos, int index) {
+        if (closed || photos == null || photos.isEmpty()) return;
+        List<DownloadedPhoto> snapshot=new ArrayList<>();for(DownloadedPhoto photo:photos)if(photo!=null&&photo.file().isFile())snapshot.add(photo);
+        if(snapshot.isEmpty()){host.onFeedback("照片暂不可用","原图已移动或删除，请重新选择。");return;}
+        clearDetailImage();viewerControlsVisible=true;downloadedTab=true;liveTab=false;selectionMode=false;clearSelection();
+        liveDetail=false;liveDetailIdentity="";liveDetailPhotos.clear();projectDetail=true;projectDetailPhotos.clear();projectDetailPhotos.addAll(snapshot);
+        remoteDetail=null;localDetail=snapshot.get(Math.max(0,Math.min(index,snapshot.size()-1)));screen=Screen.DETAIL;
+        refreshDownloads();changed();
+    }
+
+    private void selectWorkspacePhotos(List<DownloadedPhoto> photos) {
+        dateRequest++;loadingDownloads=false;
+        downloadedTab=true;liveTab=false;selectionMode=true;clearSelection();downloads.clear();allDownloads.clear();rawDownloads.clear();
+        for(DownloadedPhoto photo:photos)if(photo!=null&&photo.file().isFile()){downloads.add(photo);allDownloads.add(photo);rawDownloads.add(photo);selectedLocal.add(photo.file().getAbsolutePath());}
+    }
+    /** Batch export bridge; settings remain independent for every selected original. */
+    public void exportLocalWorkspace(List<DownloadedPhoto> photos) {
+        if(closed||photos==null||photos.isEmpty())return;selectWorkspacePhotos(photos);exportSelectedEdits();
+    }
+    public void chooseLocalWorkspaceAction(List<DownloadedPhoto> photos) {
+        if(closed||photos==null||photos.isEmpty())return;selectWorkspacePhotos(photos);
+        new AlertDialog.Builder(activity).setTitle("处理 "+selectedLocal.size()+" 张照片").setItems(new String[]{"批量套用滤镜","批量套用我的配方","导出各照片设置"},(d,which)->{if(which==0)chooseFilterPreset();else if(which==1)chooseBatchRecipe();else exportSelectedEdits();}).setNegativeButton("取消",null).show();
     }
 
     private void openLivePhoto(PhotoLiveState.LivePhoto photo) {
@@ -3375,8 +3457,8 @@ public final class AlbumPanel implements AutoCloseable {
         if (remoteDetail == null && localDetail == null) { screen = Screen.OVERVIEW; renderOverview(); return; }
         restoreLiveDetailOriginal();
         if (!hasEditableDetail()) { renderPhotoViewer(); return; }
-        viewerEditing = true; ensureFilterEditor(); root.setBackgroundColor(0xff111214);
-        LinearLayout workspace = vertical(); workspace.setBackgroundColor(0xff111214);
+        viewerEditing = true; ensureFilterEditor(); root.setBackgroundColor(0xff141415);
+        LinearLayout workspace = vertical(); workspace.setBackgroundColor(0xff141415);
         LinearLayout top = horizontal(); top.setGravity(Gravity.CENTER_VERTICAL);
         FrameLayout back = new FrameLayout(activity); back.setBackground(interactive(Color.TRANSPARENT,24));
         back.addView(icon(AppIcon.Kind.BACK,Color.WHITE),new FrameLayout.LayoutParams(dp(24),dp(24),Gravity.CENTER));
@@ -3395,15 +3477,14 @@ public final class AlbumPanel implements AutoCloseable {
         if(viewerImage==null)viewerImage=new PhotoImageView(activity);
         if(viewerImage.getParent() instanceof ViewGroup)((ViewGroup)viewerImage.getParent()).removeView(viewerImage);
         viewerImage.setOnSingleTap(()->{viewerControlsVisible=!viewerControlsVisible;updateViewerChrome();});viewerImage.setOnSwipe(this::moveDetail);stage.addView(viewerImage,new FrameLayout.LayoutParams(-1,-1));updateDetailPhoto();
-        LinearLayout tools=horizontal();tools.setPadding(dp(16),dp(4),dp(16),dp(4));tools.setGravity(Gravity.CENTER_VERTICAL);
-        FrameLayout compare=new FrameLayout(activity);tools.addView(compare,new LinearLayout.LayoutParams(0,dp(52),1));
-        viewerComparison=new HoldToCompare(compare,viewerImage);viewerComparison.setButtonLabel("原图");viewerComparison.setEffect(viewerPhoto);viewerCompareLayer=compare;
-        if(compare.getChildCount()>0){View control=compare.getChildAt(0);FrameLayout.LayoutParams cp=(FrameLayout.LayoutParams)control.getLayoutParams();cp.gravity=Gravity.START|Gravity.CENTER_VERTICAL;cp.bottomMargin=cp.rightMargin=0;control.setLayoutParams(cp);}
+        FrameLayout tools=new FrameLayout(activity);
+        viewerPreset=text("",11,0xffadb6c3,false);viewerPreset.setSingleLine(true);viewerPreset.setEllipsize(TextUtils.TruncateAt.END);viewerPreset.setGravity(Gravity.CENTER_VERTICAL);viewerPreset.setMaxWidth(dp(220));viewerPreset.setPadding(dp(8),0,dp(8),0);viewerPreset.setBackground(new InsetDrawable(interactive(0xee141415,4),0,dp(10),0,dp(10)));viewerPreset.setOnClickListener(v->{if(filterEditor!=null)filterEditor.retryPreparation();});FrameLayout.LayoutParams presetPosition=new FrameLayout.LayoutParams(-2,dp(48),Gravity.TOP|Gravity.START);presetPosition.setMargins(dp(14),0,dp(110),0);tools.addView(viewerPreset,presetPosition);
+        FrameLayout compare=new FrameLayout(activity);tools.addView(compare,new FrameLayout.LayoutParams(dp(68),dp(68),Gravity.BOTTOM|Gravity.END));
+        viewerComparison=new HoldToCompare(compare,viewerImage);viewerComparison.setIconOnly(true);viewerComparison.setEffect(viewerPhoto);viewerCompareLayer=compare;
         if(comparisonOriginal!=null)viewerComparison.setOriginal(comparisonOriginal);
-        viewerStar=new android.widget.ImageButton(activity);viewerStar.setBackground(interactive(Color.TRANSPARENT,24));viewerStar.setPadding(dp(12),dp(12),dp(12),dp(12));viewerStar.setOnClickListener(v->toggleCurrentStar());tools.addView(viewerStar,new LinearLayout.LayoutParams(dp(48),dp(48)));
-        viewerVersions=liveCompactAction("版本",this::showPhotoVersions,Color.WHITE);viewerVersions.setMaxWidth(dp(112));viewerVersions.setEllipsize(TextUtils.TruncateAt.END);tools.addView(viewerVersions,new LinearLayout.LayoutParams(-2,dp(48)));
-        if(downloadedTab&&localDetail!=null&&remoteDetail==null&&!liveDetail&&!projectDetail){Button delete=liveCompactAction("删除",()->confirmDeletePhotos(java.util.Collections.singletonList(localDetail)),0xffadb6c3);tools.addView(delete,new LinearLayout.LayoutParams(-2,dp(48)));}
-        viewerTools=tools;photoArea.addView(tools);LinearLayout bottom=vertical();bottom.setBackgroundColor(Color.TRANSPARENT);
+        viewerStar=new android.widget.ImageButton(activity);viewerStar.setBackground(interactive(Color.TRANSPARENT,24));viewerStar.setPadding(dp(12),dp(12),dp(12),dp(12));viewerStar.setOnClickListener(v->toggleCurrentStar());FrameLayout.LayoutParams starPosition=new FrameLayout.LayoutParams(dp(48),dp(48),Gravity.TOP|Gravity.END);starPosition.setMarginEnd(dp(56));tools.addView(viewerStar,starPosition);
+        viewerVersions=null;android.widget.ImageButton more=new android.widget.ImageButton(activity);more.setImageDrawable(new AppIcon(AppIcon.Kind.MORE,Color.WHITE,activity.getResources().getDisplayMetrics().density));more.setPadding(dp(12),dp(12),dp(12),dp(12));more.setBackground(interactive(Color.TRANSPARENT,24));more.setContentDescription("更多照片操作和重置");more.setOnClickListener(v->{PopupMenu menu=new PopupMenu(activity,more);menu.getMenu().add("照片版本").setOnMenuItemClickListener(item->{showPhotoVersions();return true;});if(filterEditor!=null)filterEditor.addMenuItems(menu.getMenu());if(downloadedTab&&localDetail!=null&&remoteDetail==null&&!liveDetail&&!projectDetail)menu.getMenu().add("删除照片").setOnMenuItemClickListener(item->{confirmDeletePhotos(java.util.Collections.singletonList(localDetail));return true;});menu.show();});FrameLayout.LayoutParams morePosition=new FrameLayout.LayoutParams(dp(48),dp(48),Gravity.TOP|Gravity.END);morePosition.setMarginEnd(dp(8));tools.addView(more,morePosition);
+        viewerTools=tools;stage.addView(tools,new FrameLayout.LayoutParams(-1,-1));LinearLayout bottom=vertical();bottom.setBackgroundColor(Color.TRANSPARENT);
         if(filterEditor!=null){View editorDock=filterEditor.createDock();if(landscape){ScrollView scrolling=new ScrollView(activity);scrolling.setFillViewport(false);scrolling.addView(editorDock);bottom.addView(scrolling);}else bottom.addView(editorDock);}
         body.addView(bottom,landscape?new LinearLayout.LayoutParams(dp(300),-1):new LinearLayout.LayoutParams(-1,-2));viewerBottom=bottom;
         workspace.setOnApplyWindowInsetsListener((view,insets)->{
@@ -3419,7 +3500,7 @@ public final class AlbumPanel implements AutoCloseable {
 
     private void renderPhotoViewer() {
         if (remoteDetail == null && localDetail == null) { screen = Screen.OVERVIEW; renderOverview(); return; }
-        viewerEditing = false; viewerTools = null;
+        viewerEditing = false; viewerTools = null;viewerPreset=null;
         if (filterEditor != null) filterEditor.unbind();
         root.setBackgroundColor(Color.BLACK);
         FrameLayout stage = new FrameLayout(activity); stage.setBackgroundColor(Color.BLACK);
@@ -3509,9 +3590,16 @@ public final class AlbumPanel implements AutoCloseable {
 
     private void startEditedExport(List<PhotoPresetBatch.Edit> edits) {
         if(closed||photoPresets==null||!requirePhotoProcessingIdle("导出照片"))return;
-        host.beforeSavePhotos(()->{
+        if(edits==null||edits.isEmpty())return;
+        PhotoPresetBatch.Edit first=edits.get(0);
+        if(first.saveTarget!=null){runEditedExport(edits,first.saveTarget,first.forceNewCopy);return;}
+        PhotoSaveChoice.show(activity,"导出 "+edits.size()+" 张照片","edited",PhotoSaveTarget.PHONE_ALBUM,true,(target,extra)->runEditedExport(edits,target,extra));
+    }
+    private void runEditedExport(List<PhotoPresetBatch.Edit> edits,PhotoSaveTarget target,boolean extra) {
+        if(closed||photoPresets==null||!requirePhotoProcessingIdle("导出照片"))return;
+        host.beforeSavePhotos(target,()->{
             if(closed||!requirePhotoProcessingIdle("导出照片"))return;
-            photoPresets.startEdits(edits,new AlbumController.Callback<Void>(){
+            photoPresets.startEdits(edits,target,extra,new AlbumController.Callback<Void>(){
                 public void onSuccess(Void ignored){selectionMode=false;clearSelection();if(screen==Screen.OVERVIEW)changed();else updateViewerStatus();}
                 public void onError(String error){if(!closed)host.onMessage("未开始导出",error);}
             },new AlbumController.Callback<PhotoPresetBatchState>(){
@@ -3519,13 +3607,12 @@ public final class AlbumPanel implements AutoCloseable {
                     if(closed)return;thumbs.evictAll();
                     if(edits.size()==1&&result.completed==1&&result.results.size()==1){
                         DownloadedPhoto saved=result.results.get(0);rememberExportedDisplay(saved);
-                        if(screen==Screen.DETAIL&&filterEditor!=null&&filterEditor.matches(edits.get(0))){clearDetailImage();localDetail=saved;render();}
-                        else if(filterEditor!=null&&localDetail!=null)filterEditor.refreshExportStatus();
+                        if(filterEditor!=null&&localDetail!=null)filterEditor.refreshExportStatus();
                     }else if(filterEditor!=null&&localDetail!=null)filterEditor.refreshExportStatus();
                     refreshDownloads();
-                    String summary="成功 "+result.completed+" 张"+(result.reused>0?" · 复用 "+result.reused+" 张":"")+"\n原图与各照片的独立设置均保留。";
+                    String summary="成功 "+result.completed+" 张"+(result.reused>0?" · 复用 "+result.reused+" 张":"")+"\n"+(target==PhotoSaveTarget.APP_ONLY?"手机相册未新增照片。":result.completed>0?"已按所选版本保存到手机相册；已存在的版本不重复新增。":"本次没有照片完成保存。")+"\n原图与各照片的独立设置均保留。";
                     if(result.failed+result.cancelled>0)summary+="\n待重试 "+(result.failed+result.cancelled)+" 张\n"+String.join("\n",result.errors.subList(0,Math.min(5,result.errors.size())));
-                    AlertDialog.Builder dialog=new AlertDialog.Builder(activity).setTitle(result.failed+result.cancelled==0?"已保存到相册":"部分照片尚未导出").setMessage(summary).setNegativeButton("关闭",null);
+                    AlertDialog.Builder dialog=new AlertDialog.Builder(activity).setTitle(result.failed+result.cancelled==0?target==PhotoSaveTarget.APP_ONLY?"已保存到 App 内":"已保存到手机相册":"部分照片尚未导出").setMessage(summary).setNegativeButton("关闭",null);
                     if(!photoPresets.retryEdits().isEmpty()){final List<PhotoPresetBatch.Edit> retry=new ArrayList<>(photoPresets.retryEdits());dialog.setPositiveButton("重试未完成项",(d,w)->startEditedExport(retry));}dialog.show();
                 }
                 public void onError(String error){if(!closed)host.onMessage("导出未完成",error);}
@@ -3550,7 +3637,7 @@ public final class AlbumPanel implements AutoCloseable {
                     DownloadedPhoto original=photoPresets.processingOriginalFor(photo);String sha=cc.huevia.album.PhotoEditStore.hashFile(original.file());cc.huevia.album.PhotoEditStore.Draft draft=store.readPending(sha);
                     edits.add(draft==null?PhotoPresetBatch.Edit.saved(source):PhotoPresetBatch.Edit.draft(PhotoPresetBatch.Source.local(original),draft,owner));
                 }
-                main.post(()->{preparingEditedExport=false;if(closed||!owner.equals(PhotoFilterEditor.accountOwner(activity)))return;new AlertDialog.Builder(activity).setTitle("批量导出 "+edits.size()+" 张照片").setMessage("保留每张照片各自的滤镜和强度，按原始尺寸保存 JPG。\n原图保留，已有相同效果会复用。").setNegativeButton("取消",null).setPositiveButton("保存到相册",(d,w)->{if(owner.equals(PhotoFilterEditor.accountOwner(activity)))startEditedExport(edits);}).show();});
+                main.post(()->{preparingEditedExport=false;if(closed||!owner.equals(PhotoFilterEditor.accountOwner(activity)))return;startEditedExport(edits);});
             }catch(Exception error){main.post(()->{preparingEditedExport=false;if(!closed)host.onMessage("无法准备批量导出",error.getMessage());});}
         });
         if(filterEditor!=null)filterEditor.afterPendingSaves(prepare);else prepare.run();
@@ -3601,12 +3688,9 @@ public final class AlbumPanel implements AutoCloseable {
         PhotoLiveState.LivePhoto entry = currentLiveDetail();
         if (localDetail == null && entry != null && entry.saved == null && entry.error.isEmpty()
                 && (controller.photoLiveState().enabled || controller.photoLiveState().receiving)) {
-            host.onFeedback("原图正在自动接收", "接收完成后会自动保存到手机相册，无需重复下载。"); return;
+            host.onFeedback("原图正在自动接收", "将按本轮直播的保存位置保留照片，无需重复下载。"); return;
         }
         if (localDetail != null) {
-            if (viewerPublication != null && viewerPublication.status == PhotoLiveGallery.PublicationStatus.PUBLISHED) {
-                host.onFeedback("已保存到相册", "当前 JPG 已在系统相册，无需重复保存。"); return;
-            }
             saveToGallery(localDetail);
         } else if (liveDetail && controller.photoLiveState().enabled) {
             if (requireCameraPhotos("重试接收照片")) controller.retryPhotoLive();
@@ -3637,7 +3721,7 @@ public final class AlbumPanel implements AutoCloseable {
         }
         long size = localDetail != null ? localDetail.byteSize() : remoteDetail != null ? remoteDetail.byteSize() : 0;
         viewerStatus.setText((isEffectPhoto(localDetail) ? "效果图 " : "原图 ") + formatBytes(size));
-        if (viewerEditing && filterEditor != null && filterEditor.isReady()) viewerStatus.setText((detailIndex()+1)+" / "+detailCount()+" · "+filterEditor.label());
+        if (viewerEditing && filterEditor != null) {viewerStatus.setText((detailIndex()+1)+" / "+detailCount());if(viewerPreset!=null){viewerPreset.setText(filterEditor.contextLabel());viewerPreset.setTooltipText(filterEditor.label());viewerPreset.setContentDescription(filterEditor.label());}}
         if (photoPresets != null && photoPresets.isActive()) { PhotoPresetBatchState work = photoPresets.state(); viewerStatus.setText(work.currentNumber + "/" + work.total + " · " + work.currentStage + " " + Math.round(work.progress*100) + "%"); }
         if (viewerSave != null) {
             PhotoLiveState.LivePhoto entry = currentLiveDetail();
@@ -3709,7 +3793,7 @@ public final class AlbumPanel implements AutoCloseable {
         if (chosen.isEmpty()) { host.onFeedback("请先选择照片", "选择至少一张相机照片后，再下载原图。"); return; }
         if (!requirePhotoProcessingIdle("下载照片") || !requireCameraPhotos("下载相机原图")) return;
         List<PhotoItem> snapshot = new ArrayList<>(chosen);
-        host.beforeSavePhotos(() -> beginDownloadBatch(snapshot));
+        PhotoSaveChoice.show(activity,"保存 "+snapshot.size()+" 张相机照片","sync",PhotoSaveTarget.APP_ONLY,false,(target,extra)->{batchSaveTarget=target;host.beforeSavePhotos(target,() -> beginDownloadBatch(snapshot));});
     }
 
     private void beginDownloadBatch(List<PhotoItem> chosen) {
@@ -3723,7 +3807,8 @@ public final class AlbumPanel implements AutoCloseable {
         if (captureRecovery) {
             try { controller.captureDownloadRecovery(chosen); }
             catch (IOException stale) { host.onFeedback("下载未开始", stale.getMessage()); return; }
-        }
+            PhotoSaveChoice.remember(activity,"sync-recovery",batchSaveTarget);
+        } else batchSaveTarget=PhotoSaveChoice.preferred(activity,"sync-recovery",PhotoSaveTarget.APP_ONLY);
         // Drop queued metadata and thumbnails before the original occupies the shared PTP channel.
         cancelCameraBrowse();
         controller.cancelPreview();
@@ -3734,7 +3819,7 @@ public final class AlbumPanel implements AutoCloseable {
         downloadQueue.clear(); downloadQueue.addAll(chosen);
         downloadErrors.clear();
         batchTotal = chosen.size(); batchCompleted = batchFailed = batchCancelled = batchUnconfirmed = 0;
-        batchGallerySaved = batchGalleryFailed = batchPendingSaves = 0;
+        batchGallerySaved = batchGalleryFailed = batchPendingSaves = 0;lastSavedOriginal=null;
         publishingDownload = batchReadInFlight = false;
         downloading = true; cancelRemaining = false; batchMessage = "";
         selectionMode = false; clearSelection();
@@ -3785,15 +3870,18 @@ public final class AlbumPanel implements AutoCloseable {
 
     private void downloadedOriginalReady(PhotoItem photo, DownloadedPhoto result, int request, int run) {
         bindStar(controller.stablePhotoIdentity(photo), result);
-        batchCompleted++; savedThisSession.put(photo.handle(), result);
+        batchCompleted++; savedThisSession.put(photo.handle(), result);lastSavedOriginal=result;
         if (remoteDetail != null && remoteDetail.handle() == photo.handle()) {
             localDetail = result; releasePreview(); previewLoading = false; previewError = "";
             detailImageKey = "";
         }
-        batchPendingSaves++; receivedBytes = expectedBytes;
-        host.beforeSavePhotos(() -> {
+        receivedBytes = expectedBytes;
+        if(batchSaveTarget==PhotoSaveTarget.APP_ONLY){downloadNext();return;}
+        batchPendingSaves++;
+        final PhotoSaveTarget frozenTarget=batchSaveTarget;
+        host.beforeSavePhotos(frozenTarget,() -> {
             if (!currentDownload(request, run)) return;
-            PhotoAlbumSaver.get(activity).save(result, new AlbumController.Callback<String>() {
+            PhotoAlbumSaver.get(activity).save(result, frozenTarget, new AlbumController.Callback<String>() {
                 @Override public void onSuccess(String uri) {
                     if (!currentDownload(request, run)) return;
                     batchGallerySaved++; batchPendingSaves--; downloadNext();
@@ -3824,7 +3912,7 @@ public final class AlbumPanel implements AutoCloseable {
         batchCancelled += downloadQueue.size();
         downloadQueue.clear(); downloading = false; publishingDownload = batchReadInFlight = false;
         batchPendingSaves = 0;
-        batchMessage = "已保存到相册 " + batchGallerySaved + " 张";
+        batchMessage = batchSaveTarget==PhotoSaveTarget.APP_ONLY?"已保存在 App 内 "+batchCompleted+" 张，手机相册未新增照片":"已保存到手机相册 " + batchGallerySaved + " 张";
         if (batchGalleryFailed > 0) batchMessage += "，" + batchGalleryFailed + " 张原图已保留、相册保存待重试";
         if (batchFailed > 0) batchMessage += "，失败 " + batchFailed + " 张";
         if (batchCancelled > 0) batchMessage += "，未下载 " + batchCancelled + " 张";
@@ -3834,6 +3922,7 @@ public final class AlbumPanel implements AutoCloseable {
         currentFilename = "";
         changed();
         refreshDownloads();
+        if(batchCompleted>0&&lastSavedOriginal!=null){final DownloadedPhoto recent=lastSavedOriginal;host.onActionFeedback("照片已保存",batchMessage,"去处理",()->host.onProcessPhoto(recent));}
         if (!downloadErrors.isEmpty()) {
             StringBuilder details = new StringBuilder(batchMessage);
             int count = Math.min(8, downloadErrors.size());
@@ -3903,7 +3992,7 @@ public final class AlbumPanel implements AutoCloseable {
             @Override public void onSuccess(List<PhotoItem> rebound) {
                 if (!current(request) || ticket != downloadRecoveryRequest || !recoveringDownloads) return;
                 recoveringDownloads = false; changed();
-                host.beforeSavePhotos(() -> {
+                host.beforeSavePhotos(PhotoSaveChoice.preferred(activity,"sync-recovery",PhotoSaveTarget.APP_ONLY),() -> {
                     if (current(request) && ticket == downloadRecoveryRequest && controller.pendingDownloadRecoveryCount() > 0) beginDownloadBatch(rebound, false);
                 });
             }
@@ -4376,7 +4465,7 @@ public final class AlbumPanel implements AutoCloseable {
         previewLoading = false; previewError = ""; previewReceived = previewTotal = 0;
         pendingNextDetail = null;
         if (viewerImage != null) { viewerImage.setOnSingleTap(null); viewerImage.setOnSwipe(null); viewerImage.setOnPageBoundary(null, false); viewerImage.setPhoto(null); }
-        viewerImage = null; viewerPhoto = null; viewerStatus = null; viewerTop = viewerBottom = null;
+        viewerImage = null; viewerPhoto = null; viewerStatus = viewerPreset = null; viewerTop = viewerBottom = null;
         viewerSave = null; viewerStar = null; viewerVersions = null;
         viewerPublicationKey = ""; viewerPublication = null;
         if (photoVersionsDialog != null) { photoVersionsDialog.dismiss(); photoVersionsDialog = null; }
@@ -4386,16 +4475,20 @@ public final class AlbumPanel implements AutoCloseable {
         if (closed) return;
         if (photo == null) { host.onFeedback("照片尚未就绪", "请等待原图接收完成后，再保存到手机相册。"); return; }
         if (showPhotoTaskBlocked("保存照片")) return;
-        host.beforeSavePhotos(() -> {
+        PhotoSaveChoice.show(activity,"保存照片","sync",PhotoSaveTarget.APP_ONLY,true,(target,extra)->saveChosenPhoto(photo,target,extra));
+    }
+    private void saveChosenPhoto(DownloadedPhoto photo,PhotoSaveTarget target,boolean extra){
+        if(closed)return;
+        host.beforeSavePhotos(target,() -> {
             if (closed || showPhotoTaskBlocked("保存照片")) return;
             exporting = true; pendingNextDetail = null;
             updateDetailNavigation(); updateViewerStatus();
-            PhotoAlbumSaver.get(activity).save(photo, new AlbumController.Callback<String>() {
+            PhotoAlbumSaver.get(activity).save(photo, target, extra, new AlbumController.Callback<String>() {
                 @Override public void onSuccess(String uri) {
                     if (closed) return;
                     exporting = false; refreshGalleryStatus(); updateDetailNavigation(); updateViewerStatus();
                     if (screen == Screen.OVERVIEW) changed();
-                    if (canShowProjectDialog()) host.onFeedback("已保存到相册", "照片已保存在手机系统相册。");
+                    if (canShowProjectDialog()) host.onFeedback(target==PhotoSaveTarget.APP_ONLY?"已保存在 App 内":"已保存到手机相册",target==PhotoSaveTarget.APP_ONLY?"手机相册未新增照片，可在 App 内继续处理。":"同一版本的有效相册副本已核对，原图保留。");
                 }
                 @Override public void onError(String error) {
                     if (closed) return;

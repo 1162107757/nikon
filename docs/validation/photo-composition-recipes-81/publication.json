@@ -1,0 +1,77 @@
+{
+  "versionCode": 81,
+  "versionName": "0.15.0-beta",
+  "packageName": "cc.huevia",
+  "apkSha256": "7861ae7163d17a5651a8c41b25ddf1b368e868cd326bdcc04a2bd72d5df7aa80",
+  "apkBytes": 3487341,
+  "signerSha256": "04db0f9d3d76c9831a0778cfabc1a0aaab984e05398da16eb644950ccfa0ae31",
+  "channel": "beta",
+  "releaseId": "8448462f-6610-4800-b057-6f045ce03cda",
+  "status": "published",
+  "revision": 2,
+  "publishedAt": "2026-10-23T13:04:03.603357+08:00",
+  "publicBytesVerifiedAt": "2026-10-23T05:04:38.046Z",
+  "checks": [
+    {
+      "origin": "https://huevia.cc",
+      "publicBytesVerified": true,
+      "latestMetadataVerified": true
+    },
+    {
+      "origin": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com",
+      "publicBytesVerified": true,
+      "latestMetadataVerified": true
+    }
+  ],
+  "allPreviousReleaseRowsPreserved": true,
+  "deployment": {
+    "requestArchiveSha256": "c266411185fc07bd266247c803f11c9f92cd211fddedd9db4bf63fd84c143e8c",
+    "observedArchiveSha256": "98aaf475c4adf8fc533dd9270b90c78e18f0ad5990561a3a36aae8113f130bd2",
+    "contentIdentitySha256": "053a17f548b4e0dd27af1b27dde8f43df5124b1c684cb94fd54559afbfaeebc1",
+    "configurationPreserved": true,
+    "memberContentAndModesVerified": true,
+    "filesBefore": 40,
+    "filesAfter": 41,
+    "changes": [
+      {
+        "path": "server/bundled-apks/7861ae7163d17a5651a8c41b25ddf1b368e868cd326bdcc04a2bd72d5df7aa80.apk",
+        "before": null,
+        "after": "7861ae7163d17a5651a8c41b25ddf1b368e868cd326bdcc04a2bd72d5df7aa80"
+      }
+    ]
+  },
+  "validation": {
+    "nativeChecks": 516,
+    "nativeModes": 3,
+    "syntaxChecks": 22,
+    "runtimeTests": 57,
+    "archiveGuardTests": 8,
+    "diagnosticTests": 2
+  },
+  "downloadPage": {
+    "url": "https://huevia.cc/preset-library/download/?channel=beta",
+    "htmlHttpStatus": 200,
+    "scriptHttpStatus": 200,
+    "htmlSha256": "eeeb51481732fb6fc05625c931e7c8b7dc4fd12c0df905229997cb16673c600b",
+    "scriptSha256": "335e1432947a6b365206ef50f6a2169cdd8ada4c0a4f8dfe4504f51fc6d0ac85",
+    "exactPageMetadataQueryVerified": true,
+    "scope": "HTTP HTML/script and exact page metadata query verified; browser visual check unavailable because CUA initialization failed."
+  },
+  "auditEvidence": [
+    {
+      "id": 32,
+      "actor": "admin",
+      "action": "publish",
+      "sha256": "7861ae7163d17a5651a8c41b25ddf1b368e868cd326bdcc04a2bd72d5df7aa80",
+      "versionCode": 81,
+      "revision": 2
+    },
+    {
+      "id": 31,
+      "actor": "admin",
+      "action": "upload_verified",
+      "sha256": "7861ae7163d17a5651a8c41b25ddf1b368e868cd326bdcc04a2bd72d5df7aa80",
+      "versionCode": 81
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+Picked up JAVA_TOOL_OPTIONS: -Xmx256m
+Picked up JAVA_TOOL_OPTIONS: -Xmx256m
+PASS: 889 production album controller checks
+Picked up JAVA_TOOL_OPTIONS: -Xmx256m
+PASS: 33 camera capability controller checks
+Picked up JAVA_TOOL_OPTIONS: -Xmx256m
+PASS: 22 gateway connection controller checks
+Picked up JAVA_TOOL_OPTIONS: -Xmx256m
+PASS: 356 photo-live project store checks
+Picked up JAVA_TOOL_OPTIONS: -Xmx256m
+PASS: 100 photo-live project folder checks

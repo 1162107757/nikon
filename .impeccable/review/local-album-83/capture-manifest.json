@@ -1,0 +1,232 @@
+{
+  "schemaVersion": 1,
+  "apkSha256": "fcd0b31a7d4e201a195af070c0889bbf598fbc354f57709ff80b36f95b100550",
+  "scope": "28 native screenshot states, plus duplicate phone first-viewport hero; native Views skip HTML/CSS detector. Metadata only in review copies.",
+  "hero": "hero-repro.png",
+  "captures": [
+    {
+      "mode": "phone",
+      "state": "app-only-results.png",
+      "path": ".impeccable/review/local-album-83/phone-app-only-results.png",
+      "rawPath": "docs/validation/photo-local-album-83/phone/app-only-results.png",
+      "rawSha256": "c475be1b315fd56bdfa05912a5ba63ab7f04e88dbd07c0615fa1d8c79f652934",
+      "reviewSha256": "835a9bc0cbd044e7c62fd01da54406956b06c8b2e262c69bc63ad662fabb77fa"
+    },
+    {
+      "mode": "phone",
+      "state": "destination-sheet.png",
+      "path": ".impeccable/review/local-album-83/phone-destination-sheet.png",
+      "rawPath": "docs/validation/photo-local-album-83/phone/destination-sheet.png",
+      "rawSha256": "024e0526094fdefc52ff6740c5e293af92f397382d14884f1dab7612ea66722b",
+      "reviewSha256": "66b22c301c993c0aca7ed8ca8ee5d521d389543cbdc6cd0df2dd891f96f86cb4"
+    },
+    {
+      "mode": "phone",
+      "state": "editor-jpeg.png",
+      "path": ".impeccable/review/local-album-83/phone-editor-jpeg.png",
+      "rawPath": "docs/validation/photo-local-album-83/phone/editor-jpeg.png",
+      "rawSha256": "b668595ef808feac0838ff019b49918d6c49c2fe4a70a5461942f53130ca0a7f",
+      "reviewSha256": "579572ac76b76f4a9ff9c6c3a1ea8817b1917e11dfca32a43155b9a0cb4eea33"
+    },
+    {
+      "mode": "phone",
+      "state": "editor-png-adjustments.png",
+      "path": ".impeccable/review/local-album-83/phone-editor-png-adjustments.png",
+      "rawPath": "docs/validation/photo-local-album-83/phone/editor-png-adjustments.png",
+      "rawSha256": "954e2ace93a419ce8be6c58e76a84e50948242552774e3b64b333011ae578f7a",
+      "reviewSha256": "2f3d2947bda093d415e42e4232db206825310ed7619050684d990ca8fc533348"
+    },
+    {
+      "mode": "phone",
+      "state": "local-app.png",
+      "path": ".impeccable/review/local-album-83/phone-local-app.png",
+      "rawPath": "docs/validation/photo-local-album-83/phone/local-app.png",
+      "rawSha256": "12d37091a54cc762b99ef5e5a550f4bb3505233a3e6d698126bcf4d44523228b",
+      "reviewSha256": "283649e64c64e204c24de14141145ad26c35a8f3d76378f75745e75443812e13"
+    },
+    {
+      "mode": "phone",
+      "state": "local-denied.png",
+      "path": ".impeccable/review/local-album-83/phone-local-denied.png",
+      "rawPath": "docs/validation/photo-local-album-83/phone/local-denied.png",
+      "rawSha256": "8a46296b7f08be43661dde843a4023883f2b2e9033771bd3936e66c24e1c2a7f",
+      "reviewSha256": "68820f6d0f32d097b988542cc9fe87c452b22363e0773b8d18b5dc1fdbebeac3"
+    },
+    {
+      "mode": "phone",
+      "state": "phone-authorized.png",
+      "path": ".impeccable/review/local-album-83/phone-phone-authorized.png",
+      "rawPath": "docs/validation/photo-local-album-83/phone/phone-authorized.png",
+      "rawSha256": "f062fd4be0692eb505ecef0afd412b3195f7b667bd78396dc14dc2228b55d181",
+      "reviewSha256": "f7f728547f5b55838708cb5218cbaed9fe2b1c1d7c1d4feddc52c0c9af9ccec3"
+    },
+    {
+      "mode": "large-font",
+      "state": "app-only-results.png",
+      "path": ".impeccable/review/local-album-83/large-font-app-only-results.png",
+      "rawPath": "docs/validation/photo-local-album-83/large-font/app-only-results.png",
+      "rawSha256": "6df43d71917326b3fb16b63278d41abe7c48f48f286928626c9d8ba1df7af394",
+      "reviewSha256": "e442fe0a55192517cfd702d99af60f33e707c200ac2acb039d02f74b63d313b2"
+    },
+    {
+      "mode": "large-font",
+      "state": "destination-sheet.png",
+      "path": ".impeccable/review/local-album-83/large-font-destination-sheet.png",
+      "rawPath": "docs/validation/photo-local-album-83/large-font/destination-sheet.png",
+      "rawSha256": "e15e73c137e0385892ac1bebc96d51534ca5cb5b0046ee65dbdbb455f4443386",
+      "reviewSha256": "065c6981b65534b0ba67906be0931847016e88a8a0ef8ab1621a5287d70f281c"
+    },
+    {
+      "mode": "large-font",
+      "state": "editor-jpeg.png",
+      "path": ".impeccable/review/local-album-83/large-font-editor-jpeg.png",
+      "rawPath": "docs/validation/photo-local-album-83/large-font/editor-jpeg.png",
+      "rawSha256": "1edd80f960f7a38de26974bed11e5809835fb1f9d249e67a559c11704a0442fd",
+      "reviewSha256": "52a525563198fee3eef8d6644e4be40f2bed22a14eccbd1a25d1b01364bb7258"
+    },
+    {
+      "mode": "large-font",
+      "state": "editor-png-adjustments.png",
+      "path": ".impeccable/review/local-album-83/large-font-editor-png-adjustments.png",
+      "rawPath": "docs/validation/photo-local-album-83/large-font/editor-png-adjustments.png",
+      "rawSha256": "e89ed9a5fb7b694d9762984fac70b37399b169819a4f3061a335a7404757ea5a",
+      "reviewSha256": "adc33157f465d92f919aeecd9561292bbe8ee5701038e265b69255c1ce07f944"
+    },
+    {
+      "mode": "large-font",
+      "state": "local-app.png",
+      "path": ".impeccable/review/local-album-83/large-font-local-app.png",
+      "rawPath": "docs/validation/photo-local-album-83/large-font/local-app.png",
+      "rawSha256": "63ea0c30a42b2461e312e61b74e6191dd904f5115ccf9937611d9388677d66ea",
+      "reviewSha256": "93778718be0fea9bedae3a65cc8d64b58495d1ca7b03147c2375a5e4d6648fd8"
+    },
+    {
+      "mode": "large-font",
+      "state": "local-denied.png",
+      "path": ".impeccable/review/local-album-83/large-font-local-denied.png",
+      "rawPath": "docs/validation/photo-local-album-83/large-font/local-denied.png",
+      "rawSha256": "bbcc85bb9f1cc2ba1f80361e7d3032d7ed857bb93b980aebcd8f31ad69989706",
+      "reviewSha256": "fe7ef39806c2d931fb254b7be63ef537a60a6fde4950f9d8c2cea8cc556eebd1"
+    },
+    {
+      "mode": "large-font",
+      "state": "phone-authorized.png",
+      "path": ".impeccable/review/local-album-83/large-font-phone-authorized.png",
+      "rawPath": "docs/validation/photo-local-album-83/large-font/phone-authorized.png",
+      "rawSha256": "a3dc9ea9a3a79b7e1411142bf4e3e9ceeb774dd56f5aa4c28be78672f9c9645e",
+      "reviewSha256": "cfd2bbc938e6026d9457fb7cc5799d3bc9d83c8a0d7b7c9adeadb8e77788c4f6"
+    },
+    {
+      "mode": "landscape",
+      "state": "app-only-results.png",
+      "path": ".impeccable/review/local-album-83/landscape-app-only-results.png",
+      "rawPath": "docs/validation/photo-local-album-83/landscape/app-only-results.png",
+      "rawSha256": "a2a5288fbd483ffd81da471c60484892eadc5022da57a83de1460b3dc0859b6b",
+      "reviewSha256": "68b4fd7a94e164755e7c8f808d817db46ad48fc31dadec8d8bd67008eb546512"
+    },
+    {
+      "mode": "landscape",
+      "state": "destination-sheet.png",
+      "path": ".impeccable/review/local-album-83/landscape-destination-sheet.png",
+      "rawPath": "docs/validation/photo-local-album-83/landscape/destination-sheet.png",
+      "rawSha256": "5a440570b951afa1c96dc63835380836d67197242cb9730ea611487abc642ce5",
+      "reviewSha256": "64461d5e006eb9650a89d0f360f6c468d8535cdeb29f18d83dc423d0a615faef"
+    },
+    {
+      "mode": "landscape",
+      "state": "editor-jpeg.png",
+      "path": ".impeccable/review/local-album-83/landscape-editor-jpeg.png",
+      "rawPath": "docs/validation/photo-local-album-83/landscape/editor-jpeg.png",
+      "rawSha256": "4544b8028bad81028eef070b3d44a0aa500c324c44ecabbe6e253f3248bf2d78",
+      "reviewSha256": "88e303726e3aac0132e8f50668d26b290c443259c8998b8d12976201d1d7d708"
+    },
+    {
+      "mode": "landscape",
+      "state": "editor-png-adjustments.png",
+      "path": ".impeccable/review/local-album-83/landscape-editor-png-adjustments.png",
+      "rawPath": "docs/validation/photo-local-album-83/landscape/editor-png-adjustments.png",
+      "rawSha256": "4b11636258b6fc3433ca2852beeef33e8434be62f09449a3a02b7f6d8a168700",
+      "reviewSha256": "364c5f3ff26f70b93d2f946f97e7fede759c6972c4c06c34b47e8a6ca72cb2b0"
+    },
+    {
+      "mode": "landscape",
+      "state": "local-app.png",
+      "path": ".impeccable/review/local-album-83/landscape-local-app.png",
+      "rawPath": "docs/validation/photo-local-album-83/landscape/local-app.png",
+      "rawSha256": "545c0e77491aa907c864aa7daa34126a2c02ad4d894e26cd0bb4ad338e59812c",
+      "reviewSha256": "ef56ffe1c71e881936e53c265dd1540091742eb61043f9556482fd596b26a1ac"
+    },
+    {
+      "mode": "landscape",
+      "state": "local-denied.png",
+      "path": ".impeccable/review/local-album-83/landscape-local-denied.png",
+      "rawPath": "docs/validation/photo-local-album-83/landscape/local-denied.png",
+      "rawSha256": "4e01329330bb1d81019b8301af42adf1759f5030b8a0465e685441e12b659004",
+      "reviewSha256": "25a4e52bdc1423ca0fce471a14da5ffc5457da139526bce1f6dac9a12b6b0af4"
+    },
+    {
+      "mode": "landscape",
+      "state": "phone-authorized.png",
+      "path": ".impeccable/review/local-album-83/landscape-phone-authorized.png",
+      "rawPath": "docs/validation/photo-local-album-83/landscape/phone-authorized.png",
+      "rawSha256": "ac445533533fe6bf853b73373edcb0a7171db640110d45de885988204970c72b",
+      "reviewSha256": "ff5e402914775b63c6b37f400e91b3064114ed4af5257821a355c732b846360a"
+    },
+    {
+      "mode": "dark",
+      "state": "app-only-results.png",
+      "path": ".impeccable/review/local-album-83/dark-app-only-results.png",
+      "rawPath": "docs/validation/photo-local-album-83/dark/app-only-results.png",
+      "rawSha256": "8aa115d86fc03a75ef9284d3a0aa7ac75843ebe182a103ad90ad600668c13f38",
+      "reviewSha256": "78fc559567d487d2658f3c8ec3af2a358533bd23ed7ab78f432990398eee51f7"
+    },
+    {
+      "mode": "dark",
+      "state": "destination-sheet.png",
+      "path": ".impeccable/review/local-album-83/dark-destination-sheet.png",
+      "rawPath": "docs/validation/photo-local-album-83/dark/destination-sheet.png",
+      "rawSha256": "8a1848a89c11af2cc537fe0fb6d612770ee551020c78fc54e94db8acee815a26",
+      "reviewSha256": "c7234a9ea02f3424face8293dea14d39879d9b7073717c09f8d4a2980ac223da"
+    },
+    {
+      "mode": "dark",
+      "state": "editor-jpeg.png",
+      "path": ".impeccable/review/local-album-83/dark-editor-jpeg.png",
+      "rawPath": "docs/validation/photo-local-album-83/dark/editor-jpeg.png",
+      "rawSha256": "81f32216266a1cf5ce4b18fdab0284a18b2ce4fd1f60336972dd7e82c6d0a4c4",
+      "reviewSha256": "6e4db4c16470b0cd2730f75f9f8341288b5cfa431f9cd6621bb4f456b6947e51"
+    },
+    {
+      "mode": "dark",
+      "state": "editor-png-adjustments.png",
+      "path": ".impeccable/review/local-album-83/dark-editor-png-adjustments.png",
+      "rawPath": "docs/validation/photo-local-album-83/dark/editor-png-adjustments.png",
+      "rawSha256": "19c4abcb27e0c99ca4b3f6e7698fc812dbaea77ee449fbe18eded3c6a031ea95",
+      "reviewSha256": "358bf5e4c5f2a6ce60f09fdcb31bae67696e2b9db3a6dee4a154075f9fb507cf"
+    },
+    {
+      "mode": "dark",
+      "state": "local-app.png",
+      "path": ".impeccable/review/local-album-83/dark-local-app.png",
+      "rawPath": "docs/validation/photo-local-album-83/dark/local-app.png",
+      "rawSha256": "ac3210de461be6d5e38f12f28a6d7c757fa67ebdb028499cd510e1e8351389f6",
+      "reviewSha256": "1ba25daa5c40c70950e79cecc518a613d1e846e5668c7a3d0c39ee411b356431"
+    },
+    {
+      "mode": "dark",
+      "state": "local-denied.png",
+      "path": ".impeccable/review/local-album-83/dark-local-denied.png",
+      "rawPath": "docs/validation/photo-local-album-83/dark/local-denied.png",
+      "rawSha256": "fd2757d7c7f3912700ca78f135213d461109c6773586a1a33a1a2c2816a62016",
+      "reviewSha256": "15b81d392ee07789e50387112d4b214178e908e951c999aac17cf7ac4ba940da"
+    },
+    {
+      "mode": "dark",
+      "state": "phone-authorized.png",
+      "path": ".impeccable/review/local-album-83/dark-phone-authorized.png",
+      "rawPath": "docs/validation/photo-local-album-83/dark/phone-authorized.png",
+      "rawSha256": "020f6eaa519a2b1b7e21dbf79e415864be68b646c2d2297d08a33648b2953553",
+      "reviewSha256": "4ae37d714468c3aeaec57d7fae9d95a1e4e76588321e048630898c793abbed5b"
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+Interrupted offline QA run only. The hand-authored QA_OFFLINE_6326aba2 NEF fixture had byte270 deliberately changed before the notification dialog blocked continuation. It was not restored in this historical run. The already published provider copy retained its original bytes. No user photos are involved; this archive does not claim RAW retry or cleanup passed.

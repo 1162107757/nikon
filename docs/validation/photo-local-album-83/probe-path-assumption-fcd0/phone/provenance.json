@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "builtAtUtc": "2026-10-23T13:01:07.1154502Z",
+  "expectedVersion": 83,
+  "buildScope": "local-album",
+  "probeSource": "tests/photo-editor-device-probe/src/cc/huevia/editorqa/EditorNativeProbe.java",
+  "probeJavaSha256": "1e94181656c20d4c69f16f98be7513244a16520659c2a8b4bdd3156044498a63",
+  "buildScriptSha256": "9cf9f4ba5b8927206ef43379ecd95d129839e2a40387d5becbf7640e660763c8",
+  "runScriptSha256": "d3ec9e3bc2b3f8d52a53049430df38987eb99d7468ba56302c2761cb80cec965",
+  "probeApkSha256": "860b44f69e2e91a2cd0b4fcb32cb26de7aef77dfdb97f84bd58de74e9db21803"
+}

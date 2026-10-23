@@ -12,7 +12,7 @@ $scratch = Join-Path $PSScriptRoot '.build\photo-live-receipts\files'
 New-Item -ItemType Directory -Force -Path $classes, $scratch | Out-Null
 $javaRoot = Join-Path $projectRoot 'app\src\main\java\cc\huevia'
 $sources = @(Get-ChildItem -LiteralPath (Join-Path $javaRoot 'ptp') -Filter '*.java' | ForEach-Object FullName)
-foreach ($name in @('DownloadedPhoto', 'PhotoItem', 'PhotoFormat', 'PhotoPreview', 'PhotoPreviewCache', 'PhotoLiveLedger', 'PhotoLiveReceipt', 'PhotoLiveReceiptStore', 'PhotoOriginalStore')) {
+foreach ($name in @('PhotoSaveTarget', 'DownloadedPhoto', 'PhotoItem', 'PhotoFormat', 'PhotoPreview', 'PhotoPreviewCache', 'PhotoLiveLedger', 'PhotoLiveReceipt', 'PhotoLiveReceiptStore', 'PhotoOriginalStore')) {
     $sources += Join-Path $javaRoot ('album\' + $name + '.java')
 }
 $sources += @(Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot 'receipt-java') -Recurse -Filter '*.java' | ForEach-Object FullName)

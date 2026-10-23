@@ -1,4 +1,4 @@
-param([string]$JdkHome, [string]$ClassesDirectory, [switch]$ReceiptsOnly, [switch]$GatewayOnly, [switch]$DownloadRecoveryOnly)
+param([string]$JdkHome, [string]$ClassesDirectory, [switch]$ReceiptsOnly, [switch]$GatewayOnly, [switch]$DownloadRecoveryOnly, [switch]$SaveTargetsOnly)
 
 $ErrorActionPreference = 'Stop'
 $projectRoot = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
@@ -15,7 +15,7 @@ $javaRoot = Join-Path $projectRoot 'app\src\main\java\cc\huevia'
 $sourcePaths = @(Get-ChildItem -LiteralPath (Join-Path $javaRoot 'ptp') -Filter '*.java' | ForEach-Object FullName)
 $sourcePaths += @(Get-ChildItem -LiteralPath (Join-Path $javaRoot 'picturecontrol') -Filter '*.java' | ForEach-Object FullName)
 $sourcePaths += @(Get-ChildItem -LiteralPath (Join-Path $javaRoot 'ncp') -Filter '*.java' | ForEach-Object FullName)
-foreach ($name in @('PhotoCameraClient', 'CameraProtocol', 'FujifilmPhotoClient', 'AlbumController', 'PhotoDownloadRecovery', 'RawPhotoDownload', 'RawPhotoStore', 'RawPhotoPairing', 'RawJpegReferenceStore', 'PtpIpClient', 'ConnectionTrace', 'PhotoItem', 'PhotoFormat', 'PhotoPreview', 'PhotoPreviewCache', 'DownloadedPhoto', 'PhotoPage', 'ConnectionInfo', 'PhotoLiveState', 'PhotoLiveLedger', 'PhotoLiveReceipt', 'PhotoLiveReceiptStore', 'PhotoLiveProject', 'PhotoLiveProjectStore', 'PhotoLiveProjectFolders', 'PhotoLocalTasks', 'PhotoDeleteResult', 'PhotoAlbumDeletion', 'PhotoOriginalStore', 'PhotoPresetSources')) {
+foreach ($name in @('PhotoSaveTarget', 'PhotoCameraClient', 'CameraProtocol', 'FujifilmPhotoClient', 'AlbumController', 'PhotoDownloadRecovery', 'RawPhotoDownload', 'RawPhotoStore', 'RawPhotoPairing', 'RawJpegReferenceStore', 'PtpIpClient', 'ConnectionTrace', 'PhotoItem', 'PhotoFormat', 'PhotoPreview', 'PhotoPreviewCache', 'DownloadedPhoto', 'PhotoPage', 'ConnectionInfo', 'PhotoLiveState', 'PhotoLiveLedger', 'PhotoLiveReceipt', 'PhotoLiveReceiptStore', 'PhotoLiveProject', 'PhotoLiveProjectStore', 'PhotoLiveProjectFolders', 'PhotoLocalTasks', 'PhotoDeleteResult', 'PhotoAlbumDeletion', 'PhotoOriginalStore', 'PhotoPresetSources')) {
     $sourcePaths += Join-Path $javaRoot ('album\' + $name + '.java')
 }
 $sourcePaths += Join-Path $PSScriptRoot 'raw-controller-stubs\cc\huevia\album\RawPhotoPublisher.java'
@@ -26,6 +26,11 @@ $sourcePaths += @(Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot 'album-stu
 $sourcePaths += @(Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot 'album-java') -Recurse -Filter '*.java' | ForEach-Object FullName)
 & $compilerPath --release 17 -encoding UTF-8 -d $classesDirectory @sourcePaths
 if ($LASTEXITCODE -ne 0) { throw 'Production album controller host compilation failed.' }
+if ($SaveTargetsOnly) {
+    & $runtimePath ('-Djava.io.tmpdir=' + $classesDirectory) -cp $classesDirectory cc.huevia.album.AlbumControllerHostTest save-targets
+    if ($LASTEXITCODE -ne 0) { throw 'Photo save destination tests failed.' }
+    return
+}
 if ($DownloadRecoveryOnly) {
     & $runtimePath ('-Djava.io.tmpdir=' + $classesDirectory) -cp $classesDirectory cc.huevia.album.AlbumControllerHostTest download-recovery
     if ($LASTEXITCODE -ne 0) { throw 'Interrupted original recovery tests failed.' }

@@ -1,0 +1,221 @@
+{
+  "apkSha256": "61d8ae4da3712e98ba612b4e2ad25e34dfad05ab23759ee7de5335fa217dae42",
+  "counts": [
+    {
+      "mode": "phone",
+      "checks": 142
+    },
+    {
+      "mode": "large-font",
+      "checks": 142
+    },
+    {
+      "mode": "landscape",
+      "checks": 134
+    },
+    {
+      "mode": "dark",
+      "checks": 142
+    }
+  ],
+  "totalChecks": 560,
+  "scope": "28 native states plus hero; native Views skip HTML/CSS detector.",
+  "captures": [
+    {
+      "mode": "phone",
+      "state": "inline-categories",
+      "source": "docs/validation/photo-filter-navigation-82/phone/inline-categories.png",
+      "rawSha256": "095525c0d4ada153eadd599275352b29b63891a29556b5bef8c13c2933d58ede",
+      "reviewCopy": "D:\\dev\\ai-project\\nikon\\.impeccable\\review\\photo-filter-navigation-82\\phone-inline-categories.png"
+    },
+    {
+      "mode": "phone",
+      "state": "inline-scrolled",
+      "source": "docs/validation/photo-filter-navigation-82/phone/inline-scrolled.png",
+      "rawSha256": "98f2737bbddf0a42a53af921bd1fb0f00e4ded3d95a25b7891e41a74e04dff36",
+      "reviewCopy": "D:\\dev\\ai-project\\nikon\\.impeccable\\review\\photo-filter-navigation-82\\phone-inline-scrolled.png"
+    },
+    {
+      "mode": "phone",
+      "state": "picker-portrait",
+      "source": "docs/validation/photo-filter-navigation-82/phone/picker-portrait.png",
+      "rawSha256": "dc15ecf5e6a33966f3631479c467032c493c5dbb122fba32d1ecfbdf21a77a2c",
+      "reviewCopy": "D:\\dev\\ai-project\\nikon\\.impeccable\\review\\photo-filter-navigation-82\\phone-picker-portrait.png"
+    },
+    {
+      "mode": "phone",
+      "state": "picker-black-white",
+      "source": "docs/validation/photo-filter-navigation-82/phone/picker-black-white.png",
+      "rawSha256": "a303a37a4d531f64d43bfe930f1d89d3a37276622279655837f5bde5ae93cbbc",
+      "reviewCopy": "D:\\dev\\ai-project\\nikon\\.impeccable\\review\\photo-filter-navigation-82\\phone-picker-black-white.png"
+    },
+    {
+      "mode": "phone",
+      "state": "picker-local",
+      "source": "docs/validation/photo-filter-navigation-82/phone/picker-local.png",
+      "rawSha256": "b1a488d79210d622fe3605a26372c374070ec4407d91b85a24ac85dac3e2a996",
+      "reviewCopy": "D:\\dev\\ai-project\\nikon\\.impeccable\\review\\photo-filter-navigation-82\\phone-picker-local.png"
+    },
+    {
+      "mode": "phone",
+      "state": "live-loading",
+      "source": "docs/validation/photo-filter-navigation-82/phone/live-loading.png",
+      "rawSha256": "b1bba311824048c3ecba6d3430d8058a380a1dfa5fe68bf5ce9e17b5be7ef8b4",
+      "reviewCopy": "D:\\dev\\ai-project\\nikon\\.impeccable\\review\\photo-filter-navigation-82\\phone-live-loading.png"
+    },
+    {
+      "mode": "phone",
+      "state": "live-stable",
+      "source": "docs/validation/photo-filter-navigation-82/phone/live-stable.png",
+      "rawSha256": "f35158158d884ea42ab30b20dd5230cd6d8f8c694eead31e32c3fcabb6321145",
+      "reviewCopy": "D:\\dev\\ai-project\\nikon\\.impeccable\\review\\photo-filter-navigation-82\\phone-live-stable.png"
+    },
+    {
+      "mode": "large-font",
+      "state": "inline-categories",
+      "source": "docs/validation/photo-filter-navigation-82/large-font/inline-categories.png",
+      "rawSha256": "24420305dafd9780f160225e9ccd0878c821a13afae1b6b387980c37204674b3",
+      "reviewCopy": "D:\\dev\\ai-project\\nikon\\.impeccable\\review\\photo-filter-navigation-82\\large-font-inline-categories.png"
+    },
+    {
+      "mode": "large-font",
+      "state": "inline-scrolled",
+      "source": "docs/validation/photo-filter-navigation-82/large-font/inline-scrolled.png",
+      "rawSha256": "bc0246718fcd47774c3b19cb2108566f399740325c362db5df4e736d43f77bf7",
+      "reviewCopy": "D:\\dev\\ai-project\\nikon\\.impeccable\\review\\photo-filter-navigation-82\\large-font-inline-scrolled.png"
+    },
+    {
+      "mode": "large-font",
+      "state": "picker-portrait",
+      "source": "docs/validation/photo-filter-navigation-82/large-font/picker-portrait.png",
+      "rawSha256": "0edc6f6f5e14aa43a92b0ea72db62aa7271b8d82c7440df1390808490930176a",
+      "reviewCopy": "D:\\dev\\ai-project\\nikon\\.impeccable\\review\\photo-filter-navigation-82\\large-font-picker-portrait.png"
+    },
+    {
+      "mode": "large-font",
+      "state": "picker-black-white",
+      "source": "docs/validation/photo-filter-navigation-82/large-font/picker-black-white.png",
+      "rawSha256": "aa6590971147f063ed491ef839b188bad51fac43b54781ee57be4d3fbd304b93",
+      "reviewCopy": "D:\\dev\\ai-project\\nikon\\.impeccable\\review\\photo-filter-navigation-82\\large-font-picker-black-white.png"
+    },
+    {
+      "mode": "large-font",
+      "state": "picker-local",
+      "source": "docs/validation/photo-filter-navigation-82/large-font/picker-local.png",
+      "rawSha256": "debe0cf4ffc61921890d705a3796445a7e4e68a71b3211a2d0a7c5de9b4ecb4b",
+      "reviewCopy": "D:\\dev\\ai-project\\nikon\\.impeccable\\review\\photo-filter-navigation-82\\large-font-picker-local.png"
+    },
+    {
+      "mode": "large-font",
+      "state": "live-loading",
+      "source": "docs/validation/photo-filter-navigation-82/large-font/live-loading.png",
+      "rawSha256": "d272c2b6712437ad67695f1bf0f089c426e6e21c2be7d4c7cb4ff4d5f9dc805b",
+      "reviewCopy": "D:\\dev\\ai-project\\nikon\\.impeccable\\review\\photo-filter-navigation-82\\large-font-live-loading.png"
+    },
+    {
+      "mode": "large-font",
+      "state": "live-stable",
+      "source": "docs/validation/photo-filter-navigation-82/large-font/live-stable.png",
+      "rawSha256": "6f237a41876641eee8e01935b2c0b835eb368824a7412ec033dedc468898e8fc",
+      "reviewCopy": "D:\\dev\\ai-project\\nikon\\.impeccable\\review\\photo-filter-navigation-82\\large-font-live-stable.png"
+    },
+    {
+      "mode": "landscape",
+      "state": "inline-categories",
+      "source": "docs/validation/photo-filter-navigation-82/landscape/inline-categories.png",
+      "rawSha256": "f39e5095544c517fc9957de2548d2227efc0ed798fe114cc3c39320ec6827a6a",
+      "reviewCopy": "D:\\dev\\ai-project\\nikon\\.impeccable\\review\\photo-filter-navigation-82\\landscape-inline-categories.png"
+    },
+    {
+      "mode": "landscape",
+      "state": "inline-scrolled",
+      "source": "docs/validation/photo-filter-navigation-82/landscape/inline-scrolled.png",
+      "rawSha256": "d7251c03155ec530b7d3649c6b3fdf00e4c637fc969b6d75bfd546c862698b03",
+      "reviewCopy": "D:\\dev\\ai-project\\nikon\\.impeccable\\review\\photo-filter-navigation-82\\landscape-inline-scrolled.png"
+    },
+    {
+      "mode": "landscape",
+      "state": "picker-portrait",
+      "source": "docs/validation/photo-filter-navigation-82/landscape/picker-portrait.png",
+      "rawSha256": "ab1ffe70773b20f9092cbbcf724c8c1a70df9d7bbdbe0949f8d78c00fcaf377d",
+      "reviewCopy": "D:\\dev\\ai-project\\nikon\\.impeccable\\review\\photo-filter-navigation-82\\landscape-picker-portrait.png"
+    },
+    {
+      "mode": "landscape",
+      "state": "picker-black-white",
+      "source": "docs/validation/photo-filter-navigation-82/landscape/picker-black-white.png",
+      "rawSha256": "bd0dcb444e6c2d546670774137855fb34007fd2d1f1193f279aa115985e36a6b",
+      "reviewCopy": "D:\\dev\\ai-project\\nikon\\.impeccable\\review\\photo-filter-navigation-82\\landscape-picker-black-white.png"
+    },
+    {
+      "mode": "landscape",
+      "state": "picker-local",
+      "source": "docs/validation/photo-filter-navigation-82/landscape/picker-local.png",
+      "rawSha256": "0dbe920a1d3975a27105a1a0e29e9e755c015bf62e7af5b988a995aed79d6da2",
+      "reviewCopy": "D:\\dev\\ai-project\\nikon\\.impeccable\\review\\photo-filter-navigation-82\\landscape-picker-local.png"
+    },
+    {
+      "mode": "landscape",
+      "state": "live-loading",
+      "source": "docs/validation/photo-filter-navigation-82/landscape/live-loading.png",
+      "rawSha256": "c9d0166a75b1ac3dfcc9c9305a60220086200035d825275ed83837d7b7446d2a",
+      "reviewCopy": "D:\\dev\\ai-project\\nikon\\.impeccable\\review\\photo-filter-navigation-82\\landscape-live-loading.png"
+    },
+    {
+      "mode": "landscape",
+      "state": "live-stable",
+      "source": "docs/validation/photo-filter-navigation-82/landscape/live-stable.png",
+      "rawSha256": "91f40b20e88e3f927e0e25eb63e9697742b8429d55370588892a9a4afd4502c4",
+      "reviewCopy": "D:\\dev\\ai-project\\nikon\\.impeccable\\review\\photo-filter-navigation-82\\landscape-live-stable.png"
+    },
+    {
+      "mode": "dark",
+      "state": "inline-categories",
+      "source": "docs/validation/photo-filter-navigation-82/dark/inline-categories.png",
+      "rawSha256": "7cdcc1c238e9718f0ff656401f53c086219db2a7b02a3a4d8c4bdf4b60eeaf46",
+      "reviewCopy": "D:\\dev\\ai-project\\nikon\\.impeccable\\review\\photo-filter-navigation-82\\dark-inline-categories.png"
+    },
+    {
+      "mode": "dark",
+      "state": "inline-scrolled",
+      "source": "docs/validation/photo-filter-navigation-82/dark/inline-scrolled.png",
+      "rawSha256": "15ab2dc4e6c3a143fa086f487a2a42e47316b7436e2956dc84a7ba38643ee99f",
+      "reviewCopy": "D:\\dev\\ai-project\\nikon\\.impeccable\\review\\photo-filter-navigation-82\\dark-inline-scrolled.png"
+    },
+    {
+      "mode": "dark",
+      "state": "picker-portrait",
+      "source": "docs/validation/photo-filter-navigation-82/dark/picker-portrait.png",
+      "rawSha256": "78f8399a13cf70866860afa185b6cf2166acf7f5004fef43cb925d6a312c2c81",
+      "reviewCopy": "D:\\dev\\ai-project\\nikon\\.impeccable\\review\\photo-filter-navigation-82\\dark-picker-portrait.png"
+    },
+    {
+      "mode": "dark",
+      "state": "picker-black-white",
+      "source": "docs/validation/photo-filter-navigation-82/dark/picker-black-white.png",
+      "rawSha256": "7f1b76da6a92e814649941d1bd7f9db625565bc8c85f3102998471f25a0c65ba",
+      "reviewCopy": "D:\\dev\\ai-project\\nikon\\.impeccable\\review\\photo-filter-navigation-82\\dark-picker-black-white.png"
+    },
+    {
+      "mode": "dark",
+      "state": "picker-local",
+      "source": "docs/validation/photo-filter-navigation-82/dark/picker-local.png",
+      "rawSha256": "79fe9c71ae31208e772b7dbe6e24f93c1a892ae279f8f523cb66edf3f3cd7d49",
+      "reviewCopy": "D:\\dev\\ai-project\\nikon\\.impeccable\\review\\photo-filter-navigation-82\\dark-picker-local.png"
+    },
+    {
+      "mode": "dark",
+      "state": "live-loading",
+      "source": "docs/validation/photo-filter-navigation-82/dark/live-loading.png",
+      "rawSha256": "aba836c8ff57b11701baeba4308d081993b57a82556100ead40d5d98b170cf9f",
+      "reviewCopy": "D:\\dev\\ai-project\\nikon\\.impeccable\\review\\photo-filter-navigation-82\\dark-live-loading.png"
+    },
+    {
+      "mode": "dark",
+      "state": "live-stable",
+      "source": "docs/validation/photo-filter-navigation-82/dark/live-stable.png",
+      "rawSha256": "aba836c8ff57b11701baeba4308d081993b57a82556100ead40d5d98b170cf9f",
+      "reviewCopy": "D:\\dev\\ai-project\\nikon\\.impeccable\\review\\photo-filter-navigation-82\\dark-live-stable.png"
+    }
+  ]
+}

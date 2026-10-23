@@ -1,0 +1,9 @@
+Picked up JAVA_TOOL_OPTIONS: -Xmx256m
+Picked up JAVA_TOOL_OPTIONS: -Xmx256m
+PASS: 250 photo album saver checks
+Picked up JAVA_TOOL_OPTIONS: -Xmx256m
+PASS: 61 imported photo origin/publication checks
+Picked up JAVA_TOOL_OPTIONS: -Xmx256m
+PASS: 36 local photo deletion checks
+Picked up JAVA_TOOL_OPTIONS: -Xmx256m
+PASS: 18 original byte identity checks

@@ -1,0 +1,4 @@
+INSTRUMENTATION_RESULT: status=FAIL
+INSTRUMENTATION_RESULT: stream=Photo editor native FAIL; native-screenshot-orientation-failure; java.lang.IllegalStateException: local-original-has-real-gallery-row-for-batch-selection
+
+INSTRUMENTATION_CODE: 0

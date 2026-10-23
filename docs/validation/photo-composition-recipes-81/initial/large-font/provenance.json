@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "builtAtUtc": "2026-10-23T02:09:45.9527114Z",
+  "expectedVersion": 81,
+  "buildScope": "composition-recipes",
+  "probeSource": "tests/photo-editor-device-probe/src/cc/huevia/editorqa/EditorNativeProbe.java",
+  "probeJavaSha256": "9799703c676387acbd2c3b3ad3ca581dbe25b20dc9100b393bf68158decfa611",
+  "buildScriptSha256": "d637994dc9ff4efec3f1bcbaa9bd8fdb508fe009838c4433ba2ce25923e956c2",
+  "runScriptSha256": "cf223315341b910ac79a5491019e51bfe1516e105eba86c6c8a2df78036eda38",
+  "probeApkSha256": "c252b04554e727febf39b30c98dfe90530407c20e2d60e979bfe43d40ed07f10"
+}

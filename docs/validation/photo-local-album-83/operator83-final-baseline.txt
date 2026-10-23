@@ -1,0 +1,4 @@
+{"phase":"request-cloud-archive-address"}
+{"phase":"download-cloud-archive"}
+{"phase":"read-cloud-archive-response"}
+{"readOnly":true,"baselineVerified":true,"versionCode":83,"apkSha256":"f320eef5e6068e94fff54f37509374d09f723492f6fb3077052d727e55d79ebd","apkBytes":3528301,"previousArchiveSha256":"59474d236d32ec3dfc9cb827d186689a58f157e38bdc5775ff860ff9924f3eaf","filesBefore":42,"configurationSha256":"feaf078296f56adf1378068ad1a56a47a7aba62ca0ab17754860ebb41229df8e","old82BundleVerified":true,"cloudWrites":false}

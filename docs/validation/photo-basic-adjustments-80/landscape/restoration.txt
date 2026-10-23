@@ -1,0 +1,4 @@
+font_scale_restored=1.0
+accelerometer_rotation_restored=1
+user_rotation_restored=0
+status=PASS

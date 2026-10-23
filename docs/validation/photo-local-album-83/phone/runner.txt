@@ -1,0 +1,7 @@
+All files should be loaded. Notifying the device.
+INSTRUMENTATION_RESULT: status=PASS
+INSTRUMENTATION_RESULT: stream=Photo editor native PASS; checks=300
+
+INSTRUMENTATION_CODE: -1
+/sdcard/Android/data/cc.huevia/files/photo-local-album-83/phone/./: 11 files pulled, 0 skipped. 10.7 MB/s (4414089 bytes in 0.393s)
+Evidence: D:\dev\ai-project\nikon\docs\validation\photo-local-album-83\phone

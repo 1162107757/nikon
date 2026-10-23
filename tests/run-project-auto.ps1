@@ -9,7 +9,7 @@ New-Item -ItemType Directory -Force -Path $classes, $scratch | Out-Null
 $javaRoot = Join-Path $projectRoot 'app\src\main\java\cc\huevia'
 $sources = @((Join-Path $javaRoot 'account\AccountJson.java'))
 foreach ($package in @('ptp', 'picturecontrol', 'ncp', 'library')) { $sources += @(Get-ChildItem -LiteralPath (Join-Path $javaRoot $package) -Filter '*.java' | Where-Object { $_.Name -notin @('PersonalPresetApi.java') } | ForEach-Object FullName) }
-foreach ($name in @('PhotoEditStore', 'PhotoProjectPresets', 'PhotoProjectPresetStore', 'PhotoPresetBatch', 'PhotoPresetBatchState', 'PhotoPresetRenderer', 'PhotoPresetSources', 'PhotoLocalTasks', 'PhotoItem', 'PhotoFormat', 'DownloadedPhoto', 'PhotoPreview', 'PhotoPreviewCache', 'PhotoLiveProject', 'PhotoLiveReceipt', 'PhotoLiveState')) { $sources += Join-Path $javaRoot ('album\' + $name + '.java') }
+foreach ($name in @('PhotoSaveTarget', 'PhotoEditStore', 'PhotoComposition', 'PhotoProjectPresets', 'PhotoProjectPresetStore', 'PhotoPresetBatch', 'PhotoPresetBatchState', 'PhotoPresetRenderer', 'PhotoPresetSources', 'PhotoLocalTasks', 'PhotoItem', 'PhotoFormat', 'DownloadedPhoto', 'PhotoPreview', 'PhotoPreviewCache', 'PhotoLiveProject', 'PhotoLiveReceipt', 'PhotoLiveState')) { $sources += Join-Path $javaRoot ('album\' + $name + '.java') }
 $sources += Join-Path $PSScriptRoot 'album-stubs\android\content\Context.java'
 $sources += Join-Path $PSScriptRoot 'album-stubs\android\os\Environment.java'
 $sources += Join-Path $PSScriptRoot 'android-stubs\android\os\Looper.java'

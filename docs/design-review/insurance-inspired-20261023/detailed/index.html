@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Huevia · 橙光 / 功能细化稿</title>
+  <link rel="stylesheet" href="design.css">
+  <script src="design.js" defer></script>
+</head>
+<body>
+<!--
+THESIS: Make the chosen orange-light visual language carry Huevia's actual camera and photo workflows, with inspectable failure states and source-backed implementation notes.
+OWN-WORLD: Porcelain #FAFAF8, stone #E7E5E2, ember #C44730, peach #F6CFB7, ink #262320. Native sans, 48px actions, compact orange preset header, soft white groups, photo-first black editor.
+STORY: Browse → download → check slots → confirm import; receive → choose destination → edit → export without duplicate photos. Keep camera connection across root navigation.
+FIRST VIEWPORT: Source-backed page navigation on the left, a 390×844 interactive phone in the center, state controls and implementation explanation on the right. A separate board compares four actual root pages.
+FORM: Extend the user-pinned Paperpillar reference and the previous orange prototype. No new visual-world choice. Production Android remains untouched.
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+-->
+  <div id="symbols" aria-hidden="true"></div>
+  <header class="studio-header">
+    <a class="studio-brand" href="index.html"><span data-icon="aperture"></span><strong>huevia</strong><span class="brand-detail">橙光 · 功能细化稿</span></a>
+    <div class="studio-links"><a href="../index.html">第一版</a><a href="FUNCTION-MAP.md" target="_blank">功能对照</a><button data-act="reset-demo">重置演示</button></div>
+  </header>
+  <div class="studio-heading">
+    <div><h1>让风格，长在真实功能上。</h1><p>基于当前 Android 源码细化页面与状态。照片、账号、连接和任务使用本页演示数据。</p></div>
+    <div class="mode-switch" aria-label="设计查看方式"><button data-act="mode:experience" class="active" aria-pressed="true">交互体验</button><button data-act="mode:board" aria-pressed="false">页面总览</button></div>
+  </div>
+  <main id="experience" class="workbench">
+    <aside class="page-rail" aria-label="页面目录"><div class="rail-heading">完整页面</div><nav id="page-nav"></nav><div class="rail-note"><span class="little-dot"></span>按现有四个入口组织<br>原生功能保留，视觉重新设计</div></aside>
+    <section class="device-stage" aria-label="手机交互预览"><div class="stage-caption"><span id="route-caption">预设库</span><span>390 × 844 · 可点击</span></div><div id="device" class="device" tabindex="-1"></div><p class="stage-hint">在手机内滚动浏览 · 底部四个入口可以切换</p></section>
+    <aside class="spec-panel" aria-label="功能与实现说明"><section class="scenario-panel"><h2>状态演练</h2><p>切换实际会遇到的状态，检查每一步怎么继续。</p><label for="scenario-select">当前页面状态</label><select id="scenario-select"></select></section><div id="page-spec"></div><div class="scope-note">这是可审阅的交互原型。原生接入位置和保留规则列在说明中；未在浏览器模拟尼康协议、系统权限或真实色彩渲染。</div></aside>
+  </main>
+  <section id="overview" class="overview" hidden aria-label="四个主页面总览"></section>
+  <footer class="studio-footer"><span>参考视觉：Paperpillar Insurance Mobile App · 实际功能：Huevia 当前工作区源码</span><span>保留原图 · 保存位置明确 · 不重复生成同一版本</span></footer>
+</body>
+</html>

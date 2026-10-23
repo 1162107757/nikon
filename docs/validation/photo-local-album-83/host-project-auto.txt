@@ -1,0 +1,3 @@
+Picked up JAVA_TOOL_OPTIONS: -Xmx256m
+Picked up JAVA_TOOL_OPTIONS: -Xmx256m
+PASS: 53 project automatic-preset checks

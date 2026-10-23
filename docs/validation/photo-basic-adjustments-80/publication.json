@@ -1,0 +1,45 @@
+{
+  "schema": "huevia.publication-receipt.v1",
+  "verifiedAtUtc": "2026-10-22T15:35:18.665Z",
+  "versionCode": 80,
+  "versionName": "0.14.0-beta",
+  "channel": "beta",
+  "packageName": "cc.huevia",
+  "releaseId": "e7cb7d02-d9bc-4a59-9f00-a42bcf2a3659",
+  "status": "published",
+  "apkSha256": "4aea78f19ddc4e245e27470b29c9f111674f74c2e22b3229d03a2ec5fd6834bb",
+  "apkBytes": 3458669,
+  "signerSha256": "04db0f9d3d76c9831a0778cfabc1a0aaab984e05398da16eb644950ccfa0ae31",
+  "signatureSchemes": [
+    2,
+    3
+  ],
+  "downloadPage": "https://huevia.cc/preset-library/download/?channel=beta",
+  "publicDownload": "https://huevia.cc/preset-library/releases/e7cb7d02-d9bc-4a59-9f00-a42bcf2a3659/file",
+  "checks": [
+    {
+      "origin": "https://huevia.cc",
+      "publicBytesVerified": true,
+      "latestMetadataVerified": true
+    },
+    {
+      "origin": "https://nikon-d8girdjsr252fd90e-1252602548.ap-shanghai.app.tcloudbase.com",
+      "publicBytesVerified": true,
+      "latestMetadataVerified": true
+    }
+  ],
+  "requestArchiveSha256": "f830095332d2fe0ec0b3beb1c3bf07f03b10780c6e735cd39bec328719bb8c70",
+  "observedArchiveSha256": "af7b0ad60e1d0cefaa91737150279669b2af462320c559912c4c184d3b4ebd7e",
+  "contentIdentitySha256": "6e73169ef418ffaa15afd232f9a61ef6ce2063e783ad1f9b4faeecdd55f1b676",
+  "configurationPreserved": true,
+  "allPreviousReleaseRowsPreserved": true,
+  "browser": {
+    "observedVersion": "Huevia 0.14.0-beta",
+    "selectedChannel": "beta",
+    "downloadReleaseId": "e7cb7d02-d9bc-4a59-9f00-a42bcf2a3659",
+    "notesVisible": true,
+    "source": "Read-only in-app-browser accessibility tree after reload; actual download page"
+  },
+  "finalBundlePreservedLocally": true,
+  "previousBundlesPreservedLocally": true
+}

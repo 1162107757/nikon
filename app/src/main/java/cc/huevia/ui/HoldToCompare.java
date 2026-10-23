@@ -33,6 +33,7 @@ public final class HoldToCompare {
     private boolean keyDown;
     private boolean unavailable;
     private String buttonLabel = "原图";
+    private boolean iconOnly;
 
     public HoldToCompare(FrameLayout frame, ImageView image, TextView badge) {
         this(frame, image, badge, image == null ? null : image::setImageBitmap);
@@ -76,6 +77,8 @@ public final class HoldToCompare {
     /** The owner may position or hide this control; bitmaps remain owned by the caller. */
     public View getButtonView() { return button; }
     public void setButtonLabel(String label) { requireMainThread(); buttonLabel = label; updateButton(); }
+    /** Compact editor chrome; semantics and momentary/keyboard behaviour are unchanged. */
+    public void setIconOnly(boolean value) {requireMainThread();iconOnly=value;updateButton();}
 
     /** Updates the result without replacing an original that is currently being held. */
     public void setEffect(Bitmap bitmap) {
@@ -144,14 +147,15 @@ public final class HoldToCompare {
         if (button == null) return;
         boolean enabled = ready();
         button.setEnabled(enabled);
-        button.setText(enabled ? buttonLabel : unavailable ? "不可用" : "准备中");
+        button.setText(iconOnly?"":enabled ? buttonLabel : unavailable ? "不可用" : "准备中");
+        if(iconOnly){AppIcon icon=new AppIcon(AppIcon.Kind.COMPARE,Color.WHITE,button.getResources().getDisplayMetrics().density);button.setCompoundDrawablesRelativeWithIntrinsicBounds(icon,null,null,null);button.setPadding(dp(12),0,dp(12),0);}
         button.setTextColor(enabled ? Color.WHITE : Color.rgb(214, 218, 225));
         button.setPressed(activePointer != NO_POINTER && showingOriginal);
         button.setSelected(showingOriginal);
         GradientDrawable surface = new GradientDrawable();
-        surface.setColor(showingOriginal ? Color.argb(238, 26, 29, 35) : Color.argb(215, 26, 29, 35));
+        surface.setColor(iconOnly?Color.TRANSPARENT:showingOriginal ? Color.argb(238, 26, 29, 35) : Color.argb(215, 26, 29, 35));
         surface.setCornerRadius(dp(24));
-        surface.setStroke(dp(button.hasFocus() ? 2 : 1),
+        surface.setStroke(dp(button.hasFocus() ? 2 : iconOnly?0:1),
                 Color.argb(button.hasFocus() ? 255 : 55, 255, 255, 255));
         button.setBackground(surface);
         button.setContentDescription(!enabled ? unavailable ? "预览原图对比暂不可用，原图或效果加载失败" : "预览原图对比，正在准备"

@@ -1,0 +1,42 @@
+{
+  "readOnly": true,
+  "syntaxChecks": 9,
+  "results": [
+    {
+      "file": "huevia83-reviewed-archive.test.mjs",
+      "passed": true
+    },
+    {
+      "file": "huevia83-reviewed-baseline-check.mjs",
+      "passed": true
+    },
+    {
+      "file": "huevia83-reviewed-common.mjs",
+      "passed": true
+    },
+    {
+      "file": "huevia83-reviewed-deploy.mjs",
+      "passed": true
+    },
+    {
+      "file": "huevia83-reviewed-observability.test.mjs",
+      "passed": true
+    },
+    {
+      "file": "huevia83-reviewed-prepare.mjs",
+      "passed": true
+    },
+    {
+      "file": "huevia83-reviewed-publish.mjs",
+      "passed": true
+    },
+    {
+      "file": "huevia83-reviewed-staged.test.mjs",
+      "passed": true
+    },
+    {
+      "file": "huevia83-reviewed-staging-check.mjs",
+      "passed": true
+    }
+  ]
+}

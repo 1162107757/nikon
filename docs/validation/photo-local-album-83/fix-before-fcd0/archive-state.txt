@@ -1,0 +1,1 @@
+Historical fcd0 candidate: four modes passed 273 assertions each with restoration PASS and 28 captures. This preserves the pre-finish-review UI, before the user-requested floating picker and centered authorization changes. It is not final UI confirmation evidence.

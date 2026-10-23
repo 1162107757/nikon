@@ -1,0 +1,11 @@
+Picked up JAVA_TOOL_OPTIONS: -Xmx256m
+ע: D:\dev\ai-project\nikon\tests\photo-editor-device-probe\src\cc\huevia\editorqa\EditorNativeProbe.javaʹ�û򸲸����ѹ�ʱ�� API��
+ע: �й���ϸ��Ϣ, ��ʹ�� -Xlint:deprecation ���±��롣
+ע: D:\dev\ai-project\nikon\tests\photo-editor-device-probe\src\cc\huevia\editorqa\EditorNativeProbe.javaʹ����δ�����򲻰�ȫ�Ĳ�����
+ע: �й���ϸ��Ϣ, ��ʹ�� -Xlint:unchecked ���±��롣
+Picked up JAVA_TOOL_OPTIONS: -Xmx256m
+Picked up JAVA_TOOL_OPTIONS: -Xmx256m
+Picked up JAVA_TOOL_OPTIONS: -Xmx256m
+Picked up JAVA_TOOL_OPTIONS: -Xmx256m
+Photo editor instrumentation: D:\dev\ai-project\nikon\.tooling\photo-local-album-83\editor-probe.apk
+Probe provenance: D:\dev\ai-project\nikon\.tooling\photo-local-album-83\provenance.json

@@ -1,0 +1,17 @@
+PASS colour-only legacy mixing and original alpha
+PASS strength zero performs no I/O or colour work
+PASS constant, degenerate and alpha-varying regions
+PASS all three scales enhance and soften
+PASS positive and negative settings avoid overshoot halos
+PASS low-amplitude noise gate
+PASS transparent hidden RGB cannot bleed
+PASS spatial strength blends the complete result
+PASS single source read and colour evaluation per pixel
+PASS translation across ring boundaries has no seams
+PASS reflection and transpose preserve square-kernel response
+PASS monotone progress and cancellation
+PASS wide-row cancellation and interrupted flag
+PASS I/O failures propagate without false completion
+PASS settings, dimensions, strength and memory validation
+PASS height-independent streaming under a 64 MiB heap
+PASS 16 cases, 41534647 assertions

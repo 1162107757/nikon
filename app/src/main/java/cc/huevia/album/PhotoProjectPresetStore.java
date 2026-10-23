@@ -30,7 +30,7 @@ import java.util.UUID;
 /** Worker-owned durable project defaults and processing journal; UI reads immutable memory only. */
 public final class PhotoProjectPresetStore {
     static final String FILE_NAME = "project-presets.bin";
-    private static final int MAGIC = 0x50505031, MAX_TASKS = 20000, MAX_CONFIGS = 1024, MAX_BYTES = 32 * 1024 * 1024;
+    private static final int LEGACY_MAGIC = 0x50505031, MAGIC = 0x50505032, MAX_TASKS = 20000, MAX_CONFIGS = 1024, MAX_BYTES = 32 * 1024 * 1024;
     private static final Object DISK_LOCK = new Object();
     private final File directory;
     private final AtomicReplace replace;
@@ -62,9 +62,16 @@ public final class PhotoProjectPresetStore {
     public static final class Task {
         public final String projectId, identity, presetId, presetName, sourceFileName, sourceDisplayName, status, resultFileName, error;
         public final long sourceBytes, updatedAt;
+        public final PhotoSaveTarget saveTarget;
         public Task(String projectId, String identity, String presetId, String presetName,
                     String sourceFileName, String sourceDisplayName, long sourceBytes,
                     String status, String resultFileName, String error, long updatedAt) {
+            this(projectId, identity, presetId, presetName, sourceFileName, sourceDisplayName, sourceBytes,
+                    status, resultFileName, error, updatedAt, PhotoSaveTarget.PHONE_ALBUM);
+        }
+        public Task(String projectId, String identity, String presetId, String presetName,
+                    String sourceFileName, String sourceDisplayName, long sourceBytes,
+                    String status, String resultFileName, String error, long updatedAt, PhotoSaveTarget saveTarget) {
             project(projectId); preset(identity, false); preset(presetId, false); text(presetName, 240, false);
             filename(sourceFileName, false); filename(sourceDisplayName, false); filename(resultFileName, true); text(error, 2048, true);
             if (sourceBytes < 4 || sourceBytes > 512L * 1024 * 1024 || updatedAt < 0) throw new IllegalArgumentException("项目照片大小或时间无效。");
@@ -76,10 +83,11 @@ public final class PhotoProjectPresetStore {
             this.projectId = projectId; this.identity = identity; this.presetId = presetId; this.presetName = presetName;
             this.sourceFileName = sourceFileName; this.sourceDisplayName = sourceDisplayName; this.sourceBytes = sourceBytes;
             this.status = status; this.resultFileName = resultFileName; this.error = error; this.updatedAt = updatedAt;
+            this.saveTarget = java.util.Objects.requireNonNull(saveTarget, "saveTarget");
         }
         public Task withStatus(String status, String resultFileName, String error) {
             return new Task(projectId, identity, presetId, presetName, sourceFileName, sourceDisplayName, sourceBytes,
-                    status, resultFileName, error, Math.max(System.currentTimeMillis(), updatedAt == Long.MAX_VALUE ? updatedAt : updatedAt + 1));
+                    status, resultFileName, error, Math.max(System.currentTimeMillis(), updatedAt == Long.MAX_VALUE ? updatedAt : updatedAt + 1), saveTarget);
         }
         public String key() { return projectId + ':' + identity + ':' + presetId; }
     }
@@ -101,7 +109,7 @@ public final class PhotoProjectPresetStore {
             State current = readCommitted(); Map<String, Task> recovered = new TreeMap<>(current.tasks); boolean changed = false;
             for (Task task : current.tasks.values()) if (task.status.equals("processing")) {
                 recovered.put(task.key(), new Task(task.projectId, task.identity, task.presetId, task.presetName,
-                        task.sourceFileName, task.sourceDisplayName, task.sourceBytes, "queued", "", "", task.updatedAt)); changed = true;
+                        task.sourceFileName, task.sourceDisplayName, task.sourceBytes, "queued", "", "", task.updatedAt, task.saveTarget)); changed = true;
             }
             if (!changed) return current;
             State next = new State(current.configs, recovered); persist(next); return next;
@@ -238,7 +246,8 @@ public final class PhotoProjectPresetStore {
         byte[] encoded = new byte[(int) size];
         try (DataInputStream data = new DataInputStream(new FileInputStream(file))) { data.readFully(encoded); if (data.read() != -1) throw new IOException("项目预设记录在读取时发生变化。"); }
         try (DataInputStream input = new DataInputStream(new ByteArrayInputStream(encoded))) {
-            if (input.readInt() != MAGIC) throw new IOException("项目预设记录版本或格式无效。");
+            int format = input.readInt();
+            if (format != MAGIC && format != LEGACY_MAGIC) throw new IOException("项目预设记录版本或格式无效。");
             int length = input.readInt(); if (length != encoded.length - 40) throw new IOException("项目预设记录长度无效。");
             byte[] payload = new byte[length], checksum = new byte[32]; input.readFully(payload); input.readFully(checksum);
             if (!MessageDigest.isEqual(checksum, digest().digest(payload))) throw new IOException("项目预设记录校验失败，请保留记录后重试。");
@@ -253,6 +262,9 @@ public final class PhotoProjectPresetStore {
                 int taskCount = data.readInt(); if (taskCount < 0 || taskCount > MAX_TASKS) throw new IOException("项目照片任务数量无效。"); previous = "";
                 for (int i = 0; i < taskCount; i++) {
                     Task task = new Task(data.readUTF(), data.readUTF(), data.readUTF(), data.readUTF(), data.readUTF(), data.readUTF(), data.readLong(), data.readUTF(), data.readUTF(), data.readUTF(), data.readLong());
+                    if (format == MAGIC) task = new Task(task.projectId, task.identity, task.presetId, task.presetName,
+                            task.sourceFileName, task.sourceDisplayName, task.sourceBytes, task.status, task.resultFileName,
+                            task.error, task.updatedAt, PhotoSaveTarget.valueOf(data.readUTF()));
                     if (task.key().compareTo(previous) <= 0) throw new IOException("项目照片任务重复或顺序无效。"); tasks.put(task.key(), task); previous = task.key();
                 }
                 if (data.read() != -1) throw new IOException("项目预设记录包含多余数据。"); return new State(configs, tasks);
@@ -269,6 +281,7 @@ public final class PhotoProjectPresetStore {
             for (Task task : state.tasks.values()) {
                 data.writeUTF(task.projectId); data.writeUTF(task.identity); data.writeUTF(task.presetId); data.writeUTF(task.presetName); data.writeUTF(task.sourceFileName); data.writeUTF(task.sourceDisplayName);
                 data.writeLong(task.sourceBytes); data.writeUTF(task.status); data.writeUTF(task.resultFileName); data.writeUTF(task.error); data.writeLong(task.updatedAt);
+                data.writeUTF(task.saveTarget.name());
                 if (bytes.size() > MAX_BYTES - 40) throw new IOException("项目预设记录超过本版保存上限。");
             }
         }
@@ -288,7 +301,7 @@ public final class PhotoProjectPresetStore {
         }
     }
     private static boolean sameSource(Task a, Task b) {
-        return a.key().equals(b.key()) && a.presetName.equals(b.presetName) && a.sourceFileName.equals(b.sourceFileName) && a.sourceDisplayName.equals(b.sourceDisplayName) && a.sourceBytes == b.sourceBytes;
+        return a.key().equals(b.key()) && a.presetName.equals(b.presetName) && a.sourceFileName.equals(b.sourceFileName) && a.sourceDisplayName.equals(b.sourceDisplayName) && a.sourceBytes == b.sourceBytes && a.saveTarget == b.saveTarget;
     }
     private static boolean same(Task a, Task b) { return sameSource(a, b) && a.status.equals(b.status) && a.resultFileName.equals(b.resultFileName) && a.error.equals(b.error) && a.updatedAt == b.updatedAt; }
     private static void project(String value) { if (value == null || !UUID.fromString(value).toString().equals(value)) throw new IllegalArgumentException("项目标识无效。"); }

@@ -1,0 +1,8 @@
+{
+  "serial": "emulator-5582",
+  "hardwareVerified": "ranchu",
+  "taskOwned": true,
+  "readOnlySession": true,
+  "closedAtUtc": "2026-10-23T14:06:31.7424610Z",
+  "scope": "Closed only the dedicated offline QA emulator after native capture and review; no physical device action."
+}

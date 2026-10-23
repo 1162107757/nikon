@@ -1,0 +1,55 @@
+{
+  "schema": "huevia.release-operator-source-pins.v1",
+  "versionCode": 83,
+  "versionName": "0.16.0-beta",
+  "apkSha256": "f320eef5e6068e94fff54f37509374d09f723492f6fb3077052d727e55d79ebd",
+  "apkBytes": 3528301,
+  "notesSha256": "16e200a4a4a26ac2c71c504e6ed25d39228138b6d6848d2a3e12e3c21930491b",
+  "operatorPrefix": "huevia83-final-reviewed",
+  "work": "online-library/build/huevia-83-final-reviewed",
+  "sourcePins": [
+    {
+      "path": ".tooling/huevia83-final-reviewed-archive.test.mjs",
+      "sha256": "874a3812606f4df7b3e9d54610e3698ff0e2d2253e12cf3b5051d8ec719fba97"
+    },
+    {
+      "path": ".tooling/huevia83-final-reviewed-baseline-check.mjs",
+      "sha256": "f86507f91f30d764bea39e80249e4105cf9607ade5dc77997d002d60bcbd0eb7"
+    },
+    {
+      "path": ".tooling/huevia83-final-reviewed-common.mjs",
+      "sha256": "9d052dc2f849dda591234958cd87fb249945df429ea7ed04e5ed10c2af3ad4d6"
+    },
+    {
+      "path": ".tooling/huevia83-final-reviewed-deploy.mjs",
+      "sha256": "4859a361a6bca91e95290314340886e591243db592639180ebaeac91d5216e3b"
+    },
+    {
+      "path": ".tooling/huevia83-final-reviewed-observability.test.mjs",
+      "sha256": "fb77032466ed55dffa281318996c8c99fb5c5d9e4532e7d091478f24781e5eed"
+    },
+    {
+      "path": ".tooling/huevia83-final-reviewed-prepare.mjs",
+      "sha256": "995bc88c07968e1723091c247d8c379335036472e81a06f984bed3e7fda712ea"
+    },
+    {
+      "path": ".tooling/huevia83-final-reviewed-publish.mjs",
+      "sha256": "5f8066454f1be963445690eb88889844ebe2e19000cddc33f46b474fa7a7e18c"
+    },
+    {
+      "path": ".tooling/huevia83-final-reviewed-staged.test.mjs",
+      "sha256": "4abfad569ac712e5177faa39a2c47c219a5c4acab177df6ed45b9a6d04f574d2"
+    },
+    {
+      "path": ".tooling/huevia83-final-reviewed-staging-check.mjs",
+      "sha256": "e0e752d17a95cce62765dce7e78f5c1269fa52d45f37dd6cc12d6ee64e244b55"
+    }
+  ],
+  "generatorPath": ".tooling/prepare-huevia83-final-reviewed-operator.mjs",
+  "generatorSha256": "67e5fc08c95453764e0e8d1cafad1600788551acfa29279a4b75a2c41c610384",
+  "expectedPreviousArchiveSha256": "59474d236d32ec3dfc9cb827d186689a58f157e38bdc5775ff860ff9924f3eaf",
+  "expectedConfigurationSha256": "feaf078296f56adf1378068ad1a56a47a7aba62ca0ab17754860ebb41229df8e",
+  "expectedMembersBefore": 42,
+  "expectedMembersAfter": 43,
+  "zipStructuralOffset": 42
+}

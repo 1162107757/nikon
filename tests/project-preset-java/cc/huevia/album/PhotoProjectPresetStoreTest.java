@@ -40,6 +40,7 @@ public final class PhotoProjectPresetStoreTest {
             removalClearsOnlyConfirmedDefaultsAndPreservesHistory(root.resolve("remove"));
             removalRejectsChangedReferencesAndActiveTasks(root.resolve("remove-stale"));
             removalAtomicFailurePreservesDefaults(root.resolve("remove-failure"));
+            saveTargetSurvivesRecoveryAndCannotBeChanged(root.resolve("save-target"));
             System.out.println("PASS: " + checks + " project-preset store checks");
         } finally {
             try (var paths = Files.walk(root)) { for (Path path : paths.sorted(Comparator.reverseOrder()).toList()) {
@@ -264,6 +265,20 @@ public final class PhotoProjectPresetStoreTest {
         Files.write(directory.resolve(PhotoProjectPresetStore.FILE_NAME), new byte[]{1, 2, 3});
         fails(() -> failing.inspectRemoval(N1)); fails(() -> failing.clearPresetReferences(references));
         equal(failing.config(P1).presetId, N1); equal(find(failing, task.key()).resultFileName, "preserved-result.JPG");
+    }
+    private static void saveTargetSurvivesRecoveryAndCannotBeChanged(Path directory) throws Exception {
+        PhotoProjectPresetStore store = new PhotoProjectPresetStore(directory.toFile());
+        Task local = new Task(P1, hash(83), N1, "Local", "local.JPG", "local.JPG", 32, "queued", "", "", 10, PhotoSaveTarget.APP_ONLY);
+        store.queue(local); store.update(local.withStatus("processing", "", ""));
+        PhotoProjectPresetStore restarted = new PhotoProjectPresetStore(directory.toFile()); Task recovered = find(restarted, local.key());
+        equal(recovered.status, "queued"); equal(recovered.saveTarget, PhotoSaveTarget.APP_ONLY);
+        Task changed = new Task(recovered.projectId, recovered.identity, recovered.presetId, recovered.presetName,
+                recovered.sourceFileName, recovered.sourceDisplayName, recovered.sourceBytes, "processing", "", "", 30, PhotoSaveTarget.PHONE_ALBUM);
+        byte[] before = Files.readAllBytes(directory.resolve(PhotoProjectPresetStore.FILE_NAME)); fails(() -> restarted.update(changed));
+        yes(Arrays.equals(before, Files.readAllBytes(directory.resolve(PhotoProjectPresetStore.FILE_NAME))));
+        restarted.update(recovered.withStatus("error", "", "failed")); equal(find(restarted, local.key()).saveTarget, PhotoSaveTarget.APP_ONLY);
+        Task legacy = task(P1, 84, N1, "queued", "", "", 12); Files.write(directory.resolve(PhotoProjectPresetStore.FILE_NAME), journal(legacy));
+        equal(find(new PhotoProjectPresetStore(directory.toFile()), legacy.key()).saveTarget, PhotoSaveTarget.PHONE_ALBUM);
     }
     private static Task find(PhotoProjectPresetStore store, String key) { return store.allTasks().stream().filter(task -> task.key().equals(key)).findFirst().orElseThrow(); }
     private static String hash(int value) { String number = Integer.toHexString(value); return "0".repeat(64 - number.length()) + number; }

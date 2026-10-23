@@ -1,0 +1,2 @@
+PASS: 609 photo-preset batch checks
+PASS: 82 photo-preset source-link checks

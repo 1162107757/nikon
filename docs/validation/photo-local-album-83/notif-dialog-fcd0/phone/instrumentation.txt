@@ -1,0 +1,4 @@
+INSTRUMENTATION_RESULT: status=FAIL
+INSTRUMENTATION_RESULT: stream=Photo editor native FAIL; native-screenshot-orientation-failure; java.lang.IllegalStateException: actual-RAW-row-opens-original-file-action-timeout
+
+INSTRUMENTATION_CODE: 0

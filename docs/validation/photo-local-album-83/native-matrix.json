@@ -1,0 +1,327 @@
+{
+  "schemaVersion": 1,
+  "status": "PASS",
+  "sourcePins": "final-source-pins.json",
+  "modes": [
+    {
+      "mode": "phone",
+      "status": "PASS",
+      "assertions": 300,
+      "restoration": "PASS",
+      "apkSha256": "f320eef5e6068e94fff54f37509374d09f723492f6fb3077052d727e55d79ebd",
+      "reportSha256": "36cea6609f012ca7ed92fea99e89786e6a85b8e16732ba27a373d97d49637418",
+      "screenshots": [
+        {
+          "name": "app-only-results.png",
+          "sha256": "640fe1a84904f07f6038b9b5be637fd77fe9d124839c2434a36cbccf118d3bb7"
+        },
+        {
+          "name": "destination-sheet.png",
+          "sha256": "c28654eb4e18657d8a2a226fbd83a013b9a99d5096282b30942362ff1819f4d1"
+        },
+        {
+          "name": "editor-jpeg.png",
+          "sha256": "541942d311df9be2b7e87d60a5c1706353e00433b21d2a4ec660956e56f13780"
+        },
+        {
+          "name": "editor-png-adjustments.png",
+          "sha256": "bbfd51916bc017a0124da17767ab0fa230119ea765b3971fcde3e4f805d57b8c"
+        },
+        {
+          "name": "local-app.png",
+          "sha256": "4acb888671f12871cae4c6b2c68dcd93ea9a090c6cbf5af1613b5748a5c0ef48"
+        },
+        {
+          "name": "local-denied.png",
+          "sha256": "7b39c7b4c59be05eb9d607be0e36fa18615908e68b63bd858d9239dbece3b71e"
+        },
+        {
+          "name": "phone-authorized.png",
+          "sha256": "c0f3f9c942cf56d2e397aab4e36a78b14e857707010ce32525c27eabe88ec932"
+        }
+      ],
+      "rawFaultRestoration": {
+        "scope": "Only the current run's generated structural NEF fixture",
+        "sourceIdentity": "f2afe7cbd18b1d16807034297df56ad19f471e5e23fb6977244f69de4fbed329",
+        "expectedSha256": "a1b2582fbde55a56a01413aed6a94b4b4e4594cc3a8fd3716c6f0b8e89c2e9d3",
+        "actualSha256": "a1b2582fbde55a56a01413aed6a94b4b4e4594cc3a8fd3716c6f0b8e89c2e9d3",
+        "expectedModified": 1792762944268,
+        "actualModified": 1792762944268
+      },
+      "rawFixture": {
+        "kind": "Hand-authored 512-byte TIFF/NEF structure fixture; not captured sensor data or a camera certification",
+        "sha256": "a1b2582fbde55a56a01413aed6a94b4b4e4594cc3a8fd3716c6f0b8e89c2e9d3",
+        "sourceIdentity": "f2afe7cbd18b1d16807034297df56ad19f471e5e23fb6977244f69de4fbed329",
+        "phoneUri": "content://media/external_primary/images/media/83",
+        "rowsBefore": 44,
+        "rowsAfterAppOnly": 44,
+        "rowsAfterPhoneAndRetry": 45
+      },
+      "localPlatformActions": {
+        "boundary": "Actual native View clicks reached framework start-activity dispatch; ActivityMonitor returned RESULT_CANCELED. External document-picker and permission-controller rendering/text are not certified.",
+        "permissionAction": "android.content.pm.action.REQUEST_PERMISSIONS",
+        "permissionNames": [
+          "android.permission.READ_MEDIA_IMAGES",
+          "android.permission.READ_MEDIA_VISUAL_USER_SELECTED"
+        ],
+        "pickerAction": "android.intent.action.OPEN_DOCUMENT",
+        "pickerMime": "image/*",
+        "pickerMimeTypes": [
+          "image/jpeg",
+          "image/png"
+        ],
+        "cancelledWithoutImport": true
+      },
+      "publicationRowsBeforeLocal": 41,
+      "publicationRowsAfterAppOnly": 41,
+      "publicationRowsAfterDefault": 43,
+      "publicationRowsAfterNewCopy": 44
+    },
+    {
+      "mode": "large-font",
+      "status": "PASS",
+      "assertions": 300,
+      "restoration": "PASS",
+      "apkSha256": "f320eef5e6068e94fff54f37509374d09f723492f6fb3077052d727e55d79ebd",
+      "reportSha256": "d0846b78208e1eaf8abdbe6952cdcc729b1107e7b5ceae943900865efadb6a9b",
+      "screenshots": [
+        {
+          "name": "app-only-results.png",
+          "sha256": "002c03f651c0e0585684cb34d72d9067bb0946fab49f91c1fd3232950610313b"
+        },
+        {
+          "name": "destination-sheet.png",
+          "sha256": "197b73be5f237575ac02d0db0212e9da05166013bdb141de495727137b54a38e"
+        },
+        {
+          "name": "editor-jpeg.png",
+          "sha256": "9944501f8f6774029ccd1b3fca7221591696c721c4928504f81052371ec286d2"
+        },
+        {
+          "name": "editor-png-adjustments.png",
+          "sha256": "287c2bed2c373eaf13b54c627eeaf64ea7dcb621c42b5934b32676de337a2df2"
+        },
+        {
+          "name": "local-app.png",
+          "sha256": "e7107093b64357f898fadac6a873043f6b2bbb0633b8e8ed7b10bee95855adac"
+        },
+        {
+          "name": "local-denied.png",
+          "sha256": "3ca15753851ab4a0da87342c0c1115a125127ffeecacaa1e3e592f78e2b0e25b"
+        },
+        {
+          "name": "phone-authorized.png",
+          "sha256": "39b463926227675aa95a370922db933b4152706d6075097ad56ffccd5256f34d"
+        }
+      ],
+      "rawFaultRestoration": {
+        "scope": "Only the current run's generated structural NEF fixture",
+        "sourceIdentity": "c2349b59a6afc54f1d4eecbd014fc8d1f5b264a78252d0e3a3a4c5c04a9821a0",
+        "expectedSha256": "4011351acd3d28aabe8dea3ae5f114a7e1931540dc90137faf29ab55b6a585a4",
+        "actualSha256": "4011351acd3d28aabe8dea3ae5f114a7e1931540dc90137faf29ab55b6a585a4",
+        "expectedModified": 1792762969156,
+        "actualModified": 1792762969156
+      },
+      "rawFixture": {
+        "kind": "Hand-authored 512-byte TIFF/NEF structure fixture; not captured sensor data or a camera certification",
+        "sha256": "4011351acd3d28aabe8dea3ae5f114a7e1931540dc90137faf29ab55b6a585a4",
+        "sourceIdentity": "c2349b59a6afc54f1d4eecbd014fc8d1f5b264a78252d0e3a3a4c5c04a9821a0",
+        "phoneUri": "content://media/external_primary/images/media/89",
+        "rowsBefore": 50,
+        "rowsAfterAppOnly": 50,
+        "rowsAfterPhoneAndRetry": 51
+      },
+      "localPlatformActions": {
+        "boundary": "Actual native View clicks reached framework start-activity dispatch; ActivityMonitor returned RESULT_CANCELED. External document-picker and permission-controller rendering/text are not certified.",
+        "permissionAction": "android.content.pm.action.REQUEST_PERMISSIONS",
+        "permissionNames": [
+          "android.permission.READ_MEDIA_IMAGES",
+          "android.permission.READ_MEDIA_VISUAL_USER_SELECTED"
+        ],
+        "pickerAction": "android.intent.action.OPEN_DOCUMENT",
+        "pickerMime": "image/*",
+        "pickerMimeTypes": [
+          "image/jpeg",
+          "image/png"
+        ],
+        "cancelledWithoutImport": true
+      },
+      "publicationRowsBeforeLocal": 47,
+      "publicationRowsAfterAppOnly": 47,
+      "publicationRowsAfterDefault": 49,
+      "publicationRowsAfterNewCopy": 50
+    },
+    {
+      "mode": "landscape",
+      "status": "PASS",
+      "assertions": 300,
+      "restoration": "PASS",
+      "apkSha256": "f320eef5e6068e94fff54f37509374d09f723492f6fb3077052d727e55d79ebd",
+      "reportSha256": "aa8c51e5ff5e5d588ac9b16fea31894b45c6bacea754c219ac8e5412e13ee37d",
+      "screenshots": [
+        {
+          "name": "app-only-results.png",
+          "sha256": "38fe75d48213542d80697c3953423431f544532516c82dcbafcac088c78c3660"
+        },
+        {
+          "name": "destination-sheet.png",
+          "sha256": "caf5baf1cdffaa983b3ea517cc4003590b0d8d584cbc14b440fcfa77d23d024a"
+        },
+        {
+          "name": "editor-jpeg.png",
+          "sha256": "46997b252f58547c6b3a5bf577a300438a835ea47791ba74a7a79186181b451a"
+        },
+        {
+          "name": "editor-png-adjustments.png",
+          "sha256": "a1d68ae38a88c43843a86d05d304f5e5e95076c872d2dc462679bb004b056a15"
+        },
+        {
+          "name": "local-app.png",
+          "sha256": "4df40e04ae16778cfd35e30e09caded642373956bf2edd906eb601a6d55e0dc0"
+        },
+        {
+          "name": "local-denied.png",
+          "sha256": "6ae2acd3397d3b81b88afa19240db5f71c58882f83916f82dc55ad38cf04fb47"
+        },
+        {
+          "name": "phone-authorized.png",
+          "sha256": "8c1a48833b0b054eaec3da632946f8d9ec03ad53e28d8c381ba184f4d1171eab"
+        }
+      ],
+      "rawFaultRestoration": {
+        "scope": "Only the current run's generated structural NEF fixture",
+        "sourceIdentity": "e48e53181c21800d9cc470359d9ddfe9efcd12f0e0df2be141207cdece64db6f",
+        "expectedSha256": "ce37b238fd0385dfae337dded7b064c18f22ba8f9c82e85dae1267d60db63eb7",
+        "actualSha256": "ce37b238fd0385dfae337dded7b064c18f22ba8f9c82e85dae1267d60db63eb7",
+        "expectedModified": 1792762993832,
+        "actualModified": 1792762993832
+      },
+      "rawFixture": {
+        "kind": "Hand-authored 512-byte TIFF/NEF structure fixture; not captured sensor data or a camera certification",
+        "sha256": "ce37b238fd0385dfae337dded7b064c18f22ba8f9c82e85dae1267d60db63eb7",
+        "sourceIdentity": "e48e53181c21800d9cc470359d9ddfe9efcd12f0e0df2be141207cdece64db6f",
+        "phoneUri": "content://media/external_primary/images/media/95",
+        "rowsBefore": 56,
+        "rowsAfterAppOnly": 56,
+        "rowsAfterPhoneAndRetry": 57
+      },
+      "localPlatformActions": {
+        "boundary": "Actual native View clicks reached framework start-activity dispatch; ActivityMonitor returned RESULT_CANCELED. External document-picker and permission-controller rendering/text are not certified.",
+        "permissionAction": "android.content.pm.action.REQUEST_PERMISSIONS",
+        "permissionNames": [
+          "android.permission.READ_MEDIA_IMAGES",
+          "android.permission.READ_MEDIA_VISUAL_USER_SELECTED"
+        ],
+        "pickerAction": "android.intent.action.OPEN_DOCUMENT",
+        "pickerMime": "image/*",
+        "pickerMimeTypes": [
+          "image/jpeg",
+          "image/png"
+        ],
+        "cancelledWithoutImport": true
+      },
+      "publicationRowsBeforeLocal": 53,
+      "publicationRowsAfterAppOnly": 53,
+      "publicationRowsAfterDefault": 55,
+      "publicationRowsAfterNewCopy": 56
+    },
+    {
+      "mode": "dark",
+      "status": "PASS",
+      "assertions": 300,
+      "restoration": "PASS",
+      "apkSha256": "f320eef5e6068e94fff54f37509374d09f723492f6fb3077052d727e55d79ebd",
+      "reportSha256": "81b6155761f8924c38670317b28f2673d240ffe261a1d1eb57b99f90f2cff3d9",
+      "screenshots": [
+        {
+          "name": "app-only-results.png",
+          "sha256": "f1a7667c029e2d303d1ddfc18c7dbfadc3699e04c3abc3e0b10f1f2d75966a9a"
+        },
+        {
+          "name": "destination-sheet.png",
+          "sha256": "a75bc7dc233393c94ba9ab1c774eacc1296ec848fa520c9b8eae79ef51214249"
+        },
+        {
+          "name": "editor-jpeg.png",
+          "sha256": "55fe5fce8c86c319719aafdbb78004abc6fcf1e6fbd05f4900e04eb9ac91cde9"
+        },
+        {
+          "name": "editor-png-adjustments.png",
+          "sha256": "8a4caa4fe4b52290b80fc1d4d70ba3bf89f12ed19481588d483777c0f3631fb3"
+        },
+        {
+          "name": "local-app.png",
+          "sha256": "ee2813f12305a7fee842d4cea9c7740d9df5760c08e28682cee6827ad79f9cce"
+        },
+        {
+          "name": "local-denied.png",
+          "sha256": "59b1f917dd94f3bae9cfac963bb7d99970a8db475f07ad4a7f9a69a2ea5d264a"
+        },
+        {
+          "name": "phone-authorized.png",
+          "sha256": "a4df61cbe3a9c369635f749fcbe0c687b211a0e35ee5d4e78c8221c9f4e92a7f"
+        }
+      ],
+      "rawFaultRestoration": {
+        "scope": "Only the current run's generated structural NEF fixture",
+        "sourceIdentity": "2abe5ee4a83109bbf0da57a6ac83b9e97fb5891b5908dd2203f7ef63cf8af194",
+        "expectedSha256": "6e0cdc44db796791f64b822ad16327e17e9397db933a36074262205de9d0e726",
+        "actualSha256": "6e0cdc44db796791f64b822ad16327e17e9397db933a36074262205de9d0e726",
+        "expectedModified": 1792763018960,
+        "actualModified": 1792763018960
+      },
+      "rawFixture": {
+        "kind": "Hand-authored 512-byte TIFF/NEF structure fixture; not captured sensor data or a camera certification",
+        "sha256": "6e0cdc44db796791f64b822ad16327e17e9397db933a36074262205de9d0e726",
+        "sourceIdentity": "2abe5ee4a83109bbf0da57a6ac83b9e97fb5891b5908dd2203f7ef63cf8af194",
+        "phoneUri": "content://media/external_primary/images/media/101",
+        "rowsBefore": 62,
+        "rowsAfterAppOnly": 62,
+        "rowsAfterPhoneAndRetry": 63
+      },
+      "localPlatformActions": {
+        "boundary": "Actual native View clicks reached framework start-activity dispatch; ActivityMonitor returned RESULT_CANCELED. External document-picker and permission-controller rendering/text are not certified.",
+        "permissionAction": "android.content.pm.action.REQUEST_PERMISSIONS",
+        "permissionNames": [
+          "android.permission.READ_MEDIA_IMAGES",
+          "android.permission.READ_MEDIA_VISUAL_USER_SELECTED"
+        ],
+        "pickerAction": "android.intent.action.OPEN_DOCUMENT",
+        "pickerMime": "image/*",
+        "pickerMimeTypes": [
+          "image/jpeg",
+          "image/png"
+        ],
+        "cancelledWithoutImport": true
+      },
+      "publicationRowsBeforeLocal": 59,
+      "publicationRowsAfterAppOnly": 59,
+      "publicationRowsAfterDefault": 61,
+      "publicationRowsAfterNewCopy": 62
+    }
+  ],
+  "scope": "Dedicated offline emulator with generated JPEG/PNG and structural NEF fixtures. Native View clicks to platform activity-start dispatch are monitored and cancelled; external picker and permission-controller rendering/text are outside scope. Notification permission is pregranted. No physical camera, live catalog, FPS, colour calibration or TalkBack certification.",
+  "candidateApkSha256": "f320eef5e6068e94fff54f37509374d09f723492f6fb3077052d727e55d79ebd",
+  "probe": {
+    "schemaVersion": 1,
+    "builtAtUtc": "2026-10-23T13:42:04.6241914Z",
+    "expectedVersion": 83,
+    "buildScope": "local-album",
+    "probeSource": "tests/photo-editor-device-probe/src/cc/huevia/editorqa/EditorNativeProbe.java",
+    "probeJavaSha256": "8a3a3e99ecf1b3018e6b491757eb9ffedf9779646f3cdfbd662d47c5c599d1f1",
+    "buildScriptSha256": "9cf9f4ba5b8927206ef43379ecd95d129839e2a40387d5becbf7640e660763c8",
+    "runScriptSha256": "d7a8f31734cb7589b81cc5a76039775b8fd4d0a79eefef7d1356f11ad17a729e",
+    "probeApkSha256": "f3ce94bf6b9f1c04f0632dafebfe67445f261c9090a59d89e3f43c8e2c42e20f"
+  },
+  "modeCount": 4,
+  "totalAssertionExecutions": 1200,
+  "assertionCountBoundary": "The same behavioral checks repeat across four configurations; total assertion executions are not independent scenarios.",
+  "screenshotCount": 28,
+  "assertionsPerMode": [
+    300,
+    300,
+    300,
+    300
+  ],
+  "historicalBoundary": "fix-before-fcd0 preserves the earlier four-mode 273-assertion run. The current candidate and probe include the later user-requested floating picker, centered authorization UI and 27 additional geometry/platform-dispatch assertions per mode."
+}

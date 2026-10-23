@@ -1,4 +1,4 @@
-param([string]$SdkRoot = 'D:\dev\android-sdk', [string]$JdkRoot = 'D:\dev\Java\jdk-17.0.19', [int]$ExpectedVersion = 74, [ValidateSet('full','viewer-boundary','selection-polish','album-refresh')][string]$Scope = 'full')
+param([string]$SdkRoot = 'D:\dev\android-sdk', [string]$JdkRoot = 'D:\dev\Java\jdk-17.0.19', [int]$ExpectedVersion = 74, [ValidateSet('full','viewer-boundary','selection-polish','album-refresh','basic-adjustments','composition-recipes','filter-navigation','local-album')][string]$Scope = 'full')
 $ErrorActionPreference = 'Stop'
 $probeRoot = [IO.Path]::GetFullPath($PSScriptRoot)
 $projectRoot = [IO.Path]::GetFullPath((Join-Path $probeRoot '..\..'))
@@ -8,7 +8,7 @@ $buildInputs = [ordered]@{
     buildScriptSha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath $PSCommandPath).Hash.ToLowerInvariant()
     runScriptSha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $probeRoot 'run.ps1')).Hash.ToLowerInvariant()
 }
-$buildFamily = if ($Scope -eq 'album-refresh') { 'photo-album-refresh-' } else { 'photo-editor-categories-' }
+$buildFamily = if ($Scope -eq 'local-album') { 'photo-local-album-' } elseif ($Scope -eq 'filter-navigation') { 'photo-filter-navigation-' } elseif ($Scope -eq 'composition-recipes') { 'photo-composition-recipes-' } elseif ($Scope -eq 'basic-adjustments') { 'photo-basic-adjustments-' } elseif ($Scope -eq 'album-refresh') { 'photo-album-refresh-' } else { 'photo-editor-categories-' }
 $probeOutputRoot = Join-Path $projectRoot ('.tooling\' + $buildFamily + $ExpectedVersion)
 $outputRoot = Join-Path $probeOutputRoot ('build\' + [Guid]::NewGuid().ToString('N'))
 $assets = Join-Path $outputRoot 'assets'
@@ -30,7 +30,7 @@ function Run([string]$Exe, [string[]]$Arguments) { & $Exe @Arguments; if ($LASTE
 $unsigned = Join-Path $outputRoot 'unsigned.apk'
 Run (Join-Path $buildTools 'aapt2.exe') @('link','-I',$androidJar,'--manifest',(Join-Path $probeRoot 'AndroidManifest.xml'),'--min-sdk-version','26','--target-sdk-version','35','-A',$assets,'--version-code','1','--version-name','1.0','-o',$unsigned)
 $argsFile = Join-Path $outputRoot 'javac.args'
-$lines = @('-J-Duser.language=en','-J-Duser.country=US','-encoding','UTF-8','-source','17','-target','17','-classpath',('"'+$androidJar.Replace('\','/')+'"'),'-d',('"'+$classes.Replace('\','/')+'"'))
+$lines = @('-J-Xmx256m','-J-Duser.language=en','-J-Duser.country=US','-encoding','UTF-8','-source','17','-target','17','-classpath',('"'+$androidJar.Replace('\','/')+'"'),'-d',('"'+$classes.Replace('\','/')+'"'))
 $lines += '"' + (Join-Path $projectRoot 'tests\java\cc\huevia\ncp\NcpCompatibilityFixtures.java').Replace('\','/') + '"'
 $lines += Get-ChildItem -LiteralPath (Join-Path $probeRoot 'src') -Recurse -Filter '*.java' | ForEach-Object { '"'+$_.FullName.Replace('\','/')+'"' }
 [IO.File]::WriteAllLines($argsFile,$lines,[Text.UTF8Encoding]::new($false))
@@ -38,6 +38,7 @@ Run (Join-Path $JdkRoot 'bin\javac.exe') @('@'+$argsFile)
 $jar = Join-Path $outputRoot 'classes.jar'
 Run (Join-Path $JdkRoot 'bin\jar.exe') @('--create','--file',$jar,'-C',$classes,'.')
 $env:JAVA_HOME = $JdkRoot
+$env:JAVA_OPTS = '-Xmx256m'
 Run (Join-Path $buildTools 'd8.bat') @('--debug','--min-api','26','--lib',$androidJar,'--output',$dex,$jar)
 $archive = [IO.Compression.ZipFile]::Open($unsigned,[IO.Compression.ZipArchiveMode]::Update)
 try { foreach ($file in Get-ChildItem -LiteralPath $dex -Filter '*.dex') { [IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive,$file.FullName,$file.Name,[IO.Compression.CompressionLevel]::Optimal) | Out-Null } } finally { $archive.Dispose() }

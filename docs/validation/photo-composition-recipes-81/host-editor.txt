@@ -1,0 +1,3 @@
+PASS: 34780 photo editor strength/draft checks
+PASS: 644888 basic adjustment behaviour/migration/identity checks
+PASS: 1158 composition/recipe geometry, migration and storage checks

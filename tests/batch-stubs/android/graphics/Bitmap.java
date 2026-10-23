@@ -9,6 +9,7 @@ public final class Bitmap {
     public enum CompressFormat { JPEG }
     private int pixel;
     Bitmap(int pixel) { this.pixel = pixel; }
+    public static Bitmap createBitmap(int width,int height,Config config){if(width!=1||height!=1)throw new UnsupportedOperationException("Host facade is one pixel only; actual geometry codecs are native-tested.");return new Bitmap(0);}
     public int getWidth() { return 1; }
     public int getHeight() { return 1; }
     public boolean isMutable() { return true; }

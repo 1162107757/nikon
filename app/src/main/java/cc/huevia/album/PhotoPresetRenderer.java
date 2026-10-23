@@ -9,6 +9,8 @@ import cc.huevia.ncp.Np3PreviewProfile;
 import cc.huevia.ncp.Np3MonochromePreviewProfile;
 import cc.huevia.ncp.PresetPreviewProfile;
 import cc.huevia.ncp.SpatialPreviewFilter;
+import cc.huevia.ncp.PhotoGeometry;
+import cc.huevia.ncp.GeometryPreviewProfile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -63,6 +65,13 @@ public final class PhotoPresetRenderer {
                 public void write(int[] pixels, int row, int rows) { working.setPixels(pixels, 0, width(), 0, row, width(), rows); }
             }, profile, cancel, value -> progress(progress, .10 + .70 * value));
             check(cancel);
+            PhotoGeometry geometry=GeometryPreviewProfile.geometry(profile);
+            int outputWidth=bounds.outWidth,outputHeight=bounds.outHeight;
+            if(!geometry.isNeutral()){
+                int orientation=original.getAttributeInt(ExifInterface.TAG_ORIENTATION,1);if(orientation<1||orientation>8)orientation=1;
+                Bitmap composed=PhotoComposition.apply(bitmap,geometry,orientation);bitmap.recycle();bitmap=composed;
+                outputWidth=bitmap.getWidth();outputHeight=bitmap.getHeight();check(cancel);
+            }
             try (FileOutputStream output = new FileOutputStream(target)) {
                 if (!bitmap.compress(Bitmap.CompressFormat.JPEG, 95, output)) throw new IOException("完整尺寸效果图编码失败。");
                 output.flush(); output.getFD().sync();
@@ -73,14 +82,15 @@ public final class PhotoPresetRenderer {
             // never original offsets/thumbnail bytes, GPS or an incompatible ICC payload.
             ExifInterface result = new ExifInterface(target.getPath());
             for (String tag : CAPTURE_TAGS) { String value = original.getAttribute(tag); if (value != null) result.setAttribute(tag, value); }
-            result.setAttribute("ImageWidth", String.valueOf(bounds.outWidth)); result.setAttribute("ImageLength", String.valueOf(bounds.outHeight));
-            result.setAttribute("PixelXDimension", String.valueOf(bounds.outWidth)); result.setAttribute("PixelYDimension", String.valueOf(bounds.outHeight));
+            if(!geometry.isNeutral())result.setAttribute(ExifInterface.TAG_ORIENTATION,"1");
+            result.setAttribute("ImageWidth", String.valueOf(outputWidth)); result.setAttribute("ImageLength", String.valueOf(outputHeight));
+            result.setAttribute("PixelXDimension", String.valueOf(outputWidth)); result.setAttribute("PixelYDimension", String.valueOf(outputHeight));
             result.setAttribute("ColorSpace", "1"); result.saveAttributes();
             try (FileOutputStream sync = new FileOutputStream(target, true)) { sync.getFD().sync(); }
             progress(progress, .97);
             check(cancel); PhotoPreviewCache.validateJpeg(target, target.length());
             BitmapFactory.Options verified = new BitmapFactory.Options(); verified.inJustDecodeBounds = true; BitmapFactory.decodeFile(target.getPath(), verified);
-            if (verified.outWidth != bounds.outWidth || verified.outHeight != bounds.outHeight) throw new IOException("效果图尺寸核对失败，未发布。");
+            if (verified.outWidth != outputWidth || verified.outHeight != outputHeight) throw new IOException("效果图尺寸核对失败，未发布。");
             check(cancel); progress(progress, 1);
         } catch (OutOfMemoryError memory) { throw new IOException("此原图完整尺寸处理内存不足；未缩小图片，原图已保留。", memory); }
         finally { if (bitmap != null) bitmap.recycle(); }

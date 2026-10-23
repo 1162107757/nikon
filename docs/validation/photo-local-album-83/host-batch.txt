@@ -1,0 +1,5 @@
+Picked up JAVA_TOOL_OPTIONS: -Xmx256m
+Picked up JAVA_TOOL_OPTIONS: -Xmx256m
+PASS: 629 photo-preset batch checks
+Picked up JAVA_TOOL_OPTIONS: -Xmx256m
+PASS: 82 photo-preset source-link checks

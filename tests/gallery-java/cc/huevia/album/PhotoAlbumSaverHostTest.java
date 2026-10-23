@@ -37,6 +37,8 @@ public final class PhotoAlbumSaverHostTest {
             legacyDeletionUsesExactJournalAndPermissions(root.resolve("delete-legacy"));
             deletionLeaseExcludesPublication(root.resolve("delete-lease"));
             asynchronousQueueCoalescesAndReportsOnMain(root.resolve("queue"));
+            explicitAppOnlyRetainsSourceWithoutPublication(root.resolve("app-only"));
+            explicitNewCopyIsSeparateAndDefaultRemainsIdempotent(root.resolve("new-copy"));
             publicationStatusAndLegacyMarkerRecoveryAreReadOnly(root.resolve("status"));
             sameEffectAliasesReusePublicationWithoutMergingDifferentPresets(root.resolve("effect-alias"), 35);
             sameEffectAliasesReusePublicationWithoutMergingDifferentPresets(root.resolve("effect-alias-legacy"), 28);
@@ -51,6 +53,34 @@ public final class PhotoAlbumSaverHostTest {
         }
     }
 
+    private static void explicitAppOnlyRetainsSourceWithoutPublication(Path root) throws Exception {
+        Build.VERSION.SDK_INT = 35; Context context = new Context(root.toFile()); context.permissionGranted = false;
+        DownloadedPhoto photo = original(context, "private-only.jpg"); long modified = photo.file().lastModified();
+        java.lang.reflect.Constructor<PhotoAlbumSaver> constructor = PhotoAlbumSaver.class.getDeclaredConstructor(Context.class);
+        constructor.setAccessible(true); PhotoAlbumSaver saver = constructor.newInstance(context); Result retained = new Result();
+        saver.save(photo, PhotoSaveTarget.APP_ONLY, retained); equal(retained.value(), ""); yes(retained.onMain);
+        equal(context.resolver.inserts, 0); equal(context.resolver.writes, 0); equal(context.resolver.queries, 0);
+        yes(Arrays.equals(JPEG, Files.readAllBytes(photo.file().toPath()))); equal(photo.file().lastModified(), modified);
+        equal(new PhotoLiveGallery(context).publicationStatus(photo).status, PhotoLiveGallery.PublicationStatus.MISSING);
+        Result published = new Result(); saver.save(photo, PhotoSaveTarget.PHONE_ALBUM, published); String uri = published.value();
+        yes(uri.startsWith("content://media/")); equal(context.resolver.inserts, 1); equal(context.resolver.writes, 1);
+        Result repeated = new Result(); saver.save(photo, PhotoSaveTarget.PHONE_ALBUM, repeated); equal(repeated.value(), uri);
+        equal(context.resolver.inserts, 1); equal(context.resolver.writes, 1); yes(Arrays.equals(JPEG, Files.readAllBytes(photo.file().toPath())));
+    }
+    private static void explicitNewCopyIsSeparateAndDefaultRemainsIdempotent(Path root) throws Exception {
+        Build.VERSION.SDK_INT = 35; Context context = new Context(root.toFile()); PhotoLiveGallery gallery = new PhotoLiveGallery(context);
+        DownloadedPhoto source = original(context, "copy-source.jpg");
+        byte[] effectBytes = JPEG.clone(); effectBytes[12] ^= 21;
+        DownloadedPhoto effect = effect(context, source, "c".repeat(64), "Copy", effectBytes);
+        long originalTime = source.file().lastModified(); String first = gallery.publish(effect); int writes = context.resolver.writes;
+        equal(gallery.publish(effect), first); equal(context.resolver.inserts, 1); equal(context.resolver.writes, writes);
+        String copy = gallery.publishNewCopy(effect); yes(!copy.equals(first)); equal(context.resolver.inserts, 2); equal(context.resolver.rows.size(), 2);
+        equal(gallery.publish(effect), copy); equal(context.resolver.inserts, 2); equal(gallery.publicationStatus(effect).uri, copy);
+        yes(Arrays.equals(effectBytes, Files.readAllBytes(effect.file().toPath()))); yes(Arrays.equals(JPEG, Files.readAllBytes(source.file().toPath())));
+        equal(source.file().lastModified(), originalTime);
+        // The EXIF facade is intentionally inert: even identical metadata bytes cannot coalesce an explicit copy.
+        for (ContentResolver.Row row : context.resolver.rows.values()) yes(Arrays.equals(effectBytes, Files.readAllBytes(row.file.toPath())));
+    }
     private static void savesExactOriginalAndPreservesProjectFolder(Path root) throws Exception {
         Build.VERSION.SDK_INT = 35; Context context = new Context(root.toFile()); context.permissionGranted = false;
         DownloadedPhoto original = original(context, "live-first__DSC001.JPG"); long modified = original.file().lastModified();

@@ -47,13 +47,24 @@ public final class PhotoPresetBatch {
         public final Source source;
         public final PhotoEditStore.Draft draft;
         public final String owner;
+        /** Non-null on accepted/retry entries, so later preference changes cannot retarget them. */
+        public final PhotoSaveTarget saveTarget;
+        public final boolean forceNewCopy;
+        private boolean publicationCompleted;
         private Edit(Source source, PhotoEditStore.Draft draft, String owner) {
+            this(source, draft, owner, null, false);
+        }
+        private Edit(Source source, PhotoEditStore.Draft draft, String owner, PhotoSaveTarget target, boolean forceNewCopy) {
             if (source == null || owner == null) throw new IllegalArgumentException("source/owner");
             this.source = source; this.draft = draft; this.owner = owner;
+            this.saveTarget = target; this.forceNewCopy = forceNewCopy;
         }
         public static Edit saved(Source source) { return new Edit(source, null, ""); }
         public static Edit draft(Source source, PhotoEditStore.Draft draft, String owner) {
             if (draft == null) throw new IllegalArgumentException("draft"); return new Edit(source, draft, owner);
+        }
+        private Edit freeze(PhotoSaveTarget target, boolean forceNewCopy) {
+            return saveTarget == null ? new Edit(source, draft, owner, target, forceNewCopy) : this;
         }
     }
     public static final class Source {
@@ -76,19 +87,25 @@ public final class PhotoPresetBatch {
     private volatile PhotoPresetBatchState state = new PhotoPresetBatchState(false, 0, 0, 0, 0, 0, "", "", "", Collections.emptyList(), Collections.emptyList());
     private Job current;
     private volatile List<Edit> retryEdits = Collections.emptyList();
+    private volatile PhotoSaveTarget retrySaveTarget = PhotoSaveTarget.PHONE_ALBUM;
+    private volatile boolean retryForceNewCopy;
     public List<Edit> retryEdits() { return retryEdits; }
+    public PhotoSaveTarget retrySaveTarget() { return retrySaveTarget; }
+    public boolean retryForceNewCopy() { return retryForceNewCopy; }
     private static final class Job {
         List<Edit> edits;
         final List<Edit> retry = new ArrayList<>();
         final List<Source> sources; final String preset; final PhotoLocalTasks.Lease lease; final AtomicBoolean cancel = new AtomicBoolean();
+        final PhotoSaveTarget saveTarget; final boolean forceNewCopy;
         final AlbumController.Callback<PhotoPresetBatchState> finished;
         final Consumer<PhotoPresetBatchState> progress;
         final List<String> errors = new ArrayList<>(); final List<DownloadedPhoto> results = new ArrayList<>();
         final Map<String, Outcome> inputOutcomes = new LinkedHashMap<>(), outcomes = new LinkedHashMap<>();
         int completed, failed, cancelled, reused, merged, index; double fraction; long lastProgress; String filename = "", presetName = "", error = "", stage = "准备照片";
         Job(List<Source> sources, String preset, PhotoLocalTasks.Lease lease, AlbumController.Callback<PhotoPresetBatchState> finished,
-            Consumer<PhotoPresetBatchState> progress) {
+            Consumer<PhotoPresetBatchState> progress, PhotoSaveTarget saveTarget, boolean forceNewCopy) {
             this.sources = sources; this.preset = preset; this.lease = lease; this.finished = finished; this.progress = progress;
+            this.saveTarget = saveTarget; this.forceNewCopy = forceNewCopy;
         }
     }
     private static final class Outcome {
@@ -156,7 +173,17 @@ public final class PhotoPresetBatch {
     /** Every progress snapshot belongs to this accepted job, even if a later job replaces global state. */
     public void startTracked(List<Source> sources, String presetId, AlbumController.Callback<Void> callback,
                              AlbumController.Callback<PhotoPresetBatchState> finished, Consumer<PhotoPresetBatchState> progress) {
+        startTracked(sources, presetId, PhotoSaveTarget.PHONE_ALBUM, false, callback, finished, progress);
+    }
+    public void startTracked(List<Source> sources, String presetId, PhotoSaveTarget target, boolean forceNewCopy,
+                             AlbumController.Callback<Void> callback, AlbumController.Callback<PhotoPresetBatchState> finished) {
+        startTracked(sources, presetId, target, forceNewCopy, callback, finished, null);
+    }
+    public void startTracked(List<Source> sources, String presetId, PhotoSaveTarget target, boolean forceNewCopy,
+                             AlbumController.Callback<Void> callback, AlbumController.Callback<PhotoPresetBatchState> finished,
+                             Consumer<PhotoPresetBatchState> progress) {
         if (callback == null) throw new IllegalArgumentException("callback");
+        if (target == null) throw new IllegalArgumentException("target");
         final Job job;
         synchronized (this) {
             if (state.active) { main.post(() -> callback.onError("已有批量任务正在处理。")); return; }
@@ -167,7 +194,7 @@ public final class PhotoPresetBatch {
             PhotoLocalTasks.Lease lease;
             try { lease = PhotoLocalTasks.use(); }
             catch (IOException busy) { main.post(() -> callback.onError(message(busy))); return; }
-            job = new Job(Collections.unmodifiableList(new ArrayList<>(sources)), presetId, lease, finished, progress); current = job;
+            job = new Job(Collections.unmodifiableList(new ArrayList<>(sources)), presetId, lease, finished, progress, target, forceNewCopy); current = job;
             publish(job, true); // Synchronous active state is visible to the runtime's foreground-service lease.
         }
         main.post(() -> callback.onSuccess(null)); worker.execute(() -> run(job));
@@ -176,7 +203,12 @@ public final class PhotoPresetBatch {
     /** Export a frozen set of independent drafts without replacing them with one shared preset. */
     public void startEdits(List<Edit> edits, AlbumController.Callback<Void> callback,
                            AlbumController.Callback<PhotoPresetBatchState> finished) {
+        startEdits(edits, PhotoSaveTarget.PHONE_ALBUM, false, callback, finished);
+    }
+    public void startEdits(List<Edit> edits, PhotoSaveTarget target, boolean forceNewCopy,
+                           AlbumController.Callback<Void> callback, AlbumController.Callback<PhotoPresetBatchState> finished) {
         if (callback == null) throw new IllegalArgumentException("callback");
+        if (target == null) throw new IllegalArgumentException("target");
         final Job job;
         synchronized (this) {
             if (state.active) { main.post(() -> callback.onError("已有照片任务正在处理。")); return; }
@@ -186,8 +218,9 @@ public final class PhotoPresetBatch {
             PhotoLocalTasks.Lease lease;
             try { lease = PhotoLocalTasks.use(); } catch (IOException error) { main.post(() -> callback.onError(message(error))); return; }
             List<Source> sources = new ArrayList<>(); for (Edit edit : edits) sources.add(edit.source);
-            job = new Job(Collections.unmodifiableList(sources), "", lease, finished, null);
-            job.edits = Collections.unmodifiableList(new ArrayList<>(edits)); job.presetName = "各照片独立设置";
+            job = new Job(Collections.unmodifiableList(sources), "", lease, finished, null, target, forceNewCopy);
+            List<Edit> frozen = new ArrayList<>(); for (Edit edit : edits) frozen.add(edit.freeze(target, forceNewCopy));
+            job.edits = Collections.unmodifiableList(frozen); job.presetName = "各照片独立设置";
             retryEdits = Collections.emptyList(); current = job; publish(job, true);
         }
         main.post(() -> callback.onSuccess(null)); worker.execute(() -> run(job));
@@ -225,17 +258,22 @@ public final class PhotoPresetBatch {
                     if (edit.draft != null && !sha.equals(edit.draft.sourceSha)) throw new IOException("原图已变化，未套用旧编辑设置。");
                     Outcome outcome;
                     if (edit.draft == null || !edit.draft.hasEffect()) {
-                        progress(job, .95, "保存到系统相册");
-                        new PhotoLiveGallery(context).publish(original); job.results.add(original); outcome = new Outcome("");
+                        progress(job, .95, edit.saveTarget == PhotoSaveTarget.APP_ONLY ? "保留在应用" : "保存到系统相册");
+                        if (edit.saveTarget == PhotoSaveTarget.PHONE_ALBUM) new PhotoLiveGallery(context).publish(original, edit.forceNewCopy && !edit.publicationCompleted);
+                        job.results.add(original); outcome = new Outcome("");
                     } else {
-                        PresetPreviewProfile profile = StrengthPreviewProfile.of(PresetPreviewProfiles.fromPreset(edit.draft.presetBytes()), edit.draft.strength);
-                        String key = key(sha, edit.draft.presetSha, PhotoPresetRenderer.modelVersion(profile));
+                        PresetPreviewProfile profile = edit.draft.profile();
+                        String effectSha=edit.draft.effectPresetSha();
+                        String key = key(sha, effectSha, PhotoPresetRenderer.modelVersion(profile)) + ":" + edit.saveTarget + ":" + edit.forceNewCopy;
                         outcome = job.outcomes.get(key);
                         if (outcome == null) {
-                            outcome = processUnique(job, original, sha, edit.draft.presetSha, edit.draft.name + " · " + edit.draft.strength + "%", profile);
+                            outcome = processUnique(job, original, sha, effectSha, edit.draft.label(), profile, edit.saveTarget, edit.forceNewCopy && !edit.publicationCompleted);
                             job.outcomes.put(key, outcome);
                         } else job.merged++;
                     }
+                    // A later draft-history write may fail after MediaStore confirmed the copy.
+                    // Retrying that frozen item must verify/reuse it instead of creating another extra copy.
+                    if (outcome.error.isEmpty()) edit.publicationCompleted = true;
                     if (outcome.error.isEmpty() && edit.draft != null) new PhotoEditStore(context.getFilesDir(), edit.owner).markExported(edit.draft);
                     if (!outcome.error.isEmpty()) job.retry.add(edit);
                     completeInput(job, outcome);
@@ -253,6 +291,7 @@ public final class PhotoPresetBatch {
                 for (int i = job.index; i < job.edits.size(); i++) job.retry.add(job.edits.get(i));
             }
             retryEdits = Collections.unmodifiableList(new ArrayList<>(job.retry));
+            retrySaveTarget = job.saveTarget; retryForceNewCopy = job.forceNewCopy;
             if (!job.cancel.get()) job.index = job.sources.size();
             job.fraction = 0; job.filename = ""; job.stage = job.cancel.get() ? "已取消，未完成项可重试" : job.failed > 0 ? "部分照片待重试" : "导出完成";
             job.lease.close(); publish(job, false);
@@ -316,21 +355,17 @@ public final class PhotoPresetBatch {
         }
     }
     private Outcome processUnique(Job job, DownloadedPhoto original, String sourceSha, PresetRecord preset, PresetPreviewProfile profile) throws IOException {
-        return processUnique(job, original, sourceSha, preset.sha256, preset.displayName, profile);
+        return processUnique(job, original, sourceSha, preset.sha256, preset.displayName, profile, job.saveTarget, job.forceNewCopy);
     }
-    private Outcome processUnique(Job job, DownloadedPhoto original, String sourceSha, String presetSha, String presetName, PresetPreviewProfile profile) throws IOException {
+    private Outcome processUnique(Job job, DownloadedPhoto original, String sourceSha, String presetSha, String presetName, PresetPreviewProfile profile,
+                                  PhotoSaveTarget target, boolean forceNewCopy) throws IOException {
         String warning = "";
-        try { new PhotoLiveGallery(context).publish(original); }
-        catch (IOException failure) {
-            if (cancelled(job, failure)) throw failure;
-            warning = "原图系统相册保存待重试：" + message(failure);
-        }
         PhotoPresetRenderer.check(job.cancel::get);
         progress(job, .25, "套用预设");
         Derived derived = derive(job, original, sourceSha, presetSha, presetName, profile);
         job.results.add(derived.photo); if (derived.reused) job.reused++;
-        progress(job, .96, "保存到相册");
-        try { new PhotoLiveGallery(context).publish(derived.photo); }
+        progress(job, .96, target == PhotoSaveTarget.APP_ONLY ? "保留在应用" : "保存到相册");
+        try { if (target == PhotoSaveTarget.PHONE_ALBUM) new PhotoLiveGallery(context).publish(derived.photo, forceNewCopy); }
         catch (IOException failure) {
             if (cancelled(job, failure)) throw failure;
             warning += (warning.isEmpty() ? "" : "；") + "效果图已保留，系统相册保存待重试：" + message(failure);
@@ -451,6 +486,11 @@ public final class PhotoPresetBatch {
     static String key(String sourceSha, String presetSha) throws IOException {
         return key(sourceSha, presetSha, PhotoPresetRenderer.MODEL_VERSION);
     }
+    /** Only restore a saved recipe when its full frozen identity names this exact derived version. */
+    public static boolean matchesSavedDraft(DownloadedPhoto photo,PhotoEditStore.Draft draft)throws IOException{
+        return photo!=null&&photo.file().getName().equals("effect-"+key(draft.sourceSha,draft.effectPresetSha(),PhotoPresetRenderer.modelVersion(draft.profile()))+"__Effect.JPG");
+    }
+    public static boolean isSavedEffect(DownloadedPhoto photo){return photo!=null&&PhotoPresetSources.isEffect(photo.file());}
     static String key(String sourceSha, String presetSha, String model) throws IOException {
         if (!sourceSha.matches("[0-9a-f]{64}") || !presetSha.matches("[0-9a-f]{64}")) throw new IOException("效果图身份无效。");
         if (model == null || model.isEmpty() || model.length() > 512 || model.indexOf('\n') >= 0 || model.indexOf('\r') >= 0) throw new IOException("效果图模型身份无效。");

@@ -1,0 +1,7 @@
+Picked up JAVA_TOOL_OPTIONS: -Xmx256m
+Picked up JAVA_TOOL_OPTIONS: -Xmx256m
+PASS: 34780 photo editor strength/draft checks
+Picked up JAVA_TOOL_OPTIONS: -Xmx256m
+PASS: 644888 basic adjustment behaviour/migration/identity checks
+Picked up JAVA_TOOL_OPTIONS: -Xmx256m
+PASS: 1158 composition/recipe geometry, migration and storage checks
