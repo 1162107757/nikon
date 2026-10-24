@@ -17,3 +17,5 @@ if($LASTEXITCODE -ne 0){throw 'Photo editor core verification failed.'}
 if($LASTEXITCODE -ne 0){throw 'Basic photo adjustment verification failed.'}
 & (Join-Path $JdkHome 'bin\java.exe') ('-Djava.io.tmpdir='+$output) -cp $output cc.huevia.album.PhotoCompositionTest
 if($LASTEXITCODE -ne 0){throw 'Photo composition/recipe verification failed.'}
+& (Join-Path $JdkHome 'bin\java.exe') ('-Djava.io.tmpdir='+$output) -cp $output cc.huevia.album.PhotoBorderTest
+if($LASTEXITCODE -ne 0){throw 'Photo border migration/identity verification failed.'}

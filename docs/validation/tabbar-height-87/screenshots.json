@@ -1,0 +1,54 @@
+{
+  "origin": "raw adb exec-out screencap -p on task-owned read-only Android emulator",
+  "apkSha256": "9b9b79dd74f559991379ff5227122dcd61d09867f4433f33f7d363c9cdfc0f32",
+  "files": [
+    {
+      "path": "dark/album.png",
+      "sha256": "9da74cc18d9774129ec7eb4eba512d73256e5241e90233a33da6a30f128144c7"
+    },
+    {
+      "path": "dark/presets.png",
+      "sha256": "a58866bafba56699a5a605c64bdaf1c3547188a8c75e8bcecea3f28fa316f320"
+    },
+    {
+      "path": "dark/settings.png",
+      "sha256": "fa168728256230018d066410202c38e394e9c4b89791eba171e0785155c01be4"
+    },
+    {
+      "path": "dark/sync.png",
+      "sha256": "043dcca2592ed652e6c7290c58f2cee5b6e722f66b28a5cf3b2396fa973f8a72"
+    },
+    {
+      "path": "large-font/album.png",
+      "sha256": "2d90240a2a28829929eae2fc8c24762a1f5b3759d304097c386eaf61aba0ee4d"
+    },
+    {
+      "path": "large-font/presets.png",
+      "sha256": "553930895eb3871de21a8708aa81ca14be2f207360e67989f5c8ac458b6ce332"
+    },
+    {
+      "path": "large-font/settings.png",
+      "sha256": "0a81712d9c29f119fa43d544de20fc4554cd929c8fbfcc605bf5ebd7034da006"
+    },
+    {
+      "path": "large-font/sync.png",
+      "sha256": "eb15a1542bf79d76f78653e1feca3187ca946f1bcd0720b1c8c11f414c2f24fa"
+    },
+    {
+      "path": "phone/album.png",
+      "sha256": "85ef648deac323330c17bf54906abcafbbf6f213c45bf8ebf319c48d598bcdd5"
+    },
+    {
+      "path": "phone/presets.png",
+      "sha256": "9fe8aeadbb041ed73e466045147c4c416b15f4e4ff64affc2aea8adb8d71ee96"
+    },
+    {
+      "path": "phone/settings.png",
+      "sha256": "98b4bee983960930294d2e3893f07b4b4115baed2b255cc04d3e1c4f6b04087a"
+    },
+    {
+      "path": "phone/sync.png",
+      "sha256": "7c90e32ee20f1c571431b316eab1b739d266ac535d7f03fbe4fa8626fcb5c76f"
+    }
+  ]
+}

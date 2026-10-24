@@ -1,0 +1,62 @@
+{
+  "candidateSha256": "2ec0cdbe3388333f5fd8b32e42d2115348f9be2030e97d67e902db19c32ccba0",
+  "candidateVersionCode": 91,
+  "scope": "User-requested compact photo glass surfaces. Native full-safe photo canvas, bounded actual backdrop sampling, 1:1 pixels and original overlay/export integrity; repeated assertions across four configurations are not distinct test cases.",
+  "modes": [
+    {
+      "mode": "phone",
+      "status": "PASS",
+      "checks": 128,
+      "installedApkSha256": "2ec0cdbe3388333f5fd8b32e42d2115348f9be2030e97d67e902db19c32ccba0",
+      "framebufferCompared": 1849,
+      "framebufferMaxDelta": 0,
+      "tileCompared": 1848,
+      "tileErrors": 0,
+      "cleanup": "PASS",
+      "settingsAndGrantsRestored": "PASS"
+    },
+    {
+      "mode": "font1.3",
+      "status": "PASS",
+      "checks": 128,
+      "installedApkSha256": "2ec0cdbe3388333f5fd8b32e42d2115348f9be2030e97d67e902db19c32ccba0",
+      "framebufferCompared": 1849,
+      "framebufferMaxDelta": 0,
+      "tileCompared": 1848,
+      "tileErrors": 0,
+      "cleanup": "PASS",
+      "settingsAndGrantsRestored": "PASS"
+    },
+    {
+      "mode": "dark",
+      "status": "PASS",
+      "checks": 128,
+      "installedApkSha256": "2ec0cdbe3388333f5fd8b32e42d2115348f9be2030e97d67e902db19c32ccba0",
+      "framebufferCompared": 1849,
+      "framebufferMaxDelta": 0,
+      "tileCompared": 1848,
+      "tileErrors": 0,
+      "cleanup": "PASS",
+      "settingsAndGrantsRestored": "PASS"
+    },
+    {
+      "mode": "landscape",
+      "status": "PASS",
+      "checks": 130,
+      "installedApkSha256": "2ec0cdbe3388333f5fd8b32e42d2115348f9be2030e97d67e902db19c32ccba0",
+      "framebufferCompared": 1849,
+      "framebufferMaxDelta": 0,
+      "tileCompared": 2772,
+      "tileErrors": 0,
+      "cleanup": "PASS",
+      "settingsAndGrantsRestored": "PASS"
+    }
+  ],
+  "unchangedProgressReference": {
+    "note": "Progress production source unchanged. This is prior-candidate evidence, not a new 2ec0 progress run.",
+    "path": "pre-glass-0d35b8c8/phone-progress",
+    "status": "PASS",
+    "testedCandidateSha256": "0d35b8c8d6367c1a62078a264183ca41bd24bc357ebd22ee8dcb08f83870bb31",
+    "checks": 23
+  }
+}

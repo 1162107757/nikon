@@ -153,7 +153,7 @@ public final class HoldToCompare {
         button.setPressed(activePointer != NO_POINTER && showingOriginal);
         button.setSelected(showingOriginal);
         GradientDrawable surface = new GradientDrawable();
-        surface.setColor(iconOnly?Color.TRANSPARENT:showingOriginal ? Color.argb(238, 26, 29, 35) : Color.argb(215, 26, 29, 35));
+        surface.setColor(iconOnly?HueTheme.PHOTO_CONTROL_SCRIM:showingOriginal ? Color.argb(238, 26, 29, 35) : Color.argb(215, 26, 29, 35));
         surface.setCornerRadius(dp(24));
         surface.setStroke(dp(button.hasFocus() ? 2 : iconOnly?0:1),
                 Color.argb(button.hasFocus() ? 255 : 55, 255, 255, 255));

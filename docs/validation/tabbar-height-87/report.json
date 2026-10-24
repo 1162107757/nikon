@@ -1,0 +1,714 @@
+{
+  "versionCode": 87,
+  "versionName": "0.17.3-beta",
+  "apkSha256": "9b9b79dd74f559991379ff5227122dcd61d09867f4433f33f7d363c9cdfc0f32",
+  "apkBytes": 3532397,
+  "scope": "Native UI navigation/geometry captures only; no full gallery/protocol regression repeated",
+  "priorSettings": {
+    "font_scale": "1.0",
+    "accelerometer_rotation": "1",
+    "user_rotation": "0"
+  },
+  "priorNightMode": "no",
+  "modes": [
+    {
+      "mode": "phone",
+      "fontScaleObserved": "1.0",
+      "states": [
+        {
+          "root": "预设",
+          "barBounds": [
+            67,
+            2145,
+            1012,
+            2324
+          ],
+          "barHeightPx": 179,
+          "expectedBarHeightDp": 68,
+          "navigation": {
+            "预设": {
+              "target": [
+                102,
+                2158,
+                316,
+                2310
+              ],
+              "label": [
+                123,
+                2245,
+                295,
+                2290
+              ],
+              "selected": "true"
+            },
+            "同步": {
+              "target": [
+                322,
+                2158,
+                536,
+                2310
+              ],
+              "label": [
+                343,
+                2245,
+                515,
+                2290
+              ],
+              "selected": "false"
+            },
+            "相册": {
+              "target": [
+                542,
+                2158,
+                756,
+                2310
+              ],
+              "label": [
+                563,
+                2245,
+                735,
+                2290
+              ],
+              "selected": "false"
+            },
+            "设置": {
+              "target": [
+                762,
+                2158,
+                977,
+                2310
+              ],
+              "label": [
+                783,
+                2245,
+                956,
+                2290
+              ],
+              "selected": "false"
+            }
+          }
+        },
+        {
+          "root": "同步",
+          "inspection": "Raw native screenshot; continuous connection indicator prevents uiautomator idle. Tap uses measured same-mode root coordinates. No per-state geometry asserted."
+        },
+        {
+          "root": "相册",
+          "barBounds": [
+            67,
+            2145,
+            1012,
+            2324
+          ],
+          "barHeightPx": 179,
+          "expectedBarHeightDp": 68,
+          "navigation": {
+            "预设": {
+              "target": [
+                102,
+                2158,
+                316,
+                2310
+              ],
+              "label": [
+                123,
+                2245,
+                295,
+                2290
+              ],
+              "selected": "false"
+            },
+            "同步": {
+              "target": [
+                322,
+                2158,
+                536,
+                2310
+              ],
+              "label": [
+                343,
+                2245,
+                515,
+                2290
+              ],
+              "selected": "false"
+            },
+            "相册": {
+              "target": [
+                542,
+                2158,
+                756,
+                2310
+              ],
+              "label": [
+                563,
+                2245,
+                735,
+                2290
+              ],
+              "selected": "true"
+            },
+            "设置": {
+              "target": [
+                762,
+                2158,
+                977,
+                2310
+              ],
+              "label": [
+                783,
+                2245,
+                956,
+                2290
+              ],
+              "selected": "false"
+            }
+          }
+        },
+        {
+          "root": "设置",
+          "barBounds": [
+            67,
+            2145,
+            1012,
+            2324
+          ],
+          "barHeightPx": 179,
+          "expectedBarHeightDp": 68,
+          "navigation": {
+            "预设": {
+              "target": [
+                102,
+                2158,
+                316,
+                2310
+              ],
+              "label": [
+                123,
+                2245,
+                295,
+                2290
+              ],
+              "selected": "false"
+            },
+            "同步": {
+              "target": [
+                322,
+                2158,
+                536,
+                2310
+              ],
+              "label": [
+                343,
+                2245,
+                515,
+                2290
+              ],
+              "selected": "false"
+            },
+            "相册": {
+              "target": [
+                542,
+                2158,
+                756,
+                2310
+              ],
+              "label": [
+                563,
+                2245,
+                735,
+                2290
+              ],
+              "selected": "false"
+            },
+            "设置": {
+              "target": [
+                762,
+                2158,
+                977,
+                2310
+              ],
+              "label": [
+                783,
+                2245,
+                956,
+                2290
+              ],
+              "selected": "true"
+            }
+          }
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "mode": "large-font",
+      "fontScaleObserved": "1.3",
+      "states": [
+        {
+          "root": "预设",
+          "barBounds": [
+            67,
+            2140,
+            1012,
+            2324
+          ],
+          "barHeightPx": 184,
+          "expectedBarHeightDp": 70,
+          "navigation": {
+            "预设": {
+              "target": [
+                102,
+                2156,
+                316,
+                2308
+              ],
+              "label": [
+                123,
+                2236,
+                295,
+                2295
+              ],
+              "selected": "true"
+            },
+            "同步": {
+              "target": [
+                322,
+                2156,
+                536,
+                2308
+              ],
+              "label": [
+                343,
+                2236,
+                515,
+                2295
+              ],
+              "selected": "false"
+            },
+            "相册": {
+              "target": [
+                542,
+                2156,
+                756,
+                2308
+              ],
+              "label": [
+                563,
+                2236,
+                735,
+                2295
+              ],
+              "selected": "false"
+            },
+            "设置": {
+              "target": [
+                762,
+                2156,
+                977,
+                2308
+              ],
+              "label": [
+                783,
+                2236,
+                956,
+                2295
+              ],
+              "selected": "false"
+            }
+          }
+        },
+        {
+          "root": "同步",
+          "inspection": "Raw native screenshot; continuous connection indicator prevents uiautomator idle. Tap uses measured same-mode root coordinates. No per-state geometry asserted."
+        },
+        {
+          "root": "相册",
+          "barBounds": [
+            67,
+            2140,
+            1012,
+            2324
+          ],
+          "barHeightPx": 184,
+          "expectedBarHeightDp": 70,
+          "navigation": {
+            "预设": {
+              "target": [
+                102,
+                2156,
+                316,
+                2308
+              ],
+              "label": [
+                123,
+                2236,
+                295,
+                2295
+              ],
+              "selected": "false"
+            },
+            "同步": {
+              "target": [
+                322,
+                2156,
+                536,
+                2308
+              ],
+              "label": [
+                343,
+                2236,
+                515,
+                2295
+              ],
+              "selected": "false"
+            },
+            "相册": {
+              "target": [
+                542,
+                2156,
+                756,
+                2308
+              ],
+              "label": [
+                563,
+                2236,
+                735,
+                2295
+              ],
+              "selected": "true"
+            },
+            "设置": {
+              "target": [
+                762,
+                2156,
+                977,
+                2308
+              ],
+              "label": [
+                783,
+                2236,
+                956,
+                2295
+              ],
+              "selected": "false"
+            }
+          }
+        },
+        {
+          "root": "设置",
+          "barBounds": [
+            67,
+            2140,
+            1012,
+            2324
+          ],
+          "barHeightPx": 184,
+          "expectedBarHeightDp": 70,
+          "navigation": {
+            "预设": {
+              "target": [
+                102,
+                2156,
+                316,
+                2308
+              ],
+              "label": [
+                123,
+                2236,
+                295,
+                2295
+              ],
+              "selected": "false"
+            },
+            "同步": {
+              "target": [
+                322,
+                2156,
+                536,
+                2308
+              ],
+              "label": [
+                343,
+                2236,
+                515,
+                2295
+              ],
+              "selected": "false"
+            },
+            "相册": {
+              "target": [
+                542,
+                2156,
+                756,
+                2308
+              ],
+              "label": [
+                563,
+                2236,
+                735,
+                2295
+              ],
+              "selected": "false"
+            },
+            "设置": {
+              "target": [
+                762,
+                2156,
+                977,
+                2308
+              ],
+              "label": [
+                783,
+                2236,
+                956,
+                2295
+              ],
+              "selected": "true"
+            }
+          }
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "mode": "dark",
+      "fontScaleObserved": "1.0",
+      "states": [
+        {
+          "root": "预设",
+          "barBounds": [
+            67,
+            2145,
+            1012,
+            2324
+          ],
+          "barHeightPx": 179,
+          "expectedBarHeightDp": 68,
+          "navigation": {
+            "预设": {
+              "target": [
+                102,
+                2158,
+                316,
+                2310
+              ],
+              "label": [
+                123,
+                2245,
+                295,
+                2290
+              ],
+              "selected": "true"
+            },
+            "同步": {
+              "target": [
+                322,
+                2158,
+                536,
+                2310
+              ],
+              "label": [
+                343,
+                2245,
+                515,
+                2290
+              ],
+              "selected": "false"
+            },
+            "相册": {
+              "target": [
+                542,
+                2158,
+                756,
+                2310
+              ],
+              "label": [
+                563,
+                2245,
+                735,
+                2290
+              ],
+              "selected": "false"
+            },
+            "设置": {
+              "target": [
+                762,
+                2158,
+                977,
+                2310
+              ],
+              "label": [
+                783,
+                2245,
+                956,
+                2290
+              ],
+              "selected": "false"
+            }
+          }
+        },
+        {
+          "root": "同步",
+          "inspection": "Raw native screenshot; continuous connection indicator prevents uiautomator idle. Tap uses measured same-mode root coordinates. No per-state geometry asserted."
+        },
+        {
+          "root": "相册",
+          "barBounds": [
+            67,
+            2145,
+            1012,
+            2324
+          ],
+          "barHeightPx": 179,
+          "expectedBarHeightDp": 68,
+          "navigation": {
+            "预设": {
+              "target": [
+                102,
+                2158,
+                316,
+                2310
+              ],
+              "label": [
+                123,
+                2245,
+                295,
+                2290
+              ],
+              "selected": "false"
+            },
+            "同步": {
+              "target": [
+                322,
+                2158,
+                536,
+                2310
+              ],
+              "label": [
+                343,
+                2245,
+                515,
+                2290
+              ],
+              "selected": "false"
+            },
+            "相册": {
+              "target": [
+                542,
+                2158,
+                756,
+                2310
+              ],
+              "label": [
+                563,
+                2245,
+                735,
+                2290
+              ],
+              "selected": "true"
+            },
+            "设置": {
+              "target": [
+                762,
+                2158,
+                977,
+                2310
+              ],
+              "label": [
+                783,
+                2245,
+                956,
+                2290
+              ],
+              "selected": "false"
+            }
+          }
+        },
+        {
+          "root": "设置",
+          "barBounds": [
+            67,
+            2145,
+            1012,
+            2324
+          ],
+          "barHeightPx": 179,
+          "expectedBarHeightDp": 68,
+          "navigation": {
+            "预设": {
+              "target": [
+                102,
+                2158,
+                316,
+                2310
+              ],
+              "label": [
+                123,
+                2245,
+                295,
+                2290
+              ],
+              "selected": "false"
+            },
+            "同步": {
+              "target": [
+                322,
+                2158,
+                536,
+                2310
+              ],
+              "label": [
+                343,
+                2245,
+                515,
+                2290
+              ],
+              "selected": "false"
+            },
+            "相册": {
+              "target": [
+                542,
+                2158,
+                756,
+                2310
+              ],
+              "label": [
+                563,
+                2245,
+                735,
+                2290
+              ],
+              "selected": "false"
+            },
+            "设置": {
+              "target": [
+                762,
+                2158,
+                977,
+                2310
+              ],
+              "label": [
+                783,
+                2245,
+                956,
+                2290
+              ],
+              "selected": "true"
+            }
+          }
+        }
+      ],
+      "status": "PASS"
+    }
+  ],
+  "installReply": "Performing Streamed Install\nSuccess",
+  "status": "PASS",
+  "sourceSha256": "0eeb5923cd5c5e053075250baeb986aa55e00ce53efff0879a98608c819fbdd0",
+  "restoredSettings": {
+    "font_scale": "1.0",
+    "accelerometer_rotation": "1",
+    "user_rotation": "0"
+  },
+  "nightModeRestored": "Night mode: no"
+}

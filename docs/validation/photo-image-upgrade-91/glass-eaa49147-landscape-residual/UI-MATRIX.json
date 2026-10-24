@@ -1,0 +1,73 @@
+{
+  "candidateSha256": "eaa4914742a7d3a7b8ae0286ded76f999ec718207963923406751a92b7e86c58",
+  "candidateVersionCode": 91,
+  "scope": "Final user metric relocation and compact real photo glass surfaces, bounded glyph regression after actual padding diagnosis. Repeated assertions across configurations are not distinct test cases. This records native checks; independent visual review remains separate.",
+  "modes": [
+    {
+      "mode": "phone",
+      "status": "PASS",
+      "checks": 143,
+      "installedApkSha256": "eaa4914742a7d3a7b8ae0286ded76f999ec718207963923406751a92b7e86c58",
+      "framebufferCompared": 1849,
+      "framebufferMaxDelta": 0,
+      "tileCompared": 1848,
+      "tileErrors": 0,
+      "histogramGlyphClip": "PASS all four labels, default and selected; internal padding0",
+      "cleanup": "PASS",
+      "settingsAndGrantsRestored": "PASS"
+    },
+    {
+      "mode": "font1.3",
+      "status": "PASS",
+      "checks": 143,
+      "installedApkSha256": "eaa4914742a7d3a7b8ae0286ded76f999ec718207963923406751a92b7e86c58",
+      "framebufferCompared": 1849,
+      "framebufferMaxDelta": 0,
+      "tileCompared": 1848,
+      "tileErrors": 0,
+      "histogramGlyphClip": "PASS all four labels, default and selected; internal padding0",
+      "cleanup": "PASS",
+      "settingsAndGrantsRestored": "PASS"
+    },
+    {
+      "mode": "dark",
+      "status": "PASS",
+      "checks": 143,
+      "installedApkSha256": "eaa4914742a7d3a7b8ae0286ded76f999ec718207963923406751a92b7e86c58",
+      "framebufferCompared": 1849,
+      "framebufferMaxDelta": 0,
+      "tileCompared": 1848,
+      "tileErrors": 0,
+      "histogramGlyphClip": "PASS all four labels, default and selected; internal padding0",
+      "cleanup": "PASS",
+      "settingsAndGrantsRestored": "PASS"
+    },
+    {
+      "mode": "landscape",
+      "status": "PASS",
+      "checks": 145,
+      "installedApkSha256": "eaa4914742a7d3a7b8ae0286ded76f999ec718207963923406751a92b7e86c58",
+      "framebufferCompared": 1849,
+      "framebufferMaxDelta": 0,
+      "tileCompared": 2772,
+      "tileErrors": 0,
+      "histogramGlyphClip": "PASS all four labels, default and selected; internal padding0",
+      "cleanup": "PASS",
+      "settingsAndGrantsRestored": "PASS"
+    }
+  ],
+  "visualObservations": [
+    "Portrait/default/font1.3/dark histogram uses upper letterbox and leaves subject visible; four labels/percent signs and selected warning chip border are visible.",
+    "Landscape has no upper letterbox; histogram fallback lies over upper-right photo and overlaps part of sample face. Sent to root for bounded visual assessment; not claimed to avoid every subject.",
+    "Selected RGB is bold in screenshots; the extra drawn underline was not visually established.",
+    "Photo detail metric is independent at actual photo top-right; bottom-left palette has three zoom buttons only."
+  ],
+  "unchangedProgressReference": {
+    "note": "Progress production source unchanged; this is previous candidate evidence, not a new eaa progress run.",
+    "path": "pre-glass-0d35b8c8/phone-progress",
+    "status": "PASS",
+    "testedCandidateSha256": "0d35b8c8d6367c1a62078a264183ca41bd24bc357ebd22ee8dcb08f83870bb31",
+    "checks": 23
+  },
+  "staleArtifactNote": "A SHA-identical 5be failure.png pulled from retained remote evidence was moved from current phone into 5be-glyph-diagnostic/retained-remote-failure-duplicate.png; archived real FAIL evidence remains intact."
+}

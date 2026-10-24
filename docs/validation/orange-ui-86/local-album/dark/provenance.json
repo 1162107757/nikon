@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "builtAtUtc": "2026-10-24T00:20:07.3919583Z",
+  "expectedVersion": 86,
+  "buildScope": "local-album",
+  "probeSource": "tests/orange-ui-device-probe/src/cc/huevia/orangeqa/OrangeNativeProbe.java",
+  "probeJavaSha256": "d2cba320bb319a2ad11facb9b7578c0c4005e910cec0c207331c3dece7cf0102",
+  "buildScriptSha256": "3ea9e09a4c1f5696b7d39e21dcd134eb46f25213d70994c5a1736b889eb19bf4",
+  "runScriptSha256": "c8d4c6b96cae30175ae738891a2aa5e71cb43eee12b5a42355db8b18bfd75f3d",
+  "probeApkSha256": "26a610847b2d6f83a98f7bf59b66273d051f4714cfc0345ed7b631a0e648e8a0"
+}

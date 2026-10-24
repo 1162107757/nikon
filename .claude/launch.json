@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "design-preview",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [".tooling/design-preview/server.mjs", "."],
+      "port": 4173,
+      "url": "http://localhost:4173"
+    }
+  ]
+}

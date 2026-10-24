@@ -1,0 +1,14 @@
+[
+  {
+    "sha256": "49ebcc937688fdf6624ba81a297ee1cb2150495deb2d884f9fa5bad20c9bb5ab",
+    "path": "app/build.gradle"
+  },
+  {
+    "sha256": "7afdad09b3b50fb9737622aa6b7893da124a6c07848b9dbc5a9bb7aa2eb8e191",
+    "path": "app/src/main/java/cc/huevia/album/LocalPhotoRepository.java"
+  },
+  {
+    "sha256": "db1bed3aa6dc4b71ba933584c19a047ee657dfe90f1e80e3e6ba662fdfc7f2e4",
+    "path": "app/src/main/java/cc/huevia/album/PhotoPreviewCache.java"
+  }
+]

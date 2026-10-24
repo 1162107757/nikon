@@ -1,0 +1,61 @@
+{
+  "scope": "Supplementary native geometry check, not the full local-album suite",
+  "windowTargetDp": [
+    440,
+    380
+  ],
+  "priorSettings": {
+    "accelerometer_rotation": "1",
+    "user_rotation": "0",
+    "font_scale": "1.0"
+  },
+  "status": "PASS",
+  "navigationTargets": {
+    "预设": [
+      106,
+      544,
+      270,
+      670
+    ],
+    "同步": [
+      274,
+      544,
+      438,
+      670
+    ],
+    "相册": [
+      442,
+      544,
+      606,
+      670
+    ],
+    "设置": [
+      610,
+      544,
+      774,
+      670
+    ]
+  },
+  "fabBounds": [
+    724,
+    396,
+    832,
+    504
+  ],
+  "fabDoesNotIntersectAnyNavigationTarget": true,
+  "allNavigationTargetsAtLeast48dp": true,
+  "version": [
+    "versionCode=85 minSdk=26 targetSdk=35",
+    "versionName=0.17.1-beta"
+  ],
+  "activityConfiguration": [
+    "mCurrentConfig={1.0 310mcc260mnc [en_US] ldltr sw380dp w440dp h380dp 320dpi smll land finger qwerty/v/v dpad/v winConfig={ mBounds=Rect(0, 0 - 880, 760) mAppBounds=Rect(0, 0 - 880, 760) mMaxBounds=Rect(0, 0 - 880, 760) mDisplayRotation=ROTATION_0 mWindowingMode=fullscreen mActivityType=home mAlwaysOnTop=undefined mRotation=ROTATION_0} as.5 s.29 fontWeightAdjustment=0}"
+  ],
+  "restoredSettings": {
+    "accelerometer_rotation": "1",
+    "user_rotation": "0",
+    "font_scale": "1.0"
+  },
+  "sizeReset": "Physical size: 1080x2424",
+  "densityReset": "Physical density: 420"
+}

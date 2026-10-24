@@ -671,9 +671,9 @@ public final class RawPhotoPanel implements AutoCloseable {
     }
     private Button action(String text, boolean primary, Runnable click) {
         Button button = new Button(activity); button.setText(text); button.setAllCaps(false); button.setTextSize(14); button.setMinimumHeight(dp(48)); button.setMinHeight(dp(48));
-        button.setMinWidth(0); button.setMinimumWidth(0); button.setPadding(dp(12), dp(8), dp(12), dp(8)); button.setTextColor(primary ? palette.onPrimary : palette.primary);
+        button.setMinWidth(0); button.setMinimumWidth(0); button.setPadding(dp(12), dp(8), dp(12), dp(8)); button.setTextColor(primary ? palette.onAction : palette.text);
         button.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL)); button.setStateListAnimator(null);
-        button.setBackground(new RippleDrawable(ColorStateList.valueOf(palette.primaryContainer), shape(primary ? palette.primary : palette.surface, 14), null));
+        button.setBackground(new RippleDrawable(ColorStateList.valueOf(palette.primaryContainer), shape(primary ? palette.action : palette.container, 26), null));
         button.setOnClickListener(view -> click.run()); return button;
     }
     private TextView text(String value, float size, int color, boolean bold) {

@@ -59,7 +59,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * THESIS: Choose local photographs, refine them, and publish only the chosen versions.
- * OWN-WORLD: Existing UiPalette cloud-white/graphite, native sp labels and Canvas line icons.
+ * OWN-WORLD: Approved warm-white/graphite palette, fixed-size photo marks and native sp labels.
  * STORY: Browse phone or durable app photos, select, edit, then explicitly choose a destination.
  * FIRST VIEWPORT: Two sources, visible access/scope status, date groups and a lazy photo grid.
  * FORM: Approved two-source local library inside the incumbent Android application; code-led extension.
@@ -133,8 +133,10 @@ public final class LocalAlbumPanel implements AutoCloseable {
         root = new LinearLayout(activity); root.setOrientation(LinearLayout.VERTICAL); root.setBackgroundColor(palette.surface);
         LinearLayout tabs = new LinearLayout(activity); tabs.setGravity(Gravity.CENTER_VERTICAL); tabs.setPadding(dp(compactLayout ? 8 : 16), dp(compactLayout ? 0 : 4), dp(8), dp(compactLayout ? 0 : 4));
         appTab = button("App 内", () -> switchTab(false)); phoneTab = button("手机", () -> switchTab(true));
-        tabs.addView(appTab, compactLayout ? new LinearLayout.LayoutParams(dp(88), -2) : new LinearLayout.LayoutParams(0, -2, 1));
-        tabs.addView(phoneTab, compactLayout ? new LinearLayout.LayoutParams(dp(72), -2) : new LinearLayout.LayoutParams(0, -2, 1));
+        LinearLayout track=new LinearLayout(activity);track.setGravity(Gravity.CENTER_VERTICAL);track.setPadding(dp(3),0,dp(3),0);track.setBackground(shape(palette.container,dp(25)));
+        track.addView(appTab, compactLayout ? new LinearLayout.LayoutParams(dp(88), -2) : new LinearLayout.LayoutParams(0, -2, 1));
+        track.addView(phoneTab, compactLayout ? new LinearLayout.LayoutParams(dp(72), -2) : new LinearLayout.LayoutParams(0, -2, 1));
+        tabs.addView(track,compactLayout?new LinearLayout.LayoutParams(-2,dp(48)):new LinearLayout.LayoutParams(0,dp(48),1));
         root.addView(tabs);
         scope = text("", 13, palette.secondary); scope.setMaxLines(1); scope.setEllipsize(TextUtils.TruncateAt.END);
         status = text("", 13, palette.secondary); status.setMaxLines(1); status.setEllipsize(TextUtils.TruncateAt.END);
@@ -173,24 +175,27 @@ public final class LocalAlbumPanel implements AutoCloseable {
         if (compactLayout) emptyIcon.setVisibility(View.GONE);
         emptyTitle = text("", 20, palette.text); emptyTitle.setGravity(Gravity.CENTER); emptyTitle.setTypeface(null, Typeface.BOLD); emptyTitle.setPadding(0, dp(compactLayout ? 0 : 20), 0, dp(8)); empty.addView(emptyTitle);
         emptyText = text("", 15, palette.secondary); emptyText.setGravity(Gravity.CENTER); emptyText.setLineSpacing(dp(3), 1); empty.addView(emptyText);
-        permissionButton = button("点击获取授权", this::requestAccess); permissionButton.setTag("local-album-permission");
+        permissionButton = button("点击获取授权", this::requestAccess); permissionButton.setTag("local-album-permission"); HueTheme.styleAction(permissionButton,palette,true);
         LinearLayout.LayoutParams permissionParams = new LinearLayout.LayoutParams(-2, -2); permissionParams.topMargin = dp(compactLayout ? 8 : 16); empty.addView(permissionButton, permissionParams);
         ScrollView guidance = new ScrollView(activity); guidance.setFillViewport(true); guidance.addView(empty, new ScrollView.LayoutParams(-1, -2)); emptyContainer = guidance;
         FrameLayout.LayoutParams guidanceParams = new FrameLayout.LayoutParams(-1, -1); guidanceParams.bottomMargin = dp(navReserve()); body.addView(guidance, guidanceParams);
-        pickerFab = new ImageView(activity); pickerFab.setImageDrawable(new AppIcon(AppIcon.Kind.PLUS, palette.onPrimary, density())); pickerFab.setPadding(dp(16), dp(16), dp(16), dp(16));
-        pickerFab.setBackground(new RippleDrawable(ColorStateList.valueOf(palette.primaryContainer), shape(palette.primary, dp(28)), null)); pickerFab.setElevation(dp(4));
+        pickerFab = new ImageView(activity); pickerFab.setImageDrawable(new AppIcon(AppIcon.Kind.PLUS, palette.onAction, density())); pickerFab.setPadding(dp(16), dp(16), dp(16), dp(16));
+        pickerFab.setBackground(HueTheme.action(activity,palette,28)); pickerFab.setElevation(dp(4));
         pickerFab.setContentDescription("选择照片"); pickerFab.setTag("local-album-picker"); pickerFab.setFocusable(true); pickerFab.setOnClickListener(view -> pickPhotos());
         FrameLayout.LayoutParams pickerParams = new FrameLayout.LayoutParams(dp(56), dp(56), Gravity.BOTTOM | Gravity.END); pickerParams.rightMargin = dp(12); pickerParams.bottomMargin = dp(navReserve() + 12); body.addView(pickerFab, pickerParams);
         selectionBar = new LinearLayout(activity); selectionBar.setGravity(Gravity.CENTER_VERTICAL); selectionBar.setPadding(dp(12), dp(8), dp(12), dp(8)); selectionBar.setBackgroundColor(palette.card);
         selectionCount = text("", 14, palette.text); selectionBar.addView(selectionCount, new LinearLayout.LayoutParams(0, -2, 1));
         Button cancel = button("取消", () -> { selecting = false; selected.clear(); updateSelection(); }); selectionBar.addView(cancel);
-        batchButton = button("批量编辑", () -> prepareSelected(false)); selectionBar.addView(batchButton); root.addView(selectionBar);
+        batchButton = button("批量编辑", () -> prepareSelected(false)); HueTheme.styleAction(batchButton,palette,true); selectionBar.addView(batchButton); root.addView(selectionBar);
         body.addOnLayoutChangeListener((view, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
             if (compactLayout && resolvedColumns() != gridColumns) { savePosition(); rebuildRows(); restorePosition(); }
         });
         rebuildRows(); restorePosition(); updateState(); refreshApp(); return root;
     }
-    private int navReserve() { return 92 + Math.round(Math.max(0f, activity.getResources().getConfiguration().fontScale - 1.2f) * 20f); }
+    private int navReserve() {
+        boolean floating = activity.getResources().getConfiguration().screenWidthDp < 600;
+        return (floating ? 104 : 92) + Math.round(Math.max(0f, activity.getResources().getConfiguration().fontScale - 1.2f) * (floating ? 24f : 20f));
+    }
     private boolean compactHeight() {
         android.content.res.Configuration config = activity.getResources().getConfiguration();
         return config.screenHeightDp < 480 && config.screenWidthDp > config.screenHeightDp;
@@ -404,7 +409,10 @@ public final class LocalAlbumPanel implements AutoCloseable {
     private void updateState() {
         if (root == null) return;
         LocalPhotoRepository.Access access = repository.access(); boolean loading = phone ? loadingPhone : loadingApp;
-        phoneTab.setTextColor(phone ? palette.primary : palette.secondary); appTab.setTextColor(phone ? palette.secondary : palette.primary);
+        phoneTab.setTextColor(phone ? palette.text : palette.secondary); appTab.setTextColor(phone ? palette.secondary : palette.text);
+        phoneTab.setSelected(phone); appTab.setSelected(!phone);
+        phoneTab.setBackground(new android.graphics.drawable.InsetDrawable(shape(phone ? palette.card : android.graphics.Color.TRANSPARENT,dp(22)),0,dp(4),0,dp(4)));
+        appTab.setBackground(new android.graphics.drawable.InsetDrawable(shape(!phone ? palette.card : android.graphics.Color.TRANSPARENT,dp(22)),0,dp(4),0,dp(4)));
         phoneTab.setTypeface(null, phone ? Typeface.BOLD : Typeface.NORMAL); appTab.setTypeface(null, phone ? Typeface.NORMAL : Typeface.BOLD);
         scope.setText(phone ? (access == LocalPhotoRepository.Access.PARTIAL ? "已授权 JPEG / PNG · 按添加时间" : access == LocalPhotoRepository.Access.FULL ? "JPEG / PNG · 按添加时间" : "仅在授权或选择后读取") : "原图与效果版本 · 按照片日期");
         accessActions.setVisibility(View.GONE);
@@ -444,15 +452,15 @@ public final class LocalAlbumPanel implements AutoCloseable {
                 if (column >= row.items.size()) { strip.addView(new View(activity), params); continue; }
                 Item item = row.items.get(column); LinearLayout tile = new LinearLayout(activity); tile.setOrientation(LinearLayout.VERTICAL);
                 FrameLayout frame = new FrameLayout(activity) { @Override protected void onMeasure(int width, int height) { super.onMeasure(width, View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(width), View.MeasureSpec.EXACTLY)); } };
-                frame.setBackgroundColor(palette.container); ImageView image = new ImageView(activity); image.setScaleType(ImageView.ScaleType.CENTER_CROP); frame.addView(image, new FrameLayout.LayoutParams(-1, -1));
-                String key = item.thumbKey(); image.setTag(key); Bitmap cached = thumbnails.get(key); if (cached != null) image.setImageBitmap(cached); else { image.setImageDrawable(new AppIcon(failedThumbs.contains(key) ? AppIcon.Kind.INFO : AppIcon.Kind.ALBUM, palette.secondary, density())); requestThumbnail(item, image); }
+                frame.setBackground(shape(palette.container,dp(14)));frame.setClipToOutline(true); ImageView image = new ImageView(activity); image.setScaleType(ImageView.ScaleType.CENTER_CROP); frame.addView(image, new FrameLayout.LayoutParams(-1, -1));
+                String key = item.thumbKey(); image.setTag(key); Bitmap cached = thumbnails.get(key); if (cached != null) image.setImageBitmap(cached); else { image.setImageDrawable(new PhotoPlaceholder(activity, palette, failedThumbs.contains(key))); requestThumbnail(item, image); }
                 if (selecting) {
                     TextView check = text(selected.contains(item.key) ? "已选" : "选择", 12, selected.contains(item.key) ? palette.onPrimary : palette.text); check.setGravity(Gravity.CENTER); check.setPadding(dp(6), dp(4), dp(6), dp(4)); check.setBackground(shape(selected.contains(item.key) ? palette.primary : palette.card, dp(8)));
                     FrameLayout.LayoutParams mark = new FrameLayout.LayoutParams(-2, -2, Gravity.TOP | Gravity.END); mark.setMargins(dp(4), dp(4), dp(4), 0); frame.addView(check, mark);
                 }
                 tile.addView(frame, new LinearLayout.LayoutParams(-1, -2));
                 TextView filename = text(item.name(), 12, palette.text); filename.setMaxLines(1); filename.setEllipsize(TextUtils.TruncateAt.END); filename.setPadding(dp(2), dp(compactLayout ? 4 : 6), dp(2), dp(compactLayout ? 2 : 4)); tile.addView(filename);
-                tile.setContentDescription(item.name() + (item.group == null ? "" : "，" + item.group.versions.size() + " 个版本") + (selected.contains(item.key) ? "，已选择" : ""));
+                tile.setContentDescription(item.name() + (item.group == null ? "" : "，" + item.group.versions.size() + " 个版本") + (cached != null ? "" : failedThumbs.contains(key) ? "，预览暂不可用" : "，预览加载中") + (selected.contains(item.key) ? "，已选择" : ""));
                 tile.setBackground(new RippleDrawable(ColorStateList.valueOf(palette.primaryContainer), null, shape(palette.card, 0)));
                 tile.setOnClickListener(view -> clicked(item)); tile.setOnLongClickListener(view -> { if (!importing) toggle(item); return true; });
                 if (item.group != null && item.group.versions.size() > 1) {
@@ -479,7 +487,7 @@ public final class LocalAlbumPanel implements AutoCloseable {
                 main.post(() -> {
                     pendingThumbs.remove(key); if (closed || epoch != imageEpoch) { if (result != null) result.recycle(); return; }
                     if (result != null) { thumbnails.put(key, result); if (key.equals(view.getTag())) view.setImageBitmap(result); }
-                    else { failedThumbs.add(key); if (key.equals(view.getTag())) view.setImageDrawable(new AppIcon(AppIcon.Kind.INFO, palette.secondary, density())); }
+                    else { failedThumbs.add(key); if (key.equals(view.getTag())) view.setImageDrawable(new PhotoPlaceholder(activity, palette, true)); }
                     main.removeCallbacks(thumbnailChanged); main.postDelayed(thumbnailChanged, 45);
                 });
             });
@@ -497,7 +505,7 @@ public final class LocalAlbumPanel implements AutoCloseable {
     private Button button(String label, Runnable action) {
         Button button = new Button(activity); button.setText(label); button.setAllCaps(false); button.setTextSize(14); button.setTextColor(palette.primary);
         button.setMinHeight(dp(48)); button.setMinimumHeight(dp(48)); button.setMinWidth(dp(48)); button.setMinimumWidth(dp(48)); button.setPadding(dp(12), 0, dp(12), 0);
-        button.setBackground(new RippleDrawable(ColorStateList.valueOf(palette.primaryContainer), null, shape(palette.card, dp(10))));
+        HueTheme.styleAction(button,palette,false);
         button.setOnClickListener(view -> action.run()); return button;
     }
     private void icon(Button button, AppIcon.Kind kind) { AppIcon icon = new AppIcon(kind, palette.primary, density()); icon.setBounds(0, 0, dp(18), dp(18)); button.setCompoundDrawables(icon, null, null, null); button.setCompoundDrawablePadding(dp(6)); }

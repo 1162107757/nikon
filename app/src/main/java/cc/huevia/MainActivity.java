@@ -84,6 +84,7 @@ import cc.huevia.ui.PersonalPresetPanel;
 import cc.huevia.ui.UpdatePanel;
 import cc.huevia.ui.AppIcon;
 import cc.huevia.ui.UiPalette;
+import cc.huevia.ui.HueTheme;
 import cc.huevia.ui.GlassBar;
 import cc.huevia.ui.AppAppearance;
 import cc.huevia.ui.PageTransitions;
@@ -587,10 +588,12 @@ public final class MainActivity extends Activity {
             android.view.WindowInsetsController controller = getWindow().getInsetsController();
             if (controller != null) controller.show(WindowInsets.Type.systemBars());
         }
-        getWindow().setStatusBarColor(colors.surface); getWindow().setNavigationBarColor(colors.surface);
+        boolean orangeHome = !albumTab && !localAlbumTab && !settingsTab && !account.isOpen() && !community.isOpen()
+                && !updates.isOpen() && !wirelessGuide && confirmation == null && importOutcome == null && detailId.isEmpty() && detailOnline == null;
+        getWindow().setStatusBarColor(orangeHome ? (colors.dark ? 0xff423636 : 0xffBEB5BC) : colors.surface); getWindow().setNavigationBarColor(colors.surface);
         int system = colors.dark ? 0 : View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
         decor.setSystemUiVisibility(system);
-        shell = vertical(); shell.setBackgroundColor(colors.surface); shell.setFitsSystemWindows(false);
+        shell = vertical(); shell.setBackground(orangeHome ? HueTheme.orangeLight(this, colors, compactPresetHeight() ? 168 : 218) : shape(colors.surface, 0)); shell.setFitsSystemWindows(false);
         shell.setOnApplyWindowInsetsListener((view, insets) -> {
             if (Build.VERSION.SDK_INT >= 30) {
                 android.graphics.Insets safe = insets.getInsets(WindowInsets.Type.systemBars() | WindowInsets.Type.displayCutout() | WindowInsets.Type.ime());
@@ -621,20 +624,24 @@ public final class MainActivity extends Activity {
         boolean compactLocalAlbum = localAlbumTab && !localPhotoEditor.isImmersive() && !accountPage && !communityPage && !updatePage
                 && getResources().getConfiguration().screenHeightDp < 480
                 && getResources().getConfiguration().screenWidthDp > getResources().getConfiguration().screenHeightDp;
-        LinearLayout bar = horizontal(); bar.setPadding(dp(back ? 10 : compactLocalAlbum ? 16 : 22), dp(compactLocalAlbum ? 0 : back ? 8 : 17), dp(16), dp(compactLocalAlbum ? 0 : 8));
+        boolean compactRoot=!back&&compactPresetHeight();
+        LinearLayout bar = horizontal(); bar.setPadding(dp(back ? 8 : 20), dp(compactLocalAlbum||compactRoot ? 0 : 8), dp(16), dp(compactLocalAlbum||compactRoot ? 0 : 4)); bar.setMinimumHeight(dp(compactLocalAlbum||compactRoot ? 48 : back ? 56 : 64));
         if (compactLocalAlbum) bar.setMinimumHeight(dp(48));
         if (back) bar.addView(iconButton(AppIcon.Kind.BACK, "返回", this::goBack));
         title = text(accountPage ? account.title() : communityPage ? community.title() : updatePage ? "应用更新" : wirelessGuide ? (wirelessRecovery ? "无线核对预设" : wirelessSettingsProbe ? "预设支持检测" : "读取相机预设")
                 : settingsGuide ? "Wi-Fi 无线连接" : settingsTab ? "设置" : localAlbumTab ? localAlbum.title() : albumTab ? "同步"
                 : importOutcome != null ? "导入结果" : confirmation != null ? "确认导入"
-                : (!detailId.isEmpty() || detailOnline != null ? "预设详情" : "预设库"), back || compactLocalAlbum ? 20 : 32, true);
-        title.setLetterSpacing(back ? -.015f : -.03f);
+                : (!detailId.isEmpty() || detailOnline != null ? "预设详情" : "预设"), back || compactLocalAlbum || compactRoot ? 18 : 26, true);
+        title.setLetterSpacing(-.02f); title.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
         title.setMaxLines(1);title.setEllipsize(TextUtils.TruncateAt.END);
         bar.addView(title, new LinearLayout.LayoutParams(0, -2, 1));
         View accountAction = accountPage ? account.createHeaderAction(colors) : null;
         if (accountAction != null) bar.addView(accountAction);
-        if (!back && !settingsTab && !localAlbumTab) {
-            bar.addView(connectionIndicator(albumTab));
+        if (!back && albumTab) bar.addView(connectionIndicator(true));
+        if(orangeHome&&compactRoot)bar.addView(connectionIndicator(false));
+        if (orangeHome) {
+            View refresh = iconButton(AppIcon.Kind.REFRESH, "刷新预设", () -> { if (localTab) render(); else requestCatalog(false); });
+            refresh.setBackground(ripple(Color.TRANSPARENT)); bar.addView(refresh);
         }
         pane.addView(bar);
         if (busy) {
@@ -662,28 +669,47 @@ public final class MainActivity extends Activity {
         else if (!detailId.isEmpty() || detailOnline != null) renderDetail();
         else renderHome();
         if (!back || albumTab && !album.isImmersive() && !accountPage && !communityPage && !updatePage && !wirelessGuide) {
-            GlassBar material = new GlassBar(this); material.setBackdrop(pane);
-            LinearLayout navigation = horizontal(); navigation.setPadding(dp(5), dp(5), dp(5), dp(5));
+            boolean rail = getResources().getConfiguration().screenWidthDp >= 600;
+            FrameLayout material = rail ? new FrameLayout(this) : new GlassBar(this);
+            if (material instanceof GlassBar glass) glass.setBackdrop(pane);
+            else material.setBackgroundColor(colors.glass);
+            LinearLayout navigation = rail ? vertical() : horizontal(); navigation.setGravity(Gravity.CENTER);
+            navigation.setPadding(dp(rail ? 8 : 5), dp(rail ? 6 : 5), dp(rail ? 8 : 5), dp(rail ? 6 : 5));
             nav(navigation, "预设", AppIcon.Kind.PRESETS, presetPage, () -> switchRoot(0));
             nav(navigation, "同步", AppIcon.Kind.CAMERA, albumTab, () -> switchRoot(1));
             nav(navigation, "相册", AppIcon.Kind.ALBUM, localAlbumTab, () -> switchRoot(3));
             nav(navigation, "设置", AppIcon.Kind.SETTINGS, settingsTab, () -> switchRoot(2));
-            material.addView(navigation, new FrameLayout.LayoutParams(-1, -2));
-            int navWidth = dp(Math.min(360, Math.min(getResources().getConfiguration().screenWidthDp, 720) - 48));
-            int navHeight = 68 + Math.round(Math.max(0f, getResources().getConfiguration().fontScale - 1.2f) * 20f);
-            FrameLayout.LayoutParams floating = new FrameLayout.LayoutParams(navWidth, dp(navHeight), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
-            floating.bottomMargin = dp(14); bounded.addView(material, floating);
+            material.addView(navigation, new FrameLayout.LayoutParams(-1, -1, Gravity.CENTER));
+            int navHeight = 68 + Math.round(Math.max(0f, getResources().getConfiguration().fontScale - 1.2f) * 24f);
+            FrameLayout.LayoutParams destination = new FrameLayout.LayoutParams(rail ? dp(80) : -1, rail ? -1 : dp(navHeight), rail ? Gravity.START : Gravity.BOTTOM);
+            if (!rail) {
+                destination.width = dp(Math.min(360, getResources().getConfiguration().screenWidthDp - 48));
+                destination.gravity = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
+                destination.bottomMargin = dp(14);
+            }
+            bounded.addView(material, destination);
+            if (rail) {
+                int safeWidth=dp(getResources().getConfiguration().screenWidthDp);
+                paneParams.width=Math.min(dp(720),safeWidth-dp(80));
+                paneParams.leftMargin=dp(80)+Math.max(0,(safeWidth-dp(80)-paneParams.width)/2);
+                paneParams.gravity=Gravity.TOP|Gravity.START;pane.setLayoutParams(paneParams);
+            }
+            if (rail) {
+                View hairline = new View(this); hairline.setBackgroundColor(colors.outline);
+                material.addView(hairline,new FrameLayout.LayoutParams(dp(1), -1, Gravity.END));
+            }
         }
         if (presetPage && !back && ready && !busy) {
             View add = iconButton(AppIcon.Kind.PLUS, localTab ? "导入本地预设" : "发布预设",
                     () -> { if (localTab) pickNcp(false); else community.openSubmissionComposer(); });
-            ((ImageView)add).setImageDrawable(new AppIcon(AppIcon.Kind.PLUS, colors.onPrimary, getResources().getDisplayMetrics().density));
-            add.setBackground(shape(colors.primary, 27)); add.setElevation(dp(4));
+            ((ImageView)add).setImageDrawable(new AppIcon(AppIcon.Kind.PLUS, colors.onAction, getResources().getDisplayMetrics().density));
+            add.setBackground(HueTheme.action(this, colors, 28)); add.setElevation(dp(4));
             FrameLayout.LayoutParams position = new FrameLayout.LayoutParams(dp(54), dp(54), Gravity.BOTTOM | Gravity.END);
-            position.setMargins(dp(24), 0, dp(24), dp(100)); bounded.addView(add, position);
+            int addBottom = compactPresetHeight() && getResources().getConfiguration().screenWidthDp >= 600 ? 16 : 104 + Math.round(Math.max(0f, getResources().getConfiguration().fontScale - 1.2f) * 24f);
+            position.setMargins(dp(24), 0, dp(24), dp(addBottom)); bounded.addView(add, position);
         }
         refreshMessageBadges();
-        setContentView(shell); shell.requestApplyInsets();
+        setContentView(shell); shell.requestApplyInsets(); restoreSystemBarAppearance();
         transitionTo(body);
         if(personal!=null)personal.offerConsent();
     }
@@ -731,7 +757,10 @@ public final class MainActivity extends Activity {
         lastRoute = route; lastRoot = root; transitioningContent = content;
     }
 
+    private boolean compactPresetHeight(){return getResources().getConfiguration().screenHeightDp<480;}
+
     private void renderHome() {
+        boolean compact=compactPresetHeight();
         visiblePresets.clear();
         List<Object> source = new ArrayList<>();
         if (localTab) {for(PresetRecord r:library.list())if(personal==null||personal.visible(r))source.add(r);} else source.addAll(catalog);
@@ -744,17 +773,21 @@ public final class MainActivity extends Activity {
             if (localTab) localCategoryFilter = selected; else onlineCategoryFilter = selected;
         }
         for (Object value : source) if (PresetCategories.ALL.equals(selected) || selected.equals(presetCategory(value))) visiblePresets.add(value);
-        LinearLayout top = vertical(); top.setPadding(dp(22), 0, dp(22), dp(5));
-        TextView intro = text("把喜欢的色彩，带进相机", 12, false); intro.setTextColor(colors.secondary); intro.setPadding(0, 0, 0, dp(17)); top.addView(intro);
+        LinearLayout top = vertical(); top.setPadding(dp(20), 0, dp(20), dp(compact?4:10));
+        TextView intro = text("把喜欢的色彩，带进相机", 13, false); intro.setTextColor(colors.dark ? 0xffF2D6C4 : 0xff5B3025); intro.setPadding(0, 0, 0, dp(12)); if(!compact)top.addView(intro);
         LinearLayout sourceRow = horizontal();
-        LinearLayout tabs = horizontal();
-        sourceTab(tabs, "我的预设", localTab, () -> { localTab = true; render(); });
+        LinearLayout tabs = horizontal(); tabs.setPadding(dp(3),0,dp(3),0); tabs.setBackground(shape(colors.dark ? 0x6051382D : 0x70FFFFFF,25));
         sourceTab(tabs, "在线预设", !localTab, () -> { localTab = false; render(); if (!catalogLoaded) loadCatalog(false); });
-        sourceRow.addView(tabs, new LinearLayout.LayoutParams(dp(216), dp(48)));
-        View sourceSpace = new View(this); sourceRow.addView(sourceSpace, new LinearLayout.LayoutParams(0, 1, 1));
-        if (!localTab) sourceRow.addView(iconButton(AppIcon.Kind.REFRESH, "刷新在线预设", () -> requestCatalog(false)));
+        sourceTab(tabs, "我的预设", localTab, () -> { localTab = true; render(); });
+        sourceRow.addView(tabs, new LinearLayout.LayoutParams(compact?dp(216):-1, dp(48)));
+        View sourceSpace = new View(this); if(!compact)sourceRow.addView(sourceSpace, new LinearLayout.LayoutParams(0, 1, 1));
         top.addView(sourceRow);
-        if(localTab&&personal!=null)top.addView(personal.status(colors),new LinearLayout.LayoutParams(-1,-2));
+        LinearLayout cameraState = horizontal(); cameraState.setPadding(dp(12),dp(2),dp(4),dp(2));
+        cameraState.setBackground(shape(colors.card,18));
+        cameraState.addView(connectionIndicator(false),new LinearLayout.LayoutParams(0,dp(44),1));
+        View cameraAction=iconButton(AppIcon.Kind.CHEVRON,"相机连接",this::openCameraSettings);cameraAction.setBackground(ripple(Color.TRANSPARENT));cameraState.addView(cameraAction);
+        LinearLayout.LayoutParams stateParams=new LinearLayout.LayoutParams(-1,-2);stateParams.topMargin=dp(12);if(!compact)top.addView(cameraState,stateParams);
+        if(localTab&&personal!=null){if(compact)sourceRow.addView(personal.status(colors),new LinearLayout.LayoutParams(0,-2,1));else top.addView(personal.status(colors),new LinearLayout.LayoutParams(-1,-2));}
         if (recoveryBlocked) {
             TextView warning = text("上次导入的结果需要核对，请先读取相机，避免重复导入。", 14, false);
             warning.setTextColor(colors.error); top.addView(warning);
@@ -763,7 +796,7 @@ public final class MainActivity extends Activity {
         if (!message.isEmpty()) { TextView note = text(message, 13, false); note.setPadding(0, dp(8), 0, dp(4)); top.addView(note); }
         body.addView(top);
         HorizontalScrollView filters = new HorizontalScrollView(this); filters.setHorizontalScrollBarEnabled(false);
-        filters.setClipToPadding(false); filters.setPadding(dp(18), dp(6), dp(18), dp(10));
+        filters.setClipToPadding(false); filters.setPadding(dp(20), dp(compact?0:2), dp(20), dp(compact?4:10));
         LinearLayout chips = horizontal(); filters.addView(chips, new HorizontalScrollView.LayoutParams(-2, -2));
         addPresetCategoryChip(chips, PresetCategories.ALL, selected);
         for (String category : PresetCategories.SUGGESTED) if (categories.remove(category)) addPresetCategoryChip(chips, category, selected);
@@ -771,13 +804,18 @@ public final class MainActivity extends Activity {
         for (String category : categories) addPresetCategoryChip(chips, category, selected);
         if (hasUncategorized) addPresetCategoryChip(chips, "", selected);
         body.addView(filters, new LinearLayout.LayoutParams(-1, -2));
+        LinearLayout resultHeading=horizontal(); resultHeading.setPadding(dp(20),dp(compact?0:2),dp(20),dp(compact?4:10));
+        TextView resultTitle=text(localTab?"我的色彩":"发现预设",15,true);resultHeading.addView(resultTitle,new LinearLayout.LayoutParams(0,-2,1));
+        TextView total=text(visiblePresets.size()+(catalogHasMore&&!localTab?"+":"")+" 份",12,false);total.setTextColor(colors.secondary);resultHeading.addView(total);body.addView(resultHeading);
         if (visiblePresets.isEmpty()) { renderPresetEmpty(); return; }
-        int width = Math.min(getResources().getConfiguration().screenWidthDp, 720);
-        int columns = width >= 600 ? 3 : getResources().getConfiguration().fontScale >= 1.8f ? 1 : 2;
+        int availableWidth = getResources().getConfiguration().screenWidthDp;
+        int width = Math.min(availableWidth >= 600 ? availableWidth - 80 : availableWidth, 720);
+        int columns = compact ? Math.max(3,width/170) : width >= 600 ? 3 : getResources().getConfiguration().fontScale >= 1.8f ? 1 : 2;
         presetCardWidth = (width - 36 - 12 * (columns - 1)) / columns;
         list = new GridView(this); list.setNumColumns(columns); list.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
         list.setHorizontalSpacing(dp(12)); list.setVerticalSpacing(dp(14)); list.setClipToPadding(false);
-        list.setPadding(dp(18), 0, dp(18), dp(108)); list.setSelector(android.R.color.transparent);
+        int bottomReserve = compact && availableWidth >= 600 ? 76 : 108 + Math.round(Math.max(0f, getResources().getConfiguration().fontScale - 1.2f) * 24f);
+        list.setPadding(dp(18), 0, dp(18), dp(bottomReserve)); list.setSelector(android.R.color.transparent);
         presetGridKey = (localTab ? "local:" : "online:") + selected;
         adapter = new PresetAdapter(); list.setAdapter(adapter);
         list.setOnScrollListener(new android.widget.AbsListView.OnScrollListener() {
@@ -799,11 +837,11 @@ public final class MainActivity extends Activity {
     private void addPresetCategoryChip(LinearLayout parent, String category, String selected) {
         String label = PresetCategories.ALL.equals(category) ? category : PresetCategories.label(category);
         boolean active = category.equals(selected);
-        TextView chip = text(label, 13, active); chip.setGravity(Gravity.CENTER); chip.setMinHeight(dp(44));
+        TextView chip = text(label, 13, active); chip.setGravity(Gravity.CENTER); chip.setMinHeight(dp(48));
         chip.setMaxWidth(dp(230)); chip.setSingleLine(true); chip.setEllipsize(TextUtils.TruncateAt.END);
         chip.setPadding(dp(14), dp(9), dp(14), dp(9));
-        chip.setTextColor(active ? colors.primary : colors.secondary);
-        chip.setBackground(ripple(active ? colors.primaryContainer : colors.surface));
+        chip.setTextColor(active ? colors.onPrimaryContainer : colors.text);
+        chip.setBackground(new RippleDrawable(ColorStateList.valueOf(colors.primaryContainer), shape(active ? colors.primaryContainer : colors.container, 24), null));
         chip.setSelected(active); chip.setFocusable(true); chip.setContentDescription("预设分类：" + label);
         chip.setOnClickListener(v -> selectPresetCategory(category));
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-2, -2); params.rightMargin = dp(4); parent.addView(chip, params);
@@ -1284,12 +1322,12 @@ public final class MainActivity extends Activity {
 
     private void renderSettings() {
         ScrollView scroll = new ScrollView(this); scroll.setFillViewport(true); scroll.setClipToPadding(false);
-        LinearLayout content = vertical(); content.setPadding(dp(22), 0, dp(22), dp(112)); scroll.addView(content);
+        LinearLayout content = vertical(); content.setPadding(dp(20), 0, dp(20), dp(96)); scroll.addView(content);
         body.addView(scroll, new LinearLayout.LayoutParams(-1, -1));
-        TextView intro = text("相机连接与应用偏好", 12, false); intro.setTextColor(colors.secondary); intro.setPadding(0, 0, 0, dp(22)); content.addView(intro);
+        TextView intro = text("相机连接与应用偏好", 12, false); intro.setTextColor(colors.secondary); intro.setPadding(0, 0, 0, dp(18)); content.addView(intro);
         boolean connected = currentConnectionReady(false);
         boolean wireless = album.hasCameraConnection() || hasPreparedWireless();
-        LinearLayout camera = vertical(); camera.setPadding(dp(18), dp(18), dp(18), dp(8)); camera.setBackground(shape(colors.card, 26));
+        LinearLayout camera = vertical(); camera.setPadding(dp(18), dp(18), dp(18), dp(8)); HueTheme.card(camera,colors,22);
         LinearLayout identity = horizontal();
         ImageView glyph = new ImageView(this); glyph.setImageDrawable(new AppIcon(AppIcon.Kind.CAMERA, colors.secondary, getResources().getDisplayMetrics().density));
         glyph.setPadding(dp(10), dp(10), dp(10), dp(10)); glyph.setBackground(shape(colors.surface, 15)); identity.addView(glyph, new LinearLayout.LayoutParams(dp(46), dp(46)));
@@ -1409,13 +1447,13 @@ public final class MainActivity extends Activity {
     }
 
     private LinearLayout settingsGroup(LinearLayout parent) {
-        LinearLayout group = vertical(); group.setBackground(shape(colors.card, 22)); group.setClipToOutline(true); parent.addView(group, new LinearLayout.LayoutParams(-1, -2)); return group;
+        LinearLayout group = vertical(); HueTheme.card(group,colors,22); parent.addView(group, new LinearLayout.LayoutParams(-1, -2)); return group;
     }
 
     private LinearLayout settingsRow(LinearLayout parent, AppIcon.Kind kind, String title, String subtitle, String value, Runnable action) {
         if (parent.getChildCount() > 0) { View line = new View(this); line.setBackgroundColor(colors.outline); LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(-1, dp(1)); p.leftMargin = dp(58); parent.addView(line, p); }
         LinearLayout row = horizontal(); row.setPadding(dp(14), dp(11), dp(14), dp(11)); row.setMinimumHeight(dp(66)); row.setBackground(ripple(colors.card)); row.setFocusable(true); row.setOnClickListener(v -> { if (!waitForCurrentTask()) action.run(); });
-        ImageView icon = new ImageView(this); icon.setImageDrawable(new AppIcon(kind, kind == AppIcon.Kind.WIFI ? colors.primary : colors.secondary, getResources().getDisplayMetrics().density)); icon.setPadding(dp(7), dp(7), dp(7), dp(7)); icon.setBackground(shape(kind == AppIcon.Kind.WIFI ? colors.primaryContainer : colors.surface, 10)); row.addView(icon, new LinearLayout.LayoutParams(dp(32), dp(32)));
+        ImageView icon = new ImageView(this); icon.setImageDrawable(new AppIcon(kind, colors.text, getResources().getDisplayMetrics().density)); icon.setPadding(dp(7), dp(7), dp(7), dp(7)); icon.setBackground(shape(colors.container, 10)); row.addView(icon, new LinearLayout.LayoutParams(dp(32), dp(32)));
         LinearLayout copy = vertical(); copy.setPadding(dp(11), 0, dp(8), 0); copy.addView(text(title, 14, false));
         if (!subtitle.isEmpty()) { TextView sub = text(subtitle, 11, false); sub.setTextColor(colors.secondary); sub.setPadding(0, dp(3), 0, 0); copy.addView(sub); } row.addView(copy, new LinearLayout.LayoutParams(0, -2, 1));
         if (!value.isEmpty()) { TextView trailing = text(value, 11, false); trailing.setTextColor(colors.secondary); row.addView(trailing); }
@@ -1561,10 +1599,11 @@ public final class MainActivity extends Activity {
             PresetRecord record = value instanceof PresetRecord ? (PresetRecord) value : item == null ? null : library.findBySha256(item.sha256);
             LinearLayout row = vertical(); row.setLayoutParams(new GridView.LayoutParams(-1, -2));
             String name = record == null ? item.name : record.displayName;
-            FrameLayout photo = preview(record, item, Math.round(presetCardWidth * 1.25f));
-            photo.setBackground(shape(colors.container, 16)); row.addView(photo);
-            LinearLayout caption = vertical(); caption.setPadding(dp(10), dp(10), dp(10), dp(4));
-            TextView nameView = text(name, 15, true); nameView.setMinLines(2); nameView.setMaxLines(2);
+            boolean compact=compactPresetHeight();
+            FrameLayout photo = preview(record, item, compact?80:Math.round(presetCardWidth * 1.10f));
+            photo.setBackground(shape(colors.container, 19)); row.addView(photo);
+            LinearLayout caption = vertical(); caption.setPadding(dp(12), dp(compact?6:10), dp(12), dp(2));
+            TextView nameView = text(name, compact?13:15, true); nameView.setMinLines(1); nameView.setMaxLines(compact?1:2);
             nameView.setEllipsize(TextUtils.TruncateAt.END); caption.addView(nameView);
             TextView format = text(record == null ? item.fileFormat : record.fileFormat, 11, true);
             format.setTextColor(colors.secondary); caption.addView(format);
@@ -1576,7 +1615,7 @@ public final class MainActivity extends Activity {
             if (item != null) meta.addView(presetDownloadControl(item, true), new LinearLayout.LayoutParams(dp(70), dp(48)));
             caption.addView(meta); row.addView(caption);
             row.setContentDescription(name + "，" + PresetCategories.label(presetCategory(value)) + "，" + (downloaded ? "已在本地" : "可下载") + "，查看预设");
-            row.setBackground(new RippleDrawable(ColorStateList.valueOf(colors.primaryContainer), shape(colors.card, 16), null));
+            HueTheme.card(row, colors, 20); row.setForeground(new RippleDrawable(ColorStateList.valueOf(colors.primaryContainer), null, shape(Color.WHITE,20)));
             row.setClipToOutline(true); row.setFocusable(true); row.setClickable(true);
             row.setOnClickListener(v -> openPreset(value, false));
             if (record != null) row.setOnLongClickListener(v -> { confirmDeletePreset(record); return true; });
@@ -1654,7 +1693,7 @@ public final class MainActivity extends Activity {
         footer.removeAllViews();
         if (remote != null && presetDownloads.isActive(remote.sha256)) { footer.addView(presetDownloadControl(remote, false)); return; }
         if (local != null && np3) {
-            footer.addView(button("前往相册", AppIcon.Kind.ALBUM, true, () -> switchRoot(1)));
+            footer.addView(button("前往相册", AppIcon.Kind.ALBUM, true, () -> switchRoot(3)));
             TextView note = label(footer, "选择照片后套用预设 · 手机近似效果", 13, colors.secondary); note.setGravity(Gravity.CENTER);
         } else if (local != null) {
             PresetRecord choice = local;
@@ -2851,8 +2890,22 @@ public final class MainActivity extends Activity {
             ImportSlot slot = plan.slots.get(i);
             choices[i] = slotLabel(slot.itemCode) + " · " + slot.name() + (slot.overwrite == null ? "" : "（已使用）");
         }
-        Spinner target = spinner(content, choices, plan.targetIndex); target.setEnabled(!busy);
-        target.setContentDescription("选择预设存储槽位");
+        LinearLayout slotGrid = vertical();
+        List<Button> slotViews = new ArrayList<>();
+        for (int i=0;i<plan.slots.size();i++) {
+            if(i%3==0) { LinearLayout line=horizontal(); line.setGravity(Gravity.TOP); slotGrid.addView(line,new LinearLayout.LayoutParams(-1,-2)); }
+            ImportSlot slot=plan.slots.get(i); Button slotButton=new Button(this);
+            slotButton.setAllCaps(false); slotButton.setTextSize(13); slotButton.setMinWidth(0); slotButton.setMinimumWidth(0);
+            slotButton.setMinHeight(dp(84)); slotButton.setMinimumHeight(dp(84)); slotButton.setPadding(dp(6),dp(10),dp(6),dp(10));
+            slotButton.setMaxLines(3); slotButton.setEllipsize(TextUtils.TruncateAt.END); slotButton.setStateListAnimator(null);
+            slotButton.setText(slotLabel(slot.itemCode)+"\n"+(slot.overwrite==null?"空槽位":slot.name()));
+            slotButton.setContentDescription(choices[i]);slotButton.setEnabled(!busy); slotViews.add(slotButton);
+            LinearLayout.LayoutParams cell=new LinearLayout.LayoutParams(0,-2,1);cell.setMargins(dp(3),dp(4),dp(3),dp(4));
+            ((LinearLayout)slotGrid.getChildAt(slotGrid.getChildCount()-1)).addView(slotButton,cell);
+        }
+        // Keep a partial final row aligned when a model reports fewer than nine slots.
+        if(!plan.slots.isEmpty()) { LinearLayout last=(LinearLayout)slotGrid.getChildAt(slotGrid.getChildCount()-1); while(last.getChildCount()<3)last.addView(new View(this),new LinearLayout.LayoutParams(0,1,1)); }
+        content.addView(slotGrid,new LinearLayout.LayoutParams(-1,-2));
         TextView slotNote = label(content, "", 12, colors.secondary);
         LinearLayout compatibility = vertical(); compatibility.setPadding(dp(14), dp(6), dp(14), dp(10)); compatibility.setBackground(shape(colors.container, 10));
         LinearLayout compatibilityTitle = horizontal(); TextView compatibilityName = text("兼容适配", 16, true); compatibilityTitle.addView(compatibilityName, new LinearLayout.LayoutParams(0, -2, 1));
@@ -2864,14 +2917,17 @@ public final class MainActivity extends Activity {
         Button confirm = button("", AppIcon.Kind.CAMERA, true, () -> confirmImport(plan));
         updateImportSlot(plan, slotNote, confirm);
         footer.addView(confirm); TextView footerNote = label(footer, "导入时保持连接，请勿在相机上更改槽位", 12, colors.secondary); footerNote.setGravity(Gravity.CENTER); body.addView(footer);
-        target.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (!busy && confirmation == plan && position >= 0 && position < plan.slots.size()) {
-                    plan.targetIndex = position; updateImportSlot(plan, slotNote, confirm);
-                }
+        Runnable updateSlots=()->{
+            for(int i=0;i<slotViews.size();i++) {
+                Button view=slotViews.get(i);boolean selected=i==plan.targetIndex;view.setSelected(selected);
+                GradientDrawable face=shape(selected?colors.primaryContainer:colors.card,16);
+                if(selected)face.setStroke(dp(2),colors.primary);
+                view.setBackground(new RippleDrawable(ColorStateList.valueOf(colors.primaryContainer),face,null));
+                view.setTextColor(selected?colors.onPrimaryContainer:colors.text);
             }
-            @Override public void onNothingSelected(AdapterView<?> parent) {}
-        });
+        };
+        for(int i=0;i<slotViews.size();i++){final int index=i;slotViews.get(i).setOnClickListener(v->{if(busy||confirmation!=plan)return;plan.targetIndex=index;updateImportSlot(plan,slotNote,confirm);updateSlots.run();});}
+        updateSlots.run();
     }
 
     private void updateImportSlot(PendingConfirmation plan, TextView note, Button confirm) {
@@ -2896,6 +2952,7 @@ public final class MainActivity extends Activity {
                 .setMessage("将「" + slot.name() + "」替换为「" + plan.preset.displayName + "」。\n\n原槽位内容将被覆盖。写入前会再次核对，若槽位内容已变化，本次导入会停止。")
                 .setNegativeButton("取消", null)
                 .setPositiveButton("确认覆盖 " + slotLabel(slot.itemCode), (d, w) -> write.run()).create();
+        dialog.setOnDismissListener(d -> restoreSystemBarAppearance());
         dialog.show();
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(colors.error);
     }
@@ -3209,6 +3266,24 @@ public final class MainActivity extends Activity {
         else super.onBackPressed();
     }
     @Override public void onBackPressed() { goBack(); }
+    @Override public void onWindowFocusChanged(boolean focused) {
+        super.onWindowFocusChanged(focused);
+        if(focused)restoreSystemBarAppearance();
+    }
+    private void restoreSystemBarAppearance(){
+        if(colors==null||destroyed||isFinishing())return;
+        View decor=getWindow().getDecorView();
+        Runnable restore=()->{
+            if(destroyed||isFinishing()||colors==null)return;
+            AlbumPanel viewer=activeAlbumPanel();boolean photo=viewer!=null&&viewer.isImmersive()&&!wirelessGuide;
+            boolean light=!photo&&!colors.dark;
+            int flags=decor.getSystemUiVisibility();
+            int legacy=View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR|View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+            decor.setSystemUiVisibility(light?flags|legacy:flags&~legacy);
+            if(Build.VERSION.SDK_INT>=30){android.view.WindowInsetsController controller=getWindow().getInsetsController();if(controller!=null){int mask=android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS|android.view.WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS;controller.setSystemBarsAppearance(light?mask:0,mask);}}
+        };
+        restore.run();decor.post(restore);
+    }
     @Override protected void onSaveInstanceState(Bundle out) {
         out.putString("localPresetCategory", localCategoryFilter);
         out.putString("onlinePresetCategory", onlineCategoryFilter);
@@ -3439,21 +3514,19 @@ public final class MainActivity extends Activity {
     }
     private Button button(String value, AppIcon.Kind kind, boolean primary, Runnable click) {
         Button button = new Button(this); button.setText(value); button.setTextSize(15); button.setAllCaps(false);
-        button.setGravity(Gravity.CENTER); button.setMinHeight(dp(52)); button.setMinimumWidth(0); button.setMinWidth(0); button.setTextColor(primary ? colors.onPrimary : colors.primary);
+        button.setGravity(Gravity.CENTER); button.setMinHeight(dp(52)); button.setMinimumWidth(0); button.setMinWidth(0); button.setTextColor(primary ? colors.onAction : colors.text);
         button.setTypeface(Typeface.create("sans-serif", primary ? Typeface.BOLD : Typeface.NORMAL)); button.setIncludeFontPadding(false);
         button.setStateListAnimator(null); button.setElevation(0); button.setTranslationZ(0);
-        GradientDrawable background = shape(primary ? colors.primary : colors.card, 26);
-        button.setBackgroundTintList(null); button.setBackground(new RippleDrawable(ColorStateList.valueOf(colors.primaryContainer), background, null));
+        HueTheme.styleAction(button,colors,primary);
         button.setPadding(dp(16), dp(10), dp(16), dp(10)); button.setCompoundDrawablePadding(dp(8));
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-1, -2); params.topMargin = dp(12); button.setLayoutParams(params);
         button.setAlpha(busy ? .5f : 1); button.setOnClickListener(v -> { if (!waitForCurrentTask()) click.run(); }); return button;
     }
     private Button compactButton(String value, AppIcon.Kind kind, boolean primary, Runnable click) {
         Button view = button(value, kind, primary, click); view.setTextSize(12); view.setMinHeight(dp(48)); view.setMinimumHeight(dp(48)); view.setMinWidth(dp(80)); view.setMinimumWidth(dp(80)); view.setPadding(dp(12), dp(8), dp(12), dp(8));
-        GradientDrawable background = shape(primary ? colors.primary : colors.surface, primary ? 7 : 24); if (!primary) background.setStroke(dp(1), colors.primary);
-        view.setBackground(new RippleDrawable(ColorStateList.valueOf(colors.primaryContainer), background, null));
+        HueTheme.styleAction(view,colors,primary);
         if (kind != null) {
-            AppIcon icon = new AppIcon(kind, primary ? colors.onPrimary : colors.primary, getResources().getDisplayMetrics().density);
+            AppIcon icon = new AppIcon(kind, primary ? colors.onAction : colors.text, getResources().getDisplayMetrics().density);
             icon.setBounds(0, 0, dp(18), dp(18)); view.setCompoundDrawablesRelative(icon, null, null, null); view.setCompoundDrawablePadding(dp(5));
         }
         return view;
@@ -3465,17 +3538,20 @@ public final class MainActivity extends Activity {
         button.setOnClickListener(v -> click.run()); return button;
     }
     private void nav(LinearLayout parent, String value, AppIcon.Kind kind, boolean active, Runnable click) {
-        LinearLayout cell = vertical(); cell.setGravity(Gravity.CENTER); cell.setPadding(dp(8), dp(7), dp(8), dp(7)); cell.setMinimumHeight(dp(58));
-        cell.setBackground(new RippleDrawable(ColorStateList.valueOf(colors.primaryContainer), shape(active ? colors.primaryContainer : Color.TRANSPARENT, 30), null)); cell.setAlpha(busy ? .5f : 1); cell.setFocusable(true); cell.setContentDescription(value); cell.setSelected(active);
-        ImageView icon = new ImageView(this); icon.setImageDrawable(new AppIcon(kind, active ? colors.primary : colors.secondary, getResources().getDisplayMetrics().density));
-        FrameLayout iconSlot = new FrameLayout(this); iconSlot.addView(icon, new FrameLayout.LayoutParams(dp(23), dp(23), Gravity.CENTER));
+        boolean bottomTab = parent.getOrientation() == LinearLayout.HORIZONTAL;
+        LinearLayout cell = vertical(); cell.setGravity(Gravity.CENTER); cell.setPadding(dp(8), dp(bottomTab ? 4 : 7), dp(8), dp(bottomTab ? 4 : 7)); cell.setMinimumHeight(dp(58));
+        GradientDrawable selection = shape(active && bottomTab ? colors.primaryContainer : Color.TRANSPARENT, bottomTab ? 29 : 20);
+        if (bottomTab) cell.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> selection.setCornerRadius((bottom - top) / 2f));
+        cell.setBackground(new RippleDrawable(ColorStateList.valueOf(colors.primaryContainer), selection, null)); cell.setAlpha(busy ? .5f : 1); cell.setFocusable(true); cell.setContentDescription(value); cell.setSelected(active);
+        ImageView icon = new ImageView(this); icon.setImageDrawable(new AppIcon(kind, active ? colors.text : colors.secondary, getResources().getDisplayMetrics().density));
+        FrameLayout iconSlot = new FrameLayout(this); if(active && !bottomTab) iconSlot.setBackground(shape(colors.primaryContainer,16)); iconSlot.addView(icon, new FrameLayout.LayoutParams(dp(23), dp(23), Gravity.CENTER));
         if (kind == AppIcon.Kind.SETTINGS) {
             settingsNavigationItem = cell; settingsUnreadDot = new View(this); settingsUnreadDot.setBackground(shape(colors.error, 4));
             settingsUnreadDot.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
             iconSlot.addView(settingsUnreadDot, new FrameLayout.LayoutParams(dp(8), dp(8), Gravity.TOP | Gravity.END));
         }
-        cell.addView(iconSlot, new LinearLayout.LayoutParams(dp(34), dp(23))); TextView label = text(value, 10, active); label.setGravity(Gravity.CENTER); label.setTextColor(active ? colors.primary : colors.secondary); label.setPadding(0, dp(3), 0, 0); cell.addView(label, new LinearLayout.LayoutParams(-1, -2));
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, -2, 1); params.leftMargin = dp(1); params.rightMargin = dp(1); parent.addView(cell, params);
+        cell.addView(iconSlot, new LinearLayout.LayoutParams(dp(54), dp(bottomTab ? 26 : 30))); TextView label = text(value, 11, active); label.setGravity(Gravity.CENTER); label.setTextColor(active ? colors.text : colors.secondary); label.setPadding(0, dp(bottomTab ? 2 : 3), 0, 0); cell.addView(label, new LinearLayout.LayoutParams(-1, -2));
+        LinearLayout.LayoutParams params = bottomTab ? new LinearLayout.LayoutParams(0,-1,1) : new LinearLayout.LayoutParams(-1,dp(72)); params.leftMargin = dp(bottomTab ? 0 : 1); params.rightMargin = dp(bottomTab ? 0 : 1); parent.addView(cell, params);
         cell.setOnClickListener(v -> { if (!waitForCurrentTask()) click.run(); });
     }
     private void refreshMessageBadges() {
@@ -3491,7 +3567,7 @@ public final class MainActivity extends Activity {
     private void sourceTab(LinearLayout parent, String value, boolean active, Runnable click) {
         FrameLayout cell = new FrameLayout(this); TextView tab = text(value, 13, active); tab.setGravity(Gravity.CENTER); tab.setTextColor(active ? colors.text : colors.secondary);
         if (active) { tab.setBackground(shape(colors.card, 19)); tab.setElevation(dp(1)); }
-        FrameLayout.LayoutParams capsule = new FrameLayout.LayoutParams(-1, dp(34), Gravity.CENTER); capsule.leftMargin = capsule.rightMargin = dp(2); cell.addView(tab, capsule);
+        FrameLayout.LayoutParams capsule = new FrameLayout.LayoutParams(-1, dp(40), Gravity.CENTER); capsule.leftMargin = capsule.rightMargin = dp(2); cell.addView(tab, capsule);
         cell.setFocusable(true); cell.setSelected(active); cell.setContentDescription(value); cell.setOnClickListener(v -> { if (!waitForCurrentTask()) click.run(); });
         parent.addView(cell, new LinearLayout.LayoutParams(0, dp(48), 1));
     }

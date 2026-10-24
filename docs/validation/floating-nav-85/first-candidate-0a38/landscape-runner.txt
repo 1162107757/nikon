@@ -1,0 +1,6 @@
+All files should be loaded. Notifying the device.
+INSTRUMENTATION_RESULT: status=FAIL
+INSTRUMENTATION_RESULT: stream=Photo editor native FAIL; native-screenshot-orientation-failure; java.lang.IllegalStateException: local-action-entire-touch-target-visible-above-navigation-central-authorization
+
+INSTRUMENTATION_CODE: 0
+/sdcard/Android/data/cc.huevia/files/orange-ui-85/local-album/landscape/./: 4 files pulled, 0 skipped. 9.1 MB/s (371065 bytes in 0.039s)

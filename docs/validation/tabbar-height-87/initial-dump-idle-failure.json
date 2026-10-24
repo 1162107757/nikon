@@ -1,0 +1,101 @@
+{
+  "versionCode": 87,
+  "versionName": "0.17.3-beta",
+  "apkSha256": "9b9b79dd74f559991379ff5227122dcd61d09867f4433f33f7d363c9cdfc0f32",
+  "apkBytes": 3532397,
+  "scope": "Native UI navigation/geometry captures only; no full gallery/protocol regression repeated",
+  "priorSettings": {
+    "font_scale": "1.0",
+    "accelerometer_rotation": "1",
+    "user_rotation": "0"
+  },
+  "priorNightMode": "no",
+  "modes": [
+    {
+      "mode": "phone",
+      "fontScaleObserved": "1.0",
+      "states": [
+        {
+          "root": "预设",
+          "barBounds": [
+            67,
+            2145,
+            1012,
+            2324
+          ],
+          "barHeightPx": 179,
+          "expectedBarHeightDp": 68,
+          "navigation": {
+            "预设": {
+              "target": [
+                102,
+                2158,
+                316,
+                2310
+              ],
+              "label": [
+                123,
+                2245,
+                295,
+                2290
+              ],
+              "selected": "true"
+            },
+            "同步": {
+              "target": [
+                322,
+                2158,
+                536,
+                2310
+              ],
+              "label": [
+                343,
+                2245,
+                515,
+                2290
+              ],
+              "selected": "false"
+            },
+            "相册": {
+              "target": [
+                542,
+                2158,
+                756,
+                2310
+              ],
+              "label": [
+                563,
+                2245,
+                735,
+                2290
+              ],
+              "selected": "false"
+            },
+            "设置": {
+              "target": [
+                762,
+                2158,
+                977,
+                2310
+              ],
+              "label": [
+                783,
+                2245,
+                956,
+                2290
+              ],
+              "selected": "false"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "installReply": "Performing Streamed Install\nSuccess",
+  "restoredSettings": {
+    "font_scale": "1.0",
+    "accelerometer_rotation": "1",
+    "user_rotation": "0"
+  },
+  "nightModeRestored": "Night mode: no"
+}

@@ -1,0 +1,12 @@
+{
+  "serial": "emulator-5586",
+  "hardware": "ranchu",
+  "ownedProcessId": 39908,
+  "avd": "Pixel_9",
+  "portVerified": true,
+  "closeRequested": true,
+  "backendProbeUninstalled": true,
+  "physicalDeviceOperated": false,
+  "closedAtUtc": "2026-10-24T04:31:55.9180111Z",
+  "shutdownVerified": true
+}

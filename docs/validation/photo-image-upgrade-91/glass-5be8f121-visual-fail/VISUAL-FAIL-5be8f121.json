@@ -1,0 +1,20 @@
+{
+  "candidateApkSha256": "5be8f1212605cd1d49399c0b15c11ef9b80dcf9dd7dcf5fd7ce610d360922f0f",
+  "nativeChecks": {
+    "phone": 141,
+    "font1.3": 141
+  },
+  "nativeStatus": "PASS for two completed configurations only",
+  "visualStatus": "FAIL",
+  "finding": "Histogram luminance/RGB/shadow/highlight labels are visibly vertically clipped in both phone and font1.3 raw native hero-editor-expanded.png, although full View widths are visible. Detail metric upper-right and compact zoom palette are acceptable.",
+  "pausedModes": [
+    "dark",
+    "landscape"
+  ],
+  "restoration": "phone/font1.3 system font, rotation, night mode, app appearance and permission grants restored PASS; exact own JPEG/draft fixtures removed",
+  "images": [
+    "phone/hero-editor-expanded.png",
+    "font1.3/hero-editor-expanded.png"
+  ],
+  "followup": "Production owner notified; no production source changed by this verification agent. Strengthened probe compiled but not executed."
+}

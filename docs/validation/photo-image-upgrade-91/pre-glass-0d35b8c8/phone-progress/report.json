@@ -1,0 +1,120 @@
+{
+  "mode": "phone",
+  "apkSha256": "0d35b8c8d6367c1a62078a264183ca41bd24bc357ebd22ee8dcb08f83870bb31",
+  "versionCode": "91",
+  "scope": "Production native editor\/detail\/histogram\/export controls on isolated emulator; own JPEG\/draft fixtures only; no camera, physical-phone or new MediaStore publication.",
+  "fontScale": 1,
+  "density": 2.625,
+  "orientation": 1,
+  "nightMask": 16,
+  "status": "PASS",
+  "checks": 23,
+  "assertions": [
+    {
+      "name": "emulator-hardware-only",
+      "passed": true
+    },
+    {
+      "name": "exact-candidate-APK-bytes",
+      "passed": true
+    },
+    {
+      "name": "candidate-version",
+      "passed": true
+    },
+    {
+      "name": "main-activity-ready",
+      "passed": true
+    },
+    {
+      "name": "requested-native-orientation",
+      "passed": true
+    },
+    {
+      "name": "actual-font-scale",
+      "passed": true
+    },
+    {
+      "name": "actual-system-night-mode",
+      "passed": true
+    },
+    {
+      "name": "progress-owned-isolated-context-created",
+      "passed": true
+    },
+    {
+      "name": "progress-owned-album-created",
+      "passed": true
+    },
+    {
+      "name": "actual-second-job-account-check-gated-on-worker",
+      "passed": true
+    },
+    {
+      "name": "progress-rows-come-from-real-completed-processing-waiting-ledger",
+      "passed": true
+    },
+    {
+      "name": "processing-progress-counts-only-completed-one-of-three",
+      "passed": true
+    },
+    {
+      "name": "progress-white-system-icons",
+      "passed": true
+    },
+    {
+      "name": "progress-status-bar-has-opaque-graphite-backdrop",
+      "passed": true
+    },
+    {
+      "name": "progress-stop-requests-safe-cancellation",
+      "passed": true
+    },
+    {
+      "name": "stopped-isolated-batch-completes-safely",
+      "passed": true
+    },
+    {
+      "name": "progress-stop-retains-completed-file",
+      "passed": true
+    },
+    {
+      "name": "progress-stop-original-input-preserved:progress-1.JPG",
+      "passed": true
+    },
+    {
+      "name": "progress-stop-original-input-preserved:progress-2.JPG",
+      "passed": true
+    },
+    {
+      "name": "progress-stop-original-input-preserved:progress-3.JPG",
+      "passed": true
+    },
+    {
+      "name": "real-cancellation-leaves-one-completed-and-two-stopped",
+      "passed": true
+    },
+    {
+      "name": "cancelled-progress-not-misreported-as-one-hundred-percent",
+      "passed": true
+    },
+    {
+      "name": "progress-entire-private-scratch-cleaned",
+      "passed": true
+    }
+  ],
+  "cleanup": [
+    {
+      "progressScratch": "\/data\/user\/0\/cc.huevia\/cache\/image-upgrade-progress-e8eeb882-7725-404d-b700-33133919661c",
+      "absent": true
+    },
+    {
+      "fixture": "\/storage\/emulated\/0\/Android\/data\/cc.huevia\/files\/Pictures\/camera-album\/image-upgrade-qa-d28aafd8-6de6-4311-b8d8-2f97aa9114ed__PHOTO.JPG",
+      "shaBeforeDelete": "3d1e054c2217fec80e76c095a1b8be3978f5068b162a70cbaeff9977b55d16e6",
+      "unchanged": true,
+      "absent": true
+    }
+  ],
+  "appearanceRestored": true,
+  "osGuideDismissals": []
+}

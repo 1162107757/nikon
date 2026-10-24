@@ -1,0 +1,1342 @@
+{
+  "version": "0.17.1-beta",
+  "versionCode": 85,
+  "apkSha256": "f9e193d0fdae1603e57ed933b1656e316216effbce930d8f24f9cbf2bb8dce48",
+  "scope": "Four-root navigation and local album on isolated emulator. Real runtime permission grant\/revoke before launch, native MediaStore JPEG\/PNG query, unchanged-source reuse, exact private import, incumbent editor, 13 adjustments, crop, recipe reuse, actual batch filter draft action and durable destination export. A hand-authored structural NEF fixture exercises the real offline RAW panel, exact-byte publisher and frozen retry target. Synthetic images\/recipes and structural RAW fixture only; no physical camera, captured sensor data, live production catalog, FPS or TalkBack certification.",
+  "mode": "large-font",
+  "fontScale": 1.2999999523162842,
+  "orientation": 1,
+  "displayWidthPixels": 1080,
+  "displayHeightPixels": 2424,
+  "density": 2.625,
+  "screenWidthDp": 411,
+  "screenHeightDp": 923,
+  "windowWidthPixels": 1080,
+  "windowHeightPixels": 2424,
+  "fixtureCatalogSha256": "27ea2a2ce402d971ff0e4325f9edb9395ec17220593130f5c0b8bd2f2c802d16",
+  "fixtureCatalogEntries": 23,
+  "fixtureRecipes": "Two existing NP3 research sources and hand-authored NCP fixtures already used by the local editor probe; no product download state is fabricated.",
+  "notificationPermissionSetup": "POST_NOTIFICATIONS pregranted only to isolate the dedicated emulator run; notification permission UX is outside this scope. Media permission grant\/revoke checks remain active.",
+  "localViewportLayouts": {
+    "app": {
+      "uncoveredListBounds": [
+        0,
+        542,
+        1080,
+        2119
+      ],
+      "rows": [
+        {
+          "listPosition": 1,
+          "tiles": [
+            {
+              "filename": "QA_ALPHA_471fa893_PNG白底_HOST_NCP___100____调节_13_项.JPG",
+              "image": [
+                40,
+                688,
+                362,
+                1010
+              ],
+              "filenameBounds": [
+                40,
+                1010,
+                362,
+                1093
+              ],
+              "fullyVisibleAboveNavigation": true
+            },
+            {
+              "filename": "QA_ALPHA_2a4d6631_PNG白底_HOST_NCP___100____调节_13_项.JPG",
+              "image": [
+                378,
+                688,
+                701,
+                1011
+              ],
+              "filenameBounds": [
+                378,
+                1011,
+                701,
+                1094
+              ],
+              "fullyVisibleAboveNavigation": true
+            },
+            {
+              "filename": "QA_ALPHA_828a9161_PNG白底_HOST_NCP___100____调节_13_项.JPG",
+              "image": [
+                717,
+                688,
+                1040,
+                1011
+              ],
+              "filenameBounds": [
+                717,
+                1011,
+                1040,
+                1094
+              ],
+              "fullyVisibleAboveNavigation": true
+            }
+          ]
+        },
+        {
+          "listPosition": 3,
+          "tiles": [
+            {
+              "filename": "B.JPG",
+              "image": [
+                40,
+                1387,
+                362,
+                1709
+              ],
+              "filenameBounds": [
+                40,
+                1709,
+                362,
+                1792
+              ],
+              "fullyVisibleAboveNavigation": true
+            },
+            {
+              "filename": "B.JPG",
+              "image": [
+                378,
+                1387,
+                701,
+                1710
+              ],
+              "filenameBounds": [
+                378,
+                1710,
+                701,
+                1793
+              ],
+              "fullyVisibleAboveNavigation": true
+            },
+            {
+              "filename": "B.JPG",
+              "image": [
+                717,
+                1387,
+                1040,
+                1710
+              ],
+              "filenameBounds": [
+                717,
+                1710,
+                1040,
+                1793
+              ],
+              "fullyVisibleAboveNavigation": true
+            }
+          ]
+        },
+        {
+          "listPosition": 4,
+          "tiles": [
+            {
+              "filename": "A.JPG",
+              "image": [
+                40,
+                1814,
+                362,
+                2136
+              ],
+              "filenameBounds": [
+                40,
+                2136,
+                362,
+                2219
+              ],
+              "fullyVisibleAboveNavigation": false
+            },
+            {
+              "filename": "QA_LOCAL_471fa893_HOST_NCP___100____调节_1_项___已构图.JPG",
+              "image": [
+                378,
+                1814,
+                701,
+                2137
+              ],
+              "filenameBounds": [
+                378,
+                2137,
+                701,
+                2220
+              ],
+              "fullyVisibleAboveNavigation": false
+            },
+            {
+              "filename": "B.JPG",
+              "image": [
+                717,
+                1814,
+                1040,
+                2137
+              ],
+              "filenameBounds": [
+                717,
+                2137,
+                1040,
+                2220
+              ],
+              "fullyVisibleAboveNavigation": false
+            }
+          ]
+        }
+      ]
+    },
+    "phone-authorized": {
+      "uncoveredListBounds": [
+        0,
+        542,
+        1080,
+        2119
+      ],
+      "rows": [
+        {
+          "listPosition": 1,
+          "tiles": [
+            {
+              "filename": "QA_ALPHA_99dd4485.png",
+              "image": [
+                40,
+                688,
+                362,
+                1010
+              ],
+              "filenameBounds": [
+                40,
+                1010,
+                362,
+                1093
+              ],
+              "fullyVisibleAboveNavigation": true
+            },
+            {
+              "filename": "QA_LOCAL_99dd4485.jpg",
+              "image": [
+                378,
+                688,
+                701,
+                1011
+              ],
+              "filenameBounds": [
+                378,
+                1011,
+                701,
+                1094
+              ],
+              "fullyVisibleAboveNavigation": true
+            },
+            {
+              "filename": "Huevia_已构图_8c9427c46bef.jpg",
+              "image": [
+                717,
+                688,
+                1040,
+                1011
+              ],
+              "filenameBounds": [
+                717,
+                1011,
+                1040,
+                1096
+              ],
+              "fullyVisibleAboveNavigation": true
+            }
+          ]
+        },
+        {
+          "listPosition": 2,
+          "tiles": [
+            {
+              "filename": "Huevia_调节_13_项_0ec2782d9799.jpg",
+              "image": [
+                40,
+                1117,
+                362,
+                1439
+              ],
+              "filenameBounds": [
+                40,
+                1439,
+                362,
+                1524
+              ],
+              "fullyVisibleAboveNavigation": true
+            },
+            {
+              "filename": "Huevia_已构图_dea6c2001277.jpg",
+              "image": [
+                378,
+                1117,
+                701,
+                1440
+              ],
+              "filenameBounds": [
+                378,
+                1440,
+                701,
+                1525
+              ],
+              "fullyVisibleAboveNavigation": true
+            },
+            {
+              "filename": "QA_ALPHA_471fa893.png",
+              "image": [
+                717,
+                1117,
+                1040,
+                1440
+              ],
+              "filenameBounds": [
+                717,
+                1440,
+                1040,
+                1523
+              ],
+              "fullyVisibleAboveNavigation": true
+            }
+          ]
+        },
+        {
+          "listPosition": 3,
+          "tiles": [
+            {
+              "filename": "QA_LOCAL_471fa893.jpg",
+              "image": [
+                40,
+                1546,
+                362,
+                1868
+              ],
+              "filenameBounds": [
+                40,
+                1868,
+                362,
+                1951
+              ],
+              "fullyVisibleAboveNavigation": true
+            },
+            {
+              "filename": "Huevia_已构图_eb322f50bee5.jpg",
+              "image": [
+                378,
+                1546,
+                701,
+                1869
+              ],
+              "filenameBounds": [
+                378,
+                1869,
+                701,
+                1954
+              ],
+              "fullyVisibleAboveNavigation": true
+            },
+            {
+              "filename": "Huevia_调节_13_项_e5a82f979e1b.jpg",
+              "image": [
+                717,
+                1546,
+                1040,
+                1869
+              ],
+              "filenameBounds": [
+                717,
+                1869,
+                1040,
+                1954
+              ],
+              "fullyVisibleAboveNavigation": true
+            }
+          ]
+        },
+        {
+          "listPosition": 4,
+          "tiles": [
+            {
+              "filename": "Huevia_已构图_92f6aa87d86e.jpg",
+              "image": [
+                40,
+                1975,
+                362,
+                2297
+              ],
+              "filenameBounds": [
+                40,
+                2297,
+                362,
+                2382
+              ],
+              "fullyVisibleAboveNavigation": false
+            },
+            {
+              "filename": "QA_ALPHA_2a4d6631.png",
+              "image": [
+                378,
+                1975,
+                701,
+                2298
+              ],
+              "filenameBounds": [
+                378,
+                2298,
+                701,
+                2381
+              ],
+              "fullyVisibleAboveNavigation": false
+            },
+            {
+              "filename": "QA_LOCAL_2a4d6631.jpg",
+              "image": [
+                717,
+                1975,
+                1040,
+                2298
+              ],
+              "filenameBounds": [
+                717,
+                2298,
+                1040,
+                2381
+              ],
+              "fullyVisibleAboveNavigation": false
+            }
+          ]
+        }
+      ]
+    },
+    "app-only-results": {
+      "uncoveredListBounds": [
+        0,
+        542,
+        1080,
+        2119
+      ],
+      "rows": [
+        {
+          "listPosition": 1,
+          "tiles": [
+            {
+              "filename": "QA_ALPHA_99dd4485_PNG白底_HOST_NCP___100____调节_13_项.JPG",
+              "image": [
+                40,
+                688,
+                362,
+                1010
+              ],
+              "filenameBounds": [
+                40,
+                1010,
+                362,
+                1093
+              ],
+              "fullyVisibleAboveNavigation": true
+            },
+            {
+              "filename": "QA_ALPHA_471fa893_PNG白底_HOST_NCP___100____调节_13_项.JPG",
+              "image": [
+                378,
+                688,
+                701,
+                1011
+              ],
+              "filenameBounds": [
+                378,
+                1011,
+                701,
+                1094
+              ],
+              "fullyVisibleAboveNavigation": true
+            },
+            {
+              "filename": "QA_ALPHA_2a4d6631_PNG白底_HOST_NCP___100____调节_13_项.JPG",
+              "image": [
+                717,
+                688,
+                1040,
+                1011
+              ],
+              "filenameBounds": [
+                717,
+                1011,
+                1040,
+                1094
+              ],
+              "fullyVisibleAboveNavigation": true
+            }
+          ]
+        },
+        {
+          "listPosition": 2,
+          "tiles": [
+            {
+              "filename": "QA_ALPHA_828a9161_PNG白底_HOST_NCP___100____调节_13_项.JPG",
+              "image": [
+                40,
+                1241,
+                362,
+                1563
+              ],
+              "filenameBounds": [
+                40,
+                1563,
+                362,
+                1646
+              ],
+              "fullyVisibleAboveNavigation": true
+            }
+          ]
+        },
+        {
+          "listPosition": 4,
+          "tiles": [
+            {
+              "filename": "B.JPG",
+              "image": [
+                40,
+                1939,
+                362,
+                2261
+              ],
+              "filenameBounds": [
+                40,
+                2261,
+                362,
+                2344
+              ],
+              "fullyVisibleAboveNavigation": false
+            },
+            {
+              "filename": "B.JPG",
+              "image": [
+                378,
+                1939,
+                701,
+                2262
+              ],
+              "filenameBounds": [
+                378,
+                2262,
+                701,
+                2345
+              ],
+              "fullyVisibleAboveNavigation": false
+            },
+            {
+              "filename": "B.JPG",
+              "image": [
+                717,
+                1939,
+                1040,
+                2262
+              ],
+              "filenameBounds": [
+                717,
+                2262,
+                1040,
+                2345
+              ],
+              "fullyVisibleAboveNavigation": false
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "localActionLayouts": {
+    "picker-app": {
+      "description": "选择照片",
+      "bounds": [
+        901,
+        1904,
+        1048,
+        2051
+      ],
+      "uncoveredBounds": [
+        0,
+        310,
+        1080,
+        2119
+      ]
+    },
+    "overflow-app": {
+      "description": "相册更多操作",
+      "bounds": [
+        933,
+        321,
+        1059,
+        447
+      ],
+      "uncoveredBounds": [
+        0,
+        310,
+        1080,
+        2119
+      ]
+    },
+    "central-authorization": {
+      "bounds": [
+        361,
+        1482,
+        719,
+        1608
+      ],
+      "uncoveredBounds": [
+        0,
+        310,
+        1080,
+        2119
+      ]
+    },
+    "picker-denied": {
+      "description": "选择照片",
+      "bounds": [
+        901,
+        1904,
+        1048,
+        2051
+      ],
+      "uncoveredBounds": [
+        0,
+        310,
+        1080,
+        2119
+      ]
+    }
+  },
+  "screenshots": {
+    "local-app": {
+      "width": 1080,
+      "height": 2424,
+      "orientation": 1,
+      "fontScale": 1.2999999523162842
+    },
+    "local-denied": {
+      "width": 1080,
+      "height": 2424,
+      "orientation": 1,
+      "fontScale": 1.2999999523162842
+    },
+    "phone-authorized": {
+      "width": 1080,
+      "height": 2424,
+      "orientation": 1,
+      "fontScale": 1.2999999523162842
+    },
+    "editor-jpeg": {
+      "width": 1080,
+      "height": 2424,
+      "orientation": 1,
+      "fontScale": 1.2999999523162842
+    },
+    "editor-png-adjustments": {
+      "width": 1080,
+      "height": 2424,
+      "orientation": 1,
+      "fontScale": 1.2999999523162842
+    },
+    "destination-sheet": {
+      "width": 1080,
+      "height": 2424,
+      "orientation": 1,
+      "fontScale": 1.2999999523162842
+    },
+    "app-only-results": {
+      "width": 1080,
+      "height": 2424,
+      "orientation": 1,
+      "fontScale": 1.2999999523162842
+    },
+    "presets": {
+      "width": 1080,
+      "height": 2424,
+      "orientation": 1,
+      "fontScale": 1.2999999523162842
+    },
+    "preset-detail": {
+      "width": 1080,
+      "height": 2424,
+      "orientation": 1,
+      "fontScale": 1.2999999523162842
+    },
+    "import-slots": {
+      "width": 1080,
+      "height": 2424,
+      "orientation": 1,
+      "fontScale": 1.2999999523162842
+    },
+    "album": {
+      "width": 1080,
+      "height": 2424,
+      "orientation": 1,
+      "fontScale": 1.2999999523162842
+    },
+    "sync": {
+      "width": 1080,
+      "height": 2424,
+      "orientation": 1,
+      "fontScale": 1.2999999523162842
+    },
+    "downloaded": {
+      "width": 1080,
+      "height": 2424,
+      "orientation": 1,
+      "fontScale": 1.2999999523162842
+    },
+    "live": {
+      "width": 1080,
+      "height": 2424,
+      "orientation": 1,
+      "fontScale": 1.2999999523162842
+    },
+    "settings": {
+      "width": 1080,
+      "height": 2424,
+      "orientation": 1,
+      "fontScale": 1.2999999523162842
+    },
+    "wifi": {
+      "width": 1080,
+      "height": 2424,
+      "orientation": 1,
+      "fontScale": 1.2999999523162842
+    },
+    "account": {
+      "width": 1080,
+      "height": 2424,
+      "orientation": 1,
+      "fontScale": 1.2999999523162842
+    },
+    "updates": {
+      "width": 1080,
+      "height": 2424,
+      "orientation": 1,
+      "fontScale": 1.2999999523162842
+    },
+    "editor": {
+      "width": 1080,
+      "height": 2424,
+      "orientation": 1,
+      "fontScale": 1.2999999523162842
+    },
+    "editor-adjustments": {
+      "width": 1080,
+      "height": 2424,
+      "orientation": 1,
+      "fontScale": 1.2999999523162842
+    },
+    "crop": {
+      "width": 1080,
+      "height": 2424,
+      "orientation": 1,
+      "fontScale": 1.2999999523162842
+    }
+  },
+  "localGuidanceLayouts": {
+    "denied-title": {
+      "text": "选择你想编辑的照片",
+      "bounds": [
+        84,
+        1121,
+        996,
+        1284
+      ],
+      "uncoveredBounds": [
+        0,
+        310,
+        1080,
+        2119
+      ]
+    },
+    "denied-guidance": {
+      "text": "授权后即可浏览手机照片。\n也可点击 + 只选择要编辑的照片。",
+      "bounds": [
+        84,
+        1284,
+        996,
+        1440
+      ],
+      "uncoveredBounds": [
+        0,
+        310,
+        1080,
+        2119
+      ]
+    }
+  },
+  "localPlatformActions": {
+    "boundary": "Actual native View clicks reached framework start-activity dispatch; ActivityMonitor returned RESULT_CANCELED. External document-picker and permission-controller rendering\/text are not certified.",
+    "permissionAction": "android.content.pm.action.REQUEST_PERMISSIONS",
+    "permissionNames": [
+      "android.permission.READ_MEDIA_IMAGES",
+      "android.permission.READ_MEDIA_VISUAL_USER_SELECTED"
+    ],
+    "pickerAction": "android.intent.action.OPEN_DOCUMENT",
+    "pickerMime": "image\/*",
+    "pickerMimeTypes": [
+      "image\/jpeg",
+      "image\/png"
+    ],
+    "cancelledWithoutImport": true
+  },
+  "mediaFixtures": {
+    "jpegUri": "content:\/\/media\/external_primary\/images\/media\/57",
+    "jpegSha256": "f3f8bd49b74a917c6de1ce4842ac5b78993762f91b2aee1c897b3a88c738f6ca",
+    "pngUri": "content:\/\/media\/external_primary\/images\/media\/58",
+    "pngSha256": "cab0c50c17781198a56d6719dc4d88e40e26b58ccb79efcc9ce88fb0c4ccc237"
+  },
+  "neutralImportedOrigin": {
+    "expectedSourceUri": "content:\/\/media\/external_primary\/images\/media\/57",
+    "providedContextPackage": "cc.huevia",
+    "providedContextFilesDir": "\/data\/data\/cc.huevia\/files",
+    "applicationContextPackage": "cc.huevia",
+    "applicationContextFilesDir": "\/data\/data\/cc.huevia\/files",
+    "privateAbsolutePath": "\/data\/user\/0\/cc.huevia\/files\/pictures\/camera-album\/phone-bbae0a2c0bed6bd28ebc13800cec9fc496062beae0fa16f6e5dfcd47bf6cc5df-f3f8bd49b74a917c6de1ce4842ac5b78993762f91b2aee1c897b3a88c738f6ca__QA_LOCAL_99dd4485.jpg",
+    "privatePath": "\/data\/data\/cc.huevia\/files\/pictures\/camera-album\/phone-bbae0a2c0bed6bd28ebc13800cec9fc496062beae0fa16f6e5dfcd47bf6cc5df-f3f8bd49b74a917c6de1ce4842ac5b78993762f91b2aee1c897b3a88c738f6ca__QA_LOCAL_99dd4485.jpg",
+    "privateFilename": "phone-bbae0a2c0bed6bd28ebc13800cec9fc496062beae0fa16f6e5dfcd47bf6cc5df-f3f8bd49b74a917c6de1ce4842ac5b78993762f91b2aee1c897b3a88c738f6ca__QA_LOCAL_99dd4485.jpg",
+    "privateBytes": 613734,
+    "privateModified": 1792800737000,
+    "privateSha256": "f3f8bd49b74a917c6de1ce4842ac5b78993762f91b2aee1c897b3a88c738f6ca",
+    "originState": "EXISTING_SOURCE",
+    "originUri": "content:\/\/media\/external\/images\/media\/57",
+    "originMessage": "原照片仍在手机相册，未新增副本。",
+    "publicationStatus": "EXISTING_SOURCE",
+    "publicationUri": "content:\/\/media\/external\/images\/media\/57",
+    "publicationMessage": "原照片仍在手机相册，未新增副本。",
+    "exactStatus": "MISSING",
+    "exactUri": "",
+    "exactMessage": "",
+    "sourceRecord": {
+      "path": "\/data\/data\/cc.huevia\/files\/local-photo-sources\/phone-bbae0a2c0bed6bd28ebc13800cec9fc496062beae0fa16f6e5dfcd47bf6cc5df-f3f8bd49b74a917c6de1ce4842ac5b78993762f91b2aee1c897b3a88c738f6ca.source",
+      "exists": true,
+      "bytes": 239,
+      "sha256": "db56b6c93e3738de9de2e1d92a39b2c11743cb74b04a4a7799a7167371b8ba29",
+      "magic": "4c505332",
+      "uri": "content:\/\/media\/external\/images\/media\/57",
+      "filename": "QA_LOCAL_99dd4485.jpg",
+      "mime": "image\/jpeg",
+      "sourceSha256": "f3f8bd49b74a917c6de1ce4842ac5b78993762f91b2aee1c897b3a88c738f6ca",
+      "retained": "",
+      "sourceBytes": 613734,
+      "date": 1792800737000,
+      "workingSha256": "f3f8bd49b74a917c6de1ce4842ac5b78993762f91b2aee1c897b3a88c738f6ca",
+      "workingBytes": 613734
+    },
+    "publicationJournalFiles": [
+      {
+        "directory": "photo-effect-gallery",
+        "name": "7cb2c3393917c5b2fbe3902e7842518699e86034dde16f6721ce76844cab220c.record",
+        "bytes": 276,
+        "sha256": "86be0f88c3ec5a411a073b53998ead8d26ac610dd6ff937ed6378359c95216d4"
+      },
+      {
+        "directory": "photo-effect-gallery",
+        "name": "c56360a7fbf7e6fb97a13d6e7acf73202a9d36c6f61cc452e7a59046b587405c.record",
+        "bytes": 142,
+        "sha256": "fcbfa007fb3e5bd1a9e338c091dccc3c9df387b3e37ee0aafe33f1311feb0db0"
+      },
+      {
+        "directory": "photo-effect-gallery",
+        "name": "ad3566518d3781c93ec6c5ee0c16766ba76b45a03478311a9680ee684ddb9591.record",
+        "bytes": 276,
+        "sha256": "5e2f1ecdb246bf46dde4c544983f13903b143ae137aad6d71c34632a846e0f00"
+      },
+      {
+        "directory": "photo-effect-gallery",
+        "name": "655a200277955d39939b6ecd678d5390fd85c1a05a0305d754f05149b8f9984c.record",
+        "bytes": 142,
+        "sha256": "71a48f76cd8690247118846bd19f7d566f700c46529fc399152c0c7ef80e6493"
+      },
+      {
+        "directory": "photo-effect-gallery",
+        "name": "0a036bc6103c1088fb231751a88a2967f211ed38b2100dcb69fac004148c0a82.record",
+        "bytes": 276,
+        "sha256": "7e99102f7099fb6f822d5e9d9074f2f33a8d9cd11b1bd0fef345f4dcdc30b521"
+      },
+      {
+        "directory": "photo-effect-gallery",
+        "name": "f7153e17346e3736f5554cb24c1a2ed2f8b05b29547c24fc2bf12c60b2a56b85.record",
+        "bytes": 142,
+        "sha256": "af0c4d57323f8d29f6b2a081e9b6b93a3b0afdd595155538825f53fa9b37aa5c"
+      },
+      {
+        "directory": "photo-live-gallery",
+        "name": ".publisher.lock",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "directory": "photo-live-gallery",
+        "name": "99031a5be7c88bcf4911005c5799b9401ec5c228bd3f64fcc2e5308950b90c33.record",
+        "bytes": 129,
+        "sha256": "63f79784f1c6eba75242d3df3a2e18c76facb3be10d3a45d095f07246506d59a"
+      },
+      {
+        "directory": "photo-live-gallery",
+        "name": "88a9164604265bf2935e579a710c6a25e49f251ae0c47df38501e46bf2cd1f30.record",
+        "bytes": 129,
+        "sha256": "a94b6448a2b2bedace47b01d582fe73753c8b6fb39ed0e8fb71e007e84d0fc73"
+      },
+      {
+        "directory": "photo-live-gallery",
+        "name": "e675c8ce13cfe2bee277db5d68747ef1ff62771ff82b0e15b90bb7d312bdfe1a.record",
+        "bytes": 129,
+        "sha256": "5f5c585a8edbbf276addda8424b68af49608c9e395a95997591a5dcead889a44"
+      },
+      {
+        "directory": "photo-live-gallery",
+        "name": "92f6aa87d86e6ec4d8261cc3242717b64b2b81d2793d62bbf26dcf83e59ad115.record",
+        "bytes": 129,
+        "sha256": "eef1036859e0f3376f9a19b7597b38414793dcf7ee145a4a0658b036e62f270a"
+      },
+      {
+        "directory": "photo-live-gallery",
+        "name": "e5a82f979e1ba29e4dd088c1d6867a481e5ec02653610ada1b970bf7bda8235b.record",
+        "bytes": 129,
+        "sha256": "7b71a0d3d967aa361adc0ea28e13b95e395426eb71a47982d0a7ede4253d79b9"
+      },
+      {
+        "directory": "photo-live-gallery",
+        "name": "eb322f50bee5256a0db5d38381af8c588423b9d377a154b2eba4ecb42975faf2.record",
+        "bytes": 129,
+        "sha256": "7e11beeac46d60328fdbd8a0ea4d9ed7f428108d76929ef661ed74219d20c07d"
+      },
+      {
+        "directory": "photo-live-gallery",
+        "name": "dea6c2001277c8222b760ee135ed6b17687ac58de4f8ff2676e91e49511011d5.record",
+        "bytes": 129,
+        "sha256": "bb041371519b2aa258966be28c878b0977a9ce4d47047d999b7b531f83d75806"
+      },
+      {
+        "directory": "photo-live-gallery",
+        "name": "0ec2782d9799ecb254c7bf829a5e3af2537e414d8d015db24c17f2827c6b988e.record",
+        "bytes": 129,
+        "sha256": "2681ebcbbcfe23c36749566564ffb26c9171d2e801f9c40ada890b1b14b04e2d"
+      },
+      {
+        "directory": "photo-live-gallery",
+        "name": "8c9427c46bef5ae0794c64e9da4ca9cba0ed5729409420e2375c123687298dfc.record",
+        "bytes": 129,
+        "sha256": "b93b4de6c2b9bc9372c90eb5d4ca53788c4fa6704c563bcf6befdc8578d0e672"
+      }
+    ]
+  },
+  "unchangedImportedSourceUri": "content:\/\/media\/external\/images\/media\/57",
+  "localBatchSelections": [
+    {
+      "expectedAbsolutePath": "\/data\/user\/0\/cc.huevia\/files\/pictures\/camera-album\/phone-bbae0a2c0bed6bd28ebc13800cec9fc496062beae0fa16f6e5dfcd47bf6cc5df-f3f8bd49b74a917c6de1ce4842ac5b78993762f91b2aee1c897b3a88c738f6ca__QA_LOCAL_99dd4485.jpg",
+      "expectedCanonicalPath": "\/data\/data\/cc.huevia\/files\/pictures\/camera-album\/phone-bbae0a2c0bed6bd28ebc13800cec9fc496062beae0fa16f6e5dfcd47bf6cc5df-f3f8bd49b74a917c6de1ce4842ac5b78993762f91b2aee1c897b3a88c738f6ca__QA_LOCAL_99dd4485.jpg",
+      "listRows": 9,
+      "appGroups": 19,
+      "matchedRow": 8,
+      "groupId": "photo-f3f8bd49b74a917c6de1ce4842ac5b78993762f91b2aee1c897b3a88c738f6ca",
+      "displayCanonicalPath": "\/data\/data\/cc.huevia\/files\/pictures\/camera-album\/phone-bbae0a2c0bed6bd28ebc13800cec9fc496062beae0fa16f6e5dfcd47bf6cc5df-f3f8bd49b74a917c6de1ce4842ac5b78993762f91b2aee1c897b3a88c738f6ca__QA_LOCAL_99dd4485.jpg"
+    },
+    {
+      "expectedAbsolutePath": "\/data\/user\/0\/cc.huevia\/files\/pictures\/camera-album\/phone-e5ab19aeedafd668762987b1a14b4241b0845d8e06e9ac59c7b726c3bece14c6-cab0c50c17781198a56d6719dc4d88e40e26b58ccb79efcc9ce88fb0c4ccc237__QA_ALPHA_99dd4485_PNG白底.jpg",
+      "expectedCanonicalPath": "\/data\/data\/cc.huevia\/files\/pictures\/camera-album\/phone-e5ab19aeedafd668762987b1a14b4241b0845d8e06e9ac59c7b726c3bece14c6-cab0c50c17781198a56d6719dc4d88e40e26b58ccb79efcc9ce88fb0c4ccc237__QA_ALPHA_99dd4485_PNG白底.jpg",
+      "listRows": 9,
+      "appGroups": 19,
+      "matchedRow": 1,
+      "groupId": "photo-79dc463f17c4b05eae4661eb6a15b118f72cc2d74d20b3b2f1471c71bc729904",
+      "displayCanonicalPath": "\/data\/data\/cc.huevia\/files\/pictures\/camera-album\/phone-e5ab19aeedafd668762987b1a14b4241b0845d8e06e9ac59c7b726c3bece14c6-cab0c50c17781198a56d6719dc4d88e40e26b58ccb79efcc9ce88fb0c4ccc237__QA_ALPHA_99dd4485_PNG白底.jpg"
+    }
+  ],
+  "publicationRowsBeforeLocal": 20,
+  "publicationRowsAfterAppOnly": 20,
+  "publicationRowsAfterDefault": 22,
+  "publicationRowsAfterNewCopy": 23,
+  "firstExportUri": "content:\/\/media\/external_primary\/images\/media\/59",
+  "newCopyUri": "content:\/\/media\/external_primary\/images\/media\/61",
+  "localResultSha256": "009f549f14f793b19030091f2614a1268c174df121ec8317bdfe5386706a0928",
+  "rawFaultRestoration": {
+    "scope": "Only the current run's generated structural NEF fixture",
+    "sourceIdentity": "c7f4024d8346acc663f231a815f40e545e9a41f14367d04988563ee04e4d587d",
+    "expectedSha256": "dcda0dd1d4ebd49f95baac482305c7151c21e631751c5a4b4c8ecd841435559c",
+    "actualSha256": "dcda0dd1d4ebd49f95baac482305c7151c21e631751c5a4b4c8ecd841435559c",
+    "expectedModified": 1792800752480,
+    "actualModified": 1792800752480
+  },
+  "rawFixture": {
+    "kind": "Hand-authored 512-byte TIFF\/NEF structure fixture; not captured sensor data or a camera certification",
+    "sha256": "dcda0dd1d4ebd49f95baac482305c7151c21e631751c5a4b4c8ecd841435559c",
+    "sourceIdentity": "c7f4024d8346acc663f231a815f40e545e9a41f14367d04988563ee04e4d587d",
+    "phoneUri": "content:\/\/media\/external_primary\/images\/media\/62",
+    "rowsBefore": 23,
+    "rowsAfterAppOnly": 23,
+    "rowsAfterPhoneAndRetry": 24
+  },
+  "orangeNativeScope": "Real native Views with real template-rendered presets and app JPEGs. Camera slot confirmation is a typed synthetic UI fixture; no physical transport write. Account\/update remain offline; no account changes or install operation.",
+  "status": "PASS",
+  "checks": 364,
+  "assertions": [
+    "dedicated-emulator-only",
+    "version-85",
+    "supported-probe-scope",
+    "activity-ready",
+    "actual-configuration-and-window-match-requested-orientation",
+    "actual-configuration-font-scale-matches-mode",
+    "actual-display-dimensions-match-orientation",
+    "offline-editing-no-camera",
+    "seed-recipe-real-sha-0",
+    "seed-recipe-real-sha-1",
+    "seed-recipe-real-sha-2",
+    "seed-recipe-real-sha-3",
+    "seed-recipe-real-sha-4",
+    "seed-recipe-real-sha-5",
+    "seed-recipe-real-sha-6",
+    "seed-recipe-real-sha-7",
+    "seed-recipe-real-sha-8",
+    "seed-recipe-real-sha-9",
+    "seed-recipe-real-sha-10",
+    "seed-recipe-real-sha-11",
+    "seed-recipe-real-sha-12",
+    "seed-recipe-real-sha-13",
+    "seed-recipe-real-sha-14",
+    "seed-recipe-real-sha-15",
+    "seed-recipe-real-sha-16",
+    "seed-recipe-real-sha-17",
+    "seed-recipe-real-sha-18",
+    "seed-recipe-real-sha-19",
+    "seed-recipe-real-sha-20",
+    "seed-recipe-real-sha-21",
+    "seed-recipe-real-sha-22",
+    "catalog-photo-group-ready",
+    "dedicated-emulator-notification-permission-is-pregranted",
+    "actual-navigation-cell-visible-预设",
+    "actual-navigation-tap-selects-root-预设",
+    "actual-navigation-cell-visible-同步",
+    "actual-navigation-tap-selects-root-同步",
+    "actual-navigation-cell-visible-相册",
+    "actual-navigation-tap-selects-root-相册",
+    "actual-navigation-cell-visible-设置",
+    "actual-navigation-tap-selects-root-设置",
+    "actual-navigation-cell-visible-相册",
+    "actual-navigation-tap-selects-root-相册",
+    "local-album-is-an-actual-navigation-root",
+    "actual-runtime-live-receive-default-is-app-only",
+    "actual-runtime-installs-no-unconditional-original-gallery-publisher",
+    "four-root-navigation-has-separate-sync-and-local-album",
+    "actual-four-root-order-and-touch-target-预设",
+    "actual-four-root-order-and-touch-target-同步",
+    "actual-four-root-order-and-touch-target-相册",
+    "actual-four-root-order-and-touch-target-设置",
+    "actual-media-permission-is-revoked-before-launch",
+    "app-local-photo-list-works-without-media-permission",
+    "app-local-native-thumbnails-are-real-decoded-images",
+    "local-native-list-layout-ready-app",
+    "complete-native-photo-row-and-filenames-visible-above-floating-navigation-app",
+    "local-action-entire-touch-target-visible-above-navigation-picker-app",
+    "local-action-entire-touch-target-visible-above-navigation-overflow-app",
+    "local-album-actions-use-overflow-and-floating-picker",
+    "native-screenshot-local-app",
+    "native-screenshot-orientation-local-app",
+    "actual-MediaStore-row-count-readable",
+    "actual-original-save-opens-explicit-destination-choice",
+    "fresh-original-save-choice-defaults-to-app-only",
+    "preview-dialog-accessibility-root",
+    "actual-original-app-only-save-finishes-with-permission-revoked",
+    "actual-MediaStore-row-count-readable",
+    "actual-original-app-only-save-does-not-insert-MediaStore-row",
+    "native-export-accepted",
+    "native-export-completed",
+    "actual-MediaStore-row-count-readable",
+    "denied-media-permission-does-not-block-app-only-result",
+    "denied-phone-tab-settles",
+    "denied-phone-page-offers-central-authorization-and-floating-system-picker",
+    "local-guidance-entire-view-visible-above-navigation-denied-title",
+    "local-guidance-entire-text-laid-out-denied-title",
+    "local-guidance-entire-view-visible-above-navigation-denied-guidance",
+    "local-guidance-entire-text-laid-out-denied-guidance",
+    "local-action-entire-touch-target-visible-above-navigation-central-authorization",
+    "local-action-entire-touch-target-visible-above-navigation-picker-denied",
+    "native-screenshot-local-denied",
+    "native-screenshot-orientation-local-denied",
+    "actual-native-action-click-dispatched-authorization",
+    "actual-native-action-reaches-platform-start-dispatch-authorization",
+    "single-native-platform-launch-intercepted-authorization",
+    "central-authorization-requests-real-phone-image-permission",
+    "cancelled-native-authorization-restores-denied-library",
+    "actual-native-action-click-dispatched-document-picker",
+    "actual-native-action-reaches-platform-start-dispatch-document-picker",
+    "single-native-platform-launch-intercepted-document-picker",
+    "floating-picker-dispatches-openable-multiple-JPEG-PNG-document-intent",
+    "floating-picker-requests-read-and-persistable-access",
+    "cancelled-native-picker-restores-local-library",
+    "cancelled-picker-imports-nothing-and-keeps-denied-library-usable",
+    "native-provider-fixture-row-created-image\/jpeg",
+    "native-provider-fixture-committed-image\/jpeg",
+    "native-provider-fixture-row-created-image\/png",
+    "native-provider-fixture-committed-image\/png",
+    "native-shell-command-completes-grant",
+    "actual-read-media-images-grant-is-observed",
+    "actual-phone-query-lists-seeded-jpeg-and-png",
+    "repository-page-is-a-real-MediaStore-query",
+    "authorized-phone-native-JPEG-thumbnail-is-decoded",
+    "local-native-list-layout-ready-phone-authorized",
+    "complete-native-photo-row-and-filenames-visible-above-floating-navigation-phone-authorized",
+    "native-screenshot-phone-authorized",
+    "native-screenshot-orientation-phone-authorized",
+    "native-phone-item-ready-QA_LOCAL_99dd4485.jpg",
+    "phone-source-has-real-visible-thumbnail-tile-QA_LOCAL_99dd4485.jpg",
+    "actual-local-root-opens-shared-editor-QA_LOCAL_99dd4485.jpg",
+    "local-workspace-binds-the-selected-durable-photo",
+    "jpeg-import-preserves-exact-source-bytes",
+    "actual-MediaStore-row-count-readable",
+    "neutral-imported-JPEG-reports-existing-source-without-owned-publication",
+    "actual-MediaStore-row-count-readable",
+    "neutral-imported-JPEG-phone-save-reuses-actual-source-without-duplicate",
+    "explicit-my-source-for-local-recipes",
+    "real-current-photo-filter-thumbnail-ready",
+    "user-strength-65",
+    "draft-save-barrier",
+    "preview-shared-model-strength-65",
+    "native-keyboard-value-BRIGHTNESS-11",
+    "draft-save-barrier",
+    "manual-preview-settled-BRIGHTNESS",
+    "native-crop-workspace-open",
+    "crop-canvas-laid-out",
+    "crop-action-1:1",
+    "crop-action-应用",
+    "draft-save-barrier",
+    "frozen-edit-captured",
+    "imported-jpeg-uses-incumbent-crop-editor",
+    "native-screenshot-editor-jpeg",
+    "native-screenshot-orientation-editor-jpeg",
+    "back-restores-local-album-root",
+    "native-phone-item-ready-QA_ALPHA_99dd4485.png",
+    "phone-source-has-real-visible-thumbnail-tile-QA_ALPHA_99dd4485.png",
+    "PNG-white-background-disclosure-visible",
+    "preview-dialog-accessibility-root",
+    "actual-local-root-opens-shared-editor-QA_ALPHA_99dd4485.png",
+    "local-workspace-binds-the-selected-durable-photo",
+    "png-transparency-is-explicitly-flattened-on-white",
+    "jpeg-recipe-reuses-incumbent-editor-on-png-copy",
+    "recipe-does-not-copy-another-photo-crop",
+    "all-thirteen-basic-adjustments-remain-available",
+    "native-keyboard-value-BRIGHTNESS-1",
+    "draft-save-barrier",
+    "manual-preview-settled-BRIGHTNESS",
+    "native-keyboard-value-EXPOSURE-1",
+    "draft-save-barrier",
+    "manual-preview-settled-EXPOSURE",
+    "native-keyboard-value-CONTRAST-1",
+    "draft-save-barrier",
+    "manual-preview-settled-CONTRAST",
+    "native-keyboard-value-HIGHLIGHTS-1",
+    "draft-save-barrier",
+    "manual-preview-settled-HIGHLIGHTS",
+    "native-keyboard-value-SHADOWS-1",
+    "draft-save-barrier",
+    "manual-preview-settled-SHADOWS",
+    "native-keyboard-value-WHITES-1",
+    "draft-save-barrier",
+    "manual-preview-settled-WHITES",
+    "native-keyboard-value-BLACKS-1",
+    "draft-save-barrier",
+    "manual-preview-settled-BLACKS",
+    "native-keyboard-value-TEMPERATURE-1",
+    "draft-save-barrier",
+    "manual-preview-settled-TEMPERATURE",
+    "native-keyboard-value-TINT-1",
+    "draft-save-barrier",
+    "manual-preview-settled-TINT",
+    "native-keyboard-value-SATURATION-1",
+    "draft-save-barrier",
+    "manual-preview-settled-SATURATION",
+    "native-keyboard-value-VIBRANCE-1",
+    "draft-save-barrier",
+    "manual-preview-settled-VIBRANCE",
+    "native-keyboard-value-CLARITY-1",
+    "draft-save-barrier",
+    "manual-preview-settled-CLARITY",
+    "native-keyboard-value-SHARPENING-1",
+    "draft-save-barrier",
+    "manual-preview-settled-SHARPENING",
+    "draft-save-barrier",
+    "frozen-edit-captured",
+    "png-copy-keeps-thirteen-independent-adjustment-values",
+    "native-screenshot-editor-png-adjustments",
+    "native-screenshot-orientation-editor-png-adjustments",
+    "actual-MediaStore-row-count-readable",
+    "back-restores-local-album-root",
+    "local-batch-selection-has-refreshed-app-photos",
+    "local-original-has-real-gallery-row-for-batch-selection",
+    "local-gallery-batch-target-is-visible",
+    "local-original-has-real-gallery-row-for-batch-selection",
+    "local-gallery-batch-target-is-visible",
+    "native-local-gallery-selects-two-independent-originals",
+    "native-local-gallery-batch-action-menu-opens",
+    "preview-dialog-accessibility-root",
+    "detached-local-gallery-opens-real-preset-picker",
+    "batch-preset-picker-loads-actual-local-library",
+    "batch-preset-picker-contains-validated-NCP-fixture",
+    "actual-batch-preset-card-native-preview-is-ready",
+    "actual-batch-preset-card-is-visible-and-clickable",
+    "actual-batch-preset-card-opens-confirmation",
+    "preview-dialog-accessibility-root",
+    "actual-batch-filter-updates-pending-drafts",
+    "batch-filter-preserves-each-photo-manual-adjustments-and-crop-0",
+    "batch-filter-preserves-each-photo-manual-adjustments-and-crop-1",
+    "actual-MediaStore-row-count-readable",
+    "batch-filter-action-updates-drafts-without-rendering-or-MediaStore-insertion",
+    "actual-MediaStore-row-count-readable",
+    "actual-local-export-opens-save-destination-choice",
+    "fresh-edited-export-choice-defaults-to-phone-and-includes-app-only",
+    "native-screenshot-destination-sheet",
+    "native-screenshot-orientation-destination-sheet",
+    "preview-dialog-accessibility-root",
+    "actual-native-radio-selects-app-only",
+    "preview-dialog-accessibility-root",
+    "actual-local-export-UI-completes-two-independent-edits",
+    "actual-MediaStore-row-count-readable",
+    "two-photo-app-only-batch-creates-no-system-album-row",
+    "both-local-edit-results-are-durable",
+    "actual-local-export-confirms-app-only-destination",
+    "preview-dialog-accessibility-root",
+    "local-batch-equals-incumbent-single-editor-render-0",
+    "local-batch-equals-incumbent-single-editor-render-1",
+    "native-export-accepted",
+    "native-export-completed",
+    "actual-MediaStore-row-count-readable",
+    "edited-export-default-publishes-only-two-edited-results",
+    "export-time-row-readable",
+    "gallery-modified-seconds-match-export-milliseconds",
+    "first-phone-export-has-current-export-chronology",
+    "actual-MediaStore-row-count-readable",
+    "same-saved-version-default-publication-is-idempotent",
+    "actual-MediaStore-row-count-readable",
+    "export-time-row-readable",
+    "gallery-modified-seconds-match-export-milliseconds",
+    "explicit-new-copy-adds-one-freshly-dated-publication",
+    "explicit-new-copy-preserves-verified-local-render-cache-bytes",
+    "new-copy-updates-EXIF-without-recompressing-pixels",
+    "all-destinations-preserve-private-originals-and-import-times",
+    "all-edit-and-export-actions-preserve-phone-source-bytes",
+    "exact-transparent-PNG-source-remains-retained-in-App-storage",
+    "actual-MediaStore-row-count-readable",
+    "back-restores-local-album-root",
+    "local-results-refresh-in-dedicated-app-album",
+    "local-native-list-layout-ready-app-only-results",
+    "complete-native-photo-row-and-filenames-visible-above-floating-navigation-app-only-results",
+    "native-screenshot-app-only-results",
+    "native-screenshot-orientation-app-only-results",
+    "actual-MediaStore-row-count-readable",
+    "actual-offline-RAW-list-has-verified-structural-NEF-fixture",
+    "verified-RAW-source-remains-listed-for-explicit-save",
+    "actual-RAW-file-row-is-visible",
+    "actual-RAW-row-opens-original-file-action",
+    "preview-dialog-accessibility-root",
+    "actual-RAW-action-opens-destination-chooser",
+    "fresh-RAW-save-choice-defaults-to-app-only",
+    "preview-dialog-accessibility-root",
+    "actual-RAW-app-only-operation-finishes",
+    "actual-MediaStore-row-count-readable",
+    "RAW-default-app-only-validates-durable-source-without-MediaStore-insertion",
+    "RAW-app-only-progress-shows-completion",
+    "preview-dialog-accessibility-root",
+    "verified-RAW-source-remains-listed-for-explicit-save",
+    "actual-RAW-file-row-is-visible",
+    "actual-RAW-row-opens-original-file-action",
+    "preview-dialog-accessibility-root",
+    "actual-RAW-action-opens-destination-chooser",
+    "preview-dialog-accessibility-root",
+    "actual-RAW-radio-selects-explicit-phone-target",
+    "preview-dialog-accessibility-root",
+    "actual-explicit-RAW-phone-operation-finishes",
+    "actual-MediaStore-row-count-readable",
+    "explicit-RAW-phone-choice-adds-one-system-row",
+    "actual-RAW-local-publisher-callback-completes",
+    "actual-MediaStore-row-count-readable",
+    "actual-RAW-publisher-is-byte-exact-and-idempotent",
+    "preview-dialog-accessibility-root",
+    "verified-RAW-source-remains-listed-for-explicit-save",
+    "actual-RAW-file-row-is-visible",
+    "actual-RAW-row-opens-original-file-action",
+    "preview-dialog-accessibility-root",
+    "actual-RAW-action-opens-destination-chooser",
+    "preview-dialog-accessibility-root",
+    "actual-RAW-radio-selects-explicit-phone-target",
+    "preview-dialog-accessibility-root",
+    "changed-RAW-source-fails-before-publication",
+    "actual-MediaStore-row-count-readable",
+    "changed-private-RAW-is-rejected-without-rewriting-public-copy",
+    "fixture-restores-original-RAW-bytes-and-mtime-after-controlled-fault",
+    "RAW-failed-operation-offers-explicit-retry",
+    "preview-dialog-accessibility-root",
+    "RAW-explicit-retry-finishes-original-operation-target",
+    "actual-MediaStore-row-count-readable",
+    "RAW-retry-keeps-frozen-phone-target-despite-current-app-only-preference",
+    "RAW-retry-preserves-local-and-public-original-bytes-and-time",
+    "preview-dialog-accessibility-root",
+    "actual-MediaStore-row-count-readable",
+    "orange-real-preset-grid-mounted",
+    "orange-real-preset-template-rendered",
+    "orange-preset-section-has-real-source",
+    "orange-navigation-adapts-bottom-bar-or-rail",
+    "native-screenshot-presets",
+    "native-screenshot-orientation-presets",
+    "orange-real-NCP-detail-opens",
+    "native-screenshot-preset-detail",
+    "native-screenshot-orientation-preset-detail",
+    "orange-nine-slot-native-grid-is-laid-out",
+    "orange-all-nine-slots-present",
+    "orange-occupied-slot-selection-updates-real-plan",
+    "orange-occupied-slot-exposes-overwrite-confirmation-action",
+    "orange-existing-second-overwrite-confirmation-retained",
+    "preview-dialog-accessibility-root",
+    "orange-empty-slot-selection-updates-real-plan",
+    "orange-cancel-restores-light-surface-system-icon-appearance",
+    "native-screenshot-import-slots",
+    "native-screenshot-orientation-import-slots",
+    "orange-NP3-detail-shows-mobile-editor-destination",
+    "orange-NP3-does-not-expose-camera-write",
+    "orange-NP3-opens-dedicated-local-album-root",
+    "native-screenshot-album",
+    "native-screenshot-orientation-album",
+    "native-screenshot-sync",
+    "native-screenshot-orientation-sync",
+    "native-screenshot-downloaded",
+    "native-screenshot-orientation-downloaded",
+    "orange-live-native-actions-laid-out",
+    "orange-live-48dp-measured-hit-liveAction",
+    "orange-live-48dp-measured-hit-projectPresetAction",
+    "orange-live-48dp-measured-hit-liveProjectChoice",
+    "orange-live-48dp-measured-hit-liveProjectInfo",
+    "orange-receipt-48dp-measured-hit",
+    "native-screenshot-live",
+    "native-screenshot-orientation-live",
+    "native-screenshot-settings",
+    "native-screenshot-orientation-settings",
+    "native-screenshot-wifi",
+    "native-screenshot-orientation-wifi",
+    "native-screenshot-account",
+    "native-screenshot-orientation-account",
+    "native-screenshot-updates",
+    "native-screenshot-orientation-updates",
+    "current-photo-editor-ready",
+    "explicit-my-source-for-local-recipes",
+    "real-current-photo-filter-thumbnail-ready",
+    "user-strength-65",
+    "draft-save-barrier",
+    "preview-shared-model-strength-65",
+    "native-screenshot-editor",
+    "native-screenshot-orientation-editor",
+    "orange-editor-hides-root-navigation",
+    "orange-tool-mode-preserves-exact-photo-canvas",
+    "native-screenshot-editor-adjustments",
+    "native-screenshot-orientation-editor-adjustments",
+    "orange-scrim-compare-hold-still-shows-original",
+    "orange-scrim-compare-release-restores-effect",
+    "native-crop-workspace-open",
+    "crop-canvas-laid-out",
+    "crop-action-9:16",
+    "native-screenshot-crop",
+    "native-screenshot-orientation-crop",
+    "crop-action-取消"
+  ]
+}

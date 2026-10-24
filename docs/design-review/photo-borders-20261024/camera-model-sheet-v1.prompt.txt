@@ -1,0 +1,21 @@
+Use case: ui-mockup. Create ONE full portrait high-fidelity native Android Huevia photo editor screen, 1080x2340 portrait aspect, straight-on, edge-to-edge screenshot with no device shell and no presentation background.
+It is the camera brand/model selection BOTTOM SHEET for the photo border feature.
+REFERENCES: Image 1 is the existing live app editor screenshot; preserve its near-black stage, peach #F3B493 export pill, system sans font and compact controls. Image 2 is our border review board: preserve that same exact app grammar and border preview design; do not reproduce the three-column board itself. Image 3 is the original exact photo border output to insert intact into upper preview. Preserve the desk photo objects and color.
+SCREEN STRUCTURE: status bar at top, then app header back arrow, centered "DSC_6192.JPG", small "1 / 1" and peach "导出" button at right. Background editor is dimmed by bottom sheet overlay. In the upper 32 percent show the COMPLETE small center-caption blurred-background border output (Image 3) within the black stage, so photo editing context is obvious. The lower approximately 65 percent is a large native dark charcoal #242321 bottom sheet, top corners moderately rounded, top centered subtle drag handle. Avoid oversized padding or an iOS look.
+SHEET CONTENT exact Chinese text and hierarchy, top to bottom:
+Title "品牌与机型" left, X close outline at right.
+Two-part segmented selector "自动识别" and "手动选择", MANUAL selected with subtle peach fill and dark peach lettering, automatic tab muted. This selected state is deliberate.
+A quiet small status line with a camera icon "已识别：Nikon Z6 II", followed by smaller muted "来自原始照片".
+Full-width rounded dark search input with search icon and placeholder "搜索机型".
+A horizontal chip row of brands "尼康", "富士", "索尼", "佳能"; 尼康 selected peach underline or restrained peach fill. Brands are TEXT, not fake logos.
+A clean vertically separated model list, each generous touch row:
+"Nikon Z6 II" selected with peach checkmark on right and small muted "已识别" badge beside text;
+"Nikon Z6 III";
+"Nikon Zf";
+"Nikon Z8";
+"Nikon Z9".
+Next a quiet full-width row "自定义机型" with small pencil outline and right chevron.
+Small muted helper "仅修改边框上的显示信息".
+Wide peach bottom primary button "使用所选机型", fully inside safe area, height about 48dp.
+Gesture bar on dark safe area.
+Use precise readable simplified Chinese, impeccable baseline alignment, single-line model names, controlled whitespace, authentic Android typography and thin outline icons. Keep sheet compact enough for ALL rows and button to be visible without a keyboard. No gradient, no marketing text, no decorative cards, no invented device functionality. This is a review mockup, not evidence of working software.

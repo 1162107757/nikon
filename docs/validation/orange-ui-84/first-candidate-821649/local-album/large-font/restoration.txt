@@ -1,0 +1,8 @@
+night_mode_restored=no
+night_mode_reported_restored=Night mode: no
+night_mode_secure_restored=1
+night_mode_custom_type_restored=-1
+font_scale_restored=1.0
+accelerometer_rotation_restored=1
+user_rotation_restored=0
+status=PASS

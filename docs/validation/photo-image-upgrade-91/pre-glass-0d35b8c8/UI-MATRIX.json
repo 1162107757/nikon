@@ -1,0 +1,63 @@
+{
+  "candidateSha256": "0d35b8c8d6367c1a62078a264183ca41bd24bc357ebd22ee8dcb08f83870bb31",
+  "candidateVersionCode": 91,
+  "scope": "One final confirmation after a single batch of first-round fixes; emulator-5586 only; repeated assertions across configurations are not distinct test cases.",
+  "modes": [
+    {
+      "mode": "phone",
+      "status": "PASS",
+      "checks": 114,
+      "installedApkSha256": "0d35b8c8d6367c1a62078a264183ca41bd24bc357ebd22ee8dcb08f83870bb31",
+      "cleanup": "PASS",
+      "settingsAndGrantsRestored": "PASS",
+      "framebufferCompared": 1849,
+      "framebufferMaxDelta": 0,
+      "tileCompared": 1764,
+      "tileErrors": 0
+    },
+    {
+      "mode": "font1.3",
+      "status": "PASS",
+      "checks": 114,
+      "installedApkSha256": "0d35b8c8d6367c1a62078a264183ca41bd24bc357ebd22ee8dcb08f83870bb31",
+      "cleanup": "PASS",
+      "settingsAndGrantsRestored": "PASS",
+      "framebufferCompared": 1849,
+      "framebufferMaxDelta": 0,
+      "tileCompared": 1764,
+      "tileErrors": 0
+    },
+    {
+      "mode": "dark",
+      "status": "PASS",
+      "checks": 114,
+      "installedApkSha256": "0d35b8c8d6367c1a62078a264183ca41bd24bc357ebd22ee8dcb08f83870bb31",
+      "cleanup": "PASS",
+      "settingsAndGrantsRestored": "PASS",
+      "framebufferCompared": 1849,
+      "framebufferMaxDelta": 0,
+      "tileCompared": 1764,
+      "tileErrors": 0
+    },
+    {
+      "mode": "landscape",
+      "status": "PASS",
+      "checks": 116,
+      "installedApkSha256": "0d35b8c8d6367c1a62078a264183ca41bd24bc357ebd22ee8dcb08f83870bb31",
+      "cleanup": "PASS",
+      "settingsAndGrantsRestored": "PASS",
+      "framebufferCompared": 1247,
+      "framebufferMaxDelta": 0,
+      "tileCompared": 924,
+      "tileErrors": 0
+    },
+    {
+      "mode": "phone-progress",
+      "status": "PASS",
+      "checks": 23,
+      "installedApkSha256": "0d35b8c8d6367c1a62078a264183ca41bd24bc357ebd22ee8dcb08f83870bb31",
+      "cleanup": "PASS",
+      "settingsAndGrantsRestored": "PASS"
+    }
+  ]
+}

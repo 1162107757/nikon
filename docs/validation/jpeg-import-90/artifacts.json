@@ -1,0 +1,17 @@
+[
+  {
+    "sha256": "830faf7e29108884ac960bb3df6a1a8ffc5d2338bca14f7ea1cfe4b50bcdc767",
+    "bytes": 815072,
+    "path": "tests/jpeg-import-device-probe/fixtures/phone-screenshot.jpg"
+  },
+  {
+    "sha256": "e9940bafe3d3274746811ce5c235aa572bc731f8a9c0187897e46ee02b6150c5",
+    "bytes": 748383,
+    "path": "docs/validation/jpeg-import-90/editor-after-import.png"
+  },
+  {
+    "sha256": "92acf7ab4d7ff1f4d9e101eda694d3da33d437aa607f10f82e6013e2de65b5b2",
+    "bytes": 511403,
+    "path": "docs/validation/jpeg-import-90/border-output.JPG"
+  }
+]

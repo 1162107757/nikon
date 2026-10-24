@@ -1,0 +1,9 @@
+{
+  "serial": "emulator-5586",
+  "hardware": "ranchu",
+  "emulatorFlag": "1",
+  "action": "Closed only task-owned emulator after restoring settings and permissions in all three runs",
+  "result": "OK: killing emulator, bye bye\r\n\r\nOK",
+  "closedAtUtc": "2026-10-24T01:37:52.9345042Z",
+  "otherEmulatorUntouched": "emulator-5582"
+}

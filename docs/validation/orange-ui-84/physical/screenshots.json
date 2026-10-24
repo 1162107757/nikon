@@ -1,0 +1,79 @@
+{
+  "origin": "raw adb exec-out screencap -p on user phone; no pixel edits",
+  "device": "OnePlus Ace 5 / PKG110",
+  "versionCode": 84,
+  "installedApkSha256": "b4a5b10fa5dffcd0850508eb0a7dc4a88cffa47ca5a2b2ed3894dfd2efcbdd03",
+  "scope": "existing user content; no seed instrumentation installed; transient initial editor loading explicitly labelled",
+  "files": [
+    {
+      "path": "album.png",
+      "bytes": 870779,
+      "sha256": "5497a38076c88cbc9a83b0533b80b71d40ce680449d37e7a6b51cecf816cc0d7"
+    },
+    {
+      "path": "crop.png",
+      "bytes": 1057595,
+      "sha256": "a3b4b1fee9dfcc035b9d70a1974a289c7a873fa76cea448735a3594fc2ac7602"
+    },
+    {
+      "path": "editor-adjustments.png",
+      "bytes": 1148427,
+      "sha256": "da987dd0ac44211145af1f3c9eac77e8884b056c93fb58a7124d2fde80bfe9f2"
+    },
+    {
+      "path": "editor-after-crop-cancel.png",
+      "bytes": 1148427,
+      "sha256": "da987dd0ac44211145af1f3c9eac77e8884b056c93fb58a7124d2fde80bfe9f2"
+    },
+    {
+      "path": "editor.png",
+      "bytes": 1182007,
+      "sha256": "3774c17e528dea18fd01d6ebde87299e546257e83a21aa17e667d6b36196ce15"
+    },
+    {
+      "path": "installed-final.png",
+      "bytes": 1762062,
+      "sha256": "8a2fbdb9ed7a0eb478683ac5767236ce17d2a973d0f3b569ca3d134aaf897168"
+    },
+    {
+      "path": "landscape-system-dark.png",
+      "bytes": 1257397,
+      "sha256": "aab266dce99d1e85b5c9558ed8aa89df01dfddf77bf8783aafcf690aae92f290"
+    },
+    {
+      "path": "live.png",
+      "bytes": 1336093,
+      "sha256": "730d703ceed7b4352b95e19a8e3977410da9f387f071199e9ca68dc3c46424fa"
+    },
+    {
+      "path": "preset-detail.png",
+      "bytes": 1582171,
+      "sha256": "e6696e045b26ab5ad171183205e277475b7b850ffe3b1d9ecc194fb38d27c08f"
+    },
+    {
+      "path": "presets-restored-system-dark.png",
+      "bytes": 1913098,
+      "sha256": "81934e30de2dfb1b5fa218bf73ce0bef45206721b95cbaf9a01b3b773df45f04"
+    },
+    {
+      "path": "presets.png",
+      "bytes": 1847762,
+      "sha256": "60f263b0d6ae96e5f09fc6744ab8b3fec084f417196ed711a265f4f4af9acd80"
+    },
+    {
+      "path": "settings-system-dark.png",
+      "bytes": 200859,
+      "sha256": "f0c7bcc0c7ceb9e8e7167eef399254c04c5377a93a003cbea1b3a9dd9decb2b1"
+    },
+    {
+      "path": "settings.png",
+      "bytes": 195183,
+      "sha256": "ec1f3d317ca908c17319434733428ed460567003f1395dbd3fe49bc8c08cca50"
+    },
+    {
+      "path": "sync.png",
+      "bytes": 119741,
+      "sha256": "5391661fbe2f622cd62babc81172e0b7913022023997c025723188416ded8bb1"
+    }
+  ]
+}

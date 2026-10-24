@@ -1,0 +1,320 @@
+{
+  "mode": "landscape",
+  "apkSha256": "b5a781622d618fcf425a7d2bedc4e950c03463d2eb52595189535d7f8bb91e8b",
+  "versionCode": "91",
+  "scope": "Production native editor\/detail\/histogram\/export controls on isolated emulator; own JPEG\/draft fixtures only; no camera, physical-phone or new MediaStore publication.",
+  "fontScale": 1,
+  "density": 2.625,
+  "orientation": 2,
+  "nightMask": 16,
+  "status": "FAIL",
+  "stage": "histogram-editor-overlay",
+  "failure": "java.lang.AssertionError: landscape-default-histogram-curve-fully-visible",
+  "checks": 71,
+  "assertions": [
+    {
+      "name": "emulator-hardware-only",
+      "passed": true
+    },
+    {
+      "name": "exact-candidate-APK-bytes",
+      "passed": true
+    },
+    {
+      "name": "candidate-version",
+      "passed": true
+    },
+    {
+      "name": "main-activity-ready",
+      "passed": true
+    },
+    {
+      "name": "requested-native-orientation",
+      "passed": true
+    },
+    {
+      "name": "actual-font-scale",
+      "passed": true
+    },
+    {
+      "name": "actual-system-night-mode",
+      "passed": true
+    },
+    {
+      "name": "native-editor-ready",
+      "passed": true
+    },
+    {
+      "name": "detail-dialog-opens",
+      "passed": true
+    },
+    {
+      "name": "detail-first-real-frame",
+      "passed": true
+    },
+    {
+      "name": "detail-page-and-header-real-views",
+      "passed": true
+    },
+    {
+      "name": "detail-header-does-not-intersect-system-bars-or-cutout",
+      "passed": true
+    },
+    {
+      "name": "detail-safe-insets-applied-exactly-once",
+      "passed": true
+    },
+    {
+      "name": "detail-no-double-top-padding",
+      "passed": true
+    },
+    {
+      "name": "detail-white-system-bar-icons",
+      "passed": true
+    },
+    {
+      "name": "detail-photo-owns-full-safe-stage-without-bottom-panel",
+      "passed": true
+    },
+    {
+      "name": "detail-floating-zoom-palette-holds-only-three-compact-buttons",
+      "passed": true
+    },
+    {
+      "name": "detail-pixel-metric-is-a-separate-photo-overlay",
+      "passed": true
+    },
+    {
+      "name": "detail-pixel-metric-anchors-to-photo-top-right",
+      "passed": true
+    },
+    {
+      "name": "detail-pixel-metric-avoids-header-and-comparison",
+      "passed": true
+    },
+    {
+      "name": "detail-glass-real-photo-backdrop-ready",
+      "passed": true
+    },
+    {
+      "name": "detail-glass-samples-real-photo-with-bounded-memory",
+      "passed": true
+    },
+    {
+      "name": "detail-starts-fit",
+      "passed": true
+    },
+    {
+      "name": "detail-full-source-not-1280-preview",
+      "passed": true
+    },
+    {
+      "name": "100-percent-ready",
+      "passed": true
+    },
+    {
+      "name": "100-percent-is-one-physical-pixel",
+      "passed": true
+    },
+    {
+      "name": "100-percent-regions-unsampled",
+      "passed": true
+    },
+    {
+      "name": "region-pixels-identical-to-full-JPEG-source",
+      "passed": true
+    },
+    {
+      "name": "physical-framebuffer-1-to-1-high-frequency-pixels",
+      "passed": true
+    },
+    {
+      "name": "200-percent-ready",
+      "passed": true
+    },
+    {
+      "name": "200-percent-scale",
+      "passed": true
+    },
+    {
+      "name": "zoom-has-live-mini-map",
+      "passed": true
+    },
+    {
+      "name": "mini-map-pan-ready",
+      "passed": true
+    },
+    {
+      "name": "mini-map-repositions-real-viewport",
+      "passed": true
+    },
+    {
+      "name": "fit-again-ready",
+      "passed": true
+    },
+    {
+      "name": "fit-control-restores-fit",
+      "passed": true
+    },
+    {
+      "name": "native-editor-ready",
+      "passed": true
+    },
+    {
+      "name": "editor-loads-real-persisted-draft",
+      "passed": true
+    },
+    {
+      "name": "detail-dialog-opens",
+      "passed": true
+    },
+    {
+      "name": "detail-first-real-frame",
+      "passed": true
+    },
+    {
+      "name": "detail-page-and-header-real-views",
+      "passed": true
+    },
+    {
+      "name": "detail-header-does-not-intersect-system-bars-or-cutout",
+      "passed": true
+    },
+    {
+      "name": "detail-safe-insets-applied-exactly-once",
+      "passed": true
+    },
+    {
+      "name": "detail-no-double-top-padding",
+      "passed": true
+    },
+    {
+      "name": "detail-white-system-bar-icons",
+      "passed": true
+    },
+    {
+      "name": "detail-photo-owns-full-safe-stage-without-bottom-panel",
+      "passed": true
+    },
+    {
+      "name": "detail-floating-zoom-palette-holds-only-three-compact-buttons",
+      "passed": true
+    },
+    {
+      "name": "detail-pixel-metric-is-a-separate-photo-overlay",
+      "passed": true
+    },
+    {
+      "name": "detail-pixel-metric-anchors-to-photo-top-right",
+      "passed": true
+    },
+    {
+      "name": "detail-pixel-metric-avoids-header-and-comparison",
+      "passed": true
+    },
+    {
+      "name": "detail-glass-real-photo-backdrop-ready",
+      "passed": true
+    },
+    {
+      "name": "detail-glass-samples-real-photo-with-bounded-memory",
+      "passed": true
+    },
+    {
+      "name": "detail-current-matches-unframed-composition",
+      "passed": true
+    },
+    {
+      "name": "detail-is-not-editor-framed-preview",
+      "passed": true
+    },
+    {
+      "name": "effect-at-100",
+      "passed": true
+    },
+    {
+      "name": "before-registered",
+      "passed": true
+    },
+    {
+      "name": "before-same-composition-dimensions",
+      "passed": true
+    },
+    {
+      "name": "before-preserves-anchor-and-scale",
+      "passed": true
+    },
+    {
+      "name": "before-removes-real-manual-colour-effect",
+      "passed": true
+    },
+    {
+      "name": "current-restored",
+      "passed": true
+    },
+    {
+      "name": "explicit-same-file-rebind-invalidates-detail-dialog",
+      "passed": true
+    },
+    {
+      "name": "rebound-editor-ready",
+      "passed": true
+    },
+    {
+      "name": "freeze-export-snapshot",
+      "passed": true
+    },
+    {
+      "name": "histogram-real-preview-statistics",
+      "passed": true
+    },
+    {
+      "name": "histogram-glass-real-photo-backdrop-ready",
+      "passed": true
+    },
+    {
+      "name": "histogram-glass-bounded-real-backdrop",
+      "passed": true
+    },
+    {
+      "name": "histogram-overlay-does-not-move-photo-or-tools",
+      "passed": true
+    },
+    {
+      "name": "histogram-shadow-header-full-width-default",
+      "passed": true
+    },
+    {
+      "name": "histogram-highlight-header-full-width-default",
+      "passed": true
+    },
+    {
+      "name": "histogram-header-full-glyphs-default",
+      "passed": true
+    },
+    {
+      "name": "landscape-default-histogram-curve-fully-visible",
+      "passed": false
+    }
+  ],
+  "cleanup": [
+    {
+      "draft": "\/data\/data\/cc.huevia\/files\/photo-edit-drafts\/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\/ed9455f98e0c5435fa8686f84ecac6e5203741d4b3fd9acd307035ffc54c9923.draft",
+      "absent": true
+    },
+    {
+      "fixture": "\/storage\/emulated\/0\/Android\/data\/cc.huevia\/files\/Pictures\/camera-album\/image-upgrade-qa-21d24742-4ec1-4d2b-b6e3-564ea8f198dd__GRID.JPG",
+      "shaBeforeDelete": "8af48aad9c2a0dd15e4317991199d6fe0cc9d5223f0bfdd74a63bc219e563305",
+      "unchanged": true,
+      "absent": true
+    },
+    {
+      "fixture": "\/storage\/emulated\/0\/Android\/data\/cc.huevia\/files\/Pictures\/camera-album\/image-upgrade-qa-8bde210f-98dd-4162-94eb-e063469add98__PHOTO.JPG",
+      "shaBeforeDelete": "ed9455f98e0c5435fa8686f84ecac6e5203741d4b3fd9acd307035ffc54c9923",
+      "unchanged": true,
+      "absent": true
+    }
+  ],
+  "appearanceRestored": true,
+  "osGuideDismissals": []
+}

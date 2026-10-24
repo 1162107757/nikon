@@ -1,0 +1,42 @@
+{
+  "mode": "dark",
+  "serial": "emulator-5586",
+  "hardware": "ranchu",
+  "candidateApk": "D:\\dev\\ai-project\\nikon\\.tooling\\thumbnail-placeholder\\candidates\\e6401c06-initial.apk",
+  "candidateApkSha256": "e6401c06e067ac39c68884c35729bd2f7b10ca72dde4c1a48fd6ed940a638670",
+  "candidateVersionCode": "89",
+  "candidateVersionName": "0.18.0-beta",
+  "startedAtUtc": "2026-10-24T01:30:59.7702294Z",
+  "settingsBefore": {
+    "font_scale": "1.0",
+    "accelerometer_rotation": "1",
+    "user_rotation": "0"
+  },
+  "nightBefore": {
+    "command": "no",
+    "reported": "Night mode: no",
+    "secureMode": "1",
+    "customType": "-1"
+  },
+  "permissionsBefore": {
+    "android.permission.READ_MEDIA_IMAGES": false,
+    "android.permission.READ_MEDIA_VISUAL_USER_SELECTED": false,
+    "android.permission.POST_NOTIFICATIONS": false
+  },
+  "settingsObserved": {
+    "font_scale": "1.0",
+    "accelerometer_rotation": "0",
+    "user_rotation": "0",
+    "night": {
+      "command": "yes",
+      "reported": "Night mode: yes",
+      "secureMode": "2",
+      "customType": "-1"
+    },
+    "permissions": {
+      "android.permission.READ_MEDIA_IMAGES": true,
+      "android.permission.READ_MEDIA_VISUAL_USER_SELECTED": false,
+      "android.permission.POST_NOTIFICATIONS": true
+    }
+  }
+}

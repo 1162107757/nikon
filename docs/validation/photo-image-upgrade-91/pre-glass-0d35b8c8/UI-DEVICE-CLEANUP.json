@@ -1,0 +1,13 @@
+{
+  "serial": "emulator-5586",
+  "candidateSha256": "0d35b8c8d6367c1a62078a264183ca41bd24bc357ebd22ee8dcb08f83870bb31",
+  "ownedInstrumentationPackage": "cc.huevia.imageupgradeqa",
+  "ownedInstrumentationUninstalled": true,
+  "nativeFixturesDraftsAndProgressScratch": "All five native reports verify exact owned paths absent and source SHA preserved",
+  "systemSettingsAndGrants": "All five restoration.json reports PASS",
+  "detailPngCleanup": "Native scopeGuard verifies closed Source private directory absent",
+  "externalCacheInspection": "run-as denied because target is not debuggable; no bypass attempted and no cache listing claim",
+  "physicalDevicesTouched": false,
+  "mediaStorePublications": 0,
+  "emulatorHandedBackToRootForShutdown": true
+}

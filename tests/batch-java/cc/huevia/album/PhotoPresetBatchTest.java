@@ -24,6 +24,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.BooleanSupplier;
 
 /** Tests pixel-strip policy plus real batch control/ledger with explicit host acquisition/publication facades.
@@ -51,6 +52,10 @@ public final class PhotoPresetBatchTest {
             individualDraftExports(root.resolve("individual-edits"));
             explicitDestinationsAndFrozenRetry(root.resolve("save-destinations"));
             newCopyRetryAfterDraftWriteFailureDoesNotPublishAgain(root.resolve("post-publication-retry"));
+            actualExportSpecsAndFrozenRetries(root.resolve("export-specs"));
+            sourceOrderedItemLedger(root.resolve("item-ledger"));
+            frozenAccountStopsChangedScope(root.resolve("account-guard"));
+            orphanSavedJpegIsReencodedInsteadOfAssumedQ95(root.resolve("orphan-saved-jpeg"));
             System.out.println("PASS: " + checks + " photo-preset batch checks");
         } finally {
             try (var paths = Files.walk(root)) { for (Path path : paths.sorted(Comparator.reverseOrder()).toList()) Files.deleteIfExists(path); }
@@ -468,7 +473,7 @@ public final class PhotoPresetBatchTest {
         List<PhotoPresetBatch.Edit> edits=List.of(PhotoPresetBatch.Edit.draft(PhotoPresetBatch.Source.local(a),da,"owner-a"),PhotoPresetBatch.Edit.draft(PhotoPresetBatch.Source.local(b),db,"owner-a"),PhotoPresetBatch.Edit.draft(PhotoPresetBatch.Source.local(c),dc,"owner-a"));
         Result<Void> accepted=new Result<>();f.batch.startEdits(edits,accepted,null);accepted.await();f.await();
         PhotoPresetBatchState state=f.batch.state();check(state.completed==3&&state.failed==0&&state.results.size()==3,"Different per-photo filters, strengths and original export independently");
-        check(f.effectCount()==2&&state.results.get(2).file().equals(c.file()),"Explicit original creates no unnecessary effect file");
+        check(f.effectCount()==3&&!state.results.get(2).file().equals(c.file()),"Neutral JPEG export is actually encoded at Q95 instead of copying unknown source quality");
         for(int i=0;i<2;i++){
             PhotoEditStore.Draft d=i==0?da:db;DownloadedPhoto input=i==0?a:b;
             PresetPreviewProfile p=cc.huevia.ncp.StrengthPreviewProfile.of(PresetPreviewProfiles.fromPreset(d.presetBytes()),d.strength);
@@ -483,9 +488,9 @@ public final class PhotoPresetBatchTest {
         check(Arrays.equals(JPEG,Files.readAllBytes(a.file().toPath()))&&Arrays.equals(bBytes,Files.readAllBytes(b.file().toPath()))&&Arrays.equals(cBytes,Files.readAllBytes(c.file().toPath())),"Mixed export preserves all original bytes");
         PhotoEditStore.Draft newer=new PhotoEditStore.Draft(da.sourceSha,ncp,"A newer",20,false);store.save(newer);
         f.resetObservations();accepted=new Result<>();f.batch.startEdits(edits,accepted,null);accepted.await();f.await();
-        check(f.batch.state().reused==2&&f.effectCount()==2&&android.graphics.BitmapFactory.decodedPaths.isEmpty(),"Frozen retry reuses exact results despite subsequent edited settings");
+        check(f.batch.state().reused==3&&f.effectCount()==3&&android.graphics.BitmapFactory.decodedPaths.isEmpty(),"Frozen retry reuses exact results including neutral Q95 despite subsequent edited settings");
         check(store.read(da.sourceSha).strength==20&&!store.read(da.sourceSha).exported,"Finishing older frozen draft cannot mark newer settings exported");
-        PhotoLiveGallery.failDerived=true;PhotoEditStore.Draft alternate=new PhotoEditStore.Draft(da.sourceSha,ncp,"A 30",30,false);
+        PhotoLiveGallery.failDerived=true;PhotoLiveGallery.failOnlyFilenamePrefix="A_";PhotoEditStore.Draft alternate=new PhotoEditStore.Draft(da.sourceSha,ncp,"A 30",30,false);
         PhotoPresetBatch.Edit fail=PhotoPresetBatch.Edit.draft(PhotoPresetBatch.Source.local(a),alternate,"owner-a");accepted=new Result<>();f.batch.startEdits(List.of(fail,edits.get(2)),accepted,null);accepted.await();f.await();
         check(f.batch.state().completed==1&&f.batch.state().failed==1&&f.batch.retryEdits().size()==1&&f.batch.retryEdits().get(0).draft==fail.draft&&f.batch.retryEdits().get(0).source==fail.source,"Partial failure retains only unfinished immutable per-photo choice");
         PhotoLiveGallery.failDerived=false;accepted=new Result<>();f.batch.startEdits(f.batch.retryEdits(),accepted,null);accepted.await();f.await();
@@ -521,7 +526,7 @@ public final class PhotoPresetBatchTest {
         check(PhotoLiveGallery.rows.size() == 2 && f.batch.state().reused == 1, "Explicit new copy adds one phone row without rerendering");
         PhotoEditStore.Draft alternate = new PhotoEditStore.Draft(draft.sourceSha, NcpCompatibilityFixtures.ncp(), "Failed phone target", 37, false);
         PhotoPresetBatch.Edit fail = PhotoPresetBatch.Edit.draft(PhotoPresetBatch.Source.local(source), alternate, "target-owner");
-        PhotoLiveGallery.failDerived = true; accepted = new Result<>();
+        PhotoLiveGallery.failDerived = true; PhotoLiveGallery.failOnlyFilenamePrefix = "APP-ONLY_"; accepted = new Result<>();
         f.batch.startEdits(List.of(fail, PhotoPresetBatch.Edit.saved(PhotoPresetBatch.Source.local(other))), PhotoSaveTarget.PHONE_ALBUM, false, accepted, null);
         accepted.await(); f.await();
         List<PhotoPresetBatch.Edit> retry = f.batch.retryEdits();
@@ -554,9 +559,148 @@ public final class PhotoPresetBatchTest {
                     "Retry completes draft history without making a second explicit new phone copy");
         } finally { PhotoLiveGallery.beforePublish = null; }
     }
+    private static void actualExportSpecsAndFrozenRetries(Path root) throws Exception {
+        Fixture f = new Fixture(root); DownloadedPhoto source = f.original("SPEC.JPG");
+        String sha = PhotoEditStore.hashFile(source.file());
+        PhotoEditStore.Draft draft = new PhotoEditStore.Draft(sha, NcpCompatibilityFixtures.ncp(), "Frozen", 61, false);
+        PhotoPresetBatch.Edit full = PhotoPresetBatch.Edit.draft(PhotoPresetBatch.Source.local(source), draft, "spec-owner", PhotoExportSpec.full());
+        check(f.batch.findResult(full) == null && f.effectCount() == 0 && PhotoLiveGallery.publications.isEmpty(), "Settings lookup never renders or publishes missing results");
+        Result<Void> accepted = new Result<>(); f.batch.startEdits(List.of(full), PhotoSaveTarget.APP_ONLY, false, accepted, null); accepted.await(); f.await();
+        DownloadedPhoto fullResult = f.batch.state().results.get(0);
+        check(android.graphics.Bitmap.compressedQualities.equals(List.of(95)), "Full export invokes actual JPEG quality 95");
+        check(f.batch.findResult(full).file().equals(fullResult.file()) && PhotoPresetBatch.matchesSavedDraft(fullResult, draft), "Lookup and saved draft match retain old full-Q95 identity");
+        PhotoPresetBatch.Edit share = PhotoPresetBatch.Edit.draft(PhotoPresetBatch.Source.local(source), draft, "spec-owner", PhotoExportSpec.share());
+        f.resetObservations(); PhotoLiveGallery.failDerived = true; accepted = new Result<>();
+        f.batch.startEdits(List.of(share), PhotoSaveTarget.PHONE_ALBUM, false, accepted, null); accepted.await(); f.await();
+        List<PhotoPresetBatch.Edit> retry = f.batch.retryEdits(); DownloadedPhoto shareResult = f.batch.state().results.get(0);
+        check(f.batch.state().failed == 1 && retry.size() == 1 && retry.get(0).exportSpec == PhotoExportSpec.share(), "Failed task freezes its own actual export choice");
+        check(android.graphics.Bitmap.compressedQualities.equals(List.of(90)) && !shareResult.file().equals(fullResult.file()), "Share Q90 encodes and cannot borrow Q95 bytes");
+        check(PhotoPresetBatch.matchesSavedDraft(shareResult, draft), "New export model can restore the exact saved recipe by cryptographic key");
+        check(f.batch.findResult(share).file().equals(shareResult.file()), "Settings lookup validates exact Q90 result independently of the full result");
+        PhotoLiveGallery.failDerived = false; f.resetObservations(); accepted = new Result<>();
+        f.batch.startEdits(retry, PhotoSaveTarget.APP_ONLY, true, accepted, null); accepted.await(); f.await();
+        check(f.batch.state().completed == 1 && f.batch.state().reused == 1 && android.graphics.Bitmap.compressedQualities.isEmpty(), "Frozen-spec retry republishes existing pixels without encoding");
+        check(PhotoLiveGallery.publications.size() == 1, "Retry keeps accepted phone destination when the current UI asks for app-only");
+        f.resetObservations(); accepted = new Result<>();
+        f.batch.startEdits(List.of(PhotoPresetBatch.Edit.saved(PhotoPresetBatch.Source.local(fullResult), PhotoExportSpec.full(), PhotoEditStore.hashFile(fullResult.file()))), PhotoSaveTarget.APP_ONLY, false, accepted, null); accepted.await(); f.await();
+        check(f.batch.state().results.get(0).file().equals(fullResult.file()) && android.graphics.Bitmap.compressedQualities.isEmpty(), "Verified legacy full95 saved version retains already encoded bytes");
+        f.resetObservations(); accepted = new Result<>();
+        f.batch.startEdits(List.of(PhotoPresetBatch.Edit.saved(PhotoPresetBatch.Source.local(shareResult), PhotoExportSpec.full(), PhotoEditStore.hashFile(shareResult.file()))), PhotoSaveTarget.APP_ONLY, false, accepted, null); accepted.await(); f.await();
+        check(f.batch.state().completed == 1 && android.graphics.Bitmap.compressedQualities.equals(List.of(95)), "Unrestorable saved Q90 is really reencoded Q95 rather than mislabeled original copy");
+        f.resetObservations(); accepted = new Result<>();
+        f.batch.startEdits(List.of(PhotoPresetBatch.Edit.saved(PhotoPresetBatch.Source.local(source), PhotoExportSpec.share(), "f".repeat(64))), PhotoSaveTarget.APP_ONLY, false, accepted, null); accepted.await(); f.await();
+        check(f.batch.state().failed == 1 && android.graphics.BitmapFactory.decodedPaths.isEmpty() && PhotoLiveGallery.publications.isEmpty(), "Changed frozen saved source is rejected before rendering or publication");
+        check(PhotoEditStore.hashFile(source.file()).equals(sha), "All export variations and retries preserve source bytes");
+    }
+    private static void sourceOrderedItemLedger(Path root) throws Exception {
+        Fixture f = new Fixture(root); DownloadedPhoto source = f.original("LEDGER.JPG");
+        PhotoEditStore.Draft wrong = new PhotoEditStore.Draft("f".repeat(64), NcpCompatibilityFixtures.ncp(), "Wrong input", 67, false);
+        PhotoEditStore.Draft valid = new PhotoEditStore.Draft(PhotoEditStore.hashFile(source.file()), NcpCompatibilityFixtures.ncp(), "Actual", 67, false);
+        PhotoPresetBatch.Edit bad = PhotoPresetBatch.Edit.draft(PhotoPresetBatch.Source.local(source), wrong, "ledger-owner");
+        PhotoPresetBatch.Edit good = PhotoPresetBatch.Edit.draft(PhotoPresetBatch.Source.local(source), valid, "ledger-owner");
+        List<PhotoPresetBatchState> observed = new java.util.concurrent.CopyOnWriteArrayList<>(); Runnable observer = () -> observed.add(f.batch.state());
+        f.batch.addObserver(observer); Result<Void> accepted = new Result<>();
+        f.batch.startEdits(List.of(bad, good, good), PhotoSaveTarget.APP_ONLY, false, accepted, null); accepted.await(); f.await(); f.batch.removeObserver(observer);
+        PhotoPresetBatchState result = f.batch.state();
+        check(result.items.size() == 3 && result.items.get(0).status.equals("failed") && result.items.get(1).status.equals("completed") && result.items.get(2).status.equals("reused"), "Rows retain first failure then actual success and merged reuse instead of guessing the first N successes");
+        check(!result.items.get(0).error.isEmpty() && result.items.get(1).error.isEmpty() && result.items.get(2).width == 1 && result.items.get(2).quality == 95, "Item ledger exposes real error and successful actual output specification");
+        check(result.items.get(0).index == 0 && result.items.get(1).index == 1 && result.items.get(2).index == 2 && result.items.get(0).key.equals(result.items.get(2).key), "Repeated source keys preserve distinct immutable input indices");
+        PhotoPresetBatchState first = observed.get(0);
+        check(first.items.stream().allMatch(item -> item.status.equals("waiting")), "An emitted waiting snapshot stays immutable after the job completes");
+        try { result.items.clear(); throw new AssertionError("Mutable item ledger"); } catch (UnsupportedOperationException expected) { checks++; }
+        AtomicBoolean sawPendingCancellation = new AtomicBoolean();
+        Runnable cancel = () -> { PhotoPresetBatchState state = f.batch.state(); if (state.active && !state.currentFilename.isEmpty()) { if (state.cancelRequested) sawPendingCancellation.set(true); f.batch.cancel(); } };
+        f.batch.addObserver(cancel); accepted = new Result<>(); f.batch.startEdits(List.of(good, good), PhotoSaveTarget.APP_ONLY, false, accepted, null); accepted.await(); f.await(); f.batch.removeObserver(cancel);
+        check(sawPendingCancellation.get() && f.batch.state().items.stream().allMatch(item -> item.status.equals("cancelled")), "Cancellation is requested while active, then actual unfinished rows become cancelled at safe termination");
+    }
+    private static void frozenAccountStopsChangedScope(Path root) throws Exception {
+        Fixture f = new Fixture(root); DownloadedPhoto first = f.original("ACCOUNT-A.JPG"), second = f.original("ACCOUNT-B.JPG");
+        byte[] other = JPEG.clone(); other[4] ^= 19; Files.write(second.file().toPath(), other);
+        String sha = PhotoEditStore.hashFile(first.file());
+        PhotoEditStore.Draft one = new PhotoEditStore.Draft(sha, NcpCompatibilityFixtures.ncp(), "Frozen A", 59, false);
+        PhotoEditStore.Draft two = new PhotoEditStore.Draft(PhotoEditStore.hashFile(second.file()), NcpCompatibilityFixtures.ncp(), "Frozen B", 59, false);
+        PhotoEditStore store = new PhotoEditStore(f.context.getFilesDir(), "account-a"); store.save(one); store.save(two);
+        PhotoEditStore newerStore = new PhotoEditStore(f.context.getFilesDir(), "account-b");
+        PhotoEditStore.Draft newer = new PhotoEditStore.Draft(sha, NcpCompatibilityFixtures.ncp(), "New account", 23, false); newerStore.save(newer);
+        AtomicReference<String> account = new AtomicReference<>("account-a");
+        PhotoPresetBatch.Edit a = PhotoPresetBatch.Edit.draft(PhotoPresetBatch.Source.local(first), one, "account-a", PhotoExportSpec.share()).withAccount("account-a");
+        PhotoPresetBatch.Edit b = PhotoPresetBatch.Edit.draft(PhotoPresetBatch.Source.local(second), two, "account-a", PhotoExportSpec.share()).withAccount("account-a");
+        android.graphics.Bitmap.beforeCompress = () -> account.set("account-b");
+        try {
+            Result<Void> accepted = new Result<>(); f.batch.startEdits(List.of(a, b), PhotoSaveTarget.PHONE_ALBUM, true, accepted, null, account::get); accepted.await(); f.await();
+            check(f.batch.state().failed == 2 && f.batch.retryEdits().size() == 2 && PhotoLiveGallery.publications.isEmpty(), "Account change during encoding blocks publication and stops remaining related items");
+            check(android.graphics.BitmapFactory.decodedPaths.equals(List.of(first.file().getCanonicalPath())) && f.batch.state().results.size() == 1 && f.effectCount() == 1, "Stopped account keeps the completed local artifact without decoding remaining input");
+            check(!store.read(one.sourceSha).exported && !newerStore.read(newer.sourceSha).exported && newerStore.read(newer.sourceSha).strength == 23, "Changed account cannot mark either old pending draft or a new account's draft exported");
+            check(f.batch.retryEdits().stream().allMatch(edit -> edit.accountBound && edit.accountScope.equals("account-a") && edit.withAccount("account-b").accountScope.equals("account-a")), "Retries retain frozen account even if UI attempts to bind the current one");
+        } finally { android.graphics.Bitmap.beforeCompress = null; }
+        account.set("account-a"); f.resetObservations(); Result<Void> accepted = new Result<>();
+        f.batch.startEdits(f.batch.retryEdits(), PhotoSaveTarget.APP_ONLY, false, accepted, null, account::get); accepted.await(); f.await();
+        check(f.batch.state().completed == 2 && f.batch.state().reused == 1 && PhotoLiveGallery.rows.size() == 2 && android.graphics.Bitmap.compressedQualities.equals(List.of(90)), "Explicit retry in original scope reuses first artifact and preserves frozen Q90 and phone destination");
+        check(store.read(one.sourceSha).exported && !newerStore.read(newer.sourceSha).exported && PhotoEditStore.hashFile(first.file()).equals(sha), "Restored scope updates only its own exact draft and preserves input bytes");
+
+        PhotoPresetBatch.Edit guest = PhotoPresetBatch.Edit.saved(PhotoPresetBatch.Source.local(first), PhotoExportSpec.full(), sha).withAccount("").withDestination(PhotoSaveTarget.APP_ONLY, false);
+        check(guest.accountBound && guest.accountScope.isEmpty() && guest.withAccount("account-b").accountScope.isEmpty(), "Empty guest scope is explicitly bound and cannot be reassigned");
+        Result<Void> noGuard = new Result<>(); f.batch.startEdits(List.of(guest), PhotoSaveTarget.APP_ONLY, false, noGuard, null);
+        check(noGuard.done.await(5, TimeUnit.SECONDS) && noGuard.error != null && !f.batch.isActive(), "Bound export cannot bypass account validation by calling the legacy overload");
+        Result<Void> wrongGuest = new Result<>(); f.batch.startEdits(List.of(guest), PhotoSaveTarget.APP_ONLY, false, wrongGuest, null, () -> "account-b");
+        check(wrongGuest.done.await(5, TimeUnit.SECONDS) && wrongGuest.error != null && !f.batch.isActive(), "Guest task rejects a signed-in current account before acceptance");
+        AtomicReference<String> guestAccount = new AtomicReference<>(""); f.resetObservations();
+        android.graphics.Bitmap.beforeCompress = () -> guestAccount.set("signed-in-account");
+        try {
+            accepted = new Result<>(); f.batch.startEdits(List.of(guest), PhotoSaveTarget.APP_ONLY, false, accepted, null, guestAccount::get); accepted.await(); f.await();
+            check(f.batch.state().failed == 1 && PhotoLiveGallery.publications.isEmpty() && f.batch.retryEdits().get(0).accountBound && f.batch.retryEdits().get(0).accountScope.isEmpty(), "Signing in during guest export is detected after rendering and retains frozen guest retry scope");
+        } finally { android.graphics.Bitmap.beforeCompress = null; }
+
+        Fixture after = new Fixture(root.resolve("after-publication")); DownloadedPhoto input = after.original("PUBLISHED.JPG");
+        PhotoEditStore.Draft published = new PhotoEditStore.Draft(PhotoEditStore.hashFile(input.file()), NcpCompatibilityFixtures.ncp(), "Published before account change", 58, false);
+        PhotoEditStore publishedStore = new PhotoEditStore(after.context.getFilesDir(), "account-a"); publishedStore.save(published);
+        PhotoPresetBatch.Edit item = PhotoPresetBatch.Edit.draft(PhotoPresetBatch.Source.local(input), published, "account-a").withAccount("account-a");
+        account.set("account-a"); PhotoLiveGallery.beforePublish = photo -> account.set("account-b");
+        try {
+            accepted = new Result<>(); after.batch.startEdits(List.of(item), PhotoSaveTarget.PHONE_ALBUM, true, accepted, null, account::get); accepted.await(); after.await();
+            check(after.batch.state().failed == 1 && PhotoLiveGallery.rows.size() == 1 && !publishedStore.read(published.sourceSha).exported, "Account change after actual publication retains receipt but blocks draft registration");
+            PhotoLiveGallery.beforePublish = null; account.set("account-a"); accepted = new Result<>();
+            after.batch.startEdits(after.batch.retryEdits(), PhotoSaveTarget.PHONE_ALBUM, true, accepted, null, account::get); accepted.await(); after.await();
+            check(after.batch.state().completed == 1 && PhotoLiveGallery.rows.size() == 1 && publishedStore.read(published.sourceSha).exported, "Retry after account change repairs registration without issuing a second explicit new copy");
+        } finally { PhotoLiveGallery.beforePublish = null; }
+    }
+    private static void orphanSavedJpegIsReencodedInsteadOfAssumedQ95(Path root) throws Exception {
+        Fixture f = new Fixture(root);
+        DownloadedPhoto orphan = f.original("effect-" + "e".repeat(64) + "__Effect.JPG");
+        String sha = PhotoEditStore.hashFile(orphan.file());
+        PhotoPresetBatch.Edit edit = PhotoPresetBatch.Edit.saved(PhotoPresetBatch.Source.local(orphan), PhotoExportSpec.full(), sha);
+        check(f.batch.findResult(edit) == null, "A valid orphan JPEG without output ledger is not an already encoded Q95 result");
+        Result<Void> accepted = new Result<>(); f.batch.startEdits(List.of(edit), PhotoSaveTarget.APP_ONLY, false, accepted, null); accepted.await(); f.await();
+        DownloadedPhoto generated = f.batch.state().results.get(0);
+        check(f.batch.state().completed == 1 && f.batch.state().reused == 0 && !generated.file().equals(orphan.file()) && android.graphics.Bitmap.compressedQualities.equals(List.of(95)), "Valid orphan saved JPEG gets a new genuinely encoded full95 result, never a filename-based reuse");
+        check(PhotoEditStore.hashFile(orphan.file()).equals(sha) && f.batch.findResult(edit).file().equals(generated.file()), "Orphan source remains intact and lookup finds only the new byte-verified result");
+        f.resetObservations(); accepted = new Result<>(); f.batch.startEdits(List.of(edit), PhotoSaveTarget.APP_ONLY, false, accepted, null); accepted.await(); f.await();
+        check(f.batch.state().completed == 1 && f.batch.state().reused == 1 && android.graphics.Bitmap.compressedQualities.isEmpty(), "Second explicit orphan export reuses its verified reencoding rather than reencoding again");
+        DownloadedPhoto alias = new DownloadedPhoto(new File(orphan.file().getParentFile(), "." + File.separator + orphan.file().getName()), "Canonical alias.JPG");
+        check(f.batch.findResult(PhotoPresetBatch.Edit.saved(PhotoPresetBatch.Source.local(alias), PhotoExportSpec.full(), sha)).file().equals(generated.file()), "A safe directory spelling alias remains valid after canonical owned-directory verification");
+        File outside = root.resolve("effect-" + "b".repeat(64) + "__Effect.JPG").toFile(); Files.write(outside.toPath(), JPEG);
+        try { f.batch.findResult(PhotoPresetBatch.Edit.saved(PhotoPresetBatch.Source.local(new DownloadedPhoto(outside, "Outside.JPG")), PhotoExportSpec.full(), sha)); throw new AssertionError("Outside private album was accepted"); }
+        catch (IOException expected) { checks++; }
+
+        DownloadedPhoto stale = f.original("effect-" + "d".repeat(64) + "__Effect.JPG"); byte[] changed = JPEG.clone(); changed[4] ^= 39; Files.write(stale.file().toPath(), changed);
+        Path records = f.context.getFilesDir().toPath().resolve("photo-preset-results"); Files.write(records.resolve("d".repeat(64) + ".record"), new byte[]{1, 2, 3});
+        PhotoPresetBatch.Edit staleEdit = PhotoPresetBatch.Edit.saved(PhotoPresetBatch.Source.local(stale), PhotoExportSpec.full(), PhotoEditStore.hashFile(stale.file()));
+        check(f.batch.findResult(staleEdit) == null, "Unreadable completion proof for a valid historical JPEG is unknown quality, not source invalidity");
+        f.resetObservations(); accepted = new Result<>(); f.batch.startEdits(List.of(staleEdit), PhotoSaveTarget.APP_ONLY, false, accepted, null); accepted.await(); f.await();
+        check(f.batch.state().completed == 1 && f.batch.state().reused == 0 && android.graphics.Bitmap.compressedQualities.equals(List.of(95)), "Corrupt old completion record uses real full95 reencoding of the selected valid JPEG");
+
+        DownloadedPhoto broken = f.original("effect-" + "c".repeat(64) + "__Effect.JPG"); Files.write(broken.file().toPath(), new byte[]{(byte)255, (byte)216, 1, 2, 3});
+        PhotoPresetBatch.Edit invalid = PhotoPresetBatch.Edit.saved(PhotoPresetBatch.Source.local(broken), PhotoExportSpec.full(), PhotoEditStore.hashFile(broken.file()));
+        try { f.batch.findResult(invalid); throw new AssertionError("Damaged historical JPEG accepted by lookup"); } catch (IOException expected) { checks++; }
+        f.resetObservations(); accepted = new Result<>(); f.batch.startEdits(List.of(invalid), PhotoSaveTarget.APP_ONLY, false, accepted, null); accepted.await(); f.await();
+        check(f.batch.state().failed == 1 && f.batch.state().results.isEmpty() && android.graphics.Bitmap.compressedQualities.isEmpty() && PhotoLiveGallery.publications.isEmpty(), "Damaged orphan JPEG fails before encoding or publication");
+        java.lang.reflect.Method preserve = PhotoPresetBatch.class.getDeclaredMethod("canPreserveFullEffect", DownloadedPhoto.class, BooleanSupplier.class); preserve.setAccessible(true);
+        try { preserve.invoke(f.batch, orphan, (BooleanSupplier)() -> true); throw new AssertionError("Cancelled orphan inspection was softened"); }
+        catch (java.lang.reflect.InvocationTargetException expected) { check(expected.getCause() instanceof PhotoPresetRenderer.Cancelled, "Cancellation remains a hard failure outside the completion-ledger fallback"); }
+    }
     private static final class Fixture {
         final Context context; final AlbumController album=new AlbumController(); final PhotoPresetBatch batch; final PresetRecord preset; final Path originals;
-        Fixture(Path root)throws Exception{ Files.createDirectories(root); context=new Context(root.toFile()); originals=root.resolve("external/Pictures/camera-album");Files.createDirectories(originals); preset=new PresetLibrary(context.getFilesDir()).importFile("fixture.ncp",NcpCompatibilityFixtures.ncp()).record; batch=new PhotoPresetBatch(context,album);PhotoLiveGallery.rows.clear();PhotoLiveGallery.failDerived=false;resetObservations();android.graphics.BitmapFactory.failDecode=false; }
+        Fixture(Path root)throws Exception{ Files.createDirectories(root); context=new Context(root.toFile()); originals=root.resolve("external/Pictures/camera-album");Files.createDirectories(originals); preset=new PresetLibrary(context.getFilesDir()).importFile("fixture.ncp",NcpCompatibilityFixtures.ncp()).record; batch=new PhotoPresetBatch(context,album);PhotoLiveGallery.rows.clear();PhotoLiveGallery.failDerived=false;PhotoLiveGallery.failOnlyFilenamePrefix="";resetObservations();android.graphics.BitmapFactory.failDecode=false; }
         DownloadedPhoto original(String name)throws IOException{Path file=originals.resolve(name);Files.write(file,JPEG);return new DownloadedPhoto(file.toFile(),name);}
         File seed(DownloadedPhoto source)throws Exception{
             String key=PhotoPresetBatch.key(hex(MessageDigest.getInstance("SHA-256").digest(JPEG)),preset.sha256); File output=originals.resolve("effect-"+key+"__Effect.JPG").toFile();Files.write(output.toPath(),JPEG);
@@ -574,7 +718,7 @@ public final class PhotoPresetBatchTest {
         List<PresetRecord> presets()throws Exception{Result<List<PresetRecord>> result=new Result<>();batch.listPresets(result);return result.await();}
         void start(List<PhotoPresetBatch.Source> sources)throws Exception{start(sources,preset.id);}
         void start(List<PhotoPresetBatch.Source> sources,String presetId)throws Exception{Result<Void> result=new Result<>(){public void onSuccess(Void value){check(batch.state().active,"Accepted start marks active before acceptance callback");super.onSuccess(value);}};batch.start(sources,presetId,result);result.await();}
-        void resetObservations(){PhotoLiveGallery.publications.clear();android.graphics.BitmapFactory.decodedPaths.clear();}
+        void resetObservations(){PhotoLiveGallery.publications.clear();android.graphics.BitmapFactory.decodedPaths.clear();android.graphics.Bitmap.compressedQualities.clear();}
         long effectCount()throws IOException{try(var files=Files.list(originals)){return files.filter(path->path.getFileName().toString().startsWith("effect-")).count();}}
         void await()throws Exception{until(()->!batch.state().active);check(batch.state().completed+batch.state().failed+batch.state().cancelled==batch.state().total,"Every item has exactly one terminal outcome");}
     }

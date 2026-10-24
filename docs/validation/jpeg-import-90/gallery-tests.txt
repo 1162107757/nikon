@@ -1,0 +1,5 @@
+PASS: 250 photo album saver checks
+PASS: 86 imported photo origin/publication checks
+PASS: 36 local photo deletion checks
+PASS: 18 original byte identity checks
+PASS: 58 JPEG primary-stream and suffix checks

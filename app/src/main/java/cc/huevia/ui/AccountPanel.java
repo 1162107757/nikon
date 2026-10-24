@@ -281,7 +281,7 @@ public final class AccountPanel implements AutoCloseable {
             addChallenge(form);
         }
         submit = button(registering ? "注册并登录" : "登录", true, this::submit);
-        submit.setBackground(actionBackground(colors.primary, 18));
+        submit.setBackground(HueTheme.action(activity,colors,26));
         addLoadingAction(content, submit, true);
         password.setOnEditorActionListener((view, id, event) -> { if (!registering && id == EditorInfo.IME_ACTION_DONE) { submit(); return true; } return false; });
         if (confirmation != null) confirmation.setOnEditorActionListener((view, id, event) -> { if (id == EditorInfo.IME_ACTION_DONE) { submit(); return true; } return false; });
@@ -367,16 +367,16 @@ public final class AccountPanel implements AutoCloseable {
 
     private void addQqAction(LinearLayout parent) {
         qqButton = button("QQ 快捷登录", true, () -> showQqPrivacy(true));
-        qqButton.setBackground(actionBackground(colors.primary, 18));
+        qqButton.setBackground(HueTheme.action(activity,colors,26));
         FrameLayout action = new FrameLayout(activity); action.addView(qqButton, new FrameLayout.LayoutParams(-1, -1));
         qqLoadingContent = new LinearLayout(activity); qqLoadingContent.setGravity(Gravity.CENTER);
         qqLoadingContent.setPadding(dp(16), dp(12), dp(16), dp(12));
         qqLoadingContent.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
         ProgressBar progress = new ProgressBar(activity);
-        progress.setIndeterminateTintList(ColorStateList.valueOf(colors.onPrimary));
+        progress.setIndeterminateTintList(ColorStateList.valueOf(colors.onAction));
         LinearLayout.LayoutParams progressParams = new LinearLayout.LayoutParams(dp(20), dp(20)); progressParams.setMarginEnd(dp(8));
         qqLoadingContent.addView(progress, progressParams);
-        qqLoadingLabel = text("", 15, false); qqLoadingLabel.setTextColor(colors.onPrimary);
+        qqLoadingLabel = text("", 15, false); qqLoadingLabel.setTextColor(colors.onAction);
         qqLoadingContent.addView(qqLoadingLabel, new LinearLayout.LayoutParams(-2, -2));
         action.addView(qqLoadingContent, new FrameLayout.LayoutParams(-2, -2, Gravity.CENTER));
         qqLoadingContent.setVisibility(View.GONE); parent.addView(action, new LinearLayout.LayoutParams(-1, -2));
@@ -727,7 +727,7 @@ public final class AccountPanel implements AutoCloseable {
             boolean qqLoading = restoring || working;
             String label = restoring ? "正在读取账号…" : qqAuthorizing ? "等待 QQ 授权…" : qqExchanging ? "正在登录…" : working ? "正在处理账号…" : "QQ 快捷登录";
             qqButton.setEnabled(canAuthenticate); qqButton.setAlpha(canAuthenticate || qqLoading ? 1f : .65f);
-            qqButton.setText(label); qqButton.setContentDescription(label); qqButton.setTextColor(qqLoading ? Color.TRANSPARENT : colors.onPrimary);
+            qqButton.setText(label); qqButton.setContentDescription(label); qqButton.setTextColor(qqLoading ? Color.TRANSPARENT : colors.onAction);
             if (qqLoadingLabel != null) qqLoadingLabel.setText(label);
             if (qqLoadingContent != null) qqLoadingContent.setVisibility(qqLoading ? View.VISIBLE : View.GONE);
         }
@@ -893,7 +893,7 @@ public final class AccountPanel implements AutoCloseable {
         loadingContent.setPadding(dp(16), dp(12), dp(16), dp(12));
         loadingContent.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
         loadingContent.setClickable(false); loadingContent.setFocusable(false);
-        int foreground = primary ? colors.onPrimary : colors.primary;
+        int foreground = primary ? colors.onAction : colors.text;
         spinner = new ProgressBar(activity); spinner.setIndeterminateTintList(android.content.res.ColorStateList.valueOf(foreground));
         LinearLayout.LayoutParams spinnerParams = new LinearLayout.LayoutParams(dp(20), dp(20)); spinnerParams.setMarginEnd(dp(8));
         loadingContent.addView(spinner, spinnerParams);
@@ -906,7 +906,7 @@ public final class AccountPanel implements AutoCloseable {
     }
     private void updateLoadingAction(Button button, boolean primary, boolean loading, String label) {
         // Keep the actual label for measurement and accessibility, while the overlay draws the busy label.
-        button.setText(label); button.setTextColor(loading ? Color.TRANSPARENT : primary ? colors.onPrimary : colors.primary);
+        button.setText(label); button.setTextColor(loading ? Color.TRANSPARENT : primary ? colors.onAction : colors.text);
         button.setContentDescription(label);
         if (loadingLabel != null) loadingLabel.setText(label);
         if (loadingContent != null) loadingContent.setVisibility(loading ? View.VISIBLE : View.GONE);
@@ -916,7 +916,7 @@ public final class AccountPanel implements AutoCloseable {
         // Native Button elevation survives a custom background and is clipped by loading wrappers.
         // Keep these actions flat; their RippleDrawable supplies the pressed feedback.
         button.setStateListAnimator(null); button.setElevation(0f); button.setTranslationZ(0f);
-        button.setTextColor(primary ? colors.onPrimary : colors.primary); button.setBackground(new android.graphics.drawable.RippleDrawable(android.content.res.ColorStateList.valueOf(colors.primaryContainer), shape(primary ? colors.primary : colors.card, 26), null));
+        button.setTextColor(primary ? colors.onAction : colors.text); button.setBackground(new android.graphics.drawable.RippleDrawable(android.content.res.ColorStateList.valueOf(colors.primaryContainer), shape(primary ? colors.action : colors.container, 26), null));
         button.setPadding(dp(16), dp(12), dp(16), dp(12)); button.setOnClickListener(view -> action.run()); return button;
     }
     private Button textButton(String label, Runnable action) {

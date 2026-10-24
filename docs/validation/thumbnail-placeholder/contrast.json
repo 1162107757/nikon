@@ -1,0 +1,13 @@
+{
+  "light": {
+    "background": "#F3F1EE",
+    "captionColor": "#706A63",
+    "captionContrast": 4.738980010083645
+  },
+  "dark": {
+    "background": "#312E2A",
+    "captionColor": "#BAB1A7",
+    "captionContrast": 6.389581208842377
+  },
+  "scope": "sRGB source-color calculation for the 10sp unavailable caption; decorative icon/dots are not text. Not a TalkBack or whole-app accessibility certification."
+}

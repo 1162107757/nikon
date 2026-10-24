@@ -1,0 +1,18 @@
+{
+  "night": {
+    "command": "custom_bedtime",
+    "reported": "Night mode: custom_bedtime",
+    "secureMode": "3",
+    "customType": "1"
+  },
+  "font_scale": "1.0",
+  "accelerometer_rotation": "1",
+  "user_rotation": "0",
+  "permissions": {
+    "android.permission.READ_MEDIA_IMAGES": false,
+    "android.permission.READ_MEDIA_VISUAL_USER_SELECTED": false,
+    "android.permission.POST_NOTIFICATIONS": false
+  },
+  "status": "PASS",
+  "errors": []
+}

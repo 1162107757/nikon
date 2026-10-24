@@ -25,7 +25,7 @@ import java.util.function.Consumer;
 
 /**
  * THESIS: Photo first; colour, composition and reusable recipes share the verified original.
- * OWN-WORLD: Graphite canvas, flat black tools, pale blue actions, native sp typography.
+ * OWN-WORLD: Graphite canvas, flat black tools, peach actions, native sp typography.
  * STORY: Refine colour, compose, then choose app or phone storage; reuse verified versions unless explicitly copied.
  * FIRST VIEWPORT: Slim header, contained photo, 224dp tools and four compact actions; crop opens on demand.
  * FORM: User-approved second comp, 2026-10-22; local extension of the existing editor.
@@ -41,9 +41,11 @@ public final class PhotoFilterEditor implements AutoCloseable {
         void download();
         void addFilters();
         void error(String message);
+        default void saveOriginal(DownloadedPhoto photo){}
+        default void viewSaved(PhotoExportAvailability.Result result){}
         default void applyRecipeToSelection(PhotoRecipeStore.Recipe recipe){}
     }
-    private static final int BG=0xff22252a, FIELD=0xff30353d, TEXT=0xfff4f5f7, MUTED=0xffadb6c3, BLUE=0xff8dbbff;
+    private static final int BG=0xff292724, FIELD=0xff33302c, TEXT=0xfff4f5f7, MUTED=0xffbab1a7, BLUE=0xfff3b493;
     private final Activity activity; private final PhotoPresetBatch batch; private final Host host;
     private final Handler main=new Handler(Looper.getMainLooper());
     private final ExecutorService io=Executors.newSingleThreadExecutor(r->thread(r,"photo-edit-io"));
@@ -59,7 +61,15 @@ public final class PhotoFilterEditor implements AutoCloseable {
     private int strength=100; private boolean ready, hasDraft, exported, updating, parkedDraft;
     private PhotoAdjustments adjustments=PhotoAdjustments.NONE;
     private PhotoGeometry geometry=PhotoGeometry.NONE;
+    private PhotoBorder border=PhotoBorder.NONE;private PhotoCaptureInfo captureInfo=PhotoCaptureInfo.EMPTY;
+    private PhotoBorderPanel borderControls;private View borderPanel;private boolean borderMode;
     private boolean recipeMode,compositionLoading;
+    private boolean savedVersionOnly,unrecoverableSaved,histogramOpen,detailLoading;
+    private PhotoHistogramPanel histogramPanel;
+    private PhotoDetailDialog detailDialog;
+    private PhotoExportDialog exportDialog;
+    private Bitmap diagnosticPreview;
+    private String displayedSha="";
     private long recipeRequest;
     private final java.util.List<PhotoRecipeStore.Recipe> recipes=new ArrayList<>();
     private LinearLayout recipePanel,recipeRows;private TextView recipeStatus;private Button saveRecipeButton;
@@ -105,36 +115,37 @@ public final class PhotoFilterEditor implements AutoCloseable {
         cc.huevia.account.AccountRepository repository=cc.huevia.account.AndroidAccounts.get(context);
         cc.huevia.account.AccountRepository.Session session=repository.cachedSession(); return session==null||repository.isLogoutPending()?"":session.user.id;
     }
-    public Bitmap preview(){return ready?current:null;} public Bitmap original(){return ready?original:null;}
-    public boolean isReady(){return ready;} public String label(){return hasDraft?contextLabel()+(adjustments.isNeutral()?"":" · 调节 "+adjustments.count()+" 项")+(exported?"":" · 未导出"):parkedDraft?"已保存版本 · 未导出草稿已保留":"当前已保存版本";}
-    public String contextLabel(){return !ready?preparationError.isEmpty()?"正在准备照片…":"准备失败 · 点按重试":!hasDraft&&bound!=null&&originalPhoto!=null&&!bound.file().equals(originalPhoto.file())?"已保存版本":(selected.isEmpty()?"无滤镜":selectedName+" · "+strength+"%");}
+    public Bitmap preview(){return ready?(diagnosticPreview==null?current:diagnosticPreview):null;} public Bitmap original(){return ready?original:null;}
+    public boolean isReady(){return ready;} public String label(){return hasDraft?contextLabel()+(adjustments.isNeutral()?"":" · 调节 "+adjustments.count()+" 项")+(border.isNone()?"":" · "+PhotoBorder.TEMPLATES[border.template])+(exported?"":" · 未导出"):parkedDraft?"已保存版本 · 未导出草稿已保留":"当前已保存版本";}
+    public String contextLabel(){if(unrecoverableSaved&&ready)return "已保存版本";return !ready?preparationError.isEmpty()?"正在准备照片…":"准备失败 · 点按重试":!hasDraft&&bound!=null&&originalPhoto!=null&&!bound.file().equals(originalPhoto.file())?"已保存版本":(selected.isEmpty()?"无滤镜":selectedName+" · "+strength+"%");}
     public void retryPreparation(){if(!ready&&!preparationError.isEmpty()){DownloadedPhoto photo=bound;bound=null;bind(photo);}}
     public boolean dirty(){return ready&&hasDraft&&!exported;}
-    public boolean matches(PhotoPresetBatch.Edit edit){return ready&&(edit.draft==null?bound.file().equals(edit.source.localPhoto()==null?null:edit.source.localPhoto().file()):hasDraft&&sourceSha.equals(edit.draft.sourceSha)&&selected.equals(edit.draft.presetSha)&&strength==edit.draft.strength&&adjustments.equals(edit.draft.adjustments)&&geometry.equals(edit.draft.geometry));}
+    public boolean matches(PhotoPresetBatch.Edit edit){return ready&&(edit.draft==null?bound.file().equals(edit.source.localPhoto()==null?null:edit.source.localPhoto().file()):hasDraft&&sourceSha.equals(edit.draft.sourceSha)&&selected.equals(edit.draft.presetSha)&&strength==edit.draft.strength&&adjustments.equals(edit.draft.adjustments)&&geometry.equals(edit.draft.geometry)&&border.equals(edit.draft.border));}
     public void bind(DownloadedPhoto photo){bind(photo,false);}
     public void bindSavedVersion(DownloadedPhoto photo){unbind();bind(photo,true);}
     private void bind(DownloadedPhoto photo,boolean savedOnly){
         String nextOwner=accountOwner(activity);
         if(bound!=null&&photo!=null&&bound.file().equals(photo.file())&&owner.equals(nextOwner))return;
-        unbind(); bound=photo; owner=nextOwner;
+        unbind(); bound=photo; owner=nextOwner;savedVersionOnly=savedOnly;
         if(photo==null){refresh();return;} final int token=generation; final String scope=owner;
         io.execute(()->{
             try{
                 if(!valid(token,scope))return;
-                DownloadedPhoto root=batch.processingOriginalFor(photo); String sha=PhotoEditStore.hashFile(root.file());
-                PhotoEditStore.Draft stored=new PhotoEditStore(activity.getFilesDir(),scope).read(sha);
+                PhotoSavedVersion version=PhotoSavedVersion.resolve(batch,photo);DownloadedPhoto root=version.photo; String sha=PhotoEditStore.hashFile(root.file());
+                PhotoEditStore.Draft stored=version.unrecoverable?null:new PhotoEditStore(activity.getFilesDir(),scope).read(sha);
                 PhotoEditStore.Draft draft=!savedOnly&&stored!=null&&!stored.exported?stored:stored!=null&&stored.exported&&PhotoPresetBatch.matchesSavedDraft(photo,stored)?stored:null;
                 Bitmap base=decode(root.file(),1280), shown=(draft==null||draft.exported)&&!root.file().equals(photo.file())?decode(photo.file(),1280):base;
                 PresetPreviewProfile profile=draft==null||draft.presetSha.isEmpty()?null:PresetPreviewProfiles.fromPreset(draft.presetBytes());
-                if(draft!=null&&!draft.exported&&draft.hasEffect())shown=render(base,draft.profile());
+                PhotoCaptureInfo capture=PhotoCaptureInfo.read(root.file());
+                if(draft!=null&&!draft.exported&&draft.hasEffect())shown=renderFramed(base,draft.profile(),capture,activity);
                 PresetLibrary local=new PresetLibrary(activity.getFilesDir()); PersonalPresetSync personal=new PersonalPresetSync(activity.getFilesDir(),local);
                 java.util.List<PresetRecord> visible=new ArrayList<>();for(PresetRecord p:local.list())if(personal.visible(scope,p.id))visible.add(p);
-                Bitmap result=shown; main.post(()->{
+                final String shownSha=root.file().equals(photo.file())?sha:PhotoEditStore.hashFile(photo.file());Bitmap result=shown; main.post(()->{
                     if(!valid(token,scope))return;
-                    originalPhoto=root;sourceSha=sha;original=base;current=result;glass=null;plainThumb=Bitmap.createScaledBitmap(base,256,Math.max(1,base.getHeight()*256/base.getWidth()),true);thumb=plainThumb;
+                    unrecoverableSaved=version.unrecoverable;savedVersionOnly=savedOnly||version.unrecoverable;captureInfo=capture;originalPhoto=root;sourceSha=sha;displayedSha=shownSha;original=base;current=result;glass=null;plainThumb=Bitmap.createScaledBitmap(base,256,Math.max(1,base.getHeight()*256/base.getWidth()),true);thumb=plainThumb;
                     library=local;ready=true;preparationError="";hasDraft=draft!=null;exported=draft!=null&&draft.exported;parkedDraft=savedOnly&&stored!=null&&!stored.exported;
                     selected=draft==null?"":draft.presetSha;selectedName=draft==null?"原图":draft.name;selectedBytes=draft==null?new byte[0]:draft.presetBytes();strength=draft==null?100:draft.strength;selectedProfile=profile;
-                    adjustments=draft==null?PhotoAdjustments.NONE:draft.adjustments;geometry=draft==null?PhotoGeometry.NONE:draft.geometry;undo.clear();redo.clear();loadRecipes();
+                    adjustments=draft==null?PhotoAdjustments.NONE:draft.adjustments;geometry=draft==null?PhotoGeometry.NONE:draft.geometry;border=draft==null?PhotoBorder.NONE:draft.border;undo.clear();redo.clear();loadRecipes();
                     entries.clear();for(PresetRecord p:visible)entries.add(new Entry(p));KNOWN.put(scope+":"+sha,stored!=null&&!stored.exported);
                     refreshManualThumbnails();if(onlineCatalog!=null&&SystemClock.elapsedRealtime()-catalogLoadedAt<300000){for(OnlinePreset p:catalogMetadata)onlineEntries.add(new Entry(p));catalogMessage=cachedCatalogMessage;catalogDiagnostic=cachedCatalogDiagnostic;refresh();host.changed();}else{refresh();host.changed();loadOnlineCatalog();}
                 });
@@ -142,12 +153,15 @@ public final class PhotoFilterEditor implements AutoCloseable {
         });
     }
     public void unbind(){
+        closeDetails();detailLoading=false;histogramOpen=false;diagnosticPreview=null;displayedSha="";if(histogramPanel!=null){histogramPanel.reset();histogramPanel.setVisibility(View.GONE);}savedVersionOnly=false;unrecoverableSaved=false;
         flushSave();generation++;previewRequest++;cancelPendingRetry();previews.getQueue().clear();thumbnails.getQueue().clear();dismissPopup();
+        if(borderControls!=null)borderControls.invalidate();captureInfo=PhotoCaptureInfo.EMPTY;border=PhotoBorder.NONE;
         bound=null;ready=false;original=null;current=null;thumb=null;glass=null;originalPhoto=null;sourceSha="";entries.clear();onlineEntries.clear();catalogLoading=false;catalogMessage="正在加载在线滤镜…";catalogDiagnostic="";renderedEntries.clear();pendingChoice=null;parkedDraft=false;pickerFirst=pickerTop=0;selected="";selectedProfile=null;selectedBytes=new byte[0];hasDraft=false;visibleRequests.clear();stripCards.clear();categoryButtons.clear();if(strip!=null)strip.removeAllViews();if(categories!=null)categories.removeAllViews();if(filterScroll!=null)filterScroll.scrollTo(0,0);
         adjustments=PhotoAdjustments.NONE;geometry=PhotoGeometry.NONE;compositionLoading=false;recipes.clear();thumbRevision++;plainThumb=null;undo.clear();redo.clear();dragStart=null;preparationError="";
     }
     private boolean valid(int token,String scope){return !closed&&token==generation&&scope.equals(accountOwner(activity));}
     public View createDock(){
+        if(borderControls!=null)borderControls.close();
         stripCards.clear();categoryButtons.clear();visibleRequests.clear();addFiltersAction=null;
         dock=column();dock.setBackgroundColor(0xff0b0b0b);dock.setPadding(dp(10),0,dp(10),0);dock.setElevation(0);
         View divider=new View(activity);divider.setBackgroundColor(0xff292929);dock.addView(divider,new LinearLayout.LayoutParams(-1,dp(1)));
@@ -171,7 +185,7 @@ public final class PhotoFilterEditor implements AutoCloseable {
         adjustmentSlider=new SeekBar(activity){private final Paint tick=new Paint(Paint.ANTI_ALIAS_FLAG);@Override protected void onDraw(Canvas canvas){tick.setColor(0xff9da2a8);tick.setStrokeWidth(dp(1));float x=getPaddingLeft()+(getWidth()-getPaddingLeft()-getPaddingRight())*(-parameter.min)/(float)(parameter.max-parameter.min);canvas.drawLine(x,getHeight()/2f-dp(5),x,getHeight()/2f+dp(5),tick);super.onDraw(canvas);}};adjustmentSlider.setProgressTintList(ColorStateList.valueOf(BLUE));adjustmentSlider.setThumbTintList(ColorStateList.valueOf(BLUE));controls.addView(adjustmentSlider,new LinearLayout.LayoutParams(0,dp(48),1));
         adjustmentValue=text("0",12,TEXT);adjustmentValue.setGravity(Gravity.CENTER);adjustmentValue.setFocusable(true);adjustmentValue.setOnClickListener(v->showExactValue());controls.addView(adjustmentValue,new LinearLayout.LayoutParams(dp(66),dp(48)));adjustmentPanel.addView(controls);
         adjustmentValue.setOnLongClickListener(v->{showParameterHelp();return true;});adjustmentValue.setTooltipText("点击输入数值，长按查看参数说明");
-        adjustmentSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){public void onProgressChanged(SeekBar s,int p,boolean user){if(user&&!updating&&ready){if(dragStart==null)dragStart=snapshot();adjustments=adjustments.with(parameter,p+parameter.min);hasDraft=true;exported=false;updateAdjustmentControls();scheduleSave();schedulePreview();if(trackingSlider!=s)finishDrag(true);}}public void onStartTrackingTouch(SeekBar s){if(ready){dragStart=snapshot();trackingSlider=s;}}public void onStopTrackingTouch(SeekBar s){trackingSlider=null;finishDrag(true);}});
+        adjustmentSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){public void onProgressChanged(SeekBar s,int p,boolean user){if(user&&!updating&&ready&&!unrecoverableSaved){if(dragStart==null)dragStart=snapshot();adjustments=adjustments.with(parameter,p+parameter.min);hasDraft=true;exported=false;updateAdjustmentControls();scheduleSave();schedulePreview();if(trackingSlider!=s)finishDrag(true);}}public void onStartTrackingTouch(SeekBar s){if(ready){dragStart=snapshot();trackingSlider=s;}}public void onStopTrackingTouch(SeekBar s){trackingSlider=null;finishDrag(true);}});
         HorizontalScrollView parameters=new HorizontalScrollView(activity);parameters.setHorizontalScrollBarEnabled(false);parameters.setOverScrollMode(View.OVER_SCROLL_NEVER);LinearLayout options=row();parameters.addView(options);parameterControls.clear();
         for(PhotoAdjustments.Parameter p:PhotoAdjustments.Parameter.values()){
             LinearLayout option=column();option.setGravity(Gravity.CENTER);option.setFocusable(true);option.setClickable(true);option.setBackground(new RippleDrawable(ColorStateList.valueOf(0x228dbbff),shape(Color.TRANSPARENT,4),null));
@@ -180,7 +194,13 @@ public final class PhotoFilterEditor implements AutoCloseable {
         }
         adjustmentPanel.addView(parameters,new LinearLayout.LayoutParams(-1,dp(80)));
         recipePanel=column();modes.addView(recipePanel,new FrameLayout.LayoutParams(-1,-1));LinearLayout recipeHeader=row();TextView recipeTitle=text("我的配方",14,TEXT);recipeHeader.addView(recipeTitle,new LinearLayout.LayoutParams(0,dp(48),1));saveRecipeButton=button("保存当前",false,this::saveRecipeDialog);saveRecipeButton.setSingleLine(true);saveRecipeButton.setTextSize(13);recipeHeader.addView(saveRecipeButton,new LinearLayout.LayoutParams(dp(112),dp(48)));recipePanel.addView(recipeHeader);ScrollView recipeScroll=new ScrollView(activity);recipeRows=column();recipeScroll.addView(recipeRows);recipePanel.addView(recipeScroll,new LinearLayout.LayoutParams(-1,dp(96)));recipeStatus=text("仅滤镜和调节 · 本机按账号保存",11,MUTED);recipeStatus.setGravity(Gravity.CENTER_VERTICAL);recipePanel.addView(recipeStatus,new LinearLayout.LayoutParams(-1,dp(32)));updateRecipeRows();
-        LinearLayout nav=row();nav.setGravity(Gravity.CENTER);filterModeButton=button("滤镜",false,()->setAdjustmentMode(false));adjustmentModeButton=button("调节",false,()->setAdjustmentMode(true));nav.addView(filterModeButton,new LinearLayout.LayoutParams(0,dp(48),1));nav.addView(adjustmentModeButton,new LinearLayout.LayoutParams(0,dp(48),1));Button compose=button("构图",false,this::showComposition);compose.setTextColor(MUTED);nav.addView(compose,new LinearLayout.LayoutParams(0,dp(48),1));Button recipeButton=button("配方",false,()->{finishDrag(true);recipeMode=true;updateModes();loadRecipes();});recipeButton.setTag("recipe-mode");nav.addView(recipeButton,new LinearLayout.LayoutParams(0,dp(48),1));dock.addView(nav,new LinearLayout.LayoutParams(-1,dp(48)));
+        borderControls=new PhotoBorderPanel(activity,new PhotoBorderPanel.Host(){
+            public PhotoBorder border(){return border;}public PhotoCaptureInfo capture(){return captureInfo;}public boolean ready(){return ready;}public String identity(){return owner+":"+generation+":"+sourceSha;}
+            public Bitmap thumbnail(){return plainThumb;}public PresetPreviewProfile colour(){return GeometryPreviewProfile.of(AdjustedPreviewProfile.of(selectedProfile==null?null:StrengthPreviewProfile.of(selectedProfile,strength),adjustments),geometry);}
+            public void change(PhotoBorder value){if(!readableSettings()||border.equals(value))return;finishDrag(true);EditState before=snapshot();border=value;remember(before);edited();}
+            public void undo(){restoreHistory(false);}public void redo(){restoreHistory(true);}public boolean canUndo(){return !undo.isEmpty();}public boolean canRedo(){return !redo.isEmpty();}public void error(String message){host.error(message);}
+        });borderPanel=borderControls.create();modes.addView(borderPanel,new FrameLayout.LayoutParams(-1,-1));
+        LinearLayout nav=row();nav.setGravity(Gravity.CENTER);filterModeButton=button("滤镜",false,()->setAdjustmentMode(false));adjustmentModeButton=button("调节",false,()->setAdjustmentMode(true));nav.addView(filterModeButton,new LinearLayout.LayoutParams(0,dp(48),1));nav.addView(adjustmentModeButton,new LinearLayout.LayoutParams(0,dp(48),1));Button compose=button("构图",false,this::showComposition);compose.setTextColor(MUTED);nav.addView(compose,new LinearLayout.LayoutParams(0,dp(48),1));Button borderButton=button("边框",false,()->{finishDrag(true);borderMode=true;recipeMode=false;updateModes();});borderButton.setTag("border-mode");nav.addView(borderButton,new LinearLayout.LayoutParams(0,dp(48),1));Button recipeButton=button("配方",false,()->{finishDrag(true);recipeMode=true;borderMode=false;updateModes();loadRecipes();});recipeButton.setTag("recipe-mode");nav.addView(recipeButton,new LinearLayout.LayoutParams(0,dp(48),1));dock.addView(nav,new LinearLayout.LayoutParams(-1,dp(48)));
         refresh();return dock;
     }
     private void refresh(){
@@ -193,8 +213,8 @@ public final class PhotoFilterEditor implements AutoCloseable {
         categoryStatus.setText(status.equals("离线缓存")?"缓存":status.contains("失败")?"重试":status.contains("准备")?"准备":status.isEmpty()?"":"加载");categoryStatus.setVisibility(status.isEmpty()||activity.getResources().getConfiguration().orientation==android.content.res.Configuration.ORIENTATION_LANDSCAPE?View.GONE:View.VISIBLE);categoryStatus.setContentDescription(status+"。"+sourceStatus.getText());categoryStatus.setTooltipText(sourceStatus.getTooltipText());onlineButton.setContentDescription("在线滤镜，"+sourceStatus.getText());onlineButton.setTooltipText(sourceStatus.getTooltipText());categoryScroll.setContentDescription("左右滑动选择滤镜分类，"+(category.isEmpty()?"全部":category)+"。"+sourceStatus.getText());categoryScroll.setTooltipText(sourceStatus.getTooltipText());
     }
     private Button iconButton(AppIcon.Kind kind,String label,Runnable action){Button b=button("",false,action);b.setCompoundDrawablesRelativeWithIntrinsicBounds(icon(kind),null,null,null);b.setPadding(dp(12),0,dp(12),0);b.setContentDescription(label);b.setTooltipText(label);return b;}
-    private void setAdjustmentMode(boolean value){finishDrag(true);recipeMode=false;adjustmentMode=value;updateModes();}
-    private void updateModes(){if(filterPanel==null)return;filterPanel.setVisibility(!recipeMode&&!adjustmentMode?View.VISIBLE:View.INVISIBLE);adjustmentPanel.setVisibility(!recipeMode&&adjustmentMode?View.VISIBLE:View.INVISIBLE);recipePanel.setVisibility(recipeMode?View.VISIBLE:View.INVISIBLE);styleCategory(filterModeButton,!recipeMode&&!adjustmentMode);styleCategory(adjustmentModeButton,!recipeMode&&adjustmentMode);Button recipe=dock.findViewWithTag("recipe-mode");if(recipe!=null)styleCategory(recipe,recipeMode);}
+    private void setAdjustmentMode(boolean value){finishDrag(true);recipeMode=false;borderMode=false;adjustmentMode=value;updateModes();}
+    private void updateModes(){if(filterPanel==null)return;filterPanel.setVisibility(!borderMode&&!recipeMode&&!adjustmentMode?View.VISIBLE:View.INVISIBLE);adjustmentPanel.setVisibility(!borderMode&&!recipeMode&&adjustmentMode?View.VISIBLE:View.INVISIBLE);recipePanel.setVisibility(!borderMode&&recipeMode?View.VISIBLE:View.INVISIBLE);if(borderPanel!=null)borderPanel.setVisibility(borderMode?View.VISIBLE:View.INVISIBLE);styleCategory(filterModeButton,!borderMode&&!recipeMode&&!adjustmentMode);styleCategory(adjustmentModeButton,!borderMode&&!recipeMode&&adjustmentMode);Button recipe=dock.findViewWithTag("recipe-mode"),frame=dock.findViewWithTag("border-mode");if(recipe!=null)styleCategory(recipe,!borderMode&&recipeMode);if(frame!=null)styleCategory(frame,borderMode);if(borderControls!=null)borderControls.refresh();}
     private void selectCategory(String name){
         if(!ready||category.equals(name)||!categoryNames().contains(name))return;
         cancelPendingRetry();pendingChoice=null;category=name;buildCategories();buildStrip();refreshPickerMetadata();
@@ -205,23 +225,23 @@ public final class PhotoFilterEditor implements AutoCloseable {
         if(selectedCategory!=null)selectedCategory.post(()->{if(generation==token&&categoryButtons.get(name)==selectedCategory)selectedCategory.requestRectangleOnScreen(new android.graphics.Rect(0,0,selectedCategory.getWidth(),selectedCategory.getHeight()),true);});
     }
     private void updateAdjustmentControls(){
-        if(adjustmentSlider==null)return;updating=true;adjustmentSlider.setMax(parameter.max-parameter.min);adjustmentSlider.setKeyProgressIncrement(1);adjustmentSlider.setProgress(adjustments.get(parameter)-parameter.min);adjustmentSlider.setEnabled(ready);adjustmentSlider.setContentDescription(parameter.label+"，"+parameter.format(adjustments.get(parameter))+"，范围 "+parameter.format(parameter.min)+" 至 "+parameter.format(parameter.max));adjustmentValue.setText(parameter.format(adjustments.get(parameter)));adjustmentValue.setContentDescription(parameter.label+"，"+adjustmentValue.getText()+"，点击输入数值");adjustmentValue.setEnabled(ready);updating=false;
+        if(adjustmentSlider==null)return;updating=true;adjustmentSlider.setMax(parameter.max-parameter.min);adjustmentSlider.setKeyProgressIncrement(1);adjustmentSlider.setProgress(adjustments.get(parameter)-parameter.min);adjustmentSlider.setEnabled(ready&&!unrecoverableSaved);adjustmentSlider.setContentDescription(parameter.label+"，"+parameter.format(adjustments.get(parameter))+"，范围 "+parameter.format(parameter.min)+" 至 "+parameter.format(parameter.max));adjustmentValue.setText(parameter.format(adjustments.get(parameter)));adjustmentValue.setContentDescription(parameter.label+"，"+adjustmentValue.getText()+"，点击输入数值");adjustmentValue.setEnabled(ready&&!unrecoverableSaved);updating=false;
         undoButton.setEnabled(ready&&!undo.isEmpty());redoButton.setEnabled(ready&&!redo.isEmpty());undoButton.setAlpha(undoButton.isEnabled()?1:.35f);redoButton.setAlpha(redoButton.isEnabled()?1:.35f);
         for(Map.Entry<PhotoAdjustments.Parameter,LinearLayout> item:parameterControls.entrySet()){PhotoAdjustments.Parameter p=item.getKey();LinearLayout option=item.getValue();boolean active=p==parameter;((ImageView)option.getChildAt(0)).setImageDrawable(new AppIcon(parameterIcon(p),active?BLUE:TEXT,activity.getResources().getDisplayMetrics().density));TextView label=(TextView)option.getChildAt(1);label.setText(p.label+(adjustments.get(p)==0?"":" ·"));label.setTextColor(active?BLUE:TEXT);option.setSelected(active);option.setEnabled(ready);option.setContentDescription(p.label+"，"+p.format(adjustments.get(p))+(active?"，当前参数":"")+"，长按重置");}
     }
     private AppIcon.Kind parameterIcon(PhotoAdjustments.Parameter p){return AppIcon.Kind.valueOf(p==PhotoAdjustments.Parameter.SHARPENING?"SHARPENING":p.name());}
     private static final class EditState{
-        final String id,name;final byte[] bytes;final PresetPreviewProfile profile;final int strength;final PhotoAdjustments manual;final PhotoGeometry geometry;
-        EditState(String id,String name,byte[] bytes,PresetPreviewProfile profile,int strength,PhotoAdjustments manual,PhotoGeometry geometry){this.id=id;this.name=name;this.bytes=bytes;this.profile=profile;this.strength=strength;this.manual=manual;this.geometry=geometry;}
-        boolean same(EditState other){return id.equals(other.id)&&strength==other.strength&&manual.equals(other.manual)&&geometry.equals(other.geometry);}
+        final String id,name;final byte[] bytes;final PresetPreviewProfile profile;final int strength;final PhotoAdjustments manual;final PhotoGeometry geometry;final PhotoBorder border;
+        EditState(String id,String name,byte[] bytes,PresetPreviewProfile profile,int strength,PhotoAdjustments manual,PhotoGeometry geometry,PhotoBorder border){this.border=border;this.id=id;this.name=name;this.bytes=bytes;this.profile=profile;this.strength=strength;this.manual=manual;this.geometry=geometry;}
+        boolean same(EditState other){return id.equals(other.id)&&strength==other.strength&&manual.equals(other.manual)&&geometry.equals(other.geometry)&&border.equals(other.border);}
     }
-    private EditState snapshot(){return new EditState(selected,selectedName,selectedBytes,selectedProfile,strength,adjustments,geometry);}
+    private EditState snapshot(){return new EditState(selected,selectedName,selectedBytes,selectedProfile,strength,adjustments,geometry,border);}
     private void remember(EditState before){if(before==null||before.same(snapshot()))return;undo.addLast(before);while(undo.size()>32)undo.removeFirst();redo.clear();}
     private void finishDrag(boolean refreshThumbs){if(dragStart!=null){boolean manualChanged=!dragStart.manual.equals(adjustments);remember(dragStart);dragStart=null;if(manualChanged&&refreshThumbs)refreshManualThumbnails();}flushSave();updateAdjustmentControls();}
-    private void restoreHistory(boolean forward){if(!ready)return;finishDrag(true);ArrayDeque<EditState> from=forward?redo:undo,to=forward?undo:redo;if(from.isEmpty())return;to.addLast(snapshot());EditState target=from.removeLast();boolean changed=!adjustments.equals(target.manual)||!geometry.equals(target.geometry);selected=target.id;selectedName=target.name;selectedBytes=target.bytes;selectedProfile=target.profile;strength=target.strength;adjustments=target.manual;geometry=target.geometry;edited();if(changed)refreshManualThumbnails();}
-    private void edited(){hasDraft=true;exported=false;parkedDraft=false;refresh();refreshGridThumbnails();scheduleSave();schedulePreview();}
-    private void resetParameter(PhotoAdjustments.Parameter p){if(!ready||adjustments.get(p)==0)return;EditState before=snapshot();adjustments=adjustments.with(p,0);remember(before);edited();refreshManualThumbnails();}
-    private void reset(boolean all){if(!ready||!all&&adjustments.isNeutral())return;EditState before=snapshot();adjustments=PhotoAdjustments.NONE;if(all){geometry=PhotoGeometry.NONE;cancelPendingRetry();pendingChoice=null;selected="";selectedName="无滤镜";selectedBytes=new byte[0];selectedProfile=null;strength=0;}remember(before);edited();refreshManualThumbnails();}
+    private void restoreHistory(boolean forward){if(!ready)return;finishDrag(true);ArrayDeque<EditState> from=forward?redo:undo,to=forward?undo:redo;if(from.isEmpty())return;to.addLast(snapshot());EditState target=from.removeLast();boolean changed=!adjustments.equals(target.manual)||!geometry.equals(target.geometry);selected=target.id;selectedName=target.name;selectedBytes=target.bytes;selectedProfile=target.profile;strength=target.strength;adjustments=target.manual;geometry=target.geometry;border=target.border;edited();if(changed)refreshManualThumbnails();}
+    private void edited(){closeDetails();hasDraft=true;exported=false;parkedDraft=false;refresh();refreshGridThumbnails();scheduleSave();schedulePreview();}
+    private void resetParameter(PhotoAdjustments.Parameter p){if(!ready||unrecoverableSaved||adjustments.get(p)==0)return;EditState before=snapshot();adjustments=adjustments.with(p,0);remember(before);edited();refreshManualThumbnails();}
+    private void reset(boolean all){if(!ready||unrecoverableSaved||!all&&adjustments.isNeutral())return;EditState before=snapshot();adjustments=PhotoAdjustments.NONE;if(all){border=PhotoBorder.NONE;geometry=PhotoGeometry.NONE;cancelPendingRetry();pendingChoice=null;selected="";selectedName="无滤镜";selectedBytes=new byte[0];selectedProfile=null;strength=0;}remember(before);edited();refreshManualThumbnails();}
     public void addMenuItems(Menu menu){
         if(!ready)return;
         menu.add("构图（裁剪、旋转、拉直）").setOnMenuItemClickListener(v->{showComposition();return true;});
@@ -231,7 +251,7 @@ public final class PhotoFilterEditor implements AutoCloseable {
         menu.add("重置调节，保留滤镜").setOnMenuItemClickListener(v->{reset(false);return true;});menu.add("全部重置").setOnMenuItemClickListener(v->{reset(true);return true;});
         if(parkedDraft)menu.add("恢复未导出草稿").setOnMenuItemClickListener(v->{DownloadedPhoto photo=bound;unbind();bind(photo);return true;});
     }
-    private boolean readableSettings(){if(!ready)return false;if(!hasDraft&&bound!=null&&originalPhoto!=null&&!bound.file().equals(originalPhoto.file())){host.error("此保存版本的编辑参数暂不可恢复。请先在照片版本中选择原图，或恢复未导出草稿。");return false;}return true;}
+    private boolean readableSettings(){if(!ready)return false;if(unrecoverableSaved||!hasDraft&&bound!=null&&originalPhoto!=null&&!bound.file().equals(originalPhoto.file())){host.error("此保存版本的编辑参数暂不可恢复。仍可查看完整文件像素或调整导出尺寸；编辑请先选择原图。");return false;}return true;}
     public void showComposition(){
         if(!readableSettings()||compositionLoading)return;finishDrag(true);compositionLoading=true;
         final int token=generation;final String scope=owner;final EditState starting=snapshot();final Bitmap base=original;
@@ -251,7 +271,7 @@ public final class PhotoFilterEditor implements AutoCloseable {
         if(!ready)return;dismissPopup();final int token=generation;final String scope=owner;final PhotoEditStore.Draft settings;
         try{settings=new PhotoEditStore.Draft(sourceSha,selectedBytes,selectedName,strength,adjustments,false);}catch(IOException failure){host.error(message(failure));return;}
         Context themed=new ContextThemeWrapper(activity,cc.huevia.R.style.AppThemeDark);EditText input=new EditText(themed);input.setSingleLine(true);input.setHint("配方名称，1–40 个字符");input.setText(renaming==null?"":renaming.name);input.selectAll();LinearLayout form=column();form.setPadding(dp(20),0,dp(20),0);form.addView(input);TextView validation=text("",12,0xffffb4ab);validation.setVisibility(View.GONE);form.addView(validation);
-        AlertDialog dialog=new AlertDialog.Builder(themed).setTitle(renaming==null?"保存我的配方":"重命名配方").setMessage(renaming==null?"保存滤镜、强度和调节，不包含裁剪、旋转与拉直。配方仅保存在本机当前账号。":null).setView(form).setNegativeButton("取消",null).setPositiveButton("保存",null).create();popup=dialog;dialog.setOnDismissListener(v->{if(popup==dialog)popup=null;});dialog.setOnShowListener(v->dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(w->{String name=input.getText().toString();dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);io.execute(()->{try{PhotoRecipeStore store=new PhotoRecipeStore(activity.getFilesDir(),scope);if(renaming==null)store.create(name,settings);else store.rename(renaming.id,name);main.post(()->{if(valid(token,scope)){dialog.dismiss();recipeMode=true;updateModes();loadRecipes();}});}catch(IOException failure){main.post(()->{if(valid(token,scope)&&dialog.isShowing()){dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);input.setError(message(failure));validation.setText(message(failure));validation.setVisibility(View.VISIBLE);}});}});}));dialog.show();
+        AlertDialog dialog=new AlertDialog.Builder(themed).setTitle(renaming==null?"保存我的配方":"重命名配方").setMessage(renaming==null?"保存滤镜、强度和调节，不包含裁剪、旋转与拉直。配方仅保存在本机当前账号。":null).setView(form).setNegativeButton("取消",null).setPositiveButton("保存",null).create();popup=dialog;dialog.setOnDismissListener(v->{if(popup==dialog)popup=null;});dialog.setOnShowListener(v->dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(w->{String name=input.getText().toString();dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);io.execute(()->{try{PhotoRecipeStore store=new PhotoRecipeStore(activity.getFilesDir(),scope);if(renaming==null)store.create(name,settings);else store.rename(renaming.id,name);main.post(()->{if(valid(token,scope)){dialog.dismiss();recipeMode=true;borderMode=false;updateModes();loadRecipes();}});}catch(IOException failure){main.post(()->{if(valid(token,scope)&&dialog.isShowing()){dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);input.setError(message(failure));validation.setText(message(failure));validation.setVisibility(View.VISIBLE);}});}});}));dialog.show();
     }
     private void applyRecipe(PhotoRecipeStore.Recipe recipe){
         if(!readableSettings())return;finishDrag(true);final int token=generation;final long request=++recipeRequest;final String scope=owner;final String sha=sourceSha;final PhotoGeometry composition=geometry;final EditState starting=snapshot();
@@ -325,7 +345,7 @@ public final class PhotoFilterEditor implements AutoCloseable {
             super(activity);this.entry=entry;this.large=large;setOrientation(VERTICAL);setPadding(dp(3),dp(3),dp(3),dp(3));setTag(entry==null?"":entry.id);
             photo=new FrameLayout(activity);border=shape(FIELD,large?12:5);photo.setBackground(border);photo.setClipToOutline(true);photo.setPadding(dp(2),dp(2),dp(2),dp(2));
             image=new ImageView(activity);image.setScaleType(ImageView.ScaleType.CENTER_CROP);image.setBackground(shape(FIELD,large?9:3));image.setClipToOutline(true);photo.addView(image,new FrameLayout.LayoutParams(-1,-1));
-            check=new ImageView(activity);check.setImageDrawable(icon(AppIcon.Kind.CHECK));check.setBackground(shape(0xff356eab,12));check.setPadding(dp(3),dp(3),dp(3),dp(3));FrameLayout.LayoutParams cp=new FrameLayout.LayoutParams(dp(22),dp(22),Gravity.BOTTOM|Gravity.END);cp.setMargins(0,0,dp(4),dp(4));photo.addView(check,cp);
+            check=new ImageView(activity);check.setImageDrawable(icon(AppIcon.Kind.CHECK));check.setBackground(shape(0xff774931,12));check.setPadding(dp(3),dp(3),dp(3),dp(3));FrameLayout.LayoutParams cp=new FrameLayout.LayoutParams(dp(22),dp(22),Gravity.BOTTOM|Gravity.END);cp.setMargins(0,0,dp(4),dp(4));photo.addView(check,cp);
             busy=new ProgressBar(activity);busy.setIndeterminateTintList(ColorStateList.valueOf(BLUE));busy.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);photo.addView(busy,new FrameLayout.LayoutParams(dp(24),dp(24),Gravity.CENTER));
             addView(photo,new LinearLayout.LayoutParams(-1,large?dp(86):dp(52)));name=text("",large?12:11,TEXT);name.setSingleLine(true);name.setEllipsize(TextUtils.TruncateAt.END);name.setGravity(Gravity.CENTER);addView(name,new LinearLayout.LayoutParams(-1,large?dp(26):dp(22)));
             setFocusable(true);setClickable(true);setOnClickListener(v->{if(!ready)return;cancelPendingRetry();pendingChoice=null;if(entry!=null&&!entry.error.isEmpty()){if(entry.retryable){entry.error="";entry.retryable=false;}else{refreshPendingState();host.error(entry.error);return;}}if(entry!=null&&entry.profile==null){pendingChoice=entry;pendingChoiceFromPicker=large;refreshPendingState();request(entry);return;}refreshPendingState();choose(entry,large);dismissPopup();});
@@ -337,7 +357,7 @@ public final class PhotoFilterEditor implements AutoCloseable {
             Bitmap bitmap=entry==null?thumb:entry.image;if(bitmap!=shownBitmap){shownBitmap=bitmap;image.setImageBitmap(bitmap);}
             boolean unsupported=entry!=null&&!entry.error.isEmpty();String label=unsupported?(entry.retryable?"轻点重试":"暂不支持"):entry==null?"无滤镜":entry.name;
             if(!shownLabel.equals(label)){shownLabel=label;name.setText(label);}image.setAlpha(unsupported?.3f:1f);
-            border.setColor(chosen?0xff263d5a:FIELD);border.setStroke(dp(2),chosen?BLUE:Color.TRANSPARENT);check.setVisibility(chosen&&large?View.VISIBLE:View.GONE);name.setTextColor(chosen?BLUE:TEXT);name.setTypeface(null,chosen?Typeface.BOLD:Typeface.NORMAL);setSelected(chosen);
+            border.setColor(chosen?0xff51382d:FIELD);border.setStroke(dp(2),chosen?BLUE:Color.TRANSPARENT);check.setVisibility(chosen&&large?View.VISIBLE:View.GONE);name.setTextColor(chosen?BLUE:TEXT);name.setTypeface(null,chosen?Typeface.BOLD:Typeface.NORMAL);setSelected(chosen);
             busy.setVisibility(entry!=null&&pendingChoice==entry&&entry.profile==null?View.VISIBLE:View.GONE);
             setContentDescription((entry==null?"无滤镜，保留基础调节":entry.name)+(unsupported?"，暂不支持："+entry.error:chosen?"，已选择":pendingChoice==entry&&entry!=null?"，正在准备预览":""));setTooltipText(getContentDescription());
         }
@@ -377,46 +397,102 @@ public final class PhotoFilterEditor implements AutoCloseable {
         choose(entry,false);
     }
     private void choose(Entry entry,boolean fromPicker){
-        if(!ready)return;finishDrag(true);EditState before=snapshot();
+        if(!readableSettings())return;finishDrag(true);EditState before=snapshot();
         cancelPendingRetry();pendingChoice=null;
         selected=entry==null?"":entry.id;selectedName=entry==null?"无滤镜":entry.name;selectedBytes=entry==null?new byte[0]:entry.bytes.clone();selectedProfile=entry==null?null:entry.profile;
         strength=entry==null?0:100;remember(before);edited();
         if(fromPicker&&filterScroll!=null){final String id=selected,scope=owner;final int token=generation;final boolean online=onlineSource;final HorizontalScrollView target=filterScroll;target.post(()->{FilterCard card=stripCards.get(id);if(!valid(token,scope)||filterScroll!=target||onlineSource!=online||card==null||!selected.equals(id))return;int left=target.getScrollX(),right=left+target.getWidth();if(card.getLeft()<left)target.scrollTo(Math.max(0,card.getLeft()-dp(8)),0);else if(card.getRight()>right)target.scrollTo(Math.max(0,card.getRight()-target.getWidth()+dp(8)),0);});}
     }
     private void schedulePreview(){
-        if(!ready||closed)return;final int token=generation,request=++previewRequest,amount=strength;final String scope=owner;final Bitmap base=original;final PresetPreviewProfile profile=selectedProfile;final PhotoAdjustments manual=adjustments;final PhotoGeometry composition=geometry;
-        previews.execute(()->{try{Bitmap result=(profile==null||amount==0)&&manual.isNeutral()&&composition.isNeutral()?base:render(base,GeometryPreviewProfile.of(AdjustedPreviewProfile.of(profile==null?null:StrengthPreviewProfile.of(profile,amount),manual),composition));main.post(()->{if(valid(token,scope)&&request==previewRequest){current=result;host.changed();}});}catch(Exception|OutOfMemoryError e){main.post(()->{if(valid(token,scope)&&request==previewRequest)host.error(message(e));});}});
+        if(!ready||closed)return;final int token=generation,request=++previewRequest;final String scope=owner;final Bitmap base=original;
+        final PresetPreviewProfile profile=currentProfile();final PhotoBorder frame=border;final PhotoCaptureInfo capture=captureInfo;
+        final boolean statistics=histogramOpen&&recoverableDetail(),shadows=statistics&&histogramPanel!=null&&histogramPanel.isShadowWarning(),highlights=statistics&&histogramPanel!=null&&histogramPanel.isHighlightWarning();
+        if(statistics&&histogramPanel!=null)histogramPanel.setUpdating();
+        previews.execute(()->{try{
+            Bitmap content=render(base,profile);PhotoHistogram histogram=statistics?PhotoHistogramPanel.measure(content):null;
+            Bitmap result=frame.isNone()?content:new PhotoBorderRenderer(activity.getAssets()).apply(content,frame,capture);
+            Bitmap diagnostic=null;
+            if(shadows||highlights){Bitmap warned=PhotoHistogramPanel.warningCopy(content,shadows,highlights);if(frame.isNone())diagnostic=warned;else{try{diagnostic=new PhotoBorderRenderer(activity.getAssets()).apply(warned,frame,capture);}finally{warned.recycle();}}}
+            if(!frame.isNone()&&content!=base)content.recycle();final Bitmap shown=diagnostic;
+            main.post(()->{if(valid(token,scope)&&request==previewRequest){current=result;diagnosticPreview=shown;if(statistics&&histogramPanel!=null&&histogramOpen)histogramPanel.setData(histogram);host.changed();}else{if(result!=base)result.recycle();if(shown!=null&&shown!=result)shown.recycle();}});
+        }catch(Exception|OutOfMemoryError error){main.post(()->{if(valid(token,scope)&&request==previewRequest){if(histogramPanel!=null&&histogramOpen)histogramPanel.setError(message(error));host.error(message(error));}});}});
     }
     private void scheduleSave(){savePending=true;if(delayedSave!=null)main.removeCallbacks(delayedSave);delayedSave=this::flushSave;main.postDelayed(delayedSave,200);}
     private void flushSave(){
         if(delayedSave!=null){main.removeCallbacks(delayedSave);delayedSave=null;}if(!savePending||!ready||!hasDraft||closed)return;savePending=false;
         final String sha=sourceSha,name=selectedName,scope=owner;final byte[] bytes=selectedBytes.clone();final int amount=strength;final boolean saved=exported;
-        final PhotoAdjustments manual=adjustments;final PhotoGeometry composition=geometry;
-        io.execute(()->{try{PhotoEditStore.Draft draft=new PhotoEditStore.Draft(sha,bytes,name,amount,manual,composition,saved);new PhotoEditStore(activity.getFilesDir(),scope).save(draft);KNOWN.put(scope+":"+sha,!draft.exported);}catch(IOException e){main.post(()->{if(!closed)host.error(message(e));});}});
+        final PhotoAdjustments manual=adjustments;final PhotoGeometry composition=geometry;final PhotoBorder frame=border;
+        io.execute(()->{try{PhotoEditStore.Draft draft=new PhotoEditStore.Draft(sha,bytes,name,amount,manual,composition,frame,saved);new PhotoEditStore(activity.getFilesDir(),scope).save(draft);KNOWN.put(scope+":"+sha,!draft.exported);}catch(IOException e){main.post(()->{if(!closed)host.error(message(e));});}});
     }
     public void flushDraft(){finishDrag(true);flushSave();}
     public void refreshExportStatus(){
-        if(!ready)return;flushSave();final int token=generation;final String scope=owner,sha=sourceSha,id=selected;final int amount=strength;final PhotoAdjustments manual=adjustments;final PhotoGeometry composition=geometry;
-        io.execute(()->{try{PhotoEditStore.Draft d=new PhotoEditStore(activity.getFilesDir(),scope).read(sha);main.post(()->{if(!valid(token,scope)||!id.equals(selected)||amount!=strength||!manual.equals(adjustments)||!composition.equals(geometry))return;exported=d!=null&&d.exported&&d.presetSha.equals(id)&&d.strength==amount&&d.adjustments.equals(manual)&&d.geometry.equals(composition);KNOWN.put(scope+":"+sha,d!=null&&!d.exported);refresh();host.changed();});}catch(IOException e){main.post(()->{if(valid(token,scope))host.error(message(e));});}});
+        if(!ready)return;flushSave();final int token=generation;final String scope=owner,sha=sourceSha,id=selected;final int amount=strength;final PhotoAdjustments manual=adjustments;final PhotoGeometry composition=geometry;final PhotoBorder frame=border;
+        io.execute(()->{try{PhotoEditStore.Draft d=new PhotoEditStore(activity.getFilesDir(),scope).read(sha);main.post(()->{if(!valid(token,scope)||!id.equals(selected)||amount!=strength||!manual.equals(adjustments)||!composition.equals(geometry)||!frame.equals(border))return;exported=d!=null&&d.exported&&d.presetSha.equals(id)&&d.strength==amount&&d.adjustments.equals(manual)&&d.geometry.equals(composition)&&d.border.equals(frame);KNOWN.put(scope+":"+sha,d!=null&&!d.exported);refresh();host.changed();});}catch(IOException e){main.post(()->{if(valid(token,scope))host.error(message(e));});}});
     }
     private void resetPickerPosition(){pickerFirst=pickerTop=0;if(grid!=null)grid.setSelection(0);}
     /** Serial barrier also covers a draft just flushed while leaving the detail page. */
     public void afterPendingSaves(Runnable done){flushSave();io.execute(()->main.post(()->{if(!closed)done.run();}));}
     public void freeze(Consumer<PhotoPresetBatch.Edit> done){
-        if(!ready){host.download();return;}flushSave();final DownloadedPhoto photo=originalPhoto,displayed=bound;final int token=generation;final String scope=owner,sha=sourceSha;
+        if(!ready){host.download();return;}flushSave();final DownloadedPhoto photo=originalPhoto,displayed=bound;final int token=generation;final String scope=owner,sha=sourceSha,displayHash=displayedSha;
         final PhotoEditStore.Draft frozen;
-        try{frozen=hasDraft?new PhotoEditStore.Draft(sha,selectedBytes,selectedName,strength,adjustments,geometry,exported):null;}catch(IOException error){host.error(message(error));return;}
-        io.execute(()->{try{if(frozen!=null)new PhotoEditStore(activity.getFilesDir(),scope).save(frozen);PhotoPresetBatch.Edit edit=frozen==null?PhotoPresetBatch.Edit.saved(PhotoPresetBatch.Source.local(displayed)):PhotoPresetBatch.Edit.draft(PhotoPresetBatch.Source.local(photo),frozen,scope);main.post(()->{if(valid(token,scope))done.accept(edit);});}catch(Exception e){main.post(()->{if(valid(token,scope))host.error(message(e));});}});
+        try{frozen=hasDraft?new PhotoEditStore.Draft(sha,selectedBytes,selectedName,strength,adjustments,geometry,border,exported):null;}catch(IOException error){host.error(message(error));return;}
+        io.execute(()->{try{if(frozen!=null)new PhotoEditStore(activity.getFilesDir(),scope).save(frozen);PhotoPresetBatch.Edit edit=frozen==null?PhotoPresetBatch.Edit.saved(PhotoPresetBatch.Source.local(displayed),PhotoExportSpec.full(),displayHash):PhotoPresetBatch.Edit.draft(PhotoPresetBatch.Source.local(photo),frozen,scope);main.post(()->{if(valid(token,scope))done.accept(edit.withAccount(scope));});}catch(Exception e){main.post(()->{if(valid(token,scope))host.error(message(e));});}});
+    }
+    private PresetPreviewProfile currentProfile(){
+        return BorderPreviewProfile.of(GeometryPreviewProfile.of(AdjustedPreviewProfile.of(selectedProfile==null?null:StrengthPreviewProfile.of(selectedProfile,strength),adjustments),geometry),border);
+    }
+    private boolean recoverableDetail(){return !unrecoverableSaved&&(hasDraft||!savedVersionOnly&&bound!=null&&originalPhoto!=null&&bound.file().equals(originalPhoto.file()));}
+    private void closeDetails(){if(detailDialog!=null){detailDialog.close();detailDialog=null;}detailLoading=false;}
+    public View createHistogramOverlay(){
+        if(histogramPanel==null)histogramPanel=new PhotoHistogramPanel(activity,(shadows,highlights)->{if(ready&&histogramOpen)schedulePreview();});
+        if(histogramPanel.getParent() instanceof ViewGroup)((ViewGroup)histogramPanel.getParent()).removeView(histogramPanel);
+        histogramPanel.setVisibility(histogramOpen?View.VISIBLE:View.GONE);return histogramPanel;
+    }
+    public boolean isHistogramVisible(){return histogramOpen;}
+    public void toggleHistogram(){
+        if(!ready){retryPreparation();return;}if(histogramPanel==null)createHistogramOverlay();histogramOpen=!histogramOpen;
+        histogramPanel.setVisibility(histogramOpen?View.VISIBLE:View.GONE);
+        if(!histogramOpen){previewRequest++;previews.getQueue().clear();diagnosticPreview=null;host.changed();if(recoverableDetail())schedulePreview();return;}host.changed();
+        if(!recoverableDetail()){histogramPanel.reset();histogramPanel.setError("此保存版本无法恢复不含边框的统计，请选择原图或恢复草稿。");return;}
+        schedulePreview();
+    }
+    public void showDetails(){
+        if(!ready){host.download();return;}if(detailLoading)return;finishDrag(true);closeDetails();detailLoading=true;
+        final int token=generation;final String scope=owner,rootSha=sourceSha,shownSha=displayedSha;final EditState starting=snapshot();final boolean compare=recoverableDetail();
+        final DownloadedPhoto source=compare?originalPhoto:bound;final PresetPreviewProfile profile=compare?currentProfile():null;
+        if(source==null){detailLoading=false;host.error("完整照片尚未就绪。");return;}
+        io.execute(()->{try{
+            String sha=compare?rootSha:shownSha;if(!sha.equals(PhotoEditStore.hashFile(source.file())))throw new IOException("照片内容已变化，请重新打开。");String identity=scope+":"+sha+":"+token+":"+(compare?new PhotoEditStore.Draft(rootSha,starting.bytes,starting.name,starting.strength,starting.manual,starting.geometry,starting.border,false).identity():"saved-file");
+            main.post(()->{if(!valid(token,scope)||!starting.same(snapshot()))return;detailLoading=false;
+                detailDialog=PhotoDetailDialog.show(activity,new PhotoDetailSource.Request(activity,source.file(),sha,identity,profile,compare,()->valid(token,scope)&&ready&&starting.same(snapshot())));
+            });
+        }catch(Exception|OutOfMemoryError error){main.post(()->{if(valid(token,scope)){detailLoading=false;host.error(message(error));}});}});
     }
     public void showExport(){
-        if(!ready){host.download();return;}dismissPopup();LinearLayout content=sheet("导出照片");
-        LinearLayout summary=row();ImageView image=new ImageView(activity);image.setScaleType(ImageView.ScaleType.CENTER_CROP);image.setImageBitmap(current);summary.addView(image,new LinearLayout.LayoutParams(dp(86),dp(64)));TextView name=text(label(),14,TEXT);name.setPadding(dp(16),0,0,0);name.setMaxLines(3);summary.addView(name,new LinearLayout.LayoutParams(0,dp(72),1));content.addView(summary);
-        BitmapFactory.Options bounds=new BitmapFactory.Options();bounds.inJustDecodeBounds=true;File sizingFile=hasDraft?originalPhoto.file():bound.file();BitmapFactory.decodeFile(sizingFile.getPath(),bounds);int outWidth=bounds.outWidth,outHeight=bounds.outHeight;
-        if(hasDraft&&!geometry.isNeutral())try{int orientation=new ExifInterface(sizingFile.getPath()).getAttributeInt(ExifInterface.TAG_ORIENTATION,1);PhotoGeometry.Plan plan=geometry.plan(outWidth,outHeight,orientation<1||orientation>8?1:orientation);outWidth=plan.width;outHeight=plan.height;}catch(IOException error){host.error(message(error));return;}
-        if(!adjustments.isNeutral())content.addView(button("查看 "+adjustments.count()+" 项基础调节",false,()->{StringBuilder details=new StringBuilder();for(PhotoAdjustments.Parameter p:PhotoAdjustments.Parameter.values())if(adjustments.get(p)!=0)details.append(p.label).append("  ").append(p.format(adjustments.get(p))).append('\n');new AlertDialog.Builder(activity).setTitle("基础调节").setMessage(details.toString().trim()).setPositiveButton("关闭",null).show();}),new LinearLayout.LayoutParams(-1,dp(48)));
-        if(hasDraft&&!geometry.isNeutral())info(content,"构图",geometry.label());info(content,"格式","JPG");info(content,"尺寸",outWidth+" × "+outHeight);TextView hint=text("原图保留，可选 App 内或手机相册\n同一版本不重复保存，新副本使用本次时间",12,MUTED);hint.setGravity(Gravity.CENTER);content.addView(hint,new LinearLayout.LayoutParams(-1,dp(44)));
-        Button save=button("选择保存位置",true,()->freeze(edit->{dismissPopup();host.export(Collections.singletonList(edit));}));content.addView(save,new LinearLayout.LayoutParams(-1,dp(50)));
-        if(host.canExportRaw()){Button raw=button("导出相机原始 NEF",false,()->{dismissPopup();host.raw();});content.addView(raw,new LinearLayout.LayoutParams(-1,dp(48)));TextView rawHint=text("原始 NEF 不包含滤镜、调节与构图",11,MUTED);rawHint.setGravity(Gravity.CENTER);content.addView(rawHint);}showSheet(content,-2);
+        if(!ready){host.download();return;}finishDrag(true);dismissPopup();final int token=generation;final String scope=owner;
+        final Bitmap thumbnail=current;final DownloadedPhoto originalSource=originalPhoto;final String originalSha=sourceSha;
+        final boolean allowOriginal=!unrecoverableSaved&&originalSource!=null&&!originalSource.filename().contains("_PNG白底");
+        freeze(frozen->io.execute(()->{try{
+            File file=frozen.source.localPhoto().file();PresetPreviewProfile profile=frozen.draft==null?null:frozen.draft.profile();
+            PhotoPresetRenderer.Dimensions dimensions=PhotoPresetRenderer.dimensions(file,profile);
+            PhotoExportDialog.Item item=new PhotoExportDialog.Item(frozen.source.filename(),dimensions.width,dimensions.height,thumbnail,frozen.draft==null?"基于当前已保存文件":"当前效果 · 原图保持不变");
+            main.post(()->{if(!valid(token,scope))return;
+                exportDialog=PhotoExportDialog.show(activity,Collections.singletonList(item),(spec,target,newCopy)->{
+                    if(!valid(token,scope))return;PhotoPresetBatch.Edit edit=frozen.draft==null?PhotoPresetBatch.Edit.saved(frozen.source,spec,frozen.expectedSourceSha):PhotoPresetBatch.Edit.draft(frozen.source,frozen.draft,frozen.owner,spec);
+                    popup=null;host.export(Collections.singletonList(edit.withAccount(scope).withDestination(target,newCopy)));
+                },allowOriginal?()->confirmOriginalExport(originalSource,originalSha,token,scope):null,host.canExportRaw()?()->{if(valid(token,scope))host.raw();}:null);popup=exportDialog;
+                if(exportDialog!=null)exportDialog.setAvailabilityProvider((spec,target,done)->io.execute(()->{
+                    PhotoExportAvailability.Result result=PhotoExportAvailability.check(batch,new PhotoLiveGallery(activity.getApplicationContext()),PhotoExportAvailability.withSpec(Collections.singletonList(frozen),spec),target);
+                    done.complete(result);
+                }),result->{if(valid(token,scope))host.viewSaved(result);});
+            });
+        }catch(Exception|OutOfMemoryError error){main.post(()->{if(valid(token,scope))host.error(message(error));});}}));
+    }
+    private void confirmOriginalExport(DownloadedPhoto photo,String expectedSha,int token,String scope){
+        if(!valid(token,scope))return;
+        new AlertDialog.Builder(activity).setTitle("保存 JPEG 原始文件？").setMessage("不会应用当前滤镜、调节、构图与边框，也不使用上方尺寸和质量设置。完整保留原文件内容及其已有信息（可能包含定位）。").setNegativeButton("取消",null).setPositiveButton("保存原始文件",(d,w)->{
+            io.execute(()->{try{if(!expectedSha.equals(PhotoEditStore.hashFile(photo.file())))throw new IOException("原图内容已变化，请重新打开照片。");main.post(()->{if(valid(token,scope))host.saveOriginal(photo);});}catch(Exception error){main.post(()->{if(valid(token,scope))host.error(message(error));});}});
+        }).show();
     }
     public void showAll(){
         if(!ready)return;
@@ -463,11 +539,11 @@ public final class PhotoFilterEditor implements AutoCloseable {
     }
     private LinearLayout sheet(String label){LinearLayout content=column();content.setPadding(dp(20),dp(8),dp(20),dp(24));content.setBackground(material());content.setClipToOutline(true);View handle=new View(activity);handle.setBackground(shape(0xff657080,2));LinearLayout.LayoutParams p=new LinearLayout.LayoutParams(dp(32),dp(3));p.gravity=Gravity.CENTER_HORIZONTAL;p.bottomMargin=dp(8);content.addView(handle,p);LinearLayout row=row();final float[] y={0};row.setOnTouchListener((v,e)->{if(e.getActionMasked()==MotionEvent.ACTION_DOWN)y[0]=e.getY();if(e.getActionMasked()==MotionEvent.ACTION_UP&&e.getY()-y[0]>dp(24)){dismissPopup();return true;}return true;});TextView title=text(label,18,TEXT);title.setTypeface(null,Typeface.BOLD);row.addView(title,new LinearLayout.LayoutParams(0,dp(48),1));Button close=button("",false,this::dismissPopup);close.setCompoundDrawablesRelativeWithIntrinsicBounds(icon(AppIcon.Kind.CLOSE),null,null,null);close.setContentDescription("关闭面板");row.addView(close,new LinearLayout.LayoutParams(dp(48),dp(48)));content.addView(row);return content;}
     private void showSheet(LinearLayout content,int height){Dialog dialog=new Dialog(activity);popup=dialog;dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);if(height==-2){ScrollView scroll=new ScrollView(activity);scroll.addView(content);dialog.setContentView(scroll);content.measure(View.MeasureSpec.makeMeasureSpec(activity.getResources().getDisplayMetrics().widthPixels,View.MeasureSpec.EXACTLY),View.MeasureSpec.makeMeasureSpec(0,View.MeasureSpec.UNSPECIFIED));height=Math.min(content.getMeasuredHeight(),(int)(activity.getResources().getDisplayMetrics().heightPixels*.90));}else dialog.setContentView(content);Window window=dialog.getWindow();if(window!=null){window.setBackgroundDrawableResource(android.R.color.transparent);window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);window.setGravity(Gravity.BOTTOM);window.setLayout(-1,height);window.setDimAmount(.35f);if(android.os.Build.VERSION.SDK_INT>=31)window.setBackgroundBlurRadius(dp(24));}dialog.setOnDismissListener(v->{if(popup==dialog)popup=null;if(grid!=null&&query.isEmpty()){pickerFirst=grid.getFirstVisiblePosition();View first=grid.getChildAt(0);pickerTop=first==null?0:first.getTop();}grid=null;gridAdapter=null;pickerCategories=null;pickerStatus=null;pickerTitle=null;query="";});dialog.show();if(window!=null)window.setLayout(-1,height);}
-    public boolean dismissPopup(){if(popup==null)return false;Dialog old=popup;popup=null;old.dismiss();return true;}
+    public boolean dismissPopup(){if(detailDialog!=null){boolean showing=detailDialog.isShowing();closeDetails();if(showing)return true;}if(borderControls!=null&&borderControls.dismiss())return true;if(popup==null)return false;Dialog old=popup;popup=null;old.dismiss();return true;}
     private void info(LinearLayout parent,String label,String value){LinearLayout row=row();row.addView(text(label,14,TEXT),new LinearLayout.LayoutParams(0,dp(46),1));row.addView(text(value,14,MUTED));parent.addView(row);}
     private LinearLayout column(){LinearLayout v=new LinearLayout(activity);v.setOrientation(LinearLayout.VERTICAL);return v;}private LinearLayout row(){LinearLayout v=new LinearLayout(activity);v.setOrientation(LinearLayout.HORIZONTAL);v.setGravity(Gravity.CENTER_VERTICAL);return v;}
     private TextView text(String s,int size,int color){TextView v=new TextView(activity);v.setText(s);v.setTextColor(color);v.setTextSize(size);v.setGravity(Gravity.CENTER_VERTICAL);v.setIncludeFontPadding(false);return v;}
-    private Button button(String s,boolean primary,Runnable action){Button b=new Button(activity);b.setText(s);b.setTextSize(14);b.setAllCaps(false);b.setTextColor(primary?0xff07244a:BLUE);b.setStateListAnimator(null);b.setMinWidth(0);b.setMinimumWidth(0);b.setMinHeight(dp(48));b.setMinimumHeight(dp(48));b.setPadding(dp(12),0,dp(12),0);b.setBackground(shape(primary?BLUE:Color.TRANSPARENT,24));b.setOnClickListener(v->action.run());return b;}
+    private Button button(String s,boolean primary,Runnable action){Button b=new Button(activity);b.setText(s);b.setTextSize(14);b.setAllCaps(false);b.setTextColor(primary?0xff352016:BLUE);b.setStateListAnimator(null);b.setMinWidth(0);b.setMinimumWidth(0);b.setMinHeight(dp(48));b.setMinimumHeight(dp(48));b.setPadding(dp(12),0,dp(12),0);b.setBackground(shape(primary?BLUE:Color.TRANSPARENT,24));b.setOnClickListener(v->action.run());return b;}
     private LinearLayout sourceToggle(){LinearLayout group=row();group.setBackground(new InsetDrawable(shape(0x4d10151c,11),0,dp(8),0,dp(8)));group.setPadding(dp(3),0,dp(3),0);return group;}
     private void styleSource(Button control,boolean active){
         control.setTextSize(13);control.setSingleLine(true);control.setTypeface(Typeface.create("sans-serif-medium",Typeface.NORMAL));control.setTextColor(active?TEXT:MUTED);control.setSelected(active);
@@ -481,6 +557,8 @@ public final class PhotoFilterEditor implements AutoCloseable {
     private EditorGlassDrawable material(){return new EditorGlassDrawable(glass,activity.getResources().getDisplayMetrics().density,26);}
     private AppIcon icon(AppIcon.Kind kind){return new AppIcon(kind,TEXT,activity.getResources().getDisplayMetrics().density);}private GradientDrawable shape(int color,int radius){GradientDrawable d=new GradientDrawable();d.setColor(color);d.setCornerRadius(dp(radius));return d;}private int dp(float n){return Math.round(n*activity.getResources().getDisplayMetrics().density);}
     private static String message(Throwable e){return e.getMessage()==null?"暂时无法处理，请重试。":e.getMessage();}
+    static Bitmap renderColour(Bitmap base,PresetPreviewProfile profile){return render(base,profile);}
+    private static Bitmap renderFramed(Bitmap base,PresetPreviewProfile profile,PhotoCaptureInfo capture,Context context)throws IOException{Bitmap colour=render(base,profile);PhotoBorder frame=BorderPreviewProfile.border(profile);if(frame.isNone())return colour;try{return new PhotoBorderRenderer(context.getAssets()).apply(colour,frame,capture);}finally{colour.recycle();}}
     private static Bitmap render(Bitmap base,PresetPreviewProfile profile){int w=base.getWidth(),h=base.getHeight();int[] pixels=new int[w*h];base.getPixels(pixels,0,w,0,0,w,h);int[] result=profile.render(pixels,w,h);Bitmap colour=Bitmap.createBitmap(result,w,h,Bitmap.Config.ARGB_8888);PhotoGeometry composition=GeometryPreviewProfile.geometry(profile);if(composition.isNeutral())return colour;try{return PhotoComposition.apply(colour,composition,1);}finally{colour.recycle();}}
     public static Bitmap decode(File file,int edge)throws IOException{
         BitmapFactory.Options bounds=new BitmapFactory.Options();bounds.inJustDecodeBounds=true;BitmapFactory.decodeFile(file.getPath(),bounds);if(bounds.outWidth<1||bounds.outHeight<1)throw new IOException("原图无法读取。");BitmapFactory.Options options=new BitmapFactory.Options();options.inPreferredConfig=Bitmap.Config.ARGB_8888;options.inPreferredColorSpace=ColorSpace.get(ColorSpace.Named.SRGB);options.inScaled=false;options.inSampleSize=1;while(Math.max(bounds.outWidth,bounds.outHeight)/options.inSampleSize>edge*2)options.inSampleSize*=2;Bitmap bitmap=BitmapFactory.decodeFile(file.getPath(),options);if(bitmap==null)throw new IOException("原图无法解码。");
@@ -488,8 +566,8 @@ public final class PhotoFilterEditor implements AutoCloseable {
     }
     /** Runs on the album thumbnail worker. A missing draft never changes a saved version's pixels. */
     public static Bitmap draftThumbnail(Context context,DownloadedPhoto original,String sha,int edge)throws IOException{
-        String owner=accountOwner(context);PhotoEditStore.Draft d=new PhotoEditStore(context.getFilesDir(),owner).read(sha);if(d==null){KNOWN.remove(owner+":"+sha);return null;}KNOWN.put(owner+":"+sha,!d.exported);if(d.exported)return null;Bitmap base=decode(original.file(),edge);return d.hasEffect()?render(base,d.profile()):base;
+        String owner=accountOwner(context);PhotoEditStore.Draft d=new PhotoEditStore(context.getFilesDir(),owner).read(sha);if(d==null){KNOWN.remove(owner+":"+sha);return null;}KNOWN.put(owner+":"+sha,!d.exported);if(d.exported)return null;Bitmap base=decode(original.file(),edge);if(!d.hasEffect())return base;try{return renderFramed(base,d.profile(),PhotoCaptureInfo.read(original.file()),context);}finally{base.recycle();}
     }
     public static String draftBadge(Context context,String sha){return Boolean.TRUE.equals(KNOWN.get(accountOwner(context)+":"+sha))?"未导出":"";}
-    @Override public void close(){flushSave();closed=true;generation++;cancelPendingRetry();dismissPopup();io.shutdown();catalogIo.shutdownNow();previews.shutdownNow();thumbnails.shutdownNow();main.removeCallbacksAndMessages(null);}
+    @Override public void close(){closeDetails();if(borderControls!=null)borderControls.close();flushSave();closed=true;generation++;cancelPendingRetry();dismissPopup();io.shutdown();catalogIo.shutdownNow();previews.shutdownNow();thumbnails.shutdownNow();main.removeCallbacksAndMessages(null);}
 }

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="cc.huevia.imageupgradeqa">
+    <application android:label="Photo image upgrade native QA" android:allowBackup="false" android:debuggable="false" />
+    <instrumentation android:name=".PhotoImageUpgradeProbe" android:targetPackage="cc.huevia" android:functionalTest="true" android:handleProfiling="false" />
+</manifest>

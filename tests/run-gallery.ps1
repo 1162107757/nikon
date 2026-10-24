@@ -26,3 +26,5 @@ if ($LASTEXITCODE -ne 0) { throw 'Imported phone photo origin/publication checks
 if ($LASTEXITCODE -ne 0) { throw 'Local photo deletion host checks failed.' }
 & $runtimePath -cp $classesDirectory cc.huevia.album.PhotoOriginalStoreHostTest
 if ($LASTEXITCODE -ne 0) { throw 'Original byte identity host checks failed.' }
+& $runtimePath -cp $classesDirectory cc.huevia.album.JpegValidationHostTest
+if ($LASTEXITCODE -ne 0) { throw 'JPEG primary-stream validation host checks failed.' }

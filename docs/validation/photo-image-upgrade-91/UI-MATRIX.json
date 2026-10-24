@@ -1,0 +1,204 @@
+{
+  "candidateSha256": "f717151b99bb70d75a8038acb5f8e04f3ea28e121891ddf1fd8bdf73d47ea7a8",
+  "candidateVersionCode": 91,
+  "candidateBytes": 3893370,
+  "scope": "Current phone/font1.3/landscape native verification with unchanged actual framebuffer thresholds after native LayerDrawable mode line replacement. Repeated assertions across configurations are not distinct test cases.",
+  "currentTargetedNativeStatus": "PASS",
+  "modes": [
+    {
+      "mode": "phone",
+      "status": "PASS",
+      "checks": 172,
+      "testedCandidateSha256": "f717151b99bb70d75a8038acb5f8e04f3ea28e121891ddf1fd8bdf73d47ea7a8",
+      "evidenceKind": "Current f717 native regression and actual RGB/luminance line pixels",
+      "framebufferCompared": 1849,
+      "framebufferMaxDelta": 0,
+      "tileCompared": 1848,
+      "tileErrors": 0,
+      "cleanup": "PASS",
+      "settingsAndGrantsRestored": "PASS",
+      "actualModeLine": [
+        {
+          "phase": "rgb-selected",
+          "activeName": "rgb",
+          "activeAccentPixels": 172,
+          "sampleArea": 216,
+          "inactiveAccentPixels": 0,
+          "localLineTop": 89,
+          "glyphBottom": 74,
+          "rawFrame": "histogram-mode-line-rgb-selected.png",
+          "geometry": "histogram-mode-line-rgb-selected.json"
+        },
+        {
+          "phase": "luminance-selected",
+          "activeName": "luminance",
+          "activeAccentPixels": 172,
+          "sampleArea": 216,
+          "inactiveAccentPixels": 0,
+          "localLineTop": 89,
+          "glyphBottom": 80,
+          "rawFrame": "histogram-mode-line-luminance-selected.png",
+          "geometry": "histogram-mode-line-luminance-selected.json"
+        },
+        {
+          "phase": "rgb-restored",
+          "activeName": "rgb",
+          "activeAccentPixels": 172,
+          "sampleArea": 216,
+          "inactiveAccentPixels": 0,
+          "localLineTop": 89,
+          "glyphBottom": 74,
+          "rawFrame": "histogram-mode-line-rgb-restored.png",
+          "geometry": "histogram-mode-line-rgb-restored.json"
+        }
+      ],
+      "detailEntry": {
+        "width": 236,
+        "contentWidth": 236,
+        "touchHeight": 126,
+        "glassVisualHeight": 84,
+        "whiteIconFramebufferPixels": 310,
+        "glassSamplePixels": 19776,
+        "click": "Three actual entry performClick interactions opened the real detail dialog"
+      }
+    },
+    {
+      "mode": "font1.3",
+      "status": "PASS",
+      "checks": 172,
+      "testedCandidateSha256": "f717151b99bb70d75a8038acb5f8e04f3ea28e121891ddf1fd8bdf73d47ea7a8",
+      "evidenceKind": "Current f717 native regression and actual RGB/luminance line pixels",
+      "framebufferCompared": 1849,
+      "framebufferMaxDelta": 0,
+      "tileCompared": 1848,
+      "tileErrors": 0,
+      "cleanup": "PASS",
+      "settingsAndGrantsRestored": "PASS",
+      "actualModeLine": [
+        {
+          "phase": "rgb-selected",
+          "activeName": "rgb",
+          "activeAccentPixels": 172,
+          "sampleArea": 216,
+          "inactiveAccentPixels": 0,
+          "localLineTop": 89,
+          "glyphBottom": 78,
+          "rawFrame": "histogram-mode-line-rgb-selected.png",
+          "geometry": "histogram-mode-line-rgb-selected.json"
+        },
+        {
+          "phase": "luminance-selected",
+          "activeName": "luminance",
+          "activeAccentPixels": 172,
+          "sampleArea": 216,
+          "inactiveAccentPixels": 0,
+          "localLineTop": 89,
+          "glyphBottom": 85,
+          "rawFrame": "histogram-mode-line-luminance-selected.png",
+          "geometry": "histogram-mode-line-luminance-selected.json"
+        },
+        {
+          "phase": "rgb-restored",
+          "activeName": "rgb",
+          "activeAccentPixels": 172,
+          "sampleArea": 216,
+          "inactiveAccentPixels": 0,
+          "localLineTop": 89,
+          "glyphBottom": 78,
+          "rawFrame": "histogram-mode-line-rgb-restored.png",
+          "geometry": "histogram-mode-line-rgb-restored.json"
+        }
+      ],
+      "detailEntry": {
+        "width": 272,
+        "contentWidth": 272,
+        "touchHeight": 126,
+        "glassVisualHeight": 84,
+        "whiteIconFramebufferPixels": 310,
+        "glassSamplePixels": 17088,
+        "click": "Three actual entry performClick interactions opened the real detail dialog"
+      }
+    },
+    {
+      "mode": "landscape",
+      "status": "PASS",
+      "checks": 174,
+      "testedCandidateSha256": "f717151b99bb70d75a8038acb5f8e04f3ea28e121891ddf1fd8bdf73d47ea7a8",
+      "evidenceKind": "Current f717 native regression and actual RGB/luminance line pixels",
+      "framebufferCompared": 1849,
+      "framebufferMaxDelta": 0,
+      "tileCompared": 2772,
+      "tileErrors": 0,
+      "cleanup": "PASS",
+      "settingsAndGrantsRestored": "PASS",
+      "actualModeLine": [
+        {
+          "phase": "rgb-selected",
+          "activeName": "rgb",
+          "activeAccentPixels": 172,
+          "sampleArea": 216,
+          "inactiveAccentPixels": 0,
+          "localLineTop": 89,
+          "glyphBottom": 74,
+          "rawFrame": "histogram-mode-line-rgb-selected.png",
+          "geometry": "histogram-mode-line-rgb-selected.json"
+        },
+        {
+          "phase": "luminance-selected",
+          "activeName": "luminance",
+          "activeAccentPixels": 172,
+          "sampleArea": 216,
+          "inactiveAccentPixels": 0,
+          "localLineTop": 89,
+          "glyphBottom": 80,
+          "rawFrame": "histogram-mode-line-luminance-selected.png",
+          "geometry": "histogram-mode-line-luminance-selected.json"
+        },
+        {
+          "phase": "rgb-restored",
+          "activeName": "rgb",
+          "activeAccentPixels": 172,
+          "sampleArea": 216,
+          "inactiveAccentPixels": 0,
+          "localLineTop": 89,
+          "glyphBottom": 74,
+          "rawFrame": "histogram-mode-line-rgb-restored.png",
+          "geometry": "histogram-mode-line-rgb-restored.json"
+        }
+      ],
+      "detailEntry": {
+        "width": 236,
+        "contentWidth": 236,
+        "touchHeight": 126,
+        "glassVisualHeight": 84,
+        "whiteIconFramebufferPixels": 310,
+        "glassSamplePixels": 19776,
+        "click": "Three actual entry performClick interactions opened the real detail dialog"
+      }
+    },
+    {
+      "mode": "dark",
+      "status": "PASS",
+      "checks": 143,
+      "testedCandidateSha256": "eaa4914742a7d3a7b8ae0286ded76f999ec718207963923406751a92b7e86c58",
+      "evidenceKind": "Prior eaa dark evidence only; not a current f717 marker or new detail-entry run",
+      "framebufferCompared": 1849,
+      "framebufferMaxDelta": 0,
+      "tileCompared": 1848,
+      "tileErrors": 0,
+      "cleanup": "PASS",
+      "settingsAndGrantsRestored": "PASS"
+    }
+  ],
+  "modeLineThreshold": "Accent RGB243,180,147 tolerance16; selected>=sampleArea/3, unselected<=sampleArea/20; identical to failed5e probe",
+  "visualScope": "Raw actual RGB-selected, luminance-selected and RGB-restored images plus geometry are present in each current mode. Font1.3 text and line do not intersect; current native checks preserve entry, histogram curve, photo/tool bounds, real glass, pixels, warnings and source guards.",
+  "independentVisualReview": "Phone mode line confirmed resolved by finish; current font1.3/landscape evidence supplied for final bounded review",
+  "priorProgressReference": {
+    "note": "No new f717 progress run; retained prior candidate evidence only",
+    "path": "pre-glass-0d35b8c8/phone-progress",
+    "testedCandidateSha256": "0d35b8c8d6367c1a62078a264183ca41bd24bc357ebd22ee8dcb08f83870bb31",
+    "checks": 23
+  },
+  "failureHistory": "glass-5e9688ba-mode-line-fail preserves actual zero-accent RGB proof. glass-ac5c3ff1-entry-confirmed preserves prior ac5 scope. No pixel thresholds were changed.",
+  "staleArtifactNote": "Only SHA-identical previously archived remote failure image duplicates were removed from successful current folders; original actualFAIL and harness archives remain intact."
+}

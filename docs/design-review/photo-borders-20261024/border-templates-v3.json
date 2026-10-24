@@ -1,0 +1,14 @@
+{
+  "generator": "built-in image_gen.imagegen",
+  "prompt": "Make a strictly localized edit to this existing three-screen Huevia photo-border design review board.\nONLY change the small outlined CAMERA ICON on the far left of the camera-model selector row near the bottom of EACH of the three phone screens, the row containing \"Nikon Z6 II\" and \"自动识别\" between the four template thumbnails and the bottom editor tool navigation.\nReduce EACH of these three outlined camera icons by about 35 percent in both width and height, from their current visually oversized size to a delicate approximately 13–14dp icon. Use a thin 1.2dp light gray outline and keep its optical center aligned vertically with the small model label next to it. Preserve the existing left icon-slot center, leave more breathing room around the smaller icon, and do not move the model text. Make all three icons identical in size.\nEvery other pixel and visual decision should remain as unchanged as possible: same board canvas and headings, three screens, three exact reference photographs and borders, all text sizes and positions, the small \"Nikon Z6 II\" labels, all \"自动识别\" badges, full row heights and right chevrons, thumbnail selections, tabs, navigation, export actions, logos, picture content and colors. The camera physically visible INSIDE the photograph is untouched, and the original-comparison icons in the preview are untouched. Return the full updated design board.",
+  "references": [
+    "border-templates-v2.png"
+  ],
+  "approved": true,
+  "revision": "按用户要求缩小三款模板机型选择栏左侧的相机图标。",
+  "approval": {
+    "date": "2026-10-24",
+    "userMessage": "开始实现",
+    "scope": "三款模板、机型选择及已修正小字号/小相机图形"
+  }
+}

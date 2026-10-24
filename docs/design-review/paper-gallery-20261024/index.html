@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Huevia · 纸白印样 / 预设页样板</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&family=Roboto+Condensed:wght@600;700&family=Roboto+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="design.css">
+<script src="design.js" defer></script>
+</head>
+<body>
+<!--
+THESIS: 预设库就是一张色彩配方的印样（contact sheet）。界面是相纸，照片是内容，元信息退成齿孔边的印字。
+OWN-WORLD: 相纸白 #FBFBFA、墨 #17181A、蓝晒青 #1B4D8F。窄体无衬线作仪器刻字，等宽作数据印字，常规无衬线作人话。
+STORY: 在印样上认出一款配方 → 看懂它改了什么 → 把它送进相机。
+FIRST VIEWPORT: 30sp 窄体标题 + 发丝线 + 下划线式来源与分类 + 两列印样。首屏 6 格照片，装饰为零。
+FORM: 用户于 2026-10-24 选定「纸白 Gallery」方向与「先做一页样板」范围。本稿只覆盖预设页，未改原生源码。
+FINISH: 未复核、未记录即未完成。本稿是待批准的设计基准，不是已交付实现。
+-->
+
+<header class="studio-header">
+  <div class="studio-brand">
+    <strong>huevia</strong>
+    <span>纸白印样 · 预设页样板 · 2026-10-24</span>
+  </div>
+  <div class="studio-controls">
+    <div class="control-group">
+      <label>外观</label>
+      <div class="seg" role="group">
+        <button data-act="theme" data-val="light" aria-pressed="true">浅色</button>
+        <button data-act="theme" data-val="dark" aria-pressed="false">深色</button>
+      </div>
+    </div>
+    <div class="control-group">
+      <label>底栏</label>
+      <div class="seg" role="group">
+        <button data-act="nav" data-val="flush" aria-pressed="true">贴底</button>
+        <button data-act="nav" data-val="float" aria-pressed="false">悬浮</button>
+      </div>
+    </div>
+    <div class="control-group">
+      <label>对照</label>
+      <div class="seg" role="group">
+        <button data-act="accent" data-val="cyan" aria-pressed="true">蓝晒青</button>
+        <button data-act="accent" data-val="warm" aria-pressed="false">暖赭</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="studio-main">
+
+  <div class="stage">
+    <div class="phone">
+      <div class="phone-screen" id="screen">
+
+        <div class="status-bar">
+          <span>3:06</span>
+          <span class="icons">
+            <svg viewBox="0 0 24 24"><path d="M4 19v-3m5 3v-7m5 7V8m5 11V4"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M3 8a14 14 0 0 1 18 0M6 12a9 9 0 0 1 12 0m-9 4a4 4 0 0 1 6 0"/><circle cx="12" cy="20" r=".6"/></svg>
+            <svg viewBox="0 0 28 24"><rect x="2" y="7" width="21" height="10" rx="2.5"/><path d="M26 10v4"/><path d="M5 10h13v4H5Z" fill="currentColor" stroke="none"/></svg>
+          </span>
+        </div>
+
+        <div class="app" id="app">
+
+          <div class="page-head">
+            <h1>预设</h1>
+            <button class="icon-btn" data-act="refresh" aria-label="刷新预设库">
+              <svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-.6 4M20 5v6h-6"/></svg>
+            </button>
+          </div>
+
+          <div class="rule"></div>
+
+          <div class="tabs" role="tablist" aria-label="预设来源">
+            <button class="tab" role="tab" data-act="tab" data-val="online" aria-selected="false">在线</button>
+            <button class="tab" role="tab" data-act="tab" data-val="mine" aria-selected="true">我的</button>
+          </div>
+
+          <div class="statusline" id="statusline"></div>
+
+          <div class="filters" id="filters"></div>
+
+          <div class="sheet" id="sheet"></div>
+
+        </div>
+
+        <button class="fab" data-act="add" aria-label="添加预设">
+          <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+
+        <nav class="navbar" aria-label="主导航">
+          <button class="nav-item" aria-current="page">
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="1"/><circle cx="8.5" cy="9.5" r="1.6"/><path d="m3 17 5-4.5 4 3.5 4-5 5 6"/></svg>
+            <span>预设</span>
+          </button>
+          <button class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M3 7h4l2-3h6l2 3h4v13H3Z"/><circle cx="12" cy="13" r="3.8"/></svg>
+            <span>同步</span>
+          </button>
+          <button class="nav-item">
+            <svg viewBox="0 0 24 24"><rect x="7" y="3" width="14" height="14" rx="1"/><path d="M17 17v3a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h3"/></svg>
+            <span>相册</span>
+          </button>
+          <button class="nav-item">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3m0 13v3M2.5 12h3m13 0h3M5.3 5.3l2.1 2.1m9.2 9.2 2.1 2.1M5.3 18.7l2.1-2.1m9.2-9.2 2.1-2.1"/></svg>
+            <span>设置</span>
+          </button>
+        </nav>
+
+        <div class="home-indicator"></div>
+
+      </div>
+    </div>
+  </div>
+
+  <section class="notes">
+    <h2>纸白印样</h2>
+    <p class="callout">
+      <b>设计论点：</b>预设库本质上是同一张模板照片经 N 种配方渲染后的平铺对比 ——
+      这正是摄影师看印样挑片的动作。界面做成相纸，照片是内容，技术元信息退成齿孔边的印字。
+    </p>
+
+    <h3>纵向尺寸（dp，自上而下）</h3>
+    <table class="spec">
+      <thead><tr><th>区域</th><th>高</th><th>上间距</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>状态栏</td><td class="n">32</td><td class="n">—</td><td>系统</td></tr>
+        <tr><td>标题行</td><td class="n">48</td><td class="n">12</td><td>30sp 窄体标题 + 48dp 图标触区</td></tr>
+        <tr><td>发丝线</td><td class="n">1</td><td class="n">12</td><td>左右内缩至 20dp 页边距</td></tr>
+        <tr><td>来源标签</td><td class="n">40</td><td class="n">16</td><td>在线 / 我的，2dp 墨色下划线</td></tr>
+        <tr><td>状态行</td><td class="n">20</td><td class="n">16</td><td>11sp 等宽，随标签切换内容</td></tr>
+        <tr><td>分类行</td><td class="n">32</td><td class="n">20</td><td>右端为当前筛选数量</td></tr>
+        <tr><td>印样网格</td><td class="n">—</td><td class="n">16</td><td>首格照片顶边落在 265dp</td></tr>
+      </tbody>
+    </table>
+    <p>旧版首格照片在 <code>~390dp</code>，首屏 2 格。本稿 <code>265dp</code>，首屏 6 格。</p>
+
+    <h3>印样格</h3>
+    <table class="spec">
+      <thead><tr><th>项</th><th>值</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>列宽</td><td class="n">(宽 − 40 − 12) ÷ 2</td><td>393dp 屏上为 170.5dp</td></tr>
+        <tr><td>列间距 / 行间距</td><td class="n">12 / 24</td><td>行距大于列距，读作一行行的印样</td></tr>
+        <tr><td>照片比例</td><td class="n">4 : 3</td><td>模板原生比例，不裁切</td></tr>
+        <tr><td>照片圆角</td><td class="n">2</td><td>裁切过的相纸，不是 0 的报纸感</td></tr>
+        <tr><td>照片描边</td><td class="n">1px 7% 墨</td><td>内描边，不用投影；浅背景上确认边界</td></tr>
+        <tr><td>预设名</td><td class="n">15sp / 600</td><td>上距 8，行高 20，单行截断</td></tr>
+        <tr><td>齿孔印字</td><td class="n">11sp 等宽 / +.08em</td><td>上距 2，行高 16 —— <b>签名元素</b></td></tr>
+      </tbody>
+    </table>
+    <p class="callout">
+      旧版漂在图上的「模板模拟」深色药丸已取消，并入齿孔印字行（<code>NCP · 胶片 · 模板模拟</code>）。
+      信息一个不少，图上零遮挡。
+    </p>
+
+    <h3>字阶 · 六个字号，三个字族</h3>
+    <table class="spec">
+      <thead><tr><th>角色</th><th>字族</th><th>字号 / 字重</th><th>用处</th></tr></thead>
+      <tbody>
+        <tr><td>display</td><td>sans-serif-condensed</td><td class="n">30 / 700</td><td>根页标题</td></tr>
+        <tr><td>title</td><td>sans-serif-condensed</td><td class="n">20 / 700</td><td>二级页标题</td></tr>
+        <tr><td>body-strong</td><td>sans-serif</td><td class="n">15 / 600</td><td>预设名、列表主行</td></tr>
+        <tr><td>control</td><td>sans-serif</td><td class="n">15 / 500</td><td>标签、按钮</td></tr>
+        <tr><td>meta</td><td>sans-serif</td><td class="n">13 / 400</td><td>分类、次要说明</td></tr>
+        <tr><td>data</td><td>monospace</td><td class="n">11 / 400 +.08em</td><td>齿孔印字、计数、EXIF</td></tr>
+        <tr><td>nav</td><td>sans-serif</td><td class="n">11 / 500</td><td>底栏标签</td></tr>
+      </tbody>
+    </table>
+    <p>
+      窄体是相机机身与镜头筒的刻字语言，也是胶片盒的字体 —— 读起来像仪器，不像 App。
+      等宽承担所有技术标注，于是 <code>LIBRARY_55</code> 这类全大写拉丁和中文不再在同一字级里打架。
+    </p>
+
+    <h3>调色板 · 浅色（正式基准）</h3>
+    <div class="swatches" id="swatches-light"></div>
+
+    <h3>调色板 · 深色</h3>
+    <div class="swatches" id="swatches-dark"></div>
+
+    <h3>为什么不是奶油米白、不是砖红</h3>
+    <p>
+      <b>纸白取近中性微冷 <code>#FBFBFA</code>，不是 <code>#F4F1EA</code> 这类奶油色。</b>
+      这是个色彩分级工具，暖底会给每张缩略图叠一层黄偏，用户没法准确判断预设效果。相纸基色本就是中性偏冷的。
+    </p>
+    <p>
+      <b>强调色取蓝晒青 <code>#1B4D8F</code>（cyanotype，摄影史上最早的印相工艺）。</b>
+      样片里主导的是肤色和暖木色，暖色选中态糊在上面认不出来；蓝在色相上是对立面，压在任何照片上都清楚。
+      顶部「对照」可切到暖赭变体并排比较 —— 这是单个 token，换一行即可。
+    </p>
+
+    <h3>圆角 · 七个值收敛到三个</h3>
+    <table class="spec">
+      <thead><tr><th>Token</th><th>值</th><th>用处</th></tr></thead>
+      <tbody>
+        <tr><td>frame</td><td class="n">2dp</td><td>照片、面板、任何承载内容的方块</td></tr>
+        <tr><td>control</td><td class="n">4dp</td><td>输入框、按压态底、图标按钮</td></tr>
+        <tr><td>round</td><td class="n">full</td><td>仅悬浮加号 —— 全局唯一的圆形</td></tr>
+      </tbody>
+    </table>
+    <p>旧值 14 / 19 / 20 / 22 / 24 / 25 / 26 全部作废。</p>
+
+    <h3>一条系统规则：激活 = 2dp 规线</h3>
+    <p>
+      来源标签、分类、底栏当前项，全部用同一个 2dp 规线表示激活 —— 标签与底栏用墨色，分类用蓝晒青。
+      不再有胶囊底、填充块、杏色贴纸三种各说各话的选中态。
+    </p>
+
+    <h3>底栏：两个变体等你定</h3>
+    <p>
+      <b>贴底</b>是纸白体系的自洽答案（发丝线分隔，无投影无圆角）。但 85–88 你连续四版要的是悬浮栏，
+      所以<b>悬浮</b>变体也做了：18dp 圆角、发丝描边代替玻璃материал、投影压到最轻。顶部切换器可直接对比。
+      这是跨四个根页的共享元件，定了之后才好铺开。
+    </p>
+
+    <h3>这一稿不包含</h3>
+    <p>
+      同步 / 相册 / 设置三个根页、预设详情、编辑器、构图、导出弹窗、连接引导。
+      按你选的「先做一页样板」，等预设页定稿后再逐页铺开。深色稿同步给出但未做完整对比度矩阵验证。
+    </p>
+  </section>
+
+</main>
+</body>
+</html>

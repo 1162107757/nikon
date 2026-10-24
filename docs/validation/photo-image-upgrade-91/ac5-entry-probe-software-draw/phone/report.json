@@ -1,0 +1,94 @@
+{
+  "mode": "phone",
+  "apkSha256": "ac5c3ff1d419cf45f068249b78731878f0f00eb723f2972e8aeb662f6ccd584a",
+  "versionCode": "91",
+  "scope": "Production native editor\/detail\/histogram\/export controls on isolated emulator; own JPEG\/draft fixtures only; no camera, physical-phone or new MediaStore publication.",
+  "fontScale": 1,
+  "density": 2.625,
+  "orientation": 1,
+  "nightMask": 16,
+  "status": "FAIL",
+  "stage": "real-pixel-detail",
+  "failure": "java.lang.AssertionError: detail-entry-light-icon-is-painted-over-dark-glass",
+  "checks": 17,
+  "assertions": [
+    {
+      "name": "emulator-hardware-only",
+      "passed": true
+    },
+    {
+      "name": "exact-candidate-APK-bytes",
+      "passed": true
+    },
+    {
+      "name": "candidate-version",
+      "passed": true
+    },
+    {
+      "name": "main-activity-ready",
+      "passed": true
+    },
+    {
+      "name": "requested-native-orientation",
+      "passed": true
+    },
+    {
+      "name": "actual-font-scale",
+      "passed": true
+    },
+    {
+      "name": "actual-system-night-mode",
+      "passed": true
+    },
+    {
+      "name": "native-editor-ready",
+      "passed": true
+    },
+    {
+      "name": "real-photo-detail-entry-present",
+      "passed": true
+    },
+    {
+      "name": "detail-entry-visible-and-48dp-touch-target",
+      "passed": true
+    },
+    {
+      "name": "detail-entry-has-18dp-visible-content-icon",
+      "passed": true
+    },
+    {
+      "name": "detail-entry-wraps-content-without-large-empty-leading-space",
+      "passed": true
+    },
+    {
+      "name": "detail-entry-uses-inset-glass-not-white-pill",
+      "passed": true
+    },
+    {
+      "name": "detail-entry-shares-real-photo-glass",
+      "passed": true
+    },
+    {
+      "name": "detail-entry-real-photo-glass-ready",
+      "passed": true
+    },
+    {
+      "name": "detail-entry-glass-samples-photo-with-bounded-memory",
+      "passed": true
+    },
+    {
+      "name": "detail-entry-light-icon-is-painted-over-dark-glass",
+      "passed": false
+    }
+  ],
+  "cleanup": [
+    {
+      "fixture": "\/storage\/emulated\/0\/Android\/data\/cc.huevia\/files\/Pictures\/camera-album\/image-upgrade-qa-889be5e8-5662-48b0-a8e2-cabe58604ce3__GRID.JPG",
+      "shaBeforeDelete": "1bfa845cebedd9ff3c56fb1f62cca8b7d111a7be9cbb4b6a16a863f9472a922e",
+      "unchanged": true,
+      "absent": true
+    }
+  ],
+  "appearanceRestored": true,
+  "osGuideDismissals": []
+}

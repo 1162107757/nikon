@@ -1,0 +1,4 @@
+INSTRUMENTATION_RESULT: status=FAIL
+INSTRUMENTATION_RESULT: stream=Photo image upgrade native FAIL real-pixel-detail: java.lang.AssertionError: detail-entry-light-icon-is-painted-over-dark-glass
+
+INSTRUMENTATION_CODE: 0

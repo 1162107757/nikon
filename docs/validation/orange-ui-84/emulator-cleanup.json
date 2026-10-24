@@ -1,0 +1,10 @@
+{
+  "checkedAtUtc": "2026-10-23T16:13:44.816998+00:00",
+  "taskEmulator": "emulator-5582",
+  "avd": "Pixel_9\n\nOK",
+  "ownership": "task-created -read-only -no-window instance on explicit port 5582",
+  "shutdownReply": "OK: killing emulator, bye bye\n\nOK",
+  "devicesBefore": "List of devices attached\n286f0dba\tdevice\nemulator-5582\tdevice",
+  "physicalPhone": "left installed at 84; timeout and temporary settings restored; no kill/reset command sent to physical phone",
+  "prototypeServer": "left running for approved design comparison"
+}

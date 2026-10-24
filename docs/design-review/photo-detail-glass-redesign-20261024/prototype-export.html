@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>导出 / 批量 / 结果 · 重设计 v2</title>
+<style>
+:root{
+  color-scheme: light;
+  --peach:#F2B48C;
+  --peach-deep:#E08A4F;
+  --peach-ink:#2A1C12;
+  --paper:#F3EFE9;
+  --paper-2:#E9E3DA;
+  --ink:#231F1B;
+  --ink-dim:#6B6259;
+  --rule:#DCD4C8;
+  --shadow:0 18px 40px rgba(60,46,32,.14);
+  --danger:#FF8A7A;
+  --ok:#8FD49B;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--paper);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Noto Sans CJK SC","Microsoft YaHei",sans-serif;
+  -webkit-font-smoothing:antialiased;padding:40px 32px 64px;
+}
+.wrap{max-width:1780px;margin:0 auto}
+.head{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;flex-wrap:wrap}
+h1{font-size:34px;letter-spacing:-.4px;font-weight:800}
+.sub{margin-top:10px;font-size:14.5px;line-height:1.75;color:var(--ink-dim);max-width:760px}
+.badge{background:#F6DCC4;color:#7A4A1E;font-size:13px;font-weight:700;padding:10px 16px;border-radius:999px;white-space:nowrap}
+.toolbar{margin:26px 0 8px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  background:#fff;border:1px solid var(--rule);border-radius:16px;padding:12px 14px}
+.toolbar .lbl{font-size:12.5px;color:var(--ink-dim)}
+.tbtn{font:inherit;font-size:13px;font-weight:600;border:1px solid var(--rule);background:#FBF8F4;color:var(--ink);
+  padding:8px 14px;border-radius:999px;cursor:pointer}
+.tbtn[aria-pressed="true"]{background:var(--peach);border-color:var(--peach-deep);color:var(--peach-ink)}
+.tsep{width:1px;height:22px;background:var(--rule);margin:0 6px}
+.hint{font-size:12.5px;color:var(--ink-dim)}
+.board{display:flex;gap:40px;flex-wrap:wrap;margin-top:28px;align-items:flex-start}
+.cell{width:390px}
+.cap{font-size:14.5px;font-weight:750;margin-bottom:12px}
+.cap small{display:block;font-weight:500;color:var(--ink-dim);font-size:12.5px;margin-top:4px;line-height:1.6}
+.note{margin-top:14px;font-size:12.5px;line-height:1.75;color:var(--ink-dim)}
+.note b{color:#8A5520;font-weight:700}
+
+/* ---------- phone ---------- */
+.phone{
+  --fs:1;position:relative;width:390px;height:844px;border-radius:38px;overflow:hidden;
+  background:#121110;box-shadow:var(--shadow);border:1px solid #2A2522;
+  display:flex;flex-direction:column;color:#fff;font-size:calc(14px * var(--fs));
+}
+body.fs13 .phone{--fs:1.3}
+.statusbar{height:28px;flex:none;display:flex;align-items:center;justify-content:space-between;
+  padding:0 20px;font-size:calc(11px * var(--fs));color:rgba(255,255,255,.72)}
+.phead{flex:none;height:calc(52px * var(--fs));display:flex;align-items:center;gap:6px;padding:0 8px;
+  border-bottom:1px solid rgba(255,255,255,.07)}
+.ico{width:48px;height:48px;flex:none;border:0;background:none;color:#fff;cursor:pointer;display:grid;place-items:center;border-radius:14px}
+.ico:hover{background:rgba(255,255,255,.07)}
+.ptitle{flex:1;text-align:center;font-size:calc(15px * var(--fs));font-weight:700}
+.txtbtn{height:44px;padding:0 12px;border:0;background:none;color:var(--peach);font:inherit;
+  font-size:calc(13.5px * var(--fs));font-weight:650;cursor:pointer}
+
+/* scroll body + sticky footer */
+.pbody{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain}
+.pbody::-webkit-scrollbar{width:0}
+.pfoot{flex:none;padding:10px 18px 8px;background:#121110;border-top:1px solid rgba(255,255,255,.07)}
+.primary{width:100%;height:calc(50px * var(--fs));border:0;border-radius:999px;background:var(--peach);color:var(--peach-ink);
+  font:inherit;font-size:calc(15px * var(--fs));font-weight:750;cursor:pointer}
+.primary[disabled]{background:rgba(242,180,140,.26);color:rgba(255,255,255,.38);cursor:not-allowed}
+.secondary{width:100%;height:calc(50px * var(--fs));border:1px solid rgba(255,255,255,.26);border-radius:999px;
+  background:transparent;color:#fff;font:inherit;font-size:calc(15px * var(--fs));font-weight:700;cursor:pointer}
+.lightlink{display:block;width:100%;margin-top:6px;height:calc(40px * var(--fs));border:0;background:none;
+  color:rgba(255,255,255,.58);font:inherit;font-size:calc(12.5px * var(--fs));cursor:pointer}
+.footnote{text-align:center;font-size:calc(11px * var(--fs));color:rgba(255,255,255,.45);margin-top:4px;line-height:1.5}
+.homebar{flex:none;height:18px;display:grid;place-items:center}
+.homebar i{width:120px;height:4px;border-radius:4px;background:rgba(255,255,255,.28)}
+
+/* photo row */
+.photorow{display:flex;align-items:center;gap:12px;padding:14px 18px}
+.thumb{width:52px;height:52px;flex:none;border-radius:12px;overflow:hidden;background:#000}
+.thumb svg{width:100%;height:100%;display:block}
+.photorow .t1{font-size:calc(14px * var(--fs));font-weight:650}
+.photorow .t2{font-size:calc(11.5px * var(--fs));color:rgba(255,255,255,.55);margin-top:3px;line-height:1.4}
+
+/* segmented */
+.seg{margin:2px 18px 16px;display:flex;background:rgba(255,255,255,.07);border-radius:14px;padding:4px;gap:2px}
+.seg button{flex:1;height:calc(40px * var(--fs));border:0;border-radius:11px;background:transparent;
+  color:rgba(255,255,255,.70);font:inherit;font-size:calc(13.5px * var(--fs));font-weight:650;cursor:pointer;white-space:nowrap}
+.seg button[aria-pressed="true"]{background:var(--peach);color:var(--peach-ink)}
+
+/* spec card */
+.card{margin:0 18px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:14px 14px 12px}
+.card .k{font-size:calc(11.5px * var(--fs));color:rgba(255,255,255,.55)}
+.card .big{font-size:calc(24px * var(--fs));font-weight:750;letter-spacing:-.3px;margin-top:4px;line-height:1.15}
+.card .big i{font-size:calc(12px * var(--fs));font-weight:600;font-style:normal;color:rgba(255,255,255,.55);margin-left:4px}
+.card .s{font-size:calc(11.5px * var(--fs));color:rgba(255,255,255,.50);margin-top:5px;line-height:1.5}
+.disclose{margin-top:10px;border-top:1px solid rgba(255,255,255,.08);padding-top:9px}
+.disclose summary{list-style:none;cursor:pointer;font-size:calc(12px * var(--fs));color:var(--peach);display:flex;align-items:center;gap:5px;min-height:28px}
+.disclose summary::-webkit-details-marker{display:none}
+.disclose .dl{display:flex;justify-content:space-between;font-size:calc(12px * var(--fs));color:rgba(255,255,255,.74);padding:5px 0}
+.disclose .dl span:last-child{color:#fff;font-weight:600}
+
+/* rows */
+.rows{margin:0 18px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:16px}
+.row{display:flex;align-items:center;gap:10px;min-height:calc(50px * var(--fs));padding:8px 14px;
+  border-bottom:1px solid rgba(255,255,255,.07)}
+.row:last-child{border-bottom:0}
+.row .rk{flex:1;font-size:calc(13.5px * var(--fs));line-height:1.4}
+.row .rk small{display:block;font-size:calc(11px * var(--fs));color:rgba(255,255,255,.48);margin-top:2px;line-height:1.45}
+.row .rv{font-size:calc(13.5px * var(--fs));color:rgba(255,255,255,.80);text-align:right;white-space:nowrap}
+.row.tap{cursor:pointer}
+.row.tap:hover{background:rgba(255,255,255,.04)}
+.chev{color:rgba(255,255,255,.40);flex:none}
+
+/* numeric input */
+.numfield{display:flex;align-items:center;gap:8px}
+.numfield input{width:92px;height:calc(40px * var(--fs));border-radius:10px;border:1px solid rgba(255,255,255,.22);
+  background:rgba(0,0,0,.28);color:#fff;font:inherit;font-size:calc(14px * var(--fs));font-weight:650;text-align:center;
+  -moz-appearance:textfield}
+.numfield input::-webkit-outer-spin-button,.numfield input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.numfield input:focus{outline:none;border-color:var(--peach)}
+.numfield.bad input{border-color:var(--danger)}
+.numfield .u{font-size:calc(11.5px * var(--fs));color:rgba(255,255,255,.50)}
+.errline{display:none;padding:0 14px 10px;font-size:calc(11.5px * var(--fs));color:var(--danger);line-height:1.5}
+.errline.on{display:block}
+
+/* slider */
+.sliderrow{padding:4px 14px 12px}
+.sliderrow input[type=range]{width:100%;-webkit-appearance:none;background:transparent;height:28px}
+.sliderrow input[type=range]::-webkit-slider-runnable-track{height:2px;background:rgba(255,255,255,.22);border-radius:2px}
+.sliderrow input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;
+  background:var(--peach);margin-top:-7px;border:0}
+.scale{display:flex;justify-content:space-between;font-size:calc(10.5px * var(--fs));color:rgba(255,255,255,.42)}
+
+/* checkbox */
+.check{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;cursor:pointer}
+.check .box{width:20px;height:20px;flex:none;margin-top:1px;border-radius:6px;border:1.5px solid rgba(255,255,255,.34);
+  display:grid;place-items:center;color:transparent}
+.check[aria-checked="true"] .box{background:var(--peach);border-color:var(--peach);color:var(--peach-ink)}
+.check .ct{font-size:calc(13px * var(--fs));line-height:1.45}
+.check .ct small{display:block;font-size:calc(11px * var(--fs));color:rgba(255,255,255,.48);margin-top:3px;line-height:1.5}
+
+/* meta / estimate */
+.staticline{padding:0 20px 12px;font-size:calc(11.5px * var(--fs));color:rgba(255,255,255,.50);line-height:1.6}
+.est{margin:0 18px 16px;display:flex;align-items:flex-end;justify-content:space-between;gap:10px;
+  padding:12px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:16px}
+.est .k{font-size:calc(11.5px * var(--fs));color:rgba(255,255,255,.55)}
+.est .v{font-size:calc(19px * var(--fs));font-weight:750;margin-top:3px;line-height:1.2}
+.est .s{font-size:calc(11px * var(--fs));color:rgba(255,255,255,.45);margin-top:4px;line-height:1.5}
+.est .pend{font-size:calc(11px * var(--fs));color:var(--peach)}
+
+/* status banner */
+.banner{margin:0 18px 14px;padding:12px 14px;border-radius:16px;display:flex;gap:10px;align-items:flex-start;
+  background:rgba(242,180,140,.12);border:1px solid rgba(242,180,140,.34)}
+.banner.warn{background:rgba(255,138,122,.10);border-color:rgba(255,138,122,.38)}
+.banner .bt{font-size:calc(12.5px * var(--fs));line-height:1.6}
+.banner .bt b{display:block;font-size:calc(13px * var(--fs));margin-bottom:3px}
+
+/* progress */
+.bigstate{padding:16px 20px 2px}
+.bigstate h3{font-size:calc(22px * var(--fs));font-weight:800;letter-spacing:-.3px;line-height:1.25}
+.bigstate p{font-size:calc(12px * var(--fs));color:rgba(255,255,255,.58);margin-top:6px;line-height:1.6}
+.bar{margin:14px 20px 6px;height:4px;border-radius:4px;background:rgba(255,255,255,.14);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--peach);border-radius:4px;transition:width .4s}
+.barmeta{display:flex;justify-content:space-between;padding:0 20px 10px;font-size:calc(11.5px * var(--fs));color:rgba(255,255,255,.55)}
+.items{padding:0 18px}
+.item{display:flex;align-items:center;gap:11px;padding:10px 2px;border-bottom:1px solid rgba(255,255,255,.07)}
+.item .thumb{width:42px;height:42px;border-radius:9px}
+.item .n{flex:1;min-width:0}
+.item .n b{display:block;font-size:calc(13px * var(--fs));font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item .n small{display:block;font-size:calc(11px * var(--fs));color:rgba(255,255,255,.50);margin-top:2px}
+.item .st{font-size:calc(12px * var(--fs));white-space:nowrap;color:rgba(255,255,255,.60)}
+.item .st.run{color:var(--peach)}
+.item .st.bad{color:var(--danger)}
+.item .st.ok{color:var(--ok)}
+.item .retry{height:34px;padding:0 12px;border-radius:999px;border:1px solid rgba(255,255,255,.26);
+  background:transparent;color:#fff;font:inherit;font-size:calc(11.5px * var(--fs));cursor:pointer}
+.tally{margin:0 18px 12px;padding:12px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:16px}
+.tally .tl{display:flex;justify-content:space-between;font-size:calc(12.5px * var(--fs));padding:4px 0;color:rgba(255,255,255,.76)}
+.tally .tl b{font-weight:700;color:#fff}
+
+/* sheet / dialog */
+.scrim{position:absolute;inset:0;background:rgba(0,0,0,.52);opacity:0;pointer-events:none;transition:opacity .22s;z-index:9}
+.scrim.on{opacity:1;pointer-events:auto}
+.sheet{position:absolute;left:0;right:0;bottom:0;z-index:10;background:#1C1A18;border-radius:24px 24px 0 0;
+  padding:8px 0 16px;transform:translateY(102%);transition:transform .28s cubic-bezier(.22,.7,.3,1);
+  border-top:1px solid rgba(255,255,255,.10)}
+.sheet.on{transform:none}
+.grip{width:38px;height:4px;border-radius:4px;background:rgba(255,255,255,.26);margin:6px auto 10px}
+.sheet h4{font-size:calc(15px * var(--fs));font-weight:700;padding:0 20px 4px}
+.sheet .sh{font-size:calc(11.5px * var(--fs));color:rgba(255,255,255,.52);padding:0 20px 10px;line-height:1.6}
+.opt{display:flex;align-items:flex-start;gap:12px;padding:13px 20px;cursor:pointer}
+.opt .dot{width:20px;height:20px;flex:none;margin-top:2px;border-radius:50%;border:1.5px solid rgba(255,255,255,.34);display:grid;place-items:center}
+.opt[aria-checked="true"] .dot{border-color:var(--peach)}
+.opt[aria-checked="true"] .dot::after{content:"";width:10px;height:10px;border-radius:50%;background:var(--peach)}
+.opt .ot{font-size:calc(13.5px * var(--fs));line-height:1.45}
+.opt .ot small{display:block;font-size:calc(11px * var(--fs));color:rgba(255,255,255,.50);margin-top:3px;line-height:1.5}
+
+.dialog{position:absolute;left:20px;right:20px;top:50%;transform:translateY(-46%) scale(.96);z-index:11;
+  background:#1C1A18;border:1px solid rgba(255,255,255,.12);border-radius:22px;padding:20px 20px 14px;
+  opacity:0;pointer-events:none;transition:opacity .2s, transform .2s}
+.dialog.on{opacity:1;pointer-events:auto;transform:translateY(-50%) scale(1)}
+.dialog h4{font-size:calc(16px * var(--fs));font-weight:750;line-height:1.4}
+.dialog p{font-size:calc(12.5px * var(--fs));color:rgba(255,255,255,.66);margin-top:10px;line-height:1.7}
+.dialog .acts{display:flex;flex-direction:column;gap:8px;margin-top:16px}
+.dialog .acts .primary{height:calc(46px * var(--fs))}
+.dialog .acts .ghost{height:calc(44px * var(--fs));border:0;background:none;color:rgba(255,255,255,.70);
+  font:inherit;font-size:calc(14px * var(--fs));cursor:pointer}
+
+/* spec table */
+.spec{margin-top:52px;background:#fff;border:1px solid var(--rule);border-radius:20px;padding:26px 28px}
+.spec h2{font-size:19px;margin-bottom:6px}
+.spec .lead{font-size:13px;color:var(--ink-dim);margin-bottom:18px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--paper-2);vertical-align:top;line-height:1.65}
+th{font-size:12px;color:var(--ink-dim);font-weight:700;background:#FBF8F4}
+td code{background:#F5F1EB;padding:1px 6px;border-radius:5px;font-size:12px}
+.tag-fix{display:inline-block;background:#E6F0E2;color:#3C6B33;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px}
+.tag-keep{display:inline-block;background:#F0ECE4;color:#6B6259;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px}
+footer{margin-top:28px;font-size:12px;color:var(--ink-dim);line-height:1.8}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="head">
+    <div>
+      <h1>导出看得明白，任务说得清楚</h1>
+      <p class="sub">
+        本轮剩下的页面：导出设置（三档 / 自定义 / 已存在相册）、原始文件确认、批量进度、结果汇总与失败恢复。
+        信息顺序沿用已批准的需求 5.1，密度收紧、底部主操作吸底，所以 1.3 字号下按钮不会压住错误文案。
+        下面每台手机都可以直接点。
+      </p>
+    </div>
+    <span class="badge">设计稿 v2 · 待审核</span>
+  </div>
+
+  <div class="toolbar">
+    <span class="lbl">字号</span>
+    <button class="tbtn" id="fs10" aria-pressed="true">标准</button>
+    <button class="tbtn" id="fs13" aria-pressed="false">1.3 倍</button>
+    <span class="tsep"></span>
+    <span class="hint">1.3 倍下内容区自己滚动，底部按钮与行内错误各占各的位置 —— 这是 v1 最容易出事的地方。</span>
+  </div>
+
+  <div class="board">
+
+    <div class="cell">
+      <div class="cap">1 · 导出照片 · 完整尺寸（默认）
+        <small>可点档位、「保存到」、展开内容尺寸、底部原始文件入口。</small>
+      </div>
+      <div class="phone" data-screen="export" data-tier="full"></div>
+      <p class="note">
+        规格数字从 40sp 降到 <b>24sp</b>，省下的高度给了「保存方式」与体积状态。
+        有边框时才出现<b>可展开的「内容尺寸 / 导出尺寸」</b>，没边框不占位。
+      </p>
+    </div>
+
+    <div class="cell">
+      <div class="cap">2 · 导出照片 · 自定义
+        <small>把长边改成 500 看行内错误与主按钮禁用；质量滑块可拖。</small>
+      </div>
+      <div class="phone" data-screen="export" data-tier="custom"></div>
+      <p class="note">
+        长边 <b>640–8192</b> 且不放大，质量 <b>70–100</b> 整数。错误文案在输入框正下方，
+        <b>不靠吐司</b>，主操作同时禁用。
+      </p>
+    </div>
+
+    <div class="cell">
+      <div class="cap">3 · 导出照片 · 相册已有同一结果
+        <small>主操作变「查看已保存照片」；勾「另存新副本」后才变回导出。</small>
+      </div>
+      <div class="phone" data-screen="export" data-tier="exists"></div>
+      <p class="note">
+        同规格已核对存在时<b>默认不重复生成</b>；额外副本必须用户显式勾选，并明确说明
+        <b>新副本使用本次时间</b>，避免以为照片丢在相册旧日期。
+      </p>
+    </div>
+
+    <div class="cell">
+      <div class="cap">4 · 批量导出 · 处理中
+        <small>点「停止后续」看取消的中间态文案。</small>
+      </div>
+      <div class="phone" data-screen="bulk"></div>
+      <p class="note">
+        阶段状态写「准备原图 / 生成照片 / 核对结果 / 保存到手机相册」，
+        <b>不编造平滑百分比</b>；进度条只表达已完成张数。
+      </p>
+    </div>
+
+    <div class="cell">
+      <div class="cap">5 · 结果汇总
+        <small>点「重试失败项」看只处理必要项。</small>
+      </div>
+      <div class="phone" data-screen="result"></div>
+      <p class="note">
+        四类分开计数：<b>新保存 / 复用已保存 / 失败 / 未处理</b>，每项可看原因。
+        重试保持其冻结规格，成功项不重复。
+      </p>
+    </div>
+
+    <div class="cell">
+      <div class="cap">6 · 异常：相册核对不可用
+        <small>成品已生成但相册未完成，可单独重试发布。</small>
+      </div>
+      <div class="phone" data-screen="error"></div>
+      <p class="note">
+        不谎报成功、<b>不重做像素处理</b>。状态不明时写「暂无法核对已保存照片」，
+        重试不会隐式变成新副本。
+      </p>
+    </div>
+
+  </div>
+
+  <section class="spec">
+    <h2>相对 v1 导出稿的改动</h2>
+    <p class="lead">信息顺序不变（照片摘要 → 三档 → 实际尺寸与质量 → 保存位置 → 保存方式 / 已有状态 → 预估体积与原图保护 → 主操作）。改的是密度与状态表达。</p>
+    <table>
+      <thead><tr><th style="width:160px">部件</th><th style="width:230px">规格</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>页面骨架</td><td>内容区可滚动 + 底部操作吸底 48dp 以上触达</td>
+          <td><span class="tag-fix">改</span> v1 是整页流式，1.3 字号下底部按钮会盖住预估体积与错误文案。</td></tr>
+        <tr><td>规格数字</td><td>24sp 粗体 + 11.5sp 副说明</td>
+          <td><span class="tag-fix">改</span> 从巨号降级；「格式 / 质量」收进同一张卡的键值行，不再各占一整行。</td></tr>
+        <tr><td>内容 / 导出尺寸</td><td>可展开，仅有边框时出现</td>
+          <td><span class="tag-keep">留</span> 输入口径一律是最终含框成品画布；分享 2048px 同口径。</td></tr>
+        <tr><td>自定义输入</td><td>数字键盘输入框 + 质量滑块；行内错误在输入框下方</td>
+          <td><span class="tag-fix">改</span> 错误不走吐司，主操作同步禁用；失焦只规范空格，不悄悄截断成别的合法值。</td></tr>
+        <tr><td>保存方式</td><td>独立分组：已有状态说明 + 「另存新副本」勾选</td>
+          <td><span class="tag-fix">改</span> v1 把它混在「保存到」一行里；现在已有 / 被删 / 不可核对三种状态各有自己的文案与动作。</td></tr>
+        <tr><td>预估体积</td><td>范围 / 估算中 / 实际 / 不可用 四态</td>
+          <td><span class="tag-keep">留</span> 默认一位小数范围，估算不可用不阻止导出；完成后展示实际大小。</td></tr>
+        <tr><td>原始文件入口</td><td>主按钮下方低强调文字 + 确认弹窗</td>
+          <td><span class="tag-keep">留</span> 仅在有可信关联的完整 JPEG 原图时显示；确认文案写明不应用当前调色、也不使用上方尺寸质量设置。</td></tr>
+        <tr><td>批量进度</td><td>阶段状态 + 已完成张数 + 逐张行</td>
+          <td><span class="tag-fix">改</span> 取消时先写「正在取消，等待当前步骤结束」，不立刻写「已取消」。</td></tr>
+        <tr><td>结果汇总</td><td>四类计数 + 逐项原因 + 仅重试失败 / 未处理</td>
+          <td><span class="tag-fix">改</span> v1 没有结果页；这里补上，发布成功但记录写回失败时以发布结果为准。</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer>
+    固定布局审核稿，不是 App 已实现截图。文件名、尺寸、体积、张数与进度均为示意，<b>不是实测值</b>。
+    本轮只产出设计，未修改 <code>app/</code> 下任何源码、未构建、未安装。<br>
+    配套：<a href="prototype.html">细节页 / 直方图原型</a> · 技术范围见
+    <code>docs/design-review/photo-detail-export-histogram-20261024/REQUIREMENTS.md</code>
+  </footer>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9CC4E0"/><stop offset=".55" stop-color="#CFE0E6"/><stop offset="1" stop-color="#EDF0EC"/>
+    </linearGradient>
+    <linearGradient id="lake" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7FB2C6"/><stop offset="1" stop-color="#3C6A81"/>
+    </linearGradient>
+    <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7E5739"/><stop offset="1" stop-color="#3E2A1B"/>
+    </linearGradient>
+    <linearGradient id="blouse" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F3EEE6"/><stop offset="1" stop-color="#D8D0C4"/>
+    </linearGradient>
+    <symbol id="scene" viewBox="0 0 300 400" preserveAspectRatio="xMidYMid slice">
+      <rect width="300" height="400" fill="#13100E"/>
+      <rect width="300" height="236" fill="url(#sky)"/>
+      <ellipse cx="80" cy="42" rx="52" ry="15" fill="#fff" opacity=".55"/>
+      <polygon points="0,152 46,114 82,142 122,101 168,147 212,119 252,152 300,130 300,196 0,196" fill="#93AAB8" opacity=".92"/>
+      <polygon points="0,172 62,140 112,170 162,142 222,174 300,152 300,206 0,206" fill="#6E8795"/>
+      <rect y="194" width="300" height="94" fill="url(#lake)"/>
+      <path d="M198 0 L300 0 L300 46 Q252 58 206 40 Z" fill="#F4F0E6"/>
+      <g fill="#1E3A2A"><ellipse cx="14" cy="126" rx="48" ry="40"/><ellipse cx="44" cy="176" rx="40" ry="36"/>
+        <ellipse cx="8" cy="214" rx="42" ry="44"/></g>
+      <rect y="276" width="300" height="26" fill="#8D8274"/>
+      <rect y="300" width="300" height="100" fill="url(#wood)"/>
+      <ellipse cx="150" cy="198" rx="54" ry="60" fill="#30211A"/>
+      <path d="M96 302 Q100 246 150 240 Q200 246 204 302 Z" fill="url(#blouse)"/>
+      <path d="M119 266 Q150 288 181 266 L188 302 L112 302 Z" fill="#C4705C"/>
+      <rect x="138" y="226" width="24" height="22" rx="8" fill="#C9986F"/>
+      <ellipse cx="150" cy="200" rx="33" ry="39" fill="#DCAE86"/>
+      <path d="M117 190 Q122 156 150 156 Q178 156 183 192 Q170 172 150 172 Q128 173 117 190 Z" fill="#35251D"/>
+      <ellipse cx="139" cy="200" rx="3.4" ry="3" fill="#36251B"/><ellipse cx="162" cy="200" rx="3.4" ry="3" fill="#36251B"/>
+      <ellipse cx="236" cy="330" rx="15" ry="10" fill="#B6382C"/>
+      <circle cx="58" cy="336" r="15" fill="#E7C64A"/>
+    </symbol>
+  </defs>
+</svg>
+
+<script>
+(function(){
+  "use strict";
+  const SCENE = '<svg viewBox="0 0 300 400" preserveAspectRatio="xMidYMid slice"><use href="#scene"/></svg>';
+  const I = {
+    back:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 19l-7-7 7-7"/></svg>',
+    chev:'<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>',
+    down:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>',
+    tick:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>',
+    info:'<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#F2B48C" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.6v.2" stroke-linecap="round"/></svg>',
+    warn:'<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#FF8A7A" stroke-width="2" stroke-linejoin="round"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17v.2" stroke-linecap="round"/></svg>'
+  };
+  const bar = function(){ return '<div class="statusbar"><span>9:41</span><span>5G&nbsp;&nbsp;&#9646;&#9646;&#9646;</span></div>'; };
+  const thumb = function(cls){ return '<div class="thumb'+(cls?' '+cls:'')+'">'+SCENE+'</div>'; };
+
+  const TIERS = {
+    full:   { label:'完整尺寸', w:6000, h:4500, q:95, est:'约 24–30 MB', sub:'保留当前构图与边框的完整尺寸' },
+    share:  { label:'分享',     w:2048, h:1536, q:90, est:'约 1–3 MB',   sub:'最终长边 ≤ 2048px · 只缩小不放大' },
+    custom: { label:'自定义',   w:2048, h:1536, q:90, est:'约 1–3 MB',   sub:'保持比例 · 不放大' }
+  };
+
+  /* ---------------- export panel ---------------- */
+  function buildExport(el){
+    const start = el.dataset.tier;                 // full | custom | exists
+    const exists = start === 'exists';
+    const tier = exists ? 'full' : start;
+
+    el.innerHTML =
+      bar() +
+      '<div class="phead">' +
+        '<button class="ico">'+I.back+'</button>' +
+        '<div class="ptitle">导出照片</div>' +
+        '<button class="txtbtn">取消</button>' +
+      '</div>' +
+
+      '<div class="pbody">' +
+        '<div class="photorow">'+thumb()+
+          '<div><div class="t1">DSC_9187.JPG</div><div class="t2">当前效果 · 原图保持不变</div></div>' +
+        '</div>' +
+
+        '<div class="seg">' +
+          '<button data-tier="full">完整尺寸</button>' +
+          '<button data-tier="share">分享</button>' +
+          '<button data-tier="custom">自定义</button>' +
+        '</div>' +
+
+        (exists ? '<div class="banner">'+I.info+'<div class="bt"><b>这张照片已按该规格保存过</b>'+
+          '相册中已核对到同一结果，默认不再重复生成。</div></div>' : '') +
+
+        '<div class="card">' +
+          '<div class="k">最终导出尺寸 · 包含边框</div>' +
+          '<div class="big"><span class="js-dim">6000 × 4500</span><i>px</i></div>' +
+          '<div class="s js-sub">保留当前构图与边框的完整尺寸</div>' +
+          '<details class="disclose">' +
+            '<summary>'+I.down+'内容尺寸与边框占比</summary>' +
+            '<div class="dl"><span>内容尺寸</span><span class="js-inner">5760 × 4320 px</span></div>' +
+            '<div class="dl"><span>边框后画布</span><span class="js-dim2">6000 × 4500 px</span></div>' +
+            '<div class="dl"><span>边框样式</span><span>模糊侧栏</span></div>' +
+          '</details>' +
+        '</div>' +
+
+        '<div class="rows js-fixedrows">' +
+          '<div class="row"><div class="rk">格式</div><div class="rv">JPEG · sRGB</div></div>' +
+          '<div class="row"><div class="rk">JPEG 质量</div><div class="rv js-q">95</div></div>' +
+        '</div>' +
+
+        '<div class="rows js-customrows" hidden>' +
+          '<div class="row"><div class="rk">最终成品长边<small>640 – 8192 px · 不放大</small></div>' +
+            '<div class="numfield js-lenf"><input class="js-len" type="number" value="2048" inputmode="numeric"><span class="u">px</span></div>' +
+          '</div>' +
+          '<div class="errline js-err">长边需在 640 – 8192 之间，且不超过当前成品的 6000 px。</div>' +
+          '<div class="row" style="border-bottom:0;padding-bottom:0"><div class="rk">JPEG 质量</div><div class="rv js-qv">90</div></div>' +
+          '<div class="sliderrow">' +
+            '<input class="js-qs" type="range" min="70" max="100" value="90">' +
+            '<div class="scale"><span>70</span><span>100</span></div>' +
+          '</div>' +
+        '</div>' +
+
+        '<div class="rows">' +
+          '<div class="row tap js-opensheet"><div class="rk">保存到</div>' +
+            '<div class="rv js-dest">手机相册</div><span class="chev">'+I.chev+'</span></div>' +
+          '<div class="row"><div class="rk js-savestate">保存方式<small>尚未按该规格保存过，将新建一张</small></div></div>' +
+          '<div class="check js-newcopy" role="checkbox" aria-checked="false" tabindex="0" '+(exists?'':'hidden')+'>' +
+            '<span class="box">'+I.tick+'</span>' +
+            '<span class="ct">另存新副本<small>相册中会多出一张，使用本次时间排序；App 内的规范成品与原图不变。</small></span>' +
+          '</div>' +
+        '</div>' +
+
+        '<div class="staticline">编码成品：保留拍摄信息 · 不含定位</div>' +
+
+        '<div class="est">' +
+          '<div><div class="k">预估体积</div><div class="v js-est">约 24–30 MB</div>' +
+            '<div class="s">示例范围，实际依照片与设置而定<br>完成后显示实际大小</div></div>' +
+        '</div>' +
+      '</div>' +
+
+      '<div class="pfoot">' +
+        '<button class="primary js-primary">'+(exists ? '查看已保存照片' : '导出照片')+'</button>' +
+        '<button class="lightlink js-raw">保存 JPEG 原始文件</button>' +
+      '</div>' +
+      '<div class="homebar"><i></i></div>' +
+
+      /* sheet: 保存位置 */
+      '<div class="scrim js-scrim"></div>' +
+      '<div class="sheet js-sheet">' +
+        '<div class="grip"></div><h4>保存到</h4>' +
+        '<div class="sh">App 内副本始终保留；是否同时发布到手机相册由你决定。</div>' +
+        '<div class="opt js-dopt" role="radio" aria-checked="false" data-v="仅保留在应用"><span class="dot"></span>' +
+          '<span class="ot">仅保留在应用<small>不写入系统相册，可稍后再发布</small></span></div>' +
+        '<div class="opt js-dopt" role="radio" aria-checked="true" data-v="手机相册"><span class="dot"></span>' +
+          '<span class="ot">同时保存到手机相册<small>按既有发布器写入并核对回执</small></span></div>' +
+      '</div>' +
+
+      /* dialog: 原始文件 */
+      '<div class="dialog js-dialog">' +
+        '<h4>保存未编辑的 JPEG 原始文件？</h4>' +
+        '<p>不会应用当前滤镜、调节、构图与边框，也不使用上方尺寸和质量设置。完整保留原文件内容及其已有信息（可能包含定位）。</p>' +
+        '<div class="acts"><button class="primary js-rawok">保存原始文件</button>' +
+          '<button class="ghost js-rawcancel">取消</button></div>' +
+      '</div>';
+
+    wireExport(el, tier, exists);
+  }
+
+  function wireExport(el, startTier, exists){
+    const q = function(s){ return el.querySelector(s); };
+    const segs = el.querySelectorAll('.seg button');
+    const dim = q('.js-dim'), dim2 = q('.js-dim2'), sub = q('.js-sub'),
+          qv = q('.js-q'), est = q('.js-est'),
+          fixedRows = q('.js-fixedrows'), customRows = q('.js-customrows'),
+          primary = q('.js-primary'), errline = q('.js-err'),
+          lenf = q('.js-lenf'), len = q('.js-len'),
+          qs = q('.js-qs'), qvv = q('.js-qv'),
+          newcopy = q('.js-newcopy'), savestate = q('.js-savestate');
+
+    let current = startTier;
+
+    function paint(){
+      const t = TIERS[current];
+      dim.textContent = t.w + ' × ' + t.h;
+      dim2.textContent = t.w + ' × ' + t.h + ' px';
+      sub.textContent = t.sub;
+      qv.textContent = t.q;
+      est.textContent = t.est;
+      const custom = current === 'custom';
+      fixedRows.hidden = custom;
+      customRows.hidden = !custom;
+      segs.forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.tier === current)); });
+      validate();
+    }
+
+    function validate(){
+      if(current !== 'custom'){ errline.classList.remove('on'); lenf.classList.remove('bad'); setPrimary(true); return; }
+      const v = parseInt(len.value, 10);
+      const bad = !(v >= 640 && v <= 6000);
+      errline.classList.toggle('on', bad);
+      lenf.classList.toggle('bad', bad);
+      setPrimary(!bad);
+      if(!bad){
+        const h = Math.max(1, Math.round(v * 0.75));
+        dim.textContent = v + ' × ' + h;
+        dim2.textContent = v + ' × ' + h + ' px';
+        est.textContent = v > 4000 ? '约 8–14 MB' : (v > 1500 ? '约 1–3 MB' : '约 0.3–0.8 MB');
+      }
+    }
+
+    function setPrimary(ok){
+      const wantView = exists && newcopy && newcopy.getAttribute('aria-checked') !== 'true';
+      primary.textContent = wantView ? '查看已保存照片' : '导出照片';
+      primary.disabled = !ok;
+    }
+
+    segs.forEach(function(b){
+      b.addEventListener('click', function(){ current = b.dataset.tier; paint(); });
+    });
+    if(len){
+      len.addEventListener('input', validate);
+      len.addEventListener('blur', function(){ len.value = String(len.value).trim(); validate(); });
+    }
+    if(qs){
+      qs.addEventListener('input', function(){ qvv.textContent = qs.value; est.textContent = qs.value >= 95 ? '约 3–6 MB' : (qs.value >= 85 ? '约 1–3 MB' : '约 0.6–1.4 MB'); });
+    }
+    if(newcopy){
+      newcopy.addEventListener('click', function(){
+        const on = newcopy.getAttribute('aria-checked') !== 'true';
+        newcopy.setAttribute('aria-checked', String(on));
+        savestate.innerHTML = on
+          ? '保存方式<small>将在相册新增一张副本，使用本次时间</small>'
+          : '保存方式<small>已有同规格结果，默认不再重复生成</small>';
+        setPrimary(!primary.disabled || true);
+        validate();
+      });
+    }
+    if(exists){ savestate.innerHTML = '保存方式<small>已有同规格结果，默认不再重复生成</small>'; }
+
+    /* sheet */
+    const scrim = q('.js-scrim'), sheet = q('.js-sheet'), dest = q('.js-dest');
+    function closeAll(){ scrim.classList.remove('on'); sheet.classList.remove('on'); q('.js-dialog').classList.remove('on'); }
+    q('.js-opensheet').addEventListener('click', function(){ scrim.classList.add('on'); sheet.classList.add('on'); });
+    scrim.addEventListener('click', closeAll);
+    el.querySelectorAll('.js-dopt').forEach(function(o){
+      o.addEventListener('click', function(){
+        el.querySelectorAll('.js-dopt').forEach(function(x){ x.setAttribute('aria-checked','false'); });
+        o.setAttribute('aria-checked','true');
+        dest.textContent = o.dataset.v;
+        setTimeout(closeAll, 140);
+      });
+    });
+
+    /* raw dialog */
+    const dlg = q('.js-dialog');
+    q('.js-raw').addEventListener('click', function(){ scrim.classList.add('on'); dlg.classList.add('on'); });
+    q('.js-rawcancel').addEventListener('click', closeAll);
+    q('.js-rawok').addEventListener('click', closeAll);
+
+    paint();
+  }
+
+  /* ---------------- bulk progress ---------------- */
+  function buildBulk(el){
+    const rows = [
+      ['DSC_9187.JPG','已保存 · 2048 × 1536','已完成','ok'],
+      ['DSC_9188.JPG','已保存 · 2048 × 1536','已完成','ok'],
+      ['DSC_9189.JPG','复用已保存结果','已完成','ok'],
+      ['DSC_9190.JPG','正在生成照片','处理中','run'],
+      ['DSC_9191.JPG','等待处理','等待','']
+    ];
+    el.innerHTML =
+      bar() +
+      '<div class="phead"><button class="ico">'+I.back+'</button><div class="ptitle">批量导出</div><span style="width:48px"></span></div>' +
+      '<div class="pbody">' +
+        '<div class="bigstate"><h3 class="js-h">正在导出 8 张照片</h3>' +
+          '<p class="js-p">分享 · 长边 ≤ 2048px · JPEG 90 · 保存到手机相册<br>设置已在接受时冻结，继续编辑不影响本次任务</p></div>' +
+        '<div class="bar"><i class="js-bar" style="width:37.5%"></i></div>' +
+        '<div class="barmeta"><span class="js-done">已完成 3 / 8</span><span class="js-stage">阶段：生成照片</span></div>' +
+        '<div class="items">' +
+          rows.map(function(r){
+            return '<div class="item">'+thumb()+'<div class="n"><b>'+r[0]+'</b><small>'+r[1]+'</small></div>' +
+              '<div class="st '+r[3]+'">'+r[2]+'</div></div>';
+          }).join('') +
+          '<div class="item" style="border-bottom:0;justify-content:center;color:rgba(255,255,255,.48);font-size:calc(12px * var(--fs))">另有 3 张等待处理</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="pfoot"><button class="secondary js-stop">停止后续</button>' +
+        '<div class="footnote js-fn">已完成的照片会保留</div></div>' +
+      '<div class="homebar"><i></i></div>';
+
+    const stop = el.querySelector('.js-stop'), fn = el.querySelector('.js-fn'),
+          h = el.querySelector('.js-h'), stage = el.querySelector('.js-stage');
+    stop.addEventListener('click', function(){
+      if(stop.disabled) return;
+      stop.disabled = true;
+      stop.style.opacity = '.5';
+      stop.textContent = '正在取消…';
+      h.textContent = '正在取消，等待当前步骤结束';
+      stage.textContent = '阶段：核对结果';
+      fn.textContent = '当前这张会在安全点停止，已完成的照片保留';
+    });
+  }
+
+  /* ---------------- result ---------------- */
+  function buildResult(el){
+    el.innerHTML =
+      bar() +
+      '<div class="phead"><button class="ico">'+I.back+'</button><div class="ptitle">导出结果</div><button class="txtbtn">完成</button></div>' +
+      '<div class="pbody">' +
+        '<div class="bigstate"><h3>已完成 8 / 10 张</h3>' +
+          '<p>分享 · 长边 ≤ 2048px · JPEG 90 · 保存到手机相册</p></div>' +
+        '<div class="tally">' +
+          '<div class="tl"><span>新保存</span><b>6 张</b></div>' +
+          '<div class="tl"><span>复用已保存</span><b>2 张</b></div>' +
+          '<div class="tl"><span>失败</span><b style="color:#FF8A7A">1 张</b></div>' +
+          '<div class="tl"><span>未处理 / 已取消</span><b>1 张</b></div>' +
+        '</div>' +
+        '<div class="items">' +
+          '<div class="item">'+thumb()+'<div class="n"><b>DSC_9194.JPG</b><small>完整尺寸处理内存不足</small></div>' +
+            '<div class="st bad">失败</div></div>' +
+          '<div class="item">'+thumb()+'<div class="n"><b>DSC_9195.JPG</b><small>已取消，未开始处理</small></div>' +
+            '<div class="st">未处理</div></div>' +
+          '<div class="item">'+thumb()+'<div class="n"><b>DSC_9193.JPG</b><small>复用已核对的相册结果</small></div>' +
+            '<div class="st ok">已保存</div></div>' +
+        '</div>' +
+        '<div class="staticline" style="padding-top:12px">重试保持每张接受时的冻结规格；已成功的照片不会重复生成。</div>' +
+      '</div>' +
+      '<div class="pfoot"><button class="primary js-retry">重试失败与未处理（2 张）</button>' +
+        '<div class="footnote">成功项不再重复处理</div></div>' +
+      '<div class="homebar"><i></i></div>';
+
+    const btn = el.querySelector('.js-retry');
+    btn.addEventListener('click', function(){
+      btn.disabled = true; btn.textContent = '正在重试 2 张…';
+      el.querySelectorAll('.item .st.bad, .item .st').forEach(function(s){
+        if(s.textContent === '失败' || s.textContent === '未处理'){
+          s.className = 'st run'; s.textContent = '处理中';
+        }
+      });
+    });
+  }
+
+  /* ---------------- error state ---------------- */
+  function buildError(el){
+    el.innerHTML =
+      bar() +
+      '<div class="phead"><button class="ico">'+I.back+'</button><div class="ptitle">导出照片</div><button class="txtbtn">取消</button></div>' +
+      '<div class="pbody">' +
+        '<div class="photorow">'+thumb()+
+          '<div><div class="t1">DSC_9187.JPG</div><div class="t2">当前效果 · 原图保持不变</div></div></div>' +
+        '<div class="banner warn">'+I.warn+'<div class="bt"><b>照片已生成，手机相册保存未完成</b>' +
+          'App 内成品完整保留，可单独重试发布，不会重新处理像素。</div></div>' +
+        '<div class="card"><div class="k">最终导出尺寸 · 包含边框</div>' +
+          '<div class="big">6000 × 4500<i>px</i></div>' +
+          '<div class="s">保留当前构图与边框的完整尺寸</div></div>' +
+        '<div class="rows">' +
+          '<div class="row"><div class="rk">格式</div><div class="rv">JPEG · sRGB</div></div>' +
+          '<div class="row"><div class="rk">JPEG 质量</div><div class="rv">95</div></div>' +
+          '<div class="row"><div class="rk">App 内成品</div><div class="rv" style="color:#8FD49B">已生成并核对</div></div>' +
+          '<div class="row"><div class="rk">手机相册<small>暂无法核对已保存照片，不会覆盖或删除</small></div>' +
+            '<div class="rv" style="color:#FF8A7A">未完成</div></div>' +
+        '</div>' +
+        '<div class="est"><div><div class="k">实际体积</div><div class="v">26.4 MB</div>' +
+          '<div class="s">已编码并校验通过</div></div></div>' +
+        '<div class="staticline">重试只补发布步骤；状态不明的重试不会变成新副本。</div>' +
+      '</div>' +
+      '<div class="pfoot"><button class="primary js-rp">重新保存到手机相册</button>' +
+        '<button class="lightlink">仅保留在应用</button></div>' +
+      '<div class="homebar"><i></i></div>';
+
+    const b = el.querySelector('.js-rp');
+    b.addEventListener('click', function(){ b.disabled = true; b.textContent = '正在核对并发布…'; });
+  }
+
+  /* ---------------- init ---------------- */
+  document.querySelectorAll('.phone').forEach(function(el){
+    const s = el.dataset.screen;
+    if(s === 'export') buildExport(el);
+    else if(s === 'bulk') buildBulk(el);
+    else if(s === 'result') buildResult(el);
+    else buildError(el);
+  });
+
+  function setFs(big){
+    document.body.classList.toggle('fs13', big);
+    document.getElementById('fs10').setAttribute('aria-pressed', String(!big));
+    document.getElementById('fs13').setAttribute('aria-pressed', String(big));
+  }
+  document.getElementById('fs10').addEventListener('click', function(){ setFs(false); });
+  document.getElementById('fs13').addEventListener('click', function(){ setFs(true); });
+})();
+</script>
+</body>
+</html>

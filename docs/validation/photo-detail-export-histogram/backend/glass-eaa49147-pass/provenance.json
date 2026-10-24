@@ -1,0 +1,12 @@
+{
+  "builtAtUtc": "2026-10-24T04:01:40.6881100Z",
+  "probeApkSha256": "a2bfac9313ef63b6252a1a02c0dd474544910810d895a76eaf1b5214f196deae",
+  "inputs": {
+    "D:\\dev\\ai-project\\nikon\\tests\\photo-export-device-probe\\src\\cc\\huevia\\exportqa\\PhotoExportProbe.java": "caf568497058636388d1d040ad11bc548e8d804f95145adbd4c676d143026192",
+    "D:\\dev\\ai-project\\nikon\\tests\\photo-export-device-probe\\build.ps1": "8475716f9f374e9504196ef33576d98c222be3c226990777bec62fb4cb1796fb",
+    "D:\\dev\\ai-project\\nikon\\tests\\photo-export-device-probe\\AndroidManifest.xml": "636c9b09fd91e231c0448380e22af0fb81729c1e06adc74deca6b2110404818b",
+    "D:\\dev\\ai-project\\nikon\\app\\src\\main\\java\\cc\\huevia\\album\\PhotoPresetRenderer.java": "65dfd2df33360d95c858460962f29ab12b8b945e677809e616950a0bdcab99e8",
+    "D:\\dev\\ai-project\\nikon\\app\\src\\main\\java\\cc\\huevia\\album\\PhotoPresetBatch.java": "51246d85320158949e2ee3961abf39e0015189807eeed2c30068af3ec22ecd94",
+    "D:\\dev\\ai-project\\nikon\\app\\src\\main\\java\\cc\\huevia\\album\\PhotoExportSpec.java": "c22c03cdd2368000b5690e310c89a126691badb6f5cfa4602dda0eca5558552f"
+  }
+}

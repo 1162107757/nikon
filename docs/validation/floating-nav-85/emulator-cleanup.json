@@ -1,0 +1,10 @@
+{
+  "checkedAtUtc": "2026-10-24T00:17:43.691484+00:00",
+  "taskEmulator": "emulator-5582",
+  "avd": "Pixel_9\n\nOK",
+  "ownership": "task-created read-only instance, explicit port5582, hidden window",
+  "shutdownReply": "OK: killing emulator, bye bye\n\nOK",
+  "devicesBeforeShutdown": "List of devices attached\nemulator-5582\tdevice",
+  "physicalPhoneConnected": false,
+  "prototypePreviewServer": "left running"
+}

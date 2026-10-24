@@ -1,0 +1,30 @@
+{
+  "origin": "unmodified adb exec-out screencap -p from task-owned read-only emulator",
+  "apkSha256": "c2c69e5eb9b288cc285c9fd22a1ea4da22abccdd182fcfcfdbf3d92cd4294bf7",
+  "files": [
+    {
+      "path": "dark/presets.png",
+      "sha256": "f85c750a9a8a5098b231171e074e8628a844b281650776753455a278b3e0ccb1"
+    },
+    {
+      "path": "dark/settings.png",
+      "sha256": "637d4fd7e868501e7758befa50f283e0627365447d28a29a0b3c08836be21869"
+    },
+    {
+      "path": "large-font/presets.png",
+      "sha256": "76b4dbec959cfb5228884940b5b7531e464823383c58619e49ab7b9118686e50"
+    },
+    {
+      "path": "large-font/settings.png",
+      "sha256": "5f26a8af2d41734f2e14ebc65c3b3e593bfdc8a80dbee4f9e968aab47845fc77"
+    },
+    {
+      "path": "phone/presets.png",
+      "sha256": "657c4f144d2179a90b63efcf6fe3a74acc35cb8279d9e10c6911109830fe86be"
+    },
+    {
+      "path": "phone/settings.png",
+      "sha256": "98291cedcfb6f35b750de0d047fb4a71f3e8f7cbbef4fe28efe4aede4a8d5e44"
+    }
+  ]
+}

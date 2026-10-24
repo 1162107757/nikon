@@ -1,0 +1,12 @@
+{
+    "schemaVersion":  1,
+    "builtAtUtc":  "2026-10-24T04:23:28.1109678Z",
+    "probeSource":  "tests/photo-image-upgrade-device-probe/src/cc/huevia/imageupgradeqa/PhotoImageUpgradeProbe.java",
+    "inputs":  {
+                   "probeJavaSha256":  "2c11ed64ea48e66275e6de43a4218c80f78f5417ee1edfddec439342240cb1c1",
+                   "manifestSha256":  "da38418a58ac1e1c0b5b8546b4d6802d986d4613e4d2662390d700e90b9b9c9c",
+                   "buildScriptSha256":  "15f1551ec9d5980070c0b519b04d458c57e550dbdfed9df177683afcde7d5483",
+                   "runScriptSha256":  "0cc826418bee81634c9c408b9fb4555cade3e44d7fb3645b34e7cec940384f46"
+               },
+    "probeApkSha256":  "a2121fb03ee44d0e43094aa9b0d274c0fe7e24ef6cbd200374d2bfd8972bb67d"
+}

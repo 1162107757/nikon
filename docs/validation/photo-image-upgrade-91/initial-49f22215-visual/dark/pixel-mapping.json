@@ -1,0 +1,236 @@
+{
+  "oracle": "Decoded actual full-resolution fixture JPEG; no-effect production detail, no resource density scaling",
+  "sourceWidth": 2401,
+  "sourceHeight": 1601,
+  "canvasX": 0,
+  "canvasY": 333,
+  "canvasWidth": 1080,
+  "canvasHeight": 1666,
+  "contentLeft": -660,
+  "contentTop": 33,
+  "scale": 1,
+  "regionSample": 1,
+  "framebufferCompared": 1849,
+  "framebufferErrorsOver2": 0,
+  "framebufferMaxDelta": 0,
+  "tileCompared": 1848,
+  "tileErrors": 0,
+  "samples": [
+    {
+      "sourceX": 1020,
+      "sourceY": 522,
+      "screenX": 360,
+      "screenY": 888,
+      "expectedRGB": 3365571,
+      "actualRGB": 3365571,
+      "maxChannelDelta": 0
+    },
+    {
+      "sourceX": 1023,
+      "sourceY": 522,
+      "screenX": 363,
+      "screenY": 888,
+      "expectedRGB": 3763233,
+      "actualRGB": 3763233,
+      "maxChannelDelta": 0
+    },
+    {
+      "sourceX": 1026,
+      "sourceY": 522,
+      "screenX": 366,
+      "screenY": 888,
+      "expectedRGB": 6320981,
+      "actualRGB": 6320981,
+      "maxChannelDelta": 0
+    },
+    {
+      "sourceX": 1029,
+      "sourceY": 522,
+      "screenX": 369,
+      "screenY": 888,
+      "expectedRGB": 8879494,
+      "actualRGB": 8879494,
+      "maxChannelDelta": 0
+    },
+    {
+      "sourceX": 1032,
+      "sourceY": 522,
+      "screenX": 372,
+      "screenY": 888,
+      "expectedRGB": 11437754,
+      "actualRGB": 11437754,
+      "maxChannelDelta": 0
+    },
+    {
+      "sourceX": 1035,
+      "sourceY": 522,
+      "screenX": 375,
+      "screenY": 888,
+      "expectedRGB": 14324934,
+      "actualRGB": 14324934,
+      "maxChannelDelta": 0
+    },
+    {
+      "sourceX": 1038,
+      "sourceY": 522,
+      "screenX": 378,
+      "screenY": 888,
+      "expectedRGB": 10926934,
+      "actualRGB": 10926934,
+      "maxChannelDelta": 0
+    },
+    {
+      "sourceX": 1041,
+      "sourceY": 522,
+      "screenX": 381,
+      "screenY": 888,
+      "expectedRGB": 2269522,
+      "actualRGB": 2269522,
+      "maxChannelDelta": 0
+    },
+    {
+      "sourceX": 1044,
+      "sourceY": 522,
+      "screenX": 384,
+      "screenY": 888,
+      "expectedRGB": 4893317,
+      "actualRGB": 4893317,
+      "maxChannelDelta": 0
+    },
+    {
+      "sourceX": 1047,
+      "sourceY": 522,
+      "screenX": 387,
+      "screenY": 888,
+      "expectedRGB": 7386041,
+      "actualRGB": 7386041,
+      "maxChannelDelta": 0
+    },
+    {
+      "sourceX": 1050,
+      "sourceY": 522,
+      "screenX": 390,
+      "screenY": 888,
+      "expectedRGB": 10272972,
+      "actualRGB": 10272972,
+      "maxChannelDelta": 0
+    },
+    {
+      "sourceX": 1053,
+      "sourceY": 522,
+      "screenX": 393,
+      "screenY": 888,
+      "expectedRGB": 12567583,
+      "actualRGB": 12567583,
+      "maxChannelDelta": 0
+    },
+    {
+      "sourceX": 1056,
+      "sourceY": 522,
+      "screenX": 396,
+      "screenY": 888,
+      "expectedRGB": 15126098,
+      "actualRGB": 15126098,
+      "maxChannelDelta": 0
+    },
+    {
+      "sourceX": 1059,
+      "sourceY": 522,
+      "screenX": 399,
+      "screenY": 888,
+      "expectedRGB": 2542714,
+      "actualRGB": 2542714,
+      "maxChannelDelta": 0
+    },
+    {
+      "sourceX": 1062,
+      "sourceY": 522,
+      "screenX": 402,
+      "screenY": 888,
+      "expectedRGB": 3530680,
+      "actualRGB": 3530680,
+      "maxChannelDelta": 0
+    },
+    {
+      "sourceX": 1065,
+      "sourceY": 522,
+      "screenX": 405,
+      "screenY": 888,
+      "expectedRGB": 6352836,
+      "actualRGB": 6352836,
+      "maxChannelDelta": 0
+    },
+    {
+      "sourceX": 1068,
+      "sourceY": 522,
+      "screenX": 408,
+      "screenY": 888,
+      "expectedRGB": 9822277,
+      "actualRGB": 9822277,
+      "maxChannelDelta": 0
+    },
+    {
+      "sourceX": 1071,
+      "sourceY": 522,
+      "screenX": 411,
+      "screenY": 888,
+      "expectedRGB": 15191440,
+      "actualRGB": 15191440,
+      "maxChannelDelta": 0
+    },
+    {
+      "sourceX": 1074,
+      "sourceY": 522,
+      "screenX": 414,
+      "screenY": 888,
+      "expectedRGB": 10691671,
+      "actualRGB": 10691671,
+      "maxChannelDelta": 0
+    },
+    {
+      "sourceX": 1077,
+      "sourceY": 522,
+      "screenX": 417,
+      "screenY": 888,
+      "expectedRGB": 11874479,
+      "actualRGB": 11874479,
+      "maxChannelDelta": 0
+    },
+    {
+      "sourceX": 1080,
+      "sourceY": 522,
+      "screenX": 420,
+      "screenY": 888,
+      "expectedRGB": 2301124,
+      "actualRGB": 2301124,
+      "maxChannelDelta": 0
+    },
+    {
+      "sourceX": 1083,
+      "sourceY": 522,
+      "screenX": 423,
+      "screenY": 888,
+      "expectedRGB": 4595230,
+      "actualRGB": 4595230,
+      "maxChannelDelta": 0
+    },
+    {
+      "sourceX": 1086,
+      "sourceY": 522,
+      "screenX": 426,
+      "screenY": 888,
+      "expectedRGB": 7088209,
+      "actualRGB": 7088209,
+      "maxChannelDelta": 0
+    },
+    {
+      "sourceX": 1089,
+      "sourceY": 522,
+      "screenX": 429,
+      "screenY": 888,
+      "expectedRGB": 9646723,
+      "actualRGB": 9646723,
+      "maxChannelDelta": 0
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "defaultPhoto": {
+    "x": 0,
+    "y": 215.25,
+    "width": 390,
+    "height": 292.5
+  },
+  "histogramPhoto": {
+    "x": 0,
+    "y": 215.25,
+    "width": 390,
+    "height": 292.5
+  },
+  "defaultDock": {
+    "x": 0,
+    "y": 595,
+    "width": 390,
+    "height": 225
+  },
+  "histogramDock": {
+    "x": 0,
+    "y": 595,
+    "width": 390,
+    "height": 225
+  },
+  "scope": "Static UI design geometry, not native runtime proof"
+}

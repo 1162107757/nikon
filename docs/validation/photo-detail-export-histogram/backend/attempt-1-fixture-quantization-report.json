@@ -1,0 +1,47 @@
+{
+  "apkSha256": "0098d20d37b1c754821a335972d94870d02ecd92bb8a8b4643b864859e3e9d3e",
+  "versionCode": 91,
+  "status": "FAIL",
+  "failure": "java.lang.AssertionError: exact-rational-shutter-share.JPG",
+  "scratchRemoved": true,
+  "checks": 9,
+  "assertions": [
+    {
+      "name": "emulator-only",
+      "passed": true
+    },
+    {
+      "name": "private-unique-scratch-created",
+      "passed": true
+    },
+    {
+      "name": "fixture-encoded-landscape",
+      "passed": true
+    },
+    {
+      "name": "natural-size-includes-final-frame",
+      "passed": true
+    },
+    {
+      "name": "share-final-2048-framed:2048x1596",
+      "passed": true
+    },
+    {
+      "name": "full-decode-srgb-share-final-2048-framed",
+      "passed": true
+    },
+    {
+      "name": "gps-stripped-share.JPG",
+      "passed": true
+    },
+    {
+      "name": "capture-preserved-share.JPG",
+      "passed": true
+    },
+    {
+      "name": "exact-rational-shutter-share.JPG",
+      "passed": false
+    }
+  ],
+  "scope": "Real Android JPEG\/PNG\/EXIF on synthetic private fixtures; no MediaStore, physical phone, camera or UI claim."
+}

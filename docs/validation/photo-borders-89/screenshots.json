@@ -1,0 +1,385 @@
+{
+  "apkSha256": "1f74ece275423198208750b804e7dad8e72c443b881c02eccb85eea9c4cd2ba0",
+  "assets": [
+    {
+      "path": "phone/border-appearance.png",
+      "sha256": "37cb8270771a3a971f645fcc5d5457aac33022f2379a3bce987c88add165f218",
+      "origin": "Unmodified Android UiAutomation screenshot"
+    },
+    {
+      "path": "phone/border-information.png",
+      "sha256": "01fde89b24b7ab18baf88d0ddd8454b5b0aa8ec3f3e5fd76ecc4b2f81967ebed",
+      "origin": "Unmodified Android UiAutomation screenshot"
+    },
+    {
+      "path": "phone/brand-CANON-1.JPG",
+      "sha256": "9394de67107f96267bba636c34a6aa9ca8659ac117c66cb435be3aa07f9e33d5",
+      "origin": "Actual application renderer JPEG from QA desk-photo crop and synthetic capture EXIF"
+    },
+    {
+      "path": "phone/brand-CANON-3.JPG",
+      "sha256": "c610ff1aa84ecabb5f7930b1a79a3ce85c782ede32f8f1957549cdfa5ab0966b",
+      "origin": "Actual application renderer JPEG from QA desk-photo crop and synthetic capture EXIF"
+    },
+    {
+      "path": "phone/brand-FUJIFILM-1.JPG",
+      "sha256": "ec0a1d2751cd3d15556d7c97e761f6b33ba110718a56a9f967e49b0b80529438",
+      "origin": "Actual application renderer JPEG from QA desk-photo crop and synthetic capture EXIF"
+    },
+    {
+      "path": "phone/brand-FUJIFILM-3.JPG",
+      "sha256": "f1cd66f80c19000be96d812d7a81ed08564b03a69b875ec622da627298fff214",
+      "origin": "Actual application renderer JPEG from QA desk-photo crop and synthetic capture EXIF"
+    },
+    {
+      "path": "phone/brand-LONG-1.JPG",
+      "sha256": "9ec74b08893da13e9774aa4fe59f290a4f700819f4ae74db310dd584c25b7e44",
+      "origin": "Actual application renderer JPEG from QA desk-photo crop and synthetic capture EXIF"
+    },
+    {
+      "path": "phone/brand-LONG-3.JPG",
+      "sha256": "74db93395a444582a3535306fba5966f693983c99f8abca02c7d6fff294b10b1",
+      "origin": "Actual application renderer JPEG from QA desk-photo crop and synthetic capture EXIF"
+    },
+    {
+      "path": "phone/brand-NIKON-1.JPG",
+      "sha256": "a101e29f68c1b75646651983064c36f28a6c57a117077d62731b52cbacf48d4e",
+      "origin": "Actual application renderer JPEG from QA desk-photo crop and synthetic capture EXIF"
+    },
+    {
+      "path": "phone/brand-NIKON-3.JPG",
+      "sha256": "06a2e96b91308f67b87ee97a4ab9daa3fa8726bcf2392b15e3b02d37bdec9493",
+      "origin": "Actual application renderer JPEG from QA desk-photo crop and synthetic capture EXIF"
+    },
+    {
+      "path": "phone/brand-SONY-1.JPG",
+      "sha256": "9ccd4e6f354af7748267729f8bbbefb22bc9b782feb8da5ce2bd38b1b7ece7fc",
+      "origin": "Actual application renderer JPEG from QA desk-photo crop and synthetic capture EXIF"
+    },
+    {
+      "path": "phone/brand-SONY-3.JPG",
+      "sha256": "0fa8eab2e46138ff1b9899352a4f323a6fb8db6a52398063ffc1fb7d63101f43",
+      "origin": "Actual application renderer JPEG from QA desk-photo crop and synthetic capture EXIF"
+    },
+    {
+      "path": "phone/camera-auto.png",
+      "sha256": "af1711223b4de5a4d7878160417e696050753e31b5db64b22fbf1ac18fd1f7d9",
+      "origin": "Unmodified Android UiAutomation screenshot"
+    },
+    {
+      "path": "phone/camera-manual.png",
+      "sha256": "cb56f7b291c265358dadb6df025f3fc14e1f0bb830395d5924a74d958b1680ba",
+      "origin": "Unmodified Android UiAutomation screenshot"
+    },
+    {
+      "path": "phone/editor-template-1.png",
+      "sha256": "8ae4c1c59ef5c1a114a0fd304ea886b3027a5db78afad9d70e42e738c9114247",
+      "origin": "Unmodified Android UiAutomation screenshot"
+    },
+    {
+      "path": "phone/editor-template-2.png",
+      "sha256": "4462161c697ea177d2196cf52971943f6918d910c6f12f8811c293038b3ced9d",
+      "origin": "Unmodified Android UiAutomation screenshot"
+    },
+    {
+      "path": "phone/editor-template-3.png",
+      "sha256": "0fb74aa9f751a2fee44ec1327babd815c38508b20328f0f6fa6186b28b936d6d",
+      "origin": "Unmodified Android UiAutomation screenshot"
+    },
+    {
+      "path": "phone/hero-repro.JPG",
+      "sha256": "a101e29f68c1b75646651983064c36f28a6c57a117077d62731b52cbacf48d4e",
+      "origin": "Actual application renderer JPEG from QA desk-photo crop and synthetic capture EXIF"
+    },
+    {
+      "path": "phone/missing-orientation-1.JPG",
+      "sha256": "b1af42dd898c66e0f7edc754f10f4c17f21fb528586ef292f76b407f1c93015a",
+      "origin": "Actual application renderer JPEG from QA desk-photo crop and synthetic capture EXIF"
+    },
+    {
+      "path": "phone/missing-orientation-6.JPG",
+      "sha256": "44ad77625c658850ff67242eb2cf0a66beb4a69348d8224aa29e859a3a6273bf",
+      "origin": "Actual application renderer JPEG from QA desk-photo crop and synthetic capture EXIF"
+    },
+    {
+      "path": "phone/template-1.JPG",
+      "sha256": "a101e29f68c1b75646651983064c36f28a6c57a117077d62731b52cbacf48d4e",
+      "origin": "Actual application renderer JPEG from QA desk-photo crop and synthetic capture EXIF"
+    },
+    {
+      "path": "phone/template-2.JPG",
+      "sha256": "21aeb51c93312791484c08ec3e9aa4f2b9c89e641865970e52bbc394723a2ee0",
+      "origin": "Actual application renderer JPEG from QA desk-photo crop and synthetic capture EXIF"
+    },
+    {
+      "path": "phone/template-3.JPG",
+      "sha256": "06a2e96b91308f67b87ee97a4ab9daa3fa8726bcf2392b15e3b02d37bdec9493",
+      "origin": "Actual application renderer JPEG from QA desk-photo crop and synthetic capture EXIF"
+    },
+    {
+      "path": "large-font/border-appearance.png",
+      "sha256": "4f2b87e69e10ca525ce9f7601a79aab65da7afe277ab0e661ce004a22714fe49",
+      "origin": "Unmodified Android UiAutomation screenshot"
+    },
+    {
+      "path": "large-font/border-information.png",
+      "sha256": "1bd9ae1c4dbc63b500bcd855141b70e9ca888f305c8a4bf92ea5afe2e23fbb88",
+      "origin": "Unmodified Android UiAutomation screenshot"
+    },
+    {
+      "path": "large-font/camera-auto.png",
+      "sha256": "b5e7e3b71f45311ba8ead97a3cff282f5b84447619ed54074b77c4d699d1e2ca",
+      "origin": "Unmodified Android UiAutomation screenshot"
+    },
+    {
+      "path": "large-font/camera-manual.png",
+      "sha256": "c22d2d0eeaf19f0670be17b992ef1d7b59c4f4642e8b1e7ded27e77e6029e32e",
+      "origin": "Unmodified Android UiAutomation screenshot"
+    },
+    {
+      "path": "large-font/editor-template-1.png",
+      "sha256": "ae032468b2be983b793a26cc959c3c9a61d209ce53e4109e9544cfd2f6572d9f",
+      "origin": "Unmodified Android UiAutomation screenshot"
+    },
+    {
+      "path": "large-font/editor-template-2.png",
+      "sha256": "f710f814d65776e10fe924a5dcb08a13a84d1fc876f0a2b1dd29ced3f84844ae",
+      "origin": "Unmodified Android UiAutomation screenshot"
+    },
+    {
+      "path": "large-font/editor-template-3.png",
+      "sha256": "6b590ab7e2b41eff4db273e6d0a25d99ea810ab0cf86d28ecbd3bab87e442a3d",
+      "origin": "Unmodified Android UiAutomation screenshot"
+    },
+    {
+      "path": "large-font/hero-repro.JPG",
+      "sha256": "a101e29f68c1b75646651983064c36f28a6c57a117077d62731b52cbacf48d4e",
+      "origin": "Actual application renderer JPEG from QA desk-photo crop and synthetic capture EXIF"
+    },
+    {
+      "path": "large-font/missing-orientation-1.JPG",
+      "sha256": "b1af42dd898c66e0f7edc754f10f4c17f21fb528586ef292f76b407f1c93015a",
+      "origin": "Actual application renderer JPEG from QA desk-photo crop and synthetic capture EXIF"
+    },
+    {
+      "path": "large-font/missing-orientation-6.JPG",
+      "sha256": "44ad77625c658850ff67242eb2cf0a66beb4a69348d8224aa29e859a3a6273bf",
+      "origin": "Actual application renderer JPEG from QA desk-photo crop and synthetic capture EXIF"
+    },
+    {
+      "path": "large-font/template-1.JPG",
+      "sha256": "a101e29f68c1b75646651983064c36f28a6c57a117077d62731b52cbacf48d4e",
+      "origin": "Actual application renderer JPEG from QA desk-photo crop and synthetic capture EXIF"
+    },
+    {
+      "path": "large-font/template-2.JPG",
+      "sha256": "21aeb51c93312791484c08ec3e9aa4f2b9c89e641865970e52bbc394723a2ee0",
+      "origin": "Actual application renderer JPEG from QA desk-photo crop and synthetic capture EXIF"
+    },
+    {
+      "path": "large-font/template-3.JPG",
+      "sha256": "06a2e96b91308f67b87ee97a4ab9daa3fa8726bcf2392b15e3b02d37bdec9493",
+      "origin": "Actual application renderer JPEG from QA desk-photo crop and synthetic capture EXIF"
+    },
+    {
+      "path": "dark/border-appearance.png",
+      "sha256": "14ff8fe315d3e4679af8c36f90bc5d89f9cd22c866a3f5822654b46957fabe58",
+      "origin": "Unmodified Android UiAutomation screenshot"
+    },
+    {
+      "path": "dark/border-information.png",
+      "sha256": "3da2fef3df998fc6daaa0545abbd05d6453dd7949ff9049e198d30a858586b15",
+      "origin": "Unmodified Android UiAutomation screenshot"
+    },
+    {
+      "path": "dark/camera-auto.png",
+      "sha256": "af1711223b4de5a4d7878160417e696050753e31b5db64b22fbf1ac18fd1f7d9",
+      "origin": "Unmodified Android UiAutomation screenshot"
+    },
+    {
+      "path": "dark/camera-manual.png",
+      "sha256": "3013c87587abe98077a6e57818a615fb6bec47756fd05d4dd64d154e368550f6",
+      "origin": "Unmodified Android UiAutomation screenshot"
+    },
+    {
+      "path": "dark/editor-template-1.png",
+      "sha256": "8ae4c1c59ef5c1a114a0fd304ea886b3027a5db78afad9d70e42e738c9114247",
+      "origin": "Unmodified Android UiAutomation screenshot"
+    },
+    {
+      "path": "dark/editor-template-2.png",
+      "sha256": "4462161c697ea177d2196cf52971943f6918d910c6f12f8811c293038b3ced9d",
+      "origin": "Unmodified Android UiAutomation screenshot"
+    },
+    {
+      "path": "dark/editor-template-3.png",
+      "sha256": "0fb74aa9f751a2fee44ec1327babd815c38508b20328f0f6fa6186b28b936d6d",
+      "origin": "Unmodified Android UiAutomation screenshot"
+    },
+    {
+      "path": "dark/hero-repro.JPG",
+      "sha256": "a101e29f68c1b75646651983064c36f28a6c57a117077d62731b52cbacf48d4e",
+      "origin": "Actual application renderer JPEG from QA desk-photo crop and synthetic capture EXIF"
+    },
+    {
+      "path": "dark/missing-orientation-1.JPG",
+      "sha256": "b1af42dd898c66e0f7edc754f10f4c17f21fb528586ef292f76b407f1c93015a",
+      "origin": "Actual application renderer JPEG from QA desk-photo crop and synthetic capture EXIF"
+    },
+    {
+      "path": "dark/missing-orientation-6.JPG",
+      "sha256": "44ad77625c658850ff67242eb2cf0a66beb4a69348d8224aa29e859a3a6273bf",
+      "origin": "Actual application renderer JPEG from QA desk-photo crop and synthetic capture EXIF"
+    },
+    {
+      "path": "dark/template-1.JPG",
+      "sha256": "a101e29f68c1b75646651983064c36f28a6c57a117077d62731b52cbacf48d4e",
+      "origin": "Actual application renderer JPEG from QA desk-photo crop and synthetic capture EXIF"
+    },
+    {
+      "path": "dark/template-2.JPG",
+      "sha256": "21aeb51c93312791484c08ec3e9aa4f2b9c89e641865970e52bbc394723a2ee0",
+      "origin": "Actual application renderer JPEG from QA desk-photo crop and synthetic capture EXIF"
+    },
+    {
+      "path": "dark/template-3.JPG",
+      "sha256": "06a2e96b91308f67b87ee97a4ab9daa3fa8726bcf2392b15e3b02d37bdec9493",
+      "origin": "Actual application renderer JPEG from QA desk-photo crop and synthetic capture EXIF"
+    },
+    {
+      "path": "landscape/border-appearance.png",
+      "sha256": "fd33b0e21c65768f0ddf5e2991c2b3261d9fbaf8a3e4c5815b0094f42ded5d98",
+      "origin": "Unmodified Android UiAutomation screenshot"
+    },
+    {
+      "path": "landscape/border-information.png",
+      "sha256": "ea513d51b8fa322421a57eae0a646b85a8ae0393807df3a259c869a2b365643c",
+      "origin": "Unmodified Android UiAutomation screenshot"
+    },
+    {
+      "path": "landscape/camera-auto.png",
+      "sha256": "af44260a3dceb30c8a3b7d5e0c2736c3ab0f9bea1fdba836813a430199c62af8",
+      "origin": "Unmodified Android UiAutomation screenshot"
+    },
+    {
+      "path": "landscape/camera-manual-scrolled.png",
+      "sha256": "a41662513772d26800cce90d410e10965f47dbb6155220ff845c093e53c5c1be",
+      "origin": "Unmodified Android UiAutomation screenshot"
+    },
+    {
+      "path": "landscape/camera-manual.png",
+      "sha256": "153d607572a30110536c370173223d791602a0254e96268c96378125a5a77c7b",
+      "origin": "Unmodified Android UiAutomation screenshot"
+    },
+    {
+      "path": "landscape/editor-template-1.png",
+      "sha256": "61fc49712cad7bfc1fdc368ef47f0a56bc3a3ed4b376b1288dd054586eb7f0bc",
+      "origin": "Unmodified Android UiAutomation screenshot"
+    },
+    {
+      "path": "landscape/editor-template-2.png",
+      "sha256": "b7efa1ba33294582bee52050af8f547ec13ea611fd6ddd138859f8358c80a388",
+      "origin": "Unmodified Android UiAutomation screenshot"
+    },
+    {
+      "path": "landscape/editor-template-3.png",
+      "sha256": "857147f412b84620c858cdc7383fbbcbd930c4e2c4fe61f5b8fcbf3462bfc442",
+      "origin": "Unmodified Android UiAutomation screenshot"
+    },
+    {
+      "path": "landscape/hero-repro.JPG",
+      "sha256": "a101e29f68c1b75646651983064c36f28a6c57a117077d62731b52cbacf48d4e",
+      "origin": "Actual application renderer JPEG from QA desk-photo crop and synthetic capture EXIF"
+    },
+    {
+      "path": "landscape/missing-orientation-1.JPG",
+      "sha256": "b1af42dd898c66e0f7edc754f10f4c17f21fb528586ef292f76b407f1c93015a",
+      "origin": "Actual application renderer JPEG from QA desk-photo crop and synthetic capture EXIF"
+    },
+    {
+      "path": "landscape/missing-orientation-6.JPG",
+      "sha256": "44ad77625c658850ff67242eb2cf0a66beb4a69348d8224aa29e859a3a6273bf",
+      "origin": "Actual application renderer JPEG from QA desk-photo crop and synthetic capture EXIF"
+    },
+    {
+      "path": "landscape/template-1.JPG",
+      "sha256": "a101e29f68c1b75646651983064c36f28a6c57a117077d62731b52cbacf48d4e",
+      "origin": "Actual application renderer JPEG from QA desk-photo crop and synthetic capture EXIF"
+    },
+    {
+      "path": "landscape/template-2.JPG",
+      "sha256": "21aeb51c93312791484c08ec3e9aa4f2b9c89e641865970e52bbc394723a2ee0",
+      "origin": "Actual application renderer JPEG from QA desk-photo crop and synthetic capture EXIF"
+    },
+    {
+      "path": "landscape/template-3.JPG",
+      "sha256": "06a2e96b91308f67b87ee97a4ab9daa3fa8726bcf2392b15e3b02d37bdec9493",
+      "origin": "Actual application renderer JPEG from QA desk-photo crop and synthetic capture EXIF"
+    },
+    {
+      "path": "tablet/border-appearance.png",
+      "sha256": "241164e34d592ba13dacc0289744f66bac2e2b20592c1136ed7bc7ff6fbe87e3",
+      "origin": "Unmodified Android UiAutomation screenshot"
+    },
+    {
+      "path": "tablet/border-information.png",
+      "sha256": "94dfda8d3173f7f50528c5c5525d4cfba4a8f3b148481fc24a118888521bae52",
+      "origin": "Unmodified Android UiAutomation screenshot"
+    },
+    {
+      "path": "tablet/camera-auto.png",
+      "sha256": "cfc845f28240663c8d5e54706eacac70c1deadf53afd3ce5453cf258a89a8982",
+      "origin": "Unmodified Android UiAutomation screenshot"
+    },
+    {
+      "path": "tablet/camera-manual.png",
+      "sha256": "dbca100dff4e0236777a8456fc924615c2ec13a25907de54ef9a4f931ff777ec",
+      "origin": "Unmodified Android UiAutomation screenshot"
+    },
+    {
+      "path": "tablet/editor-template-1.png",
+      "sha256": "a2d91a46ceb3b8a1c36c43be73f175d4e8bbd8477ad5d81333ed2f4ef9a5d452",
+      "origin": "Unmodified Android UiAutomation screenshot"
+    },
+    {
+      "path": "tablet/editor-template-2.png",
+      "sha256": "648d86ce659d989317f4cc23c67dad9219af3d5cd65374ca2cbded3fb630427d",
+      "origin": "Unmodified Android UiAutomation screenshot"
+    },
+    {
+      "path": "tablet/editor-template-3.png",
+      "sha256": "26d772d0569a2c0d80121f423be7945a3f911afe17b4a43808f71d9d79ce8076",
+      "origin": "Unmodified Android UiAutomation screenshot"
+    },
+    {
+      "path": "tablet/hero-repro.JPG",
+      "sha256": "a101e29f68c1b75646651983064c36f28a6c57a117077d62731b52cbacf48d4e",
+      "origin": "Actual application renderer JPEG from QA desk-photo crop and synthetic capture EXIF"
+    },
+    {
+      "path": "tablet/missing-orientation-1.JPG",
+      "sha256": "b1af42dd898c66e0f7edc754f10f4c17f21fb528586ef292f76b407f1c93015a",
+      "origin": "Actual application renderer JPEG from QA desk-photo crop and synthetic capture EXIF"
+    },
+    {
+      "path": "tablet/missing-orientation-6.JPG",
+      "sha256": "44ad77625c658850ff67242eb2cf0a66beb4a69348d8224aa29e859a3a6273bf",
+      "origin": "Actual application renderer JPEG from QA desk-photo crop and synthetic capture EXIF"
+    },
+    {
+      "path": "tablet/template-1.JPG",
+      "sha256": "a101e29f68c1b75646651983064c36f28a6c57a117077d62731b52cbacf48d4e",
+      "origin": "Actual application renderer JPEG from QA desk-photo crop and synthetic capture EXIF"
+    },
+    {
+      "path": "tablet/template-2.JPG",
+      "sha256": "21aeb51c93312791484c08ec3e9aa4f2b9c89e641865970e52bbc394723a2ee0",
+      "origin": "Actual application renderer JPEG from QA desk-photo crop and synthetic capture EXIF"
+    },
+    {
+      "path": "tablet/template-3.JPG",
+      "sha256": "06a2e96b91308f67b87ee97a4ab9daa3fa8726bcf2392b15e3b02d37bdec9493",
+      "origin": "Actual application renderer JPEG from QA desk-photo crop and synthetic capture EXIF"
+    }
+  ]
+}

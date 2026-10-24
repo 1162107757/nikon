@@ -1,0 +1,166 @@
+{
+  "schema_version": 1,
+  "feature": "Approved Android photo borders",
+  "retrieved_date": "2026-10-24",
+  "approved_comp": "docs/design-review/photo-borders-20261024/border-templates-v3.png",
+  "scope": "Sourced production marks and one real italic parameter font. No new direction or generated assets.",
+  "sources": [
+    {
+      "id": "nikon-official-svg",
+      "url": "https://www.nikon-image.com/common2/img/mod-header/logo_01.svg",
+      "publisher": "Nikon Corporation",
+      "source_type": "Authentic official website SVG",
+      "source_copy": "docs/design-review/photo-borders-20261024/nikon-official-source.svg",
+      "source_sha256": "449bab29e259c46b7264ed19886e5a0e2ef567250d01163c8e2cd1bbce486c53",
+      "source_dimensions": [
+        400,
+        400
+      ],
+      "license": "Official brand asset. No blanket open-source or redistribution license asserted. Nikon wordmark and symbol are trademarks of Nikon Corporation.",
+      "source_page": "https://www.nikon-image.com/",
+      "official_terms": "https://www.nikon.com/usage/"
+    },
+    {
+      "id": "tomorrow-font",
+      "url": "https://raw.githubusercontent.com/google/fonts/main/ofl/tomorrow/Tomorrow-ExtraBoldItalic.ttf",
+      "publisher": "The Tomorrow Project Authors; distributed by Google Fonts",
+      "family": "Tomorrow",
+      "style": "ExtraBold Italic",
+      "weight": 800,
+      "copyright": "Copyright 2019 The Tomorrow Project Authors (https://github.com/MonicaRizzolli/Tomorrow)",
+      "license": "SIL Open Font License 1.1",
+      "license_url": "https://raw.githubusercontent.com/google/fonts/main/ofl/tomorrow/OFL.txt",
+      "license_copy": "app/src/main/assets/photo-borders/parameters-OFL.txt",
+      "upstream_repository": "https://github.com/MonicaRizzolli/Tomorrow",
+      "metadata_url": "https://raw.githubusercontent.com/google/fonts/main/ofl/tomorrow/METADATA.pb",
+      "upstream_commit_reported_by_metadata": "5be77729a028a17876819eb262d22ba5977b5d7c",
+      "modified": false
+    }
+  ],
+  "assets": [
+    {
+      "path": "app/src/main/assets/photo-borders/nikon-wordmark-white.png",
+      "source_id": "nikon-official-svg",
+      "format": "PNG",
+      "dimensions": [
+        1600,
+        443
+      ],
+      "mode": "RGBA",
+      "bytes": 62728,
+      "sha256": "dc7068dd1a1dac737fadb04036744560aaed5e062c6c653d88b2abacd5599303",
+      "use": "White wordmark for both blurred templates.",
+      "origin_embedded": true
+    },
+    {
+      "path": "app/src/main/assets/photo-borders/nikon-wordmark-black.png",
+      "source_id": "nikon-official-svg",
+      "format": "PNG",
+      "dimensions": [
+        1600,
+        443
+      ],
+      "mode": "RGBA",
+      "bytes": 58098,
+      "sha256": "93ef2b678d1bd74cf80ff93ff51edc37cb2d12f068db783b49c426087198c7c3",
+      "use": "Black wordmark when a black mark is needed on a light ground.",
+      "origin_embedded": true
+    },
+    {
+      "path": "app/src/main/assets/photo-borders/nikon-yellow-square.png",
+      "source_id": "nikon-official-svg",
+      "format": "PNG",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "mode": "RGB",
+      "bytes": 122746,
+      "sha256": "1f5c351a9248cb8f1ae038be59f0bc8e36ffedb5b81ed3e1b0ca8fe829f8a519",
+      "use": "Complete yellow Nikon symbol in the white information-strip template.",
+      "origin_embedded": true
+    },
+    {
+      "path": "app/src/main/assets/photo-borders/parameters.ttf",
+      "source_id": "tomorrow-font",
+      "format": "TrueType",
+      "bytes": 65032,
+      "sha256": "f7fe4bed14aaec1e25b1173c4eed35c3c5537e836c47db67b06189ec4adc7b19",
+      "use": "Sidebar F / ISO / S labels and parameter values. Actual italic face: no synthetic skew or fake bold.",
+      "modified": false
+    },
+    {
+      "path": "app/src/main/assets/photo-borders/parameters-OFL.txt",
+      "source_id": "tomorrow-font",
+      "format": "text/plain",
+      "bytes": 4477,
+      "sha256": "1dd4eaacd1da1bfb7e1d14dd5af0279c17d4503fde55abc628bdaccc63ae9eca",
+      "use": "Font copyright and license to accompany redistribution.",
+      "modified": false
+    }
+  ],
+  "transformations": {
+    "nikon-wordmark-white.png": "Isolate final authentic Nikon vector path without contour changes; change fill #150301 to #FFFFFF. CairoSVG render at 4000 square; trim alpha bounds; proportional Pillow Lanczos resize to 1600 pixels wide. Transparent background.",
+    "nikon-wordmark-black.png": "Same authentic vector path and geometry as white version; use #000000 fill. Transparent background.",
+    "nikon-yellow-square.png": "Complete official SVG rendered unchanged at 1024 square with CairoSVG."
+  },
+  "font_fidelity": {
+    "reference_face_identified": false,
+    "selected": "Tomorrow ExtraBold Italic, genuine weight 800 italic display font.",
+    "matches": "Heavy squared sports-style silhouette, slanted strokes, angular counters, and compact block-like F / ISO / S / numeric forms.",
+    "differences": "Original reference font is unidentified. Tomorrow has pronounced chamfered corners and different 2, 3, 8 and slash outlines; it is a close practical stylistic match, not an exact face match.",
+    "comparison": "Compared actual Tomorrow Bold/ExtraBold/Black Italic, Chakra Petch Bold Italic, and Quantico Bold Italic samples. ExtraBold has the closest reviewed stroke weight.",
+    "review_images": [
+      "docs/design-review/photo-borders-20261024/asset-review/font-comparison.png",
+      "docs/design-review/photo-borders-20261024/asset-review/font-weights.png"
+    ]
+  },
+  "references": [
+    {
+      "file_name": "codex-clipboard-9b1b0751-796e-4a97-826f-edfe6bc4a16c.jpg",
+      "sha256": "f8f786a11e8a656d7990ac15637d3e43bab00b7a925bac66e3a04ffd43e1f668",
+      "dimensions": [
+        3000,
+        1996
+      ],
+      "preserved_unmodified": true,
+      "use": "Visual comparison only; no pixels copied into production assets."
+    },
+    {
+      "file_name": "codex-clipboard-82db92f7-6e57-41a9-8742-ebb03107d8ab.jpg",
+      "sha256": "d869649981490fb576ae379e3c5d43ab131b79e301cda20b57992673b954b508",
+      "dimensions": [
+        3000,
+        1666
+      ],
+      "preserved_unmodified": true,
+      "use": "Visual comparison only; no pixels copied into production assets."
+    }
+  ],
+  "qa": {
+    "decoded_png_count": 3,
+    "png_transparency_checked": true,
+    "white_black_alpha_identical": true,
+    "white_black_rgb_checked": true,
+    "square_dimensions_and_opaque_alpha_checked": true,
+    "ttf_decoded_with_pillow_freetype": true,
+    "font_internal_name": [
+      "Tomorrow",
+      "ExtraBold Italic"
+    ],
+    "sample_text": "F 2.8 ISO 320 S 1/250",
+    "visual_proof": "docs/design-review/photo-borders-20261024/asset-review/asset-proof.png",
+    "all_png_provenance_embedded": true
+  },
+  "production_methods": {
+    "svg_renderer": "CairoSVG",
+    "raster_processing": "Pillow for proportional resizing and alpha bounds only",
+    "ai_generation": false,
+    "comp_cropping": false
+  },
+  "proof_origins": {
+    "asset-proof.png": "Composition of shipped production assets for visual QA.",
+    "font-comparison.png": "Text rendered from Google Fonts OFL Tomorrow Black Italic, Chakra Petch Bold Italic, Quantico Bold Italic; source URLs embedded. Candidate font binaries removed after comparison.",
+    "font-weights.png": "Text rendered from Google Fonts OFL Tomorrow Bold/ExtraBold/Black Italic; source URLs embedded. Candidate font binaries removed after comparison."
+  }
+}

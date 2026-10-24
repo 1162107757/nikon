@@ -1,0 +1,23 @@
+## verdict
+
+Scope: Same-reviewer correction verdict for M1–M6 from FINISH-REVIEW.md, against 0.17.0-beta (84), APK SHA-256 `b4a5b10fa5dffcd0850508eb0a7dc4a88cffa47ca5a2b2ed3894dfd2efcbdd03`, 3,532,397 bytes. This is a fix-list scoring pass, not a fresh whole-app audit. All six required captures were reopened at the exact original paths under .impeccable/review/orange-ui-84/ and remain valid. Relevant updated import/live/editor captures were compared with the first-round findings.
+
+| Fix | Score | Evidence |
+| --- | --- | --- |
+| M1 — Landscape preset browsing | **resolved** | landscape.png now shows source/account on one row, compact connection/header and categories, followed by four visible actual preset cards with complete image/name/format/category content. Rail and add action remain reachable. The full landscape report is PASS 365, including `orange-landscape-first-complete-preset-card-has-space`; later native flow captures now exist. Phone, 1.3 font, dark, tablet and hero-repro retain the portrait/wide visual system. |
+| M2 — Live accent migration | **resolved** | Same phone/large-font/dark/tablet live.png paths now show peach “去连接”, and landscape/live.png remains legible within the compact scrollable composition. UiPalette.photoAccent #F3B493 and photoTrack #635247 feed live action, determinate/indeterminate progress and track. The physical live.png corroborates warm action emphasis over an existing real photograph. |
+| M3 — System bars after dialogs | **resolved** | phone, large-font and tablet import-slots.png now visibly show dark clock/status icons on the warm light background after the actual overwrite-cancel path; dark/import-slots.png retains light icons. Passing `orange-cancel-restores-light-surface-system-icon-appearance` and restoreSystemBarAppearance at render/focus/dismiss support the observed correction. Physical light/dark settings corroborate the scheme; the physical phone was not used for camera overwrite testing. |
+| M4 — Selected small-text contrast | **resolved** | onPrimaryContainer is applied to category chips and selected slots. Independently recomputed WCAG ratios: #85311F on #F4D6C0 **6.1986:1**; #F3B493 on #51382D **6.0206:1**. Both exceed 4.5:1. The same presets/import captures retain peach selection fill and distinct slot outline. |
+| M5 — 48dp action sizing | **resolved** | liveCompactAction uses ≥48dp minimum width/height; relevant formerly fixed 44dp live/viewer host allocations are now 48dp. Native report assertions measure live action, project preset, project choice/info and receipts at ≥48dp. The live selection strip reserves count width and horizontally scrolls 48dp actions with 8dp separation. Same large-font and landscape live screenshots show no new collision from the sizing change. |
+| M6 — Photo-overlay control contrast | **resolved** | Same phone/editor.png, phone/editor-adjustments.png, large-font/editor-adjustments.png and landscape editor captures visibly show restrained dark backing behind favorite/more/compare, with 8dp favorite–more separation and retained placement/photograph area. HueTheme.PHOTO_CONTROL_SCRIM #B8262320 composites to #62605E over a worst-case white photograph, giving white strokes **6.2610:1**, above 3:1. Passing native hold/release assertions preserve original/effect comparison; settled physical editor-adjustments.png and editor-after-crop-cancel.png corroborate the chrome on existing user content. |
+
+matrix.json is PASS with sourcesStable true and the same final APK SHA. Phone/large-font/dark/tablet each record 364 assertions, landscape 365; these are repeated assertion executions, not counts of independent test cases. Source stability is not a claim of reproducible builds. The old failed candidate remains separately archived under first-candidate-821649/.
+
+Supplementary physical evidence reviewed: OnePlus Ace 5 captures at 1080×2376, existing density 408 and font scale 1.0, including presets, light/dark settings, sync/live, album, editor and the settled adjustment/crop/cancel captures. The initial editor.png is visibly in online-filter loading and is not used as evidence of settled catalog behavior. This supplements material-fix fidelity; it does not certify camera transport, live catalog/login, performance, colors or TalkBack. No new production raster is involved. The reviewer did not run the app or edit production sources.
+
+## remaining
+
+clear — M1–M6 are resolved. No material regression attributable to this correction batch was observed in the reviewed same-path recaptures or supplied physical evidence. This ship disposition covers the six scored fixes and that bounded regression check; final design documentation remains the builder's subsequent handoff.
+
+disposition: ship
+

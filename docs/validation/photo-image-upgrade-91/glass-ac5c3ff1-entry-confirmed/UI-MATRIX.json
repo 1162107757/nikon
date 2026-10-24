@@ -1,0 +1,104 @@
+{
+  "candidateSha256": "ac5c3ff1d419cf45f068249b78731878f0f00eb723f2972e8aeb662f6ccd584a",
+  "candidateVersionCode": 91,
+  "candidateBytes": 3893370,
+  "scope": "Targeted final phone, font1.3 and landscape native verification after compact actual detail entry and native histogram ScrollView wrap. Repeated assertions across configurations are not distinct test cases; dark and progress retain explicit prior candidate identities.",
+  "currentTargetedNativeStatus": "PASS",
+  "independentVisualReview": "Requested separately against the actual current three-configuration screenshots",
+  "modes": [
+    {
+      "mode": "phone",
+      "status": "PASS",
+      "checks": 158,
+      "testedCandidateSha256": "ac5c3ff1d419cf45f068249b78731878f0f00eb723f2972e8aeb662f6ccd584a",
+      "evidenceKind": "Current ac5 targeted native verification",
+      "framebufferCompared": 1849,
+      "framebufferMaxDelta": 0,
+      "tileCompared": 1848,
+      "tileErrors": 0,
+      "cleanup": "PASS",
+      "settingsAndGrantsRestored": "PASS",
+      "detailEntry": {
+        "width": 236,
+        "contentWidth": 236,
+        "touchHeight": 126,
+        "glassVisualHeight": 84,
+        "whiteIconFramebufferPixels": 310,
+        "glassSamplePixels": 19776,
+        "click": "Three actual production entry performClick interactions opened the real detail dialog"
+      }
+    },
+    {
+      "mode": "font1.3",
+      "status": "PASS",
+      "checks": 158,
+      "testedCandidateSha256": "ac5c3ff1d419cf45f068249b78731878f0f00eb723f2972e8aeb662f6ccd584a",
+      "evidenceKind": "Current ac5 targeted native verification",
+      "framebufferCompared": 1849,
+      "framebufferMaxDelta": 0,
+      "tileCompared": 1848,
+      "tileErrors": 0,
+      "cleanup": "PASS",
+      "settingsAndGrantsRestored": "PASS",
+      "detailEntry": {
+        "width": 272,
+        "contentWidth": 272,
+        "touchHeight": 126,
+        "glassVisualHeight": 84,
+        "whiteIconFramebufferPixels": 310,
+        "glassSamplePixels": 17088,
+        "click": "Three actual production entry performClick interactions opened the real detail dialog"
+      }
+    },
+    {
+      "mode": "landscape",
+      "status": "PASS",
+      "checks": 160,
+      "testedCandidateSha256": "ac5c3ff1d419cf45f068249b78731878f0f00eb723f2972e8aeb662f6ccd584a",
+      "evidenceKind": "Current ac5 targeted native verification",
+      "framebufferCompared": 1849,
+      "framebufferMaxDelta": 0,
+      "tileCompared": 2772,
+      "tileErrors": 0,
+      "cleanup": "PASS",
+      "settingsAndGrantsRestored": "PASS",
+      "detailEntry": {
+        "width": 236,
+        "contentWidth": 236,
+        "touchHeight": 126,
+        "glassVisualHeight": 84,
+        "whiteIconFramebufferPixels": 310,
+        "glassSamplePixels": 19776,
+        "click": "Three actual production entry performClick interactions opened the real detail dialog"
+      }
+    },
+    {
+      "mode": "dark",
+      "status": "PASS",
+      "checks": 143,
+      "testedCandidateSha256": "eaa4914742a7d3a7b8ae0286ded76f999ec718207963923406751a92b7e86c58",
+      "evidenceKind": "Prior eaa dark configuration evidence only; not rerun on ac5 and does not verify the new detail entry",
+      "framebufferCompared": 1849,
+      "framebufferMaxDelta": 0,
+      "tileCompared": 1848,
+      "tileErrors": 0,
+      "cleanup": "PASS",
+      "settingsAndGrantsRestored": "PASS"
+    }
+  ],
+  "visualObservations": [
+    "Current phone/font1.3/landscape entry is a compact dark photo-glass magnifier and 查看细节 label at the actual photo lower-left, with no oversized blank leading area.",
+    "Current landscape histogram curve is fully visible, the sample face is unobscured, and detail entry/compare actions remain clear.",
+    "Current warning chips show warm selected border/background; glyphs and percentages are fully visible.",
+    "Current detail metric remains independent at actual photo upper-right; bottom-left palette contains only the three zoom buttons."
+  ],
+  "unchangedProgressReference": {
+    "note": "No new ac5 progress run; source unchanged since the prior evidence.",
+    "path": "pre-glass-0d35b8c8/phone-progress",
+    "status": "PASS",
+    "testedCandidateSha256": "0d35b8c8d6367c1a62078a264183ca41bd24bc357ebd22ee8dcb08f83870bb31",
+    "checks": 23
+  },
+  "harnessFalseNegativeReference": "ac5-entry-probe-software-draw/HARNESS-FAILURE.json; software View.draw assumption replaced with real framebuffer pixels, production unchanged",
+  "staleArtifactNote": "Only SHA-identical previously archived remote failure image duplicates were removed from the successful current phone/landscape folders; real failure archives are preserved."
+}

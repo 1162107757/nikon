@@ -1,0 +1,4 @@
+INSTRUMENTATION_RESULT: status=FAIL
+INSTRUMENTATION_RESULT: stream=Photo image upgrade native FAIL saved-version: java.lang.AssertionError: saved-file-before-disabled
+
+INSTRUMENTATION_CODE: 0

@@ -1,0 +1,20 @@
+{
+  "scope": "Source-token sRGB WCAG calculations, not complete accessibility certification",
+  "pairs": {
+    "lightSelectedText": {
+      "foreground": "#85311F",
+      "background": "#F4D6C0",
+      "ratio": 6.198614480052239
+    },
+    "darkSelectedText": {
+      "foreground": "#F3B493",
+      "background": "#51382D",
+      "ratio": 6.020574560480063
+    },
+    "photoWhiteIconWorstWhiteBackdrop": {
+      "scrim": "#B8262320",
+      "composite": "#62605E",
+      "ratio": 6.260969895787832
+    }
+  }
+}

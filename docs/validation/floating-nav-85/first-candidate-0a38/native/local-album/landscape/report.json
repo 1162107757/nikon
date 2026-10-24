@@ -1,0 +1,350 @@
+{
+  "version": "0.17.1-beta",
+  "versionCode": 85,
+  "apkSha256": "0a38e1161d083e8785a0a0ca75df6cb68905f18132846e979bf20cd53bed5378",
+  "scope": "Four-root navigation and local album on isolated emulator. Real runtime permission grant\/revoke before launch, native MediaStore JPEG\/PNG query, unchanged-source reuse, exact private import, incumbent editor, 13 adjustments, crop, recipe reuse, actual batch filter draft action and durable destination export. A hand-authored structural NEF fixture exercises the real offline RAW panel, exact-byte publisher and frozen retry target. Synthetic images\/recipes and structural RAW fixture only; no physical camera, captured sensor data, live production catalog, FPS or TalkBack certification.",
+  "mode": "landscape",
+  "fontScale": 1,
+  "orientation": 2,
+  "displayWidthPixels": 2424,
+  "displayHeightPixels": 1080,
+  "density": 2.625,
+  "screenWidthDp": 923,
+  "screenHeightDp": 411,
+  "windowWidthPixels": 2424,
+  "windowHeightPixels": 1080,
+  "fixtureCatalogSha256": "27ea2a2ce402d971ff0e4325f9edb9395ec17220593130f5c0b8bd2f2c802d16",
+  "fixtureCatalogEntries": 23,
+  "fixtureRecipes": "Two existing NP3 research sources and hand-authored NCP fixtures already used by the local editor probe; no product download state is fabricated.",
+  "notificationPermissionSetup": "POST_NOTIFICATIONS pregranted only to isolate the dedicated emulator run; notification permission UX is outside this scope. Media permission grant\/revoke checks remain active.",
+  "localViewportLayouts": {
+    "app": {
+      "uncoveredListBounds": [
+        513,
+        389,
+        2403,
+        1017
+      ],
+      "rows": [
+        {
+          "listPosition": 1,
+          "tiles": [
+            {
+              "filename": "QA_ALPHA_2a4d6631_PNG白底_HOST_NCP___100____调节_13_项.JPG",
+              "image": [
+                542,
+                454,
+                763,
+                675
+              ],
+              "filenameBounds": [
+                542,
+                675,
+                763,
+                734
+              ],
+              "fullyVisibleAboveNavigation": true
+            },
+            {
+              "filename": "QA_ALPHA_828a9161_PNG白底_HOST_NCP___100____调节_13_项.JPG",
+              "image": [
+                779,
+                454,
+                1000,
+                675
+              ],
+              "filenameBounds": [
+                779,
+                675,
+                1000,
+                734
+              ],
+              "fullyVisibleAboveNavigation": true
+            }
+          ]
+        },
+        {
+          "listPosition": 3,
+          "tiles": [
+            {
+              "filename": "B.JPG",
+              "image": [
+                542,
+                946,
+                763,
+                1167
+              ],
+              "filenameBounds": [
+                542,
+                1167,
+                763,
+                1226
+              ],
+              "fullyVisibleAboveNavigation": false
+            },
+            {
+              "filename": "B.JPG",
+              "image": [
+                779,
+                946,
+                1000,
+                1167
+              ],
+              "filenameBounds": [
+                779,
+                1167,
+                1000,
+                1226
+              ],
+              "fullyVisibleAboveNavigation": false
+            },
+            {
+              "filename": "A.JPG",
+              "image": [
+                1016,
+                946,
+                1237,
+                1167
+              ],
+              "filenameBounds": [
+                1016,
+                1167,
+                1237,
+                1226
+              ],
+              "fullyVisibleAboveNavigation": false
+            },
+            {
+              "filename": "B.JPG",
+              "image": [
+                1253,
+                946,
+                1474,
+                1167
+              ],
+              "filenameBounds": [
+                1253,
+                1167,
+                1474,
+                1226
+              ],
+              "fullyVisibleAboveNavigation": false
+            },
+            {
+              "filename": "C.JPG",
+              "image": [
+                1490,
+                946,
+                1711,
+                1167
+              ],
+              "filenameBounds": [
+                1490,
+                1167,
+                1711,
+                1226
+              ],
+              "fullyVisibleAboveNavigation": false
+            },
+            {
+              "filename": "C.JPG",
+              "image": [
+                1727,
+                946,
+                1948,
+                1167
+              ],
+              "filenameBounds": [
+                1727,
+                1167,
+                1948,
+                1226
+              ],
+              "fullyVisibleAboveNavigation": false
+            },
+            {
+              "filename": "QA_LOCAL_2a4d6631_HOST_NCP___100____调节_1_项___已构图.JPG",
+              "image": [
+                1964,
+                946,
+                2185,
+                1167
+              ],
+              "filenameBounds": [
+                1964,
+                1167,
+                2185,
+                1226
+              ],
+              "fullyVisibleAboveNavigation": false
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "localActionLayouts": {
+    "picker-app": {
+      "description": "选择照片",
+      "bounds": [
+        2224,
+        565,
+        2371,
+        712
+      ],
+      "uncoveredBounds": [
+        513,
+        263,
+        2403,
+        1017
+      ]
+    },
+    "overflow-app": {
+      "description": "相册更多操作",
+      "bounds": [
+        2256,
+        263,
+        2382,
+        389
+      ],
+      "uncoveredBounds": [
+        513,
+        263,
+        2403,
+        1017
+      ]
+    }
+  },
+  "screenshots": {
+    "local-app": {
+      "width": 2424,
+      "height": 1080,
+      "orientation": 2,
+      "fontScale": 1
+    },
+    "failure": {
+      "width": 2424,
+      "height": 1080,
+      "orientation": 2,
+      "fontScale": 1
+    }
+  },
+  "localGuidanceLayouts": {
+    "denied-title": {
+      "text": "选择你想编辑的照片",
+      "bounds": [
+        555,
+        410,
+        2361,
+        507
+      ],
+      "uncoveredBounds": [
+        513,
+        263,
+        2403,
+        1017
+      ]
+    },
+    "denied-guidance": {
+      "text": "授权后即可浏览手机照片。\n也可点击 + 只选择要编辑的照片。",
+      "bounds": [
+        555,
+        507,
+        2361,
+        627
+      ],
+      "uncoveredBounds": [
+        513,
+        263,
+        2403,
+        1017
+      ]
+    }
+  },
+  "status": "FAIL",
+  "stage": "local-action-entire-touch-target-visible-above-navigation-central-authorization",
+  "failure": "java.lang.IllegalStateException: local-action-entire-touch-target-visible-above-navigation-central-authorization",
+  "checks": 80,
+  "assertions": [
+    "dedicated-emulator-only",
+    "version-85",
+    "supported-probe-scope",
+    "activity-ready",
+    "actual-configuration-and-window-match-requested-orientation",
+    "actual-configuration-font-scale-matches-mode",
+    "actual-display-dimensions-match-orientation",
+    "offline-editing-no-camera",
+    "seed-recipe-real-sha-0",
+    "seed-recipe-real-sha-1",
+    "seed-recipe-real-sha-2",
+    "seed-recipe-real-sha-3",
+    "seed-recipe-real-sha-4",
+    "seed-recipe-real-sha-5",
+    "seed-recipe-real-sha-6",
+    "seed-recipe-real-sha-7",
+    "seed-recipe-real-sha-8",
+    "seed-recipe-real-sha-9",
+    "seed-recipe-real-sha-10",
+    "seed-recipe-real-sha-11",
+    "seed-recipe-real-sha-12",
+    "seed-recipe-real-sha-13",
+    "seed-recipe-real-sha-14",
+    "seed-recipe-real-sha-15",
+    "seed-recipe-real-sha-16",
+    "seed-recipe-real-sha-17",
+    "seed-recipe-real-sha-18",
+    "seed-recipe-real-sha-19",
+    "seed-recipe-real-sha-20",
+    "seed-recipe-real-sha-21",
+    "seed-recipe-real-sha-22",
+    "catalog-photo-group-ready",
+    "dedicated-emulator-notification-permission-is-pregranted",
+    "actual-navigation-cell-visible-预设",
+    "actual-navigation-tap-selects-root-预设",
+    "actual-navigation-cell-visible-同步",
+    "actual-navigation-tap-selects-root-同步",
+    "actual-navigation-cell-visible-相册",
+    "actual-navigation-tap-selects-root-相册",
+    "actual-navigation-cell-visible-设置",
+    "actual-navigation-tap-selects-root-设置",
+    "actual-navigation-cell-visible-相册",
+    "actual-navigation-tap-selects-root-相册",
+    "local-album-is-an-actual-navigation-root",
+    "actual-runtime-live-receive-default-is-app-only",
+    "actual-runtime-installs-no-unconditional-original-gallery-publisher",
+    "four-root-navigation-has-separate-sync-and-local-album",
+    "actual-four-root-order-and-touch-target-预设",
+    "actual-four-root-order-and-touch-target-同步",
+    "actual-four-root-order-and-touch-target-相册",
+    "actual-four-root-order-and-touch-target-设置",
+    "actual-media-permission-is-revoked-before-launch",
+    "app-local-photo-list-works-without-media-permission",
+    "app-local-native-thumbnails-are-real-decoded-images",
+    "local-native-list-layout-ready-app",
+    "complete-native-photo-row-and-filenames-visible-above-floating-navigation-app",
+    "local-action-entire-touch-target-visible-above-navigation-picker-app",
+    "local-action-entire-touch-target-visible-above-navigation-overflow-app",
+    "local-album-actions-use-overflow-and-floating-picker",
+    "native-screenshot-local-app",
+    "native-screenshot-orientation-local-app",
+    "actual-MediaStore-row-count-readable",
+    "actual-original-save-opens-explicit-destination-choice",
+    "fresh-original-save-choice-defaults-to-app-only",
+    "preview-dialog-accessibility-root",
+    "actual-original-app-only-save-finishes-with-permission-revoked",
+    "actual-MediaStore-row-count-readable",
+    "actual-original-app-only-save-does-not-insert-MediaStore-row",
+    "native-export-accepted",
+    "native-export-completed",
+    "actual-MediaStore-row-count-readable",
+    "denied-media-permission-does-not-block-app-only-result",
+    "denied-phone-tab-settles",
+    "denied-phone-page-offers-central-authorization-and-floating-system-picker",
+    "local-guidance-entire-view-visible-above-navigation-denied-title",
+    "local-guidance-entire-text-laid-out-denied-title",
+    "local-guidance-entire-view-visible-above-navigation-denied-guidance",
+    "local-guidance-entire-text-laid-out-denied-guidance",
+    "native-screenshot-failure",
+    "native-screenshot-orientation-failure"
+  ]
+}

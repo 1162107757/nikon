@@ -461,8 +461,8 @@ public final class PhotoReceiptPanel implements AutoCloseable {
     }
     private Button action(String label, boolean primary, Runnable callback) {
         Button view = new Button(activity); view.setText(label); view.setAllCaps(false); view.setTextSize(13);
-        view.setTextColor(primary ? palette.onPrimary : palette.primary); view.setMinHeight(dp(44)); view.setMinimumHeight(dp(44));
-        view.setPadding(dp(8), dp(8), dp(8), dp(8)); view.setBackground(interactive(primary ? palette.primary : palette.primaryContainer, 16));
+        view.setTextColor(primary ? palette.onAction : palette.text); view.setMinHeight(dp(48)); view.setMinimumHeight(dp(48));
+        view.setPadding(dp(8), dp(8), dp(8), dp(8)); view.setBackground(interactive(primary ? palette.action : palette.container, 24));
         view.setOnClickListener(ignored -> { if (canShow() && dialog != null) callback.run(); }); return view;
     }
     private GradientDrawable shape(int color, float radius) { GradientDrawable drawable = new GradientDrawable(); drawable.setColor(color); drawable.setCornerRadius(dp(radius)); return drawable; }

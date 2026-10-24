@@ -1,0 +1,78 @@
+{
+  "apkSha256": "1f74ece275423198208750b804e7dad8e72c443b881c02eccb85eea9c4cd2ba0",
+  "prior": {
+    "fontScale": "1.0",
+    "night": "Night mode: no",
+    "size": "Physical size: 1080x2424",
+    "density": "Physical density: 420"
+  },
+  "reports": [
+    {
+      "mode": "phone",
+      "checks": 70,
+      "status": "PASS",
+      "apkSha256": "1f74ece275423198208750b804e7dad8e72c443b881c02eccb85eea9c4cd2ba0"
+    },
+    {
+      "mode": "large-font",
+      "checks": 50,
+      "status": "PASS",
+      "apkSha256": "1f74ece275423198208750b804e7dad8e72c443b881c02eccb85eea9c4cd2ba0"
+    },
+    {
+      "mode": "dark",
+      "checks": 50,
+      "status": "PASS",
+      "apkSha256": "1f74ece275423198208750b804e7dad8e72c443b881c02eccb85eea9c4cd2ba0"
+    },
+    {
+      "mode": "landscape",
+      "checks": 62,
+      "status": "PASS",
+      "apkSha256": "1f74ece275423198208750b804e7dad8e72c443b881c02eccb85eea9c4cd2ba0"
+    },
+    {
+      "mode": "tablet",
+      "checks": 50,
+      "status": "PASS",
+      "apkSha256": "1f74ece275423198208750b804e7dad8e72c443b881c02eccb85eea9c4cd2ba0"
+    }
+  ],
+  "restored": {
+    "size": "Physical size: 1080x2424",
+    "fontScale": "1.0",
+    "night": "Night mode: no",
+    "density": "Physical density: 420"
+  },
+  "scope": "Base 50 checks repeated in five configs; phone and landscape add lifecycle guards, phone adds brand/long-label exports, landscape adds real scroll/tap reachability.",
+  "supplementalEnvironment": {
+    "apkSha256": "1f74ece275423198208750b804e7dad8e72c443b881c02eccb85eea9c4cd2ba0",
+    "prior": {
+      "fontScale": "1.0",
+      "night": "Night mode: no",
+      "size": "Physical size: 1080x2424",
+      "density": "Physical density: 420"
+    },
+    "reports": [
+      {
+        "apkSha256": "1f74ece275423198208750b804e7dad8e72c443b881c02eccb85eea9c4cd2ba0",
+        "checks": 70,
+        "mode": "phone",
+        "status": "PASS"
+      },
+      {
+        "apkSha256": "1f74ece275423198208750b804e7dad8e72c443b881c02eccb85eea9c4cd2ba0",
+        "checks": 62,
+        "mode": "landscape",
+        "status": "PASS"
+      }
+    ],
+    "restored": {
+      "density": "Physical density: 420",
+      "fontScale": "1.0",
+      "size": "Physical size: 1080x2424",
+      "night": "Night mode: no"
+    }
+  },
+  "assertionExecutions": 282
+}

@@ -1,0 +1,213 @@
+{
+  "apkSha256": "1f74ece275423198208750b804e7dad8e72c443b881c02eccb85eea9c4cd2ba0",
+  "mode": "tablet",
+  "scope": "Isolated emulator with user-supplied desk-photo crop and explicit synthetic EXIF; no physical camera\/phone\/production-network claims.",
+  "capture": "28mm  F2.8  1\/640s  ISO320",
+  "rawFNumber": "2.8",
+  "rawExposure": "0.0015625",
+  "exactExposure": 0.0015625,
+  "status": "PASS",
+  "checks": 50,
+  "assertions": [
+    {
+      "name": "isolated-emulator-only",
+      "passed": true
+    },
+    {
+      "name": "expected-version",
+      "passed": true
+    },
+    {
+      "name": "activity-ready",
+      "passed": true
+    },
+    {
+      "name": "actual-orientation",
+      "passed": true
+    },
+    {
+      "name": "fixture-capture-all-four-fields: 28mm  F2.8  1\/640s  ISO320",
+      "passed": true
+    },
+    {
+      "name": "editor-ready",
+      "passed": true
+    },
+    {
+      "name": "border-tab-opens",
+      "passed": true
+    },
+    {
+      "name": "complete-frame-preview-1",
+      "passed": true
+    },
+    {
+      "name": "freeze-completes",
+      "passed": true
+    },
+    {
+      "name": "frozen-border-template-1",
+      "passed": true
+    },
+    {
+      "name": "full-size-output-dimensions-1",
+      "passed": true
+    },
+    {
+      "name": "real-original-exif-preserved-1",
+      "passed": true
+    },
+    {
+      "name": "oriented-output-1",
+      "passed": true
+    },
+    {
+      "name": "exact-fast-shutter-retained-1",
+      "passed": true
+    },
+    {
+      "name": "complete-frame-preview-2",
+      "passed": true
+    },
+    {
+      "name": "freeze-completes",
+      "passed": true
+    },
+    {
+      "name": "frozen-border-template-2",
+      "passed": true
+    },
+    {
+      "name": "full-size-output-dimensions-2",
+      "passed": true
+    },
+    {
+      "name": "real-original-exif-preserved-2",
+      "passed": true
+    },
+    {
+      "name": "oriented-output-2",
+      "passed": true
+    },
+    {
+      "name": "exact-fast-shutter-retained-2",
+      "passed": true
+    },
+    {
+      "name": "complete-frame-preview-3",
+      "passed": true
+    },
+    {
+      "name": "freeze-completes",
+      "passed": true
+    },
+    {
+      "name": "frozen-border-template-3",
+      "passed": true
+    },
+    {
+      "name": "full-size-output-dimensions-3",
+      "passed": true
+    },
+    {
+      "name": "real-original-exif-preserved-3",
+      "passed": true
+    },
+    {
+      "name": "oriented-output-3",
+      "passed": true
+    },
+    {
+      "name": "exact-fast-shutter-retained-3",
+      "passed": true
+    },
+    {
+      "name": "camera-row-touch-target-48dp",
+      "passed": true
+    },
+    {
+      "name": "approved-small-camera-icon-14dp",
+      "passed": true
+    },
+    {
+      "name": "approved-small-model-text-11sp",
+      "passed": true
+    },
+    {
+      "name": "camera-sheet-opens",
+      "passed": true
+    },
+    {
+      "name": "manual-camera-applies",
+      "passed": true
+    },
+    {
+      "name": "manual-model-override-frozen",
+      "passed": true
+    },
+    {
+      "name": "manual-camera-does-not-rewrite-original",
+      "passed": true
+    },
+    {
+      "name": "undo-camera-restores-auto",
+      "passed": true
+    },
+    {
+      "name": "redo-camera-restores-manual",
+      "passed": true
+    },
+    {
+      "name": "freeze-completes",
+      "passed": true
+    },
+    {
+      "name": "border-draft-persisted",
+      "passed": true
+    },
+    {
+      "name": "editor-ready",
+      "passed": true
+    },
+    {
+      "name": "reopen-restores-frame-and-override",
+      "passed": true
+    },
+    {
+      "name": "actual-batch-completes-null",
+      "passed": true
+    },
+    {
+      "name": "batch-two-camera-results",
+      "passed": true
+    },
+    {
+      "name": "batch-source-specific-output-identities",
+      "passed": true
+    },
+    {
+      "name": "batch-retains-second-camera-exif",
+      "passed": true
+    },
+    {
+      "name": "missing-exif-and-portrait-layout-1",
+      "passed": true
+    },
+    {
+      "name": "portrait-no-double-rotation-1",
+      "passed": true
+    },
+    {
+      "name": "missing-exif-and-portrait-layout-6",
+      "passed": true
+    },
+    {
+      "name": "portrait-no-double-rotation-6",
+      "passed": true
+    },
+    {
+      "name": "original-photo-bytes-unchanged",
+      "passed": true
+    }
+  ]
+}

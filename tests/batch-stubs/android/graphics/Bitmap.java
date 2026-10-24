@@ -6,10 +6,15 @@ public final class Bitmap {
     public static volatile boolean failCompress;
     public static volatile Runnable beforeCompress;
     public enum Config { ARGB_8888 }
-    public enum CompressFormat { JPEG }
+    public enum CompressFormat { JPEG, PNG }
+    public static final int DENSITY_NONE = 0;
+    public static final java.util.List<Integer> compressedQualities = new java.util.concurrent.CopyOnWriteArrayList<>();
+    public void setDensity(int density) { }
     private int pixel;
     Bitmap(int pixel) { this.pixel = pixel; }
     public static Bitmap createBitmap(int width,int height,Config config){if(width!=1||height!=1)throw new UnsupportedOperationException("Host facade is one pixel only; actual geometry codecs are native-tested.");return new Bitmap(0);}
+    public static Bitmap createBitmap(int[] pixels,int width,int height,Config config){throw new UnsupportedOperationException("Border pixels require native Android codec tests.");}
+    public static Bitmap createScaledBitmap(Bitmap source,int width,int height,boolean filter){throw new UnsupportedOperationException("Border pixels require native Android codec tests.");}
     public int getWidth() { return 1; }
     public int getHeight() { return 1; }
     public boolean isMutable() { return true; }
@@ -20,6 +25,7 @@ public final class Bitmap {
     public boolean compress(CompressFormat format, int quality, OutputStream output) {
         Runnable callback = beforeCompress; if (callback != null) callback.run();
         if (failCompress) return false;
+        compressedQualities.add(quality);
         try { output.write(new byte[]{(byte)255, (byte)216, (byte)(pixel >>> 24), (byte)(pixel >>> 16), (byte)(pixel >>> 8), (byte)pixel, (byte)255, (byte)217}); return true; }
         catch (IOException failure) { return false; }
     }

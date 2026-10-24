@@ -1,0 +1,4 @@
+INSTRUMENTATION_RESULT: status=FAIL
+INSTRUMENTATION_RESULT: stream=Photo editor native FAIL; native-screenshot-orientation-failure; java.lang.IllegalStateException: local-action-entire-touch-target-visible-above-navigation-central-authorization
+
+INSTRUMENTATION_CODE: 0

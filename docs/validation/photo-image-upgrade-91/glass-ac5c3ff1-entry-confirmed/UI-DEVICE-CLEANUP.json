@@ -1,0 +1,13 @@
+{
+  "serial": "emulator-5586",
+  "candidateSha256": "ac5c3ff1d419cf45f068249b78731878f0f00eb723f2972e8aeb662f6ccd584a",
+  "ownedInstrumentationPackage": "cc.huevia.imageupgradeqa",
+  "ownedInstrumentationUninstalled": true,
+  "nativeFixturesDrafts": "All three current native reports verify exact owned paths absent and original SHA unchanged",
+  "detailPngCleanup": "All three current scopeGuard steps verify private detail PNG directory absent after source closes",
+  "systemSettingsAndGrants": "phone/font1.3/landscape restoration.json PASS; dark is retained prior eaa evidence only",
+  "physicalDevicesTouched": false,
+  "mediaStorePublications": 0,
+  "emulatorHandedBackToRootForShutdown": true,
+  "endedAtUtc": "2026-10-24T06:14:16.6242448Z"
+}

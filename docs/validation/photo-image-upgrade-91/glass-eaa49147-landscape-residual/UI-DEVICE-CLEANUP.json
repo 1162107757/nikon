@@ -1,0 +1,13 @@
+{
+  "serial": "emulator-5586",
+  "candidateSha256": "eaa4914742a7d3a7b8ae0286ded76f999ec718207963923406751a92b7e86c58",
+  "ownedInstrumentationPackage": "cc.huevia.imageupgradeqa",
+  "ownedInstrumentationUninstalled": true,
+  "nativeFixturesDrafts": "All four native reports verify exact owned paths absent and original SHA unchanged",
+  "detailPngCleanup": "All four native scopeGuard steps verify private directory absent after source closes",
+  "systemSettingsAndGrants": "All four restoration.json PASS",
+  "physicalDevicesTouched": false,
+  "mediaStorePublications": 0,
+  "emulatorHandedBackToRootForShutdown": true,
+  "endedAtUtc": "2026-10-24T05:36:18.4273025Z"
+}

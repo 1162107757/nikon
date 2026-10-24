@@ -1,0 +1,13 @@
+{
+  "candidateSha256": "5e9688bafefac7007df5438f58b83d4f0cd9595d27cfa27aed1883fa0ef2d390",
+  "serial": "emulator-5586",
+  "ownedInstrumentationUninstalled": true,
+  "nativeFixturesDrafts": "Report verifies two exact owned JPEG paths and one draft path absent; original SHA unchanged",
+  "appearanceRestored": true,
+  "systemSettingsAndGrants": "restoration.json PASS",
+  "detailPngCleanup": "Detail dialogs dismissed/unbound earlier; this failed run did not reach the explicit final scopeGuard/private-PNG assertion, so no claim of that check passing",
+  "physicalDevicesTouched": false,
+  "mediaStorePublications": 0,
+  "emulatorReleasedToRoot": true,
+  "endedAtUtc": "2026-10-24T06:42:29.4865449Z"
+}

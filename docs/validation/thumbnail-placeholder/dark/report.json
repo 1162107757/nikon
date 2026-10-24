@@ -1,0 +1,206 @@
+{
+  "target": {
+    "package": "cc.huevia",
+    "versionCode": 89,
+    "versionName": "0.18.0-beta",
+    "installedApkSha256": "1f74ece275423198208750b804e7dad8e72c443b881c02eccb85eea9c4cd2ba0"
+  },
+  "scope": "Native LocalAlbumPanel MediaStore query, real thumbnail decoding, gated pending state, failed\/loaded transition, stale-view tag guard, and refresh recovery. Two generated owned rows only; no real user photo edits and no camera certification.",
+  "mode": "dark",
+  "startedAtEpochMillis": 1792807943212,
+  "fixtureSource": {
+    "resource": "cc.huevia:drawable\/preset_template",
+    "resourceBytesSha256": "fbb13fd57ca7d657e807b7c5cf902d24f9167c727bb49498df52c1fd2aaf7906",
+    "decodedWidth": 1448,
+    "decodedHeight": 1086,
+    "jpegQuality": 92,
+    "jpegSha256": "830a4426760fb109825e27e7b37534354e72b56badd9b45a7b367449ac1c9eea",
+    "invalidBytesSha256": "89d6c1cf164deb6d32d8a690742608859446e57dc1c0dae36dd615b6d44d226e"
+  },
+  "loading": {
+    "good": {
+      "tag": "content:\/\/media\/external\/images\/media\/40|427700|1792807943",
+      "drawable": "cc.huevia.ui.PhotoPlaceholder",
+      "scaleType": "CENTER_CROP",
+      "width": 323,
+      "height": 323,
+      "visibleBounds": "[378,670][701,993]",
+      "intrinsicWidth": -1,
+      "intrinsicHeight": -1,
+      "failed": false
+    },
+    "bad": {
+      "tag": "content:\/\/media\/external\/images\/media\/41|58|1792807943",
+      "drawable": "cc.huevia.ui.PhotoPlaceholder",
+      "scaleType": "CENTER_CROP",
+      "width": 322,
+      "height": 322,
+      "visibleBounds": "[40,670][362,992]",
+      "intrinsicWidth": -1,
+      "intrinsicHeight": -1,
+      "failed": false
+    },
+    "pendingWorkerQueueSize": 2
+  },
+  "screenshots": {
+    "01-loading": {
+      "source": "UiAutomation.takeScreenshot; unmodified native screenshot",
+      "width": 1080,
+      "height": 2424,
+      "sha256": "dcdf0685ff01ecc186729d7e1a04b8d75e9b37c904dcd60de0bd7e228ef84bd5",
+      "density": 2.625,
+      "fontScale": 1,
+      "uiMode": 33
+    },
+    "02-resolved": {
+      "source": "UiAutomation.takeScreenshot; unmodified native screenshot",
+      "width": 1080,
+      "height": 2424,
+      "sha256": "dd7edd7cae120167c8227ddbf30c0b0291cc39a43eba35ecdc833a1d398ec458",
+      "density": 2.625,
+      "fontScale": 1,
+      "uiMode": 33
+    },
+    "03-recovered": {
+      "source": "UiAutomation.takeScreenshot; unmodified native screenshot",
+      "width": 1080,
+      "height": 2424,
+      "sha256": "952d2bf832ecdfb91f822b25ae7f858e978833d22488fbb2abefb3a7af674506",
+      "density": 2.625,
+      "fontScale": 1,
+      "uiMode": 33
+    }
+  },
+  "staleTagGuard": {
+    "oldViewTag": "qa-stale-view-2abf749fc31b",
+    "oldDrawableUnchanged": true,
+    "actualDecodedBitmapCached": true
+  },
+  "resolved": {
+    "good": {
+      "tag": "content:\/\/media\/external\/images\/media\/40|427700|1792807943",
+      "drawable": "android.graphics.drawable.BitmapDrawable",
+      "scaleType": "CENTER_CROP",
+      "width": 323,
+      "height": 323,
+      "visibleBounds": "[378,670][701,993]",
+      "intrinsicWidth": 724,
+      "intrinsicHeight": 543,
+      "bitmapWidth": 724,
+      "bitmapHeight": 543
+    },
+    "bad": {
+      "tag": "content:\/\/media\/external\/images\/media\/41|58|1792807943",
+      "drawable": "cc.huevia.ui.PhotoPlaceholder",
+      "scaleType": "CENTER_CROP",
+      "width": 322,
+      "height": 322,
+      "visibleBounds": "[40,670][362,992]",
+      "intrinsicWidth": -1,
+      "intrinsicHeight": -1,
+      "failed": true
+    }
+  },
+  "recovery": {
+    "uri": "content:\/\/media\/external\/images\/media\/41",
+    "oldThumbnailKey": "content:\/\/media\/external\/images\/media\/41|58|1792807943",
+    "newThumbnailKey": "content:\/\/media\/external\/images\/media\/41|427700|1792807947",
+    "replacementJpegSha256": "830a4426760fb109825e27e7b37534354e72b56badd9b45a7b367449ac1c9eea",
+    "tile": {
+      "tag": "content:\/\/media\/external\/images\/media\/41|427700|1792807947",
+      "drawable": "android.graphics.drawable.BitmapDrawable",
+      "scaleType": "CENTER_CROP",
+      "width": 322,
+      "height": 322,
+      "visibleBounds": "[40,670][362,992]",
+      "intrinsicWidth": 724,
+      "intrinsicHeight": 543,
+      "bitmapWidth": 724,
+      "bitmapHeight": 543
+    }
+  },
+  "status": "PASS",
+  "checks": 50,
+  "assertions": [
+    "supported-mode",
+    "evidence-directory-ready",
+    "installed-app-is-exact-candidate-apk",
+    "installed-version-matches-candidate",
+    "dedicated-emulator-media-read-permission-granted",
+    "dedicated-emulator-notification-prompt-isolated",
+    "fixture-source-is-target-preset-template-resource",
+    "fixture-resource-decodes",
+    "fixture-valid-jpeg-encoded",
+    "owned-MediaStore-fixture-created-valid JPEG encoded from target resource",
+    "owned-fixture-provider-bytes-match-valid JPEG encoded from target resource",
+    "owned-MediaStore-fixture-created-declared image\/jpeg with invalid decoder bytes",
+    "owned-fixture-provider-bytes-match-declared image\/jpeg with invalid decoder bytes",
+    "native-main-activity-ready",
+    "native-activity-font-scale-matches-mode",
+    "native-activity-night-configuration-matches-mode",
+    "both-real-thumbnail-workers-gated-before-gallery-query",
+    "actual-MediaStore-query-discovers-both-owned-rows",
+    "both-visible-native-tiles-pending-real-decode",
+    "native-PhotoPlaceholder-loading-good",
+    "native-placeholder-state-loading-good",
+    "placeholder-has-no-intrinsic-scaling-size-loading-good",
+    "native-tile-fully-visible-loading-good",
+    "native-PhotoPlaceholder-loading-bad",
+    "native-placeholder-state-loading-bad",
+    "placeholder-has-no-intrinsic-scaling-size-loading-bad",
+    "native-tile-fully-visible-loading-bad",
+    "raw-native-screenshot-01-loading",
+    "native-png-encoding-01-loading",
+    "real-decoder-caches-good-and-fails-invalid-jpeg",
+    "real-success-callback-preserves-rebound-stale-view",
+    "current-native-tile-rebinds-cached-real-bitmap",
+    "native-real-BitmapDrawable-resolved-good",
+    "real-photo-remains-CENTER_CROP-resolved-good",
+    "native-tile-fully-visible-resolved-good",
+    "native-PhotoPlaceholder-resolved-bad",
+    "native-placeholder-state-resolved-bad",
+    "placeholder-has-no-intrinsic-scaling-size-resolved-bad",
+    "native-tile-fully-visible-resolved-bad",
+    "raw-native-screenshot-02-resolved",
+    "native-png-encoding-02-resolved",
+    "only-owned-bad-row-rewritten-with-valid-jpeg",
+    "native-refresh-requeries-repaired-row",
+    "native-refresh-recovers-failed-tile-through-real-decoder",
+    "native-refresh-clears-recovered-failure-state",
+    "native-real-BitmapDrawable-recovered-bad",
+    "real-photo-remains-CENTER_CROP-recovered-bad",
+    "native-tile-fully-visible-recovered-bad",
+    "raw-native-screenshot-03-recovered",
+    "native-png-encoding-03-recovered"
+  ],
+  "fixtures": [
+    {
+      "uri": "content:\/\/media\/external\/images\/media\/40",
+      "displayName": "QA_THUMB_2abf749fc31b_GOOD.jpg",
+      "kind": "valid JPEG encoded from target resource",
+      "bytes": 427700,
+      "sha256": "830a4426760fb109825e27e7b37534354e72b56badd9b45a7b367449ac1c9eea",
+      "ownedByThisRun": true
+    },
+    {
+      "uri": "content:\/\/media\/external\/images\/media\/41",
+      "displayName": "QA_THUMB_2abf749fc31b_BAD.jpg",
+      "kind": "declared image\/jpeg with invalid decoder bytes",
+      "bytes": 58,
+      "sha256": "89d6c1cf164deb6d32d8a690742608859446e57dc1c0dae36dd615b6d44d226e",
+      "ownedByThisRun": true
+    }
+  ],
+  "cleanup": [
+    {
+      "uri": "content:\/\/media\/external\/images\/media\/40",
+      "rowsDeleted": 1,
+      "verifiedAbsent": true
+    },
+    {
+      "uri": "content:\/\/media\/external\/images\/media\/41",
+      "rowsDeleted": 1,
+      "verifiedAbsent": true
+    }
+  ]
+}

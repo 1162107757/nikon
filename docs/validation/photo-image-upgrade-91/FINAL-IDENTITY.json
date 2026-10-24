@@ -1,0 +1,14 @@
+{
+  "verifiedAtUtc": "2026-10-24T07:03:54.0229977Z",
+  "scope": "Source and built APK identity; UI matrix and finish review retain their own scoped evidence.",
+  "versionCode": 91,
+  "versionName": "0.19.0-beta",
+  "sourceSnapshotMatches": true,
+  "sourceFilesVerified": 206,
+  "apkSha256": "f717151b99bb70d75a8038acb5f8e04f3ea28e121891ddf1fd8bdf73d47ea7a8",
+  "apkBytes": 3893370,
+  "distMatchesTestedCandidate": true,
+  "immutableCandidateMatches": true,
+  "signatureV2Verified": true,
+  "signatureV3Verified": true
+}

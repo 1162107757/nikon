@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "builtAtUtc": "2026-10-24T01:20:05.3452650Z",
+  "probeSource": "tests/thumbnail-placeholder-device-probe/src/cc/huevia/thumbnailqa/ThumbnailPlaceholderProbe.java",
+  "inputs": {
+    "probeJavaSha256": "4bb02c0c8ef8311439fbc1537e6284562e81a7701db7baa7ed01f190530a923f",
+    "manifestSha256": "aa6ec2cc5e6e5e8aeb16a75d059e954efbe5de3ef68e6824274499aff9c57cf4",
+    "buildScriptSha256": "74701b82e3514bcfa05aafc51f243f8de58180c9b7ec9d7020b4c69cd4758a16",
+    "runScriptSha256": "c452af794fba520424e038978edff1c8f69b81327505696991e4abfa505dbe60"
+  },
+  "probeApkSha256": "697108f5fb0beb76d4ba9a4eb43a5ad5de70e0e013ec578600fae870d2df729a"
+}

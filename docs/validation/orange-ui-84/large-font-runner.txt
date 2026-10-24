@@ -1,0 +1,7 @@
+All files should be loaded. Notifying the device.
+INSTRUMENTATION_RESULT: status=PASS
+INSTRUMENTATION_RESULT: stream=Photo editor native PASS; checks=364
+
+INSTRUMENTATION_CODE: -1
+/sdcard/Android/data/cc.huevia/files/orange-ui-84/local-album/large-font/./: 25 files pulled, 0 skipped. 14.4 MB/s (15884394 bytes in 1.055s)
+Evidence: D:\dev\ai-project\nikon\docs\validation\orange-ui-84\local-album\large-font

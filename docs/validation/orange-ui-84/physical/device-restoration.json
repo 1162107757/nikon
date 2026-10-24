@@ -1,0 +1,34 @@
+{
+  "checkedAtUtc": "2026-10-23T16:11:13.684749+00:00",
+  "device": "OnePlus Ace 5 / PKG110",
+  "version": [
+    "versionCode=84 minSdk=26 targetSdk=35",
+    "versionName=0.17.0-beta"
+  ],
+  "expectedApkSha256": "b4a5b10fa5dffcd0850508eb0a7dc4a88cffa47ca5a2b2ed3894dfd2efcbdd03",
+  "installedApkSha256": "b4a5b10fa5dffcd0850508eb0a7dc4a88cffa47ca5a2b2ed3894dfd2efcbdd03",
+  "samePackageBytes": true,
+  "installMethod": "adb install --no-incremental -r; no data clear",
+  "processAlive": true,
+  "androidRuntimeLog": "",
+  "priorSettings": {
+    "stayOn": "0",
+    "screenOffTimeout": "1800000"
+  },
+  "priorRotation": {
+    "accelerometer_rotation": "0",
+    "user_rotation": "0"
+  },
+  "restoredSettings": {
+    "stayOn": "0",
+    "screenOffTimeout": "1800000",
+    "accelerometerRotation": "0",
+    "userRotation": "0",
+    "fontScale": "1.0"
+  },
+  "appAppearanceRestored": "system; actual UI row 外观，跟随系统 verified before returning to root",
+  "syncSourceRestored": "相机照片",
+  "resolutionAndDensity": "user overrides preserved; no wm reset on physical phone",
+  "seededTestDataInstalled": false,
+  "physicalCameraTested": false
+}

@@ -1,0 +1,4 @@
+INSTRUMENTATION_RESULT: status=FAIL
+INSTRUMENTATION_RESULT: stream=Photo image upgrade native FAIL histogram-editor-overlay: java.lang.AssertionError: selected-rgb-line-is-painted-in-framebuffer-rgb-selected
+
+INSTRUMENTATION_CODE: 0

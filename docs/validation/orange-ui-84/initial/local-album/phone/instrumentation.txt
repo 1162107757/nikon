@@ -1,0 +1,4 @@
+INSTRUMENTATION_RESULT: status=FAIL
+INSTRUMENTATION_RESULT: stream=Photo editor native FAIL; native-screenshot-orientation-failure; java.lang.IllegalStateException: current-photo-editor-ready-timeout
+
+INSTRUMENTATION_CODE: 0

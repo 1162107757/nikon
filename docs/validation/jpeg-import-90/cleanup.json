@@ -1,0 +1,21 @@
+{
+  "recordedAt": "2026-10-24T10:57:57.9491086+08:00",
+  "serial": "emulator-5582",
+  "avd": "Pixel_9",
+  "taskProcessId": 35776,
+  "verifiedReadOnly": true,
+  "priorImmersive": "",
+  "restoredImmersive": "confirmed",
+  "finalOwnedMediaRowsCreated": 11,
+  "finalOwnedMediaRowsRemoved": 11,
+  "initialFailedProbeRowsCreated": 6,
+  "initialFailedProbeRowsRemoved": 6,
+  "action": "adb emu kill",
+  "result": "OK: killing emulator, bye bye\r\n\r\nOK",
+  "physicalDeviceOperated": false,
+  "publicReleasePerformed": false,
+  "restorationSucceeded": false,
+  "restorationNote": "Prior immersive setting read as empty; attempting to put an empty value returned Bad arguments. Confirmed remained before shutdown; task-owned read-only no-snapshot emulator overlay was then discarded.",
+  "initialBaselineRowsCreated": 2,
+  "initialBaselineRowsRemoved": 2
+}

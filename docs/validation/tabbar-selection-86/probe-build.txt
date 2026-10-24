@@ -1,0 +1,11 @@
+Picked up JAVA_TOOL_OPTIONS: -Xmx512m
+ע: D:\dev\ai-project\nikon\tests\orange-ui-device-probe\src\cc\huevia\orangeqa\OrangeNativeProbe.javaʹ�û򸲸����ѹ�ʱ�� API��
+ע: �й���ϸ��Ϣ, ��ʹ�� -Xlint:deprecation ���±��롣
+ע: D:\dev\ai-project\nikon\tests\orange-ui-device-probe\src\cc\huevia\orangeqa\OrangeNativeProbe.javaʹ����δ�����򲻰�ȫ�Ĳ�����
+ע: �й���ϸ��Ϣ, ��ʹ�� -Xlint:unchecked ���±��롣
+Picked up JAVA_TOOL_OPTIONS: -Xmx512m
+Picked up JAVA_TOOL_OPTIONS: -Xmx512m
+Picked up JAVA_TOOL_OPTIONS: -Xmx512m
+Picked up JAVA_TOOL_OPTIONS: -Xmx512m
+Photo editor instrumentation: D:\dev\ai-project\nikon\.tooling\orange-ui-86\editor-probe.apk
+Probe provenance: D:\dev\ai-project\nikon\.tooling\orange-ui-86\provenance.json

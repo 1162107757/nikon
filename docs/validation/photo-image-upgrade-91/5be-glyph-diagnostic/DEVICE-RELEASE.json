@@ -1,0 +1,12 @@
+{
+  "candidateApkSha256": "5be8f1212605cd1d49399c0b15c11ef9b80dcf9dd7dcf5fd7ce610d360922f0f",
+  "serial": "emulator-5586",
+  "scope": "One phone glyph diagnostic only; no other device or new MediaStore publication",
+  "nativeStatus": "FAIL at expected real histogram luminance glyph clip assertion",
+  "appearanceRestored": true,
+  "allOwnedSourceAndDraftFixturesRemoved": true,
+  "settingsAndGrantsRestored": "PASS",
+  "ownProbeUninstalled": "Success",
+  "deviceReleasedToRoot": true,
+  "endedAtUtc": "2026-10-24T05:25:01.6758939Z"
+}

@@ -1,0 +1,4 @@
+INSTRUMENTATION_RESULT: status=PASS
+INSTRUMENTATION_RESULT: stream=Photo image upgrade native PASS; checks=172
+
+INSTRUMENTATION_CODE: -1

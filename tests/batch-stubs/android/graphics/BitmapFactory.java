@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 /** Explicit host acquisition facade: records the actual render input path and maps four payload bytes to one pixel. */
 public final class BitmapFactory {
+    public static Bitmap decodeStream(java.io.InputStream input){throw new UnsupportedOperationException("Border assets require native Android decoding.");}
     public static final List<String> decodedPaths = new CopyOnWriteArrayList<>();
     public static volatile boolean failDecode;
     public static final class Options {

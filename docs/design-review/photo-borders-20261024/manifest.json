@@ -1,0 +1,48 @@
+{
+  "createdOn": "2026-10-24",
+  "purpose": "照片边框已批准设计与原生实现对照",
+  "generator": "built-in image_gen.imagegen",
+  "status": "approved_for_implementation",
+  "currentBoard": "border-templates-v3.png",
+  "modelSheet": "camera-model-sheet-v1.png",
+  "revision": "按用户要求进一步缩小三款模板机型选择栏左侧的相机图标，保留已有小字号和整行点击范围。",
+  "implementationNote": "机型选择栏建议约 11sp 正文字号；此值是设计目标，生成图不是原生像素测量证据。",
+  "assets": [
+    {
+      "file": "border-templates-v1.png",
+      "promptSidecar": "border-templates-v1.json",
+      "references": [
+        "existing editor screenshot",
+        "user supplied three border reference photographs"
+      ],
+      "approved": false
+    },
+    {
+      "file": "border-templates-v2.png",
+      "promptSidecar": "border-templates-v2.json",
+      "references": [
+        "border-templates-v1.png",
+        "user supplied camera selector crop"
+      ],
+      "approved": false
+    },
+    {
+      "file": "camera-model-sheet-v1.png",
+      "promptSidecar": "camera-model-sheet-v1.json",
+      "references": [
+        "existing editor screenshot",
+        "border-templates-v1.png",
+        "user supplied centered border photograph"
+      ],
+      "approved": false
+    },
+    {
+      "file": "border-templates-v3.png",
+      "promptSidecar": "border-templates-v3.json",
+      "references": [
+        "border-templates-v2.png"
+      ],
+      "approved": true
+    }
+  ]
+}

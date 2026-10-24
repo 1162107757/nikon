@@ -1,0 +1,5 @@
+PASS: 889 production album controller checks
+PASS: 33 camera capability controller checks
+PASS: 22 gateway connection controller checks
+PASS: 356 photo-live project store checks
+PASS: 100 photo-live project folder checks

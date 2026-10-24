@@ -34,7 +34,6 @@ public final class GlassBar extends FrameLayout {
     private final UiPalette colors;
     private final ImageView snapshotView;
     private final View tintView;
-    private final float radius;
     private final boolean lowRam;
     private final PowerManager powerManager;
     private View backdrop;
@@ -53,7 +52,6 @@ public final class GlassBar extends FrameLayout {
     public GlassBar(Context context) {
         super(context);
         colors = new UiPalette(context);
-        radius = dp(34);
         ActivityManager activity = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         lowRam = activity != null && activity.isLowRamDevice();
         powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
@@ -61,13 +59,13 @@ public final class GlassBar extends FrameLayout {
         setClipToOutline(true);
         setOutlineProvider(new ViewOutlineProvider() {
             @Override public void getOutline(View view, Outline outline) {
-                outline.setRoundRect(0, 0, view.getWidth(), view.getHeight(), radius);
+                outline.setRoundRect(0, 0, view.getWidth(), view.getHeight(), view.getHeight() / 2f);
             }
         });
         setElevation(dp(8));
         if (Build.VERSION.SDK_INT >= 28) {
-            setOutlineAmbientShadowColor(colors.dark ? 0x40000000 : 0x260D2038);
-            setOutlineSpotShadowColor(colors.dark ? 0x60000000 : 0x300D2038);
+            setOutlineAmbientShadowColor(colors.dark ? 0x40000000 : 0x26302B23);
+            setOutlineSpotShadowColor(colors.dark ? 0x60000000 : 0x30302B23);
         }
         snapshotView = new ImageView(context);
         snapshotView.setScaleType(ImageView.ScaleType.FIT_XY);
@@ -218,7 +216,8 @@ public final class GlassBar extends FrameLayout {
             bounds.inset(hairline / 2, hairline / 2);
             ink.setStyle(Paint.Style.STROKE);
             ink.setStrokeWidth(hairline);
-            ink.setColor(colors.dark ? 0x35FFFFFF : 0x180D2038);
+            ink.setColor(colors.dark ? 0x35FFFFFF : 0x18302B23);
+            float radius = bounds.height() / 2f;
             canvas.drawRoundRect(bounds, radius, radius, ink);
             // The short top arc catches light without a glossy gradient over content.
             ink.setColor(colors.rim);

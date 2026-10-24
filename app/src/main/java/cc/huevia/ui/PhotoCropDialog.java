@@ -14,7 +14,7 @@ import java.util.function.Consumer;
 
 /** A tentative, full-canvas crop workspace. Back/cancel never mutates the photo's draft. */
 public final class PhotoCropDialog extends Dialog {
-    private static final int TEXT=0xfff4f5f7,BLUE=0xff8dbbff;
+    private static final int TEXT=0xfff4f5f7,BLUE=0xfff3b493;
     private final Activity activity;private final Bitmap source;private final Consumer<PhotoGeometry> commit;
     private PhotoGeometry geometry;private CropCanvas crop;private TextView summary,angleValue;private SeekBar slider;
     private double ratio=-1;private boolean updating;private String ratioName="自由";
@@ -69,5 +69,5 @@ public final class PhotoCropDialog extends Dialog {
     private int dp(int n){return Math.round(n*activity.getResources().getDisplayMetrics().density);}
     private LinearLayout column(){LinearLayout v=new LinearLayout(activity);v.setOrientation(LinearLayout.VERTICAL);return v;}private LinearLayout row(){LinearLayout v=new LinearLayout(activity);v.setGravity(Gravity.CENTER_VERTICAL);return v;}
     private TextView text(String s,int size){TextView v=new TextView(getContext());v.setText(s);v.setTextSize(size);v.setTextColor(TEXT);return v;}
-    private Button button(String label,Runnable action){Button b=new Button(getContext());b.setText(label);b.setTextSize(13);b.setTextColor(TEXT);b.setAllCaps(false);b.setMinWidth(0);b.setMinimumWidth(0);b.setPadding(dp(6),0,dp(6),0);b.setBackground(new android.graphics.drawable.RippleDrawable(ColorStateList.valueOf(0x338dbbff),null,null));b.setOnClickListener(v->action.run());return b;}
+    private Button button(String label,Runnable action){Button b=new Button(getContext());b.setText(label);b.setTextSize(13);b.setTextColor(TEXT);b.setAllCaps(false);b.setMinWidth(0);b.setMinimumWidth(0);b.setPadding(dp(6),0,dp(6),0);b.setBackground(new android.graphics.drawable.RippleDrawable(ColorStateList.valueOf(0x33f3b493),null,null));b.setOnClickListener(v->action.run());return b;}
 }

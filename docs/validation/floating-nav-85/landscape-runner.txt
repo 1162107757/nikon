@@ -1,0 +1,7 @@
+All files should be loaded. Notifying the device.
+INSTRUMENTATION_RESULT: status=PASS
+INSTRUMENTATION_RESULT: stream=Photo editor native PASS; checks=365
+
+INSTRUMENTATION_CODE: -1
+/sdcard/Android/data/cc.huevia/files/orange-ui-85/local-album/landscape/./: 25 files pulled, 0 skipped. 10.8 MB/s (7815594 bytes in 0.692s)
+Evidence: D:\dev\ai-project\nikon\docs\validation\orange-ui-85\local-album\landscape

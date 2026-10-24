@@ -1,0 +1,47 @@
+{
+  "apkSha256": "1f74ece275423198208750b804e7dad8e72c443b881c02eccb85eea9c4cd2ba0",
+  "prior": {
+    "fontScale": "1.0",
+    "night": "Night mode: no",
+    "size": "Physical size: 1080x2424",
+    "density": "Physical density: 420"
+  },
+  "reports": [
+    {
+      "status": "PASS",
+      "checks": 50,
+      "apkSha256": "1f74ece275423198208750b804e7dad8e72c443b881c02eccb85eea9c4cd2ba0",
+      "mode": "phone"
+    },
+    {
+      "status": "PASS",
+      "checks": 50,
+      "apkSha256": "1f74ece275423198208750b804e7dad8e72c443b881c02eccb85eea9c4cd2ba0",
+      "mode": "large-font"
+    },
+    {
+      "status": "PASS",
+      "checks": 50,
+      "apkSha256": "1f74ece275423198208750b804e7dad8e72c443b881c02eccb85eea9c4cd2ba0",
+      "mode": "dark"
+    },
+    {
+      "status": "PASS",
+      "checks": 50,
+      "apkSha256": "1f74ece275423198208750b804e7dad8e72c443b881c02eccb85eea9c4cd2ba0",
+      "mode": "landscape"
+    },
+    {
+      "status": "PASS",
+      "checks": 50,
+      "apkSha256": "1f74ece275423198208750b804e7dad8e72c443b881c02eccb85eea9c4cd2ba0",
+      "mode": "tablet"
+    }
+  ],
+  "restored": {
+    "size": "Physical size: 1080x2424",
+    "fontScale": "1.0",
+    "night": "Night mode: no",
+    "density": "Physical density: 420"
+  }
+}

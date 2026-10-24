@@ -1,50 +1,60 @@
 ---
 name: Huevia
-description: 云白与石墨色的原生安卓预设库、相册及相机设置
+description: 橙光、暖白与炭黑的原生 Android 摄影工作流
 colors:
-  surface: "#F7F8FA"
-  container: "#EEF0F4"
+  surface: "#FAFAF8"
+  container: "#EFEDE9"
   card: "#FFFFFF"
-  text: "#20242B"
-  secondary-text: "#626B78"
-  primary: "#0065DC"
+  text: "#262320"
+  secondary-text: "#706A63"
+  primary: "#B3432D"
   on-primary: "#FFFFFF"
-  primary-container: "#E9F1FF"
-  outline: "#D9DEE6"
-  success: "#258449"
-  error: "#BA302A"
-  dark-surface: "#22252A"
-  dark-container: "#30353D"
-  dark-card: "#2A2E34"
-  dark-text: "#F4F5F7"
-  dark-secondary-text: "#ADB6C3"
-  dark-primary: "#8DBBFF"
-  dark-on-primary: "#07244A"
-  dark-primary-container: "#263D5A"
-  dark-outline: "#474E58"
-  dark-success: "#7ED9A1"
-  dark-error: "#FFB4AB"
+  primary-container: "#F4D6C0"
+  on-primary-container: "#85311F"
+  outline: "#E4DFD8"
+  success: "#42735B"
+  error: "#AD3B30"
+  action: "#46413B"
+  action-end: "#27241F"
+  on-action: "#FFFFFF"
+  navigation-glass: "rgba(250, 250, 248, 0.9607843137)"
+  dark-surface: "#201F1D"
+  dark-container: "#33302C"
+  dark-card: "#292724"
+  dark-text: "#F6F1EB"
+  dark-secondary-text: "#BAB1A7"
+  dark-primary: "#F3B493"
+  dark-on-primary: "#352016"
+  dark-primary-container: "#51382D"
+  dark-on-primary-container: "#F3B493"
+  dark-outline: "#4C4640"
+  dark-success: "#9AC8AE"
+  dark-error: "#FFB4A7"
+  dark-action: "#F0E8DF"
+  dark-action-end: "#DAD0C5"
+  dark-on-action: "#26211C"
+  dark-navigation-glass: "rgba(41, 39, 36, 0.9411764706)"
+  photo-accent: "#F3B493"
+  photo-track: "#635247"
+  photo-control-scrim: "rgba(38, 35, 32, 0.7215686275)"
   editor-canvas: "#141415"
   editor-tools: "#0B0B0B"
   editor-divider: "#292929"
+  editor-text: "#F4F5F7"
 typography:
   page-title:
-    fontFamily: "sans-serif"
-    fontSize: "32sp"
-    fontWeight: 700
-    letterSpacing: "-0.03em"
-  secondary-page-title:
-    fontFamily: "sans-serif"
-    fontSize: "20sp"
-    fontWeight: 700
-    letterSpacing: "-0.015em"
-  detail-title:
-    fontFamily: "sans-serif"
-    fontSize: "24sp"
-    fontWeight: 700
+    fontFamily: "sans-serif-medium"
+    fontSize: "26sp"
+    fontWeight: 500
+    letterSpacing: "-0.02em"
+  back-page-title:
+    fontFamily: "sans-serif-medium"
+    fontSize: "18sp"
+    fontWeight: 500
+    letterSpacing: "-0.02em"
   preset-name:
     fontFamily: "sans-serif"
-    fontSize: "18sp"
+    fontSize: "15sp"
     fontWeight: 700
   body:
     fontFamily: "sans-serif"
@@ -56,199 +66,264 @@ typography:
     fontWeight: 400
   navigation-label:
     fontFamily: "sans-serif"
-    fontSize: "10sp"
+    fontSize: "11sp"
     fontWeight: 400
 rounded:
-  photo: "14dp"
   field: "14dp"
-  tone-curve: "16dp"
+  photo: "14dp"
+  navigation-selection: "16dp"
   source-pill: "19dp"
+  preset-card: "20dp"
   group: "22dp"
-  guide-card: "24dp"
-  camera-card: "26dp"
+  photo-control: "24dp"
+  source-track: "25dp"
   button: "26dp"
-  navigation: "34dp"
+  fab: "28dp"
 spacing:
   gap: "8dp"
-  content: "22dp"
-  album-content: "24dp"
+  grid-horizontal: "12dp"
+  grid-vertical: "14dp"
+  page: "20dp"
   touch-target: "48dp"
-  button-height: "52dp"
 components:
   primary-button:
-    backgroundColor: "{colors.primary}"
-    textColor: "{colors.on-primary}"
+    backgroundColor: "{colors.action}"
+    textColor: "{colors.on-action}"
     rounded: "{rounded.button}"
     padding: "10dp 16dp"
-    height: "52dp"
+    height: "48dp"
   secondary-button:
-    backgroundColor: "{colors.card}"
-    textColor: "{colors.primary}"
-    rounded: "{rounded.button}"
-    padding: "10dp 16dp"
-  settings-group:
-    backgroundColor: "{colors.card}"
-    textColor: "{colors.text}"
-    rounded: "{rounded.group}"
-  camera-card:
-    backgroundColor: "{colors.card}"
-    textColor: "{colors.text}"
-    rounded: "{rounded.camera-card}"
-  photo-tile:
     backgroundColor: "{colors.container}"
-    rounded: "{rounded.photo}"
+    textColor: "{colors.text}"
+    rounded: "{rounded.button}"
+    height: "48dp"
   input-field:
     backgroundColor: "{colors.container}"
     textColor: "{colors.text}"
     rounded: "{rounded.field}"
+    padding: "12dp 14dp"
+  category-selected:
+    backgroundColor: "{colors.primary-container}"
+    textColor: "{colors.on-primary-container}"
+    rounded: "{rounded.photo-control}"
+    padding: "9dp 14dp"
+    height: "48dp"
   source-pill:
     backgroundColor: "{colors.card}"
     textColor: "{colors.text}"
     rounded: "{rounded.source-pill}"
-    height: "34dp"
-  navigation:
-    backgroundColor: "{colors.card}"
-    rounded: "{rounded.navigation}"
-    height: "68dp"
-  hold-to-compare:
-    backgroundColor: "rgba(26, 29, 35, 0.8431372549)"
-    textColor: "{colors.on-primary}"
-    rounded: "24dp"
-    padding: "0dp 16dp"
-    height: "48dp"
-  local-picker-fab:
-    backgroundColor: "{colors.primary}"
-    textColor: "{colors.on-primary}"
-    rounded: "28dp"
-    padding: "16dp"
-    height: "56dp"
-    width: "56dp"
-  editor-dock:
-    backgroundColor: "{colors.editor-tools}"
-    textColor: "{colors.dark-text}"
-    rounded: "0dp"
-    padding: "0dp 10dp"
-    height: "224dp"
-  tone-curve:
+    height: "40dp"
+  settings-group:
     backgroundColor: "{colors.card}"
     textColor: "{colors.text}"
-    rounded: "{rounded.tone-curve}"
-    height: "188dp"
+    rounded: "{rounded.group}"
+  preset-card:
+    backgroundColor: "{colors.card}"
+    textColor: "{colors.text}"
+    rounded: "{rounded.preset-card}"
+  navigation:
+    backgroundColor: "{colors.navigation-glass}"
+    textColor: "{colors.text}"
+    height: "68dp"
+  photo-control:
+    backgroundColor: "{colors.photo-control-scrim}"
+    textColor: "{colors.on-action}"
+    rounded: "{rounded.photo-control}"
+    height: "48dp"
+    width: "48dp"
+  editor-dock:
+    backgroundColor: "{colors.editor-tools}"
+    textColor: "{colors.editor-text}"
+    padding: "0dp 10dp"
+    height: "224dp"
 ---
 
-# Design System: 相机预设
-
-## 0.11.4 个人云端与预设管理
-
-“我的预设”的分栏下方用一行次要文字显示云端／仅本机状态与入口，保留图库为主体，不增加常驻大卡片。首次选择文件说明本机与云端差别，已有数据上传需用户明确选择，未上传数量与“已同步”并列说明。设备状态采用“绿点 · 相机名称 · 已连接”，过长名称单行截断。刷新用连续圆弧和相接箭头，避免视觉断裂。预览失败占位保留说明，不阻挡整张卡片的详情与删除手势。浅深色证据见 [61 验证](docs/validation/personal-presets-61/README.md)。
-
-## 0.11.3 发布入口与未读提示
-
-预设主页右下角 54dp 实心蓝色悬浮加号，距底部导航保留间隙；“我的”操作说明为导入本地预设，“在线”为发布预设，游客点击发布进入登录。标题区只保留连接状态。底栏设置图标右上显示 8dp 未读圆点；设置内消息行使用 22dp 最小宽度数字胶囊，超过 99 显示 99+，浅色白字／红底，深色深字／浅红底。成功同步已读才隐藏，不以重建整页制造刷新闪动。浅深色原生证据见 [60 验证](docs/validation/preset-entry-60/README.md)。
+# Design System: Huevia
 
 ## Overview
 
-**Creative North Star: "云白与石墨"**
+**Creative North Star: "橙光进入照片"**
 
-0.4.0-beta 已实现用户批准的 Apple 风格方案：云白背景、白色分组、石墨文字、蓝色操作和悬浮毛玻璃导航。视觉参考为 [已确认的设置页](docs/design-review/apple-glass/preview-settings-light.jpg)；用户在三目的地设置架构确认后说“开始实现”。这里记录实际原生 Android Java / Views 的实现，代码来源是 `UiPalette`、`MainActivity`、`AlbumPanel`、`GlassBar` 和 `AppIcon`。
+Huevia 的原生 Android Java / Views 采用用户批准的橙光世界：暖白层次、橙杏光晕、炭黑胶囊与系统无衬线字。光晕为发现预设建立气氛，照片仍是内容；编辑时让位于完整比例画布、黑色工具区与杏色控制。
 
-界面以安静的内容层次和原生文字为基础。照片承担内容展示，连接操作集中在设置，预设库与相册只显示简短连接状态。深色使用独立石墨配色；按钮、系统返回、对话框和文件选择仍遵循 Android 行为。
+本文件记录 0.17.4-beta（88）的实际实现；本次按用户参考图将手机悬浮底栏四边统一为 5dp 内缩，让首尾选中项与外栏弧线同心、等距，保留 87 的 68dp 基础高度、86 的整项选中态、85 的悬浮位置与内容留位，以及 84 的暖色设计与四个根入口，全面取代原生界面此前的云白／蓝色声明。当前代码权威为 [UiPalette](app/src/main/java/cc/huevia/ui/UiPalette.java) 与 [HueTheme](app/src/main/java/cc/huevia/ui/HueTheme.java)，布局取自 [MainActivity](app/src/main/java/cc/huevia/MainActivity.java)、[LocalAlbumPanel](app/src/main/java/cc/huevia/ui/LocalAlbumPanel.java)、[AlbumPanel](app/src/main/java/cc/huevia/ui/AlbumPanel.java)、[PhotoFilterEditor](app/src/main/java/cc/huevia/ui/PhotoFilterEditor.java) 及其原生面板。批准的 [详细交互稿](docs/design-review/insurance-inspired-20261023/detailed/index.html) 与 [84 需求](docs/design-review/orange-ui-84/REQUIREMENTS.md) 解释意图，发生差异时以本版实际颜色、布局与截图为准。
 
-0.5.0-beta（versionCode 17）沿用这一世界，扩展持久化外观选择、独立无线预设检测、模板模拟主图和轻量页面过渡。已下载主图（含在线卡片）明确标注手机近似，未下载在线项保留发布者样片，配套实拍独立展示。扩展继续由原生代码和既有语义角色主导。
-
-0.5.1-beta（versionCode 18）仅扩展详情主图的原图对比：右下角安静的深色胶囊在按住时显示模板原图，松开恢复模拟效果；裁切与图像位置固定，角标明确当前状态。它延续既有摄影内容层次，不改变视觉世界与导航。
-
-0.5.2-beta（versionCode 19）沿用同一世界，在已下载详情的照片下方加入紧凑的只读色调曲线卡；蓝色实际曲线与次要色虚线参考共享明确的输入、输出与图例。照片上的对比按钮缩短为“原图”，保持原有命中区域和交互说明。
-
-83 / `0.16.0-beta` 在相同世界内将根目的地扩为“预设／同步／相册／设置”：同步保留相机流程，相册承载授权手机照片与正式 App 内照片；清晰选图、权限恢复和明确保存位置服务照片主体，不改变既有编辑器材料。
+浅色与深色是完整配对的语义系统，设置中的跟随系统／浅色／深色保持持久化。保留现有 Huevia 标识、代码绘制图标族和有来源的照片模板；本轮新增生产栅格为零。下方 Web 管理后台和旧社区／版本 Web 记录保留独立作用域，不能反向覆盖当前原生规则。
 
 **Key Characteristics:**
 
-- 云白背景、石墨文字和白色分组。
-- 蓝色操作、小胶囊来源切换与悬浮导航。
-- 原生字号、安全区、返回和触摸反馈。
-- 持久外观选择、轻量页面过渡与有标签的模板近似。
+- 暖白页面、白色分组与暖石墨深色。
+- 橙杏光区只承担预设发现页的光感，照片与真实状态保持清楚。
+- 炭黑渐变主动作、杏色选择态与可读的深陶土选中文字。
+- 四个根入口、紧凑高度重排、宽屏侧栏和原生 48dp 操作目标。
+- 系统 sans-serif 与 sp 字号；编辑工具保留黑底、杏色强调和完整比例照片。
 
-0.5.2 的独立复核审阅四张最终 `phone-apple-v052-*.png` 和相关源码，首轮唯一材料问题为参考线与图例对比度；两处虚线 alpha 均改为 200 后，浅色约 3.44:1、深色约 4.74:1，复核评分 resolved，结论为 **SHIP，仅限已审阅的手机 UI**。最终 APK 在 Pixel 9 / Android 17 模拟器通过 8 项功能断言，覆盖 tone / identity 实际采样、切换后缓存、短按钮 DOWN / UP、深色 1.3 倍字号及恢复设置。0.5.2 尚未安装到真机，也未重跑完整核心或 probe 套件；不扩展至 TalkBack、平板、物理手势、性能或相机效果。见 [0.5.2 完成复核](docs/design-review/apple-glass/finish-review-0.5.2.md)。
+**84 历史验证（不覆盖 85–88 的悬浮导航、选中态与几何变更）：** 最终视觉证据为 [.impeccable/review/orange-ui-84/](.impeccable/review/orange-ui-84/) 的 phone、large-font、landscape、dark、tablet 原生截图，含 presets、settings、live、editor-adjustments、import-slots 和 crop；[实体手机证据](docs/validation/orange-ui-84/physical/) 来自 OnePlus Ace 5 的现有用户数据。最终包 SHA-256 为 `b4a5b10fa5dffcd0850508eb0a7dc4a88cffa47ca5a2b2ed3894dfd2efcbdd03`（3,532,397 字节）。[矩阵](docs/validation/orange-ui-84/matrix.json) 为 PASS、sourcesStable 为 true：手机／1.3 字号／深色／平板各 364，横屏 365，共 1,821 次重复断言执行，非独立场景数量。最终 [修正复核](docs/validation/orange-ui-84/FIX-VERDICT.md) 将 M1–M6 评分为 resolved、remaining clear、disposition ship，范围限六项修正与直接回归；完整首轮见 [FINISH-REVIEW](docs/validation/orange-ui-84/FINISH-REVIEW.md)。实体证据限保数据覆盖安装与只读界面对照，没有相机写入、导出或账号修改；不构成生产网络、真实相机、FPS 或 TalkBack 认证。
 
-0.5.1 的独立复核审阅四张 `phone-apple-v051-*.png` 与 `MainActivity`、`HoldToCompare` 源码，返回 **SHIP，仅限已审阅的手机 UI**，无材料级修复。Pixel 9 / Android 17 模拟器的 15 项功能断言覆盖按下、松开、图像变化与完全恢复、移出后移回、取消、暂停恢复、键盘切换和深色 1.3 倍字号。OnePlus / Android 16 主用户 0 已保数据覆盖安装并读取版本 18，未完成真机对比手势验证。辅助功能路径仅审阅源码；未认证 TalkBack、平板、物理手势、性能或相机效果。本次 UI 补丁未重跑完整套件。详见 [0.5.1 完成复核](docs/design-review/apple-glass/finish-review-0.5.1.md)；以下证据保留各自版本范围。
+早期原生规则仅为历史。旧 Apple 方案及照片编辑演变可查 [旧版完成复核](docs/design-review/apple-glass/finish-review-0.5.2.md)、[80](docs/design-review/photo-basic-adjustments-20261022/REQUIREMENTS.md)、[81](docs/design-review/photo-composition-recipes-20261023/REQUIREMENTS.md)、[82](docs/design-review/photo-filter-navigation-20261023/REQUIREMENTS.md) 和 [83](docs/design-review/local-album-20261023/REQUIREMENTS.md)，不重新累计为 84 的验收。
 
-0.5.0 的独立完成复核审阅全部 11 张 `phone-apple-v05-*.png` 和相关源码，未发现材料级缺陷，结论为 **SHIP，仅限已审阅的手机 UI**。证据覆盖 OnePlus / Android 16 预设首页，以及 Pixel 9 / Android 17 模拟器的浅深色、设置、模板选择与原图、合成 NCP 详情、自选模板持久化和无线只读检测。最终 APK 已保数据覆盖安装到真机主用户 0，原有 AgfaOptima 保留，安装哈希与交付一致。0.5.0 核心检查 8,212 项（含模板 1,108 项）及 probe 检查 3,487 项通过。动画仅检查源码，未认证时序或流畅度；该版真实相机登记、相机效果、平板、放大字号、TalkBack 和性能未验证。详见 [0.5.0 完成复核](docs/design-review/apple-glass/finish-review-0.5.0.md)。
-
-0.4.0 最终 APK 的 17 张手机模拟器截图与相关源码经独立复核，结论为 **SHIP，仅限已审阅的手机 UI**。合成相册服务覆盖分页、轻量预览、显式原图下载及断开后状态；它不证明真实相机兼容性。未完成真实相机/USB、TalkBack、平板、物理双指手势或毛玻璃性能认证。范围与版本见 [0.4.0 验证](dist/nikon-usb-0.4.0-beta-VALIDATION.txt)。旧红白方案和旧版检查保留在 [README 历史记录](README.md)及[原生界面记录](.impeccable/surfaces/om-nikonpreset-usbprobe-mainactivity-java-8eede70e.md)，不作为本版证据。
-
-0.4.0 已在 PKG110 / Android 16 主用户 0 保数据覆盖安装，安装包哈希与交付一致；冷启动成功，三个根页均已点开，进程过滤的 AndroidRuntime 错误日志为空。三张 `phone-apple-device-{home,album,settings}.png` 是 1080 × 2376 的真实手机截图，沿用手机现有深色设置，未改字号或主题。独立复核补看三张真机根页截图后未发现新增材料缺陷，原限定 SHIP 保持。手机未连接相机、未加入合成照片；结论不扩大至相机或其他未测场景。
+**89 局部实际落地（2026-10-24）：** [照片边框](docs/design-review/photo-borders-20261024/IMPLEMENTATION.md)沿用以上橙光全局世界与原生黑色编辑区；标题、根导航和全局布局未重设计。三款边框与小机型栏以用户批准的 [v3 稿](docs/design-review/photo-borders-20261024/border-templates-v3.png)及其[批准记录](docs/design-review/photo-borders-20261024/border-templates-v3.json)为方向，实际 Android Views／Canvas 产物为当前局部规则。协调加入的[相册缩略图占位](docs/design-review/thumbnail-placeholder-20261024/IMPLEMENTATION.md)只定义加载／不可用／真实照片状态，不改变边框及全局世界。最终 89 / 0.18.0-beta 本地 APK 的 SHA-256 为 `1f74ece275423198208750b804e7dad8e72c443b881c02eccb85eea9c4cd2ba0`；[边框最终 SHIP](docs/validation/photo-borders-89/FIX-VERDICT.md)只关闭初审两个 P2 及横屏可达性补证，[占位 PASS](docs/validation/thumbnail-placeholder/FINISH-REVIEW.md)保持独立组件范围。边框 282 次重复／配置断言与 76 个产物、占位 150 次重复／配置检查与 9 张 PNG 分别记录，不合并为独立场景；本轮未实体安装或公开发布，没有 HTML／CSS 检测适用面。
 
 ## Colors
 
-`UiPalette` 是色彩角色的唯一代码来源。云白页面用白卡片建立分组，正文为石墨色，次要文字保留可辨识度；蓝色用于主操作、选中目的地和明确入口。深色将页面、卡片和容器分别调整为石墨层次，使用浅蓝操作色。
+配色从暖白与石墨中展开，用深陶土指示普通界面操作、杏色表达选择和照片工具强调。上方 frontmatter 为精确原语；Android ARGB 的透明颜色在其中转换为 CSS rgba，避免把 alpha 当成红色。 `.impeccable/design.json` 的色阶为面板按 OKLCH 生成的展示扩展，不是新增的 Android 调色板；HTML 标本将 dp／sp 以 CSS px 近似显示，原生源代码仍为组件行为权威。
 
-设置中的“外观”提供跟随系统、浅色与深色，由 `AppAppearance` 持久保存。手动选择同时更新原生主题和语义颜色；不覆盖系统 `uiMode`，不重建 Activity，保留正在使用的会话。跟随系统时继续响应设备主题变化。
+### Primary
 
-绿色状态点必须与“已连接”等文字一起出现。USB 只有完成只读槽位读取、自有会话正常关闭，并仍检测到该设备及访问授权后才显示已连接；Wi-Fi 使用相册连接实际验证后的状态。Wi-Fi 网关建议、选择连接方式或插入 USB 本身均不产生成功状态。相册状态只表示无线相册连接，不能由 USB 状态代替。
+- **深陶土**（primary）：普通界面的链接、输入／状态强调与槽位选中描边；不再使用系统蓝作为全局操作色。
+- **杏色选择底与深陶土选中文字**（primary-container / on-primary-container）：分类胶囊、槽位等小字选中态。深色分别采用暖棕底与浅杏字。
+- **照片杏光**（photo-accent / photo-track）：黑色照片工具的滑杆、选中参数、导出和直播进度；轨道保持暖棕。
+
+### Neutral
+
+- **暖白页面、白色内容、暖灰容器**（surface / card / container）：建立页面、分组和字段层次；深色对应暖石墨页面、抬高的深棕灰容器与卡片。
+- **炭黑渐变动作**（action → action-end / on-action）：HueTheme 主操作与悬浮加号。深色反转为暖米色渐变与深色文字。社区、更新、RAW 和回执的部分原生面板使用同一 action 角色的实色变体。
+- **暖墨正文、暖灰辅助字与细分隔**（text / secondary-text / outline）：稳定的信息层次，深色使用对应浅暖色。
+- **轻透导航底**（navigation-glass）：手机 GlassBar 使用暖白／暖石墨染色与条件式背景模糊；不满足材料条件时采用不透明 card。宽屏侧栏沿用轻透实色。
+- **照片画布与黑色工具**（editor-canvas / editor-tools / editor-divider / editor-text）：与 App 浅深外观独立，持续服务照片编辑。
+
+成功与错误沿用各自语义角色并配文字。连接状态只来自实际已验证会话；“未连接”“正在读取”“待核对”不能由装饰圆点替代。
+
+**The Native Authority Rule.** 新增原生页面从 UiPalette 和 HueTheme 取值；历史蓝色记录及浏览器原型不再定义本版原生全局样式。
+
+**The Selected Text Rule.** 杏色选择底必须配 onPrimaryContainer，不能直接把 primary 当作小字颜色。 最终独立计算中，浅色选中配对为 6.1986:1、深色为 6.0206:1；这两个结果限相应实色配对。
 
 ## Typography
 
-使用 Android 系统 `sans-serif`，常规与粗体；相册部分标签使用 `sans-serif-medium`。文字采用 sp，尺寸与命中区域采用 dp，不打包 SF 字体。
+**Display / Body Font:** Android 系统 `sans-serif`；标题和部分标签使用 `sans-serif-medium`，不打包 SF 字体。文字使用 sp，布局与命中区域使用 dp；frontmatter 中的单位是原生单位。
 
-- 根标题为 32sp 粗体，字距 -0.03em；带返回的二级标题为 20sp，字距 -0.015em。
-- 详情与结果标题为 24sp，预设名称为 18sp；当前相机名称为 19sp。
-- 正文通常为 14–16sp，主按钮为 15sp，来源标签为 13sp，辅助说明为 11–13sp。
-- 底部导航标签为 10sp，选中态加粗；图标与文字共同表达目的地。
+### Hierarchy
+
+- **根标题**：26sp、系统 medium，字距 -0.02em；带返回页与紧凑根标题为 18sp，同样单行并在必要时省略。
+- **照片／预设信息**：正常卡片名称为 15sp 粗体，紧凑高度为 13sp 单行；格式与分类为 11sp，设置相机型号为 19sp。
+- **正文与操作**：正文通常 14–16sp，主要按钮 14–15sp，来源与分类 13sp，辅助说明 11–13sp。
+- **根导航**：11sp，当前目的地加粗；图标和文字共同表达目的地。
+- **编辑器**：参数与模式 13–14sp，辅助状态 11–12sp；精确值仍能显式输入，不用缩字代替可读性。
+
+**89 边框局部字形：** 机型选择栏使用系统 11sp 名称与 9sp 自动／手动状态，14dp 相机图形置于完整 48dp 行内；缩小的是图形与文字，操作行不随之缩小。侧栏成品参数使用 Tomorrow ExtraBold Italic（SIL OFL 1.1），仅为参考字体的接近匹配；原参考字体未识别。成品字形按照片比例绘制，设置界面仍使用原生 sp。Nikon 使用有来源的官方字标和黄色方标，富士／索尼／佳能仅用中性品牌文字，不声称官方 Logo。
+
+**The Reachable Action Rule.** 自有主要操作保留至少 48dp 命中区域，紧凑高度通过合并信息、滚动与重排节省空间。 内建系统对话框保持 Android 自身排布；48dp 是本版自有主要操作的设计基线，不宣称所有系统生成子控件都完成逐项测量。
 
 ## Layout
 
-当前 83 根目的地为“预设 / 同步 / 相册 / 设置”；原相册在“同步”保留相机、照片直播与已下载，新“相册”承载手机及正式 App 内照片。早期三目的地记录保持历史范围。预设详情、导入确认与结果、Wi-Fi 连接页和照片查看使用返回层级；这些二级页面隐藏全局底栏。照片传输时也隐藏根底栏，且禁止切换连接或启动预设导入。系统栏、刘海与输入法安全区由原生 WindowInsets 处理；宽度达到 600dp 时内容最大为 720dp，这一实现不代表平板已经验收。
+根目的地固定为“预设／同步／相册／设置”。“同步”承载相机、照片直播与已下载；“相册”默认 App 内，并列手机来源。详情、导入确认／结果、账号、社区、更新与沉浸照片按实际返回层级显示，编辑时隐藏根导航。系统栏、刘海与输入法安全区由 WindowInsets 处理；对话框关闭及窗口恢复焦点后重新应用系统图标明暗。
 
-预设库左右主要留白为 18–22dp；设置为 22dp，相册为 24dp。来源切换总宽 216dp、命中高度 48dp、可见选中胶囊高 34dp。相册在字体比例大于 1.2 时将切换总宽扩为 248dp。设置将当前相机独立成卡，下方为连续的“相机连接”“预设导入”和“应用”分组。
+- **手机与宽屏**：宽度小于 600dp 使用居中的 GlassBar 悬浮底栏，宽 `min(360, screenWidthDp − 48)` dp，基础高 68dp，按 `68 + round(max(0, fontScale − 1.2) × 24)` dp 增长；底部距 WindowInsets 安全区内缘 14dp。宽度不小于 600dp 保持 80dp 左侧栏，剩余工作区居中且最大宽 720dp。侧栏每项 72dp，选中图标底为 54 × 30dp 的杏色胶囊。
+- **内容节奏**：预设标题／来源和设置左右留白通常 20dp，预设网格左右 18dp，列距 12dp、行距 14dp；设置组按 24dp 标题上留白、9dp 标题下留白分隔。设置行最小高 66dp，左图标为 32dp 暖灰底。
+- **预设发现**：正常高度保留标题、简短引导、48dp 来源控制、连接卡、分类、真实计数和双列卡片。有效工作区达到 600dp 时三列；非紧凑且字体比例不小于 1.8 时回退单列。正常卡片图高为卡宽的 1.10 倍；卡片不是旧版固定 4:5 封面规则。
+- **紧凑高度**：screenHeightDp 小于 480 时，光区由 218dp 收至 168dp，根标题／连接状态合并；隐藏引导与独立连接卡，来源与个人状态同排，收紧分类与计数间隔。列数取 `max(3, effectiveWidthDp / 170)`，图片高 80dp；最终横屏证据显示四张完整卡片及可达加号，不强制所有紧凑设备恰好四列。
+- **相册与加号留位**：日期分组、方形缩略图、文件名和真实版本信息保持可见；紧凑横屏把来源与摘要合并并按可用区域重算列数。LocalAlbum 在 `screenWidthDp < 600` 时导航预留为 `104 + round(max(0, fontScale − 1.2) × 24)` dp，宽度不小于 600dp 时保持 `92 + round(max(0, fontScale − 1.2) × 20)` dp；列表另留 8dp、相册加号另留 12dp，授权空态可滚动。预设加号仅在紧凑高度且 `screenWidthDp >= 600` 时距底部 16dp，其余为 `104 + round(max(0, fontScale − 1.2) × 24)` dp。预设列表仅在紧凑高度且 `screenWidthDp >= 600` 时保留 76dp 底部内边距，其余为 `108 + round(max(0, fontScale − 1.2) × 24)` dp，使小于 600dp 的紧凑窗口仍为浮栏留位。
+- **照片编辑**：完整比例照片填入可用画布，保留缩放与平移。竖屏工具区高 224dp；横屏使用右侧 300dp 工具区，构图也在横屏采用 300dp 可滚动侧控件。工具换页不跳动画布；滤镜／调节／构图／配方共用稳定入口。
 
-底部导航居中悬浮，最大宽 360dp，距内容安全区底部 14dp；基础高 68dp，字体比例大于 1.2 后按源码公式增加高度。内容预留约 108–112dp 底部空间以避开导航。主要图标命中区域为 48 × 48dp，主要按钮最小高 52dp；设置行最小高 66dp。
-
-预设列表主图比例为 1.68:1，详情为 1.25:1。已下载预设（含在线卡片）的主图标明“模板模拟”，未下载在线预设使用发布者样片；配套实拍参考与模拟图分开显示。不支持的模拟、加载失败及缺少样片均有真实状态，失败可点按查看原因并重试，不用随机滤镜填充。相册采用自适应网格，触底按每批 24 项自动加载；沉浸查看使用黑底、完整按比例居中照片与避开安全区的叠加操作栏。
+- **89 边框局部布局**：原黑色 176dp 内容区＋48dp 工具导航及分隔线保持不变；五个入口依次为“滤镜／调节／构图／边框／配方”。边框内“样式／信息／外观”使用同一内容区，样式展示当前照片的四个真实缩略图和紧凑机型行；横屏沿用侧工具区，机型选择的应用操作通过实际滚动到达。
 
 ## Elevation & Depth
 
-正文通过云白、白卡片、浅灰容器、细分隔和留白建立层次。主要按钮清除默认 elevation、translationZ 与 StateListAnimator；选中的预设来源标签使用 1dp 轻微抬升。
+层次主要来自暖白／卡片／容器的色调差、留白与细分隔。HueTheme 卡片在浅色为 2dp elevation，环境／聚光阴影分别为 Android ARGB `#12302B23` / `#18302B23`；深色为 0dp。来源选中胶囊仅 1dp，悬浮加号 4dp；普通主按钮清除默认 elevation 与 StateListAnimator。
 
-`GlassBar` 为独立悬浮导航提供 8dp elevation、细边缘和顶部高光。API 31 及以上在硬件加速、动画开启、非低内存及非省电条件下，从独立的后方内容层以 1/6 尺寸采样，通过 `RenderEffect` 加 18dp 模糊；采样最多每秒 10 次，由内容帧驱动。导航文字与图标保持清晰，不参与模糊。浅色覆盖层采用 Android ARGB `#ECFFFFFF`，深色为 `#E6282C32`。
+预设首页光区由 HueTheme 的缓存线性／径向 shader 叠加并渐隐至页面色，不使用栅格背景、模糊捕获或持续动画。手机悬浮底栏恢复 GlassBar：8dp elevation，浅色环境／聚光阴影为 Android ARGB `#26302B23` / `#30302B23`，深色为 `#40000000` / `#60000000`；0.5dp 细边为暖棕灰 `#18302B23`，深色 `#35FFFFFF`。API 31+ 且非低内存、硬件加速、动画开启、非省电状态时，对独立内容层以 1/6 尺寸采样并施加 18dp 模糊，上限每 100ms 一次；只由来源绘制帧驱动，无常驻定时器。条件不满足、采样失败或无背景时退回不透明 card，卸载释放采样。宽屏侧栏保留轻透实色与右侧分隔。黑色照片工具保持平面；收藏、更多与图标对比使用 photo-control-scrim，最差白底合成后的白色图标对比为 6.2610:1。
 
-旧系统、低内存、省电、动画关闭、采样失败或无合适背景时使用实色卡片后备。不得通过降低文字可读性来增强玻璃效果；当前检查不构成实际设备上的模糊性能认证。
+页面切换使用 PageTransitions 的可打断入场：普通 220ms、20dp、初始 alpha 0.82；照片 180ms、最多 8dp、初始 alpha 0.65；曲线为 cubic-bezier(0.22, 1, 0.36, 1)。系统动画关闭、视图卸载或取消时恢复完全可见。这里记录源码行为，不声称物理帧率或流畅度已认证。
+
+**The Photograph Rule.** 照片内容保持真实来源与状态；光晕、模拟角标和工具不能冒充真实相机效果或遮掉关键内容。
 
 ## Shapes
 
-圆角按容器角色区分：照片与输入框 14dp，预设来源胶囊 19dp，设置分组 22dp，无线准备卡与地址卡 24dp，当前相机卡和主要按钮 26dp，底部导航 34dp。相册选中来源的视觉胶囊为 17dp 圆角。局部紧凑描边操作保留 24dp 圆角、最小 80dp 宽及 48dp 高。
+圆角由角色确定：字段与本地照片 14dp，宽屏侧栏选中图标底 16dp，预设来源选中胶囊 19dp，预设卡片 20dp，设置与相机分组 22dp，照片控制及部分紧凑操作 24dp，来源轨道 25dp，主按钮 26dp，悬浮加号 28dp。手机悬浮根导航的外轮廓与 Rim 使用实际栏高的一半作圆角，整项选中底使用实际单元高度的一半；它们随字号引起的高度变化计算，不再使用固定 34dp／28dp 半径。宽屏保持全高侧栏。
 
-`AppIcon` 是统一的代码绘制图标族：24dp 画布，1.8 单位圆头与圆角线条。不要用 emoji 或与这一线条风格无关的图标替代结构图标。高级诊断保持独立 `DiagnosticTheme`，不作为消费界面的视觉模板。
+AppIcon 沿用代码绘制的 24dp 画布、1.8 单位圆头／圆角线条；结构图标不换成 emoji。头像与状态点保持圆形。照片控件的衬底跟随命中区域，收藏与更多之间保留 8dp 间隔。诊断界面沿用独立 DiagnosticTheme，不作为消费界面的模板。
 
 ## Components
 
-- **按钮与字段：** 蓝底主按钮配白字，次操作使用白卡片配蓝字；原生 RippleDrawable 提供按下反馈，保留焦点和系统按钮语义。Wi-Fi 地址与端口使用 16sp 系统输入，读取期间禁用普通输入，取消保持可用。
-- **导航与来源：** 底部三个目的地使用图标、文字和浅蓝选中背景；来源切换使用小胶囊、文字和选中语义，外层保持 48dp 命中高度。
-- **设置：** 当前相机卡展示真实型号、连接状态、通道及断开入口。连接分组提供 Wi-Fi 与 USB；预设导入分组提供默认通道与独立无线只读检测；应用分组提供外观、预览模板、在线预设库、帮助与关于。检测完成不等于持续连接或完成登记。在线目录没有默认服务地址。
-- **连接与导入：** 先在设置连接，再从本地预设进入导入。导入复用设置选择的通道，先断开相册会话，再重新读取能力和空槽；兼容摘要、参数调整、明确目标确认、单次写入和精确读回检查保持原有后端约束。待核对结果沿 journal 的原通道恢复，并回到预设结果路径。
-- **预设卡与详情：** 本地预设主图使用有标签的手机近似模拟，配套实拍保留独立入口。内置 AI 模板可查看、更换及恢复，来源见 [素材记录](docs/assets/preset-template-provenance.md)。只支持已验证的 638 字节 NCP 0100 子集，模型和限制见 [模板模拟说明](docs/preset-template-preview.md)。下载到手机、模板模拟与导入相机分别表达。
-- **详情原图对比：** `HoldToCompare` 在已下载预设详情主图右下角提供 48dp 高、24dp 圆角的“原图”胶囊（0.5.2 缩短可见文字，辅助说明仍为“按住看原图，松开恢复预设效果”），距右侧与底部各 12dp；13sp `sans-serif-medium` 白字、深色半透明底和细白边保持照片上的可读性，键盘焦点加粗白边。两幅图复用同一 `CENTER_CROP` 视图；按下立即显示未应用预设的模板，松开恢复效果，角标同步显示“模板原图 / 模板模拟”。原图和效果均就绪后启用，准备中与失败分别显示文字状态。移出按钮、取消、额外触点、失焦、暂停、隐藏和视图卸载均恢复；移回不能重新进入原图。键盘或辅助功能点击使用独立的两次点击切换并提供状态描述。原图在后台预取到共享图像 LRU，模板版本和页面 epoch 拦截旧结果；按下无图片 I/O 或过渡动画。该局部操作取代详情外部原图入口，设置中的原图查看保留。
-- **详情色调曲线：** `ToneCurveView` 在已下载详情照片与名称区域下方使用卡片色、16dp 圆角的只读容器；基础高 188dp，按 `188 + max(0, fontScale − 1) × 86` dp 随字号增长，上下间隔为 10dp / 16dp。标题为 13sp 系统 medium，坐标标签 9sp，图例 10sp；横轴“输入”、纵轴“输出”标明 0–255。2dp 蓝色实线逐点连接同一 `NcpPreviewProfile.mapTone()` 的 257 个实际采样，不平滑；1dp 次要色虚线及图例样线以 alpha 200 绘制线性参考。读取与失败显示文字，失败可点按重试，不用占位曲线冒充解析结果。辅助描述包含采样数及三个代表值；这不等于 TalkBack 实测。
-- **本地相册（83）：** “App 内／手机”两来源，单一 56dp 蓝色悬浮“＋”选图，辅助标签“选择照片”；48dp 更多入口提供刷新、选择与相关权限操作。未授权中心显示可点击“点击获取授权”和简短引导。云白／石墨、系统 sp 和既有 Canvas 图标保留；紧凑横屏收紧标题与来源信息行，按实际可用区域计算照片列数，预留导航及加号空间。
-- **同步（原相册）：** 相机照片与已下载分开。每次只请求一页；失败暂停并提供显式重试。连接变化先停用旧网格，再清除数据，避免断开时旧滚动位置访问新列表。已下载原图可离线查看。
-- **照片查看：** 先显示已有缩略图，再通过标准 `GetThumb` 读取相机轻量预览；单图最多 4 MiB，缓存最多 2 项 / 8 MiB。显示实际像素尺寸，失败不自动读取原图。“下载原图”只有显式操作才使用 `GetObject`，完成后显示本地原图并保留同一照片的缩放与中心。只含预览的离线照片不能下载原图。
+### Buttons
 
-### 页面过渡
+主操作沉稳、可辨：HueTheme 使用垂直 action 渐变、on-action 文字、26dp 胶囊与原生 RippleDrawable；次操作用 container / text。禁用使用 container / secondary-text，任务中不得靠换色制造可继续的错觉。普通自有操作至少 48dp，账号部分主要表单为 52dp。悬浮加号在预设页为 54dp、相册为 56dp，使用相同动作材料；每页只有一个对应主添加入口。
 
-`PageTransitions` 仅对目的地变化的内容层做轻量入场，底栏保持稳定：一般页面 220ms、最多 20dp 水平位移，照片查看 180ms 淡入；曲线为 `(.22, 1, .36, 1)`。同一页的数据刷新不重复动画，快速切页和视图卸载会取消旧动画并恢复可见状态。系统关闭动画时直接呈现最终画面，保留原生按下 Ripple。
+### Chips & source controls
 
-上述为源码规则；本轮静态截图与复核不认证动画时序、流畅度或设备性能。
+分类以 48dp 目标承载、左右 14dp 内边距，未选为 container / text，选中为 primary-container / on-primary-container 并设置 selected。预设来源外层高 48dp，可见选中胶囊高 40dp、白卡片／深色卡片底；相册 App 内／手机沿用相同卡片选中语言。来源、分类和数量来自实际列表。
+
+### Cards & settings
+
+预设卡片用 20dp 圆角、真实预览、名称、NCP／NP3 格式和分类建立层次；失败保留真实原因与重试，不用随机滤镜补图。设置相机卡与分组为 22dp，行内图标用暖灰小底、文字与尾部箭头／实际值；分隔从文字列开始。RAW 列表、回执、账号、投稿、评论、消息和更新复用语义色、系统字与原生弹窗，保留各自真实状态和业务边界。
+
+### Inputs & dialogs
+
+暖灰容器、14dp 圆角、通常 15–16sp 正文与明确标签。已有表单继续使用 Android 输入法、文件选择、权限和系统对话框；错误显示文字并保留可修正输入。私密字段、提交中禁用、取消与返回保留既有行为。恢复页面时系统栏图标跟随当前明暗表面。
+
+### Navigation
+
+手机悬浮底栏／宽屏侧栏都保留四个有文字的目的地；悬浮材料和尺寸遵循上方布局与深度规则。手机底栏的水平 navigation 填满悬浮容器，四边内边距统一 5dp；四个单元等宽、填满内侧可用高度，单元左右外边距均为 0。单元内的图标与名称保持居中，上下内边距各 4dp、最小高度 58dp，图标槽为 54 × 26dp，11sp 名称上方间距为 2dp。选中项用完整杏色底包住图标和名称，布局后按实际单元高度的一半设置圆角；图标槽没有单独底色。首尾选中项与外栏在左右、上下均内缩 5dp，内外弧线同心。宽屏竖向侧栏保持左右 8dp／上下 6dp 内边距，单元高 72dp、最小高 58dp、左右各 1dp 外边距；仍只为 54 × 30dp 图标槽显示 16dp 圆角杏色底，名称上方间距为 3dp。两者选中图标均为正文色、标签加粗，未选图标和标签为辅助色。设置未读圆点为 8dp，内容说明包含未读数；数字消息胶囊与真实服务端已读状态一致。
+
+### Import slots
+
+原生三列槽位网格展示 C1–C9 或设备实际支持数量；单元最小高 84dp、13sp 最多三行，显示真实占用名称／空槽位，选中为杏底深陶土字和操作色描边。兼容摘要、参数调整、明确目标及覆盖确认仍是独立可读步骤；NP3 的不可写入状态不因新外观改变。
+
+### Photography tools
+
+预览主图分别标注模板模拟、发布者样片与真正照片；来源见 [模板素材记录](docs/assets/preset-template-provenance.md)。详情的只读色调曲线继续读取真实采样，使用当前 primary 与有标签参考线。编辑工具为黑底、浅文字、杏色滑杆与选中参数；13 项调节、精确值、撤销／重做、构图与配方保持真实状态。
+
+HoldToCompare 的文字或图标目标为 48dp，照片上图标态使用共享深色衬底；文字态保留自己的深色半透明胶囊与白色细边。按住显示真正原图，松开、移出、取消、失焦或隐藏恢复效果；键盘／辅助点击为两次点击切换。更改对比状态保持照片变换，不在按下时执行图片 IO。当前功能与代码语义不等于 TalkBack 实测。
+
+### Photo borders · 89
+
+照片保留完整内容，边框在色彩处理和定向构图后向外追加画布；预览、模板缩略图与完整 JPEG 共用按照片比例排版。模糊居中以照片模糊底、圆角原片、下方软影及居中品牌／机型／参数组组成；模糊侧栏以左侧品牌与 F／ISO／S 参数配右侧完整照片；白底信息条保留品牌／机型、黄色 Nikon 方标、分隔、参数与原拍摄时间的层次。照片输出中的模糊和阴影属于边框，不推广为 App 表面材料。
+
+机型默认读取原图 EXIF，手动模式提供尼康／富士／索尼／佳能、机型搜索与自定义；信息页可补填或隐藏机型、焦距、光圈、快门、ISO、拍摄时间，缺失信息自动隐藏。外观提供边距、圆角、阴影、背景模糊与 Logo 选择。手动值只改变边框展示；保留原图字节与现有保存位置／新副本规则。PED4 兼容旧草稿的默认无边框，撤销、重做、草稿、冻结身份和逐张批量均承载独立边框设置。
+
+**The Border Space Rule.** 品牌按真实绘制字形测量并约束在明确槽位内；品牌／机型组合留出间隔，白底品牌不越过分隔或参数，长文字在各自分配范围内缩放。保持 Nikon 官方标志的原始比例，不用中性文字的宽度估算代替真实绘制尺寸。字段、自定义机型及 Logo 子弹窗随当前编辑绑定关闭，旧 owner／绑定代次／原图身份的回调不能写入新草稿。
+
+### Detail, histogram & export · 91
+
+本轮按[已批准技术需求](docs/design-review/photo-detail-export-histogram-20261024/REQUIREMENTS.md)延伸黑色编辑器与杏色控件，保留“滤镜／调节／构图／边框／配方”、系统字体、既有工具区和全局导航。用户随后否定大黑底面板与连体大选择、要求照片更大与小玻璃浮层，对应旧图视觉由[GLASS-BRIEF](docs/design-review/photo-detail-export-histogram-20261024/GLASS-BRIEF.md)覆盖。最终f717151b…实现、三配置原生回归与本轮有界独立修正确认已完成；不以旧功能PASS或独立ship代替用户最终视觉批准。
+
+主编辑入口按用户最新反馈由“细节100%”改为“查看细节”：深色实际照片玻璃承载18dp放大镜和12sp文字，内容宽约91dp，视觉高32dp／触达48dp，贴实际照片左下并有点击反馈，进入真实细节页。图标与文字在浅照片上仍须可读，不以白图标落白底形成看似留白的入口。
+
+细节使用满安全区独立画布，不以大footer占高。实际照片左下锚定约232×55dp缩放palette，仅“适应／100%／200%”三按钮，选中视觉32dp、触达48dp。按用户后续要求，尺寸／倍率拆成照片右上11sp单行小玻璃tag，避开header及顶部216dp比较胶囊；比较保留“当前效果／调色前”，详细说明进入info，定位小窗右下避让palette。100%仍是内容像素与屏幕物理像素1:1，200%不增加真实细节，同构图对比不含外加边框。顶部操作按真实systemBars／displayCutout避让，深底使用白色系统图标，不重复叠加insets。不可恢复历史版本明确“已保存版本／查看完整文件像素”，保留烘焙内容并禁用调色前，不因精简控件而省略限制。
+
+直方图从照片工具开关，通常280×104dp玻璃浮层跟随照片变换；上方有足够留白优先放留白，紧凑横屏可沿照片下缘并避两角操作，保持主体与曲线完整。1.3字号按需约316dp／上限328dp并受可用宽度约束，百分比完整。亮度／RGB以轻下划线表达，暗部／高光为相隔6dp的独立28dp视觉chip、触达48dp。模式线为Ripple背景中的实体LayerDrawable／GradientDrawable层14×2dp、bottomInset12dp（y34–36），非选中透明；清theme tint。旧onDraw已移除，5e…移动线／关闭outline clip仍FAIL，裁切仅未证实假说。背景后清零padding／居中、header关闭baseline对齐，以实际glyph和framebuffer核对。横屏不重复扣剩余高度64dp，info有独立槽位。更新／不可用／零值分别表达，警示仅供诊断。`PhotoGlassDrawable`采样真实照片局部，最长192px后box blur、约65%深tint／35%图色加细rim，不写入照片、1:1数据、统计或导出。
+
+导出页将照片摘要、完整／分享／自定义、实际含框尺寸／JPEG 质量、保存位置／方式、体积说明与主操作放在同一流程；内容可滚动，主要操作固定。紧凑横屏只固定主按钮，低强调的JPEG／NEF原始文件动作随正文滚动，保留参数阅读空间。完整默认质量95，分享长边≤2048／质量90且不放大，自定义640–8192／质量70–100。自定义初值为 min(4096,完整长边)／90，单张不超过完整尺寸，批量按每张完整尺寸限制。质量100不称无损，无可靠预估时写“导出后显示实际大小”。
+
+**The Export State Rule.** “尚未生成”“App 内已有”“手机相册仍存在”“明确缺失”“上次未完成”“暂无法核对”由真实成品与回执核对决定；默认操作随状态变为导出、查看、重新保存或核对继续，未知不等于缺失。非法输入清除核对中文字，禁用主动作说明修正输入。“另存新副本”必须明确选择。主编码成品标明保留拍摄信息、不含定位；独立的“保存 JPEG 原始文件”另行确认忽略编辑与规格且可能保留定位。进度按真实逐项状态显示，进度条仅表达已完成／总数，取消项目不填成成功；进度页使用不透明系统栏。关闭面板与明确停止分开，接受后快照不随继续调图或重绑而变化。
+
+历史矩阵、5be字形失败及[5e模式线失败](docs/validation/photo-image-upgrade-91/glass-5e9688ba-mode-line-fail/)保留原身份，不跨轮累加。最终f717…[当前矩阵](docs/validation/photo-image-upgrade-91/UI-MATRIX.json)phone172／font1.3 172／landscape174，共518次重复／配置断言；每配置三阶段模式线均活动172/216、非活动0，阈值未改、字形无交叠／裁切；1:1对照各1849点最大差0。[最终独立确认](docs/validation/photo-image-upgrade-91/FINISH-REVIEW.md)已将G1–G3及尺寸tag／紧凑入口判resolved、clear、限定ship，只限这些修正及直接回归，非用户最终视觉批准或全App认证。206输入与包／签名身份、夹具／设置／权限恢复及自有模拟器关闭完成。dark eaa143／backend b5 169／progress 0d35 23仍为明确旧SHA，不称最终包全测，详见[实施记录](docs/validation/photo-image-upgrade-91/IMPLEMENTATION.md)。未扩为实体手机、MediaStore发布、相机、tablet、性能或TalkBack认证。
+
+### Live & local album
+
+照片直播保持项目行、主图、真实传输／保存状态、接收记录和缩略图顺序；照片动作与进度采用 photo-accent，track 使用 photo-track，选中操作条横向滚动并留出计数空间。相册使用单一 56dp 加号和 48dp 更多入口，未授权时居中显示“点击获取授权”与简短引导；授权、导入和保存反馈不以静态空卡代替。
+
+### Album thumbnail placeholders · 89
+
+`LocalAlbumPanel`／`PhotoPlaceholder` 保留原方格、14dp 圆角、日期、文件名和选择层。占位从现有 container 向 card 混合 22%，使用 AppIcon 小照片符号，通常 24–28dp、紧凑格最小 18dp；灰线从辅助字色向占位底混合 25%。等待时为静态三点，中央杏色、两侧灰色；无逐格动画、常驻计时器或额外图片解码。失败显示 10sp“暂无预览”，不足以容纳时保留图形与状态描述；沿用更多菜单的刷新入口。
+
+**The Thumbnail State Rule.** 占位图在容器 bounds 内绘制且不声明 intrinsic 尺寸，仅内部符号使用固定 dp，避免 CENTER_CROP 放大导航图形。真实 Bitmap 就绪后仍用 CENTER_CROP 并替换占位，恢复文件／版本描述。加载、不可用、成功和刷新恢复必须反映真实状态，不伪造照片；原 12MiB 缓存、两个 worker、24 个排队位置、失败去重和过期绑定校验保留。
 
 ## Do's and Don'ts
 
-- **Do** 从 `UiPalette` 和原生组件提取当前规则，保持浅色与深色的完整角色对应。
-- **Do** 为连接、加载、错误、结果待核对提供文字，状态点只是辅助。
-- **Do** 让普通用户先理解预设、连接和目标槽位；协议调查留在辅助诊断中。
-- **Do** 保留系统返回、字号缩放、安全区、48dp 命中区域及真实缺图状态。
-- **Don't** 将旧红白 tokens、浏览器原型或旧截图作为 0.4.0 的实现来源。
-- **Don't** 将概念照片、合成测试照片或用户私有配方作为可分发预设或实拍证据；内置 AI 模板仅用于明确标注的近似模拟，并保留来源。
-- **Don't** 将下载、登记读回一致、原生载入等效和实际拍摄效果混称为同一种成功。
-- **Don't** 将模拟器 UI 的 SHIP 结论扩大为真实相机、TalkBack、平板、物理手势或性能认证。
+### Do:
+
+- **Do** 从 UiPalette / HueTheme 和本版原生截图提取规则，维护浅深色完整对应。
+- **Do** 在分类、槽位选择等杏色小字区域使用 onPrimaryContainer，并同时保留选中语义。
+- **Do** 为连接、权限、下载、保存、加载和失败提供真实文字状态；圆点与颜色只作辅助。
+- **Do** 保留 sp 字号缩放、系统返回、WindowInsets 安全区、48dp 主要操作与完整比例照片。
+- **Do** 保留现有标识与模板溯源；模板模拟、发布者样片和用户照片分别标识。
+
+- **Do** 将边框品牌／机型／参数约束在各自槽位，原图内容、字节和自动／手动来源保持清楚。
+- **Do** 以固定小占位符号表达真实加载或不可用状态，就绪后显示真实 CENTER_CROP 照片。
+
+### Don't:
+
+- **Don't** 把旧原生蓝色或原型示例数据当作当前实现；恢复悬浮导航时仍使用现有暖色 tokens 与真实四个入口。
+- **Don't** 用橙色铺满所有表面；编辑画布与工具保持黑色材料，局部操作使用杏色。
+- **Don't** 用无底白图标直接覆盖任意照片；收藏、更多和图标对比使用共享照片控件衬底。
+- **Don't** 将模拟、下载、导入读回、实际拍摄与已发布／已安装混称同一种成功。
+- **Don't** 把重复断言次数或限定 UI 复核写成真实相机、生产网络、FPS、颜色标定或 TalkBack 认证。
+
+- **Don't** 将参考字体近似匹配或其他品牌的中性文字称为相同字体／官方 Logo，也不把边框材料推广为全局材料。
+- **Don't** 用会被 CENTER_CROP 放大的导航图形或设计稿切片代替原生占位，也不将不同专项的重复断言相加为独立场景。
+
+**以下既有作用域原文保留：** Web 管理后台继续独立；末尾 0.10.1 节的 Android 描述与证据仅属于 55 历史版本，其云白／系统蓝和三个根目的地不适用于当前原生系统。混合记录中的 Web 社区、版本与下载指导保留原范围。
 
 ## Web 管理后台（2026-10-18）
 
@@ -305,37 +380,9 @@ Web 使用下列有效语义角色。浅色成功绿已为状态文字单独加�
 
 独立完成复核结论为 **SHIP，仅限已审阅的 Web UI**。本地桌面与窄屏合成截图、对比度修复及测试边界见 [管理后台完成复核](docs/design-review/admin-management-2026-10-18.md)。本节不表示新版线上部署、真实 QQ 登录、Android 新登录或真实手机已验收。
 
-## Android 0.9.7 预设卡片与分类
-
-预设首页沿用原生云白、石墨及蓝色角色，手机竖屏改为 GridView 双列卡片。封面比例约 4:5，卡片圆角 16dp，水平间距 12dp、垂直间距 14dp，名称 15sp 两行，分类 11sp，下载以 44dp 图标触区呈现。来源切换下方使用横向分类筛选，当前分类采用 primary / primaryContainer；只列出实际已有分类，旧数据显示未分类。详情提供本地归类及新建入口。每个来源和分类保留原生滚动状态，主图、模板示意、模板模拟与导入语义不变。
-
-宽度不小于 600dp 时源码定义三列，较大字体定义单列回退，本轮运行验收只覆盖手机竖屏浅色及 1.3 倍字号深色。限定复核与证据见 docs/design-review/preset-feed-0.9.7.md，不能将源码自适应能力等同于平板、横屏或性能认证。
-
-## 0.9.14-beta · 指定相机 Wi-Fi 连接
-
-保留原生云白／石墨、系统蓝和 D 画布。Wi-Fi 连接前使用原生模态表单确认相机网络名称、掩码密码及明确的开放网络选项；输入框保持 52dp 高和既有容器色。无效输入在表单内说明，不关闭对话框；取消保留原页面。密码禁止 view-state 和自动填充保存，说明只用于本次请求。系统连接等待有独立可取消状态，实际 Network 可用后自动继续原来的相机读取和直播／导入续接。
-
-最终 53 版 SHA `257a028ca814be1625e74e2217a184d9e33c1554f8749dfff37672da6592cd5c` 在隔离模拟器的凭据表单浅深色各 39 项、原照片功能各 84 项通过；独立复核限代码与 UI 无未关闭 P1/P2。合成表单未提交有效连接，没有 Wi-Fi／PTP；旧 52 版 echo 不作为本版通过。实体手机在厂商“完全允许后台行为”配置后，另行完成后台 113 秒、实际锁屏 166 秒同请求／通道和真实原图传输，独立复核限本次观察通过。证据位于 `.impeccable/review/camera-wifi-ui-native/`、`photo-library-native/` 与 `docs/validation/phone-wifi-53-summary.json`。新截图均为 QA，合成凭据不进入产品资源。实体手机覆盖升级与哈希回读已核验。
-
-## 0.9.13-beta · 原图与效果版本
-
-保留已批准 D 布局、三列直播缩略图与云白／石墨色。下载和直播列表按照片归组，多个版本用缩略图右下的深色小角标说明；没有独立展示重复效果卡片。全屏查看器在星标旁增加紧凑的版本按钮，使用原生单选弹窗展示“原图”及实际预设名称。选择持久保留，左右滑动与邻图预览保持一致；按住对比使用严格来源链的真正原图。
-
-删除照片确认包含整组原图、效果与系统相册副本；版本弹窗在效果选中时提供“删除当前效果”，明确原图和其他效果保留。快照读取中不承诺整组删除。保存状态异步核验，保留原有简短按钮尺寸与照片大小信息。
-
-最终 0.9.13-beta / 52、SHA-256 `6a2cda9e068ea9b4a311c49dfbe419d7367014c9cace82b376e8dfc37a6cbac6` 在隔离 Android17 手机模拟器的浅深色各通过 84 项原生 UI／MediaStore 检查；合成 JPEG 与精确 URI 自有清理，既有三文件基线保留。独立收尾复核为限定 SHIP。证据位于 `.impeccable/review/photo-library-native/`，其截图只作 QA，不打包为产品图片。旧 ABC／D 稿和旧版本证据完整保留。未新增发布栅格资源，模板与图标原始溯源不变；真实相机、TalkBack、平板和横屏未据此认证。
-
-后台网络需求另有最终同 SHA 的 Android17 短时 HOME／灭屏 42 项通过，限真实网络 API 加合成 echo；实体手机已保留数据覆盖安装并核验包哈希，真实相机长时间后台传输仍待验收。完整边界见 `dist/nikon-usb-0.9.13-beta-VALIDATION.txt`。
-
-## 0.9.11-beta · 照片直播 D 原生实施
-
-保留云白 / 石墨世界和现有标题、系统蓝及底部导航。照片直播按用户批准的 D 组合稿采用：紧凑项目行 → 固定 284dp 上限主图（左上默认预设、右上放大、底部 76dp 传输浮层）→ 统计 / 接收记录 → 照片工具行 → 三列方形缩略图。传输和错误状态不改变区域高度，选择工具浮于导航上方；预设选择保留原生全屏导航并使用双列效果图 / 名称。原 ABC 和 D 浏览器稿保留。
-
-百分比只表达实际当前原图字节，未知总量不显示假比例；接收之后独立显示保存。自动预设及字节事件局部更新，稳定照片来源键与异步解码保留旧像素至新图就绪，筛选及批选不改变主图。项目菜单支持新建第二项目，跨项目接收及停止后保存注明实际归属。
-
-最终同 SHA 0.9.11-beta / 50 在专用 Android17 手机模拟器的浅深色各通过 297 项；独立收尾复核为 SHIP，限已检查 D 原生 UI 和模拟器交互。实体 PKG110 覆盖升级成功，回读版本 / 安装 APK 哈希一致并正常启动；不将模拟器状态注入或安装证据扩大为真实相机连续传输、锁屏、MediaStore 或物理帧率保证。详细记录：[原生说明](docs/design-review/photo-live-redesign/NATIVE-D.md)、[交付验收](dist/nikon-usb-0.9.11-beta-VALIDATION.txt)。本轮未新增产品图片，QA 风景及预设均为合成且不打包。
-
 ## 0.10.1-beta · 社区、版本管理与下载
+
+**历史混合记录（55 / 0.10.1-beta）：** 以下原文的 Android 色彩、导航与界面证据只记录该历史版本；当前原生规范以本文件前八节为准。其中 Web 社区、版本管理与下载页的独立指导原文保留。
 
 ### Overview
 
@@ -365,206 +412,3 @@ Android 在线预设页提供“发布预设”和消息入口，设置增加“
 独立 UI 复核的 **SHIP 仅限审阅的九张截图**。[Web 操作记录](.impeccable/review/releases-community-ui-qa.json)使用隔离 localhost、内存记录与真实既有 APK 元数据；其中早期测试账号名称不是当前版本管理权限规则。原生候选 `ee597f811e370e42e71e9af5faeca6fc1edbca191a7b0799106c72cbd8308963` 的 [final 证据目录](.impeccable/review/community-native/final/)包含浅色、深色、深色横屏各 41 项合成界面检查，以及独立真实公网验证码 GET／PNG 显示 11 项，SHA 与检查范围不改写为后续包。
 
 最终 55 / `0.10.1-beta` 已发布至 beta，3,257,885 字节、SHA-256 `81021bfc4d7468dd8181d899f9ae5f4a260fbf30b95ac0eefc2be18ffaf9cca6`。新号首评送审及 Android 反馈已实施，独立 [真实更新验收](.impeccable/review/update-native/README.md)覆盖隔离新模拟器 5562 的取消／强停恢复、校验、未知来源授权、系统安装器和正常 Play Protect 扫描后升级至公开 55，并核对包哈希及保留自有私有标记；该证据不由旧截图推断，不涉及用户手机或相机。新增下载画廊的 [生产页面检查](.impeccable/review/download-final/report.json)为游客 GET，覆盖桌面、手机浅深色、三张预览、公开 55 及无页面溢出；不扩展原九图 SHIP。当前网址是 CloudBase 测试域名，首次浏览器访问可能有平台确认，正式商业域名未配置。完整流程、限制、基线来源及证据分类见 [社区与更新说明](docs/community-and-updates.md)。
-
-## 0.16.0-beta · 本地相册、同步与保存位置（83，当前扩展）
-
-### Overview
-
-这是用户批准的既有原生世界内的代码扩展，视觉权威仍为云白／石墨 `UiPalette`、系统 sp、Canvas `AppIcon` 与照片优先编辑器。用户追加的悬浮“＋”、居中“点击获取授权”和精简控件已写入[需求](docs/design-review/local-album-20261023/REQUIREMENTS.md)；不建立新视觉世界或组合稿。[本地相册表面](.impeccable/surfaces/local-album.md)记录此页方向，[编辑器表面](.impeccable/surfaces/photo-filter-editor.md)承接旧编辑能力及本轮保存规则。
-
-### Typography
-
-常规相册根标题延续 32sp；紧凑横屏改用既有 20sp 二级标题尺度和最小 48dp 标题行。来源按钮为 14sp，范围／状态 13sp，日期标题常规 14sp、紧凑 12sp，文件名 12sp 单行，完整名称保留在辅助描述。居中空态标题 20sp、说明 15sp，保持系统字号缩放。
-
-### Layout
-
-视觉根导航按“预设／同步／相册／设置”排列。新相册默认 App 内，手机标签仅显示当前实际可访问的 JPEG／PNG；日期分组、方形真实缩略图和名称占据主体。常规宽度三列，非紧凑且不小于 600dp 五列；紧凑横屏（高度小于 480dp 且宽大于高）根据 body 实测尺寸、字号、导航预留和照片边长推导列数，不能硬编码五列替代。紧凑时来源、范围、进度、状态与菜单合为一行，列表右侧预留加号区域，空态在可滚动容器中避开底部导航。
-
-单一“＋”采用前置 `local-picker-fab` 规格，距右侧 12dp、底部为导航预留加 12dp；在选择／准备中隐藏。列表底部与引导均预留导航高度（源码为 92dp 起、随字号增长），照片完整首行和文件名须在其上可辨识。常驻刷新／多选／授权行已收起；选择时才显示数量、取消与“批量编辑”。
-
-### Elevation & Depth
-
-页面仍通过语义表面和留白建立层次。加号使用原生 4dp elevation 与 Ripple，来源／弹窗／悬浮导航沿用既有材料；编辑工具仍是 elevation 0 的平面黑色。全页不新增照片背景纹理、玻璃卡片或外部图标族。
-
-### Components
-
-- **权限与选图：** 居中授权按钮与说明同时存在；部分授权在菜单中提供重新选择范围，手机来源可进入应用权限设置。加号在两来源均打开原生 `ACTION_OPEN_DOCUMENT`，限定 JPEG／PNG 并允许多选。界面使用系统文件选择行为，不能用应用内伪造系统授权屏替代。
-- **真实照片：** 浏览只读分页与缩略图；明确选择编辑时才保存正式私有 JPEG／PNG 与来源记录。PNG 经“以白底编辑 PNG”确认保留源文件并建立白底 JPEG 工作副本。多版本入口使用真实版本数量与名称。
-- **保存位置：** 原生可滚动对话框显示“仅保存在 App 内／保存到手机相册”、有效同版本复用说明与可用时未勾选的“另存新副本”。相机／直播首次 App 内，编辑首次手机；不同场景／直播项目分别记忆。确认后任务及重试冻结目标，结果表达实际新增／复用，新发布按本次时间，已有有效同版本须明确另存才增加副本；原图与各自草稿保留。83 的明确额外副本取代 81 每次显式导出都新增的默认规则，旧版说明仅作历史。
-
-### Do's and Don'ts
-
-- **Do** 保留一项清晰选图主操作、居中权限恢复、完整可辨认首行、48dp 控件和系统 Back。
-- **Do** 复用既有编辑器、颜色角色、原始照片和来源证据；正式原图与草稿不随预览缓存清理。
-- **Don't** 将本页的紧凑横屏列数、加号尺寸或权限空态推广成全应用布局规则。
-- **Don't** 用来源复用当作删除手机原图的权限，或用模拟器派发检查当作外部系统授权屏、实体相机与 TalkBack 验收。
-
-最终 83 / `0.16.0-beta` 为 3,528,301 字节，SHA-256 `f320eef5e6068e94fff54f37509374d09f723492f6fb3077052d727e55d79ebd`。phone／实际 1.3 字号／横屏／深色各 PASS 300，共 1,200 次重复执行，四模式恢复 PASS；28 张最终状态及 hero 的[同审阅者结论](.impeccable/review/local-album-83/FIX-VERDICT.md)为 M1 resolved／remaining clear／ship，仅覆盖紧凑横屏修正、最新控件请求与记录的回归。M2 是已撤回的审阅误读。PNG 编辑截图记录断言后的滤镜状态，不表示截图展示了调节标签。83 已发布 beta，release `5e67b2cd-d628-46c0-b80f-ad4d2c1f4af1`、revision 2，主域名／CloudBase 的公开原字节及最新元数据核对一致，旧发布行与五个旧本地包保留，见[发布回执](docs/validation/photo-local-album-83/PUBLICATION.md)。下载 HTML／脚本／精确元数据查询已核验，仅为 HTTP 证据，无浏览器渲染结论；隔离 QA 模拟器在复核后关闭，见[清理记录](docs/validation/photo-local-album-83/emulator-cleanup.json)。[交接](docs/design-review/local-album-20261023/README.md)记录证据和限制。新增生产栅格／图标均为 0，截图仅作 QA；原生 Views 不运行 HTML/CSS 检测器。
-
-## 0.15.1-beta · 直播预览与横滑分类（82，历史局部修正）
-
-### Overview
-
-本轮按用户的闪动截图及分类反馈修正 [PhotoFilterEditor](app/src/main/java/cc/huevia/ui/PhotoFilterEditor.java) 与 [PresetSelectionPage](app/src/main/java/cc/huevia/ui/PresetSelectionPage.java)。继承 80／81 的照片优先画布、石墨与黑色平面工具、浅蓝操作、系统 sp 文字及 Canvas AppIcon；不增加新视觉世界、组合稿、图标或生产栅格。用户截图只证明缺陷，不能作为产品图片或新构图。范围见[需求](docs/design-review/photo-filter-navigation-20261023/REQUIREMENTS.md)与[交接](docs/design-review/photo-filter-navigation-20261023/README.md)。前置 tokens 与其他表面规则继续有效。
-
-### Layout
-
-常驻工具仍为 224dp 加 1dp 分隔，滤镜头行仍为 48dp。头行从左至右是四宫格 GRID、在线／我的、竖屏短状态和可横向滑动的多个分类名称；GRID 始终打开完整选择框。分类文字使用既有单行 13sp 系统 medium 和 48dp 触区，选中以浅蓝及原生 selected 语义表达。横屏仍为 300dp 右栏，只隐藏紧凑状态文字以给分类留空间；完整状态在选择框、来源／分类提示和辅助描述中保留。主照片、强度行与四个底部模式不改位。
-
-### Components
-
-- **分类与完整选择框：** 内嵌分类和选择框调用同一 `selectCategory`，同步选中状态、缩略条、完整结果、实际筛选数量与滚动起点；分类不修改照片已套用预设／调节。标题按来源、非“全部”分类及实际预设数量显示，“无滤镜”保持独立。搜索、在线／本地来源、真实分类顺序、无结果、离线缓存和刷新入口沿用。
-- **直播默认预设预览：** 完成结果仅重绑对应 Entry 的已挂载卡片。同一条目及预览键保留已就绪图片，缓存淘汰或相同重绑不把真实图片退成占位；常规说明行始终占位以稳定卡片高度。换条目／键清除旧图。ERROR 与 UNSUPPORTED 状态优先，必须清除卡片保留图并禁用内容；ERROR 提供“重试预览”，UNSUPPORTED 明确不可选。页面／账号与异步过期守卫保留。
-
-### Do's and Don'ts
-
-- **Do** 在原有头行暴露多个分类名称，并保留最左侧四宫格完整入口和实际筛选反馈。
-- **Do** 保留已就绪真实图片与正常卡片高度，同时让确认失败、禁用和重试显示真实状态。
-- **Don't** 由保留图片将 ERROR／UNSUPPORTED 反推成 READY，或将离线夹具／静态截图写为实体设备故障复现、预设支持认证或帧率证据。
-
-最终本地 82 / `0.15.1-beta` 为 3,487,341 字节，SHA-256 `2543241174c2c7b6656b08b4142d3c3812d095b2ecd732836a11ab9a3c173987`；phone／实际 1.3 字号／横屏／深色 PASS 163／163／155／163，共 644 条断言。28 张最终原生状态和含 hero 的 29 张复核副本由同 SHA manifest 关联。旧 81 缓存淘汰丢图已复现；其离线分类触摸本已通过。确认读取失败、真实重试和注入旧 READY 缩略图后实际 profile 解析失败均覆盖最终错误状态。分类／GRID／横滑为实际 MotionEvents，“不使用预设”仅绑定 performClick 和单次回调。同一审阅者[FIX-VERDICT](docs/validation/photo-filter-navigation-82/FIX-VERDICT.md)评分 M1 resolved、remaining clear、SHIP，仅限该修正和已记录回归批次；28 张和 hero 均重新打开，未发现修正引入的回归。82 已发布 beta，release `4c9aee32-1c86-4482-a68e-9c16f583406a`、revision 2，主域名及 CloudBase 的公开 APK 字节和最新元数据匹配最终包，旧发布行保留。仅新增 APK，生产归档 41→42，原成员字节／模式及配置保留。下载 HTML、实际 download.js 与精确页面查询 HTTP 200；CUA 初始化失败，无浏览器视觉结论。见[发布回执](docs/validation/photo-filter-navigation-82/PUBLICATION.md)。隔离模拟器已在复核后关闭。只读隔离模拟器及既有模板／离线配方不认证实体手机／相机、实时目录、FPS、TalkBack 或颜色标定；81 的 516 与旧主机套件不累计入 644。Native Views 不适用 HTML/CSS 检测器。新增素材为 0，见[素材清单](docs/design-review/photo-filter-navigation-20261023/ASSET-INVENTORY.md)。
-
-## 0.15.0-beta · 构图、我的配方与导出时间（81，历史局部扩展）
-
-### Overview
-
-用户确认 80 试用“好像没啥问题”，明确批准裁剪／旋转／拉直及可复用“我的配方”，追加要求导出修改照片使用最新时间，并沿用直接上传测试版的授权。[本轮需求](docs/design-review/photo-composition-recipes-20261023/REQUIREMENTS.md)在既有编辑器内扩展行为；继承 80 的照片优先、紧凑平面工具区和系统字体，没有新的视觉世界或生成稿。全局 tokens、导航及其他表面仍按各自规则。代码与交接见[编辑说明](docs/photo-filter-editor.md)、[本轮设计记录](docs/design-review/photo-composition-recipes-20261023/README.md)及[持久表面合约](.impeccable/surfaces/photo-filter-editor.md)。
-
-### Colors
-
-沿用前置 `editor-canvas`、`editor-tools`、`editor-divider` 和深色语义角色，浅蓝仅用于操作、选中、滑杆与裁剪手柄。全屏构图保持石墨画布，裁剪外区使用暗色遮罩，细白框和三分网格帮助判断画面；不新增全局色彩 token。配方列表与原面板一致，表单错误使用现有深色错误角色。
-
-### Typography
-
-沿用 Android 系统字体与 sp，四个入口为既有 13sp 系统标签。配方保存入口“保存当前”固定单行并保留 48dp 高触区，1.3 字号仍可读；配方列表显示名称、效果摘要和独立管理入口。角度以一位小数与度号显示，保存／重命名错误在仍打开的表单内展示并保留输入。没有图片文字或字体资源。
-
-### Layout
-
-常驻 224dp 工具内容与 1dp 分隔不增高：176dp 区域切换滤镜、调节或配方面板，下方 48dp 行提供“滤镜／调节／构图／配方”；构图是打开独立工作区的操作。切换面板不改主照片画布、缩放和位置；未应用构图的照片仍完整按原比例显示，主动构图后按结果比例适应同一画布。既有生成稿的照片比例不自动应用到原图。
-
-构图全屏显示暂存照片、裁剪框与四角手柄；顶部取消、标题、应用，下方比例、旋转／重置、拉直、保留范围和手势提示。比例横向可滚动，横屏控制在右侧 300dp 可滚动区。配方列表在原 176dp 内容内滚动，保存入口与本机账号说明保留。照片仍是主体，不增加常驻说明卡。
-
-### Elevation & Depth
-
-继续使用实色、elevation 0 的常驻工具区，无新阴影或模糊。构图遮罩表达被排除的画面，临时命名／管理对话框沿用 Android 深色层级，既有 `EditorGlassDrawable` 仍只用于按需选择／确认面板。此处规则只约束照片编辑扩展。
-
-### Components
-
-- **构图工作区：** 原比例、自由、1:1、4:3、3:2、9:16，四角裁剪与框内移动，顺时针 90°，−45.0° 至 +45.0° 拉直、步长 0.1°。拉直放大覆盖以免黑角。取消或 Back 不写草稿；应用将整个变化记为一次撤销，无变化不新增步骤。EXIF 方向归一，预览与完整像素输出共享几何；历史版本缺少可恢复参数时清楚提示切回原图或恢复草稿。
-- **我的配方：** 本机按账号保存预设字节快照、强度、13 值与模型，不带照片构图；保存、重命名、确认删除均保留明确对象。同名不覆盖，名称 1–40 字符且禁止换行，非法值在表单内提示。单张和“套用效果 → 我的配方”批量套用保留每张自己的构图，先更新未导出草稿，再由用户明确导出。连续选择使用最新请求序号；旧异步完成不能改设置或增加撤销，照片／账号／起始快照守卫保留。
-- **空直播项目状态：** 用户追加的点击“照片直播”闪退已在修复前真实点击复现；当项目存储已初始化但未选项目时，`AlbumPanel.updateLivePresetProgress` 先判断空项目 ID，显示未启用／空项目状态，不将空串送入 UUID 解析。存储层严格校验保留；三模式各真实进出三次，无需创建项目或连接相机。
-- **草稿、历史与输出：** PED3 加入几何，PED1／PED2 迁移为中性几何；完整渲染、缓存与过期导出身份包含非中性几何。撤销、原图对比和重置覆盖完整状态，全部重置也清除构图。最新已保存设置只在完整身份吻合时恢复。每次明确效果导出新建一张本次时间的相册副本，重用渲染时只更新新副本 JPEG 元数据、不重新压缩；原图与缓存字节保留，旧相册副本保留，成功后更新本地效果修改时间。私有回执核对实际发布字节并支持恢复，互斥删除先核对归属与内容。
-
-### Do's and Don'ts
-
-- **Do** 保持原工具高度、固定照片画布、系统 Back／安全区与至少 48dp 控制触区；构图在按需工作区完成。
-- **Do** 清楚区分暂存构图、应用、配方保存、套用草稿和导出；显示实际裁剪输出尺寸与本次导出时间语义。
-- **Don't** 将配方带成目标照片的裁剪，或从缺少参数的旧 JPEG 猜测可逆编辑状态。
-- **Don't** 用新日期重写原图或压缩已有缓存，或把模拟器结果扩展为实体设备、相机、TalkBack、FPS 或色彩标定。
-
-81 最终本地 APK 为 3,487,341 字节、SHA-256 `7861ae7163d17a5651a8c41b25ddf1b368e868cd326bdcc04a2bd72d5df7aa80`；phone／实际字号 1.3／横屏各 PASS 172，共 516 条断言记录，均记录同一 SHA。环境回读字号 1.0／1.3／1.0、方向 1／1／2。覆盖真实裁剪、单次撤销、配方保存／内联错误／保留目标构图、批量草稿、原始像素输出、EXIF、新副本日期和受保护删除。另覆盖已初始化项目存储后的空项目直播入口与三次来回切换。最终 30 张状态图与 hero 已重新核对；主机分项见编辑说明。[初审](docs/validation/photo-composition-recipes-81/FINISH-REVIEW.md)记录 M1 配方排队顺序问题，[修复复核](docs/validation/photo-composition-recipes-81/FIX-VERDICT.md)为 resolved／SHIP，仅覆盖 M1 与该修复批次回归，未扩大为新一轮全表面审核。真实 IO 门闩 A→B 的 5 项／模式确认最后选择生效、构图不变且撤销只加一步，已包含在 516 内。最终包已实际发布 beta，双域名公开字节及最新元数据一致，详见[发布回执](docs/validation/photo-composition-recipes-81/PUBLICATION.md)。`before-review-fix/` 的 `f5b34441b4616c4ebd9a9fcaad135f258e0ba87d85be146c347e73d57f9bdd03` 每模式 PASS 167 属修复前候选；`pre-photo-live-fix/` 的 SHA-256 `936b31b4136cd4e305e67c90e4a587324792bf2a137c63f85486f51915d18b12` 每模式 PASS 150 是直播修复前候选，不计入 516。[验证目录](docs/validation/photo-composition-recipes-81/)的 `initial/{phone,large-font,landscape}` 各 PASS 146，SHA-256 `af0b41fe33c814c6d470845290c828801934819ac4c1db78eb46ef227e31f067` 仅属初轮候选，不作为最终 81 证据。新增生产栅格为 0；五个图标延续 Canvas `AppIcon`，见[素材清单](docs/design-review/photo-composition-recipes-20261023/ASSET-INVENTORY.md)。范围限隔离只读模拟器、既有合成模板及真实／手写本地配方夹具上的实际 Android JPEG／EXIF／MediaStore，不宣称实体手机、真实相机、实时目录、FPS、TalkBack 或 NX Studio 标定。
-
-## 0.14.0-beta · 照片优先的滤镜与基础调节（80，历史）
-
-### Overview
-
-用户以“开始实现，我睡觉去了”批准[第二版组合稿](docs/design-review/photo-basic-adjustments-20261022/design-board-v2.png)及[13 项需求](docs/design-review/photo-basic-adjustments-20261022/REQUIREMENTS.md)。这是既有原生世界内的照片编辑局部扩展，已在 80 / `0.14.0-beta` 实施。代码来源为 [PhotoFilterEditor](app/src/main/java/cc/huevia/ui/PhotoFilterEditor.java) 与 [AlbumPanel](app/src/main/java/cc/huevia/ui/AlbumPanel.java)；其开头的 THESIS／OWN-WORLD／STORY／FIRST VIEWPORT／FORM 合约与[持久表面记录](.impeccable/surfaces/photo-filter-editor.md)一致。此前常驻玻璃底栏与无手动参数的范围保留为历史，不约束本轮批准扩展；全局导航材质保持原有规则。
-
-### Colors
-
-画布使用前置 token `editor-canvas`，工具使用 `editor-tools` 与 1dp `editor-divider`，正文、辅助文字及操作沿用深色语义角色。照片上的小预设说明使用克制的深色衬底，避免在横屏浅色照片上丢失对比；浅蓝只承担选择、滑块和导出。
-
-### Typography
-
-沿用 Android 系统字体和 sp：文件名 15sp、位置与预设上下文 11sp、模式及来源 13sp、参数名与数值 12sp、缩略图名 11sp。参数中文标签、数值和修改点同时存在，辅助描述读出参数名／值／当前状态；文字不栅格化。
-
-### Layout
-
-返回、文件名／位置、导出构成精简顶栏；星标、更多与原图对比叠在照片画布，版本和重置移入更多菜单。主图按真实原图完整比例适应画布，滤镜／调节切换保持完全相同的画布边界、缩放和照片位置；只裁切缩略图。生成稿对照片重新构图，不能照其比例裁切或拉伸真实照片。
-
-常驻工具内容 224dp（176dp 模式区＋48dp 模式选择），另加 1dp 顶部分隔。滤镜为一行来源／分类下拉／全部网格、66×80dp 卡片横条（52dp 图像、22dp 名称）和强度；调节为撤销／重做、一根滑杆／数值、一条可横滑参数栏。已修改参数以点标记，后续项可横滑发现。横屏工具在右侧 300dp 滚动区；选择器与导出按需滚动，字体 1.3 保留可操作入口和 48dp 触区。
-
-### Elevation & Depth
-
-编辑底栏为实色平面、elevation 0，没有常驻包围圆角、拖动柄、额外分类横条或重复状态页脚。仍被选择／导出弹层调用的 `EditorGlassDrawable` 只承担临时面板，不反向决定常驻编辑工具材质。照片仍是视觉主体，深色层次支持读数。
-
-### Components
-
-- **两种工具：** “滤镜／调节”以浅蓝文字和短下划线选中。在线／我的、分类及网格合为一行；分类入口携带简短加载／缓存／错误状态，完整原因在提示与按需菜单中。卡片身份、选择与异步图像原位更新，点击保持横向位置。
-- **手动参数：** 亮度、曝光、对比度、高光、阴影、白色、黑色、色温、色调、饱和度、自然饱和度、清晰度、锐化共 13 项；曝光步长 0.1 EV、范围 ±3 EV，锐化 0–100，其余 ±100，全部中性 0。Canvas `AppIcon` 图标及中文标签属于同一族。
-- **数值与帮助：** 点数值精确输入，非法值保留有效设置；更多菜单“参数说明”和长按数值读取 `Parameter.help()`。说明区分曝光／亮度、宽明暗区域／白黑端点及 JPEG 相对色温，结合当前照片与原图对比使用。单项长按可重置；会话最多 32 步撤销／重做，一次拖动只记一步。
-- **草稿、版本与输出：** 账号／照片独立不可变设置，v1 手动值迁移为 0。固定“原图 → 滤镜／强度 → 手动色彩 → 分辨率尺度一致的细节”，中性值不增加处理；换滤镜保留手动值。中性重置和确认未变值不生成草稿或改变已保存显示／暂存草稿。明确导出完整 JPEG 95／sRGB，保留原始尺寸与原字节；批量最多 100 张，冻结每张滤镜、强度、手动值和身份。
-
-### Do's and Don'ts
-
-- **Do** 保留完整本地 JPEG 才编辑的边界、真实照片比例、稳定画布和明确导出。
-- **Do** 让照片、单滑杆与横向工具承担层次，保留原生 sp、48dp 触区、Back 和安全区。
-- **Don't** 将旧玻璃底栏、生成稿的重构照片比例或初轮验证当作当前实现要求。
-- **Don't** 将手动值写回相机／NCP／NP3／NEF，或将模拟器正确性写成硬件、TalkBack、FPS 或标定结论。
-
-最终本地包 80 / `0.14.0-beta` 为 3,458,669 字节、SHA-256 `4aea78f19ddc4e245e27470b29c9f111674f74c2e22b3229d03a2ec5fd6834bb`，沿用已有签名。[最终原生证据](docs/validation/photo-basic-adjustments-80/)的 phone／large-font／landscape 各 PASS 157，共 471 条记录，字号回读 1.0／1.3／1.0、配置方向 1／1／2，包含参数说明、无操作保存版本保护、明亮照片上的上下文衬底、相同画布和完整尺寸导出。主机日志保留各自数量与单位，详见[编辑说明](docs/photo-filter-editor.md)。`initial/` 和初轮修复报告仅为历史；最终独立复核与发布结果另行确认，不在此预告上架。新增生产栅格为 0，图标扩展 Canvas `AppIcon`；合成模板照片及离线配方夹具只作 QA。没有实体手机、真实相机、实时生产目录、FPS、TalkBack 或 NX Studio 标定结论。
-
-## 0.13.4-beta · 导出触区、下拉与底部分页（72，历史）
-
-右上导出背景为 64×36dp，保留 64×48dp 触区、13sp 单行文字。已下载页移除刷新按钮，以列表顶部下拉刷新；相机分页使用列表底部状态，只在加载或到达末尾时显示，区分加载转圈、失败轻点重试、还有更多和全部已加载，成功原地追加。常规高度下方居中，紧凑横屏右下（宽 136dp、右 12dp／底 8dp），保留完整 48dp 触区；70／71 既有规则保留。
-
-最终 72 / `0.13.4-beta`（SHA `e563135f99857a19938d3a49ef7fceeab587250a843fd43dde8ed0ff161202b7`）竖屏 136、大字 136、横屏 155，共 427 项专项通过，横屏加载和末尾截图已核对。范围为离线原生模拟器／合成相机分页，不扩展到真机传输；另候选 Wi-Fi 及旧版结果不累计。见[72 验收](docs/validation/photo-album-refresh-72/README.md)与[安装包](dist/nikon-usb-0.13.4-beta-debug.apk)。
-
-## 0.13.3-beta · 来源与分类选择样式（71，历史）
-
-“在线／我的”共用视觉高 32dp 的轨道、中性 28dp 选中面片，触摸范围 48dp，整组与“全部”间隔 12dp。类别用蓝字与 18×2dp 短下划线取代大胶囊；标题行／分类间隔 6dp、分类项间隔 6dp，固定 13sp 中等字重，选择不跳宽。展开面板同样式，按分类集合复用子控件防闪。70 的完整本地原图才编辑及“原图”按钮规则保留。
-
-最终 71 / `0.13.3-beta` 已构建签名，3,417,709 字节，SHA-256 `7507bd9556c0254395d5d50350f9d88a1cc90578ba5798ffc4d0c8517eb95265`。竖屏／实际 1.3 字号／横屏各 282 项，共 846 项通过，三个报告同一最终摘要；首批审图通过，无需修复确认轮。范围限离线 23 条目录夹具与真实 Android 渲染，非真机或生产网络读取认证；旧 69／70 证据不增算。见[71 专项验收](docs/validation/photo-selection-polish-71/README.md)与[交付记录](dist/nikon-usb-0.13.3-beta-VALIDATION.txt)。
-
-## 0.13.2-beta · 浏览与编辑资格（70，历史）
-
-按用户追加要求，将可见对比按钮“按住看原图”简写为“原图”，保留按住／松开行为和辅助功能动作说明。照片是否进入编辑以完整本地 JPEG 原图为准，与标签页、来源或是否已经输出滤镜效果无关。
-
-尚只有相机预览的照片使用纯浏览全屏：保留收藏、底部导出、预览失败原因与重试，不挂载滤镜底栏、不显示强度，也不请求在线预设。相机下载或直播保存完整原图后，查看器状态更新重新核对资格并显示编辑界面；切到未下载照片解除旧编辑器绑定，防止旧像素与异步结果串入。该版完整本地照片沿用当时已确认的玻璃、来源／分类、滤镜、强度和导出设计；80 的当前工具材质与布局见上文。
-
-最终 70 / `0.13.2-beta` 已构建签名，3,417,709 字节，SHA-256 `c1872bf77d9cfaa7439211fd86c3fb6a65acd0a5c73607f9325a0962d9ec7cca`。查看器边界原生专项 `phone` 场景 122 项通过；`remote-preview`、`local-editor`、`return-remote` 截图已审，纯浏览和本地编辑符合本节规则。范围限此专项 UI：真实 JPEG 原文件及字节、有类型合成相机描述、短时合成连接标志和拒绝传输替身激活原预览错误／重试；没有网络相机下载或真实手机认证。见[70 专项验收](docs/validation/photo-viewer-boundary-70/README.md)和[交付记录](dist/nikon-usb-0.13.2-beta-VALIDATION.txt)。本轮未新增生产分类迁移或部署；下方 69 的最终摘要、951 项原生及 4,440 项主机证据只保留 69 范围，不计为 70 重跑。
-
-## 0.13.1-beta · 在线分类与稳定滤镜底栏（69，历史）
-
-沿用用户确认的像素蛋糕式大图、底部滤镜与显式导出构图，并按用户本轮要求补齐 Apple 风格玻璃及稳定选择行为。默认“在线”，并列“我的”；目录状态、实际分类、横向滤镜和独立强度形成固定顺序。人像、风景、胶片、黑白、日常、夜景按稳定顺序显示当前来源的已有项，额外自定义类别和未分类在后。来源切换清空当前搜索／分类并回到起点，展开三列面板沿用同一来源和筛选。
-
-在线预设直接按需读取经过长度、SHA-256 和容器验证的真实配方，不以浏览或套用隐式写入“我的”。目录失败回退经过验证的同源缓存，明确缓存状态；配方未缓存时说明需联网并可重试。生产 241 份预设分类已完成：人像 27、风景 79、胶片 52、黑白 21、日常 54、夜景 8，分类依据与公开接口核对见[分类记录](docs/preset-category-classification-20261020.md)。
-
-**材质与几何：** 当前照片的实际 64px 取样预模糊作为玻璃底，叠深色衬底、细边与顶部高光，外圆角 26dp。横条卡片为 84×110dp，图像高 78dp、文字高 26dp；展开网格图像高 86dp。目录状态行固定 28dp、编辑提示固定 24dp，长文字单行省略并可查看完整提示，避免加载或长名称改变底栏高度。系统字体、48dp 控件、安全区、横屏右侧 300dp 可滚动底栏与原生 Back 保持。
-
-选择器竖屏高约屏幕 72%、横屏约 90%。大字号的“在线／我的”按钮固定单行；横屏展开面板将来源放在标题行，搜索与可横滑分类合并为一行 48dp，完整图像及标签行可见。切换来源先关闭旧层，不恢复旧来源的滚动位置。
-
-**稳定交互：** 按预设身份保留卡片 View，选中态和异步缩略图原位更新；横条点击不滚动或重建整条。展开网格选择后仅在目标不可见时最小滚动。切照片建立新条目，异步回调受照片／账号代次约束。缩略图队列满时，当前选择最多四次延后重试；实际任务结束继续优先尝试当前选择，避免无限定时轮询。
-
-最终 69 / `0.13.1-beta` 为 3,413,613 字节，SHA-256 `dc58bb8d3609f3793f4d04d337447fd00468752f04a74112d2076bd877ef943b`。同一最终包的手机竖屏、实际 1.3 倍字号、横屏各通过 317 项，共 951 项；三个环境回读为 1.0／1.3／1.0。一次集中修复后完成确认，见[69 原生验收](docs/validation/photo-editor-categories-69/README.md)和[交付记录](dist/nikon-usb-0.13.1-beta-VALIDATION.txt)。本轮主机 4,440 项、后台 119 项／56 模块语法检查／PGlite 23 项通过。原生使用真实 Android JPEG／EXIF／MediaStore 和明确标注的 23 条离线目录夹具；生产 241 条目录及六类 feed 另行公开核对，不据此认证实时生产目录在用户设备的表现、相机新流程、TalkBack 或硬件性能。初轮 `*-initial` 和下方 68 的截图、哈希、数量及限定复核保留历史范围，不作为最终 69 通过依据。
-
-## 0.13.0-beta · 照片滤镜编辑（历史）
-
-### Overview
-
-本节仅记录 `PhotoFilterEditor` 与 `AlbumPanel` 的原生照片编辑扩展，沿用 [已确认组合稿](docs/design-review/photo-filter-editor-20261019/design-board.png) 的大图、底栏滤镜和显式导出方向；原有系统 tokens、导航及历史范围保持不变。实际几何以 Java Views 为准，组合稿中的示意调色不作色彩校准证据。
-
-### Colors
-
-照片画布固定石墨 `#111214`，编辑底栏及面板为 `#22252A`，字段为 `#30353D`；正文 `#F4F5F7`、次要文字 `#ADB6C3`、蓝色操作与选中态 `#8DBBFF`。以实色层次承托照片。
-
-### Typography
-
-采用系统字体和 sp：滤镜名称 12sp、强度及数值 13sp、按钮与搜索 14sp、面板标题 18sp；操作保留 48dp 命中区域。
-
-### Layout
-
-顶部保留返回、文件名／位置及蓝色导出，主图按完整比例占用剩余空间。底部工具后接分类、当前照片效果横条和独立强度行；横条卡片为 78×104dp，图像高 72dp，名称高 26dp。展开后的三列网格图像高 82dp，名称仍为 26dp；选择器竖屏高约屏幕 68%，横屏约 90%。横屏编辑底栏移到右侧，宽 300dp 并可纵向滚动；JPG 确认面板可滚动，最高约屏幕 90%，紧凑高度下仍可访问保存操作。
-
-### Components
-
-- **当前照片滤镜：** 缩略图使用本张照片的实际近似渲染，选中项保持可见；全部选择器包含搜索、实际分类和明确的不可用／无结果状态。重新展开恢复所在行，未承诺精确像素偏移。位图、配方字节及解析 profile 同时按 48 项上限淘汰，当前选中配方另行持有。
-- **草稿与版本：** 只恢复未导出草稿，列表含单原图照片也显示“未导出”。显式选择原图或旧／新保存版本时尊重该选择，待处理编辑保留并提供恢复入口；无待导出编辑时按选中保存版本导出。单张导出成功后显示并记住新保存结果，暂停边界刷新待保存草稿。
-- **导出：** JPG 明确展示效果、强度和原始尺寸，确认后保存并保留原图；批量最多 100 张，开始时冻结每张独立设置。图标扩展既有 Canvas `AppIcon`，无新增产品栅格图片；QA 采用既有内置模板及手写夹具。
-
-### Do's and Don'ts
-
-- **Do** 将草稿、当前显示的保存版本与已导出历史分别表达，保留每张照片独立滤镜／强度。
-- **Don't** 将本次证据推广为真实相机、TalkBack、平板、硬件手势、持续性能或 NX Studio 色彩一致认证。
-
-最终 68 / `0.13.0-beta`，SHA-256 `a042c85f59d3fd8166c518eb3486250b59aad5eeefded497cd8bbe6b405ba5ee`：[原生验收](docs/validation/photo-editor-native/README.md)记录竖屏、1.3 倍字号和横屏各 PASS 144 项，包含保存版本、草稿角标、59 配方库后部选择／行恢复、缓存上限与暂停保存。[独立修正复核](docs/validation/photo-editor-native/FIX-VERDICT.md)为 **SHIP，仅限初审五项修正**，取代对应初始 FIX，未扩大为全产品认证。原候选与初审保留；原生 Views 不适用 HTML/CSS 检测器。行为详情见 [编辑说明](docs/photo-filter-editor.md)。

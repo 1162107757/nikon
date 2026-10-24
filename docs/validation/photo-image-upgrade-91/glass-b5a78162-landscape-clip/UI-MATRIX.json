@@ -1,0 +1,66 @@
+{
+  "candidateSha256": "b5a781622d618fcf425a7d2bedc4e950c03463d2eb52595189535d7f8bb91e8b",
+  "candidateVersionCode": 91,
+  "status": "FAIL landscape curve clip",
+  "scope": "Targeted phone and landscape after lower landscape histogram anchoring. Prior eaa font1.3/dark rows retain their actual SHA and are not b5 runs.",
+  "modes": [
+    {
+      "mode": "phone",
+      "status": "PASS",
+      "checks": 143,
+      "testedCandidateSha256": "b5a781622d618fcf425a7d2bedc4e950c03463d2eb52595189535d7f8bb91e8b",
+      "evidenceKind": "Current b5 targeted native verification",
+      "framebufferCompared": 1849,
+      "framebufferMaxDelta": 0,
+      "tileCompared": 1848,
+      "tileErrors": 0,
+      "cleanup": "PASS",
+      "settingsAndGrantsRestored": "PASS"
+    },
+    {
+      "mode": "landscape",
+      "status": "FAIL",
+      "checks": 71,
+      "testedCandidateSha256": "b5a781622d618fcf425a7d2bedc4e950c03463d2eb52595189535d7f8bb91e8b",
+      "evidenceKind": "Current b5 targeted native verification",
+      "framebufferCompared": 1849,
+      "framebufferMaxDelta": 0,
+      "tileCompared": 2772,
+      "tileErrors": 0,
+      "cleanup": "PASS",
+      "settingsAndGrantsRestored": "PASS"
+    },
+    {
+      "mode": "font1.3",
+      "status": "PASS",
+      "checks": 143,
+      "testedCandidateSha256": "eaa4914742a7d3a7b8ae0286ded76f999ec718207963923406751a92b7e86c58",
+      "evidenceKind": "Prior eaa configuration evidence; not rerun on b5",
+      "framebufferCompared": 1849,
+      "framebufferMaxDelta": 0,
+      "tileCompared": 1848,
+      "tileErrors": 0,
+      "cleanup": "PASS",
+      "settingsAndGrantsRestored": "PASS"
+    },
+    {
+      "mode": "dark",
+      "status": "PASS",
+      "checks": 143,
+      "testedCandidateSha256": "eaa4914742a7d3a7b8ae0286ded76f999ec718207963923406751a92b7e86c58",
+      "evidenceKind": "Prior eaa configuration evidence; not rerun on b5",
+      "framebufferCompared": 1849,
+      "framebufferMaxDelta": 0,
+      "tileCompared": 1848,
+      "tileErrors": 0,
+      "cleanup": "PASS",
+      "settingsAndGrantsRestored": "PASS"
+    }
+  ],
+  "failure": "Landscape lower position successfully avoids the sample face and corner buttons, but host ScrollView subtracts an extra64dp from the already margin-reduced MeasureSpec, visibly clipping the histogram curve. Existing full-curve-visible assertion correctly fails.",
+  "currentLandscapeVisualArtifact": "landscape/failure.png",
+  "currentLandscapeStaleFiles": "Because this run stopped at the default histogram, any later hero-editor-expanded/exports/saved files retained from prior runs are not current b5 evidence. Use current report, failure.png and histogram-header-default.json.",
+  "priorProgressReference": "pre-glass-0d35b8c8/phone-progress, 0d35 candidate only, no new b5 progress run",
+  "physicalDevicesTouched": false,
+  "mediaStorePublications": 0
+}

@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -51,6 +52,10 @@ public final class PhotoImageView extends View {
     private float zoom = 1f;
     private float offsetX, offsetY;
     private float lastX, lastY;
+    private Runnable photoTransformChanged;
+    private boolean transformNoticePending;
+    private Bitmap reportedPhoto;
+    private float reportedScale=Float.NaN,reportedX=Float.NaN,reportedY=Float.NaN;
     private int activePointer = MotionEvent.INVALID_POINTER_ID;
 
     public PhotoImageView(Context context) {
@@ -161,6 +166,25 @@ public final class PhotoImageView extends View {
         singleTap = callback;
     }
 
+    /** Overlay chrome follows the visible photograph without changing its rendering transform. */
+    public void setOnPhotoTransformChanged(Runnable callback) {
+        photoTransformChanged=callback;reportedPhoto=null;reportedScale=Float.NaN;
+    }
+    public RectF visiblePhotoBounds() {
+        if(!hasPhoto())return new RectF();
+        float size=fitScale*zoom;
+        RectF bounds=new RectF(offsetX+pager.offset(),offsetY,offsetX+pager.offset()+photo.getWidth()*size,offsetY+photo.getHeight()*size);
+        if(!bounds.intersect(0,0,getWidth(),getHeight()))bounds.setEmpty();
+        return bounds;
+    }
+    private void notifyPhotoTransform() {
+        float size=fitScale*zoom,x=offsetX+pager.offset(),y=offsetY;
+        if(photoTransformChanged==null||photo==reportedPhoto&&size==reportedScale&&x==reportedX&&y==reportedY)return;
+        reportedPhoto=photo;reportedScale=size;reportedX=x;reportedY=y;
+        if(transformNoticePending)return;transformNoticePending=true;
+        post(()->{transformNoticePending=false;if(photoTransformChanged!=null)photoTransformChanged.run();});
+    }
+
     public void setOnSwipe(IntConsumer callback) {
         swipe = callback;
         if (callback == null) { swipeGesture.cancel(); resetPager(); }
@@ -226,6 +250,7 @@ public final class PhotoImageView extends View {
         if (pager.offset() < 0 && canNext) drawNeighbour(canvas, nextPhoto, getWidth() + pager.offset());
         else if (pager.offset() > 0 && canPrevious) drawNeighbour(canvas, previousPhoto, -getWidth() + pager.offset());
         canvas.restoreToCount(saved);
+        notifyPhotoTransform();
     }
 
     @Override public boolean onTouchEvent(MotionEvent event) {

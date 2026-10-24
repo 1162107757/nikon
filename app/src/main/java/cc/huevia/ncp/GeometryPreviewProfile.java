@@ -16,5 +16,5 @@ public final class GeometryPreviewProfile implements PresetPreviewProfile {
     public int applyArgb(int v){return colour.applyArgb(v);}
     public SpatialPreviewFilter.Settings spatialSettings(){return colour.spatialSettings();}
     public void renderPixels(SpatialPreviewFilter.Pixels pixels,BooleanSupplier cancel,DoubleConsumer progress)throws IOException{colour.renderPixels(pixels,cancel,progress);}
-    public static PhotoGeometry geometry(PresetPreviewProfile profile){return profile instanceof GeometryPreviewProfile?((GeometryPreviewProfile)profile).geometry:PhotoGeometry.NONE;}
+    public static PhotoGeometry geometry(PresetPreviewProfile profile){if(profile instanceof BorderPreviewProfile)profile=((BorderPreviewProfile)profile).colour;return profile instanceof GeometryPreviewProfile?((GeometryPreviewProfile)profile).geometry:PhotoGeometry.NONE;}
 }

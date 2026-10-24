@@ -1,0 +1,15 @@
+{
+  "serial": "emulator-5586",
+  "hardware": "ranchu",
+  "ownedProcessId": 23100,
+  "avd": "Pixel_9",
+  "portVerified": true,
+  "closeRequested": true,
+  "backendProbeUninstalled": true,
+  "uiProbeUninstalled": true,
+  "physicalDeviceOperated": false,
+  "closedAtUtc": "2026-10-24T07:08:37.9360911Z",
+  "shutdownVerified": true,
+  "apkSha256": "f717151b99bb70d75a8038acb5f8e04f3ea28e121891ddf1fd8bdf73d47ea7a8",
+  "uiCleanup": "UI-DEVICE-CLEANUP.json"
+}

@@ -1,0 +1,12 @@
+{
+  "serial": "emulator-5586",
+  "candidateSha256": "b5a781622d618fcf425a7d2bedc4e950c03463d2eb52595189535d7f8bb91e8b",
+  "ownedInstrumentationPackage": "cc.huevia.imageupgradeqa",
+  "ownedInstrumentationUninstalled": true,
+  "nativeFixturesDrafts": "Phone PASS and landscape FAIL reports both verify exact own fixture/draft paths absent and source SHA unchanged",
+  "systemSettingsAndGrants": "Phone and landscape restoration.json PASS; old font/dark eaa evidence retained separately",
+  "physicalDevicesTouched": false,
+  "mediaStorePublications": 0,
+  "emulatorHandedBackToRootForShutdown": true,
+  "endedAtUtc": "2026-10-24T05:48:24.5768793Z"
+}

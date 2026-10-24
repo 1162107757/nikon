@@ -1,0 +1,100 @@
+{
+  "mode": "phone",
+  "apkSha256": "49f222150fa9fc188e314c5a6e1fd290c668f8ca495cdf05962ffcd4f334ac53",
+  "versionCode": "91",
+  "scope": "Production native editor\/detail\/histogram\/export controls on isolated emulator; own JPEG\/draft fixtures only; no camera, physical-phone or new MediaStore publication.",
+  "fontScale": 1,
+  "density": 2.625,
+  "orientation": 1,
+  "nightMask": 16,
+  "status": "PASS",
+  "checks": 18,
+  "assertions": [
+    {
+      "name": "emulator-hardware-only",
+      "passed": true
+    },
+    {
+      "name": "exact-candidate-APK-bytes",
+      "passed": true
+    },
+    {
+      "name": "candidate-version",
+      "passed": true
+    },
+    {
+      "name": "main-activity-ready",
+      "passed": true
+    },
+    {
+      "name": "requested-native-orientation",
+      "passed": true
+    },
+    {
+      "name": "actual-font-scale",
+      "passed": true
+    },
+    {
+      "name": "actual-system-night-mode",
+      "passed": true
+    },
+    {
+      "name": "progress-owned-isolated-context-created",
+      "passed": true
+    },
+    {
+      "name": "progress-owned-album-created",
+      "passed": true
+    },
+    {
+      "name": "actual-second-job-account-check-gated-on-worker",
+      "passed": true
+    },
+    {
+      "name": "progress-rows-come-from-real-completed-processing-waiting-ledger",
+      "passed": true
+    },
+    {
+      "name": "progress-stop-requests-safe-cancellation",
+      "passed": true
+    },
+    {
+      "name": "stopped-isolated-batch-completes-safely",
+      "passed": true
+    },
+    {
+      "name": "progress-stop-retains-completed-file",
+      "passed": true
+    },
+    {
+      "name": "progress-stop-original-input-preserved:progress-1.JPG",
+      "passed": true
+    },
+    {
+      "name": "progress-stop-original-input-preserved:progress-2.JPG",
+      "passed": true
+    },
+    {
+      "name": "progress-stop-original-input-preserved:progress-3.JPG",
+      "passed": true
+    },
+    {
+      "name": "progress-entire-private-scratch-cleaned",
+      "passed": true
+    }
+  ],
+  "cleanup": [
+    {
+      "progressScratch": "\/data\/user\/0\/cc.huevia\/cache\/image-upgrade-progress-23e25c28-1c14-478b-bedf-ae22b9f77ba1",
+      "absent": true
+    },
+    {
+      "fixture": "\/storage\/emulated\/0\/Android\/data\/cc.huevia\/files\/Pictures\/camera-album\/image-upgrade-qa-46c25598-f2d6-4b4b-9182-c739d0d0f1b4__PHOTO.JPG",
+      "shaBeforeDelete": "6e9eef49764eb96e9b19d67acec7ce387d7f831fd88eec71adfbac305fb7b91d",
+      "unchanged": true,
+      "absent": true
+    }
+  ],
+  "appearanceRestored": true,
+  "osGuideDismissals": []
+}

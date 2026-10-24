@@ -1,0 +1,19 @@
+{
+  "candidateSha256": "5e9688bafefac7007df5438f58b83d4f0cd9595d27cfa27aed1883fa0ef2d390",
+  "candidateVersionCode": 91,
+  "scope": "One current phone actual-mode-line framebuffer verification only; stopped after real selected RGB line failure, no current font1.3/landscape/dark run.",
+  "status": "FAIL",
+  "phoneChecks": 87,
+  "firstFailure": "selected-rgb-line-is-painted-in-framebuffer-rgb-selected",
+  "activeRGBAccentPixels": 0,
+  "inactiveLuminanceAccentPixels": 0,
+  "activeRGBSampleBounds": {
+    "left": 505,
+    "top": 516,
+    "right": 541,
+    "bottom": 522
+  },
+  "proof": "phone/histogram-mode-line-rgb-selected.png",
+  "priorConfirmedScope": "glass-ac5c3ff1-entry-confirmed has prior ac5 phone/font1.3/landscape proofs; not 5e marker evidence",
+  "staleFiles": "Only report/environment/restoration, first line RGB PNG+JSON and preceding detail/histogram-closed artifacts belong to this current failed run; later hero/exports/saved files may be retained remote prior-run output and are not 5e proof."
+}

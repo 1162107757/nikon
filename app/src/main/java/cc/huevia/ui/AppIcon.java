@@ -13,7 +13,7 @@ public final class AppIcon extends Drawable {
     public enum Kind { PRESETS, ALBUM, CAMERA, FILE, DOWNLOAD, BACK, HELP, CHECK, WIFI, ADJUST, REFRESH,
         SETTINGS, PLUS, USB, CHEVRON, CHEVRON_DOWN, INFO, LINK, DELETE, STAR, STAR_FILLED, RECEIPTS, PERSON, EXPAND, GRID, CLOSE, SEARCH,
         UNDO, REDO, COMPARE, MORE, BRIGHTNESS, EXPOSURE, CONTRAST, HIGHLIGHTS, SHADOWS, WHITES, BLACKS, TEMPERATURE, TINT, SATURATION, VIBRANCE, CLARITY, SHARPENING,
-        CROP, ROTATE, STRAIGHTEN, RECIPE, SAVE }
+        CROP, ROTATE, STRAIGHTEN, RECIPE, SAVE, HISTOGRAM, DETAIL }
     private final Kind kind;
     private final Paint ink = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final int size;
@@ -26,6 +26,8 @@ public final class AppIcon extends Drawable {
         int save = canvas.save(); canvas.translate(getBounds().left, getBounds().top);
         canvas.scale(getBounds().width()/24f, getBounds().height()/24f);
         switch (kind) {
+            case HISTOGRAM: line(canvas,3,4,3,21,22,21);line(canvas,7,17,7,12);line(canvas,11,17,11,6);line(canvas,15,17,15,3);line(canvas,19,17,19,10);break;
+            case DETAIL: canvas.drawCircle(10,10,6,ink);line(canvas,15,15,21,21);line(canvas,7,10,13,10);line(canvas,10,7,10,13);break;
             case CROP:
                 line(canvas,7,3,7,17,21,17); line(canvas,3,7,17,7,17,21); break;
             case ROTATE:

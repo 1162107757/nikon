@@ -1,0 +1,2 @@
+Photo border native PASS; checks=70
+

@@ -1,0 +1,13 @@
+{
+  "scope": "Owned production files, handed to the shared-build owner; not a reproducible-build proof",
+  "files": [
+    {
+      "path": "app/src/main/java/cc/huevia/ui/PhotoPlaceholder.java",
+      "sha256": "34448b769fbf89d564b3a58f7c219bae81d926dea2a9b0ad078fa62c27187e56"
+    },
+    {
+      "path": "app/src/main/java/cc/huevia/ui/LocalAlbumPanel.java",
+      "sha256": "e8bcc31907ca3c6c406ea22203d4102bc6ebcc48816928d3298ea9dec3a57218"
+    }
+  ]
+}

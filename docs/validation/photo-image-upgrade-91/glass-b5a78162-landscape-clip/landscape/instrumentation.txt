@@ -1,0 +1,4 @@
+INSTRUMENTATION_RESULT: status=FAIL
+INSTRUMENTATION_RESULT: stream=Photo image upgrade native FAIL histogram-editor-overlay: java.lang.AssertionError: landscape-default-histogram-curve-fully-visible
+
+INSTRUMENTATION_CODE: 0

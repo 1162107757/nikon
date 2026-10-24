@@ -1,0 +1,42 @@
+{
+    "mode":  "font1.3",
+    "serial":  "emulator-5586",
+    "hardware":  "ranchu",
+    "candidateApk":  "D:\\dev\\ai-project\\nikon\\.tooling\\photo-image-upgrade-91\\candidates\\5be8f1212605cd1d49399c0b15c11ef9b80dcf9dd7dcf5fd7ce610d360922f0f.apk",
+    "candidateApkSha256":  "5be8f1212605cd1d49399c0b15c11ef9b80dcf9dd7dcf5fd7ce610d360922f0f",
+    "candidateVersionCode":  "91",
+    "candidateVersionName":  "0.19.0-beta",
+    "startedAtUtc":  "2026-10-24T05:16:59.2186072Z",
+    "settingsBefore":  {
+                           "font_scale":  "1.0",
+                           "accelerometer_rotation":  "1",
+                           "user_rotation":  "0"
+                       },
+    "nightBefore":  {
+                        "command":  "no",
+                        "reported":  "Night mode: no",
+                        "secureMode":  "1",
+                        "customType":  "-1"
+                    },
+    "permissionsBefore":  {
+                              "android.permission.READ_MEDIA_IMAGES":  false,
+                              "android.permission.READ_MEDIA_VISUAL_USER_SELECTED":  false,
+                              "android.permission.POST_NOTIFICATIONS":  false
+                          },
+    "settingsObserved":  {
+                             "font_scale":  "1.3",
+                             "accelerometer_rotation":  "0",
+                             "user_rotation":  "0",
+                             "night":  {
+                                           "command":  "no",
+                                           "reported":  "Night mode: no",
+                                           "secureMode":  "1",
+                                           "customType":  "-1"
+                                       },
+                             "permissions":  {
+                                                 "android.permission.READ_MEDIA_IMAGES":  true,
+                                                 "android.permission.READ_MEDIA_VISUAL_USER_SELECTED":  false,
+                                                 "android.permission.POST_NOTIFICATIONS":  true
+                                             }
+                         }
+}

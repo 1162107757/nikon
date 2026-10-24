@@ -1,0 +1,100 @@
+{
+  "apkSha256": "9f5ae959e5b2a91dbd195bb28e3ea752d2ca392b8aebf47123903ac39a8a689b",
+  "mode": "fixed",
+  "missing-primary-eoi-message": "JPEG 缺少完整结束标记。",
+  "status": "FAIL",
+  "failure": "java.lang.AssertionError: decoder-rejects-partial-pixels-with-eoi-accepted",
+  "ownedRows": 6,
+  "removedRows": 6,
+  "checks": 21,
+  "assertions": [
+    {
+      "name": "isolated-emulator-only",
+      "pass": true
+    },
+    {
+      "name": "expected-version-90",
+      "pass": true
+    },
+    {
+      "name": "unmodified-user-screenshot-size",
+      "pass": true
+    },
+    {
+      "name": "unmodified-user-screenshot-sha",
+      "pass": true
+    },
+    {
+      "name": "user-screenshot-vendor-tail-accepted",
+      "pass": true
+    },
+    {
+      "name": "user-screenshot-vendor-tail-private-bytes-preserved",
+      "pass": true
+    },
+    {
+      "name": "user-screenshot-vendor-tail-phone-bytes-preserved",
+      "pass": true
+    },
+    {
+      "name": "user-screenshot-vendor-tail-reuse-same-verified-copy",
+      "pass": true
+    },
+    {
+      "name": "tail-ending-in-second-eoi-accepted",
+      "pass": true
+    },
+    {
+      "name": "tail-ending-in-second-eoi-private-bytes-preserved",
+      "pass": true
+    },
+    {
+      "name": "tail-ending-in-second-eoi-phone-bytes-preserved",
+      "pass": true
+    },
+    {
+      "name": "tail-ending-in-second-eoi-reuse-same-verified-copy",
+      "pass": true
+    },
+    {
+      "name": "plain-jpeg-accepted",
+      "pass": true
+    },
+    {
+      "name": "plain-jpeg-private-bytes-preserved",
+      "pass": true
+    },
+    {
+      "name": "plain-jpeg-phone-bytes-preserved",
+      "pass": true
+    },
+    {
+      "name": "plain-jpeg-reuse-same-verified-copy",
+      "pass": true
+    },
+    {
+      "name": "complete-primary-with-second-image-accepted",
+      "pass": true
+    },
+    {
+      "name": "complete-primary-with-second-image-private-bytes-preserved",
+      "pass": true
+    },
+    {
+      "name": "complete-primary-with-second-image-phone-bytes-preserved",
+      "pass": true
+    },
+    {
+      "name": "complete-primary-with-second-image-reuse-same-verified-copy",
+      "pass": true
+    },
+    {
+      "name": "missing-primary-eoi-rejected",
+      "pass": true
+    },
+    {
+      "name": "decoder-rejects-partial-pixels-with-eoi-accepted",
+      "pass": false
+    }
+  ]
+}

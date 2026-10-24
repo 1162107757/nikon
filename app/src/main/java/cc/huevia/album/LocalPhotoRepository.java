@@ -310,33 +310,9 @@ public final class LocalPhotoRepository {
         } else decoded = BitmapFactory.decodeFile(file.getPath(), thumbOptions(bounds, 512));
         if (decoded == null) throw new IOException("照片无法完整解码。"); decoded.recycle(); check(cancel);
     }
-    /** Check every marker/segment and entropy stream through the final EOI, not just the filename. */
+    /** Validate the complete primary image, allowing byte-preserved vendor/auxiliary data after its EOI. */
     private static void verifyJpeg(File file, BooleanSupplier cancel) throws IOException {
-        PhotoPreviewCache.validateJpeg(file, file.length());
-        try (DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream(file), 65536))) {
-            in.readUnsignedShort(); boolean frame = false, scan = false; int next = -1; byte[] segment = new byte[65536];
-            for (;;) {
-                check(cancel); int marker;
-                if (next >= 0) { marker = next; next = -1; }
-                else { if (in.read() != 0xff) throw new IOException("JPEG 数据段损坏。"); do { marker = in.read(); } while (marker == 0xff); }
-                if (marker == 0xd9) { if (!frame || !scan || in.read() != -1) throw new IOException("JPEG 数据不完整。"); return; }
-                if (marker <= 0 || marker == 0xd8 || (marker >= 0xd0 && marker <= 0xd7)) throw new IOException("JPEG 数据段无效。");
-                int length = in.readUnsignedShort(); if (length < 2) throw new IOException("JPEG 数据被截断。");
-                if (marker >= 0xc0 && marker <= 0xcf && marker != 0xc4 && marker != 0xc8 && marker != 0xcc) frame = true;
-                in.readFully(segment, 0, length - 2);
-                if (marker != 0xda) continue;
-                scan = true; int block = 0;
-                for (;;) {
-                    if ((block++ & 65535) == 0) check(cancel);
-                    int value = in.read(); if (value == -1) throw new IOException("JPEG 缺少完整结束标记。");
-                    if (value != 0xff) continue;
-                    do { value = in.read(); } while (value == 0xff);
-                    if (value == -1) throw new IOException("JPEG 数据被截断。");
-                    if (value == 0 || value >= 0xd0 && value <= 0xd7) continue;
-                    next = value; break;
-                }
-            }
-        } catch (java.io.EOFException truncated) { throw new IOException("JPEG 数据被截断。", truncated); }
+        PhotoPreviewCache.validateCompleteJpeg(file, cancel);
     }
     private static void verifyPng(File file, BooleanSupplier cancel) throws IOException {
         try (DataInputStream input = new DataInputStream(new BufferedInputStream(new FileInputStream(file)))) {

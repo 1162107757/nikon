@@ -1,0 +1,13 @@
+{
+  "serial": "emulator-5586",
+  "hardware": "ranchu",
+  "emulatorFlag": "1",
+  "candidateStatus": "final-candidate",
+  "candidateSha256": "d433422a64a97e21878c747614057b6103caa2195cdaaf982a25787bf7eb96f6",
+  "action": "Closed only task-owned emulator after restoring captured settings and permission baselines in all three runs",
+  "result": "OK: killing emulator, bye bye\r\n\r\nOK",
+  "closedAtUtc": "2026-10-24T01:52:46.4440096Z",
+  "otherEmulatorUntouched": "emulator-5582",
+  "physicalDeviceUntouched": "286f0dba",
+  "ownedSourcePinsMatch": true
+}

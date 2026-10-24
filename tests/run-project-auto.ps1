@@ -9,12 +9,14 @@ New-Item -ItemType Directory -Force -Path $classes, $scratch | Out-Null
 $javaRoot = Join-Path $projectRoot 'app\src\main\java\cc\huevia'
 $sources = @((Join-Path $javaRoot 'account\AccountJson.java'))
 foreach ($package in @('ptp', 'picturecontrol', 'ncp', 'library')) { $sources += @(Get-ChildItem -LiteralPath (Join-Path $javaRoot $package) -Filter '*.java' | Where-Object { $_.Name -notin @('PersonalPresetApi.java') } | ForEach-Object FullName) }
-foreach ($name in @('PhotoSaveTarget', 'PhotoEditStore', 'PhotoComposition', 'PhotoProjectPresets', 'PhotoProjectPresetStore', 'PhotoPresetBatch', 'PhotoPresetBatchState', 'PhotoPresetRenderer', 'PhotoPresetSources', 'PhotoLocalTasks', 'PhotoItem', 'PhotoFormat', 'DownloadedPhoto', 'PhotoPreview', 'PhotoPreviewCache', 'PhotoLiveProject', 'PhotoLiveReceipt', 'PhotoLiveState')) { $sources += Join-Path $javaRoot ('album\' + $name + '.java') }
+foreach ($name in @('PhotoExportSpec', 'PhotoSaveTarget', 'PhotoEditStore', 'PhotoComposition', 'PhotoProjectPresets', 'PhotoProjectPresetStore', 'PhotoPresetBatch', 'PhotoPresetBatchState', 'PhotoPresetRenderer', 'PhotoBorderRenderer', 'PhotoCaptureInfo', 'PhotoExifRationals', 'PhotoPresetSources', 'PhotoLocalTasks', 'PhotoItem', 'PhotoFormat', 'DownloadedPhoto', 'PhotoPreview', 'PhotoPreviewCache', 'PhotoLiveProject', 'PhotoLiveReceipt', 'PhotoLiveState')) { $sources += Join-Path $javaRoot ('album\' + $name + '.java') }
 $sources += Join-Path $PSScriptRoot 'album-stubs\android\content\Context.java'
 $sources += Join-Path $PSScriptRoot 'album-stubs\android\os\Environment.java'
 $sources += Join-Path $PSScriptRoot 'android-stubs\android\os\Looper.java'
 $sources += Join-Path $PSScriptRoot 'gallery-stubs\android\util\AtomicFile.java'
 $sources += Join-Path $PSScriptRoot 'batch-stubs\cc\huevia\album\PhotoLiveGallery.java'
+# Explicit one-pixel bounds/EXIF facade: the real batch now resolves actual export specs even on cache hits.
+$sources += @(Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot 'batch-stubs\android') -Recurse -Filter '*.java' | ForEach-Object FullName)
 $sources += Join-Path $PSScriptRoot 'java\cc\huevia\ncp\NcpCompatibilityFixtures.java'
 $sources += @(Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot 'project-auto-stubs') -Recurse -Filter '*.java' | ForEach-Object FullName)
 $sources += @(Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot 'project-auto-java') -Recurse -Filter '*.java' | ForEach-Object FullName)

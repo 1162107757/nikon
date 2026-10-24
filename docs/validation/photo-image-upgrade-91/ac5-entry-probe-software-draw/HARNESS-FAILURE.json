@@ -1,0 +1,8 @@
+{
+  "candidateSha256": "ac5c3ff1d419cf45f068249b78731878f0f00eb723f2972e8aeb662f6ccd584a",
+  "type": "Harness false negative",
+  "assertion": "detail-entry-light-icon-is-painted-over-dark-glass",
+  "cause": "The first probe sampled a software View.draw bitmap. Actual UiAutomation failure screenshot clearly showed the light magnifier and text on the real dark glass entry. Replaced the probe sampling with physical framebuffer pixels in actual entry screen bounds; production source unchanged.",
+  "actualNativeScreenshot": "phone/failure.png",
+  "settingsAndFixtureRestoration": "PASS"
+}

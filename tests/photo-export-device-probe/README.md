@@ -1,0 +1,7 @@
+# Native export/detail backend probe
+
+Build with `build.ps1`; root installs a candidate first, then `run.ps1 -CandidateApk <absolute APK>` only on the assigned emulator-5586. No global setting or permission mutation. No MediaStore insertion or production/user-photo reads. Fixtures are generated inside a unique target-cache directory, removed in `finally`; the report includes exact installed APK SHA and cleanup status.
+
+Checks use real Android JPEG/PNG codecs and EXIF. Scope: finished framed share sizing, equivalent actual export specifications, Q70/90/95/100 DQT differences, no upscale, full long edge above 8192, EXIF1–8 normalization, capture rational/time preservation, GPS stripping, source preservation, cancellation, and full-resolution lossless detail against entire pre-JPEG composition with high manual clarity/sharpness. Does not claim physical phone, camera, MediaStore publication, UI 1:1 or lifecycle coverage.
+
+The orphan-history case uses the real `PhotoPresetBatch` with a `ContextWrapper` whose private files/cache/external directories are all inside this run's UUID scratch root. The production owned-directory validation, codecs, AtomicFile and hash checks still run. It verifies valid saved-effect JPEG without a completion ledger is genuinely encoded at full size/Q95, source SHA remains intact, second lookup/export reuses the newly verified output, and damaged JPEG is refused. APP_ONLY and explicit guest scope avoid MediaStore/account changes. The complete UUID tree is removed in `finally`.

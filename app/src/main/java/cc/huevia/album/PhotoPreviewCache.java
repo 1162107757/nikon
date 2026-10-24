@@ -1,7 +1,12 @@
 package cc.huevia.album;
 
 import java.io.File;
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
+import java.io.EOFException;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InterruptedIOException;
 import java.io.RandomAccessFile;
 import java.util.Iterator;
 import java.util.HashSet;
@@ -10,6 +15,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.BooleanSupplier;
 
 /** Small file cache; acquired previews cannot be evicted until the viewer releases them. */
 final class PhotoPreviewCache implements AutoCloseable {
@@ -118,8 +124,53 @@ final class PhotoPreviewCache implements AutoCloseable {
         try (RandomAccessFile input = new RandomAccessFile(file, "r")) {
             if (input.read() != 0xff || input.read() != 0xd8) throw new IOException("相机返回的照片不是受支持的 JPEG。");
             input.seek(expectedBytes - 2);
-            if (input.read() != 0xff || input.read() != 0xd9) throw new IOException("相机返回的 JPEG 照片不完整。");
+            if (input.read() == 0xff && input.read() == 0xd9) return;
         }
+        // Phone JPEGs can retain vendor data or a second image after the primary EOI.
+        // Prove the primary stream is complete instead of requiring EOI at physical EOF.
+        try { validateCompleteJpeg(file, () -> false); }
+        catch (IOException invalid) { throw new IOException("JPEG 主图数据不完整或损坏。", invalid); }
+    }
+
+    /** Read-only structural check of the primary JPEG; APP thumbnails and trailing data are not the primary image. */
+    static void validateCompleteJpeg(File file, BooleanSupplier cancel) throws IOException {
+        try (DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream(file), 65536))) {
+            if (in.readUnsignedShort() != 0xffd8) throw new IOException("照片不是受支持的 JPEG。");
+            boolean frame = false, scan = false; int next = -1; byte[] segment = new byte[65536];
+            for (;;) {
+                checkJpegCancelled(cancel); int marker;
+                if (next >= 0) { marker = next; next = -1; }
+                else { if (in.read() != 0xff) throw new IOException("JPEG 数据段损坏。"); do { marker = in.read(); } while (marker == 0xff); }
+                if (marker == 0xd9) {
+                    if (!frame || !scan) throw new IOException("JPEG 主图缺少完整图像数据。");
+                    return;
+                }
+                if (marker <= 0 || marker == 0xd8 || (marker >= 0xd0 && marker <= 0xd7)) throw new IOException("JPEG 数据段无效。");
+                if (marker == 1) continue; // TEM has no length field.
+                int length = in.readUnsignedShort(); if (length < 2) throw new IOException("JPEG 数据被截断。");
+                in.readFully(segment, 0, length - 2);
+                if (marker >= 0xc0 && marker <= 0xcf && marker != 0xc4 && marker != 0xc8 && marker != 0xcc) {
+                    if (length < 11 || (segment[5] & 255) == 0 || length != 8 + 3 * (segment[5] & 255)) throw new IOException("JPEG 图像信息无效。");
+                    frame = true;
+                }
+                if (marker != 0xda) continue;
+                if (!frame || length < 8 || (segment[0] & 255) == 0 || length != 6 + 2 * (segment[0] & 255)) throw new IOException("JPEG 扫描信息无效。");
+                scan = true; int block = 0;
+                for (;;) {
+                    if ((block++ & 65535) == 0) checkJpegCancelled(cancel);
+                    int value = in.read(); if (value == -1) throw new IOException("JPEG 缺少完整结束标记。");
+                    if (value != 0xff) continue;
+                    do { value = in.read(); } while (value == 0xff);
+                    if (value == -1) throw new IOException("JPEG 数据被截断。");
+                    if (value == 0 || value == 1 || value >= 0xd0 && value <= 0xd7) continue;
+                    next = value; break;
+                }
+            }
+        } catch (EOFException truncated) { throw new IOException("JPEG 数据被截断。", truncated); }
+    }
+
+    private static void checkJpegCancelled(BooleanSupplier cancel) throws InterruptedIOException {
+        if (cancel.getAsBoolean() || Thread.currentThread().isInterrupted()) throw new InterruptedIOException("照片读取已取消。");
     }
 
     @Override public synchronized void close() {

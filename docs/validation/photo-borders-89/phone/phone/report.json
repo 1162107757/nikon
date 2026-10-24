@@ -1,0 +1,31 @@
+{
+  "apkSha256": "1e0264f8e5206903e66adec8b89d37b0c2f1d8027bc407de9d82c890348e2a13",
+  "mode": "phone",
+  "scope": "Isolated emulator with user-supplied desk-photo crop and explicit synthetic EXIF; no physical camera\/phone\/production-network claims.",
+  "status": "FAIL",
+  "stage": "startup",
+  "failure": "java.lang.AssertionError: fixture-capture-all-four-fields",
+  "checks": 5,
+  "assertions": [
+    {
+      "name": "isolated-emulator-only",
+      "passed": true
+    },
+    {
+      "name": "expected-version",
+      "passed": true
+    },
+    {
+      "name": "activity-ready",
+      "passed": true
+    },
+    {
+      "name": "actual-orientation",
+      "passed": true
+    },
+    {
+      "name": "fixture-capture-all-four-fields",
+      "passed": false
+    }
+  ]
+}
